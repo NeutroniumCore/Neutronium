@@ -1,0 +1,23 @@
+﻿<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
+        <button data-bind="command:Replace">Replace</button>
+        <button data-bind="command:Add">Add</button>
+
+        <ul data-bind="foreach:Items()">
+            <li><p data-bind="text:$data"><p/></li>
+        </ul>
+
+        <script src="scripts\knockout.js"></script>
+        <script src="scripts\ko_extension.js"></script>
+       
+    </body>
+</html>

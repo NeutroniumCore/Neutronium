@@ -1,0 +1,31 @@
+﻿<!DOCTYPE HTML  >
+
+<html lang="en">
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>Animated HTML</title>
+
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="js/ref/jquery.min.js"  type="text/javascript"></script>
+	<script src="js/animation.js"  type="text/javascript"></script>
+    <script src="js\knockout.js" type="text/javascript"></script>
+    <script src="js\Ko_Extension.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+    <p>Welcome</p>
+    <p>Window state:<!--ko text: __window__().State().name--><!--/ko--></p>
+    <div id="BB" class="box" data-bind="onopened:OnEnter, onclose:OnClose"></div>
+    <button data-bind="command:DoNav">Navigate</button>
+   
+</body>
+
+</html>
+
+

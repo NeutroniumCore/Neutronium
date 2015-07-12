@@ -1,0 +1,12 @@
+﻿<Window x:Class="MVVM.CEFGlue.UI.Navigation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:awe="http://schemas.awesomium.com/winfx"
+          xmlns:MVVM.CEFGlue="clr-namespace:MVVM.CEFGlue;assembly=MVVM.CEFGlue"
+        Title="HTML" Height="350" Width="525">
+    <Grid>
+
+        <MVVM.CEFGlue:HTMLWindow x:Name="HTMLWindow" IsDebug="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+    </Grid>
+</Window>

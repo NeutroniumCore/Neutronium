@@ -1,0 +1,11 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:MVVM.CEFGlue="clr-namespace:MVVM.CEFGlue;assembly=MVVM.CEFGlue" x:Class="MVVM.CEFGlue.UI.CollectionTest.MainWindow"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+
+        <MVVM.CEFGlue:HTMLViewControl IsDebug="True"  RelativeSource="View\index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+    </Grid>
+</Window>

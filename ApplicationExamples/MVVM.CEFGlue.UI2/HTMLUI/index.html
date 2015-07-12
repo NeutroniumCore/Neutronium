@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+	<head>
+        <title></title>
+        <script src="js/knockout.js" type="text/javascript"></script>
+        <script src="js/Ko_Extension.js" type="text/javascript"></script>
+	</head>
+<body>
+
+    <!--ko with:One-->
+    <input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name">
+    <input type="text" data-bind="value: LastName, valueUpdate:'afterkeydown'" placeholder="First name">
+    <!--/ko -->
+    <!--ko with:Two-->
+    <input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name">
+    <input type="text" data-bind="value: LastName, valueUpdate:'afterkeydown'" placeholder="First name">
+    <!--/ko -->
+
+    <button data-bind="command: MakeSelf">Click me</button>
+    <button data-bind="command: MakeSelf">Click me</button>
+</body>
+
+    
+</html>

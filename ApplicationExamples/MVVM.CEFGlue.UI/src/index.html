@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+	<head>
+        <title></title>
+        <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+        <script src="js/bower_components/knockout/dist/knockout.js" type="text/javascript"></script>
+        <script src="js/init.js" type="text/javascript"></script>
+        <script src="js/Ko_Extension.js" type="text/javascript"></script>
+        <script src="js/ko-view.min.js" type="text/javascript"></script>
+
+        <style>
+            .button{
+                height:50px;
+                width:150px;
+                text-align:center;
+                -webkit-user-select:none;
+            }
+            .on {
+                background-color:lightgreen;
+            }
+            .off {
+                background-color:red;
+            }
+        </style>
+
+	</head>
+<body>
+    <input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name">
+    <ul data-bind="foreach: Skills()">
+        <li><span data-bind="text:Type"></span>:<span data-bind="text:Name"></span><button data-bind="execute: $root.RemoveSkill, executeoption: { callback : function(){alert('removing');} }">Remove skill</button></li>
+    </ul>
+    <div>
+        <h2><span data-bind="text: Name"></span></h2>
+        <!--<h2><span data-bind="text: name"></span></h2>-->
+        <h2><span data-bind="text: LastName"></span></h2>
+        <h2><span data-bind="text: PersonalState().displayName"></span></h2>
+        <input type="range" min="0" max="130" data-bind="numberInput: Age">
+    </div>
+    <div id="Local">
+        <h2><span data-bind="text: Local().City"></span></h2>
+
+        <!-- ko if: $data.MainSkill()!==null -->
+        <input type="text" data-bind="value: $data.MainSkill().Type, valueUpdate:'afterkeydown'" placeholder="Main Skill Type">
+        <input type="text" data-bind="value: $data.MainSkill().Name, valueUpdate:'afterkeydown'" placeholder="Main Skill">
+      
+        <!-- /ko -->
+    </div>
+    <div>
+        <!--<td>-->
+        <!-- ko foreach: States() -->
+        <label>
+            <input type="radio" data-bind="checkedValue:$data, checked: $root.PersonalState" /><span data-bind="text:$data.displayName"></span>
+        </label>
+        <!-- /ko -->
+        <!--</td>-->
+    </div>
+
+    <div>
+        <!--<td>-->
+        <!-- ko foreach: Sexes() -->
+        <label>
+            <input type="radio" data-bind="checkedValue:$data, checked: $root.Sex" />
+            <img height="50" width="50" data-bind="enumimage:$data">
+        </label>
+        <!-- /ko -->
+        <!--</td>-->
+    </div>
+  <img height="200" width="200" data-bind="enumimage:$root.Sex">
+
+    <button data-bind="command: $data.ChangeSkill">Change skill</button>
+    <div class="button" data-bind="command: $data.Command, commandoption: { event:'dblclick', cssOn:'on', ccsOff:'off', callback : function(){alert('add skill');}}">Add skill</div>
+
+</body>
+
+</html>
