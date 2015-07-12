@@ -163,7 +163,7 @@ namespace MVVM.CEFGlue.Test
         [Fact]
         public async Task Test_AwesomeBinding_Basic_OneWay()
         {
-            var test = new TestInContext()
+           var test = new TestInContext()
            {
                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
                Test = (mb) =>
@@ -215,36 +215,38 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-        //private class Dummy
-        //{
-        //    internal Dummy()
-        //    {
-        //        Int = 5;
-        //    }
-        //    public int Int { get; set; }
-        //    public int Explosive { get { throw new Exception(); } }
-        //}
+        private class Dummy
+        {
+            internal Dummy()
+            {
+                Int = 5;
+            }
+            public int Int { get; set; }
+            public int Explosive { get { throw new Exception(); } }
+        }
 
 
-        //[Fact]
-        //public void Test_AwesomeBinding_Basic_OneWay_Property_With_Exception()
-        //{
-        //    using (Tester())
-        //    {
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-        //        var dt = new Dummy();
+        [Fact]
+        public async Task Test_AwesomeBinding_Basic_OneWay_Property_With_Exception()
+        {
+            var dt = new Dummy();
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, dt, JavascriptBindingMode.OneWay).Result)
-        //        {
-        //            var jsbridge = (mb as AwesomeBinding).JSBrideRootObject;
-        //            var js = mb.JSRootObject;
+            var test = new TestInContext()
+             {
+                 Bind = (win) => HTML_Binding.Bind(win, dt, JavascriptBindingMode.OneWay),
+                 Test = (mb) =>
+                 {
+                     var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
+                     var js = mb.JSRootObject;
 
-        //            JSValue res = GetSafe(() => js.Invoke("Int"));
-        //            ((int)res).Should().Be(5);
-        //        }
-        //    }
-        //}
+                     int res = GetIntAttribute(js, "Int");
+                     res.Should().Be(5);
+                 }
+             };
+
+            await RunAsync(test);
+        }
+       
 
         //[Fact]
         //public void Test_AwesomeBinding_Basic_Regsiter_Additional_property()
