@@ -78,6 +78,28 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(test);
         }
+
+        [Fact]
+        public async Task Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrowException()
+        {
+            using (Tester("javascript/almost_empty.html"))
+            {
+                var vm = new object();
+                AggregateException ex = null;
+
+                try
+                {
+                    await HTML_Binding.Bind(_ICefGlueWindow, _DataContext, JavascriptBindingMode.OneTime);
+                }
+                catch (AggregateException myex)
+                {
+                    ex = myex;
+                }
+
+                ex.Should().NotBeNull();
+                ex.InnerException.Should().BeOfType<MVVMCEFGlueException>();
+            }
+        }
            
         [Fact]
         public async Task  Test_AwesomeBinding_Basic_OneTime()
@@ -137,179 +159,61 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-            //using (Tester())
-            //{
 
-            //    using (var mb = await HTML_Binding.Bind(_ICefGlueWindow, _DataContext, JavascriptBindingMode.OneTime))
-            //    {
-            //        await RunInContext(() =>
-            //            {
-            //                var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
-            //                var js = mb.JSRootObject;
+        [Fact]
+        public async Task Test_AwesomeBinding_Basic_OneWay()
+        {
+            var test = new TestInContext()
+           {
+               Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
+               Test = (mb) =>
+               {
+                    var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
+                    var js = mb.JSRootObject;
 
-            //                string JSON = JsonConvert.SerializeObject(_DataContext);
-            //                string alm = jsbridge.ToString();
-
-            //                string res = GetStringAttribute(js, "Name");
-            //                res.Should().Be("O Monstro");
-
-            //                string res2 = GetStringAttribute(js, "LastName");
-            //                res2.Should().Be("Desmaisons");
-
-            //                _DataContext.Name = "23";
-            //                Thread.Sleep(200);
-
-            //                string res3 = GetStringAttribute(js, "Name");
-            //                res3.Should().Be("O Monstro");
-
-            //                string res4 = GetSafe(() => js.GetValue("Local").GetValue("City").GetStringValue());
-            //                res4.Should().Be("Florianopolis");
-
-            //                _DataContext.Local.City = "Paris";
-            //                Thread.Sleep(200);
-
-            //                //onetime does not update javascript from  C# 
-            //                res4 = GetSafe(() => GetSafe(() => js.GetValue("Local")).GetValue("City").GetStringValue());
-            //                res4.Should().Be("Florianopolis");
-
-            //                string res5 = GetSafe(() => js.GetValue("Skills").GetValue(0).GetValue("Name").GetStringValue());
-            //                res5.Should().Be("Langage");
-
-            //                _DataContext.Skills[0].Name = "Ling";
-            //                Thread.Sleep(200);
-
-            //                //onetime does not update javascript from  C# 
-            //                res5 = GetSafe(() => js.GetValue("Skills").GetValue(0).GetValue("Name").GetStringValue());
-            //                ((string)res5).Should().Be("Langage");
-
-            //                //onetime does not update C# from javascript
-            //                this.Call(js, "Name", () => CefV8Value.CreateString("resName"));
-            //                //DoSafe(() => js.Invoke("Name", "resName"));
-            //                Thread.Sleep(200);
-            //                _DataContext.Name.Should().Be("23");
-            //            });
-            //    }
-        //    }
-        //}
-
-        //[Fact]
-        //public void Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrowException()
-        //{
-        //    using (Tester("javascript/empty.html"))
-        //    {
-        //        var vm = new object();
-        //        IAwesomeBinding bd = null;
-
-        //        Action st = () => bd = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.OneTime).Result;
-
-        //        st.ShouldThrow<MVVMforAwesomiumException>();
-        //    }
-        //}
-
-        //[Fact]
-        //public void Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrow_Correct_Exception2()
-        //{
-        //    using (Tester("javascript/almost_empty.html"))
-        //    {
-        //        var vm = new object();
-        //        IAwesomeBinding bd = null;
-
-        //        Action st = () => bd = AwesomeBinding.Bind(_WebView, vm, JavascriptBindingMode.OneTime).Result;
-
-        //        st.ShouldThrow<MVVMforAwesomiumException>();
-        //    }
-        //}
-
-        //public void Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrow_TimeOut_Exception()
-        //{
-
-        //    int r = 1000;
-        //    var datacontext = new TwoList();
-        //    datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
+                    string JSON = JsonConvert.SerializeObject(_DataContext);
+                    string alm = jsbridge.ToString();
 
 
-        //    using (Tester())
-        //    {
-        //        IAwesomeBinding bd = null;
-        //        DoSafe(() =>
-        //        _WebView.SynchronousMessageTimeout = 10);
+                    string res = GetStringAttribute(js,"Name");
+                    res.Should().Be("O Monstro");
 
-        //        Action st = () => bd = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.OneTime).Result;
+                    string res2 = GetStringAttribute(js,"LastName");
+                    res2.Should().Be("Desmaisons");
 
-        //        st.ShouldThrow<MVVMforAwesomiumException>();
-        //    }
-        //}
+                    _DataContext.Name = "23";
+                    Thread.Sleep(200);
 
-        //[Fact]
-        //public void Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrowCorrectException()
-        //{
-        //    using (Tester("javascript/empty.html"))
-        //    {
-        //        var vm = new object();
-        //        IAwesomeBinding bd = null;
+                    string res3 =  GetStringAttribute(js,"Name");
+                    res3.Should().Be("23");
 
-        //        Action st = () => bd = AwesomeBinding.Bind(_WebView, vm, JavascriptBindingMode.OneTime).Result;
+                    string res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                    res4.Should().Be("Florianopolis");
 
-        //        st.ShouldThrow<MVVMforAwesomiumException>();
-        //    }
-        //}
+                    _DataContext.Local.City = "Paris";
+                    Thread.Sleep(200);
 
+                    res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                    ((string)res4).Should().Be("Paris");
 
-        //[Fact]
-        //public void Test_AwesomeBinding_Basic_OneWay()
-        //{
-        //    using (Tester())
-        //    {
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+                    string res5 = GetSafe(() =>  js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                    res5.Should().Be("Langage");
+
+                    _DataContext.Skills[0].Name = "Ling";
+                    Thread.Sleep(200);
+
+                    res5 = GetSafe(() => GetSafe(() =>  js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue()));
+                    res5.Should().Be("Ling");
 
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.OneWay).Result)
-        //        {
-        //            var jsbridge = (mb as AwesomeBinding).JSBrideRootObject;
-        //            var js = mb.JSRootObject;
+                    this.Call(js, "Name", () => CefV8Value.CreateString("resName"));
+                    Thread.Sleep(200);
+                    _DataContext.Name.Should().Be("23");
+               }
+           };
 
-        //            string JSON = JsonConvert.SerializeObject(_DataContext);
-        //            string alm = jsbridge.ToString();
-
-
-        //            JSValue res = GetSafe(() => js.Invoke("Name"));
-        //            ((string)res).Should().Be("O Monstro");
-
-        //            JSValue res2 = GetSafe(() => js.Invoke("LastName"));
-        //            ((string)res2).Should().Be("Desmaisons");
-
-        //            _DataContext.Name = "23";
-        //            Thread.Sleep(200);
-
-        //            JSValue res3 = GetSafe(() => js.Invoke("Name"));
-        //            ((string)res3).Should().Be("23");
-
-        //            JSValue res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Florianopolis");
-
-        //            _DataContext.Local.City = "Paris";
-        //            Thread.Sleep(200);
-
-        //            res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Paris");
-
-        //            JSValue res5 = GetSafe(() => (((JSObject)((JSValue[])UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Langage");
-
-        //            _DataContext.Skills[0].Name = "Ling";
-        //            Thread.Sleep(200);
-
-        //            res5 = GetSafe(() => (((JSObject)((JSValue[])UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Ling");
-
-
-        //            this.DoSafe(() => js.Invoke("Name", "resName"));
-        //            Thread.Sleep(200);
-        //            _DataContext.Name.Should().Be("23");
-        //        }
-        //    }
-        //}
+            await RunAsync(test);
+        }
 
         //private class Dummy
         //{
@@ -2452,5 +2356,28 @@ namespace MVVM.CEFGlue.Test
         //    }
         //}
     }
+
+
+    //[Fact]
+    //public async Task Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()
+    //{
+    //    using (Tester("javascript/almost_empty.html"))
+    //    {
+    //        var vm = new object();
+    //        AggregateException ex = null;
+
+    //        try
+    //        {
+    //            await HTML_Binding.Bind(_ICefGlueWindow, vm, JavascriptBindingMode.OneTime);
+    //        }
+    //        catch (AggregateException myex)
+    //        {
+    //            ex = myex;
+    //        }
+
+    //        ex.Should().NotBeNull();
+    //        ex.InnerException.Should().BeOfType<MVVMCEFGlueException>();
+    //    }
+    //}
 }
 

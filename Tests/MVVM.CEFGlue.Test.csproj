@@ -93,7 +93,6 @@
   <ItemGroup>
     <Compile Include="CefWindowless\TestCefGlueWindow.cs" />
     <Compile Include="CefWindowless\TestIUIDispatcher.cs" />
-    <Compile Include="Test.Core\CefV8ValueExtension.cs" />
     <Compile Include="Test.Core\MVVMCefGlue_Test_Base.cs" />
     <Compile Include="CefWindowless\TestCefLifeSpanHandler.cs" />
     <Compile Include="CefWindowless\TestCefLoadHandler.cs" />
