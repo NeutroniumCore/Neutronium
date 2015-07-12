@@ -3,7 +3,7 @@
   <logicalClassDesignerModelMoniker Id="bf543072-62cb-4c06-8ab5-74bcab525d44" />
   <nestedChildShapes>
     <classShape Id="112314dd-c0aa-4b47-a535-0dac3976c906" absoluteBounds="0.5, 3.625, 1.875, 0.90234373509883881" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-      <classMoniker Id="6265210d-2f06-4bd1-9467-9346af4d1de2" LastKnownName="AwesomiumBinding" />
+      <classMoniker Id="6265210d-2f06-4bd1-9467-9346af4d1de2" LastKnownName="HTML_Binding" />
       <nestedChildShapes>
         <AttributeElementListCompartment Id="40faf45f-7ae2-4f6d-85f1-faae4f5ed739" absoluteBounds="0.51500000000000012, 4.0150000000000006, 1.8450000000000002, 0.2011718675494194" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
         <OperationElementListCompartment Id="e822c62a-749c-45ad-a485-34cb20c5d1d9" absoluteBounds="0.51500000000000012, 4.22617186754942, 1.8450000000000002, 0.2011718675494194" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />

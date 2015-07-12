@@ -2,7 +2,7 @@
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="bf543072-62cb-4c06-8ab5-74bcab525d44" name="MVVM.CefGlue" linkedPackageId="d2c7ea2a-7bec-4509-b663-4324b4197965" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <logicalClassDesignerModelHasTypes>
-      <class Id="6265210d-2f06-4bd1-9467-9346af4d1de2" name="AwesomiumBinding" isAbstract="false" isLeaf="false" isActiveClass="false">
+      <class Id="6265210d-2f06-4bd1-9467-9346af4d1de2" name="HTML_Binding" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="f5883b78-2776-4dca-917f-63e13c3fd7db" />
         <targetEnds>
           <association Id="580ca477-e635-462c-8318-a451db365e58" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" name="BirectionalMapper" isAbstract="false">

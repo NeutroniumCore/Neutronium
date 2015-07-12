@@ -21,7 +21,7 @@
     <packageHasNamedElement>
       <class
         Id="f5883b78-2776-4dca-917f-63e13c3fd7db"
-        name="AwesomiumBinding"
+        name="HTML_Binding"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
