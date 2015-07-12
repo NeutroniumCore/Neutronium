@@ -246,26 +246,26 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(test);
         }
-       
-
-        //[Fact]
-        //public void Test_AwesomeBinding_Basic_Regsiter_Additional_property()
-        //{
-        //    using (Tester())
-        //    {
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
 
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.OneWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+        [Fact]
+        public async Task Test_AwesomeBinding_Basic_Regsiter_Additional_property()
+        {
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
+                Test = (mb) =>
+                {
+                    var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
+                    var js = mb.JSRootObject;
 
-        //            JSValue res = GetSafe(() => GetValue(js, "completeName"));
-        //            ((string)res).Should().Be("O Monstro Desmaisons");
-        //        }
-        //    }
-        //}
+                    string res = GetStringAttribute(js, "completeName");
+                    res.Should().Be("O Monstro Desmaisons");
+                }
+            };
+
+            await RunAsync(test);
+        }
 
 
         //private Task WaitLoad(IWebView view)
