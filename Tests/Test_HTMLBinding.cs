@@ -308,47 +308,44 @@ namespace MVVM.CEFGlue.Test
         }
 
        
+         [Fact]
+        public async Task Test_AwesomeBinding_Basic_Circular_reference()
+        {
+            var datacontext = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Couple();
+            var my = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Person()
+            {
+                Name = "O Monstro",
+                LastName = "Desmaisons",
+                Local = new MVVM.CEFGlue.ViewModel.Example.Local() { City = "Florianopolis", Region = "SC" }
+            };
+            my.Couple = datacontext;
+            datacontext.One = my;
 
-        //[Fact]
-        //public void Test_AwesomeBinding_Basic_Null_Property()
-        //{
-        //    using (Tester())
-        //    {
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
 
-        //        _DataContext.MainSkill.Should().BeNull();
+                      CefV8Value One = GetAttribute(js, "One");
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                      string res = GetStringAttribute(One,"Name");
+                      res.Should().Be("O Monstro");
 
-        //            JSValue res = GetSafe(() => Get(js, "MainSkill"));
-        //            res.IsNull.Should().BeTrue();
+                      string res2 = GetStringAttribute(One, "LastName");
+                      res2.Should().Be("Desmaisons");
 
-        //            DoSafe(() =>
-        //            _DataContext.MainSkill = new Skill() { Name = "C++", Type = "Info" });
-        //            Thread.Sleep(100);
+                      //Test no stackoverflow in case of circular refernce
+                      var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
+                      string alm = jsbridge.ToString();
+                      alm.Should().NotBeNull();
+                  }
+              };
 
-        //            res = GetSafe(() => Get(js, "MainSkill"));
-        //            res.IsNull.Should().BeFalse();
-        //            JSObject obj = res;
-        //            obj.Should().NotBeNull();
-
-        //            JSValue inf = GetSafe(() => obj.Invoke("Type"));
-        //            ((string)inf).Should().Be("Info");
-
-        //            DoSafe(() =>
-        //            _DataContext.MainSkill = null);
-        //            Thread.Sleep(100);
-
-        //            res = GetSafe(() => Get(js, "MainSkill"));
-        //            res.IsNull.Should().BeTrue();
-
-        //        }
-        //    }
-        //}
-
+            await RunAsync(test);
+         }
+     
         //[Fact]
         //public void Test_AwesomeBinding_Basic_Circular_reference()
         //{
