@@ -452,76 +452,35 @@ namespace MVVM.CEFGlue.Test
            }
    
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Nested()
-        //{
-        //    using (Tester())
-        //    {
+            [Fact]
+           public async Task Test_HTMLBinding_TwoWay_Enum()
+        {
+            _DataContext.MainSkill.Should().BeNull();
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                      CefV8Value res = GetAttribute(js, "PersonalState");
+                      string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                      dres.Should().Be("Married");
 
-        //            JSValue res = GetSafe(() => Get(js, "Name"));
-        //            ((string)res).Should().Be("O Monstro");
+                      _DataContext.PersonalState = PersonalState.Single;
+                      Thread.Sleep(50);
 
-        //            JSValue res2 = GetSafe(() => js.Invoke("LastName"));
-        //            ((string)res2).Should().Be("Desmaisons");
+                      res = GetAttribute(js, "PersonalState");
+                      dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                      dres.Should().Be("Single");
+                  }
+              };
 
-        //            JSObject local = (JSObject)GetSafe(() => js.Invoke("Local"));
-        //            JSValue city = GetSafe(() => local.Invoke("City"));
-        //            ((string)city).Should().Be("Florianopolis");
+            await RunAsync(test);
 
-        //            this.DoSafe(() =>
-        //            _DataContext.Local = new Local() { City = "Paris" });
+        }
 
-        //            Thread.Sleep(50);
-        //            JSObject local2 = (JSObject)GetSafe(() => js.Invoke("Local"));
-        //            JSValue city2 = GetSafe(() => local2.Invoke("City"));
-        //            ((string)city2).Should().Be("Paris");
-
-        //            _DataContext.Local.City = "Foz de Iguaçu";
-
-        //            Thread.Sleep(50);
-        //            JSObject local3 = (JSObject)GetSafe(() => js.Invoke("Local"));
-        //            JSValue city3 = GetSafe(() => local3.Invoke("City"));
-        //            ((string)city3).Should().Be("Foz de Iguaçu");
-
-        //        }
-        //    }
-        //}
-
-
-        //[Fact]
-        //public void Test_HTMLBinding_TwoWay_Enum()
-        //{
-        //    using (Tester())
-        //    {
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-        //        _DataContext.Name = "totot";
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => Get(js, "PersonalState"));
-        //            JSValue dres = GetSafe(() => ((JSObject)res)["displayName"]);
-        //            ((string)dres).Should().Be("Married");
-
-        //            _DataContext.PersonalState = PersonalState.Single;
-        //            Thread.Sleep(50);
-
-        //            res = GetSafe(() => Get(js, "PersonalState"));
-        //            dres = GetSafe(() => ((JSObject)res)["displayName"]);
-        //            ((string)dres).Should().Be("Single");
-        //        }
-        //    }
-        //}
 
         //[Fact]
         //public void Test_HTMLBinding_TwoWay_Enum_Round_Trip()
