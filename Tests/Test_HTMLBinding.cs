@@ -452,8 +452,8 @@ namespace MVVM.CEFGlue.Test
            }
    
 
-            [Fact]
-           public async Task Test_HTMLBinding_TwoWay_Enum()
+        [Fact]
+        public async Task Test_HTMLBinding_TwoWay_Enum()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -481,57 +481,55 @@ namespace MVVM.CEFGlue.Test
 
         }
 
+        [Fact]
+        public async Task Test_HTMLBinding_TwoWay_Enum_Round_Trip()
+        {
+            _DataContext.Name = "toto";
 
-        //[Fact]
-        //public void Test_HTMLBinding_TwoWay_Enum_Round_Trip()
-        //{
-        //    using (Tester())
-        //    {
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-        //        _DataContext.Name = "toto";
+                      CefV8Value res = GetAttribute(js, "PersonalState");
+                      string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                      dres.Should().Be("Married");
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                      _DataContext.PersonalState = PersonalState.Single;
+                      Thread.Sleep(50);
 
-        //            JSValue res = GetSafe(() => Get(js, "PersonalState"));
-        //            JSValue dres = GetSafe(() => ((JSObject)res)["displayName"]);
-        //            ((string)dres).Should().Be("Married");
+                      res =  GetAttribute(js, "PersonalState");
+                      dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                      dres.Should().Be("Single");
 
-        //            _DataContext.PersonalState = PersonalState.Single;
-        //            Thread.Sleep(50);
-
-        //            res = GetSafe(() => Get(js, "PersonalState"));
-        //            dres = GetSafe(() => ((JSObject)res)["displayName"]);
-        //            ((string)dres).Should().Be("Single");
-
-        //            var othervalue = GetSafe(() => UnWrapCollection(js, "States"));
-        //            JSValue[] coll = (JSValue[])othervalue;
-        //            JSValue di = coll[2];
-        //            var name = GetSafe(() => ((JSObject)di)["displayName"]);
-        //            ((string)name).Should().Be("Divorced");
+                      var othervalue = GetSafe(() => js.Invoke("States",_WebView).ExecuteFunction());
+                      //JSValue[] coll = (JSValue[])othervalue;
+                      CefV8Value di = othervalue.GetValue(2);
+                      string name = GetSafe(() => di.GetValue("displayName").GetStringValue());
+                      name.Should().Be("Divorced");
 
 
-        //            this.DoSafe(() => js.Invoke("PersonalState", di));
-        //            Thread.Sleep(100);
+                      this.DoSafe(() => js.Invoke("PersonalState", _WebView,di));
+                      Thread.Sleep(100);
 
-        //            _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
+                      _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
+                  }
+              };
 
-        //        }
-        //    }
-        //}
+            await RunAsync(test);
+        }
 
-        //private class SimplePerson : ViewModelBase
-        //{
-        //    private PersonalState _PersonalState;
-        //    public PersonalState PersonalState
-        //    {
-        //        get { return _PersonalState; }
-        //        set { Set(ref _PersonalState, value, "PersonalState"); }
-        //    }
-        //}
+        private class SimplePerson : ViewModelBase
+        {
+            private PersonalState _PersonalState;
+            public PersonalState PersonalState
+            {
+                get { return _PersonalState; }
+                set { Set(ref _PersonalState, value, "PersonalState"); }
+            }
+        }
 
         //[Fact]
         //public void Test_HTMLBinding_TwoWay_Enum_NotMapped()
