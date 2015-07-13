@@ -347,7 +347,7 @@ namespace MVVM.CEFGlue.Test
          }
      
      
-             [Fact]
+        [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay()
         {
             _DataContext.MainSkill.Should().BeNull();
@@ -409,68 +409,48 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(test);
         }
-      
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay()
-        //{
-        //    using (Tester())
-        //    {
+           [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Nested()
+        {
+            _DataContext.MainSkill.Should().BeNull();
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                      string res = GetStringAttribute(js, "Name");
+                      res.Should().Be("O Monstro");
 
-        //            JSValue res = GetSafe(() => Get(js, "Name"));
-        //            ((string)res).Should().Be("O Monstro");
+                      string res2 = GetStringAttribute(js, "LastName");
+                      res2.Should().Be("Desmaisons");
 
-        //            JSValue res2 = GetSafe(() => js.Invoke("LastName"));
-        //            ((string)res2).Should().Be("Desmaisons");
+                      CefV8Value local = GetAttribute(js, "Local");
+                      string city = GetStringAttribute(local,"City");
+                      city.Should().Be("Florianopolis"); 
+                      
+                      _DataContext.Local.City = "Foz de Iguaçu";
 
-        //            _DataContext.Name = "23";
+                      Thread.Sleep(100);
+                      CefV8Value local3 = GetAttribute(js, "Local");
+                      string city3 = GetStringAttribute(local, "City");
+                      city3.Should().Be("Foz de Iguaçu");
 
-        //            Thread.Sleep(50);
-        //            JSValue res3 = GetSafe(() => js.Invoke("Name"));
-        //            ((string)res3).Should().Be("23");
+                      _DataContext.Local = new Local() { City = "Paris", Region="" };
 
-        //            JSValue res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Florianopolis");
+                      Thread.Sleep(1000);
+                      CefV8Value local2 = GetAttribute(js, "Local");
+                      string city2 = GetStringAttribute(local2, "City");
+                      city2.Should().Be("Paris");
+                  }
+              };
 
-        //            _DataContext.Local.City = "Paris";
-        //            Thread.Sleep(50);
-
-        //            res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Paris");
-
-        //            JSValue res5 = GetSafe(() => (((JSObject)((JSValue[])UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Langage");
-
-        //            _DataContext.Skills[0].Name = "Ling";
-        //            Thread.Sleep(50);
-
-        //            res5 = GetSafe(() => (((JSObject)((JSValue[])UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Ling");
-
-        //            //Teste Two Way
-        //            this.DoSafe(() => js.Invoke("Name", "resName"));
-        //            JSValue resName = GetSafe(() => js.Invoke("Name"));
-        //            ((string)resName).Should().Be("resName");
-
-        //            Thread.Sleep(500);
-
-        //            _DataContext.Name.Should().Be("resName");
-
-        //            _DataContext.Name = "nnnnvvvvvvv";
-
-        //            Thread.Sleep(50);
-        //            res3 = GetSafe(() => js.Invoke("Name"));
-        //            ((string)res3).Should().Be("nnnnvvvvvvv");
-        //        }
-        //    }
-        //}
+            await RunAsync(test);
+           }
+   
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Nested()

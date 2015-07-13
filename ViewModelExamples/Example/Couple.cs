@@ -13,6 +13,8 @@ namespace MVVM.CEFGlue.ViewModel.Example
         public Couple()
         {
             MakeSelf = new RelayCommand(_ => DoMakeSelf());
+            Duplicate = new RelayCommand(_ => DoDuplicate());
+            
         }
 
         private void DoMakeSelf()
@@ -20,6 +22,11 @@ namespace MVVM.CEFGlue.ViewModel.Example
             var t = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Person(){Couple=this};
             Two = t;
             
+        }
+
+        private void DoDuplicate()
+        {
+            Two = One;
         }
 
         private Person _Person;
@@ -43,5 +50,8 @@ namespace MVVM.CEFGlue.ViewModel.Example
         }
 
         public ICommand MakeSelf { get; private set; }
+        public ICommand Duplicate { get; private set; }
+
+        
     }
 }

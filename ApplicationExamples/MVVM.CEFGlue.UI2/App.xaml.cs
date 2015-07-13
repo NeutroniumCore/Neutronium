@@ -15,9 +15,5 @@ namespace MVVM.CEFGlue.UI2
     /// </summary>
     public partial class App : HTMLApp
     {
-        protected override void OnExit(ExitEventArgs e)
-        {
-            CefCoreSessionSingleton.Clean();
-        }
     }
 }
