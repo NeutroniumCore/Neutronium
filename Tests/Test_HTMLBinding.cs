@@ -439,9 +439,9 @@ namespace MVVM.CEFGlue.Test
                       string city3 = GetStringAttribute(local, "City");
                       city3.Should().Be("Foz de Iguaçu");
 
-                      _DataContext.Local = new Local() { City = "Paris", Region="" };
+                      _DataContext.Local = new Local() { City = "Paris" };
 
-                      Thread.Sleep(1000);
+                      Thread.Sleep(50);
                       CefV8Value local2 = GetAttribute(js, "Local");
                       string city2 = GetStringAttribute(local2, "City");
                       city2.Should().Be("Paris");
@@ -530,6 +530,37 @@ namespace MVVM.CEFGlue.Test
                 set { Set(ref _PersonalState, value, "PersonalState"); }
             }
         }
+
+         [Fact]
+        public async Task Test_HTMLBinding_TwoWay_Enum_NotMapped()
+        {
+            var datacontext = new SimplePerson();
+            datacontext.PersonalState = PersonalState.Single;
+
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
+
+                      CefV8Value res = GetAttribute(js, "PersonalState");
+                      string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                      dres.Should().Be("Single");
+
+                 
+                      datacontext.PersonalState = PersonalState.Married;
+                      Thread.Sleep(50);
+
+                      res = GetAttribute(js, "PersonalState");
+                      dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                      dres.Should().Be("Married");
+                  }
+
+              };
+
+            await RunAsync(test);
+         }
 
         //[Fact]
         //public void Test_HTMLBinding_TwoWay_Enum_NotMapped()
