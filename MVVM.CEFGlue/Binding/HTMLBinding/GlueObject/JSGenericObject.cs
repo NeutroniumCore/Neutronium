@@ -24,6 +24,19 @@ namespace MVVM.CEFGlue.HTMLBinding
             _CefV8Context = context;
         }
 
+        private JSGenericObject(CefV8Context context,CefV8Value value)
+        {
+            JSValue = value;
+            _MappedJSValue = value;
+            CValue = null;
+            _CefV8Context = context;
+        }
+
+        public static JSGenericObject CreateNull(CefV8Context context, IJSOLocalBuilder builder)
+        {
+            return new JSGenericObject(context, builder.CreateNull());
+        }
+
 
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
         {

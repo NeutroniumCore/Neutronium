@@ -41,7 +41,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         private IJSCSGlue InternalMap(object ifrom, object iadditional=null)
         {
             if (ifrom == null)
-                return new JSGenericObject(_CefV8Context,_IJSOBuilder.CreateNull(), ifrom);
+                return JSGenericObject.CreateNull(_CefV8Context, _IJSOBuilder);
 
             IJSCSGlue res = null;
             res = _Cacher.GetCached(ifrom);

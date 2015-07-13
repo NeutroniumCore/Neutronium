@@ -268,54 +268,46 @@ namespace MVVM.CEFGlue.Test
         }
 
 
-        //private Task WaitLoad(IWebView view)
-        //{
-        //    TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
 
-        //    UrlEventHandler ea = null;
-        //    ea = (o, e) => { tcs.SetResult(null); view.DocumentReady -= ea; };
-        //    view.DocumentReady += ea;
+        [Fact]
+        public async Task Test_AwesomeBinding_Basic_Null_Property()
+        {
+            _DataContext.MainSkill.Should().BeNull();
 
-        //    return tcs.Task;
-        //}
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
 
+                      CefV8Value res = GetAttribute(js,"MainSkill");
+                      res.IsNull.Should().BeTrue();
 
-        //[Fact]
-        //public void Test_AwesomeBinding_BasicAlreadyLoaded_OneWay()
-        //{
-        //    using (Tester())
-        //    {
+                      DoSafe(() =>
+                      _DataContext.MainSkill = new Skill() { Name = "C++", Type = "Info" });
+                      Thread.Sleep(100);
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+                      res = GetAttribute(js,"MainSkill");
+                      res.IsNull.Should().BeFalse();
+                      res.IsObject.Should().BeTrue();
 
-        //        WaitLoad(_WebView).Wait();
+                      string inf = GetStringAttribute(res,"Type");
+                      inf.Should().Be("Info");
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.OneWay).Result)
-        //        {
-        //            mb.Should().NotBeNull();
-        //        }
-        //    }
-        //}
+                      DoSafe(() =>
+                      _DataContext.MainSkill = null);
+                      Thread.Sleep(100);
 
-        //private JSValue Get(JSObject root, string pn)
-        //{
-        //    return root.Invoke(pn);
-        //}
+                      res = GetAttribute(js, "MainSkill");
+                      res.IsNull.Should().BeTrue();
 
-        //private bool _Init = false;
-        //private JSObject _Window;
+                  }
+              };
+             await RunAsync(test);
+        }
 
-        //private JSValue UnWrapCollection(JSObject root, string pn)
-        //{
-        //    if (!_Init)
-        //    {
-        //        _Init = true;
-        //        _WebView.ExecuteJavascript("window.Extract=function(fn){return fn();}");
-        //        _Window = _WebView.ExecuteJavascriptWithResult("window");
-        //    }
-        //    return _Window.Invoke("Extract", root.Invoke(pn));
-        //}
+       
 
         //[Fact]
         //public void Test_AwesomeBinding_Basic_Null_Property()
@@ -2359,6 +2351,35 @@ namespace MVVM.CEFGlue.Test
         //}
     }
 
+    //[Fact]
+    //public void Test_AwesomeBinding_BasicAlreadyLoaded_OneWay()
+    //{
+    //    using (Tester())
+    //    {
+
+    //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
+    //        isValidSynchronizationContext.Should().BeTrue();
+
+    //        WaitLoad(_WebView).Wait();
+
+    //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.OneWay).Result)
+    //        {
+    //            mb.Should().NotBeNull();
+    //        }
+    //    }
+    //}
+
+
+    //private Task WaitLoad(IWebView view)
+    //{
+    //    TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+
+    //    UrlEventHandler ea = null;
+    //    ea = (o, e) => { tcs.SetResult(null); view.DocumentReady -= ea; };
+    //    view.DocumentReady += ea;
+
+    //    return tcs.Task;
+    //}
 
     //[Fact]
     //public async Task Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()

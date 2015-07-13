@@ -170,10 +170,13 @@ namespace MVVM.CEFGlue.HTMLBinding
         private async Task InjectInHTLMSession(IJSCSGlue iroot, bool isroot = false)
         {
             if ((iroot == null) || (iroot.Type == JSCSGlueType.Basic))
-            {
+            //{
                 return;
                 //TaskHelper.Ended();
-            }
+            //}
+
+            if ((iroot.Type == JSCSGlueType.Object) && (iroot.JSValue.IsNull))
+                return;
 
             var jvm = new JavascriptMapper(iroot as IJSObservableBridge, this);
             var res = _SessionInjector.Map(iroot.JSValue, jvm,(iroot.CValue!=null));
