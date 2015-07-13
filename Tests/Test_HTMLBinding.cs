@@ -346,72 +346,70 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
          }
      
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_Circular_reference()
-        //{
-        //    using (Tester())
-        //    {
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+     
+             [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay()
+        {
+            _DataContext.MainSkill.Should().BeNull();
 
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
 
-        //        var datacontext = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Couple();
-        //        var my = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Person()
-        //        {
-        //            Name = "O Monstro",
-        //            LastName = "Desmaisons",
-        //            Local = new MVVM.CEFGlue.ViewModel.Example.Local() { City = "Florianopolis", Region = "SC" }
-        //        };
-        //        my.Couple = datacontext;
-        //        datacontext.One = my;
+                      string res = GetStringAttribute(js, "Name");
+                      res.Should().Be("O Monstro");
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                      string res2 = GetStringAttribute(js, "LastName");
+                      res2.Should().Be("Desmaisons");
 
-        //            JSObject One = (JSObject)GetSafe(() => js.Invoke("One"));
+                      _DataContext.Name = "23";
 
-        //            JSValue res = GetSafe(() => One.Invoke("Name"));
-        //            ((string)res).Should().Be("O Monstro");
+                      Thread.Sleep(50);
+                      string res3 = GetStringAttribute(js, "Name");
+                      res3.Should().Be("23");
 
-        //            JSValue res2 = GetSafe(() => One.Invoke("LastName"));
-        //            ((string)res2).Should().Be("Desmaisons");
+                      string res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                      res4.Should().Be("Florianopolis");
 
-        //            //Test no stackoverflow in case of circular refernce
-        //            var jsbridge = (mb as AwesomeBinding).JSBrideRootObject;
-        //            string alm = jsbridge.ToString();
-        //            alm.Should().NotBeNull();
+                      _DataContext.Local.City = "Paris";
+                      Thread.Sleep(50);
 
+                      res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                      ((string)res4).Should().Be("Paris");
 
-        //        }
-        //    }
-        //}
+                      string res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                      res5.Should().Be("Langage");
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_TimeOut()
-        //{
-        //    using (Tester())
-        //    {
+                      _DataContext.Skills[0].Name = "Ling";
+                      Thread.Sleep(50);
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+                      res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                      res5.Should().Be("Ling");
 
-        //        var fact = new AwesomiumBindingFactory() { InjectionTimeOut = 10 };
+                      //Teste Two Way
+                      this.Call(js, "Name", () => CefV8Value.CreateString("resName"));
 
-        //        int r = 20000;
-        //        var datacontext = new TwoList();
-        //        datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
+                      string resName = GetStringAttribute(js, "Name");
+                      resName.Should().Be("resName");
 
-        //        Exception bindingex = null;
+                      Thread.Sleep(500);
 
-        //        var task = fact.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).ContinueWith(t => bindingex = t.Exception);
-        //        task.Wait();
+                      _DataContext.Name.Should().Be("resName");
 
-        //        bindingex.Should().BeOfType<AggregateException>();
-        //        var ex = (bindingex as AggregateException).InnerException;
-        //        ex.Should().BeOfType<MVVMforAwesomiumException>();
-        //    }
-        //}
+                      _DataContext.Name = "nnnnvvvvvvv";
+
+                      Thread.Sleep(50);
+                      res3 = GetStringAttribute(js, "Name");
+                      ((string)res3).Should().Be("nnnnvvvvvvv");
+                  }
+              };
+
+            await RunAsync(test);
+        }
+      
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay()
@@ -2347,6 +2345,32 @@ namespace MVVM.CEFGlue.Test
         //    }
         //}
     }
+
+    //[Fact]
+    //public void Test_HTMLBinding_Basic_TwoWay_TimeOut()
+    //{
+    //    using (Tester())
+    //    {
+
+    //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
+    //        isValidSynchronizationContext.Should().BeTrue();
+
+    //        var fact = new AwesomiumBindingFactory() { InjectionTimeOut = 10 };
+
+    //        int r = 20000;
+    //        var datacontext = new TwoList();
+    //        datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
+
+    //        Exception bindingex = null;
+
+    //        var task = fact.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).ContinueWith(t => bindingex = t.Exception);
+    //        task.Wait();
+
+    //        bindingex.Should().BeOfType<AggregateException>();
+    //        var ex = (bindingex as AggregateException).InnerException;
+    //        ex.Should().BeOfType<MVVMforAwesomiumException>();
+    //    }
+    //}
 
     //[Fact]
     //public void Test_HTMLBinding_BasicAlreadyLoaded_OneWay()
