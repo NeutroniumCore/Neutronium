@@ -51,7 +51,7 @@ namespace MVVM.CEFGlue.Test
         }
 
         [Fact]
-        public async Task Test_AwesomeBinding_Basic_OneWay_JSON_ToString()
+        public async Task Test_HTMLBinding_Basic_OneWay_JSON_ToString()
         {
             var test = new TestInContext()
             {
@@ -80,7 +80,7 @@ namespace MVVM.CEFGlue.Test
         }
 
         [Fact]
-        public async Task Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrowException()
+        public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException()
         {
             using (Tester("javascript/almost_empty.html"))
             {
@@ -102,7 +102,7 @@ namespace MVVM.CEFGlue.Test
         }
            
         [Fact]
-        public async Task  Test_AwesomeBinding_Basic_OneTime()
+        public async Task  Test_HTMLBinding_Basic_OneTime()
         {
             var test = new TestInContext()
             {
@@ -161,7 +161,7 @@ namespace MVVM.CEFGlue.Test
 
 
         [Fact]
-        public async Task Test_AwesomeBinding_Basic_OneWay()
+        public async Task Test_HTMLBinding_Basic_OneWay()
         {
            var test = new TestInContext()
            {
@@ -227,7 +227,7 @@ namespace MVVM.CEFGlue.Test
 
 
         [Fact]
-        public async Task Test_AwesomeBinding_Basic_OneWay_Property_With_Exception()
+        public async Task Test_HTMLBinding_Basic_OneWay_Property_With_Exception()
         {
             var dt = new Dummy();
 
@@ -249,7 +249,7 @@ namespace MVVM.CEFGlue.Test
 
 
         [Fact]
-        public async Task Test_AwesomeBinding_Basic_Regsiter_Additional_property()
+        public async Task Test_HTMLBinding_Basic_Regsiter_Additional_property()
         {
             var test = new TestInContext()
             {
@@ -270,7 +270,7 @@ namespace MVVM.CEFGlue.Test
 
 
         [Fact]
-        public async Task Test_AwesomeBinding_Basic_Null_Property()
+        public async Task Test_HTMLBinding_Basic_Null_Property()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -309,7 +309,7 @@ namespace MVVM.CEFGlue.Test
 
        
          [Fact]
-        public async Task Test_AwesomeBinding_Basic_Circular_reference()
+        public async Task Test_HTMLBinding_Basic_Circular_reference()
         {
             var datacontext = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Couple();
             var my = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Person()
@@ -347,7 +347,7 @@ namespace MVVM.CEFGlue.Test
          }
      
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_Circular_reference()
+        //public void Test_HTMLBinding_Basic_Circular_reference()
         //{
         //    using (Tester())
         //    {
@@ -388,7 +388,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_TimeOut()
+        //public void Test_HTMLBinding_Basic_TwoWay_TimeOut()
         //{
         //    using (Tester())
         //    {
@@ -414,7 +414,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay()
+        //public void Test_HTMLBinding_Basic_TwoWay()
         //{
         //    using (Tester())
         //    {
@@ -475,7 +475,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Nested()
+        //public void Test_HTMLBinding_Basic_TwoWay_Nested()
         //{
         //    using (Tester())
         //    {
@@ -518,7 +518,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_TwoWay_Enum()
+        //public void Test_HTMLBinding_TwoWay_Enum()
         //{
         //    using (Tester())
         //    {
@@ -546,7 +546,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_TwoWay_Enum_Round_Trip()
+        //public void Test_HTMLBinding_TwoWay_Enum_Round_Trip()
         //{
         //    using (Tester())
         //    {
@@ -597,7 +597,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_TwoWay_Enum_NotMapped()
+        //public void Test_HTMLBinding_TwoWay_Enum_NotMapped()
         //{
         //    using (Tester())
         //    {
@@ -627,7 +627,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_TwoWay_Set_Object_From_Javascipt()
+        //public void Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt()
         //{
         //    using (Tester())
         //    {
@@ -681,7 +681,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_TwoWay_Set_Null_From_Javascipt()
+        //public void Test_HTMLBinding_TwoWay_Set_Null_From_Javascipt()
         //{
         //    using (Tester())
         //    {
@@ -722,7 +722,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse()
+        //public void Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse()
         //{
         //    using (Tester())
         //    {
@@ -763,7 +763,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse_NoReset_OnAttribute()
+        //public void Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse_NoReset_OnAttribute()
         //{
         //    using (Tester())
         //    {
@@ -831,7 +831,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_Property_Test()
+        //public void Test_HTMLBinding_Basic_Property_Test()
         //{
         //    using (Tester())
         //    {
@@ -866,7 +866,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_Basic()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_Basic()
         //{
         //    using (Tester())
         //    {
@@ -888,7 +888,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command()
         //{
         //    using (Tester())
         //    {
@@ -909,7 +909,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_With_Parameter()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_With_Parameter()
         //{
         //    using (Tester())
         //    {
@@ -931,7 +931,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_CanExecute_False()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_False()
         //{
         //    using (Tester())
         //    {
@@ -952,7 +952,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_CanExecute_True()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_True()
         //{
         //    using (Tester())
         //    {
@@ -973,7 +973,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_Uptate_From_Null()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_Uptate_From_Null()
         //{
         //    using (Tester())
         //    {
@@ -1007,7 +1007,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_SimpleCommand_Without_Parameter()
+        //public void Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Without_Parameter()
         //{
         //    using (Tester())
         //    {
@@ -1027,7 +1027,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_SimpleCommand_With_Parameter()
+        //public void Test_HTMLBinding_Basic_TwoWay_SimpleCommand_With_Parameter()
         //{
         //    using (Tester())
         //    {
@@ -1047,7 +1047,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_SimpleCommand_Name()
+        //public void Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Name()
         //{
         //    using (Tester())
         //    {
@@ -1079,7 +1079,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_CLR_Type_FromCtojavascript()
+        //public void Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromCtojavascript()
         //{
         //    using (Tester())
         //    {
@@ -1107,7 +1107,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_CLR_Type_FromjavascripttoCto()
+        //public void Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromjavascripttoCto()
         //{
         //    using (Tester())
         //    {
@@ -1163,7 +1163,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok()
         //{
         //    using (Tester())
         //    {
@@ -1191,7 +1191,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument()
         //{
         //    using (Tester())
         //    {
@@ -1226,7 +1226,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
         //{
         //    using (Tester())
         //    {
@@ -1247,7 +1247,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_Received_javascript_variable()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_Received_javascript_variable()
         //{
         //    using (Tester())
         //    {
@@ -1268,7 +1268,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_Complete()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_Complete()
         //{
         //    using (Tester())
         //    {
@@ -1303,7 +1303,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Command_With_Null_Parameter()
+        //public void Test_HTMLBinding_Basic_TwoWay_Command_With_Null_Parameter()
         //{
         //    using (Tester())
         //    {
@@ -1323,7 +1323,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_ResultCommand_Should_have_ToString()
+        //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Should_have_ToString()
         //{
         //    var function = NSubstitute.Substitute.For<Func<int, int>>();
         //    var dc = new FakeFactory<int, int>(function);
@@ -1337,7 +1337,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
+        //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
         //{
         //    var function = NSubstitute.Substitute.For<Func<int, int>>();
         //    var dc = new FakeFactory<int, int>(function);
@@ -1357,7 +1357,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable()
+        //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable()
         //{
         //    var function = NSubstitute.Substitute.For<Func<int, int>>();
         //    function.Invoke(Arg.Any<int>()).Returns(255);
@@ -1389,7 +1389,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
+        //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
         //{
         //    string errormessage = "original error message";
         //    var function = NSubstitute.Substitute.For<Func<int, int>>();
@@ -1423,7 +1423,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Collection()
+        //public void Test_HTMLBinding_Basic_TwoWay_Collection()
         //{
         //    using (Tester())
         //    {
@@ -1487,7 +1487,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Stress_TwoWay_Collection()
+        //public void Test_HTMLBinding_Stress_TwoWay_Collection()
         //{
         //    using (Tester("javascript/simple.html"))
         //    {
@@ -1560,18 +1560,18 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Stress_TwoWay_Collection_CreateBinding()
+        //public void Test_HTMLBinding_Stress_TwoWay_Collection_CreateBinding()
         //{
-        //    Test_AwesomeBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, 1.5, "javascript/simple.html");
+        //    Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, 1.5, "javascript/simple.html");
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Stress_OneWay_Collection_CreateBinding()
+        //public void Test_HTMLBinding_Stress_OneWay_Collection_CreateBinding()
         //{
-        //    Test_AwesomeBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, "javascript/simple.html");
+        //    Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, "javascript/simple.html");
         //}
 
-        //public void Test_AwesomeBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, string ipath = null)
+        //public void Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, string ipath = null)
         //{
         //    using (Tester(ipath))
         //    {
@@ -1609,7 +1609,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Stress_Collection_Update_From_Javascript()
+        //public void Test_HTMLBinding_Stress_Collection_Update_From_Javascript()
         //{
         //    using (Tester("javascript/simple.html"))
         //    {
@@ -1666,14 +1666,14 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Stress_OneTime_Collection_CreateBinding()
+        //public void Test_HTMLBinding_Stress_OneTime_Collection_CreateBinding()
         //{
-        //    Test_AwesomeBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, 1.5, "javascript/simple.html");
+        //    Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, 1.5, "javascript/simple.html");
         //}
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Stress_TwoWay_Int()
+        //public void Test_HTMLBinding_Stress_TwoWay_Int()
         //{
         //    using (Tester())
         //    {
@@ -1723,7 +1723,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Collection_FromJSUpdate()
+        //public void Test_HTMLBinding_Basic_TwoWay_Collection_FromJSUpdate()
         //{
         //    using (Tester())
         //    {
@@ -1799,7 +1799,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
+        //public void Test_HTMLBinding_Basic_TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
         //{
         //    using (Tester())
         //    {
@@ -1898,7 +1898,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Decimal_ShouldOK()
+        //public void Test_HTMLBinding_Basic_TwoWay_Decimal_ShouldOK()
         //{
         //    using (Tester())
         //    {
@@ -1952,7 +1952,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Long_ShouldOK()
+        //public void Test_HTMLBinding_Basic_TwoWay_Long_ShouldOK()
         //{
         //    using (Tester())
         //    {
@@ -1988,7 +1988,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Collection_string()
+        //public void Test_HTMLBinding_Basic_TwoWay_Collection_string()
         //{
         //    using (Tester())
         //    {
@@ -2059,7 +2059,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Collection_should_be_observable_attribute()
+        //public void Test_HTMLBinding_Basic_TwoWay_Collection_should_be_observable_attribute()
         //{
         //    using (Tester())
         //    {
@@ -2096,7 +2096,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Collection_NoneGenericList()
+        //public void Test_HTMLBinding_Basic_TwoWay_Collection_NoneGenericList()
         //{
         //    using (Tester())
         //    {
@@ -2134,7 +2134,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_Basic_TwoWay_Collection_decimal()
+        //public void Test_HTMLBinding_Basic_TwoWay_Collection_decimal()
         //{
         //    using (Tester())
         //    {
@@ -2199,7 +2199,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Factory_TwoWay()
+        //public void Test_HTMLBinding_Factory_TwoWay()
         //{
         //    using (Tester())
         //    {
@@ -2255,7 +2255,7 @@ namespace MVVM.CEFGlue.Test
         //}
 
         //[Fact]
-        //public void Test_AwesomeBinding_stringBinding()
+        //public void Test_HTMLBinding_stringBinding()
         //{
         //    using (Tester())
         //    {
@@ -2289,7 +2289,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Factory_stringBinding()
+        //public void Test_HTMLBinding_Factory_stringBinding()
         //{
         //    using (Tester())
         //    {
@@ -2319,7 +2319,7 @@ namespace MVVM.CEFGlue.Test
 
 
         //[Fact]
-        //public void Test_AwesomeBinding_Factory_Custo_Options()
+        //public void Test_HTMLBinding_Factory_Custo_Options()
         //{
         //    using (Tester())
         //    {
@@ -2349,7 +2349,7 @@ namespace MVVM.CEFGlue.Test
     }
 
     //[Fact]
-    //public void Test_AwesomeBinding_BasicAlreadyLoaded_OneWay()
+    //public void Test_HTMLBinding_BasicAlreadyLoaded_OneWay()
     //{
     //    using (Tester())
     //    {
@@ -2379,7 +2379,7 @@ namespace MVVM.CEFGlue.Test
     //}
 
     //[Fact]
-    //public async Task Test_AwesomeBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()
+    //public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()
     //{
     //    using (Tester("javascript/almost_empty.html"))
     //    {
