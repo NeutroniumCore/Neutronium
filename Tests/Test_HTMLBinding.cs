@@ -893,52 +893,30 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_True()
+        {
+            var command = Substitute.For<ICommand>();
+            command.CanExecute(Arg.Any<object>()).Returns(true);
+            var datacontexttest = new ViewModelTest() { Command = command };
 
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-    
-       
+                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_False()
-        //{
-        //    using (Tester())
-        //    {
-        //        var command = Substitute.For<ICommand>();
-        //        command.CanExecute(Arg.Any<object>()).Returns(false);
-        //        var test = new ViewModelTest() { Command = command };
+                    res.Should().BeTrue();
+                }
+            };
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, test, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+            await RunAsync(test);
+        }
 
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("Command"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("CanExecuteValue"));
-
-        //            ((bool)res).Should().BeFalse();
-        //        }
-        //    }
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_True()
-        //{
-        //    using (Tester())
-        //    {
-        //        var command = Substitute.For<ICommand>();
-        //        command.CanExecute(Arg.Any<object>()).Returns(true);
-        //        var test = new ViewModelTest() { Command = command };
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, test, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("Command"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("CanExecuteValue"));
-
-        //            ((bool)res).Should().BeTrue();
-        //        }
-        //    }
-        //}
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_Uptate_From_Null()
