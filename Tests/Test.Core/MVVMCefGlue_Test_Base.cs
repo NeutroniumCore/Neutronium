@@ -144,6 +144,11 @@ namespace MVVM.CEFGlue.Test
             return _WebView.EvaluateInCreateContextAsync(() => value.Invoke(attibutename, _WebView).GetIntValue()).Result;
         }
 
+        protected bool GetBoolAttribute(CefV8Value value, string attibutename)
+        {
+            return _WebView.EvaluateInCreateContextAsync(() => value.Invoke(attibutename, _WebView).GetBoolValue()).Result;
+        }
+
         protected void Call(CefV8Value value, string functionname, params CefV8Value[] parameter)
         {
             _WebView.CreateInContextAsync(() => value.Invoke(functionname,_WebView,parameter)).Wait();

@@ -869,6 +869,30 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_False()
+        {
+            var command = Substitute.For<ICommand>();
+            command.CanExecute(Arg.Any<object>()).Returns(false);
+            var datacontexttest = new ViewModelTest() { Command = command };
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
+
+                    res.Should().BeFalse();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
 
 
     
