@@ -1,4 +1,5 @@
-﻿using MVVM.CEFGlue.Exceptions;
+﻿using CefGlue.Window;
+using MVVM.CEFGlue.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,11 @@ namespace MVVM.CEFGlue.CefSession
         private CefSettings _CefSettings;
         private string[] _Args;
         private MVVMCefApp _CefApp;
+        private IUIDispatcher _Dispatcher;
 
-        public CefCoreSession(CefSettings iCefSettings, MVVMCefApp iCefApp, string[] iArgs)
+        public CefCoreSession(IUIDispatcher iIUIDispatcher, CefSettings iCefSettings, MVVMCefApp iCefApp, string[] iArgs)
         {
+            _Dispatcher = iIUIDispatcher;
             _CefApp = iCefApp;
             _CefSettings = iCefSettings;
             var mainArgs = new CefMainArgs(_Args);
@@ -26,6 +29,11 @@ namespace MVVM.CEFGlue.CefSession
                 throw ExceptionHelper.Get(string.Format("Unable to execute cef process: {0}", exitCode));
 
             CefRuntime.Initialize(mainArgs, _CefSettings, _CefApp, IntPtr.Zero);
+        }
+
+        public IUIDispatcher Dispatcher
+        {
+            get { return _Dispatcher; }
         }
 
         public MVVMCefApp CefApp 

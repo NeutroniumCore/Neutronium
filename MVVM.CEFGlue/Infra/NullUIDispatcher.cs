@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.CEFGlue.Test.CefWindowless
+namespace MVVM.CEFGlue.Infra
 {
-    internal class TestIUIDispatcher : IUIDispatcher
+    class NullUIDispatcher : IUIDispatcher
     {
         public Task RunAsync(Action act)
         {
             act();
             return Task.FromResult<object>(null);
         }
-
 
         public void Run(Action act)
         {

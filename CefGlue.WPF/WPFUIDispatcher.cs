@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace Xilium.CefGlue.WPF
 {
-    internal class WPFUIDispatcher : IUIDispatcher
+    public class WPFUIDispatcher : IUIDispatcher
     {
         private Dispatcher _Dispatcher;
         public WPFUIDispatcher(Dispatcher iDispatcher)
@@ -26,6 +26,12 @@ namespace Xilium.CefGlue.WPF
                 };
             _Dispatcher.BeginInvoke(doact);
             return tcs.Task;
+        }
+
+
+        public void Run(Action act)
+        {
+            _Dispatcher.Invoke(act);
         }
     }
 }

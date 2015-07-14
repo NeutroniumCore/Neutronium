@@ -9,6 +9,7 @@ using Xilium.CefGlue;
 
 using MVVM.CEFGlue.Exceptions;
 using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.CEFGlue.CefSession;
 
 
 
@@ -50,7 +51,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)
         {
-            WPFHelper.SyncRunOnUIThread(() =>
+            CefCoreSessionSingleton.Session.Dispatcher.Run(() =>
             {
                 switch (change.CollectionChangeType)
                 {

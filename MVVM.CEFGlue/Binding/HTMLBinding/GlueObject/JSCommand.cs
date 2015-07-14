@@ -10,6 +10,7 @@ using Xilium.CefGlue;
 using MVVM.CEFGlue.CefGlueHelper;
 using System.Windows;
 using MVVM.CEFGlue.Infra;
+using MVVM.CEFGlue.CefSession;
 
 
 
@@ -95,7 +96,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         private void ExecuteCommand(CefV8Value[] e, IJSCBridgeCache mapper)
         {
-            WPFHelper.RunOnUIThread( () => _Command.Execute(GetArguments(mapper, e)));
+            CefCoreSessionSingleton.Session.Dispatcher.RunAsync(() => _Command.Execute(GetArguments(mapper, e)));
         }
 
         private void CanExecuteCommand(CefV8Value[] e, IJSCBridgeCache mapper)

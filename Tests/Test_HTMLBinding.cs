@@ -35,7 +35,8 @@ namespace MVVM.CEFGlue.Test
         private ICommand _ICommand;
 
 
-        public Test_HTMLBinding() : base()
+        public Test_HTMLBinding()
+            : base()
         {
             _ICommand = Substitute.For<ICommand>();
             _DataContext = new Person(_ICommand)
@@ -58,7 +59,7 @@ namespace MVVM.CEFGlue.Test
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
                 Test = (binding) =>
                 {
-                     var jsbridge = (binding as HTML_Binding).JSBrideRootObject;
+                    var jsbridge = (binding as HTML_Binding).JSBrideRootObject;
                     var js = binding.JSRootObject;
 
                     string JSON = JsonConvert.SerializeObject(_DataContext);
@@ -100,14 +101,14 @@ namespace MVVM.CEFGlue.Test
                 ex.InnerException.Should().BeOfType<MVVMCEFGlueException>();
             }
         }
-           
+
         [Fact]
-        public async Task  Test_HTMLBinding_Basic_OneTime()
+        public async Task Test_HTMLBinding_Basic_OneTime()
         {
             var test = new TestInContext()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneTime),
-                Test = (mb)=>
+                Test = (mb) =>
                 {
                     var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
                     var js = mb.JSRootObject;
@@ -145,17 +146,17 @@ namespace MVVM.CEFGlue.Test
                     _DataContext.Skills[0].Name = "Ling";
                     Thread.Sleep(200);
 
-                        //onetime does not update javascript from  C# 
+                    //onetime does not update javascript from  C# 
                     res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
                     res5.Should().Be("Langage");
 
-                        //onetime does not update C# from javascript
+                    //onetime does not update C# from javascript
                     this.Call(js, "Name", () => CefV8Value.CreateString("resName"));
                     Thread.Sleep(200);
                     _DataContext.Name.Should().Be("23");
                 }
             };
-          
+
             await RunAsync(test);
         }
 
@@ -163,11 +164,11 @@ namespace MVVM.CEFGlue.Test
         [Fact]
         public async Task Test_HTMLBinding_Basic_OneWay()
         {
-           var test = new TestInContext()
-           {
-               Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
-               Test = (mb) =>
-               {
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
+                Test = (mb) =>
+                {
                     var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
                     var js = mb.JSRootObject;
 
@@ -175,16 +176,16 @@ namespace MVVM.CEFGlue.Test
                     string alm = jsbridge.ToString();
 
 
-                    string res = GetStringAttribute(js,"Name");
+                    string res = GetStringAttribute(js, "Name");
                     res.Should().Be("O Monstro");
 
-                    string res2 = GetStringAttribute(js,"LastName");
+                    string res2 = GetStringAttribute(js, "LastName");
                     res2.Should().Be("Desmaisons");
 
                     _DataContext.Name = "23";
                     Thread.Sleep(200);
 
-                    string res3 =  GetStringAttribute(js,"Name");
+                    string res3 = GetStringAttribute(js, "Name");
                     res3.Should().Be("23");
 
                     string res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
@@ -196,21 +197,21 @@ namespace MVVM.CEFGlue.Test
                     res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
                     ((string)res4).Should().Be("Paris");
 
-                    string res5 = GetSafe(() =>  js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                    string res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
                     res5.Should().Be("Langage");
 
                     _DataContext.Skills[0].Name = "Ling";
                     Thread.Sleep(200);
 
-                    res5 = GetSafe(() => GetSafe(() =>  js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue()));
+                    res5 = GetSafe(() => GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue()));
                     res5.Should().Be("Ling");
 
 
                     this.Call(js, "Name", () => CefV8Value.CreateString("resName"));
                     Thread.Sleep(200);
                     _DataContext.Name.Should().Be("23");
-               }
-           };
+                }
+            };
 
             await RunAsync(test);
         }
@@ -281,18 +282,18 @@ namespace MVVM.CEFGlue.Test
                   {
                       var js = mb.JSRootObject;
 
-                      CefV8Value res = GetAttribute(js,"MainSkill");
+                      CefV8Value res = GetAttribute(js, "MainSkill");
                       res.IsNull.Should().BeTrue();
 
                       DoSafe(() =>
                       _DataContext.MainSkill = new Skill() { Name = "C++", Type = "Info" });
                       Thread.Sleep(100);
 
-                      res = GetAttribute(js,"MainSkill");
+                      res = GetAttribute(js, "MainSkill");
                       res.IsNull.Should().BeFalse();
                       res.IsObject.Should().BeTrue();
 
-                      string inf = GetStringAttribute(res,"Type");
+                      string inf = GetStringAttribute(res, "Type");
                       inf.Should().Be("Info");
 
                       DoSafe(() =>
@@ -304,11 +305,11 @@ namespace MVVM.CEFGlue.Test
 
                   }
               };
-             await RunAsync(test);
+            await RunAsync(test);
         }
 
-       
-         [Fact]
+
+        [Fact]
         public async Task Test_HTMLBinding_Basic_Circular_reference()
         {
             var datacontext = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Couple();
@@ -330,7 +331,7 @@ namespace MVVM.CEFGlue.Test
 
                       CefV8Value One = GetAttribute(js, "One");
 
-                      string res = GetStringAttribute(One,"Name");
+                      string res = GetStringAttribute(One, "Name");
                       res.Should().Be("O Monstro");
 
                       string res2 = GetStringAttribute(One, "LastName");
@@ -344,9 +345,9 @@ namespace MVVM.CEFGlue.Test
               };
 
             await RunAsync(test);
-         }
-     
-     
+        }
+
+
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay()
         {
@@ -410,7 +411,7 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-           [Fact]
+        [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Nested()
         {
             _DataContext.MainSkill.Should().BeNull();
@@ -429,9 +430,9 @@ namespace MVVM.CEFGlue.Test
                       res2.Should().Be("Desmaisons");
 
                       CefV8Value local = GetAttribute(js, "Local");
-                      string city = GetStringAttribute(local,"City");
-                      city.Should().Be("Florianopolis"); 
-                      
+                      string city = GetStringAttribute(local, "City");
+                      city.Should().Be("Florianopolis");
+
                       _DataContext.Local.City = "Foz de Iguaçu";
 
                       Thread.Sleep(100);
@@ -449,8 +450,8 @@ namespace MVVM.CEFGlue.Test
               };
 
             await RunAsync(test);
-           }
-   
+        }
+
 
         [Fact]
         public async Task Test_HTMLBinding_TwoWay_Enum()
@@ -500,18 +501,18 @@ namespace MVVM.CEFGlue.Test
                       _DataContext.PersonalState = PersonalState.Single;
                       Thread.Sleep(50);
 
-                      res =  GetAttribute(js, "PersonalState");
+                      res = GetAttribute(js, "PersonalState");
                       dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                       dres.Should().Be("Single");
 
-                      var othervalue = GetSafe(() => js.Invoke("States",_WebView).ExecuteFunction());
+                      var othervalue = GetSafe(() => js.Invoke("States", _WebView).ExecuteFunction());
                       //JSValue[] coll = (JSValue[])othervalue;
                       CefV8Value di = othervalue.GetValue(2);
                       string name = GetSafe(() => di.GetValue("displayName").GetStringValue());
                       name.Should().Be("Divorced");
 
 
-                      this.DoSafe(() => js.Invoke("PersonalState", _WebView,di));
+                      this.DoSafe(() => js.Invoke("PersonalState", _WebView, di));
                       Thread.Sleep(100);
 
                       _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
@@ -531,7 +532,7 @@ namespace MVVM.CEFGlue.Test
             }
         }
 
-         [Fact]
+        [Fact]
         public async Task Test_HTMLBinding_TwoWay_Enum_NotMapped()
         {
             var datacontext = new SimplePerson();
@@ -548,7 +549,7 @@ namespace MVVM.CEFGlue.Test
                       string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                       dres.Should().Be("Single");
 
-                 
+
                       datacontext.PersonalState = PersonalState.Married;
                       Thread.Sleep(50);
 
@@ -560,290 +561,293 @@ namespace MVVM.CEFGlue.Test
               };
 
             await RunAsync(test);
-         }
+        }
 
 
-         [Fact]
-         public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt()
-         {
-             var datacontext = new Couple();
-             var p1 = new Person() { Name = "David" };
-             datacontext.One = p1;
-             var p2 = new Person() { Name = "Claudia" };
-             datacontext.Two = p2;
+        [Fact]
+        public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt()
+        {
+            var datacontext = new Couple();
+            var p1 = new Person() { Name = "David" };
+            datacontext.One = p1;
+            var p2 = new Person() { Name = "Claudia" };
+            datacontext.Two = p2;
 
-             var test = new TestInContext()
-               {
-                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                   Test = (mb) =>
-                   {
-                       var js = mb.JSRootObject;
-
-                       CefV8Value res1 = GetAttribute(js, "One");
-                       string n1 = GetStringAttribute(res1, "Name");
-                       n1.Should().Be("David");
-
-                       CefV8Value res2 = GetAttribute(js, "Two");
-                       res2.Should().NotBeNull();
-                       var n2 = GetStringAttribute(res2, "Name");
-                       n2.Should().Be("Claudia");
-
-                       DoSafe(() => Call(js, "One", () => GetAttribute(js, "Two")));
-                       Thread.Sleep(100);
-
-                       CefV8Value res3 =  GetAttribute(js, "One");
-                       res3.Should().NotBeNull();
-                       string n3 =GetStringAttribute(res3, "Name");
-                       n3.Should().Be("Claudia");
-
-                       Thread.Sleep(100);
-
-                       datacontext.One.Should().Be(p2);
-
-                       CefV8Value res4 = GetAttribute(res3, "ChildrenNumber");
-                       res4.IsNull.Should().BeTrue();
-
-                       //CefV8Value five = get new JSValue(5);
-                       DoSafe(() =>  Call(res3,"ChildrenNumber", CefV8Value.CreateInt(5)));
-                       Thread.Sleep(100);
-
-                       datacontext.One.ChildrenNumber.Should().Be(5);
-                   }
-               };
-
-             await RunAsync(test);
-         }
-
-
-
-
-         [Fact]
-         public async Task Test_HTMLBinding_TwoWay_Set_Null_From_Javascipt()
-         {
-             var datacontext = new Couple();
-             var p1 = new Person() { Name = "David" };
-             datacontext.One = p1;
-             var p2 = new Person() { Name = "Claudia" };
-             datacontext.Two = p2;
-
-             var test = new TestInContext()
-               {
-                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                   Test = (mb) =>
-                   {
-                       var js = mb.JSRootObject;
-
-                       CefV8Value res1 = GetAttribute(js, "One");
-                       res1.Should().NotBeNull();
-                       string n1 = GetStringAttribute(res1, "Name");
-                       n1.Should().Be("David");
-
-                       CefV8Value res2 = GetAttribute(js, "Two");
-                       res2.Should().NotBeNull();
-                       string n2 = GetStringAttribute(res2, "Name");
-                       n2.Should().Be("Claudia");
-
-                       DoSafe(() => Call(js, "One", CefV8Value.CreateNull()));
-
-                       CefV8Value res3 = GetAttribute(js, "One");
-                       res3.IsNull.Should().BeTrue();
-
-                       Thread.Sleep(100);
-
-                       datacontext.One.Should().BeNull();
-                   }
-               };
-
-             await RunAsync(test);
-         }
-
-          [Fact]
-         public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse()
-         {
-             var datacontext = new Couple();
-             var p1 = new Person() { Name = "David" };
-             datacontext.One = p1;
-             var p2 = new Person() { Name = "Claudia" };
-             datacontext.Two = p2;
-
-             var test = new TestInContext()
-               {
-                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                   Test = (mb) =>
-                   {
-                       var js = mb.JSRootObject;
-                       CefV8Value res1 = GetAttribute(js, "One");
-                       res1.Should().NotBeNull();
-                       string n1 = GetStringAttribute(res1, "Name");
-                       n1.Should().Be("David");
-
-                       CefV8Value res2 = GetAttribute(js, "Two");
-                       res2.Should().NotBeNull();
-                       string n2 = GetStringAttribute(res2, "Name");
-                       n2.Should().Be("Claudia");
-
-                       DoSafe(() => Call(js, "One", CefV8Value.CreateString("Dede")));
-
-                       string res3 = GetStringAttribute(js, "One");
-                       res3.Should().Be("Dede");
-
-                       Thread.Sleep(100);
-
-                       datacontext.One.Should().Be(p1);
-                   }
-               };
-
-                await RunAsync(test);
-          }
-
-          [Fact]
-          public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse_NoReset_OnAttribute()
-         {
-             var datacontext = new Couple();
-             var p1 = new Person() { Name = "David" };
-             datacontext.One = p1;
-             var p2 = new Person() { Name = "Claudia" };
-             datacontext.Two = p2;
-
-             var test = new TestInContext()
-               {
-                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                   Test = (mb) =>
-                   {
-                       var js = mb.JSRootObject;
-                       CefV8Value res1 = GetAttribute(js, "One");
-                       res1.Should().NotBeNull();
-                       string n1 = GetStringAttribute(res1, "Name");
-                       n1.Should().Be("David");
-
-                       CefV8Value res2 = GetAttribute(js, "Two");
-                       res2.Should().NotBeNull();
-                       string n2 = GetStringAttribute(res2, "Name");
-                       n2.Should().Be("Claudia");
-
-                       DoSafe(() => Call(js, "One", CefV8Value.CreateObject(null)));
-
-                       CefV8Value res3 = GetAttribute(js, "One");
-                       res3.IsObject.Should().BeTrue();
-
-                       Thread.Sleep(100);
-
-                       datacontext.One.Should().Be(p1);
-                   }
-               };
-             await RunAsync(test);
-         }
-
-       
-
-
-          private void Check(CefV8Value[] coll, IList<Skill> iskill)
-          {
-              coll.Length.Should().Be(iskill.Count);
-              coll.ForEach((c, i) =>
-                              {
-                                  (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(iskill[i].Name);
-                                  (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(iskill[i].Type);
-                              });
-
-          }
-
-          private class ViewModelTest : ViewModelBase
-          {
-              private ICommand _ICommand;
-              public ICommand Command { get { return _ICommand; } set { Set(ref _ICommand, value, "Command"); } }
-
-              public string Name { get { return "NameTest"; } }
-
-              public string UselessName { set { } }
-
-              public void InconsistentEventEmit()
+            var test = new TestInContext()
               {
-                  this.OnPropertyChanged("NonProperty");
-              }
-          }
-
-          [Fact]
-          public async Task Test_HTMLBinding_Basic_Property_Test()
-          {
-              var command = Substitute.For<ICommand>();
-              var datacontexttest = new ViewModelTest() { Command = command };
-
-              var test = new TestInContext()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                   Test = (mb) =>
                   {
                       var js = mb.JSRootObject;
 
-                      string res = GetStringAttribute(js, "Name");
-                      res.Should().Be("NameTest");
+                      CefV8Value res1 = GetAttribute(js, "One");
+                      string n1 = GetStringAttribute(res1, "Name");
+                      n1.Should().Be("David");
 
-                      DoSafe(() => Call(js, "Name", CefV8Value.CreateString("NewName")));
-                      res = GetStringAttribute(js, "Name");
-                      res.Should().Be("NewName");
+                      CefV8Value res2 = GetAttribute(js, "Two");
+                      res2.Should().NotBeNull();
+                      var n2 = GetStringAttribute(res2, "Name");
+                      n2.Should().Be("Claudia");
+
+                      DoSafe(() => Call(js, "One", () => GetAttribute(js, "Two")));
+                      Thread.Sleep(100);
+
+                      CefV8Value res3 = GetAttribute(js, "One");
+                      res3.Should().NotBeNull();
+                      string n3 = GetStringAttribute(res3, "Name");
+                      n3.Should().Be("Claudia");
 
                       Thread.Sleep(100);
-                      datacontexttest.Name.Should().Be("NameTest");
 
-                      bool resf = GetSafe(() => js.HasValue("UselessName"));
-                      resf.Should().BeFalse();
+                      datacontext.One.Should().Be(p2);
 
-                      Action Safe = () => datacontexttest.InconsistentEventEmit();
+                      CefV8Value res4 = GetAttribute(res3, "ChildrenNumber");
+                      res4.IsNull.Should().BeTrue();
 
-                      Safe.ShouldNotThrow("Inconsistent Name in property should not throw exception");
+                      //CefV8Value five = get new JSValue(5);
+                      DoSafe(() => Call(res3, "ChildrenNumber", CefV8Value.CreateInt(5)));
+                      Thread.Sleep(100);
+
+                      datacontext.One.ChildrenNumber.Should().Be(5);
                   }
               };
 
-              await RunAsync(test);
-          }
+            await RunAsync(test);
+        }
 
-          [Fact]
-          public async Task Test_HTMLBinding_Basic_TwoWay_Command_Basic()
-          {
-              var command = Substitute.For<ICommand>();
-              var datacontexttest = new ViewModelTest() { Command = command };
 
-              var test = new TestInContext()
+
+
+        [Fact]
+        public async Task Test_HTMLBinding_TwoWay_Set_Null_From_Javascipt()
+        {
+            var datacontext = new Couple();
+            var p1 = new Person() { Name = "David" };
+            datacontext.One = p1;
+            var p2 = new Person() { Name = "Claudia" };
+            datacontext.Two = p2;
+
+            var test = new TestInContext()
               {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                   Test = (mb) =>
                   {
-                      var js = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+                      var js = mb.JSRootObject;
 
-                      var mycommand = js.Attributes["Command"] as JSCommand;
-                      mycommand.Should().NotBeNull();
-                      mycommand.ToString().Should().Be("{}");
-                      mycommand.Type.Should().Be(JSCSGlueType.Command);
-                      mycommand.MappedJSValue.Should().NotBeNull();
+                      CefV8Value res1 = GetAttribute(js, "One");
+                      res1.Should().NotBeNull();
+                      string n1 = GetStringAttribute(res1, "Name");
+                      n1.Should().Be("David");
+
+                      CefV8Value res2 = GetAttribute(js, "Two");
+                      res2.Should().NotBeNull();
+                      string n2 = GetStringAttribute(res2, "Name");
+                      n2.Should().Be("Claudia");
+
+                      DoSafe(() => Call(js, "One", CefV8Value.CreateNull()));
+
+                      CefV8Value res3 = GetAttribute(js, "One");
+                      res3.IsNull.Should().BeTrue();
+
+                      Thread.Sleep(100);
+
+                      datacontext.One.Should().BeNull();
                   }
               };
 
-              await RunAsync(test);
-          }
+            await RunAsync(test);
+        }
 
-      
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_Basic()
-        //{
-        //    using (Tester())
-        //    {
-        //        var command = Substitute.For<ICommand>();
-        //        var test = new ViewModelTest() { Command = command };
+        [Fact]
+        public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse()
+        {
+            var datacontext = new Couple();
+            var p1 = new Person() { Name = "David" };
+            datacontext.One = p1;
+            var p2 = new Person() { Name = "Claudia" };
+            datacontext.Two = p2;
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, test, JavascriptBindingMode.TwoWay).Result)
-        //        {
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
+                      CefV8Value res1 = GetAttribute(js, "One");
+                      res1.Should().NotBeNull();
+                      string n1 = GetStringAttribute(res1, "Name");
+                      n1.Should().Be("David");
 
-        //            var js = (mb as AwesomeBinding).JSBrideRootObject as JSGenericObject;
+                      CefV8Value res2 = GetAttribute(js, "Two");
+                      res2.Should().NotBeNull();
+                      string n2 = GetStringAttribute(res2, "Name");
+                      n2.Should().Be("Claudia");
 
-        //            var mycommand = js.Attributes["Command"] as JSCommand;
-        //            mycommand.Should().NotBeNull();
-        //            mycommand.ToString().Should().Be("{}");
-        //            mycommand.Type.Should().Be(JSCSGlueType.Command);
-        //            mycommand.MappedJSValue.Should().NotBeNull();
-        //        }
-        //    }
-        //}
+                      DoSafe(() => Call(js, "One", CefV8Value.CreateString("Dede")));
+
+                      string res3 = GetStringAttribute(js, "One");
+                      res3.Should().Be("Dede");
+
+                      Thread.Sleep(100);
+
+                      datacontext.One.Should().Be(p1);
+                  }
+              };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse_NoReset_OnAttribute()
+        {
+            var datacontext = new Couple();
+            var p1 = new Person() { Name = "David" };
+            datacontext.One = p1;
+            var p2 = new Person() { Name = "Claudia" };
+            datacontext.Two = p2;
+
+            var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
+                      CefV8Value res1 = GetAttribute(js, "One");
+                      res1.Should().NotBeNull();
+                      string n1 = GetStringAttribute(res1, "Name");
+                      n1.Should().Be("David");
+
+                      CefV8Value res2 = GetAttribute(js, "Two");
+                      res2.Should().NotBeNull();
+                      string n2 = GetStringAttribute(res2, "Name");
+                      n2.Should().Be("Claudia");
+
+                      DoSafe(() => Call(js, "One", CefV8Value.CreateObject(null)));
+
+                      CefV8Value res3 = GetAttribute(js, "One");
+                      res3.IsObject.Should().BeTrue();
+
+                      Thread.Sleep(100);
+
+                      datacontext.One.Should().Be(p1);
+                  }
+              };
+            await RunAsync(test);
+        }
+
+
+
+
+        private void Check(CefV8Value[] coll, IList<Skill> iskill)
+        {
+            coll.Length.Should().Be(iskill.Count);
+            coll.ForEach((c, i) =>
+                            {
+                                (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(iskill[i].Name);
+                                (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(iskill[i].Type);
+                            });
+
+        }
+
+        private class ViewModelTest : ViewModelBase
+        {
+            private ICommand _ICommand;
+            public ICommand Command { get { return _ICommand; } set { Set(ref _ICommand, value, "Command"); } }
+
+            public string Name { get { return "NameTest"; } }
+
+            public string UselessName { set { } }
+
+            public void InconsistentEventEmit()
+            {
+                this.OnPropertyChanged("NonProperty");
+            }
+        }
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_Property_Test()
+        {
+            var command = Substitute.For<ICommand>();
+            var datacontexttest = new ViewModelTest() { Command = command };
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    string res = GetStringAttribute(js, "Name");
+                    res.Should().Be("NameTest");
+
+                    DoSafe(() => Call(js, "Name", CefV8Value.CreateString("NewName")));
+                    res = GetStringAttribute(js, "Name");
+                    res.Should().Be("NewName");
+
+                    Thread.Sleep(100);
+                    datacontexttest.Name.Should().Be("NameTest");
+
+                    bool resf = GetSafe(() => js.HasValue("UselessName"));
+                    resf.Should().BeFalse();
+
+                    Action Safe = () => datacontexttest.InconsistentEventEmit();
+
+                    Safe.ShouldNotThrow("Inconsistent Name in property should not throw exception");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_Basic()
+        {
+            var command = Substitute.For<ICommand>();
+            var datacontexttest = new ViewModelTest() { Command = command };
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+
+                    var mycommand = js.Attributes["Command"] as JSCommand;
+                    mycommand.Should().NotBeNull();
+                    mycommand.ToString().Should().Be("{}");
+                    mycommand.Type.Should().Be(JSCSGlueType.Command);
+                    mycommand.MappedJSValue.Should().NotBeNull();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command()
+        {
+            var command = Substitute.For<ICommand>();
+            var datacontexttest = new ViewModelTest() { Command = command };
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    DoSafe(()=> Call(mycommand,"Execute"));
+                    Thread.Sleep(100);
+                    command.Received().Execute(Arg.Any<object>());
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command()

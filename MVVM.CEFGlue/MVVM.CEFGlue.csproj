@@ -132,6 +132,7 @@
     <Compile Include="HTMLApp.cs" />
     <Compile Include="HTMLWindow.cs" />
     <Compile Include="HTMLViewControl.cs" />
+    <Compile Include="Infra\NullUIDispatcher.cs" />
     <Compile Include="Infra\VM\BasicRelayCommand.cs" />
     <Compile Include="Infra\DictionaryExtension.cs" />
     <Compile Include="Infra\TypeExtension.cs" />
@@ -183,7 +184,7 @@
     <Content Include="Javascript\knockout-delegatedEvents.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="app.config" />
+    <None Include="Control\app.config" />
     <None Include="Navigation\javascript\ko-view.min.js.map">
       <DependentUpon>ko-view.min.js</DependentUpon>
     </None>

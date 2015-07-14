@@ -9,5 +9,7 @@ namespace CefGlue.Window
     public interface IUIDispatcher
     {
         Task RunAsync(Action act);
+
+        void Run(Action act);
     }
 }

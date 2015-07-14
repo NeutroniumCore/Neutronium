@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Xilium.CefGlue;
+using Xilium.CefGlue.WPF;
 
 namespace MVVM.CEFGlue
 {
@@ -19,7 +20,7 @@ namespace MVVM.CEFGlue
             {
                 if (CefCoreSessionSingleton.Session==null)
                 {
-                    CefCoreSessionSingleton.GetAndInitIfNeeded(settings);
+                    CefCoreSessionSingleton.GetAndInitIfNeeded(new WPFUIDispatcher(this.Dispatcher),settings);
                 }
                 else
                 {

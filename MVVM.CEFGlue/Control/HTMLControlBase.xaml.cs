@@ -69,7 +69,7 @@ namespace MVVM.CEFGlue
         {
             if ((_CefCoreSession==null) && !DesignerProperties.GetIsInDesignMode(this))
             {
-                _CefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded();
+                _CefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded(new WPFUIDispatcher(this.Dispatcher));
             }
      
             _IUrlSolver = iIUrlSolver;
