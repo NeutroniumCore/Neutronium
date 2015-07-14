@@ -798,6 +798,30 @@ namespace MVVM.CEFGlue.Test
               await RunAsync(test);
           }
 
+          [Fact]
+          public async Task Test_HTMLBinding_Basic_TwoWay_Command_Basic()
+          {
+              var command = Substitute.For<ICommand>();
+              var datacontexttest = new ViewModelTest() { Command = command };
+
+              var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+
+                      var mycommand = js.Attributes["Command"] as JSCommand;
+                      mycommand.Should().NotBeNull();
+                      mycommand.ToString().Should().Be("{}");
+                      mycommand.Type.Should().Be(JSCSGlueType.Command);
+                      mycommand.MappedJSValue.Should().NotBeNull();
+                  }
+              };
+
+              await RunAsync(test);
+          }
+
       
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_Basic()
