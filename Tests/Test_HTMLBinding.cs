@@ -734,112 +734,71 @@ namespace MVVM.CEFGlue.Test
              await RunAsync(test);
          }
 
-
        
 
-        //[Fact]
-        //public void Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse_NoReset_OnAttribute()
-        //{
-        //    using (Tester())
-        //    {
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+          private void Check(CefV8Value[] coll, IList<Skill> iskill)
+          {
+              coll.Length.Should().Be(iskill.Count);
+              coll.ForEach((c, i) =>
+                              {
+                                  (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(iskill[i].Name);
+                                  (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(iskill[i].Type);
+                              });
 
-        //        var datacontext = new Couple();
-        //        var p1 = new Person() { Name = "David" };
-        //        datacontext.One = p1;
-        //        var p2 = new Person() { Name = "Claudia" };
-        //        datacontext.Two = p2;
+          }
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+          private class ViewModelTest : ViewModelBase
+          {
+              private ICommand _ICommand;
+              public ICommand Command { get { return _ICommand; } set { Set(ref _ICommand, value, "Command"); } }
 
-        //            JSValue res1 = GetSafe(() => Get(js, "One"));
-        //            res1.Should().NotBeNull();
-        //            var n1 = GetSafe(() => Get(res1, "Name"));
-        //            ((string)n1).Should().Be("David");
+              public string Name { get { return "NameTest"; } }
 
-        //            JSValue res2 = GetSafe(() => Get(js, "Two"));
-        //            res2.Should().NotBeNull();
-        //            var n2 = GetSafe(() => Get(res2, "Name"));
-        //            ((string)n2).Should().Be("Claudia");
+              public string UselessName { set { } }
 
-        //            DoSafe(() => js.Invoke("One", new JSValue(new JSObject())));
+              public void InconsistentEventEmit()
+              {
+                  this.OnPropertyChanged("NonProperty");
+              }
+          }
 
-        //            JSValue res3 = GetSafe(() => Get(js, "One"));
-        //            res3.IsObject.Should().BeTrue();
+          [Fact]
+          public async Task Test_HTMLBinding_Basic_Property_Test()
+          {
+              var command = Substitute.For<ICommand>();
+              var datacontexttest = new ViewModelTest() { Command = command };
 
-        //            Thread.Sleep(100);
+              var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
 
-        //            datacontext.One.Should().Be(p1);
-        //        }
-        //    }
-        //}
+                      string res = GetStringAttribute(js, "Name");
+                      res.Should().Be("NameTest");
 
+                      DoSafe(() => Call(js, "Name", CefV8Value.CreateString("NewName")));
+                      res = GetStringAttribute(js, "Name");
+                      res.Should().Be("NewName");
 
-        //private void Check(CefV8Value[] coll, IList<Skill> iskill)
-        //{
-        //    coll.Length.Should().Be(iskill.Count);
-        //    coll.ForEach((c, i) =>
-        //                    {
-        //                        ((string)(GetSafe(() => Get(c, "Name")))).Should().Be(iskill[i].Name);
-        //                        ((string)(GetSafe(() => Get(c, "Type")))).Should().Be(iskill[i].Type);
-        //                    });
+                      Thread.Sleep(100);
+                      datacontexttest.Name.Should().Be("NameTest");
 
-        //}
+                      bool resf = GetSafe(() => js.HasValue("UselessName"));
+                      resf.Should().BeFalse();
 
-        //private class ViewModelTest : ViewModelBase
-        //{
-        //    private ICommand _ICommand;
-        //    public ICommand Command { get { return _ICommand; } set { Set(ref _ICommand, value, "Command"); } }
+                      Action Safe = () => datacontexttest.InconsistentEventEmit();
 
-        //    public string Name { get { return "NameTest"; } }
+                      Safe.ShouldNotThrow("Inconsistent Name in property should not throw exception");
+                  }
+              };
 
-        //    public string UselessName { set { } }
+              await RunAsync(test);
+          }
 
-        //    public void InconsistentEventEmit()
-        //    {
-        //        this.OnPropertyChanged("NonProperty");
-        //    }
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_Property_Test()
-        //{
-        //    using (Tester())
-        //    {
-        //        var command = Substitute.For<ICommand>();
-        //        var datacontexttest = new ViewModelTest() { Command = command };
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontexttest, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => js.Invoke("Name"));
-        //            res.Should().NotBeNull();
-        //            ((string)res).Should().Be("NameTest");
-
-        //            res = GetSafe(() => js.Invoke("Name", "NewName"));
-        //            res = GetSafe(() => js.Invoke("Name"));
-        //            res.Should().NotBeNull();
-        //            ((string)res).Should().Be("NewName");
-
-        //            Thread.Sleep(100);
-        //            datacontexttest.Name.Should().Be("NameTest");
-
-        //            bool resf = GetSafe(() => js.HasProperty("UselessName"));
-        //            resf.Should().BeFalse();
-
-        //            Action Safe = () => datacontexttest.InconsistentEventEmit();
-
-        //            Safe.ShouldNotThrow("Inconsistent Name in property should not throw exception");
-
-        //        }
-        //    }
-        //}
-
+      
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_Basic()
         //{
