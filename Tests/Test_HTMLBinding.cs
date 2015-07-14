@@ -562,35 +562,59 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
          }
 
-        //[Fact]
-        //public void Test_HTMLBinding_TwoWay_Enum_NotMapped()
-        //{
-        //    using (Tester())
-        //    {
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+         [Fact]
+         public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt()
+         {
+             var datacontext = new Couple();
+             var p1 = new Person() { Name = "David" };
+             datacontext.One = p1;
+             var p2 = new Person() { Name = "Claudia" };
+             datacontext.Two = p2;
 
-        //        var datacontext = new SimplePerson();
-        //        datacontext.PersonalState = PersonalState.Single;
+             var test = new TestInContext()
+               {
+                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                   Test = (mb) =>
+                   {
+                       var js = mb.JSRootObject;
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                       CefV8Value res1 = GetAttribute(js, "One");
+                       string n1 = GetStringAttribute(res1, "Name");
+                       n1.Should().Be("David");
 
-        //            JSValue res = GetSafe(() => Get(js, "PersonalState"));
-        //            JSValue dres = GetSafe(() => ((JSObject)res)["displayName"]);
-        //            ((string)dres).Should().Be("Single");
+                       CefV8Value res2 = GetAttribute(js, "Two");
+                       res2.Should().NotBeNull();
+                       var n2 = GetStringAttribute(res2, "Name");
+                       n2.Should().Be("Claudia");
 
-        //            datacontext.PersonalState = PersonalState.Married;
-        //            Thread.Sleep(50);
+                       DoSafe(() => Call(js, "One", () => GetAttribute(js, "Two")));
+                       Thread.Sleep(100);
 
-        //            res = GetSafe(() => Get(js, "PersonalState"));
-        //            dres = GetSafe(() => ((JSObject)res)["displayName"]);
-        //            ((string)dres).Should().Be("Married");
-        //        }
-        //    }
-        //}
+                       CefV8Value res3 =  GetAttribute(js, "One");
+                       res3.Should().NotBeNull();
+                       string n3 =GetStringAttribute(res3, "Name");
+                       n3.Should().Be("Claudia");
+
+                       Thread.Sleep(100);
+
+                       datacontext.One.Should().Be(p2);
+
+                       CefV8Value res4 = GetAttribute(res3, "ChildrenNumber");
+                       res4.IsNull.Should().BeTrue();
+
+                       //CefV8Value five = get new JSValue(5);
+                       DoSafe(() =>  Call(res3,"ChildrenNumber", CefV8Value.CreateInt(5)));
+                       Thread.Sleep(100);
+
+                       datacontext.One.ChildrenNumber.Should().Be(5);
+                   }
+               };
+
+             await RunAsync(test);
+         }
+
+    
 
         //[Fact]
         //public void Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt()
