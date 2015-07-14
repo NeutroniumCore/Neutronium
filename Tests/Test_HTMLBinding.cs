@@ -917,6 +917,35 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
+          [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_Uptate_From_Null()
+        {
+            var command = Substitute.For<ICommand>();
+            command.CanExecute(Arg.Any<object>()).Returns(true);
+            var datacontexttest = new ViewModelTest();
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    mycommand.IsNull.Should().BeTrue();
+
+                    DoSafe(() => datacontexttest.Command = command);
+                    Thread.Sleep(200);
+
+                    mycommand = GetAttribute(js, "Command");
+                    DoSafe(() => Call(mycommand, "Execute", js));
+                    Thread.Sleep(100);
+                    command.Received().Execute(datacontexttest);
+                }
+            };
+            await RunAsync(test);
+          }
+
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_Uptate_From_Null()
