@@ -657,48 +657,48 @@ namespace MVVM.CEFGlue.Test
              await RunAsync(test);
          }
 
+          [Fact]
+         public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse()
+         {
+             var datacontext = new Couple();
+             var p1 = new Person() { Name = "David" };
+             datacontext.One = p1;
+             var p2 = new Person() { Name = "Claudia" };
+             datacontext.Two = p2;
+
+             var test = new TestInContext()
+               {
+                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                   Test = (mb) =>
+                   {
+                       var js = mb.JSRootObject;
+                       CefV8Value res1 = GetAttribute(js, "One");
+                       res1.Should().NotBeNull();
+                       string n1 = GetStringAttribute(res1, "Name");
+                       n1.Should().Be("David");
+
+                       CefV8Value res2 = GetAttribute(js, "Two");
+                       res2.Should().NotBeNull();
+                       string n2 = GetStringAttribute(res2, "Name");
+                       n2.Should().Be("Claudia");
+
+                       DoSafe(() => Call(js, "One", CefV8Value.CreateString("Dede")));
+
+                       string res3 = GetStringAttribute(js, "One");
+                       res3.Should().Be("Dede");
+
+                       Thread.Sleep(100);
+
+                       datacontext.One.Should().Be(p1);
+                   }
+               };
+
+                await RunAsync(test);
+          }
 
 
-        //[Fact]
-        //public void Test_HTMLBinding_TwoWay_Set_Null_From_Javascipt()
-        //{
-        //    using (Tester())
-        //    {
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        var datacontext = new Couple();
-        //        var p1 = new Person() { Name = "David" };
-        //        datacontext.One = p1;
-        //        var p2 = new Person() { Name = "Claudia" };
-        //        datacontext.Two = p2;
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res1 = GetSafe(() => Get(js, "One"));
-        //            res1.Should().NotBeNull();
-        //            var n1 = GetSafe(() => Get(res1, "Name"));
-        //            ((string)n1).Should().Be("David");
-
-        //            JSValue res2 = GetSafe(() => Get(js, "Two"));
-        //            res2.Should().NotBeNull();
-        //            var n2 = GetSafe(() => Get(res2, "Name"));
-        //            ((string)n2).Should().Be("Claudia");
-
-        //            DoSafe(() => js.Invoke("One", JSValue.Null));
-
-        //            JSValue res3 = GetSafe(() => Get(js, "One"));
-        //            res3.IsNull.Should().BeTrue();
-
-        //            Thread.Sleep(100);
-
-        //            datacontext.One.Should().BeNull();
-        //        }
-        //    }
-        //}
+       
 
         //[Fact]
         //public void Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt_Survive_MissUse()
