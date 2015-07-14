@@ -946,60 +946,38 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
           }
 
+        #region SimpleCommand
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_Uptate_From_Null()
-        //{
-        //    using (Tester())
-        //    {
-        //        var command = Substitute.For<ICommand>();
-        //        command.CanExecute(Arg.Any<object>()).Returns(true);
-        //        var test = new ViewModelTest();
+          private class ViewModelSimpleCommandTest : ViewModelBase
+          {
+              private ISimpleCommand _ICommand;
+              public ISimpleCommand SimpleCommand { get { return _ICommand; } set { Set(ref _ICommand, value, "SimpleCommand"); } }
+          }
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, test, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
 
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("Command"));
+          [Fact]
+          public async Task Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Without_Parameter()
+          {
+              var command = Substitute.For<ISimpleCommand>();
+              var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
 
-        //            DoSafe(() => test.Command = command);
-        //            Thread.Sleep(200);
+              var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
+                      CefV8Value mycommand = GetAttribute(js, "SimpleCommand");
+                      DoSafe(() => Call(mycommand, "Execute"));
+                      Thread.Sleep(100);
+                      command.Received().Execute(null);
+                  }
+              };
 
-        //            mycommand = (JSObject)GetSafe(() => js.Invoke("Command"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("Execute", js));
-        //            Thread.Sleep(100);
-        //            command.Received().Execute(test);
-        //        }
-        //    }
-        //}
+              await RunAsync(test);
+          }
 
-        //#region SimpleCommand
-
-        //private class ViewModelSimpleCommandTest : ViewModelBase
-        //{
-        //    private ISimpleCommand _ICommand;
-        //    public ISimpleCommand SimpleCommand { get { return _ICommand; } set { Set(ref _ICommand, value, "SimpleCommand"); } }
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Without_Parameter()
-        //{
-        //    using (Tester())
-        //    {
-        //        var command = Substitute.For<ISimpleCommand>();
-        //        var test = new ViewModelSimpleCommandTest() { SimpleCommand = command };
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, test, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("SimpleCommand"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("Execute"));
-        //            Thread.Sleep(100);
-        //            command.Received().Execute(null);
-        //        }
-        //    }
-        //}
+        
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_SimpleCommand_With_Parameter()
@@ -1038,7 +1016,7 @@ namespace MVVM.CEFGlue.Test
         //    }
         //}
 
-        //#endregion
+        #endregion
 
         //private void CheckIntValue(JSObject js, string pn, int value)
         //{
