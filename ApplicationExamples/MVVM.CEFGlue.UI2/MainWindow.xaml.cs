@@ -1,5 +1,4 @@
-﻿using Awesomium.Core;
-using MVVM.CEFGlue.HTMLBinding;
+﻿using MVVM.CEFGlue.HTMLBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
