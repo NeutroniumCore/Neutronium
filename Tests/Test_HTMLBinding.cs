@@ -1023,18 +1023,48 @@ namespace MVVM.CEFGlue.Test
 
         #endregion
 
-        //private void CheckIntValue(JSObject js, string pn, int value)
-        //{
-        //    JSValue res = GetSafe(() => js.Invoke(pn));
-        //    res.Should().NotBeNull();
-        //    res.IsNumber.Should().BeTrue();
-        //    ((int)res).Should().Be(0);
-        //}
+          private void CheckIntValue(CefV8Value js, string pn, int value)
+          {
+              CefV8Value res = GetAttribute(js,pn);
+              res.Should().NotBeNull();
+              res.IsInt.Should().BeTrue();
+              res.GetIntValue().Should().Be(0);
+          }
 
-        //private void SetValue(JSObject js, string pn, JSValue value)
-        //{
-        //    DoSafe(() => js.Invoke(pn, value));
-        //}
+
+         [Fact]
+          public async Task Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromCtojavascript()
+          {
+              var command = Substitute.For<ISimpleCommand>();
+              var datacontext = new ViewModelCLRTypes();
+
+              var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                      var js = mb.JSRootObject;
+                      js.Should().NotBeNull();
+
+                      CheckIntValue(js, "int64", 0);
+                      CheckIntValue(js, "int32", 0);
+                      CheckIntValue(js, "int16", 0);
+
+                      CheckIntValue(js, "uint16", 0);
+                      CheckIntValue(js, "uint32", 0);
+                      CheckIntValue(js, "uint64", 0);
+
+                      //CheckIntValue(js, "Char", 0);
+                      CheckIntValue(js, "Double", 0);
+                      CheckIntValue(js, "Decimal", 0);
+                      CheckIntValue(js, "Float", 0);
+                  }
+              };
+
+              await RunAsync(test);
+          }
+
+
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromCtojavascript()
@@ -2305,6 +2335,14 @@ namespace MVVM.CEFGlue.Test
         //    }
         //}
     }
+
+
+
+  
+    //private void SetValue(JSObject js, string pn, JSValue value)
+    //{
+    //    DoSafe(() => js.Invoke(pn, value));
+    //}
 
     //[Fact]
     //public void Test_HTMLBinding_Basic_TwoWay_TimeOut()
