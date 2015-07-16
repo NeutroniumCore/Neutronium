@@ -999,23 +999,27 @@ namespace MVVM.CEFGlue.Test
               await RunAsync(test);
           }
 
-        
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Name()
-        //{
-        //    using (Tester())
-        //    {
-        //        var command = Substitute.For<ISimpleCommand>();
-        //        var test = new ViewModelSimpleCommandTest() { SimpleCommand = command };
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, test, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+          [Fact]
+          public async Task Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Name()
+          {
+              var command = Substitute.For<ISimpleCommand>();
+              var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
 
-        //            mb.ToString().Should().Be(@"{""SimpleCommand"":{}}");
-        //        }
-        //    }
-        //}
+              var test = new TestInContext()
+              {
+                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                  Test = (mb) =>
+                  {
+                   
+                      mb.ToString().Should().Be(@"{""SimpleCommand"":{}}");
+                  }
+              };
+
+              await RunAsync(test);
+          }
+
+   
 
         #endregion
 
