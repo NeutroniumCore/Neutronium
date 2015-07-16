@@ -14,7 +14,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public static bool IsUnsigned(Type iTargetType)
         {
-            return (iTargetType != null) || (iTargetType == typeof(UInt16)) || (iTargetType == typeof(UInt32)) || (iTargetType == typeof(UInt64));
+            return (iTargetType != null) && ((iTargetType == typeof(UInt16)) || (iTargetType == typeof(UInt32)) || (iTargetType == typeof(UInt64)));
         }
 
         public bool GetSimpleValue(CefV8Value ijsvalue, out object res, Type iTargetType = null)

@@ -1065,35 +1065,75 @@ namespace MVVM.CEFGlue.Test
           }
 
 
+         private void SetValue(CefV8Value js, string pn, CefV8Value value)
+         {
+             this.Call(js, pn, value);
+             //DoSafe(() => js.Invoke(pn, value));
+         }
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromCtojavascript()
-        //{
-        //    using (Tester())
-        //    {
-        //        var datacontext = new ViewModelCLRTypes();
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-        //            js.Should().NotBeNull();
+         [Fact]
+         public async Task Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromjavascripttoCto()
+         {
+             var command = Substitute.For<ISimpleCommand>();
+             var datacontext = new ViewModelCLRTypes();
 
-        //            CheckIntValue(js, "int64", 0);
-        //            CheckIntValue(js, "int32", 0);
-        //            CheckIntValue(js, "int16", 0);
+             var test = new TestInContext()
+             {
+                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                 Test = (mb) =>
+                 {
+                     var js = mb.JSRootObject;
+                     js.Should().NotBeNull();
 
-        //            CheckIntValue(js, "uint16", 0);
-        //            CheckIntValue(js, "uint32", 0);
-        //            CheckIntValue(js, "uint64", 0);
+                     SetValue(js, "int64", CefV8Value.CreateInt (32));
+                     Thread.Sleep(200);
+                     datacontext.int64.Should().Be(32);
 
-        //            CheckIntValue(js, "Char", 0);
-        //            CheckIntValue(js, "Double", 0);
-        //            CheckIntValue(js, "Decimal", 0);
-        //            CheckIntValue(js, "Float", 0);
-        //        }
-        //    }
-        //}
+                     SetValue(js, "uint64", CefV8Value.CreateInt (456));
+                     Thread.Sleep(200);
+                     datacontext.uint64.Should().Be(456);
 
+                     SetValue(js, "int32", CefV8Value.CreateInt (5));
+                     Thread.Sleep(200);
+                     datacontext.int32.Should().Be(5);
+
+                     SetValue(js, "uint32", CefV8Value.CreateInt (67));
+                     Thread.Sleep(200);
+                     datacontext.uint32.Should().Be(67);
+
+                     SetValue(js, "int16", CefV8Value.CreateInt (-23));
+                     Thread.Sleep(200);
+                     datacontext.int16.Should().Be(-23);
+
+                     SetValue(js, "uint16", CefV8Value.CreateInt (9));
+                     Thread.Sleep(200);
+                     datacontext.uint16.Should().Be(9);
+
+                     SetValue(js, "Float", CefV8Value.CreateDouble(888.78));
+                     Thread.Sleep(200);
+                     datacontext.Float.Should().Be(888.78f);
+
+                     //SetValue(js, "Char", 128);
+                     //Thread.Sleep(200);
+                     //datacontext.Char.Should().Be((char)128);
+
+                     SetValue(js, "Double", CefV8Value.CreateDouble(866.76));
+                     Thread.Sleep(200);
+                     datacontext.Double.Should().Be(866.76);
+
+                     SetValue(js, "Decimal", CefV8Value.CreateDouble(0.5));
+                     Thread.Sleep(200);
+                     datacontext.Decimal.Should().Be(0.5m);
+                 }
+             };
+
+             await RunAsync(test);
+         }
+
+
+
+      
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromjavascripttoCto()
         //{
@@ -2338,12 +2378,7 @@ namespace MVVM.CEFGlue.Test
 
 
 
-  
-    //private void SetValue(JSObject js, string pn, JSValue value)
-    //{
-    //    DoSafe(() => js.Invoke(pn, value));
-    //}
-
+ 
     //[Fact]
     //public void Test_HTMLBinding_Basic_TwoWay_TimeOut()
     //{

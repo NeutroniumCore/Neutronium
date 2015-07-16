@@ -31,12 +31,7 @@ namespace MVVM.CEFGlue.UI.Navigation
 
 
         public MainWindow()
-        {
-            WebConfig webC = new WebConfig();
-            webC.RemoteDebuggingPort = 8001;
-            webC.RemoteDebuggingHost = "127.0.0.1";
-            WebCore.Initialize(webC);
-
+        {      
             InitializeComponent();
 
             HTMLWindow.UseINavigable = true;
