@@ -1,5 +1,4 @@
-﻿using Awesomium.Core;
-using MVVM.CEFGlue.ViewModel.Example;
+﻿using MVVM.CEFGlue.ViewModel.Example;
 using MVVM.CEFGlue.Infra;
 using System;
 using System.Collections.Generic;

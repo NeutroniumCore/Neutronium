@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MVVM.CEFGlue;
-using Awesomium.Core;
+
 
 namespace MVVM.Navigation2
 {
