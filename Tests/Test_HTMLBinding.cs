@@ -1131,64 +1131,40 @@ namespace MVVM.CEFGlue.Test
              await RunAsync(test);
          }
 
+         [Fact]
+         public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok()
+         {
+             bool canexecute = true;
+             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
 
 
-      
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromjavascripttoCto()
-        //{
-        //    using (Tester())
-        //    {
-        //        var datacontext = new ViewModelCLRTypes();
+             var test = new TestInContext()
+             {
+                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                 Test = (mb) =>
+                 {
+                     var js = mb.JSRootObject;
+                     CefV8Value mycommand = GetAttribute(js,"TestCommand");
+                     bool res = GetBoolAttribute(mycommand,"CanExecuteValue");
+                     res.Should().BeTrue();
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-        //            js.Should().NotBeNull();
+                     canexecute = false;
+                     _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
 
-        //            SetValue(js, "int64", 32);
-        //            Thread.Sleep(200);
-        //            datacontext.int64.Should().Be(32);
+                     Thread.Sleep(100);
 
-        //            SetValue(js, "uint64", 456);
-        //            Thread.Sleep(200);
-        //            datacontext.uint64.Should().Be(456);
+                     mycommand = GetAttribute(js, "TestCommand");
+                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                     ((bool)res).Should().BeFalse();
+                 }
+             };
 
-        //            SetValue(js, "int32", 5);
-        //            Thread.Sleep(200);
-        //            datacontext.int32.Should().Be(5);
+             await RunAsync(test);
+         }
 
-        //            SetValue(js, "uint32", 67);
-        //            Thread.Sleep(200);
-        //            datacontext.uint32.Should().Be(67);
 
-        //            SetValue(js, "int16", -23);
-        //            Thread.Sleep(200);
-        //            datacontext.int16.Should().Be(-23);
 
-        //            SetValue(js, "uint16", 9);
-        //            Thread.Sleep(200);
-        //            datacontext.uint16.Should().Be(9);
-
-        //            SetValue(js, "Float", 888.78);
-        //            Thread.Sleep(200);
-        //            datacontext.Float.Should().Be(888.78f);
-
-        //            SetValue(js, "Char", 128);
-        //            Thread.Sleep(200);
-        //            datacontext.Char.Should().Be((char)128);
-
-        //            SetValue(js, "Double", 66.76);
-        //            Thread.Sleep(200);
-        //            datacontext.Double.Should().Be(66.76);
-
-        //            SetValue(js, "Decimal", 0.5);
-        //            Thread.Sleep(200);
-        //            datacontext.Decimal.Should().Be(0.5m);
-
-        //        }
-        //    }
-        //}
+     
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok()
