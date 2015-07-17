@@ -1401,22 +1401,49 @@ namespace MVVM.CEFGlue.Test
 
 
 
-        //[Fact]
-        //public async Task Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable()
-        //{
-        //    var function = NSubstitute.Substitute.For<Func<int, int>>();
-        //    function.Invoke(Arg.Any<int>()).Returns(255);
-        //    var dc = new FakeFactory<int, int>(function);
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
+        {
+            string errormessage = "original error message";
+            var function = NSubstitute.Substitute.For<Func<int, int>>();
+            function.When(f => f.Invoke(Arg.Any<int>())).Do(_ => { throw new Exception(errormessage); });
+            var dc = new FakeFactory<int, int>(function);
+   
+            var test = new TestInContext()
+            {
+                Path = @"javascript\index_promise.html",
+                Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-        //    var test = new TestInContext()
-        //    {
-        //        Path = @"javascript\index_promise.html",
-        //        Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
-        //        Test = (mb) =>
-        //        {
-        //        }
-        //    };
-        //}
+
+                    CefV8Value mycommand = GetAttribute(js, "CreateObject");
+                    CefV8Exception ex = null;
+                    CefV8Value cb = null;
+                    bool res = _WebView.Context.TryEval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb, out ex);
+
+                    res.Should().BeTrue();
+                    ex.Should().BeNull();
+                    cb.Should().NotBeNull();
+                    cb.IsObject.Should().BeTrue();
+
+                    CefV8Value resdummy = this.CallWithRes(mycommand, "Execute", CefV8Value.CreateInt(25), cb);
+                    Thread.Sleep(200);
+                    function.Received(1).Invoke(25);
+                },
+                Then  = (mb) =>
+                {                  
+                       var error = _WebView.Context.GetGlobal().GetValue("err").GetStringValue();
+                       error.Should().Be(errormessage);
+
+                       CefV8Value resvalue = _WebView.Context.GetGlobal().GetValue("res");
+                       resvalue.IsUndefined.Should().BeTrue();
+                }
+            };
+
+            await RunAsync(test);
+        }
   
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
