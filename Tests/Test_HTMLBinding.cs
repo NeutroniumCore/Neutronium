@@ -738,15 +738,17 @@ namespace MVVM.CEFGlue.Test
 
 
 
-        private void Check(CefV8Value[] coll, IList<Skill> iskill)
+        private void Check(CefV8Value coll, IList<Skill> iskill)
         {
-            coll.Length.Should().Be(iskill.Count);
-            coll.ForEach((c, i) =>
-                            {
-                                (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(iskill[i].Name);
-                                (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(iskill[i].Type);
-                            });
+            coll.GetArrayLength().Should().Be(iskill.Count);
 
+            for (int i = 0; i < iskill.Count;i++ )
+            {
+               var c = coll.GetValue(i);
+
+                (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(iskill[i].Name);
+                (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(iskill[i].Type);
+            }
         }
 
         private class ViewModelTest : ViewModelBase
@@ -1444,104 +1446,133 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(test);
         }
+
+        private CefV8Value UnWrapCollection(CefV8Value root, string att)
+        {
+            return root.Invoke(att, this._WebView).ExecuteFunction();
+        }
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Collection()
+        {
   
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
-        //{
-        //    string errormessage = "original error message";
-        //    var function = NSubstitute.Substitute.For<Func<int, int>>();
-        //    function.When(f => f.Invoke(Arg.Any<int>())).Do(_ => { throw new Exception(errormessage); });
-        //    //function.Invoke(Arg.Any<int>()).Returns(255);
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-        //    var dc = new FakeFactory<int, int>(function);
-        //    using (Tester(@"javascript\index_promise.html"))
-        //    {
-        //        using (var mb = AwesomeBinding.Bind(_WebView, dc, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                    CefV8Value col = UnWrapCollection(js, "Skills");
+                    col.Should().NotBeNull();
+                    col.GetArrayLength().Should().Be(2);
 
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("CreateObject"));
-        //            var cb = (JSObject)GetSafe(() => _WebView.ExecuteJavascriptWithResult("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();"));
+                    Check(col, _DataContext.Skills);
 
-        //            JSValue resdummy = GetSafe(() => mycommand.Invoke("Execute", new JSValue(25), cb));
+                    _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
 
-        //            Thread.Sleep(200);
-        //            function.Received(1).Invoke(25);
-
-        //            var res = (JSValue)GetSafe(() => _WebView.ExecuteJavascriptWithResult("window.res"));
-        //            res.Should().Be(JSValue.Undefined);
-
-        //            var error = (JSValue)GetSafe(() => _WebView.ExecuteJavascriptWithResult("window.err"));
-        //            error.Should().NotBeNull();
-        //            ((string)error).Should().Be(errormessage);
-
-        //        }
-        //    }
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Collection()
-        //{
-        //    using (Tester())
-        //    {
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().Be(2);
-
-        //            Check(col, _DataContext.Skills);
-
-        //            _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
-
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+                    Thread.Sleep(100);
+                    col = UnWrapCollection(js, "Skills");
+                    col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
 
 
-        //            _DataContext.Skills.Insert(0, new Skill() { Name = "C#", Type = "Info" });
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+                    _DataContext.Skills.Insert(0, new Skill() { Name = "C#", Type = "Info" });
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
 
-        //            _DataContext.Skills.RemoveAt(1);
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+                    _DataContext.Skills.RemoveAt(1);
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
 
-        //            _DataContext.Skills[0] = new Skill() { Name = "HTML", Type = "Info" };
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+                    _DataContext.Skills[0] = new Skill() { Name = "HTML", Type = "Info" };
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
 
-        //            _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
-        //            _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+                    _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
+                    _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
 
 
-        //            _DataContext.Skills.Clear();
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+                    _DataContext.Skills.Clear();
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
 
-        //        }
-        //    }
-        //}
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Test_HTMLBinding_Stress_TwoWay_Collection()
+        {
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "Skills"));;
+                    col.GetArrayLength().Should().Be(2);
+
+                    Check(col, _DataContext.Skills);
+
+                    _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
+
+                    Thread.Sleep(150);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    Check(col, _DataContext.Skills);
+
+                    _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
+                    int iis = 500;
+                    for (int i = 0; i < iis; i++)
+                    {
+                        _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
+                    }
+
+                    bool notok = true;
+                    int tcount = _DataContext.Skills.Count;
+
+                    var stopWatch = new Stopwatch();
+                    stopWatch.Start();
+
+                    Thread.Sleep(10);
+
+                    while (notok)
+                    {
+                        col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                        notok = col.GetArrayLength() != tcount;
+                    }
+                    stopWatch.Stop();
+                    var ts = stopWatch.ElapsedMilliseconds;
+
+                    Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, iis);
+                    Check(col, _DataContext.Skills);
+
+                    //TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.5));
+                    TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.7));
+                            
+                }
+            };
+
+            await RunAsync(test);
+           }
+
+
 
         //[Fact]
         //public void Test_HTMLBinding_Stress_TwoWay_Collection()

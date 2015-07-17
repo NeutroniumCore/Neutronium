@@ -26,15 +26,10 @@ namespace MVVM.CEFGlue.HTMLBinding
 
             var res = _CefV8Context.Evaluate(() =>
             {
-                //_CefV8Context.Enter();
                 CefV8Value myres = CefV8Value.CreateArray(dest.Count);
                 dest.ForEach((el, i) => myres.SetValue(i, el));
-                //_CefV8Context.Exit();
                 return myres;
             });
-            //.Result;
-
-            //var res = CefV8Value.CreateArray(dest.Count);
 
             JSValue = res;
 
