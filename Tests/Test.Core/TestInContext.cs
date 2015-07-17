@@ -19,5 +19,6 @@ namespace MVVM.CEFGlue.Test
 
         public Action<IHTMLBinding> Test { get; set; }
 
+        public Action<IHTMLBinding> Then { get; set; }
     }
 }

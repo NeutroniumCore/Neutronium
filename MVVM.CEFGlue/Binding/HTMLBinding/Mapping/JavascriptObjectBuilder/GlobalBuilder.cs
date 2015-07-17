@@ -14,9 +14,9 @@ namespace MVVM.CEFGlue.HTMLBinding
     {
         private static uint _Count = 0;
         private string _NameScape;
-        private CefV8Context _CefV8Context;
+        private CefV8CompleteContext _CefV8Context;
 
-        public GlobalBuilder(CefV8Context iWebView, string iNameScape)
+        public GlobalBuilder(CefV8CompleteContext iWebView, string iNameScape)
         {
             _CefV8Context = iWebView;
             _NameScape = iNameScape;
@@ -25,29 +25,32 @@ namespace MVVM.CEFGlue.HTMLBinding
         public CefV8Value CreateJSO()
         {
             //string Name = string.Format("{0}_{1}", _NameScape, ++_Count);
-            return _CefV8Context.EvaluateAsync(() =>
+            return _CefV8Context.Evaluate(() =>
                 {
-                    _CefV8Context.Enter();
-                    var res = CefV8Value.CreateObject(null);
-                    res.SetValue("_globalId_", CefV8Value.CreateUInt(++_Count),CefV8PropertyAttribute.DontDelete);
+                    //using (_CefV8Context.Enter())
+                    //{
+                        var res = CefV8Value.CreateObject(null);
+                        res.SetValue("_globalId_", CefV8Value.CreateUInt(++_Count), CefV8PropertyAttribute.DontDelete);
                         //_CefV8Context.CreateGlobalJavascriptObject(Name);
-                    _CefV8Context.Exit();
-                    return res;
-                }).Result;
+                        //_CefV8Context.Exit();
+                        return res;
+                    //}
+                });
+            //.Result;
         }
 
 
         public uint GetID(CefV8Value iJSObject)
         {
-            return _CefV8Context.EvaluateInCreateContextAsync(() =>
-            {
-                return iJSObject.GetValue("_globalId_").GetUIntValue();
-            }).Result;
+            return _CefV8Context.Evaluate(() => iJSObject.GetValue("_globalId_").GetUIntValue());
+            //{
+            //    return iJSObject.GetValue("_globalId_").GetUIntValue();
+            //});
         }
 
         public uint CreateAndGetID(CefV8Value iJSObject)
         {
-            return _CefV8Context.EvaluateInCreateContextAsync(() =>
+            return _CefV8Context.Evaluate(() =>
             {
                 var value = iJSObject.GetValue("_globalId_");
                 if (value.IsUInt)
@@ -55,7 +58,8 @@ namespace MVVM.CEFGlue.HTMLBinding
 
                 iJSObject.SetValue("_globalId_", CefV8Value.CreateUInt(++_Count), CefV8PropertyAttribute.DontDelete);
                 return _Count;
-            }).Result;
+            });
+            //.Result;
         }
 
 

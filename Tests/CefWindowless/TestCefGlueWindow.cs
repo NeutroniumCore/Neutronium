@@ -1,4 +1,5 @@
 ﻿using CefGlue.Window;
+using MVVM.CEFGlue.CefGlueHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace MVVM.CEFGlue.Test.CefWindowless
     {
         private CefFrame _CefFrame;
         private CefV8Context _CefV8Context;
-        public TestCefGlueWindow(CefFrame iFrame, CefV8Context iContext )
+        public TestCefGlueWindow(CefFrame iFrame, CefV8CompleteContext iContext)
         {
             _CefFrame = iFrame;
-            _CefV8Context = iContext;
+            _CefV8Context = iContext.Context;
         }
 
         public CefFrame MainFrame

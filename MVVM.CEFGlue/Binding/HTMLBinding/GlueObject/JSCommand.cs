@@ -19,8 +19,8 @@ namespace MVVM.CEFGlue.HTMLBinding
     public class JSCommand : GlueBase, IJSObservableBridge
     {
         private int _Count = 1;
-        private CefV8Context _CefV8Context;
-        public JSCommand(CefV8Context iCefV8Context, IJSOBuilder builder,  ICommand  icValue)
+        private CefV8CompleteContext _CefV8Context;
+        public JSCommand(CefV8CompleteContext iCefV8Context, IJSOBuilder builder, ICommand icValue)
         {
             _CefV8Context = iCefV8Context;
             _Command = icValue;
@@ -32,15 +32,16 @@ namespace MVVM.CEFGlue.HTMLBinding
             }
             catch { }
 
-            JSValue = _CefV8Context.EvaluateAsync(() =>
+            JSValue = _CefV8Context.Evaluate(() =>
                 {
-                    _CefV8Context.Enter();
+                    //_CefV8Context.Enter();
                     CefV8Value res = builder.CreateJSO();
                     res.SetValue("CanExecuteValue", CefV8Value.CreateBool(canexecute),CefV8PropertyAttribute.None);
                     res.SetValue("CanExecuteCount", CefV8Value.CreateInt(_Count), CefV8PropertyAttribute.None); 
-                    _CefV8Context.Exit();
+                    //_CefV8Context.Exit();
                     return res;       
-                }).Result;
+                });
+            //.Result;
 
         }
 
@@ -54,14 +55,14 @@ namespace MVVM.CEFGlue.HTMLBinding
             _Command.CanExecuteChanged -= _Command_CanExecuteChanged;
         }
 
-        private void _Command_CanExecuteChanged(object sender, EventArgs e)
+        private async void _Command_CanExecuteChanged(object sender, EventArgs e)
         {
             _Count = (_Count == 1) ? 2 : 1;
-            this._CefV8Context.RunInContextAsync(() =>
+            this._CefV8Context.RunAsync(() =>
             {
-                _CefV8Context.Enter();
+                //_CefV8Context.Enter();
                 _MappedJSValue.Invoke("CanExecuteCount", _CefV8Context,CefV8Value.CreateInt(_Count));
-                _CefV8Context.Exit();
+                //_CefV8Context.Exit();
             });
             //WebCore.QueueWork(() =>
             //        ((JSObject)_MappedJSValue).InvokeAsync("CanExecuteCount", new JSValue(_Count))

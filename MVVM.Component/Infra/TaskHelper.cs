@@ -8,27 +8,10 @@ namespace MVVM.Component.Infra
 {
     public static class TaskHelper
     {
-        public static Task<object> Convert<T>(this Task<T> task)
+        public static async Task<object> Convert<T>(this Task<T> task)
         {
-            TaskCompletionSource<object> res = new TaskCompletionSource<object>();
-
-            return task.ContinueWith(t =>
-            {
-                if (t.IsCanceled)
-                {
-                    res.TrySetCanceled();
-                }
-                else if (t.IsFaulted)
-                {
-                    res.TrySetException(t.Exception);
-                }
-                else
-                {
-                    res.TrySetResult(t.Result);
-                }
-                return res.Task;
-            }
-            , TaskContinuationOptions.ExecuteSynchronously).Unwrap();
+            T res = await task;
+            return res;
         }
     }
 }

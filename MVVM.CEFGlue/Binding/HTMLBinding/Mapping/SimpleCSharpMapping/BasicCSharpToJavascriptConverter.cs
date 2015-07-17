@@ -14,8 +14,8 @@ namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class BasicCSharpToJavascriptConverter
     {
-        private CefV8Context _CefV8Context;
-        internal BasicCSharpToJavascriptConverter(CefV8Context iContext)
+        private CefV8CompleteContext _CefV8Context;
+        internal BasicCSharpToJavascriptConverter(CefV8CompleteContext iContext)
         {
             _CefV8Context = iContext;
         }
@@ -69,14 +69,14 @@ namespace MVVM.CEFGlue.HTMLBinding
             }
 
           
-            res = _CefV8Context.EvaluateAsync(() =>
-                {  
-                    _CefV8Context.Enter();
-                    CefV8Value myres = conv(ifrom); 
-                    _CefV8Context.Exit();
-                    return myres;
+            res = _CefV8Context.Evaluate(() => conv(ifrom));
+                //{  
+                //    //_CefV8Context.Enter();
+                //    CefV8Value myres = conv(ifrom); 
+                //    //_CefV8Context.Exit();
+                //    return myres;
 
-                }).Result;
+                //}).Result;
 
            
             return true;

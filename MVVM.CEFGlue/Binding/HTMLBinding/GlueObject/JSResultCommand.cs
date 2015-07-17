@@ -14,8 +14,8 @@ namespace MVVM.CEFGlue.HTMLBinding
     public class JSResultCommand : GlueBase, IJSObservableBridge
     {
         private IResultCommand _JSResultCommand;
-        private CefV8Context _CefV8Context;
-        public JSResultCommand(CefV8Context ijsobject, IJSOBuilder builder, IResultCommand icValue)
+        private CefV8CompleteContext _CefV8Context;
+        public JSResultCommand(CefV8CompleteContext ijsobject, IJSOBuilder builder, IResultCommand icValue)
         {
             _CefV8Context = ijsobject;
             _JSResultCommand = icValue;
@@ -48,14 +48,12 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         private void SetResult(CefV8Value[] e, IJSCBridgeCache bridge, Task<object> resulttask)
         {
-            _CefV8Context.RunInContextAsync (() =>
+            _CefV8Context.RunAsync (() =>
                  {
                      if (e.Length < 2)
-                         return;
+                         return;       
 
-                    
-
-                     _CefV8Context.Enter(); 
+                     //_CefV8Context.Enter(); 
                      
                      CefV8Value promise = e[1];
                      if (!resulttask.IsFaulted)
@@ -73,7 +71,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                          promise.InvokeAsync("reject", _CefV8Context, CefV8Value.CreateString(error));
                      }
 
-                     _CefV8Context.Exit();
+                     //_CefV8Context.Exit();
                  });
         }
 

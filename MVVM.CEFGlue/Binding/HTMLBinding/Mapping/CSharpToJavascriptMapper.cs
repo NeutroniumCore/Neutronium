@@ -21,8 +21,8 @@ namespace MVVM.CEFGlue.HTMLBinding
         private readonly IJSOLocalBuilder _IJSOBuilder;
         private readonly IJSCBridgeCache _Cacher;
         private readonly BasicCSharpToJavascriptConverter _Basic;
-        private CefV8Context _CefV8Context;
-        public CSharpToJavascriptMapper(CefV8Context context,IJSOLocalBuilder Builder, IJSCBridgeCache icacher)
+        private CefV8CompleteContext _CefV8Context;
+        public CSharpToJavascriptMapper(CefV8CompleteContext context, IJSOLocalBuilder Builder, IJSCBridgeCache icacher)
         {
             _CefV8Context = context;
             _IJSOBuilder = Builder;
@@ -32,10 +32,13 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         internal IJSCSGlue Map(object ifrom, object iadditional = null)
         {
-            _CefV8Context.Enter();
-            var res = InternalMap(ifrom, iadditional);
-            _CefV8Context.Exit();
-            return res;
+            using (_CefV8Context.Enter())
+            {
+                return InternalMap(ifrom, iadditional);
+                //var res = InternalMap(ifrom, iadditional);
+                //_CefV8Context.Exit();
+                //return res;
+            }
         }
 
         private IJSCSGlue InternalMap(object ifrom, object iadditional=null)
@@ -51,7 +54,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             }
 
             if (ifrom is ICommand)
-                return new JSCommand(_CefV8Context,_IJSOBuilder, ifrom as ICommand);
+                return new JSCommand(_CefV8Context, _IJSOBuilder, ifrom as ICommand);
 
             if (ifrom is ISimpleCommand)
                 return new JSSimpleCommand(_CefV8Context, _IJSOBuilder, ifrom as ISimpleCommand);
@@ -112,10 +115,11 @@ namespace MVVM.CEFGlue.HTMLBinding
 
                 IJSCSGlue childres = InternalMap(childvalue);
 
-                _CefV8Context.CreateInContextAsync(() =>
-                    {
-                        resobject.SetValue(pn, childres.JSValue, CefV8PropertyAttribute.None);
-                    }).Wait();
+                _CefV8Context.Run(() => resobject.SetValue(pn, childres.JSValue, CefV8PropertyAttribute.None));
+                    //{
+                    //    resobject.SetValue(pn, childres.JSValue, CefV8PropertyAttribute.None);
+                    //});
+                //.Wait();
                 gres.Attributes[pn] = childres;
             }
 

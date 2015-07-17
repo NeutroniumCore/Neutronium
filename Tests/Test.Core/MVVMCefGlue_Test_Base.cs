@@ -18,9 +18,9 @@ namespace MVVM.CEFGlue.Test
 {
     public abstract class MVVMCefGlue_Test_Base : IDisposable
     {
-        protected CefV8Context _WebView = null;
+        protected CefV8CompleteContext _WebView = null;
         protected TestCefGlueWindow _ICefGlueWindow = null;
-        private CefTaskRunner _CefTaskRunner;
+        //private CefTaskRunner _CefTaskRunner;
 
         public MVVMCefGlue_Test_Base()
         {
@@ -46,14 +46,15 @@ namespace MVVM.CEFGlue.Test
             public TestContext(MVVMCefGlue_Test_Base Father, string ipath)
             {
                 _Father = Father;
-                _Father._WebView = InitTask(ipath).Result;
-                _Father._CefTaskRunner = _Father._WebView.GetTaskRunner();
+                var cc = InitTask(ipath).Result;
+                _Father._WebView = cc;
+                //_Father._CefTaskRunner = cc.Runner;
                 //CefRuntime.MessageLoopWork();
             }
 
-            private Task<CefV8Context> InitTask(string ipath)
+            private Task<CefV8CompleteContext> InitTask(string ipath)
             {
-                TaskCompletionSource<CefV8Context> tcs = new TaskCompletionSource<CefV8Context>();
+                TaskCompletionSource<CefV8CompleteContext> tcs = new TaskCompletionSource<CefV8CompleteContext>();
                 Task.Run(() =>
                 {
                     CefCoreSessionSingleton.GetAndInitIfNeeded();
@@ -110,12 +111,24 @@ namespace MVVM.CEFGlue.Test
 
         internal Task RunInContext(Action act)
         {
-            return _CefTaskRunner.RunInContextAsync(() =>
-            {
-                this._WebView.Enter();
-                act();
-                this._WebView.Exit();
-            });
+            return _WebView.RunAsync(act);
+            //return _CefTaskRunner.RunInContextAsync(() =>
+            //{
+            //    this._WebView.Enter();
+            //    act();
+            //    this._WebView.Exit();
+            //});
+        }
+
+        internal Task DispatchInContext(Action act)
+        {
+            return _WebView.DispatchAsync(act);
+            //return _CefTaskRunner.RunInContextAsync(() =>
+            //{
+            //    this._WebView.Enter();
+            //    act();
+            //    this._WebView.Exit();
+            //});
         }
 
         protected async Task RunAsync(TestInContext test)
@@ -125,48 +138,59 @@ namespace MVVM.CEFGlue.Test
                 using (var mb = await test.Bind(_ICefGlueWindow))
                 {
                     await RunInContext(() => test.Test(mb));
+
+                    if (test.Then!=null)
+                    {
+                        Thread.Sleep(200);
+                        await DispatchInContext(() => test.Then(mb));
+                    }
                 }
             }
         }
 
         protected CefV8Value GetAttribute(CefV8Value value, string attibutename)
         {
-            return _WebView.EvaluateInCreateContextAsync(() => value.Invoke(attibutename, _WebView)).Result;
+            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView));
         }
 
         protected string GetStringAttribute(CefV8Value value, string attibutename)
         {
-            return _WebView.EvaluateInCreateContextAsync(() => value.Invoke(attibutename, _WebView).GetStringValue()).Result;
+            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetStringValue());
         }
 
         protected int GetIntAttribute(CefV8Value value, string attibutename)
         {
-            return _WebView.EvaluateInCreateContextAsync(() => value.Invoke(attibutename, _WebView).GetIntValue()).Result;
+            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetIntValue());
         }
 
         protected bool GetBoolAttribute(CefV8Value value, string attibutename)
         {
-            return _WebView.EvaluateInCreateContextAsync(() => value.Invoke(attibutename, _WebView).GetBoolValue()).Result;
+            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetBoolValue());
+        }
+
+        protected CefV8Value CallWithRes(CefV8Value value, string functionname, params CefV8Value[] parameter)
+        {
+            return _WebView.Evaluate(() => value.Invoke(functionname, _WebView, parameter));
         }
 
         protected void Call(CefV8Value value, string functionname, params CefV8Value[] parameter)
         {
-            _WebView.CreateInContextAsync(() => value.Invoke(functionname,_WebView,parameter)).Wait();
+            _WebView.Run(() => value.Invoke(functionname,_WebView,parameter));
         }
 
         protected void Call(CefV8Value value, string functionname, Func<IEnumerable<CefV8Value>> parameter)
         {
-            _WebView.CreateInContextAsync(() => value.Invoke(functionname, _WebView, parameter().ToArray())).Wait();
+            _WebView.Run(() => value.Invoke(functionname, _WebView, parameter().ToArray()));
         }
 
         protected void Call(CefV8Value value, string functionname, Func<CefV8Value> parameter)
         {
-            _WebView.CreateInContextAsync(() => value.Invoke(functionname, _WebView, parameter())).Wait();
+            _WebView.Run(() => value.Invoke(functionname, _WebView, parameter()));
         }
 
         protected void DoSafe(Action Doact)
         {
-            _WebView.CreateInContextAsync(Doact).Wait();
+            _WebView.Run(Doact);
         }
     
         public void Dispose()

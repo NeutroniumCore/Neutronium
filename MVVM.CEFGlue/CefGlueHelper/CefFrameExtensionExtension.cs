@@ -10,7 +10,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
 {
     public static class CefFrameExtensionExtension
     {
-        public static CefV8Context GetMainContext(this CefFrame @this)
+        public static CefV8CompleteContext GetMainContext(this CefFrame @this)
         {
             return CefCoreSessionSingleton.Session.CefApp.GetContext(@this);
         }

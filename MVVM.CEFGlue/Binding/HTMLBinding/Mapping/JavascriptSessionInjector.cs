@@ -13,13 +13,13 @@ namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class JavascriptSessionInjector : IDisposable
     {
-        private CefV8Context _CefV8Context;
+        private CefV8CompleteContext _CefV8Context;
         private IJSOBuilder _GlobalBuilder;
         private CefV8Value _Listener;
         private IJavascriptListener _IJavascriptListener;
 
 
-        internal JavascriptSessionInjector(CefV8Context iWebView, IJSOBuilder iGlobalBuilder, IJavascriptListener iJavascriptListener)
+        internal JavascriptSessionInjector(CefV8CompleteContext iWebView, IJSOBuilder iGlobalBuilder, IJavascriptListener iJavascriptListener)
         {
             _CefV8Context = iWebView;
             _GlobalBuilder = iGlobalBuilder;
@@ -99,7 +99,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         {
             if (_Ko == null)
             {
-                _Ko = _CefV8Context.GetGlobal().GetValue("ko");
+                _Ko = _CefV8Context.Context.GetGlobal().GetValue("ko");
                 if ((_Ko==null) || (!_Ko.IsObject))
                     throw ExceptionHelper.NoKo();
             }
@@ -110,7 +110,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public CefV8Value Map(CefV8Value ihybridobject, IJavascriptMapper ijvm, bool checknullvalue = true)
         {
-            return _CefV8Context.EvaluateInCreateContextAsync(() =>
+            return _CefV8Context.Evaluate(() =>
                 {
 
                     CefV8Value res = GetKo().Invoke("MapToObservable", _CefV8Context,ihybridobject, GetMapper(ijvm), _Listener);
@@ -119,7 +119,8 @@ namespace MVVM.CEFGlue.HTMLBinding
                         throw ExceptionHelper.NoKoExtension();
                     }
                     return res;
-                }).Result;
+                });
+            //.Result;
         }
 
         public void RegisterInSession(CefV8Value iJSObject)
@@ -143,7 +144,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             //        }
             //    });
 
-            _CefV8Context.RunInContextAsync(() =>
+            _CefV8Context.Run(() =>
             {
                 if (_Listener != null)
                 {

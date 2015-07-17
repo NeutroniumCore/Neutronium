@@ -22,6 +22,15 @@ namespace MVVM.CEFGlue.CefGlueHelper
             return actiontask.Task;
         }
 
+        public static Task DispatchAsync(this CefTaskRunner @this, Action actionToRun)
+        {
+            var actiontask = new CefTask_Action(actionToRun);
+            @this.PostTask(actiontask);
+            return actiontask.Task;
+        }
+
+        
+
         public static Task<T> EvaluateAsync<T>(this CefTaskRunner @this, Func<T> evaluate)
         {
             if (@this.BelongsToCurrentThread)

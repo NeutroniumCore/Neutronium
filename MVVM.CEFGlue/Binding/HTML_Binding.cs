@@ -21,9 +21,9 @@ namespace MVVM.CEFGlue
     {
         private BidirectionalMapper _BirectionalMapper;
         private Action _CleanUp;
-        private CefV8Context _CefV8Context;
+        private CefV8CompleteContext _CefV8Context;
 
-        private HTML_Binding(CefV8Context iContext, BidirectionalMapper iConvertToJSO, Action CleanUp = null)
+        private HTML_Binding(CefV8CompleteContext iContext, BidirectionalMapper iConvertToJSO, Action CleanUp = null)
         {
             _CefV8Context = iContext;
             _BirectionalMapper = iConvertToJSO;

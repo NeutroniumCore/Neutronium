@@ -19,5 +19,16 @@ namespace MVVM.CEFGlue.Infra
         {
             act();
         }
+
+
+        public Task<T> EvaluateAsync<T>(Func<T> compute)
+        {
+            return Task.FromResult<T>(compute());
+        }
+
+        public T Evaluate<T>(Func<T> compute)
+        {
+            return compute();
+        }
     }
 }

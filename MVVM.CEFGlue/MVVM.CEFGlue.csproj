@@ -108,6 +108,7 @@
     <Compile Include="Binding\IHTMLBinding.cs" />
     <Compile Include="Binding\IHTMLBindingFactory.cs" />
     <Compile Include="CefGlueHelper\CefTaskRunnerExtension.cs" />
+    <Compile Include="CefGlueHelper\CefV8CompleteContext.cs" />
     <Compile Include="CefGlueHelper\CefV8Handler_Action.cs" />
     <Compile Include="CefGlueHelper\CefV8Handler_Function.cs" />
     <Compile Include="CefGlueHelper\CefTask_Function.cs" />

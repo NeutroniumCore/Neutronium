@@ -13,8 +13,8 @@ namespace MVVM.CEFGlue.HTMLBinding
     public class JSSimpleCommand : GlueBase, IJSObservableBridge
     {
         private ISimpleCommand _JSSimpleCommand;
-        private CefV8Context _CefV8Context;
-        public JSSimpleCommand(CefV8Context iCefV8Context, IJSOBuilder builder, ISimpleCommand icValue)
+        private CefV8CompleteContext _CefV8Context;
+        public JSSimpleCommand(CefV8CompleteContext iCefV8Context, IJSOBuilder builder, ISimpleCommand icValue)
         {
             _CefV8Context = iCefV8Context;
             _JSSimpleCommand = icValue;
@@ -31,7 +31,6 @@ namespace MVVM.CEFGlue.HTMLBinding
         {
             _MappedJSValue = ijsobject;
             _MappedJSValue.Bind("Execute", _CefV8Context, (c, o, e) => Execute(e, mapper));
-            //((CefV8Value)_MappedJSValue).Bind("Execute", false, (o, e) => Execute(e, mapper));
         }
 
         private object Convert(IJSCBridgeCache mapper, CefV8Value value)

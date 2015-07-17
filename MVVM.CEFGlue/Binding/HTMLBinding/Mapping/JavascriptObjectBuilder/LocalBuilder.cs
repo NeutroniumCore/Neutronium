@@ -14,23 +14,26 @@ namespace MVVM.CEFGlue.HTMLBinding
     public class LocalBuilder : IJSOLocalBuilder
     {
        private static uint _MapCount = 0;
-       private CefV8Context _CefV8Context;
+       private CefV8CompleteContext _CefV8Context;
 
-       public LocalBuilder(CefV8Context iIWebView)
+       public LocalBuilder(CefV8CompleteContext iIWebView)
        {
            _CefV8Context = iIWebView;
        }
 
        private CefV8Value UnsafeCreateJSO()
         {
-            _CefV8Context.Enter();
-            //JSObject res =new JSObject();
-            CefV8Value res = CefV8Value.CreateObject(null);
-            res.SetValue("_MappedId", CefV8Value.CreateUInt(_MapCount++), 
-                CefV8PropertyAttribute.ReadOnly |CefV8PropertyAttribute.DontEnum |CefV8PropertyAttribute.DontDelete );
-            //res["_MappedId"] = new JSValue(_MapCount++);
-            _CefV8Context.Exit();
-            return res;
+            //_CefV8Context.Enter();
+
+            using (_CefV8Context.Enter())
+            {
+                CefV8Value res = CefV8Value.CreateObject(null);
+                res.SetValue("_MappedId", CefV8Value.CreateUInt(_MapCount++),
+                    CefV8PropertyAttribute.ReadOnly | CefV8PropertyAttribute.DontEnum | CefV8PropertyAttribute.DontDelete);
+
+                //_CefV8Context.Exit();
+                return res;
+            }
         }
 
 
@@ -92,12 +95,15 @@ namespace MVVM.CEFGlue.HTMLBinding
                 {
                     CefV8Value res = null;
                     CefV8Exception excep = null;
-                    _CefV8Context.Enter();
-                    _CefV8Context.TryEval(string.Format("new Enum('{0}',{1},'{2}','{3}')",
-                                ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()),
-                                out res, out excep);
 
-                    _CefV8Context.Exit();
+                    using (_CefV8Context.Enter())
+                    {
+                        _CefV8Context.Context.TryEval(string.Format("new Enum('{0}',{1},'{2}','{3}')",
+                                    ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()),
+                                    out res, out excep);
+
+                        //_CefV8Context.Exit();
+                    }
                    
                     return CheckUpdate(res);
                 }).Result;
@@ -107,14 +113,15 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public CefV8Value CreateNull()
         {
-            return _CefV8Context.EvaluateAsync(() =>
-            {
-                _CefV8Context.Enter();
-                CefV8Value myres = CefV8Value.CreateNull();
-                _CefV8Context.Exit();
-                return myres;
+            return _CefV8Context.Evaluate(() =>  CefV8Value.CreateNull());
+            //{
+            //    //_CefV8Context.Enter();
+            //    CefV8Value myres = CefV8Value.CreateNull();
+            //    //_CefV8Context.Exit();
+            //    return myres;
 
-            }).Result;
+            //});
+            ////.Result;
 
 
             //return CefV8Value.CreateNull();

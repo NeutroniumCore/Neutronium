@@ -11,5 +11,9 @@ namespace CefGlue.Window
         Task RunAsync(Action act);
 
         void Run(Action act);
+
+        Task<T> EvaluateAsync<T>(Func<T> compute);
+
+        T Evaluate<T>(Func<T> compute);
     }
 }

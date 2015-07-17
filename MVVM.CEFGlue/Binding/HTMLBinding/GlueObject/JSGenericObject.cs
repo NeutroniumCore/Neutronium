@@ -16,15 +16,15 @@ namespace MVVM.CEFGlue.HTMLBinding
 {
     public class JSGenericObject : GlueBase, IJSObservableBridge
     {
-        private CefV8Context _CefV8Context;
-        public JSGenericObject(CefV8Context context, CefV8Value value, object icValue)
+        private CefV8CompleteContext _CefV8Context;
+        public JSGenericObject(CefV8CompleteContext context, CefV8Value value, object icValue)
         {
             JSValue = value;
             CValue = icValue;
             _CefV8Context = context;
         }
 
-        private JSGenericObject(CefV8Context context,CefV8Value value)
+        private JSGenericObject(CefV8CompleteContext context, CefV8Value value)
         {
             JSValue = value;
             _MappedJSValue = value;
@@ -32,7 +32,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             _CefV8Context = context;
         }
 
-        public static JSGenericObject CreateNull(CefV8Context context, IJSOLocalBuilder builder)
+        public static JSGenericObject CreateNull(CefV8CompleteContext context, IJSOLocalBuilder builder)
         {
             return new JSGenericObject(context, builder.CreateNull());
         }
@@ -111,7 +111,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                 //WebCore.QueueWork(() =>
                 //    {
 
-                _CefV8Context.CreateInContextAsync( ()=>
+                _CefV8Context.RunAsync( ()=>
                     {
                         var jso = _MappedJSValue;
                         if (!_Silenters.TryGetValue(PropertyName, out silenter))

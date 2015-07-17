@@ -20,35 +20,19 @@ namespace MVVM.CEFGlue
         private Action _CleanUp;
         private JavascriptSessionInjector _JavascriptSessionInjector;
         private CefV8Value _Root;
-        private CefV8Context _CefV8Context;
+        private CefV8CompleteContext _Context;
 
-        internal StringBinding( CefV8Context context, CefV8Value root, JavascriptSessionInjector iJavascriptSessionInjector, Action CleanUp)
+        internal StringBinding(CefV8CompleteContext context, CefV8Value root, JavascriptSessionInjector iJavascriptSessionInjector, Action CleanUp)
         {
             _JavascriptSessionInjector = iJavascriptSessionInjector;
             _CleanUp = CleanUp;
-            _CefV8Context = context;
+            _Context = context;
             _Root = root;
         }
 
         public void Dispose()
         {
-            //WebCore.QueueWork(() =>
-            //{
-            //    if (_CleanUp != null)
-            //    {
-            //        _CleanUp();
-            //        _CleanUp = null;
-            //    }
-
-            //    if (_JavascriptSessionInjector != null)
-            //    {
-            //        _JavascriptSessionInjector.Dispose();
-            //        _JavascriptSessionInjector = null;
-            //    }
-            //}
-            //);
-
-            _CefV8Context.RunInContextAsync(() =>
+            _Context.RunInContextAsync(() =>
             {
                 if (_CleanUp != null)
                 {
@@ -103,10 +87,11 @@ namespace MVVM.CEFGlue
             {
                 if (First != null) First();
 
+                //var context = view.MainFrame.GetMainContext();
                 var context = view.MainFrame.GetMainContext();
+                var v8context = context.Context;
 
-
-                CefV8Value json = context.GetGlobal().GetValue("JSON");
+                CefV8Value json = v8context.GetGlobal().GetValue("JSON");
                 var root = json.Invoke("parse", context, CefV8Value.CreateString(iViewModel));
 
                 var injector = new JavascriptSessionInjector(context, new GlobalBuilder(context, "MVVMGlue"), null);

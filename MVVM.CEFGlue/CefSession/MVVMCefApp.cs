@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using Xilium.CefGlue;
 
+using MVVM.CEFGlue.CefSession;
+using MVVM.CEFGlue.CefGlueHelper;
+
+
 namespace MVVM.CEFGlue.CefSession
 {
     public class MVVMCefApp : CefApp
     {
         private MVVMCefRenderProcessHandler _MVVMCefRenderProcessHandler;
         private MVVMCefLoadHandler _MVVMCefLoadHandler;
-        private Dictionary<long, CefV8Context> _Associated
-            = new Dictionary<long, CefV8Context>();
+        private Dictionary<long, CefV8CompleteContext> _Associated
+            = new Dictionary<long, CefV8CompleteContext>();
 
         internal MVVMCefApp()
         {
@@ -21,12 +25,12 @@ namespace MVVM.CEFGlue.CefSession
 
         internal void Associate(CefBrowser browser, CefFrame frame, CefV8Context context)
         {
-            _Associated.Add(frame.Identifier, context);
+            _Associated.Add(frame.Identifier, new CefV8CompleteContext(context, context.GetTaskRunner()));
         }
 
-        internal CefV8Context GetContext(CefFrame frame)
+        internal CefV8CompleteContext GetContext(CefFrame frame)
         {
-            CefV8Context res = null;
+            CefV8CompleteContext res = null;
             _Associated.TryGetValue(frame.Identifier, out res);
             return res;
         }

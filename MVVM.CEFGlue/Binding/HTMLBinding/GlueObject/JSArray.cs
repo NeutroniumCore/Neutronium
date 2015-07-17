@@ -17,21 +17,22 @@ namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class JSArray : GlueBase, IJSObservableBridge
     {
-        private CefV8Context _CefV8Context;
+        private CefV8CompleteContext _CefV8Context;
 
-        public JSArray(CefV8Context context, IEnumerable<IJSCSGlue> values, IEnumerable collection, Type ElementType)
+        public JSArray(CefV8CompleteContext context, IEnumerable<IJSCSGlue> values, IEnumerable collection, Type ElementType)
         {
             var dest = values.Select(v => v.JSValue).ToList();
             _CefV8Context = context;
 
-            var res = _CefV8Context.EvaluateAsync(() =>
+            var res = _CefV8Context.Evaluate(() =>
             {
-                _CefV8Context.Enter();
+                //_CefV8Context.Enter();
                 CefV8Value myres = CefV8Value.CreateArray(dest.Count);
                 dest.ForEach((el, i) => myres.SetValue(i, el));
-                _CefV8Context.Exit();
+                //_CefV8Context.Exit();
                 return myres;
-            }).Result;
+            });
+            //.Result;
 
             //var res = CefV8Value.CreateArray(dest.Count);
 

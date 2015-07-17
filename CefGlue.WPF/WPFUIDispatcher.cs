@@ -33,5 +33,25 @@ namespace Xilium.CefGlue.WPF
         {
             _Dispatcher.Invoke(act);
         }
+
+
+        public Task<T> EvaluateAsync<T>(Func<T> compute)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            Action doact = () =>
+            {
+                tcs.SetResult(compute());
+            };
+            _Dispatcher.BeginInvoke(doact);
+            return tcs.Task;
+        }
+
+        public T Evaluate<T>(Func<T> compute)
+        {
+            T res = default(T);
+            Action Compute = () =>  res = compute();
+            _Dispatcher.Invoke(Compute);
+            return res;
+        }
     }
 }
