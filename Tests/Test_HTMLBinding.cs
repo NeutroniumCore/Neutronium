@@ -1283,39 +1283,31 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(test);
         }
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_With_Null_Parameter()
+        {
+            var command = Substitute.For<ICommand>();
+            var test = new ViewModelTest() { Command = command };
+
+            var testR = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, test, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    Call(mycommand, "Execute", CefV8Value.CreateNull());
+
+                    Thread.Sleep(150);
+                    command.Received().Execute(null);
+                }
+            };
+
+            await RunAsync(testR);
+        }
      
-
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_Complete()
-        //{
-        //    using (Tester())
-        //    {
-        //        _ICommand = new RelayCommand(() =>
-        //        {
-        //            _DataContext.MainSkill = new Skill();
-        //            _DataContext.Skills.Add(_DataContext.MainSkill);
-        //        });
-        //        _DataContext.TestCommand = _ICommand;
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            _DataContext.Skills.Should().HaveCount(2);
-
-        //            DoSafe(() =>
-        //            _ICommand.Execute(null));
-
-        //            Thread.Sleep(100);
-
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            ((JSValue[])res).Should().HaveCount(3);
-        //        }
-        //    }
-        //}
-
         //private JSValue GetValue(JSObject jso, string pn)
         //{
         //    return jso.Invoke(pn);
