@@ -1927,59 +1927,49 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Decimal_ShouldOK()
-        //{
-        //    using (Tester())
-        //    {
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+        private class VMwithlong : ViewModelBase
+        {
+            public VMwithlong()
+            {
+            }
 
-        //        var datacontext = new VMwithdecimal();
+            private long _LongValue;
+            public long longValue
+            {
+                get { return _LongValue; }
+                set { Set(ref _LongValue, value, "decimalValue"); }
+            }
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+        }
 
-        //            JSValue res = GetSafe(() => Get(js, "decimalValue"));
-        //            res.Should().NotBeNull();
-        //            res.IsNumber.Should().BeTrue();
-        //            var doublev = (double)res;
-        //            doublev.Should().Be(0);
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Long_ShouldOK()
+        {
+            var datacontext = new VMwithlong() { longValue = 45 };
 
-        //            this.DoSafe(() => js.Invoke("decimalValue", 0.5));
-        //            Thread.Sleep(150);
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    var doublev = GetDoubleAttribute(js, "longValue");
+                    doublev.Should().Be(45);
 
-        //            datacontext.decimalValue.Should().Be(0.5m);
+                   Call(js,"longValue", CefV8Value.CreateInt( 24524));
+                    Thread.Sleep(100);
 
+                    datacontext.longValue.Should().Be(24524);
 
-        //            res = GetSafe(() => Get(js, "decimalValue"));
-        //            res.Should().NotBeNull();
-        //            res.IsNumber.Should().BeTrue();
-        //            doublev = (double)res;
-        //            double half = 0.5;
-        //            doublev.Should().Be(half);
-        //        }
-        //    }
-        //}
+                    doublev = GetDoubleAttribute(js, "longValue");
+                    long half = 24524;
+                    doublev.Should().Be(half);
+                }
+            };
 
-
-
-        //private class VMwithlong : ViewModelBase
-        //{
-        //    public VMwithlong()
-        //    {
-        //    }
-
-        //    private long _LongValue;
-        //    public long longValue
-        //    {
-        //        get { return _LongValue; }
-        //        set { Set(ref _LongValue, value, "decimalValue"); }
-        //    }
-
-        //}
+            await RunAsync(test);
+        }
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Long_ShouldOK()
