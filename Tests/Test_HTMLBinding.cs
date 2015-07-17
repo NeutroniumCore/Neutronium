@@ -1971,42 +1971,71 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Long_ShouldOK()
-        //{
-        //    using (Tester())
-        //    {
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+        
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Collection_string()
+        {
+            var datacontext = new VMWithList<string>();
 
-        //        var datacontext = new VMwithlong() { longValue = 45 };
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col.GetArrayLength().Should().Be(0);
 
-        //            JSValue res = GetSafe(() => Get(js, "longValue"));
-        //            res.Should().NotBeNull();
-        //            res.IsNumber.Should().BeTrue();
-        //            var doublev = (long)res;
-        //            doublev.Should().Be(45);
+                    Checkstring(col, datacontext.List);
 
-        //            this.DoSafe(() => js.Invoke("longValue", 24524));
-        //            Thread.Sleep(100);
+                    datacontext.List.Add("titi");
 
-        //            datacontext.longValue.Should().Be(24524);
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
 
-        //            res = GetSafe(() => Get(js, "longValue"));
-        //            res.Should().NotBeNull();
-        //            res.IsNumber.Should().BeTrue();
-        //            doublev = (long)res;
-        //            long half = 24524;
-        //            doublev.Should().Be(half);
-        //        }
-        //    }
-        //}
+                    Checkstring(col, datacontext.List);
 
+                    datacontext.List.Add("kiki");
+                    datacontext.List.Add("toto");
+
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
+
+                    Checkstring(col, datacontext.List);
+
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
+
+                    Checkstring(col, datacontext.List);
+
+                    var comp = new List<string>(datacontext.List);
+                    comp.Add("newvalue");
+
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    var chcol = GetAttribute(js, "List");
+                    Call(chcol, "push", CefV8Value.CreateString("newvalue"));
+
+                    Thread.Sleep(350);
+
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
+
+                    datacontext.List.Should().Equal(comp);
+                    Checkstring(col, datacontext.List);
+
+                    datacontext.List.Clear();
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
+
+                    Checkstring(col, datacontext.List);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+      
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Collection_string()
         //{
