@@ -91,8 +91,11 @@ namespace MVVM.CEFGlue
                 var context = view.MainFrame.GetMainContext();
                 var v8context = context.Context;
 
-                CefV8Value json = v8context.GetGlobal().GetValue("JSON");
-                var root = json.Invoke("parse", context, CefV8Value.CreateString(iViewModel));
+                var root = context.Evaluate(() =>
+                    {
+                        var json = v8context.GetGlobal().GetValue("JSON");
+                        return json.Invoke("parse", context, CefV8Value.CreateString(iViewModel));
+                    });
 
                 var injector = new JavascriptSessionInjector(context, new GlobalBuilder(context, "MVVMGlue"), null);
                 var mappedroot = injector.Map(root, null);

@@ -2153,128 +2153,43 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(test);
         }
+
+          [Fact]
+        public async Task Test_HTMLBinding_stringBinding()
+        {
+            var datacontext = new VMWithList<decimal>();
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => StringBinding.Bind(win, "{\"LastName\":\"Desmaisons\",\"Name\":\"O Monstro\",\"BirthDay\":\"0001-01-01T00:00:00.000Z\",\"PersonalState\":\"Married\",\"Age\":0,\"Local\":{\"City\":\"Florianopolis\",\"Region\":\"SC\"},\"MainSkill\":{},\"States\":[\"Single\",\"Married\",\"Divorced\"],\"Skills\":[{\"Type\":\"French\",\"Name\":\"Langage\"},{\"Type\":\"C++\",\"Name\":\"Info\"}]}"),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    mb.Root.Should().BeNull();
+
+
+                    string res = GetStringAttribute(js,"Name");
+                    res.Should().Be("O Monstro");
+
+                    string res2 = GetStringAttribute(js, "LastName");
+                    res2.Should().Be("Desmaisons");
+
+
+                    string res4 = CallWithRes( GetAttribute(js,"Local"),"City").GetStringValue();
+                    res4.Should().Be("Florianopolis");
+
+                    CefV8Value res45 = UnWrapCollection(js, "Skills");
+                    string res5 = CallWithRes( res45.GetValue(0),"Name").GetStringValue();
+                    res5.Should().Be("Langage");
+                }
+            };
+
+             await RunAsync(test);
+          }
     
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Collection_decimal()
-        //{
-        //    using (Tester())
-        //    {
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        var datacontext = new VMWithList<decimal>();
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().Be(0);
-
-        //            Checkdecimal(col, datacontext.List);
-
-        //            datacontext.List.Add(3);
-
-        //            Thread.Sleep(150);
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
-
-        //            Checkdecimal(col, datacontext.List);
-
-        //            datacontext.List.Add(10.5m);
-        //            datacontext.List.Add(126);
-
-        //            Thread.Sleep(150);
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
-
-        //            Checkdecimal(col, datacontext.List);
-
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
-
-        //            Checkdecimal(col, datacontext.List);
-
-        //            var comp = new List<decimal>(datacontext.List);
-        //            comp.Add(0.55m);
-
-        //            res = GetSafe(() => js.Invoke("List"));
-        //            DoSafe(() =>
-        //            ((JSObject)res).Invoke("push", new JSValue(0.55)));
-
-        //            Thread.Sleep(350);
-
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
-
-        //            comp.Should().Equal(datacontext.List);
-        //            Checkdecimal(col, datacontext.List);
-
-        //        }
-        //    }
-        //}
-
-
-        //[Fact]
-        //public void Test_HTMLBinding_Factory_TwoWay()
-        //{
-        //    using (Tester())
-        //    {
-        //        var fact = new AwesomiumBindingFactory() { InjectionTimeOut = 5000, ManageWebSession = true };
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        using (var mb = fact.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => Get(js, "Name"));
-        //            ((string)res).Should().Be("O Monstro");
-
-        //            JSValue res2 = GetSafe(() => js.Invoke("LastName"));
-        //            ((string)res2).Should().Be("Desmaisons");
-
-        //            _DataContext.Name = "23";
-
-        //            Thread.Sleep(50);
-        //            JSValue res3 = GetSafe(() => js.Invoke("Name"));
-        //            ((string)res3).Should().Be("23");
-
-        //            JSValue res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Florianopolis");
-
-        //            _DataContext.Local.City = "Paris";
-        //            Thread.Sleep(50);
-
-        //            res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Paris");
-
-        //            JSValue res5 = GetSafe(() => (((JSObject)((JSValue[])UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Langage");
-
-        //            _DataContext.Skills[0].Name = "Ling";
-        //            Thread.Sleep(50);
-
-        //            res5 = GetSafe(() => (((JSObject)((JSValue[])UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Ling");
-
-        //            //Teste Two Way
-        //            this.DoSafe(() => js.Invoke("Name", "resName"));
-        //            JSValue resName = GetSafe(() => js.Invoke("Name"));
-        //            ((string)resName).Should().Be("resName");
-
-        //            Thread.Sleep(500);
-
-        //            _DataContext.Name.Should().Be("resName");
-        //        }
-        //    }
-        //}
-
+       
+     
         //[Fact]
         //public void Test_HTMLBinding_stringBinding()
         //{
