@@ -1162,38 +1162,49 @@ namespace MVVM.CEFGlue.Test
              await RunAsync(test);
          }
 
+        [Fact]
+         public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument()
+         {
+             bool canexecute = true;
+             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
+
+
+             var test = new TestInContext()
+             {
+                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                 Test = (mb) =>
+                 {
+                     var js = mb.JSRootObject;
+
+                     CefV8Value mycommand = GetAttribute(js, "TestCommand");
+                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                     res.Should().BeTrue();
+
+                     _ICommand.Received().CanExecute(_DataContext);
+
+                     canexecute = false;
+                     _ICommand.ClearReceivedCalls();
+
+                     _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+
+                     Thread.Sleep(100);
+
+                     _ICommand.Received().CanExecute(_DataContext);
+
+                     mycommand = GetAttribute(js, "TestCommand");
+                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                     res.Should().BeFalse();
+                 }
+             };
+
+             await RunAsync(test);
+        }
+
 
 
      
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok()
-        //{
-        //    using (Tester())
-        //    {
-        //        bool canexecute = true;
-        //        _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("TestCommand"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("CanExecuteValue"));
-
-        //            ((bool)res).Should().BeTrue();
-
-        //            canexecute = false;
-        //            _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
-
-        //            Thread.Sleep(100);
-
-        //            res = GetSafe(() => GetValue(mycommand, "TestCommand"));
-        //            ((bool)res).Should().BeFalse();
-        //        }
-        //    }
-        //}
-
+        
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument()
         //{
