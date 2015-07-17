@@ -2035,113 +2035,68 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-      
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Collection_string()
-        //{
-        //    using (Tester())
-        //    {
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Collection_should_be_observable_attribute()
+        {
+            var datacontext = new ChangingCollectionViewModel();
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-        //        var datacontext = new VMWithList<string>();
+                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "Items"));
+                    col.GetArrayLength().Should().NotBe(0);
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
 
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().Be(0);
+                    DoSafe(() => datacontext.Replace.Execute(null));
 
-        //            Checkstring(col, datacontext.List);
+                    datacontext.Items.Should().BeEmpty();
 
-        //            datacontext.List.Add("titi");
+                    Thread.Sleep(300);
+                    col = GetSafe(() => UnWrapCollection(js, "Items"));
+                    col.GetArrayLength().Should().Be(0);
 
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
+                }
+            };
 
-        //            Checkstring(col, datacontext.List);
+            await RunAsync(test);
+        }
 
-        //            datacontext.List.Add("kiki");
-        //            datacontext.List.Add("toto");
 
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Collection_NoneGenericList()
+        {
+            var datacontext = new VMWithListNonGeneric();
+            datacontext.List.Add(888);
 
-        //            Checkstring(col, datacontext.List);
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
+                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col.GetArrayLength().Should().Be(1);
 
-        //            Checkstring(col, datacontext.List);
+                    CefV8Value res = GetAttribute(js,"List");
+                    Call(res,"push", CefV8Value.CreateString("newvalue"));
 
-        //            var comp = new List<string>(datacontext.List);
-        //            comp.Add("newvalue");
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col.GetArrayLength().Should().Be(2);
 
-        //            res = GetSafe(() => js.Invoke("List"));
-        //            DoSafe(() =>
-        //            ((JSObject)res).Invoke("push", new JSValue("newvalue")));
+                    Thread.Sleep(350);
 
-        //            Thread.Sleep(350);
+                    datacontext.List.Should().HaveCount(2);
+                    datacontext.List[1].Should().Be("newvalue");
+                }
+            };
 
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
-
-        //            datacontext.List.Should().Equal(comp);
-        //            Checkstring(col, datacontext.List);
-
-        //            datacontext.List.Clear();
-        //            Thread.Sleep(100);
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            col = ((JSValue[])res);
-
-        //            Checkstring(col, datacontext.List);
-
-        //        }
-        //    }
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Collection_should_be_observable_attribute()
-        //{
-        //    using (Tester())
-        //    {
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        var datacontext = new ChangingCollectionViewModel();
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "Items"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().NotBe(0);
-
-        //            Checkstring(col, datacontext.Items);
-
-        //            DoSafe(() => datacontext.Replace.Execute(null));
-
-        //            datacontext.Items.Should().BeEmpty();
-
-        //            Thread.Sleep(300);
-        //            res = GetSafe(() => UnWrapCollection(js, "Items"));
-        //            col = ((JSValue[])res);
-        //            col.Length.Should().Be(0);
-
-        //            Checkstring(col, datacontext.Items);
-        //        }
-        //    }
-        //}
+            await RunAsync(test);
+        }
 
 
         //[Fact]

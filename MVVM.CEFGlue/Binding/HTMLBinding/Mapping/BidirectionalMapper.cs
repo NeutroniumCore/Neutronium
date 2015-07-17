@@ -60,7 +60,6 @@ namespace MVVM.CEFGlue.HTMLBinding
 
             InjectInHTLMSession(_Root, true).ContinueWith(_ =>
                 {
-                   // WebCore.QueueWork(
 
                     _V8Context.RunInContextAsync( () =>               
                        {
@@ -170,21 +169,13 @@ namespace MVVM.CEFGlue.HTMLBinding
         private async Task InjectInHTLMSession(IJSCSGlue iroot, bool isroot = false)
         {
             if ((iroot == null) || (iroot.Type == JSCSGlueType.Basic))
-            //{
                 return;
-                //TaskHelper.Ended();
-            //}
 
             if ((iroot.Type == JSCSGlueType.Object) && (iroot.JSValue.IsNull))
                 return;
 
             var jvm = new JavascriptMapper(iroot as IJSObservableBridge, this);
             var res = _SessionInjector.Map(iroot.JSValue, jvm,(iroot.CValue!=null));
-            //if (!isroot)
-            //    return jvm.UpdateTask;
-            //else
-            //    return jvm.UpdateTask.ContinueWith(_ => _SessionInjector.RegisterInSession(res),
-            //                TaskScheduler.FromCurrentSynchronizationContext());
 
             await jvm.UpdateTask;
 
@@ -338,11 +329,6 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            //WebCore.QueueWork(() =>
-            //    {
-            //        UnsafeCollectionChanged(sender, e);
-            //    });
-
             _V8Context.RunInContextAsync(() =>
             {
                 UnsafeCollectionChanged(sender, e);
@@ -395,15 +381,6 @@ namespace MVVM.CEFGlue.HTMLBinding
                         }
                     }
                );              
-                //.ContinueWith(_ =>
-                //WebCore.QueueWork(() =>
-                //    {
-                //        using (idisp)
-                //        {
-                //            Do();
-                //        }
-                //    }
-                //));
         }
 
         public void Dispose()
