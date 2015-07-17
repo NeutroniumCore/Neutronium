@@ -2099,44 +2099,61 @@ namespace MVVM.CEFGlue.Test
         }
 
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Collection_NoneGenericList()
-        //{
-        //    using (Tester())
-        //    {
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Collection_decimal()
+        {
+            var datacontext = new VMWithList<decimal>();
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-        //        var datacontext = new VMWithListNonGeneric();
-        //        datacontext.List.Add(888);
+                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col.GetArrayLength().Should().Be(0);
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+                    Checkdecimal(col, datacontext.List);
 
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().Be(1);
+                    datacontext.List.Add(3);
 
-        //            res = GetSafe(() => js.Invoke("List"));
-        //            DoSafe(() =>
-        //            ((JSObject)res).Invoke("push", new JSValue("newvalue")));
+                    Thread.Sleep(150);
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
 
-        //            res = GetSafe(() => UnWrapCollection(js, "List"));
-        //            res.Should().NotBeNull();
-        //            col = ((JSValue[])res);
-        //            col.Length.Should().Be(2);
+                    Checkdecimal(col, datacontext.List);
 
-        //            Thread.Sleep(350);
+                    datacontext.List.Add(10.5m);
+                    datacontext.List.Add(126);
 
-        //            datacontext.List.Should().HaveCount(2);
-        //            datacontext.List[1].Should().Be("newvalue");
-        //        }
-        //    }
-        //}
+                    Thread.Sleep(150);
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
 
+                    Checkdecimal(col, datacontext.List);
+
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
+
+                    Checkdecimal(col, datacontext.List);
+
+                    var comp = new List<decimal>(datacontext.List);
+                    comp.Add(0.55m);
+
+                    CefV8Value res = GetAttribute(js, "List");
+                    Call(res,"push", CefV8Value.CreateDouble(0.55));
+
+                    Thread.Sleep(350);
+
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
+
+                    comp.Should().Equal(datacontext.List);
+                    Checkdecimal(col, datacontext.List);
+                }
+            };
+
+            await RunAsync(test);
+        }
+    
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Collection_decimal()
         //{
