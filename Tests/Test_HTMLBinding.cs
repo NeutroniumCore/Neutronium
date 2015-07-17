@@ -1327,7 +1327,31 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(testR);
         }
- 
+
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
+        {
+            var function = NSubstitute.Substitute.For<Func<int, int>>();
+            var dc = new FakeFactory<int, int>(function);
+
+            var test = new TestInContext()
+            {
+                Path = @"javascript\index_promise.html",
+                Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    CefV8Value mycommand = GetAttribute(js, "CreateObject");
+                    Call(mycommand, "Execute", CefV8Value.CreateInt(25));
+
+                    Thread.Sleep(700);
+                    function.Received(1).Invoke(25);
+                }            
+            };
+
+            await RunAsync(test);
+        }
     
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
