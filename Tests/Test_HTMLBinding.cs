@@ -1574,91 +1574,59 @@ namespace MVVM.CEFGlue.Test
 
 
 
-        //[Fact]
-        //public void Test_HTMLBinding_Stress_TwoWay_Collection()
-        //{
-        //    using (Tester("javascript/simple.html"))
-        //    {
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-        //        DoSafe(() =>
-        //        _WebView.SynchronousMessageTimeout = 0);
+        private class TwoList
+        {
+            public TwoList()
+            {
+                L1 = new List<Skill>();
+                L2 = new List<Skill>();
+            }
+            public List<Skill> L1 { get; private set; }
+            public List<Skill> L2 { get; private set; }
+        }
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+        [Fact]
+        public Task Test_HTMLBinding_Stress_TwoWay_Collection_CreateBinding()
+        {
+            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, 1.5, "javascript/simple.html");
+        }
 
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().Be(2);
+        [Fact]
+        public Task Test_HTMLBinding_Stress_OneWay_Collection_CreateBinding()
+        {
+            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, "javascript/simple.html");
+        }
+        public Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, string ipath = null)
 
-        //            Check(col, _DataContext.Skills);
+        {
+            int r = 100;
+            var datacontext = new TwoList();
+            datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
-        //            _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
 
-        //            Thread.Sleep(150);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+            var test = new TestInContext()
+            {
+                Path = ipath,
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, imode),
+                Test = (mb) =>
+                {
+                    stopWatch.Stop();
+                    long ts = stopWatch.ElapsedMilliseconds;
 
-        //            _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
-        //            int iis = 500;
-        //            for (int i = 0; i < iis; i++)
-        //            {
-        //                _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
-        //            }
+                    Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, r);
 
-        //            bool notok = true;
-        //            int tcount = _DataContext.Skills.Count;
+                    var js = mb.JSRootObject;
 
-        //            var stopWatch = new Stopwatch();
-        //            stopWatch.Start();
+                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "L1"));
+                    col.GetArrayLength().Should().Be(r);
+                }
+            };
+            return RunAsync(test);
 
-        //            Thread.Sleep(10);
-
-        //            while (notok)
-        //            {
-        //                res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //                res.Should().NotBeNull();
-        //                notok = ((JSValue[])res).Length != tcount;
-        //            }
-        //            stopWatch.Stop();
-        //            var ts = stopWatch.ElapsedMilliseconds;
-
-        //            Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, iis);
-        //            Check((JSValue[])res, _DataContext.Skills);
-
-        //            //TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.5));
-        //            TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.7));
-        //        }
-        //    }
-        //}
-
-        //private class TwoList
-        //{
-        //    public TwoList()
-        //    {
-        //        L1 = new List<Skill>();
-        //        L2 = new List<Skill>();
-        //    }
-        //    public List<Skill> L1 { get; private set; }
-        //    public List<Skill> L2 { get; private set; }
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Stress_TwoWay_Collection_CreateBinding()
-        //{
-        //    Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, 1.5, "javascript/simple.html");
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Stress_OneWay_Collection_CreateBinding()
-        //{
-        //    Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, "javascript/simple.html");
-        //}
-
+        }
         //public void Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, string ipath = null)
         //{
         //    using (Tester(ipath))
