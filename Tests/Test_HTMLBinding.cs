@@ -1200,46 +1200,34 @@ namespace MVVM.CEFGlue.Test
              await RunAsync(test);
         }
 
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
+        {
+            _ICommand.CanExecute(Arg.Any<object>()).Returns(x => { if (x[0] == null) throw new Exception(); return false; });
 
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    _ICommand.Received().CanExecute(Arg.Any<object>());
+                    var js = mb.JSRootObject;
+
+                    CefV8Value mycommand = GetAttribute(js, "TestCommand");
+                    bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeFalse();
+
+                    _ICommand.Received().CanExecute(_DataContext);
+                }
+            };
+
+            await RunAsync(test);
+        }
 
      
 
         
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument()
-        //{
-        //    using (Tester())
-        //    {
-        //        bool canexecute = true;
-        //        _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("TestCommand"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("CanExecuteValue"));
-        //            ((bool)res).Should().BeTrue();
-
-        //            _ICommand.Received().CanExecute(_DataContext);
-
-        //            canexecute = false;
-        //            _ICommand.ClearReceivedCalls();
-
-        //            _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
-
-        //            Thread.Sleep(100);
-
-        //            _ICommand.Received().CanExecute(_DataContext);
-
-
-        //            res = GetSafe(() => GetValue(mycommand, "TestCommand"));
-        //            ((bool)res).Should().BeFalse();
-        //        }
-        //    }
-        //}
-
-
+     
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
         //{
