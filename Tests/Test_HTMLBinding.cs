@@ -1224,30 +1224,31 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_Received_javascript_variable()
+        {
+            _ICommand.CanExecute(Arg.Any<object>()).Returns(true);
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CefV8Value mycommand = GetAttribute(js, "TestCommand");
+                    Call(mycommand,"Execute", CefV8Value.CreateString("titi"));
+
+                    Thread.Sleep(150);
+                    _ICommand.Received().Execute("titi");
+                }
+            };
+
+            await RunAsync(test);
+        }
      
 
-        
-     
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
-        //{
-        //    using (Tester())
-        //    {
-        //        _ICommand.CanExecute(Arg.Any<object>()).Returns(x => { if (x[0] == null) throw new Exception(); return false; });
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            _ICommand.Received().CanExecute(Arg.Any<object>());
-        //            var js = mb.JSRootObject;
-
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("TestCommand"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("CanExecuteValue"));
-        //            ((bool)res).Should().BeFalse();
-
-        //            _ICommand.Received().CanExecute(_DataContext);
-        //        }
-        //    }
-        //}
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_Received_javascript_variable()
