@@ -1247,29 +1247,44 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(test);
         }
+
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_Complete()
+        {
+            _ICommand = new RelayCommand(() =>
+                {
+                    _DataContext.MainSkill = new Skill();
+                    _DataContext.Skills.Add(_DataContext.MainSkill);
+                });
+            _DataContext.TestCommand = _ICommand;
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    _DataContext.Skills.Should().HaveCount(2);
+
+                    DoSafe(() =>
+                    _ICommand.Execute(null));
+
+                    Thread.Sleep(100);
+
+                    CefV8Value res = GetSafe(() =>
+                        js.Invoke("Skills", this._WebView).ExecuteFunction());
+
+                    res.Should().NotBeNull();
+                    res.GetArrayLength().Should().Be(3);
+                }
+            };
+
+            await RunAsync(test);
+        }
      
 
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_Received_javascript_variable()
-        //{
-        //    using (Tester())
-        //    {
-
-        //        _ICommand.CanExecute(Arg.Any<object>()).Returns(true);
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("TestCommand"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("Execute", new JSValue("titi")));
-
-        //            Thread.Sleep(150);
-        //            _ICommand.Received().Execute("titi");
-        //        }
-        //    }
-        //}
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Command_Complete()
