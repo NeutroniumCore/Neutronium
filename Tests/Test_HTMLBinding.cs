@@ -1622,47 +1622,69 @@ namespace MVVM.CEFGlue.Test
 
                     CefV8Value col = GetSafe(() => UnWrapCollection(js, "L1"));
                     col.GetArrayLength().Should().Be(r);
+
+                    TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(excpected));
                 }
             };
             return RunAsync(test);
 
         }
-        //public void Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, string ipath = null)
-        //{
-        //    using (Tester(ipath))
-        //    {
-        //        int r = 100;
-        //        var datacontext = new TwoList();
-        //        datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
-
-        //        DoSafe(() =>
-        //        _WebView.SynchronousMessageTimeout = 0);
-        //        long ts = 0;
-
-        //        var stopWatch = new Stopwatch();
-        //        stopWatch.Start();
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, imode).Result)
-        //        {
-        //            stopWatch.Stop();
-        //            ts = stopWatch.ElapsedMilliseconds;
-
-        //            Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, r);
-
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "L1"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().Be(r);
 
 
-        //        }
+        [Fact]
+        public async Task Test_HTMLBinding_Stress_Collection_Update_From_Javascript()
+        {
+            int r = 100;
+            var datacontext = new TwoList();
+            datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
-        //        TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(excpected));
 
-        //    }
-        //}
+            var test = new TestInContext()
+            {
+                Path="javascript/simple.html",
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CefV8Value col1 = GetSafe(() => UnWrapCollection(js, "L1"));
+                    col1.GetArrayLength().Should().Be(r);
+
+                    CefV8Value col2 = GetSafe(() => UnWrapCollection(js, "L2"));
+                    col2.GetArrayLength().Should().Be(0);
+
+                    CefV8Value l2c = GetAttribute(js,"L2");
+                        //(JSObject)GetSafe(() => js.Invoke("L2"));
+                    l2c.Should().NotBeNull();
+
+                    string javascript = "window.app = function(value,coll){var args = []; args.push(0);args.push(0);for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);};";
+                    CefV8Value res = null;
+                    CefV8Exception ex = null;
+                    bool ok =  _WebView.Context.TryEval(javascript,out res,out ex );
+                    ok.Should().BeTrue();
+                    //JSObject win = null;
+                    //win = GetSafe(() => (JSObject)_WebView.ExecuteJavascriptWithResult("window"));
+
+                    bool notok = true;
+                    var stopWatch = new Stopwatch();
+                    stopWatch.Start();
+
+                    DoSafe(() => Call(_WebView.Context.GetGlobal(),"app", col1, l2c));
+                    Thread.Sleep(100);
+                    while (notok)
+                    {
+                        //Thread.Sleep(30);
+                        notok = datacontext.L2.Count != r;
+                    }
+                    stopWatch.Stop();
+                    long ts = stopWatch.ElapsedMilliseconds;
+
+                    Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, r);
+                }
+            };
+
+            await RunAsync(test);
+        }
 
         //[Fact]
         //public void Test_HTMLBinding_Stress_Collection_Update_From_Javascript()
