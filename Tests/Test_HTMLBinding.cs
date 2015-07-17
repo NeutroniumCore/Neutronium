@@ -1694,6 +1694,50 @@ namespace MVVM.CEFGlue.Test
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, 1.5, "javascript/simple.html");
         }
 
+        [Fact]
+        public async Task Test_HTMLBinding_Stress_TwoWay_Int()
+        {
+ 
+
+            var test = new TestInContext()
+            {
+                Path = "javascript/simple.html",
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    int iis = 500;
+                    for (int i = 0; i < iis; i++)
+                    {
+                        _DataContext.Age += 1;
+                    }
+
+                    bool notok = true;
+                    var tg = _DataContext.Age;
+                    Thread.Sleep(700);
+
+                    var stopWatch = new Stopwatch();
+                    stopWatch.Start();
+
+                    while (notok)
+                    {
+                        Thread.Sleep(100);
+                        int doublev = GetIntAttribute(js, "Age");
+                        notok = doublev != tg;
+                    }
+                    stopWatch.Stop();
+                    var ts = stopWatch.ElapsedMilliseconds;
+
+                    Console.WriteLine("Perf: {0} sec for {1} iterations", ((double)(ts)) / 1000, iis);
+
+                    TimeSpan.FromMilliseconds(ts).Should().BeLessOrEqualTo(TimeSpan.FromSeconds(3.1));
+
+                }
+            };
+
+            await RunAsync(test);
+        }
+
 
         //[Fact]
         //public void Test_HTMLBinding_Stress_TwoWay_Int()
