@@ -1307,46 +1307,28 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(testR);
         }
-     
-        //private JSValue GetValue(JSObject jso, string pn)
-        //{
-        //    return jso.Invoke(pn);
-        //}
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Command_With_Null_Parameter()
-        //{
-        //    using (Tester())
-        //    {
-        //        var command = Substitute.For<ICommand>();
-        //        var test = new ViewModelTest() { Command = command };
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, test, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_ResultCommand_Should_have_ToString()
+        {
+            var command = Substitute.For<ICommand>();
+            var test = new ViewModelTest() { Command = command };
 
-        //            JSObject mycommand = (JSObject)GetSafe(() => js.Invoke("Command"));
-        //            JSValue res = GetSafe(() => mycommand.Invoke("Execute", null));
-        //            Thread.Sleep(150);
-        //            command.Received().Execute(null);
-        //        }
-        //    }
-        //}
+            var testR = new TestInContext()
+            {
+                Path = @"javascript\index_promise.html",
+                Bind = (win) => HTML_Binding.Bind(win, test, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    mb.ToString().Should().NotBeNull();
+                }
+            };
 
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Should_have_ToString()
-        //{
-        //    var function = NSubstitute.Substitute.For<Func<int, int>>();
-        //    var dc = new FakeFactory<int, int>(function);
-        //    using (Tester(@"javascript\index_promise.html"))
-        //    {
-        //        using (var mb = AwesomeBinding.Bind(_WebView, dc, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            mb.ToString().Should().NotBeNull();
-        //        }
-        //    }
-        //}
-
+            await RunAsync(testR);
+        }
+ 
+    
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
         //{
