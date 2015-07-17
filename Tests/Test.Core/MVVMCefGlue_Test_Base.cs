@@ -163,6 +163,11 @@ namespace MVVM.CEFGlue.Test
             return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetIntValue());
         }
 
+        protected double GetDoubleAttribute(CefV8Value value, string attibutename)
+        {
+            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetDoubleValue());
+        }
+
         protected bool GetBoolAttribute(CefV8Value value, string attibutename)
         {
             return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetBoolValue());

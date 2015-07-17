@@ -1753,13 +1753,10 @@ namespace MVVM.CEFGlue.Test
                     var js = mb.JSRootObject;
 
                     CefV8Value col = GetSafe(() => UnWrapCollection(js, "Skills"));
-                    //res.Should().NotBeNull();
-                    //var col = ((JSValue[])res);
                     col.GetArrayLength().Should().Be(2);
 
                     Check(col, _DataContext.Skills);
 
-                    //JSObject coll = GetSafe(() => ((JSObject)js).Invoke("Skills"));
                     CefV8Value coll = GetAttribute(js, "Skills");
                     Call(coll,"push", (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
 
@@ -1767,7 +1764,6 @@ namespace MVVM.CEFGlue.Test
                     _DataContext.Skills.Should().HaveCount(3);
                     _DataContext.Skills[2].Should().Be(_DataContext.Skills[0]);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
-                    //res.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     Call(coll,"pop");
@@ -1779,12 +1775,10 @@ namespace MVVM.CEFGlue.Test
                     Check(col, _DataContext.Skills);
 
                     Call(coll,"shift");
-                    //DoSafe(() => coll.Invoke("shift"));
 
                     Thread.Sleep(100);
                     _DataContext.Skills.Should().HaveCount(1);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
-                    //res.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
 
@@ -1794,7 +1788,6 @@ namespace MVVM.CEFGlue.Test
                     Thread.Sleep(150);
                     _DataContext.Skills.Should().HaveCount(2);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
-                    //res.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills.Add(new Skill() { Type = "Langage", Name = "French" });
@@ -1804,14 +1797,11 @@ namespace MVVM.CEFGlue.Test
                      col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
-
-                    //DoSafe(() => coll.Invoke("reverse"));
                        Call(coll,"reverse");
 
                     Thread.Sleep(150);
                     _DataContext.Skills.Should().HaveCount(3);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
-                    //res.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
                 }
             };
@@ -1819,181 +1809,123 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Collection_FromJSUpdate()
-        //{
-        //    using (Tester())
-        //    {
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var root = (mb as AwesomeBinding).JSBrideRootObject as JSGenericObject;
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().Be(2);
-
-        //            Check(col, _DataContext.Skills);
-
-        //            JSObject coll = GetSafe(() => ((JSObject)js).Invoke("Skills"));
-        //            DoSafe(() => coll.Invoke("push", (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue()));
-
-        //            Thread.Sleep(5000);
-        //            _DataContext.Skills.Should().HaveCount(3);
-        //            _DataContext.Skills[2].Should().Be(_DataContext.Skills[0]);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
-
-        //            DoSafe(() => coll.Invoke("pop"));
-
-        //            Thread.Sleep(100);
-        //            _DataContext.Skills.Should().HaveCount(2);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
-
-        //            DoSafe(() => coll.Invoke("shift"));
-
-        //            Thread.Sleep(100);
-        //            _DataContext.Skills.Should().HaveCount(1);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
+        {
 
 
-        //            DoSafe(() => coll.Invoke("unshift",
-        //                (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue()));
+            var test = new TestInContext()
+            {
+                Path = "javascript/simple.html",
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+                    var js = mb.JSRootObject;
 
-        //            Thread.Sleep(150);
-        //            _DataContext.Skills.Should().HaveCount(2);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+                    CefV8Value col = UnWrapCollection(js, "Skills");
+                    col.GetArrayLength().Should().Be(2);
 
-        //            _DataContext.Skills.Add(new Skill() { Type = "Langage", Name = "French" });
-        //            Thread.Sleep(150);
-        //            _DataContext.Skills.Should().HaveCount(3);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
+                    Check(col, _DataContext.Skills);
 
+                    CefV8Value coll = GetAttribute(js, "Skills");
+                    Call(coll,"push", CefV8Value.CreateString("Whatever"));
 
-        //            DoSafe(() => coll.Invoke("reverse"));
+                    Thread.Sleep(150);
+                    _DataContext.Skills.Should().HaveCount(2);
+                }
+            };
 
-        //            Thread.Sleep(150);
-        //            _DataContext.Skills.Should().HaveCount(3);
-        //            res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            Check((JSValue[])res, _DataContext.Skills);
-        //        }
-        //    }
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Basic_TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
-        //{
-        //    using (Tester())
-        //    {
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var root = (mb as AwesomeBinding).JSBrideRootObject as JSGenericObject;
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => UnWrapCollection(js, "Skills"));
-        //            res.Should().NotBeNull();
-        //            var col = ((JSValue[])res);
-        //            col.Length.Should().Be(2);
-
-        //            Check(col, _DataContext.Skills);
-
-        //            JSObject coll = GetSafe(() => ((JSObject)js).Invoke("Skills"));
-        //            DoSafe(() => coll.Invoke("push", new JSValue("Whatever")));
-
-        //            Thread.Sleep(150);
-        //            _DataContext.Skills.Should().HaveCount(2);
-        //        }
-        //    }
-        //}
-
-        //private class VMWithList<T> : ViewModelBase
-        //{
-        //    public VMWithList()
-        //    {
-        //        List = new ObservableCollection<T>();
-        //    }
-        //    public ObservableCollection<T> List { get; private set; }
-
-        //}
-
-        //private class VMWithListNonGeneric : ViewModelBase
-        //{
-        //    public VMWithListNonGeneric()
-        //    {
-        //        List = new ArrayList();
-        //    }
-        //    public ArrayList List { get; private set; }
-
-        //}
-
-        //private class VMwithdecimal : ViewModelBase
-        //{
-        //    public VMwithdecimal()
-        //    {
-        //    }
-
-        //    private decimal _DecimalValue;
-        //    public decimal decimalValue
-        //    {
-        //        get { return _DecimalValue; }
-        //        set { Set(ref _DecimalValue, value, "decimalValue"); }
-        //    }
-
-        //}
+            await RunAsync(test);
+        }
 
 
-        //private void Checkstring(JSValue[] coll, IList<string> iskill)
-        //{
-        //    coll.Length.Should().Be(iskill.Count);
-        //    coll.ForEach((c, i) =>
-        //    {
-        //        (GetSafe(() => (string)c)).Should().Be(iskill[i]);
 
-        //    });
+        private class VMWithList<T> : ViewModelBase
+        {
+            public VMWithList()
+            {
+                List = new ObservableCollection<T>();
+            }
+            public ObservableCollection<T> List { get; private set; }
 
-        //}
+        }
 
-        //private void Checkstring(JSValue[] coll, IList<int> iskill)
-        //{
-        //    coll.Length.Should().Be(iskill.Count);
-        //    coll.ForEach((c, i) =>
-        //    {
-        //        (GetSafe(() => (int)c)).Should().Be(iskill[i]);
+        private class VMWithListNonGeneric : ViewModelBase
+        {
+            public VMWithListNonGeneric()
+            {
+                List = new ArrayList();
+            }
+            public ArrayList List { get; private set; }
 
-        //    });
+        }
 
-        //}
+        private class VMwithdecimal : ViewModelBase
+        {
+            public VMwithdecimal()
+            {
+            }
 
-        //private void Checkdecimal(JSValue[] coll, IList<decimal> iskill)
-        //{
-        //    coll.Length.Should().Be(iskill.Count);
-        //    coll.ForEach((c, i) =>
-        //    {
-        //        ((decimal)(double)c).Should().Be(iskill[i]);
+            private decimal _DecimalValue;
+            public decimal decimalValue
+            {
+                get { return _DecimalValue; }
+                set { Set(ref _DecimalValue, value, "decimalValue"); }
+            }
+        }
 
-        //    });
 
-        //}
+        private void Checkstring( CefV8Value coll, IList<string> iskill)
+        {
+            coll.GetArrayLength().Should().Be(iskill.Count);
+
+            for (int i = 0; i < iskill.Count; i++)
+            {
+                var c = coll.GetValue(i).GetStringValue();
+                c.Should().Be(iskill[i]);
+            }
+        }
+
+        private void Checkdecimal(CefV8Value coll, IList<decimal> iskill)
+        {
+            coll.GetArrayLength().Should().Be(iskill.Count);
+
+            for (int i = 0; i < iskill.Count; i++)
+            {
+                var c = (decimal)coll.GetValue(i).GetDoubleValue();
+                c.Should().Be(iskill[i]);
+            }
+        }
+
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Decimal_ShouldOK()
+        {
+            var datacontext = new VMwithdecimal();
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    int res = GetIntAttribute(js, "decimalValue");
+                    res.Should().Be(0);
+
+                    Call(js,"decimalValue", CefV8Value.CreateDouble( 0.5));
+
+                    datacontext.decimalValue.Should().Be(0.5m);
+
+                    double doublev = GetDoubleAttribute(js, "decimalValue");
+                    double half = 0.5;
+                    doublev.Should().Be(half);
+                }
+            };
+
+            await RunAsync(test);
+        }
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Decimal_ShouldOK()
