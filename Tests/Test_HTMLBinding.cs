@@ -1738,56 +1738,87 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-
-        //[Fact]
-        //public void Test_HTMLBinding_Stress_TwoWay_Int()
-        //{
-        //    using (Tester())
-        //    {
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        DoSafe(() =>
-        //        _WebView.SynchronousMessageTimeout = 0);
-
-        //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Collection_FromJSUpdate()
+        {
 
 
-        //            int iis = 500;
-        //            for (int i = 0; i < iis; i++)
-        //            {
-        //                _DataContext.Age += 1;
-        //            }
+            var test = new TestInContext()
+            {
+                Path = "javascript/simple.html",
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+                    var js = mb.JSRootObject;
 
-        //            bool notok = true;
-        //            var tg = _DataContext.Age;
-        //            Thread.Sleep(700);
+                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    //res.Should().NotBeNull();
+                    //var col = ((JSValue[])res);
+                    col.GetArrayLength().Should().Be(2);
 
-        //            var stopWatch = new Stopwatch();
-        //            stopWatch.Start();
+                    Check(col, _DataContext.Skills);
 
-        //            while (notok)
-        //            {
-        //                Thread.Sleep(100);
-        //                JSValue res = GetSafe(() => Get(js, "Age"));
-        //                res.Should().NotBeNull();
-        //                res.IsNumber.Should().BeTrue();
-        //                var doublev = (int)res;
-        //                notok = doublev != tg;
-        //            }
-        //            stopWatch.Stop();
-        //            var ts = stopWatch.ElapsedMilliseconds;
+                    //JSObject coll = GetSafe(() => ((JSObject)js).Invoke("Skills"));
+                    CefV8Value coll = GetAttribute(js, "Skills");
+                    Call(coll,"push", (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
 
-        //            Console.WriteLine("Perf: {0} sec for {1} iterations", ((double)(ts)) / 1000, iis);
+                    Thread.Sleep(5000);
+                    _DataContext.Skills.Should().HaveCount(3);
+                    _DataContext.Skills[2].Should().Be(_DataContext.Skills[0]);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    //res.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
 
-        //            TimeSpan.FromMilliseconds(ts).Should().BeLessOrEqualTo(TimeSpan.FromSeconds(3.1));
+                    Call(coll,"pop");
 
-        //        }
-        //    }
-        //}
+                    Thread.Sleep(100);
+                    _DataContext.Skills.Should().HaveCount(2);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
+
+                    Call(coll,"shift");
+                    //DoSafe(() => coll.Invoke("shift"));
+
+                    Thread.Sleep(100);
+                    _DataContext.Skills.Should().HaveCount(1);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    //res.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
+
+
+                  Call(coll,"unshift",
+                        (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
+
+                    Thread.Sleep(150);
+                    _DataContext.Skills.Should().HaveCount(2);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    //res.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
+
+                    _DataContext.Skills.Add(new Skill() { Type = "Langage", Name = "French" });
+                    Thread.Sleep(150);
+                    _DataContext.Skills.Should().HaveCount(3);
+                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                     col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
+
+
+                    //DoSafe(() => coll.Invoke("reverse"));
+                       Call(coll,"reverse");
+
+                    Thread.Sleep(150);
+                    _DataContext.Skills.Should().HaveCount(3);
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    //res.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
 
         //[Fact]
         //public void Test_HTMLBinding_Basic_TwoWay_Collection_FromJSUpdate()
