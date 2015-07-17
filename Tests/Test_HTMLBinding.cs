@@ -1686,68 +1686,13 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-        //[Fact]
-        //public void Test_HTMLBinding_Stress_Collection_Update_From_Javascript()
-        //{
-        //    using (Tester("javascript/simple.html"))
-        //    {
-        //        int r = 100;
-        //        var datacontext = new TwoList();
-        //        datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
-        //        DoSafe(() =>
-        //        _WebView.SynchronousMessageTimeout = 0);
-        //        long ts = 0;
 
-        //        using (var mb = AwesomeBinding.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).Result)
-        //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res1 = GetSafe(() => UnWrapCollection(js, "L1"));
-        //            res1.Should().NotBeNull();
-        //            var col1 = ((JSValue[])res1);
-        //            col1.Length.Should().Be(r);
-
-        //            JSValue res2 = GetSafe(() => UnWrapCollection(js, "L2"));
-        //            res2.Should().NotBeNull();
-        //            var col2 = ((JSValue[])res2);
-        //            col2.Length.Should().Be(0);
-
-        //            JSObject l2c = (JSObject)GetSafe(() => js.Invoke("L2"));
-        //            l2c.Should().NotBeNull();
-
-        //            string javascript = "window.app = function(value,coll){var args = []; args.push(0);args.push(0);for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);};";
-        //            DoSafe(() => _WebView.ExecuteJavascript(javascript));
-        //            JSObject win = null;
-        //            win = GetSafe(() => (JSObject)_WebView.ExecuteJavascriptWithResult("window"));
-
-        //            bool notok = true;
-        //            var stopWatch = new Stopwatch();
-        //            stopWatch.Start();
-
-        //            DoSafe(() => win.Invoke("app", res1, l2c));
-        //            Thread.Sleep(100);
-        //            while (notok)
-        //            {
-        //                //Thread.Sleep(30);
-        //                notok = datacontext.L2.Count != r;
-        //            }
-        //            stopWatch.Stop();
-        //            ts = stopWatch.ElapsedMilliseconds;
-
-        //            Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, r);
-        //        }
-
-        //        TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(0.15));
-
-        //    }
-        //}
-
-        //[Fact]
-        //public void Test_HTMLBinding_Stress_OneTime_Collection_CreateBinding()
-        //{
-        //    Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, 1.5, "javascript/simple.html");
-        //}
+        [Fact]
+        public Task Test_HTMLBinding_Stress_OneTime_Collection_CreateBinding()
+        {
+            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, 1.5, "javascript/simple.html");
+        }
 
 
         //[Fact]
