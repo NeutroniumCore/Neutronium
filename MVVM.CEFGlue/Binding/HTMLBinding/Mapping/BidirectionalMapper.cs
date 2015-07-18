@@ -54,26 +54,28 @@ namespace MVVM.CEFGlue.HTMLBinding
             _SessionInjector = new JavascriptSessionInjector(iwebview, _GlobalBuilder, JavascriptObjecChanges);
         }
 
-        internal Task Init()
+        internal async Task Init()
         {
-            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            //TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
 
-            InjectInHTLMSession(_Root, true).ContinueWith(_ =>
-                {
+            await InjectInHTLMSession(_Root, true);
+                
+                //.ContinueWith(_ =>
+                //{
 
-                    _V8Context.RunInContextAsync( () =>               
+                 await   _V8Context.RunInContextAsync( () =>               
                        {
                            if (ListenToCSharp)
                            {
                                ListenToCSharpChanges();
                            }
                            _IsListening = true;
-                           tcs.SetResult(null);
+                           //tcs.SetResult(null);
                        });
-                }
-            );
+            //    }
+            //);
 
-            return tcs.Task;
+            //return tcs.Task;
         }
 
         #region IJavascriptMapper

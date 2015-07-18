@@ -97,7 +97,14 @@ namespace MVVM.CEFGlue
                         { 
                             if (First != null) First();
                             var mapper = new BidirectionalMapper(iViewModel, context, iMode, additional);
-                            mapper.Init().ContinueWith(_ => tcs.SetResult(new HTML_Binding(context, mapper, CleanUp)));
+                            mapper.Init().ContinueWith(t => 
+                            {
+                                if (t.IsFaulted)
+                                {
+                                    tcs.SetException(t.Exception);
+                                }
+                                else tcs.SetResult(new HTML_Binding(context, mapper, CleanUp));
+                            });
                         }
                         catch (Exception e)
                         {

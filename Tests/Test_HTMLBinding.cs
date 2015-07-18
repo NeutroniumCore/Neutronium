@@ -742,9 +742,9 @@ namespace MVVM.CEFGlue.Test
         {
             coll.GetArrayLength().Should().Be(iskill.Count);
 
-            for (int i = 0; i < iskill.Count;i++ )
+            for (int i = 0; i < iskill.Count; i++)
             {
-               var c = coll.GetValue(i);
+                var c = coll.GetValue(i);
 
                 (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(iskill[i].Name);
                 (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(iskill[i].Type);
@@ -839,7 +839,7 @@ namespace MVVM.CEFGlue.Test
                     var js = mb.JSRootObject;
 
                     CefV8Value mycommand = GetAttribute(js, "Command");
-                    DoSafe(()=> Call(mycommand,"Execute"));
+                    DoSafe(() => Call(mycommand, "Execute"));
                     Thread.Sleep(100);
                     command.Received().Execute(Arg.Any<object>());
                 }
@@ -862,7 +862,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
                     CefV8Value mycommand = GetAttribute(js, "Command");
-                    DoSafe(() => Call(mycommand, "Execute",js));
+                    DoSafe(() => Call(mycommand, "Execute", js));
                     Thread.Sleep(100);
                     command.Received().Execute(datacontexttest);
                 }
@@ -919,7 +919,7 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-          [Fact]
+        [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Command_Uptate_From_Null()
         {
             var command = Substitute.For<ICommand>();
@@ -946,260 +946,260 @@ namespace MVVM.CEFGlue.Test
                 }
             };
             await RunAsync(test);
-          }
+        }
 
         #region SimpleCommand
 
-          private class ViewModelSimpleCommandTest : ViewModelBase
-          {
-              private ISimpleCommand _ICommand;
-              public ISimpleCommand SimpleCommand { get { return _ICommand; } set { Set(ref _ICommand, value, "SimpleCommand"); } }
-          }
+        private class ViewModelSimpleCommandTest : ViewModelBase
+        {
+            private ISimpleCommand _ICommand;
+            public ISimpleCommand SimpleCommand { get { return _ICommand; } set { Set(ref _ICommand, value, "SimpleCommand"); } }
+        }
 
 
-          [Fact]
-          public async Task Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Without_Parameter()
-          {
-              var command = Substitute.For<ISimpleCommand>();
-              var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Without_Parameter()
+        {
+            var command = Substitute.For<ISimpleCommand>();
+            var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
 
-              var test = new TestInContext()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
-                  {
-                      var js = mb.JSRootObject;
-                      CefV8Value mycommand = GetAttribute(js, "SimpleCommand");
-                      DoSafe(() => Call(mycommand, "Execute"));
-                      Thread.Sleep(100);
-                      command.Received().Execute(null);
-                  }
-              };
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    CefV8Value mycommand = GetAttribute(js, "SimpleCommand");
+                    DoSafe(() => Call(mycommand, "Execute"));
+                    Thread.Sleep(100);
+                    command.Received().Execute(null);
+                }
+            };
 
-              await RunAsync(test);
-          }
+            await RunAsync(test);
+        }
 
-          [Fact]
-          public async Task Test_HTMLBinding_Basic_TwoWay_SimpleCommand_With_Parameter()
-          {
-              var command = Substitute.For<ISimpleCommand>();
-              var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_SimpleCommand_With_Parameter()
+        {
+            var command = Substitute.For<ISimpleCommand>();
+            var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
 
-              var test = new TestInContext()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
-                  {
-                      var js = mb.JSRootObject;
-                      CefV8Value mycommand = GetAttribute(js, "SimpleCommand");
-                      DoSafe(() => Call(mycommand, "Execute",js));
-                      Thread.Sleep(100);
-                      command.Received().Execute(datacontexttest);
-                  }
-              };
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    CefV8Value mycommand = GetAttribute(js, "SimpleCommand");
+                    DoSafe(() => Call(mycommand, "Execute", js));
+                    Thread.Sleep(100);
+                    command.Received().Execute(datacontexttest);
+                }
+            };
 
-              await RunAsync(test);
-          }
+            await RunAsync(test);
+        }
 
 
-          [Fact]
-          public async Task Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Name()
-          {
-              var command = Substitute.For<ISimpleCommand>();
-              var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_SimpleCommand_Name()
+        {
+            var command = Substitute.For<ISimpleCommand>();
+            var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
 
-              var test = new TestInContext()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
-                  {
-                   
-                      mb.ToString().Should().Be(@"{""SimpleCommand"":{}}");
-                  }
-              };
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
 
-              await RunAsync(test);
-          }
+                    mb.ToString().Should().Be(@"{""SimpleCommand"":{}}");
+                }
+            };
 
-   
+            await RunAsync(test);
+        }
+
+
 
         #endregion
 
-          private void CheckIntValue(CefV8Value js, string pn, int value)
-          {
-              CefV8Value res = GetAttribute(js,pn);
-              res.Should().NotBeNull();
-              res.IsInt.Should().BeTrue();
-              res.GetIntValue().Should().Be(0);
-          }
+        private void CheckIntValue(CefV8Value js, string pn, int value)
+        {
+            CefV8Value res = GetAttribute(js, pn);
+            res.Should().NotBeNull();
+            res.IsInt.Should().BeTrue();
+            res.GetIntValue().Should().Be(0);
+        }
 
-
-         [Fact]
-          public async Task Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromCtojavascript()
-          {
-              var command = Substitute.For<ISimpleCommand>();
-              var datacontext = new ViewModelCLRTypes();
-
-              var test = new TestInContext()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
-                  {
-                      var js = mb.JSRootObject;
-                      js.Should().NotBeNull();
-
-                      CheckIntValue(js, "int64", 0);
-                      CheckIntValue(js, "int32", 0);
-                      CheckIntValue(js, "int16", 0);
-
-                      CheckIntValue(js, "uint16", 0);
-                      CheckIntValue(js, "uint32", 0);
-                      CheckIntValue(js, "uint64", 0);
-
-                      //CheckIntValue(js, "Char", 0);
-                      CheckIntValue(js, "Double", 0);
-                      CheckIntValue(js, "Decimal", 0);
-                      CheckIntValue(js, "Float", 0);
-                  }
-              };
-
-              await RunAsync(test);
-          }
-
-
-         private void SetValue(CefV8Value js, string pn, CefV8Value value)
-         {
-             this.Call(js, pn, value);
-             //DoSafe(() => js.Invoke(pn, value));
-         }
-
-
-         [Fact]
-         public async Task Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromjavascripttoCto()
-         {
-             var command = Substitute.For<ISimpleCommand>();
-             var datacontext = new ViewModelCLRTypes();
-
-             var test = new TestInContext()
-             {
-                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                 Test = (mb) =>
-                 {
-                     var js = mb.JSRootObject;
-                     js.Should().NotBeNull();
-
-                     SetValue(js, "int64", CefV8Value.CreateInt (32));
-                     Thread.Sleep(200);
-                     datacontext.int64.Should().Be(32);
-
-                     SetValue(js, "uint64", CefV8Value.CreateInt (456));
-                     Thread.Sleep(200);
-                     datacontext.uint64.Should().Be(456);
-
-                     SetValue(js, "int32", CefV8Value.CreateInt (5));
-                     Thread.Sleep(200);
-                     datacontext.int32.Should().Be(5);
-
-                     SetValue(js, "uint32", CefV8Value.CreateInt (67));
-                     Thread.Sleep(200);
-                     datacontext.uint32.Should().Be(67);
-
-                     SetValue(js, "int16", CefV8Value.CreateInt (-23));
-                     Thread.Sleep(200);
-                     datacontext.int16.Should().Be(-23);
-
-                     SetValue(js, "uint16", CefV8Value.CreateInt (9));
-                     Thread.Sleep(200);
-                     datacontext.uint16.Should().Be(9);
-
-                     SetValue(js, "Float", CefV8Value.CreateDouble(888.78));
-                     Thread.Sleep(200);
-                     datacontext.Float.Should().Be(888.78f);
-
-                     //SetValue(js, "Char", 128);
-                     //Thread.Sleep(200);
-                     //datacontext.Char.Should().Be((char)128);
-
-                     SetValue(js, "Double", CefV8Value.CreateDouble(866.76));
-                     Thread.Sleep(200);
-                     datacontext.Double.Should().Be(866.76);
-
-                     SetValue(js, "Decimal", CefV8Value.CreateDouble(0.5));
-                     Thread.Sleep(200);
-                     datacontext.Decimal.Should().Be(0.5m);
-                 }
-             };
-
-             await RunAsync(test);
-         }
-
-         [Fact]
-         public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok()
-         {
-             bool canexecute = true;
-             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
-
-
-             var test = new TestInContext()
-             {
-                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                 Test = (mb) =>
-                 {
-                     var js = mb.JSRootObject;
-                     CefV8Value mycommand = GetAttribute(js,"TestCommand");
-                     bool res = GetBoolAttribute(mycommand,"CanExecuteValue");
-                     res.Should().BeTrue();
-
-                     canexecute = false;
-                     _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
-
-                     Thread.Sleep(100);
-
-                     mycommand = GetAttribute(js, "TestCommand");
-                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
-                     ((bool)res).Should().BeFalse();
-                 }
-             };
-
-             await RunAsync(test);
-         }
 
         [Fact]
-         public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument()
-         {
-             bool canexecute = true;
-             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
+        public async Task Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromCtojavascript()
+        {
+            var command = Substitute.For<ISimpleCommand>();
+            var datacontext = new ViewModelCLRTypes();
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    js.Should().NotBeNull();
+
+                    CheckIntValue(js, "int64", 0);
+                    CheckIntValue(js, "int32", 0);
+                    CheckIntValue(js, "int16", 0);
+
+                    CheckIntValue(js, "uint16", 0);
+                    CheckIntValue(js, "uint32", 0);
+                    CheckIntValue(js, "uint64", 0);
+
+                    //CheckIntValue(js, "Char", 0);
+                    CheckIntValue(js, "Double", 0);
+                    CheckIntValue(js, "Decimal", 0);
+                    CheckIntValue(js, "Float", 0);
+                }
+            };
+
+            await RunAsync(test);
+        }
 
 
-             var test = new TestInContext()
-             {
-                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                 Test = (mb) =>
-                 {
-                     var js = mb.JSRootObject;
+        private void SetValue(CefV8Value js, string pn, CefV8Value value)
+        {
+            this.Call(js, pn, value);
+            //DoSafe(() => js.Invoke(pn, value));
+        }
 
-                     CefV8Value mycommand = GetAttribute(js, "TestCommand");
-                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
-                     res.Should().BeTrue();
 
-                     _ICommand.Received().CanExecute(_DataContext);
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromjavascripttoCto()
+        {
+            var command = Substitute.For<ISimpleCommand>();
+            var datacontext = new ViewModelCLRTypes();
 
-                     canexecute = false;
-                     _ICommand.ClearReceivedCalls();
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    js.Should().NotBeNull();
 
-                     _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+                    SetValue(js, "int64", CefV8Value.CreateInt(32));
+                    Thread.Sleep(200);
+                    datacontext.int64.Should().Be(32);
 
-                     Thread.Sleep(100);
+                    SetValue(js, "uint64", CefV8Value.CreateInt(456));
+                    Thread.Sleep(200);
+                    datacontext.uint64.Should().Be(456);
 
-                     _ICommand.Received().CanExecute(_DataContext);
+                    SetValue(js, "int32", CefV8Value.CreateInt(5));
+                    Thread.Sleep(200);
+                    datacontext.int32.Should().Be(5);
 
-                     mycommand = GetAttribute(js, "TestCommand");
-                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
-                     res.Should().BeFalse();
-                 }
-             };
+                    SetValue(js, "uint32", CefV8Value.CreateInt(67));
+                    Thread.Sleep(200);
+                    datacontext.uint32.Should().Be(67);
 
-             await RunAsync(test);
+                    SetValue(js, "int16", CefV8Value.CreateInt(-23));
+                    Thread.Sleep(200);
+                    datacontext.int16.Should().Be(-23);
+
+                    SetValue(js, "uint16", CefV8Value.CreateInt(9));
+                    Thread.Sleep(200);
+                    datacontext.uint16.Should().Be(9);
+
+                    SetValue(js, "Float", CefV8Value.CreateDouble(888.78));
+                    Thread.Sleep(200);
+                    datacontext.Float.Should().Be(888.78f);
+
+                    //SetValue(js, "Char", 128);
+                    //Thread.Sleep(200);
+                    //datacontext.Char.Should().Be((char)128);
+
+                    SetValue(js, "Double", CefV8Value.CreateDouble(866.76));
+                    Thread.Sleep(200);
+                    datacontext.Double.Should().Be(866.76);
+
+                    SetValue(js, "Decimal", CefV8Value.CreateDouble(0.5));
+                    Thread.Sleep(200);
+                    datacontext.Decimal.Should().Be(0.5m);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok()
+        {
+            bool canexecute = true;
+            _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
+
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    CefV8Value mycommand = GetAttribute(js, "TestCommand");
+                    bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeTrue();
+
+                    canexecute = false;
+                    _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+
+                    Thread.Sleep(100);
+
+                    mycommand = GetAttribute(js, "TestCommand");
+                    res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    ((bool)res).Should().BeFalse();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument()
+        {
+            bool canexecute = true;
+            _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
+
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CefV8Value mycommand = GetAttribute(js, "TestCommand");
+                    bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeTrue();
+
+                    _ICommand.Received().CanExecute(_DataContext);
+
+                    canexecute = false;
+                    _ICommand.ClearReceivedCalls();
+
+                    _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+
+                    Thread.Sleep(100);
+
+                    _ICommand.Received().CanExecute(_DataContext);
+
+                    mycommand = GetAttribute(js, "TestCommand");
+                    res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeFalse();
+                }
+            };
+
+            await RunAsync(test);
         }
 
         [Fact]
@@ -1240,7 +1240,7 @@ namespace MVVM.CEFGlue.Test
                     var js = mb.JSRootObject;
 
                     CefV8Value mycommand = GetAttribute(js, "TestCommand");
-                    Call(mycommand,"Execute", CefV8Value.CreateString("titi"));
+                    Call(mycommand, "Execute", CefV8Value.CreateString("titi"));
 
                     Thread.Sleep(150);
                     _ICommand.Received().Execute("titi");
@@ -1349,7 +1349,7 @@ namespace MVVM.CEFGlue.Test
 
                     Thread.Sleep(700);
                     function.Received(1).Invoke(25);
-                }            
+                }
             };
 
             await RunAsync(test);
@@ -1386,7 +1386,7 @@ namespace MVVM.CEFGlue.Test
                     function.Received(1).Invoke(25);
                 },
                 Then = (mb) =>
-                   {                       
+                   {
                        var error = _WebView.Context.GetGlobal().GetValue("err");
                        error.IsUndefined.Should().BeTrue();
 
@@ -1394,7 +1394,7 @@ namespace MVVM.CEFGlue.Test
                        int intres = resvalue.GetIntValue();
                        intres.Should().Be(255);
 
-                      
+
                    }
             };
 
@@ -1410,7 +1410,7 @@ namespace MVVM.CEFGlue.Test
             var function = NSubstitute.Substitute.For<Func<int, int>>();
             function.When(f => f.Invoke(Arg.Any<int>())).Do(_ => { throw new Exception(errormessage); });
             var dc = new FakeFactory<int, int>(function);
-   
+
             var test = new TestInContext()
             {
                 Path = @"javascript\index_promise.html",
@@ -1434,13 +1434,13 @@ namespace MVVM.CEFGlue.Test
                     Thread.Sleep(200);
                     function.Received(1).Invoke(25);
                 },
-                Then  = (mb) =>
-                {                  
-                       var error = _WebView.Context.GetGlobal().GetValue("err").GetStringValue();
-                       error.Should().Be(errormessage);
+                Then = (mb) =>
+                {
+                    var error = _WebView.Context.GetGlobal().GetValue("err").GetStringValue();
+                    error.Should().Be(errormessage);
 
-                       CefV8Value resvalue = _WebView.Context.GetGlobal().GetValue("res");
-                       resvalue.IsUndefined.Should().BeTrue();
+                    CefV8Value resvalue = _WebView.Context.GetGlobal().GetValue("res");
+                    resvalue.IsUndefined.Should().BeTrue();
                 }
             };
 
@@ -1455,7 +1455,7 @@ namespace MVVM.CEFGlue.Test
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Collection()
         {
-  
+
             var test = new TestInContext()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
@@ -1526,7 +1526,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "Skills"));;
+                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "Skills")); ;
                     col.GetArrayLength().Should().Be(2);
 
                     Check(col, _DataContext.Skills);
@@ -1565,12 +1565,12 @@ namespace MVVM.CEFGlue.Test
 
                     //TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.5));
                     TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.7));
-                            
+
                 }
             };
 
             await RunAsync(test);
-           }
+        }
 
 
 
@@ -1598,7 +1598,6 @@ namespace MVVM.CEFGlue.Test
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, "javascript/simple.html");
         }
         public Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, string ipath = null)
-
         {
             int r = 100;
             var datacontext = new TwoList();
@@ -1641,7 +1640,7 @@ namespace MVVM.CEFGlue.Test
 
             var test = new TestInContext()
             {
-                Path="javascript/simple.html",
+                Path = "javascript/simple.html",
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
@@ -1653,14 +1652,14 @@ namespace MVVM.CEFGlue.Test
                     CefV8Value col2 = GetSafe(() => UnWrapCollection(js, "L2"));
                     col2.GetArrayLength().Should().Be(0);
 
-                    CefV8Value l2c = GetAttribute(js,"L2");
-                        //(JSObject)GetSafe(() => js.Invoke("L2"));
+                    CefV8Value l2c = GetAttribute(js, "L2");
+                    //(JSObject)GetSafe(() => js.Invoke("L2"));
                     l2c.Should().NotBeNull();
 
                     string javascript = "window.app = function(value,coll){var args = []; args.push(0);args.push(0);for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);};";
                     CefV8Value res = null;
                     CefV8Exception ex = null;
-                    bool ok =  _WebView.Context.TryEval(javascript,out res,out ex );
+                    bool ok = _WebView.Context.TryEval(javascript, out res, out ex);
                     ok.Should().BeTrue();
                     //JSObject win = null;
                     //win = GetSafe(() => (JSObject)_WebView.ExecuteJavascriptWithResult("window"));
@@ -1669,7 +1668,7 @@ namespace MVVM.CEFGlue.Test
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
-                    DoSafe(() => Call(_WebView.Context.GetGlobal(),"app", col1, l2c));
+                    DoSafe(() => Call(_WebView.Context.GetGlobal(), "app", col1, l2c));
                     Thread.Sleep(100);
                     while (notok)
                     {
@@ -1697,7 +1696,7 @@ namespace MVVM.CEFGlue.Test
         [Fact]
         public async Task Test_HTMLBinding_Stress_TwoWay_Int()
         {
- 
+
 
             var test = new TestInContext()
             {
@@ -1758,7 +1757,7 @@ namespace MVVM.CEFGlue.Test
                     Check(col, _DataContext.Skills);
 
                     CefV8Value coll = GetAttribute(js, "Skills");
-                    Call(coll,"push", (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
+                    Call(coll, "push", (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
 
                     Thread.Sleep(5000);
                     _DataContext.Skills.Should().HaveCount(3);
@@ -1766,7 +1765,7 @@ namespace MVVM.CEFGlue.Test
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
-                    Call(coll,"pop");
+                    Call(coll, "pop");
 
                     Thread.Sleep(100);
                     _DataContext.Skills.Should().HaveCount(2);
@@ -1774,7 +1773,7 @@ namespace MVVM.CEFGlue.Test
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
-                    Call(coll,"shift");
+                    Call(coll, "shift");
 
                     Thread.Sleep(100);
                     _DataContext.Skills.Should().HaveCount(1);
@@ -1782,8 +1781,8 @@ namespace MVVM.CEFGlue.Test
                     Check(col, _DataContext.Skills);
 
 
-                  Call(coll,"unshift",
-                        (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
+                    Call(coll, "unshift",
+                          (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
 
                     Thread.Sleep(150);
                     _DataContext.Skills.Should().HaveCount(2);
@@ -1793,11 +1792,11 @@ namespace MVVM.CEFGlue.Test
                     _DataContext.Skills.Add(new Skill() { Type = "Langage", Name = "French" });
                     Thread.Sleep(150);
                     _DataContext.Skills.Should().HaveCount(3);
-                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
-                     col.Should().NotBeNull();
+                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
-                       Call(coll,"reverse");
+                    Call(coll, "reverse");
 
                     Thread.Sleep(150);
                     _DataContext.Skills.Should().HaveCount(3);
@@ -1829,7 +1828,7 @@ namespace MVVM.CEFGlue.Test
                     Check(col, _DataContext.Skills);
 
                     CefV8Value coll = GetAttribute(js, "Skills");
-                    Call(coll,"push", CefV8Value.CreateString("Whatever"));
+                    Call(coll, "push", CefV8Value.CreateString("Whatever"));
 
                     Thread.Sleep(150);
                     _DataContext.Skills.Should().HaveCount(2);
@@ -1876,7 +1875,7 @@ namespace MVVM.CEFGlue.Test
         }
 
 
-        private void Checkstring( CefV8Value coll, IList<string> iskill)
+        private void Checkstring(CefV8Value coll, IList<string> iskill)
         {
             coll.GetArrayLength().Should().Be(iskill.Count);
 
@@ -1914,7 +1913,7 @@ namespace MVVM.CEFGlue.Test
                     int res = GetIntAttribute(js, "decimalValue");
                     res.Should().Be(0);
 
-                    Call(js,"decimalValue", CefV8Value.CreateDouble( 0.5));
+                    Call(js, "decimalValue", CefV8Value.CreateDouble(0.5));
 
                     datacontext.decimalValue.Should().Be(0.5m);
 
@@ -1957,7 +1956,7 @@ namespace MVVM.CEFGlue.Test
                     var doublev = GetDoubleAttribute(js, "longValue");
                     doublev.Should().Be(45);
 
-                   Call(js,"longValue", CefV8Value.CreateInt( 24524));
+                    Call(js, "longValue", CefV8Value.CreateInt(24524));
                     Thread.Sleep(100);
 
                     datacontext.longValue.Should().Be(24524);
@@ -1972,7 +1971,7 @@ namespace MVVM.CEFGlue.Test
         }
 
 
-        
+
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Collection_string()
         {
@@ -2082,8 +2081,8 @@ namespace MVVM.CEFGlue.Test
                     CefV8Value col = GetSafe(() => UnWrapCollection(js, "List"));
                     col.GetArrayLength().Should().Be(1);
 
-                    CefV8Value res = GetAttribute(js,"List");
-                    Call(res,"push", CefV8Value.CreateString("newvalue"));
+                    CefV8Value res = GetAttribute(js, "List");
+                    Call(res, "push", CefV8Value.CreateString("newvalue"));
 
                     col = GetSafe(() => UnWrapCollection(js, "List"));
                     col.GetArrayLength().Should().Be(2);
@@ -2140,7 +2139,7 @@ namespace MVVM.CEFGlue.Test
                     comp.Add(0.55m);
 
                     CefV8Value res = GetAttribute(js, "List");
-                    Call(res,"push", CefV8Value.CreateDouble(0.55));
+                    Call(res, "push", CefV8Value.CreateDouble(0.55));
 
                     Thread.Sleep(350);
 
@@ -2154,7 +2153,7 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-          [Fact]
+        [Fact]
         public async Task Test_HTMLBinding_stringBinding()
         {
             var datacontext = new VMWithList<decimal>();
@@ -2169,200 +2168,71 @@ namespace MVVM.CEFGlue.Test
                     mb.Root.Should().BeNull();
 
 
-                    string res = GetStringAttribute(js,"Name");
+                    string res = GetStringAttribute(js, "Name");
                     res.Should().Be("O Monstro");
 
                     string res2 = GetStringAttribute(js, "LastName");
                     res2.Should().Be("Desmaisons");
 
 
-                    string res4 = CallWithRes( GetAttribute(js,"Local"),"City").GetStringValue();
+                    string res4 = CallWithRes(GetAttribute(js, "Local"), "City").GetStringValue();
                     res4.Should().Be("Florianopolis");
 
                     CefV8Value res45 = UnWrapCollection(js, "Skills");
-                    string res5 = CallWithRes( res45.GetValue(0),"Name").GetStringValue();
+                    string res5 = CallWithRes(res45.GetValue(0), "Name").GetStringValue();
                     res5.Should().Be("Langage");
                 }
             };
 
-             await RunAsync(test);
-          }
-    
-       
-     
-        //[Fact]
-        //public void Test_HTMLBinding_stringBinding()
-        //{
-        //    using (Tester())
-        //    {
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
+            await RunAsync(test);
+        }
 
 
-        //        using (var mb = StringBinding.Bind(_WebView, "{\"LastName\":\"Desmaisons\",\"Name\":\"O Monstro\",\"BirthDay\":\"0001-01-01T00:00:00.000Z\",\"PersonalState\":\"Married\",\"Age\":0,\"Local\":{\"City\":\"Florianopolis\",\"Region\":\"SC\"},\"MainSkill\":{},\"States\":[\"Single\",\"Married\",\"Divorced\"],\"Skills\":[{\"Type\":\"French\",\"Name\":\"Langage\"},{\"Type\":\"C++\",\"Name\":\"Info\"}]}").Result)
-        //        {
-        //            var js = mb.JSRootObject;
+   
 
-        //            mb.Root.Should().BeNull();
-
-
-        //            JSValue res = GetSafe(() => js.Invoke("Name"));
-        //            ((string)res).Should().Be("O Monstro");
-
-        //            JSValue res2 = GetSafe(() => js.Invoke("LastName"));
-        //            ((string)res2).Should().Be("Desmaisons");
-
-
-        //            JSValue res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Florianopolis");
-
-
-        //            JSValue res5 = GetSafe(() => (((JSObject)((JSValue[])UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Langage");
-        //        }
-        //    }
-        //}
 
 
         //[Fact]
-        //public void Test_HTMLBinding_Factory_stringBinding()
+        //public async Task Test_HTMLBinding_BasicAlreadyLoaded_OneWay()
         //{
-        //    using (Tester())
+        //    var datacontext = new VMWithList<decimal>();
+
+        //    var test = new TestInContext()
         //    {
-        //        var fact = new AwesomiumBindingFactory() { InjectionTimeOut = 5000, ManageWebSession = true };
-
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
-
-        //        using (var mb = fact.Bind(_WebView, "{\"LastName\":\"Desmaisons\",\"Name\":\"O Monstro\",\"BirthDay\":\"0001-01-01T00:00:00.000Z\",\"PersonalState\":\"Married\",\"Age\":0,\"Local\":{\"City\":\"Florianopolis\",\"Region\":\"SC\"},\"MainSkill\":{},\"States\":[\"Single\",\"Married\",\"Divorced\"],\"Skills\":[{\"Type\":\"French\",\"Name\":\"Langage\"},{\"Type\":\"C++\",\"Name\":\"Info\"}]}").Result)
+        //        Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
+        //        Test = (mb) =>
         //        {
-        //            var js = mb.JSRootObject;
-
-        //            JSValue res = GetSafe(() => Get(js, "Name"));
-        //            ((string)res).Should().Be("O Monstro");
-
-        //            JSValue res2 = GetSafe(() => js.Invoke("LastName"));
-        //            ((string)res2).Should().Be("Desmaisons");
-
-        //            JSValue res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Florianopolis");
-
-        //            JSValue res5 = GetSafe(() => (((JSObject)((JSValue[])this.UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Langage");
+        //            mb.Should().NotBeNull();
         //        }
-        //    }
+        //    };
+
+        //    await RunAsync(test);
         //}
 
 
-        //[Fact]
-        //public void Test_HTMLBinding_Factory_Custo_Options()
-        //{
-        //    using (Tester())
-        //    {
-        //        var fact = new AwesomiumBindingFactory() { InjectionTimeOut = -1, ManageWebSession = false };
 
-        //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-        //        isValidSynchronizationContext.Should().BeTrue();
 
-        //        using (var mb = fact.Bind(_WebView, "{\"LastName\":\"Desmaisons\",\"Name\":\"O Monstro\",\"BirthDay\":\"0001-01-01T00:00:00.000Z\",\"PersonalState\":\"Married\",\"Age\":0,\"Local\":{\"City\":\"Florianopolis\",\"Region\":\"SC\"},\"MainSkill\":{},\"States\":[\"Single\",\"Married\",\"Divorced\"],\"Skills\":[{\"Type\":\"French\",\"Name\":\"Langage\"},{\"Type\":\"C++\",\"Name\":\"Info\"}]}").Result)
-        //        {
-        //            var js = mb.JSRootObject;
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()
+        {
+            using (Tester("javascript/almost_empty.html"))
+            {
+                var vm = new object();
+                AggregateException ex = null;
 
-        //            JSValue res = GetSafe(() => Get(js, "Name"));
-        //            ((string)res).Should().Be("O Monstro");
+                try
+                {
+                    await HTML_Binding.Bind(_ICefGlueWindow, vm, JavascriptBindingMode.OneTime);
+                }
+                catch (AggregateException myex)
+                {
+                    ex = myex;
+                }
 
-        //            JSValue res2 = GetSafe(() => js.Invoke("LastName"));
-        //            ((string)res2).Should().Be("Desmaisons");
-
-        //            JSValue res4 = GetSafe(() => ((JSObject)js.Invoke("Local")).Invoke("City"));
-        //            ((string)res4).Should().Be("Florianopolis");
-
-        //            JSValue res5 = GetSafe(() => (((JSObject)((JSValue[])UnWrapCollection(js, "Skills"))[0]).Invoke("Name")));
-        //            ((string)res5).Should().Be("Langage");
-        //        }
-        //    }
-        //}
+                ex.Should().NotBeNull();
+                ex.Flatten().InnerException.Should().BeOfType<MVVMCEFGlueException>();
+            }
+        }
     }
-
-
-
- 
-    //[Fact]
-    //public void Test_HTMLBinding_Basic_TwoWay_TimeOut()
-    //{
-    //    using (Tester())
-    //    {
-
-    //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-    //        isValidSynchronizationContext.Should().BeTrue();
-
-    //        var fact = new AwesomiumBindingFactory() { InjectionTimeOut = 10 };
-
-    //        int r = 20000;
-    //        var datacontext = new TwoList();
-    //        datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
-
-    //        Exception bindingex = null;
-
-    //        var task = fact.Bind(_WebView, datacontext, JavascriptBindingMode.TwoWay).ContinueWith(t => bindingex = t.Exception);
-    //        task.Wait();
-
-    //        bindingex.Should().BeOfType<AggregateException>();
-    //        var ex = (bindingex as AggregateException).InnerException;
-    //        ex.Should().BeOfType<MVVMforAwesomiumException>();
-    //    }
-    //}
-
-    //[Fact]
-    //public void Test_HTMLBinding_BasicAlreadyLoaded_OneWay()
-    //{
-    //    using (Tester())
-    //    {
-
-    //        bool isValidSynchronizationContext = (_SynchronizationContext != null) && (_SynchronizationContext.GetType() != typeof(SynchronizationContext));
-    //        isValidSynchronizationContext.Should().BeTrue();
-
-    //        WaitLoad(_WebView).Wait();
-
-    //        using (var mb = AwesomeBinding.Bind(_WebView, _DataContext, JavascriptBindingMode.OneWay).Result)
-    //        {
-    //            mb.Should().NotBeNull();
-    //        }
-    //    }
-    //}
-
-
-    //private Task WaitLoad(IWebView view)
-    //{
-    //    TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-
-    //    UrlEventHandler ea = null;
-    //    ea = (o, e) => { tcs.SetResult(null); view.DocumentReady -= ea; };
-    //    view.DocumentReady += ea;
-
-    //    return tcs.Task;
-    //}
-
-    //[Fact]
-    //public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()
-    //{
-    //    using (Tester("javascript/almost_empty.html"))
-    //    {
-    //        var vm = new object();
-    //        AggregateException ex = null;
-
-    //        try
-    //        {
-    //            await HTML_Binding.Bind(_ICefGlueWindow, vm, JavascriptBindingMode.OneTime);
-    //        }
-    //        catch (AggregateException myex)
-    //        {
-    //            ex = myex;
-    //        }
-
-    //        ex.Should().NotBeNull();
-    //        ex.InnerException.Should().BeOfType<MVVMCEFGlueException>();
-    //    }
-    //}
 }
 
