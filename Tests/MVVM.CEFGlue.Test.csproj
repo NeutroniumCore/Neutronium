@@ -110,9 +110,7 @@
     <Compile Include="Test_DoubleNavigation_Animation.cs" />
     <Compile Include="Test_Infra.cs" />
     <Compile Include="Test_Navigation.cs" />
-    <Compile Include="Test_DateTimeConvertion.cs" />
     <Compile Include="Test_JavascriptToCSharpMapper_Simple.cs" />
-    <Compile Include="Test_GlobalBuilder.cs" />
     <Compile Include="Test_HTMLBinding.cs" />
     <Compile Include="Test_ConvertToJSO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

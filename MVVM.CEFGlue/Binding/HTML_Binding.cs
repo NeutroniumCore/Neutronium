@@ -35,6 +35,8 @@ namespace MVVM.CEFGlue
             get { return _BirectionalMapper.JSValueRoot.GetJSSessionValue(); }
         }
 
+        public CefV8CompleteContext Context { get { return _CefV8Context; } }
+
         public object Root
         {
             get { return _BirectionalMapper.JSValueRoot.CValue; }

@@ -106,5 +106,10 @@ namespace MVVM.CEFGlue
 
             return tcs.Task;
         }
+
+        public CefV8CompleteContext Context
+        {
+            get { return _Context; }
+        }
     }
 }
