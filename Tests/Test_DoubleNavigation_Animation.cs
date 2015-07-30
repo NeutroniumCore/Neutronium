@@ -100,6 +100,20 @@ namespace MVVM.CEFGlue.Test
                     Opened.Value.Subtract(nav.Value).Should().BeGreaterThan(TimeSpan.FromSeconds(1.9)).
                         And.BeLessOrEqualTo(TimeSpan.FromSeconds(2.2));
 
+                    WindowTest.RunOnUIThread(
+                 () =>
+                 {
+                     wpfnav.NavigateAsync(vm).ContinueWith
+                    (
+                        t =>
+                        {
+
+                            mre.Set();
+                        });
+                 });
+
+                    mre.WaitOne();
+                    Thread.Sleep(500);
                 });
 
 
