@@ -17,15 +17,13 @@ namespace MVVM.CEFGlue
 {
     public class StringBinding : IDisposable, IHTMLBinding
     {
-        private Action _CleanUp;
         private JavascriptSessionInjector _JavascriptSessionInjector;
         private CefV8Value _Root;
         private CefV8CompleteContext _Context;
 
-        internal StringBinding(CefV8CompleteContext context, CefV8Value root, JavascriptSessionInjector iJavascriptSessionInjector, Action CleanUp)
+        internal StringBinding(CefV8CompleteContext context, CefV8Value root, JavascriptSessionInjector iJavascriptSessionInjector)
         {
             _JavascriptSessionInjector = iJavascriptSessionInjector;
-            _CleanUp = CleanUp;
             _Context = context;
             _Root = root;
         }
@@ -34,12 +32,6 @@ namespace MVVM.CEFGlue
         {
             _Context.RunInContextAsync(() =>
             {
-                if (_CleanUp != null)
-                {
-                    _CleanUp();
-                    _CleanUp = null;
-                }
-
                 if (_JavascriptSessionInjector != null)
                 {
                     _JavascriptSessionInjector.Dispose();
@@ -58,14 +50,12 @@ namespace MVVM.CEFGlue
             get { return null; }
         }
 
-        public static Task<IHTMLBinding> Bind(ICefGlueWindow view, string iViewModel, Action First = null, Action CleanUp = null)
+        public static Task<IHTMLBinding> Bind(ICefGlueWindow view, string iViewModel)
         {
             TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
 
             view.ExecuteWhenReady(() =>
             {
-                if (First != null) First();
-
                 var context = view.MainFrame.GetMainContext();
                 var v8context = context.Context;
 
@@ -79,7 +69,7 @@ namespace MVVM.CEFGlue
                 var mappedroot = injector.Map(root, null);
                 injector.RegisterInSession(mappedroot);
 
-                tcs.SetResult(new StringBinding(context, mappedroot, injector, CleanUp));
+                tcs.SetResult(new StringBinding(context, mappedroot, injector));
             });
 
             return tcs.Task;
