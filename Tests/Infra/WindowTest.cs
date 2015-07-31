@@ -37,11 +37,10 @@ namespace MVVM.CEFGlue.Test
         }
 
         public void Dispose()
-        {
+        {   
+            Action End = () => { _WPFThreadingHelper.Close(); };
+            Dispatcher.Invoke(End);
             _WPFThreadingHelper.Dispose();
-            //Action End = () => { _WPFThreadingHelper.Close(); };
-            //Dispatcher.Invoke(End);
-            //WebCore.QueueWork(()  =>_WPFThreadingHelper.Dispose());
         }
     }
 }

@@ -46,11 +46,6 @@ namespace MVVM.CEFGlue
             set { _IWebSessionWatcher = value; }
         }
 
-        //public WPFDoubleBrowserNavigator(WpfCefBrowser iWebControl, WpfCefBrowser iWebControlSecond, IUrlSolver inb, IAwesomiumBindingFactory iAwesomiumBindingFactory = null) :
-        //    this( new WebViewSimpleLifeCycleManager(iWebControl,iWebControlSecond),inb,iAwesomiumBindingFactory)
-        //{
-        //}
-
         public WPFDoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver inb, IHTMLBindingFactory iAwesomiumBindingFactory = null)
         {
             _IWebViewLifeCycleManager = lifecycler;
@@ -198,22 +193,6 @@ namespace MVVM.CEFGlue
             _NextWebControl.ConsoleMessage += ConsoleMessage;
 
             TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
-
-            //UrlEventHandler sourceupdate = null;
-            //sourceupdate = (o, e) =>
-            //{
-            //    _NextWebControl.AddressChanged -= sourceupdate;
-            //    _IAwesomiumBindingFactory.Bind(_NextWebControl, iViewModel, wh, iMode).WaitWith(closetask,
-            //         t => Switch(t, wh.__window__, tcs));
-            //};
-
-            //_NextWebControl.AddressChanged += sourceupdate;
-
-            //if (_NextWebControl.Source == iUri)
-            //    _NextWebControl.Reload(false);
-            // else
-            //    _NextWebControl.Source = iUri;
-
 
             EventHandler<LoadEndEventArgs> sourceupdate = null;
             sourceupdate = (o, e) =>
