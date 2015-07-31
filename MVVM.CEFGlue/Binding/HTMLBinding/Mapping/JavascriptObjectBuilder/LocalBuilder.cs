@@ -35,8 +35,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public uint GetID(CefV8Value iJSObject)
         {
-            if (iJSObject == null)
-                return 0;
+            if (iJSObject == null) return 0;
 
             return _CefV8Context.Evaluate(() => iJSObject.GetValue("_MappedId").GetUIntValue());
         }
@@ -84,13 +83,10 @@ namespace MVVM.CEFGlue.HTMLBinding
                     CefV8Value res = null;
                     CefV8Exception excep = null;
 
-                    using (_CefV8Context.Enter())
-                    {
-                        _CefV8Context.Context.TryEval(string.Format("new Enum('{0}',{1},'{2}','{3}')",
-                                    ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()),
-                                    out res, out excep);
-                    }
-                   
+                    _CefV8Context.Context.TryEval(string.Format("new Enum('{0}',{1},'{2}','{3}')",
+                        ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()),
+                        out res, out excep);
+             
                     return CheckUpdate(res);
                 });
         }

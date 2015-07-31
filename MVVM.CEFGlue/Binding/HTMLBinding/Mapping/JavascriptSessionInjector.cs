@@ -120,30 +120,18 @@ namespace MVVM.CEFGlue.HTMLBinding
                     }
                     return res;
                 });
-            //.Result;
         }
 
         public void RegisterInSession(CefV8Value iJSObject)
         {
             var ko = GetKo();
             ko.Bind("log", _CefV8Context, (c, o, e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
-            //if (ko.HasValue("register"))
             ko.Invoke("register", _CefV8Context,iJSObject);
             ko.Invoke("applyBindings", _CefV8Context,iJSObject);
         }
 
         public void Dispose()
         {
-            //WebCore.QueueWork(()
-            //    =>
-            //    {
-            //        if (_Listener != null)
-            //        {
-            //            _Listener.Dispose();
-            //            _Listener = null;
-            //        }
-            //    });
-
             _CefV8Context.Run(() =>
             {
                 if (_Listener != null)

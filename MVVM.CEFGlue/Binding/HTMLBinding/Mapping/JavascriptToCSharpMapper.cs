@@ -42,23 +42,17 @@ namespace MVVM.CEFGlue.HTMLBinding
             {
                 if (ijsvalue.IsUInt)
                     res = ijsvalue.GetUIntValue();
-                else if (ijsvalue.IsInt)
-                    res = ijsvalue.GetIntValue();       
             }
             else
             {
                 if (ijsvalue.IsInt)
                     res = ijsvalue.GetIntValue();
-                else if (ijsvalue.IsUInt)
-                    res = ijsvalue.GetUIntValue();
             }  
 
             if ((res==null) && (ijsvalue.IsDouble))
             {
                 res = ijsvalue.GetDoubleValue();
             }
-
-         
 
             if (res!=null)
             {

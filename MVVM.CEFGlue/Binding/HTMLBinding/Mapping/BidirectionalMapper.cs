@@ -232,8 +232,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             object nv = propertyInfo.GetValue(sender, null);
             IJSCSGlue oldbridgedchild = currentfather.Attributes[pn];
 
-            if (Object.Equals(nv, oldbridgedchild.CValue))
-                return;
+            if (Object.Equals(nv, oldbridgedchild.CValue)) return;
 
             IJSCSGlue newbridgedchild = _JSObjectBuilder.Map(nv);
 

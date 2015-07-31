@@ -481,14 +481,15 @@ namespace MVVM.CEFGlue.Test
             return res;
         }
 
-        [Fact]
-        public void Test_HTMLWindow_WebCoreShutDown_Watcher_Exception()
-        {
-            IWebSessionWatcher watch = Substitute.For<IWebSessionWatcher>();
-            var exp = Test_HTMLWindow_WebCoreShutDown_Base_Exception(watch);
-            //watch.Received().LogCritical("Critical: WebCore ShuttingDown!!");
-            //watch.Received().OnSessionError(exp, Arg.Any<Action>());
-        }
+        //[Fact]
+        //public void Test_HTMLWindow_WebCoreShutDown_Watcher_Exception()
+        //{
+        //    WPFTester.ShouldReceivedError = true;
+        //    IWebSessionWatcher watch = Substitute.For<IWebSessionWatcher>();
+        //    var exp = Test_HTMLWindow_WebCoreShutDown_Base_Exception(watch);
+        //    //watch.Received().LogCritical("Critical: WebCore ShuttingDown!!");
+        //    //watch.Received().OnSessionError(exp, Arg.Any<Action>());
+        //}
 
         [Fact]
         public void Test_WPFBrowserNavigator_Navition_Simple()
