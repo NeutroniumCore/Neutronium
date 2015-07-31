@@ -21,26 +21,16 @@ namespace MVVM.CEFGlue.HTMLBinding
            _CefV8Context = iIWebView;
        }
 
-       private CefV8Value UnsafeCreateJSO()
-        {
-            //_CefV8Context.Enter();
-
-            using (_CefV8Context.Enter())
-            {
-                CefV8Value res = CefV8Value.CreateObject(null);
-                res.SetValue("_MappedId", CefV8Value.CreateUInt(_MapCount++),
-                    CefV8PropertyAttribute.ReadOnly | CefV8PropertyAttribute.DontEnum | CefV8PropertyAttribute.DontDelete);
-
-                //_CefV8Context.Exit();
-                return res;
-            }
-        }
-
-
-
         public CefV8Value CreateJSO()
         {
-            return _CefV8Context.EvaluateAsync(() => UnsafeCreateJSO()).Result;
+            return _CefV8Context.Evaluate(() => 
+                {
+                    CefV8Value res = CefV8Value.CreateObject(null);
+                    res.SetValue("_MappedId", CefV8Value.CreateUInt(_MapCount++),
+                        CefV8PropertyAttribute.ReadOnly | CefV8PropertyAttribute.DontEnum | CefV8PropertyAttribute.DontDelete);
+
+                    return res;
+                });
         }
 
         public uint GetID(CefV8Value iJSObject)
@@ -48,7 +38,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             if (iJSObject == null)
                 return 0;
 
-            return _CefV8Context.EvaluateAsync(() => iJSObject.GetValue("_MappedId").GetUIntValue()).Result;
+            return _CefV8Context.Evaluate(() => iJSObject.GetValue("_MappedId").GetUIntValue());
         }
 
 
@@ -57,10 +47,10 @@ namespace MVVM.CEFGlue.HTMLBinding
             return ((iJSObject!=null) &&( iJSObject.HasValue("_MappedId")));
         }
 
-        public CefV8Value CreateDate(DateTime dt)
-        {
-            return CefV8Value.CreateDate(dt);
-        }
+        //public CefV8Value CreateDate(DateTime dt)
+        //{
+        //    return CefV8Value.CreateDate(dt);
+        //}
 
         private CefV8Value UpdateObject(CefV8Value ires)
         {
@@ -87,11 +77,9 @@ namespace MVVM.CEFGlue.HTMLBinding
             return UpdateObject(Check(ires));
         }
 
-
-
         public CefV8Value CreateEnum(Enum ienum)
         {
-            return _CefV8Context.EvaluateAsync(() =>
+            return _CefV8Context.Evaluate(() =>
                 {
                     CefV8Value res = null;
                     CefV8Exception excep = null;
@@ -101,34 +89,15 @@ namespace MVVM.CEFGlue.HTMLBinding
                         _CefV8Context.Context.TryEval(string.Format("new Enum('{0}',{1},'{2}','{3}')",
                                     ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()),
                                     out res, out excep);
-
-                        //_CefV8Context.Exit();
                     }
                    
                     return CheckUpdate(res);
-                }).Result;
+                });
         }
-
-        //private CefV8Value? _JSNull = null;
 
         public CefV8Value CreateNull()
         {
             return _CefV8Context.Evaluate(() =>  CefV8Value.CreateNull());
-            //{
-            //    //_CefV8Context.Enter();
-            //    CefV8Value myres = CefV8Value.CreateNull();
-            //    //_CefV8Context.Exit();
-            //    return myres;
-
-            //});
-            ////.Result;
-
-
-            //return CefV8Value.CreateNull();
-            //if (!_JSNull.HasValue)
-            //    _JSNull = Check(_IWebView.EvaluateSafe(() => _IWebView.ExecuteJavascriptWithResult("new Null_reference()")));
-
-            //return _JSNull.Value;
         }
     }
 }

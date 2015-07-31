@@ -8,7 +8,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 {
     public interface IJSOLocalBuilder : IJSOBuilder
     {
-        CefV8Value CreateDate(DateTime dt);
+        //CefV8Value CreateDate(DateTime dt);
 
         CefV8Value CreateEnum(Enum ienum);
 
