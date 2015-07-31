@@ -20,14 +20,12 @@ namespace MVVM.CEFGlue
     public class HTML_Binding : IDisposable, IHTMLBinding
     {
         private BidirectionalMapper _BirectionalMapper;
-        private Action _CleanUp;
         private CefV8CompleteContext _CefV8Context;
 
-        private HTML_Binding(CefV8CompleteContext iContext, BidirectionalMapper iConvertToJSO, Action CleanUp = null)
+        private HTML_Binding(CefV8CompleteContext iContext, BidirectionalMapper iConvertToJSO)
         {
             _CefV8Context = iContext;
             _BirectionalMapper = iConvertToJSO;
-            _CleanUp = CleanUp;
         }
 
         public CefV8Value JSRootObject
@@ -55,40 +53,9 @@ namespace MVVM.CEFGlue
         public void Dispose()
         {
             _BirectionalMapper.Dispose();
-            if (_CleanUp != null)
-            {
-                _CefV8Context.RunInContextAsync(() =>
-                {
-                    _CleanUp();
-                    _CleanUp = null;
-                });
-            }
         }
 
-        //internal static Task<IHTMLBinding> Bind(CefV8Context view, object iViewModel, object additional, JavascriptBindingMode iMode,
-        //                                            Action First, Action CleanUp)
-        //{
-        //    TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
-
-        //    view.ExecuteWhenReady(() =>
-        //            {
-        //                try 
-        //                { 
-        //                    if (First != null) First();
-        //                    var mapper = new BidirectionalMapper(iViewModel, view, iMode, additional);
-        //                    mapper.Init().ContinueWith(_ => tcs.SetResult(new HTML_Binding(view,mapper, CleanUp)));
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    tcs.SetException(e);
-        //                }
-        //            });
-
-        //    return tcs.Task;
-        //}
-
-        internal static Task<IHTMLBinding> Bind(ICefGlueWindow view, object iViewModel, object additional, JavascriptBindingMode iMode,
-                                                    Action First, Action CleanUp)
+        internal static Task<IHTMLBinding> Bind(ICefGlueWindow view, object iViewModel, object additional, JavascriptBindingMode iMode)
         {
             TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
 
@@ -97,7 +64,6 @@ namespace MVVM.CEFGlue
                         var context = view.MainFrame.GetMainContext();
                         try 
                         { 
-                            if (First != null) First();
                             var mapper = new BidirectionalMapper(iViewModel, context, iMode, additional);
                             mapper.Init().ContinueWith(t => 
                             {
@@ -105,7 +71,7 @@ namespace MVVM.CEFGlue
                                 {
                                     tcs.SetException(t.Exception);
                                 }
-                                else tcs.SetResult(new HTML_Binding(context, mapper, CleanUp));
+                                else tcs.SetResult(new HTML_Binding(context, mapper));
                             });
                         }
                         catch (Exception e)
@@ -121,7 +87,7 @@ namespace MVVM.CEFGlue
 
         public static Task<IHTMLBinding> Bind(ICefGlueWindow view, object iViewModel, JavascriptBindingMode iMode)
         {
-            return Bind(view, iViewModel, null, iMode, null, null);
+            return Bind(view, iViewModel, null, iMode);
         }
 
     }

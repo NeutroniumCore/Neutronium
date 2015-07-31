@@ -84,7 +84,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Binding\HTMLBindingFactory.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\IJSCSGlueListenableVisitor.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\JSCBridgeListenableVisitor.cs" />
@@ -106,7 +105,6 @@
     <Compile Include="Binding\HTMLBinding\Mapping\JavascriptToCSharpMapper.cs" />
     <Compile Include="Binding\HTMLBinding\Mapping\SimpleCSharpMapping\BasicCSharpToJavascriptConverter.cs" />
     <Compile Include="Binding\IHTMLBinding.cs" />
-    <Compile Include="Binding\IHTMLBindingFactory.cs" />
     <Compile Include="CefGlueHelper\CefTaskRunnerExtension.cs" />
     <Compile Include="CefGlueHelper\CefV8CompleteContext.cs" />
     <Compile Include="CefGlueHelper\CefV8Handler_Action.cs" />

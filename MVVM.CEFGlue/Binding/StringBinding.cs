@@ -58,27 +58,6 @@ namespace MVVM.CEFGlue
             get { return null; }
         }
 
-        //public static Task<IHTMLBinding> Bind(CefV8Context view, string iViewModel, Action First = null, Action CleanUp = null)
-        //{
-        //    TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
-
-        //    view.ExecuteWhenReady(() =>
-        //    {
-        //        if (First != null) First();
-        //        CefV8Value json = view.GetGlobal().GetValue("JSON");
-        //        var root = json.Invoke("parse", CefV8Value.CreateString(iViewModel));
-
-        //        var injector = new JavascriptSessionInjector(view, new GlobalBuilder(view, "MVVMGlue"), null);
-        //        var mappedroot = injector.Map(root, null);
-        //        injector.RegisterInSession(mappedroot);
-
-        //        tcs.SetResult(new StringBinding(view, mappedroot, injector, CleanUp));
-        //    });
-
-        //    return tcs.Task;
-        //}
-
-
         public static Task<IHTMLBinding> Bind(ICefGlueWindow view, string iViewModel, Action First = null, Action CleanUp = null)
         {
             TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
@@ -87,7 +66,6 @@ namespace MVVM.CEFGlue
             {
                 if (First != null) First();
 
-                //var context = view.MainFrame.GetMainContext();
                 var context = view.MainFrame.GetMainContext();
                 var v8context = context.Context;
 

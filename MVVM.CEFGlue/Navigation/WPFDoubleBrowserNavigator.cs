@@ -28,9 +28,8 @@ namespace MVVM.CEFGlue
         private WpfCefBrowser _CurrentWebControl;
         private WpfCefBrowser _NextWebControl;
 
-
-        private IHTMLBindingFactory _IAwesomiumBindingFactory;
-        private IHTMLBinding _IAwesomeBinding;
+        //private IHTMLBindingFactory _IAwesomiumBindingFactory;
+        private IHTMLBinding _IHTMLBinding;
         private IUrlSolver _INavigationBuilder;
         private bool _Disposed = false;
         private HTMLLogicWindow _Window;
@@ -46,11 +45,12 @@ namespace MVVM.CEFGlue
             set { _IWebSessionWatcher = value; }
         }
 
-        public WPFDoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver inb, IHTMLBindingFactory iAwesomiumBindingFactory = null)
+        public WPFDoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver inb)
+            //, IHTMLBindingFactory iAwesomiumBindingFactory = null)
         {
             _IWebViewLifeCycleManager = lifecycler;
             _INavigationBuilder = inb;
-            _IAwesomiumBindingFactory = iAwesomiumBindingFactory ?? new HTMLBindingFactory() { ManageWebSession = false };
+            //_IAwesomiumBindingFactory = new HTMLBindingFactory();
         }
 
         private void ConsoleMessage(object sender, ConsoleMessageEventArgs e)
@@ -64,17 +64,17 @@ namespace MVVM.CEFGlue
 
         private IHTMLBinding Binding
         {
-            get { return _IAwesomeBinding; }
+            get { return _IHTMLBinding; }
             set
             {
-                if (_IAwesomeBinding != null)
-                    _IAwesomeBinding.Dispose();
+                if (_IHTMLBinding != null)
+                    _IHTMLBinding.Dispose();
 
-                _IAwesomeBinding = value;
-                if (_Disposed && (_IAwesomeBinding!=null))
+                _IHTMLBinding = value;
+                if (_Disposed && (_IHTMLBinding!=null))
                 {
-                    _IAwesomeBinding.Dispose();
-                    _IAwesomeBinding = null;
+                    _IHTMLBinding.Dispose();
+                    _IHTMLBinding = null;
                 }
             }
         }
@@ -198,8 +198,10 @@ namespace MVVM.CEFGlue
             sourceupdate = (o, e) =>
             {
                 _NextWebControl.LoadEnd -= sourceupdate;
-                _IAwesomiumBindingFactory.Bind(_NextWebControl, iViewModel, wh, iMode).WaitWith(closetask,
-                     t => Switch(t, wh.__window__, tcs));
+
+                HTML_Binding.Bind(_NextWebControl, iViewModel, wh, iMode).
+                //_IAwesomiumBindingFactory.Bind(_NextWebControl, iViewModel, wh, iMode).
+                WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
 
             _NextWebControl.LoadEnd += sourceupdate;

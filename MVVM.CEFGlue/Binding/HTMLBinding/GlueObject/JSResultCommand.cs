@@ -31,7 +31,6 @@ namespace MVVM.CEFGlue.HTMLBinding
         public void SetMappedJSValue(CefV8Value ijsobject, IJSCBridgeCache mapper)
         {
             _MappedJSValue = ijsobject;
-            //((JSObject)_MappedJSValue).Bind("Execute", false, (o, e) => Execute(e, mapper));
             _MappedJSValue.Bind("Execute", _CefV8Context,(c, o, e) => Execute(e, mapper));
         }
 
@@ -52,9 +51,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                  {
                      if (e.Length < 2)
                          return;       
-
-                     //_CefV8Context.Enter(); 
-                     
+                    
                      CefV8Value promise = e[1];
                      if (!resulttask.IsFaulted)
                      {
@@ -71,7 +68,6 @@ namespace MVVM.CEFGlue.HTMLBinding
                          promise.InvokeAsync("reject", _CefV8Context, CefV8Value.CreateString(error));
                      }
 
-                     //_CefV8Context.Exit();
                  });
         }
 
