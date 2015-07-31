@@ -1015,6 +1015,14 @@ namespace MVVM.CEFGlue.Test
                 {
 
                     mb.ToString().Should().Be(@"{""SimpleCommand"":{}}");
+
+                    var js = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+
+                    var mysimplecommand = js.Attributes["SimpleCommand"] as JSSimpleCommand;
+                    mysimplecommand.Should().NotBeNull();
+                    mysimplecommand.ToString().Should().Be("{}");
+                    mysimplecommand.Type.Should().Be(JSCSGlueType.SimpleCommand);
+                    mysimplecommand.MappedJSValue.Should().NotBeNull();
                 }
             };
 
@@ -1367,9 +1375,18 @@ namespace MVVM.CEFGlue.Test
                 Path = @"javascript\index_promise.html",
                 Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
-                {
+                { 
+                  
+                    {
+                        var glueobj = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+                        var mysimplecommand = glueobj.Attributes["CreateObject"] as JSResultCommand;
+                        mysimplecommand.Should().NotBeNull();
+                        mysimplecommand.ToString().Should().Be("{}");
+                        mysimplecommand.Type.Should().Be(JSCSGlueType.ResultCommand);
+                        mysimplecommand.MappedJSValue.Should().NotBeNull();
+                    }
+                   
                     var js = mb.JSRootObject;
-
                     CefV8Value mycommand = GetAttribute(js, "CreateObject");
                     CefV8Exception ex = null;
                     CefV8Value cb = null;

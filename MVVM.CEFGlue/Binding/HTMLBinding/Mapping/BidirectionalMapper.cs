@@ -39,7 +39,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         {
             _V8Context = iwebview;
             _LocalBuilder = new LocalBuilder(iwebview);
-            _JSObjectBuilder = new CSharpToJavascriptMapper(iwebview,_LocalBuilder, this);
+            _JSObjectBuilder = new CSharpToJavascriptMapper(iwebview, _LocalBuilder, this);
             _JavascriptToCSharpMapper = new JavascriptToCSharpMapper();
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
             _UnrootedEntities = new List<IJSCSGlue>();
@@ -56,26 +56,16 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         internal async Task Init()
         {
-            //TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-
             await InjectInHTLMSession(_Root, true);
-                
-                //.ContinueWith(_ =>
-                //{
 
-                 await   _V8Context.RunInContextAsync( () =>               
-                       {
-                           if (ListenToCSharp)
-                           {
-                               ListenToCSharpChanges();
-                           }
-                           _IsListening = true;
-                           //tcs.SetResult(null);
-                       });
-            //    }
-            //);
-
-            //return tcs.Task;
+            await _V8Context.RunInContextAsync(() =>
+                  {
+                      if (ListenToCSharp)
+                      {
+                          ListenToCSharpChanges();
+                      }
+                      _IsListening = true;
+                  });
         }
 
         #region IJavascriptMapper
@@ -135,7 +125,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         public void RegisterCollectionMapping(CefV8Value iFather, string att, int index, CefV8Value iChild)
         {
             var father = GetFromJavascript(iFather);
-            var jsos = (att==null)? father : (father as JSGenericObject).Attributes[att];
+            var jsos = (att == null) ? father : (father as JSGenericObject).Attributes[att];
 
             Update((jsos as JSArray).Items[index] as IJSObservableBridge, iChild);
         }
@@ -177,7 +167,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                 return;
 
             var jvm = new JavascriptMapper(iroot as IJSObservableBridge, this);
-            var res = _SessionInjector.Map(iroot.JSValue, jvm,(iroot.CValue!=null));
+            var res = _SessionInjector.Map(iroot.JSValue, jvm, (iroot.CValue != null));
 
             await jvm.UpdateTask;
 
@@ -193,7 +183,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                 if (res == null)
                     return;
 
-                INotifyPropertyChanged inc = (!_IsListening)? null :res.CValue as INotifyPropertyChanged;
+                INotifyPropertyChanged inc = (!_IsListening) ? null : res.CValue as INotifyPropertyChanged;
                 if (inc != null) inc.PropertyChanged -= Object_PropertyChanged;
                 res.UpdateCSharpProperty(PropertyName, this, newValue);
                 if (inc != null) inc.PropertyChanged += Object_PropertyChanged;
@@ -212,7 +202,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                 var res = GetFromJavascript(collectionchanged) as JSArray;
                 if (res == null) return;
 
-                CollectionChanges cc = res.GetChanger(value, status, index,this);
+                CollectionChanges cc = res.GetChanger(value, status, index, this);
 
                 using (ReListen(null))
                 {
@@ -231,7 +221,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         private void Object_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-           string pn = e.PropertyName;
+            string pn = e.PropertyName;
 
             PropertyInfo propertyInfo = sender.GetType().GetProperty(pn, BindingFlags.Public | BindingFlags.Instance);
             if (propertyInfo == null)
@@ -250,13 +240,13 @@ namespace MVVM.CEFGlue.HTMLBinding
             RegisterAndDo(newbridgedchild, () => currentfather.Reroot(pn, newbridgedchild));
         }
 
-        public void RegisterInSession(object nv,Action<IJSCSGlue> Continue)  
+        public void RegisterInSession(object nv, Action<IJSCSGlue> Continue)
         {
             IJSCSGlue newbridgedchild = _JSObjectBuilder.Map(nv);
-            RegisterAndDo(newbridgedchild, () => {_UnrootedEntities.Add(newbridgedchild);Continue(newbridgedchild);});
+            RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); Continue(newbridgedchild); });
         }
 
-       
+
 
         #region Relisten
 
@@ -382,7 +372,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                             Do();
                         }
                     }
-               );              
+               );
         }
 
         public void Dispose()
@@ -433,11 +423,11 @@ namespace MVVM.CEFGlue.HTMLBinding
             CefV8Value obj = globalkey;
 
             //Use local cache for objet not created in javascript session such as enum
-            if ((obj != null) &&  ((res = GetCached(globalkey) ?? GetCachedLocal(globalkey)) != null) )
-                    return res;
+            if ((obj != null) && ((res = GetCached(globalkey) ?? GetCachedLocal(globalkey)) != null))
+                return res;
 
             object targetvalue = null;
-            bool converted = _JavascriptToCSharpMapper.GetSimpleValue(globalkey,out targetvalue, iTargetType);
+            bool converted = _JavascriptToCSharpMapper.GetSimpleValue(globalkey, out targetvalue, iTargetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
                 throw ExceptionHelper.Get(string.Format("Unable to convert javascript object: {0}", globalkey));
 
@@ -453,8 +443,5 @@ namespace MVVM.CEFGlue.HTMLBinding
             _FromJavascript_Local.TryGetValue(_LocalBuilder.GetID(localkey), out res);
             return res;
         }
-
-
-
     }
 }
