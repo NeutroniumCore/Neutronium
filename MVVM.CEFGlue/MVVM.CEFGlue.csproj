@@ -111,7 +111,6 @@
     <Compile Include="CefGlueHelper\CefV8Handler_Function.cs" />
     <Compile Include="CefGlueHelper\CefTask_Function.cs" />
     <Compile Include="CefGlueHelper\CefTask_Action.cs" />
-    <Compile Include="CefGlueHelper\CefV8ContextExtension.cs" />
     <Compile Include="CefGlueHelper\CefFrameExtensionExtension.cs" />
     <Compile Include="CefGlueHelper\CefV8ValueExtension.cs" />
     <Compile Include="CefSession\CefCoreSessionSingleton.cs" />

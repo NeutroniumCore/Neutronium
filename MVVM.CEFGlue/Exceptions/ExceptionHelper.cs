@@ -21,7 +21,7 @@ namespace MVVM.CEFGlue.Exceptions
             return new MVVMCEFGlueException(iMessage);
         }
 
-         static public Exception NoKo()
+        static public Exception NoKo()
         {
             return ExceptionHelper.Get("ko object not found! You should add a link to knockout.js script to the HML document!");
         }
@@ -29,11 +29,6 @@ namespace MVVM.CEFGlue.Exceptions
         static public Exception NoKoExtension()
         {
            return Get("Critical error! You should add a link to knockout_Extension.js script to the HML document!");
-        }
-
-        static public Exception TimeOut()
-        {
-           return Get("Critical error! Javascript timeOut! Try set IWebSession Synchroneous TimeOut to 0.");
         }
 
         static public ArgumentException GetArgument(string iMessage)

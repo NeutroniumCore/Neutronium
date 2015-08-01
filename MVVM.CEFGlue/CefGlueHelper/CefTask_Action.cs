@@ -31,6 +31,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
             catch (Exception e)
             {
                 _TaskCompletionSource.TrySetException(e);
+                return;
             }
 
             _TaskCompletionSource.TrySetResult(null);

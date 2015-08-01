@@ -66,43 +66,13 @@ namespace MVVM.CEFGlue.CefGlueHelper
         public static void Bind(this CefV8Value @this, string functionname, CefV8CompleteContext iCefV8Context, Action<string, CefV8Value, CefV8Value[]> iaction)
         {
             iCefV8Context.RunAsync(() =>
-            //iCefV8Context.Run(() =>
                 {
                     var function = CefV8Value.CreateFunction(functionname, new CefV8Handler_Action(iaction));
                     @this.SetValue(functionname, function, CefV8PropertyAttribute.None);
                 });
         }
 
-        public static void Bind(this CefV8Value @this, string functionname, CefV8CompleteContext iCefV8Context, Func<string, CefV8Value, CefV8Value[], Tuple<CefV8Value, string>> iFunction)
-        {
-            iCefV8Context.RunAsync(() =>
-            //iCefV8Context.Run(() =>
-              {
-                  var function = CefV8Value.CreateFunction(functionname, new CefV8Handler_Function(iFunction));
-                  @this.SetValue(functionname, function, CefV8PropertyAttribute.None);
-              });
-        }
-
-        public static void Bind(this CefV8Value @this, string functionname, CefV8CompleteContext iCefV8Context, Action<CefV8Value, CefV8Value[]> iaction)
-        {
-            //iCefV8Context.Run(() =>
-            iCefV8Context.RunAsync(() =>
-             {
-                 var function = CefV8Value.CreateFunction(functionname, new CefV8Handler_Simple_Action(iaction));
-                 @this.SetValue(functionname, function, CefV8PropertyAttribute.None);
-             });
-        }
-
-        public static void Bind(this CefV8Value @this, string functionname, CefV8CompleteContext iCefV8Context, Func<CefV8Value, CefV8Value[], Tuple<CefV8Value, string>> iFunction)
-        {
-            //iCefV8Context.Run(() =>
-            iCefV8Context.RunAsync(() =>
-             {
-                 var function = CefV8Value.CreateFunction(functionname, new CefV8Handler_Simple_Function(iFunction));
-                 @this.SetValue(functionname, function, CefV8PropertyAttribute.None);
-             });
-        }
-
+      
         #endregion
 
         #endregion
