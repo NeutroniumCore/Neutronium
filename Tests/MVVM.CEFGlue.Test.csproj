@@ -160,6 +160,9 @@
     <Content Include="javascript\almost_empty.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="javascript\empty_with_js.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="javascript\index_promise.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

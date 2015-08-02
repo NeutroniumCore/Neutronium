@@ -16,6 +16,11 @@ namespace MVVM.CEFGlue.Test.CefWindowless
             _LoadEnded.TrySetResult(browser);
         }
 
+        protected override void OnLoadError(CefBrowser browser, CefFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
+        {
+            base.OnLoadError(browser, frame, errorCode, errorText, failedUrl);
+        }
+
         internal Task<CefBrowser> GetLoadedBroserAsync()
         {
             return _LoadEnded.Task;

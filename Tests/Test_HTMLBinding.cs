@@ -80,10 +80,33 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
+
+        [Fact]
+        public async Task Test_HTMLBinding_Basic_HTML_Withoutko_ShouldThrowException()
+        {
+            using (Tester("javascript\\empty_with_js.html"))
+            {
+                var vm = new object();
+                AggregateException ex = null;
+
+                try
+                {
+                    await HTML_Binding.Bind(_ICefGlueWindow, new object(), JavascriptBindingMode.OneTime);
+                }
+                catch (AggregateException myex)
+                {
+                    ex = myex;
+                }
+
+                ex.Should().NotBeNull();
+                ex.Flatten().InnerException.Should().BeOfType<MVVMCEFGlueException>();
+            }
+        }
+
         [Fact]
         public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException()
         {
-            using (Tester("javascript/almost_empty.html"))
+            using (Tester("javascript\\almost_empty.html"))
             {
                 var vm = new object();
                 AggregateException ex = null;

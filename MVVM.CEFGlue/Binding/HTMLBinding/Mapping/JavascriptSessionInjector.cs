@@ -116,7 +116,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                     CefV8Value res = GetKo().Invoke("MapToObservable", _CefV8Context,ihybridobject, GetMapper(ijvm), _Listener);
                     if ((res == null) && checknullvalue)
                     {
-                        throw ExceptionHelper.NoKoExtension();
+                        throw ExceptionHelper.NoKo();
                     }
                     return res;
                 });
