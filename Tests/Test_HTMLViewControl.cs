@@ -12,6 +12,7 @@ using FluentAssertions;
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.ViewModel.Example;
 using MVVM.CEFGlue.Exceptions;
+using System.IO;
 
 namespace MVVM.CEFGlue.Test
 {
@@ -86,7 +87,37 @@ namespace MVVM.CEFGlue.Test
                     string relp = "javascript\\navigation_1.html";
                     Action act = () => c.RelativeSource = relp;
                     act.ShouldThrow<MVVMCEFGlueException>();
-                    //c.Uri.AbsolutePath.Replace("/", "\\").Should().Be(string.Format("{0}\\{1}", Assembly.GetAssembly(typeof(HTMLViewControl)).GetPath(), relp));
+                    mre.Set();
+                });
+
+                mre.WaitOne();
+
+
+            });
+        }
+
+        [Fact]
+        public void Basic_RelativeSource()
+        {
+            Test((c, w) =>
+            {
+                var mre = new ManualResetEvent(false);
+
+                w.RunOnUIThread(() =>
+                {
+                    c.SessionPath.Should().BeNull();
+                    c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
+                    c.Uri.Should().BeNull();
+
+                    string relp = "javascript\\navigation_1.html";
+
+                    string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+
+                    File.Copy("javascript\\navigation_1.html", path);
+
+                    c.RelativeSource = relp;
+                   
+                    File.Delete(path);
                     mre.Set();
                 });
 
@@ -121,6 +152,123 @@ namespace MVVM.CEFGlue.Test
                 mre.WaitOne();
 
                 Thread.Sleep(1500);
+                de.Should().NotBeNull();
+                de.DisplayedViewModel.Should().Be(dc);
+
+
+            });
+        }
+
+        [Fact]
+        public void Basic_Option_Simple_UsingRelativePath()
+        {
+            Test((c, w) =>
+            {
+                var mre = new ManualResetEvent(false);
+
+                DisplayEvent de = null;
+                EventHandler<DisplayEvent> ea = null;
+                ea = (o, e) => { de = e; c.OnDisplay -= ea; };
+                c.OnDisplay += ea;
+                var dc = new Person();
+ 
+                string relp = "javascript\\navigation_1.html";
+                string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+
+                File.Copy("javascript\\navigation_1.html", path);
+
+                string[] jvs = new string[] { "Ko_register.js" };
+
+                string src = string.Format("{0}\\javascript\\src", typeof(HTMLViewControl).Assembly.GetPath());
+                Directory.CreateDirectory(src);
+
+                foreach(string jv in jvs)
+                {
+                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                    if (!File.Exists(p))
+                        File.Copy(string.Format("javascript\\src\\{0}", jv), p);
+                }
+
+                //<script src="src\knockout.js" type="text/javascript"></script>
+                //<script src="src\Ko_Extension.js" type="text/javascript"></script>
+                //<script src="src\Ko_register.js" type="text/javascript"></script>
+
+                w.RunOnUIThread(() =>
+                {
+                    c.Mode = JavascriptBindingMode.OneWay;
+                    c.RelativeSource = relp;
+                    w.Window.DataContext = dc;
+                    mre.Set();
+                });
+
+                mre.WaitOne();
+
+                Thread.Sleep(1500);
+                foreach (string jv in jvs)
+                {
+                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                    File.Delete(p);
+                }
+                File.Delete(path);
+                de.Should().NotBeNull();
+                de.DisplayedViewModel.Should().Be(dc);
+                
+
+            });
+        }
+
+
+        [Fact]
+        public void Basic_Option_Simple_UsingRelativePath_AfterDataContext()
+        {
+            Test((c, w) =>
+            {
+                var mre = new ManualResetEvent(false);
+
+                DisplayEvent de = null;
+                EventHandler<DisplayEvent> ea = null;
+                ea = (o, e) => { de = e; c.OnDisplay -= ea; };
+                c.OnDisplay += ea;
+                var dc = new Person();
+
+                string relp = "javascript\\navigation_1.html";
+                string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+
+                File.Copy("javascript\\navigation_1.html", path);
+
+                string[] jvs = new string[] { "Ko_register.js" };
+
+                string src = string.Format("{0}\\javascript\\src", typeof(HTMLViewControl).Assembly.GetPath());
+                Directory.CreateDirectory(src);
+
+                foreach (string jv in jvs)
+                {
+                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                    if (!File.Exists(p))
+                        File.Copy(string.Format("javascript\\src\\{0}", jv), p);
+                }
+
+                //<script src="src\knockout.js" type="text/javascript"></script>
+                //<script src="src\Ko_Extension.js" type="text/javascript"></script>
+                //<script src="src\Ko_register.js" type="text/javascript"></script>
+
+                w.RunOnUIThread(() =>
+                {
+                    c.Mode = JavascriptBindingMode.OneWay; 
+                    w.Window.DataContext = dc;
+                    c.RelativeSource = relp;
+                    mre.Set();
+                });
+
+                mre.WaitOne();
+
+                Thread.Sleep(1500);
+                foreach (string jv in jvs)
+                {
+                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                    File.Delete(p);
+                }
+                File.Delete(path);
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
 
