@@ -10,6 +10,7 @@ using FluentAssertions;
 
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.Infra.VM;
+using System.Threading.Tasks;
 
 namespace MVVM.CEFGlue.Test
 {
@@ -112,6 +113,26 @@ namespace MVVM.CEFGlue.Test
             vm.Value = 2;
             vm.Value.Should().Be(2);
             vm.ShouldRaisePropertyChangeFor(t => t.Value);
+        }
+
+        [Fact]
+        public void Test_NullUIDispatcher_Evaluate()
+        {
+            var target = new NullUIDispatcher();
+
+            int res = target.Evaluate(() => 3);
+
+            res.Should().Be(3);
+        }
+
+        [Fact]
+        public async Task Test_NullUIDispatcher_EvaluateAsync()
+        {
+            var target = new NullUIDispatcher();
+
+            int res = await target.EvaluateAsync(() => 3);
+
+            res.Should().Be(3);
         }
 
 		
