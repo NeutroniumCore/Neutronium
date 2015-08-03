@@ -46,11 +46,9 @@ namespace MVVM.CEFGlue
         }
 
         public WPFDoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver inb)
-            //, IHTMLBindingFactory iAwesomiumBindingFactory = null)
         {
             _IWebViewLifeCycleManager = lifecycler;
             _INavigationBuilder = inb;
-            //_IAwesomiumBindingFactory = new HTMLBindingFactory();
         }
 
         private void ConsoleMessage(object sender, ConsoleMessageEventArgs e)
@@ -200,8 +198,7 @@ namespace MVVM.CEFGlue
                 _NextWebControl.LoadEnd -= sourceupdate;
 
                 HTML_Binding.Bind(_NextWebControl, iViewModel, wh, iMode).
-                //_IAwesomiumBindingFactory.Bind(_NextWebControl, iViewModel, wh, iMode).
-                WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
+                             WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
 
             _NextWebControl.LoadEnd += sourceupdate;

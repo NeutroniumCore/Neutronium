@@ -177,7 +177,7 @@ namespace MVVM.CEFGlue.Test
 
                 File.Copy("javascript\\navigation_1.html", path);
 
-                string[] jvs = new string[] { "Ko_register.js" };
+                string[] jvs = new string[] { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
 
                 string src = string.Format("{0}\\javascript\\src", typeof(HTMLViewControl).Assembly.GetPath());
                 Directory.CreateDirectory(src);
@@ -236,7 +236,7 @@ namespace MVVM.CEFGlue.Test
 
                 File.Copy("javascript\\navigation_1.html", path);
 
-                string[] jvs = new string[] { "Ko_register.js" };
+                string[] jvs = new string[] { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
 
                 string src = string.Format("{0}\\javascript\\src", typeof(HTMLViewControl).Assembly.GetPath());
                 Directory.CreateDirectory(src);

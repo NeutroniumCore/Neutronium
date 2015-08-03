@@ -125,6 +125,21 @@ namespace MVVM.CEFGlue.Test
             }
         }
 
+          [Fact]
+        public async Task Test_HTMLBinding_Basic_OneTime_CheckContext()
+        {
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneTime),
+                Test = (mb) =>
+                {
+                    mb.Context.Should().NotBeNull();
+                }
+            };
+
+            await RunAsync(test);
+          }
+
         [Fact]
         public async Task Test_HTMLBinding_Basic_OneTime()
         {
