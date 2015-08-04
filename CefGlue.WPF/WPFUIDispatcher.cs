@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace Xilium.CefGlue.WPF
 {
-    public class WPFUIDispatcher : IUIDispatcher
+    public class WPFUIDispatcher : IDispatcher
     {
         private Dispatcher _Dispatcher;
         public WPFUIDispatcher(Dispatcher iDispatcher)

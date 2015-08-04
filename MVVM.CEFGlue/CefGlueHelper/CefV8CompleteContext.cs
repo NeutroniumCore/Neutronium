@@ -8,7 +8,7 @@ using Xilium.CefGlue;
 
 namespace MVVM.CEFGlue.CefGlueHelper
 {
-    public class CefV8CompleteContext : IUIDispatcher
+    public class CefV8CompleteContext : IDispatcher
     {
         public CefV8CompleteContext(CefV8Context iContext, CefTaskRunner iRunner)
         {

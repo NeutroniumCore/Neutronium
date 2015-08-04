@@ -1034,7 +1034,7 @@ namespace Xilium.CefGlue.WPF
 
 
    
-        public IUIDispatcher GetDispatcher()
+        public IDispatcher GetDispatcher()
         {
             return new WPFUIDispatcher(this.Dispatcher);
         }

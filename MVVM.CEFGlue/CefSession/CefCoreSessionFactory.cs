@@ -11,9 +11,9 @@ namespace MVVM.CEFGlue.CefSession
     {
         private string[] _Args;
         private CefSettings _CefSettings;
-        private IUIDispatcher _IUIDispatcher;
+        private IDispatcher _IUIDispatcher;
 
-        public CefCoreSessionFactory(IUIDispatcher iIUIDispatcher, CefSettings iCefSettings = null, string[] args = null)
+        public CefCoreSessionFactory(IDispatcher iIUIDispatcher, CefSettings iCefSettings = null, string[] args = null)
         {
             _IUIDispatcher = iIUIDispatcher;
             _Args = args ?? new string[]{};

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CefGlue.Window
 {
-    public interface IUIDispatcher
+    public interface IDispatcher
     {
         Task RunAsync(Action act);
 

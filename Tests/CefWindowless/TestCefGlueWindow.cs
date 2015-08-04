@@ -31,7 +31,7 @@ namespace MVVM.CEFGlue.Test.CefWindowless
 
         public event EventHandler<LoadEndEventArgs> LoadEnd;
 
-        public IUIDispatcher GetDispatcher()
+        public IDispatcher GetDispatcher()
         {
             return new TestIUIDispatcher();
         }

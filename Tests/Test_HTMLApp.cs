@@ -40,7 +40,7 @@ namespace MVVM.CEFGlue.Test
             using (var ctx = new EnvironmentBuilder())
             {
                 HTMLApp target = null;
-                IUIDispatcher disp = await Task.Run(() =>
+                IDispatcher disp = await Task.Run(() =>
                 {
                     target = new HTMLApp();
                     return new WPFUIDispatcher(target.Dispatcher);
@@ -63,7 +63,7 @@ namespace MVVM.CEFGlue.Test
         public async Task Test_HTMLApp_Start_Should_Create_Session()
         {
             HTMLApp target = null;
-            IUIDispatcher disp = await Task.Run(() =>
+            IDispatcher disp = await Task.Run(() =>
             {
                 target = new HTMLApp();
                 return new WPFUIDispatcher(target.Dispatcher);

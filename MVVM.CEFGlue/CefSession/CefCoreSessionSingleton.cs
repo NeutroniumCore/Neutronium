@@ -23,7 +23,7 @@ namespace MVVM.CEFGlue.CefSession
             private set;
         }
 
-        public static ICefCoreSession GetAndInitIfNeeded(IUIDispatcher iIUIDispatcher = null, CefSettings iCefSettings = null, params string[] args)
+        public static ICefCoreSession GetAndInitIfNeeded(IDispatcher iIUIDispatcher = null, CefSettings iCefSettings = null, params string[] args)
         {
             if (Session==null)
             {

@@ -18,6 +18,6 @@ namespace CefGlue.Window
 
         event EventHandler<LoadEndEventArgs> LoadEnd;
 
-        IUIDispatcher GetDispatcher();
+        IDispatcher GetDispatcher();
     }
 }

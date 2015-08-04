@@ -7,12 +7,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.Exceptions;
-using MVVM.CEFGlue.CefGlueHelper;
 
 using Xilium.CefGlue;
 
+using MVVM.CEFGlue.Infra;
+using MVVM.CEFGlue.Exceptions;
+using MVVM.CEFGlue.CefGlueHelper;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {

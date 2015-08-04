@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.CEFGlue.Test.CefWindowless
 {
-    internal class TestIUIDispatcher : IUIDispatcher
+    internal class TestIUIDispatcher : IDispatcher
     {
         public Task RunAsync(Action act)
         {

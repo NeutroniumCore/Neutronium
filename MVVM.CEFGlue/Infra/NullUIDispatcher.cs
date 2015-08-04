@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.CEFGlue.Infra
 {
-    class NullUIDispatcher : IUIDispatcher
+    class NullUIDispatcher : IDispatcher
     {
         public Task RunAsync(Action act)
         {
