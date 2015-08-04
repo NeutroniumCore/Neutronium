@@ -2222,6 +2222,8 @@ namespace MVVM.CEFGlue.Test
 
                     mb.Root.Should().BeNull();
 
+                    mb.Context.Should().NotBeNull();
+
 
                     string res = GetStringAttribute(js, "Name");
                     res.Should().Be("O Monstro");

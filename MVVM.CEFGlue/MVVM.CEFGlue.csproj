@@ -94,7 +94,6 @@
     <Compile Include="Binding\HTMLBinding\GlueObject\IJSObservableBridge.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\JSBasicObject.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\JSCSGlueType.cs" />
-    <Compile Include="Binding\HTMLBinding\Helper\ViewReadyExecuter.cs" />
     <Compile Include="Binding\HTMLBinding\Mapping\CollectionChanges\CollectionChangeType.cs" />
     <Compile Include="Binding\HTMLBinding\Mapping\CollectionChanges\CollectionChanges.cs" />
     <Compile Include="Binding\HTMLBinding\Mapping\CollectionChanges\IndividualCollectionChange.cs" />

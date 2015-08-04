@@ -69,11 +69,9 @@ namespace MVVM.CEFGlue
                     _IHTMLBinding.Dispose();
 
                 _IHTMLBinding = value;
+
                 if (_Disposed && (_IHTMLBinding!=null))
-                {
-                    _IHTMLBinding.Dispose();
-                    _IHTMLBinding = null;
-                }
+                   Binding = null;
             }
         }
 
