@@ -16,18 +16,16 @@ namespace MVVM.CEFGlue
         protected override void OnStartup(StartupEventArgs e)
         {
             var settings = GetCefSettings();
-            if (settings==null)
+
+            if (CefCoreSessionSingleton.Session == null)
             {
-                if (CefCoreSessionSingleton.Session==null)
-                {
-                    CefCoreSessionSingleton.GetAndInitIfNeeded(new WPFUIDispatcher(this.Dispatcher),settings);
-                }
-                else
-                {
-                    Trace.WriteLine("MVVM for CEFGlue: Impossible to load custo settings");
-                }
+                CefCoreSessionSingleton.GetAndInitIfNeeded(new WPFUIDispatcher(this.Dispatcher), settings);
             }
-           
+            else
+            {
+                Trace.WriteLine("MVVM for CEFGlue: Impossible to load custo settings");
+            }
+
             base.OnStartup(e);
         }
 

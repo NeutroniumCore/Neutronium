@@ -46,10 +46,12 @@ namespace MVVM.CEFGlue.Test
         }
 
         private Func<Window> _factory;
+        private Func<Application> _applicationfactory;
 
-        public WPFThreadingHelper(Func<Window> ifactory=null)
+        public WPFThreadingHelper(Func<Window> ifactory=null, Func<Application> iappbuilder=null )
         {
             Func<Window> basic =() => new Window();
+            _applicationfactory = iappbuilder;
             _factory = ifactory ?? basic;
             _CTS = new CancellationTokenSource();
             _ARE = new AutoResetEvent(false);
@@ -80,7 +82,7 @@ namespace MVVM.CEFGlue.Test
         private void InitUIinSTA()
         {
             _wpfTester = new WPFTester();
-            var application = new Application();
+            var application = (_applicationfactory != null) ? _applicationfactory() :  new Application();
             _window = _factory();
             _wpfTester.ShowWindow(_window);
             _ARE.Set();

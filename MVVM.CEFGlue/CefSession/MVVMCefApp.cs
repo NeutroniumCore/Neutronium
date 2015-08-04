@@ -28,6 +28,13 @@ namespace MVVM.CEFGlue.CefSession
             _Associated.Add(frame.Identifier, new CefV8CompleteContext(context, context.GetTaskRunner()));
         }
 
+        internal void Reset(CefFrame frame)
+        {
+            _Associated.Remove(frame.Identifier);
+        }
+
+        
+
         internal CefV8CompleteContext GetContext(CefFrame frame)
         {
             CefV8CompleteContext res = null;

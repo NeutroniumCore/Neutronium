@@ -132,12 +132,12 @@ namespace MVVM.CEFGlue
             this._CurrentWebControl.Dispatcher.BeginInvoke(action);
         }
 
-        private void LogCritical(string iMessage)
-        {
-            _IWebSessionWatcher.LogCritical(iMessage);
+        //private void LogCritical(string iMessage)
+        //{
+        //    _IWebSessionWatcher.LogCritical(iMessage);
 
-            Trace.WriteLine(string.Format("MVVM for CEFGlue: Critical: {0}", iMessage));
-        }
+        //    Trace.WriteLine(string.Format("MVVM for CEFGlue: Critical: {0}", iMessage));
+        //}
 
         private void LogBrowser(string iMessage)
         {

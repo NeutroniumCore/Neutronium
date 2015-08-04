@@ -101,6 +101,7 @@
     <Compile Include="MVVM.Component\TaskHelperTest.cs" />
     <Compile Include="MVVM.Component\RelaySimpleCommandTest.cs" />
     <Compile Include="Test.Core\TestInContext.cs" />
+    <Compile Include="Test_HTMLApp.cs" />
     <Compile Include="Test_HTMLViewControl.cs" />
     <Compile Include="Infra\AssemblyHelper.cs" />
     <Compile Include="Infra\ViewModelCLRTypes.cs" />

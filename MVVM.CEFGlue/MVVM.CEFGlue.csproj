@@ -114,6 +114,7 @@
     <Compile Include="CefGlueHelper\CefFrameExtensionExtension.cs" />
     <Compile Include="CefGlueHelper\CefV8ValueExtension.cs" />
     <Compile Include="CefSession\CefCoreSessionSingleton.cs" />
+    <Compile Include="CefSession\ICefCoreSession.cs" />
     <Compile Include="CefSession\MVVMCefApp.cs" />
     <Compile Include="CefSession\CefCoreSessionFactory.cs" />
     <Compile Include="CefSession\CefCoreSession.cs" />

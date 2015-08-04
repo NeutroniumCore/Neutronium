@@ -8,7 +8,7 @@ using Xilium.CefGlue;
 
 namespace MVVM.CEFGlue.CefSession
 {
-    public class CefCoreSession : IDisposable
+    public class CefCoreSession : ICefCoreSession, IDisposable
     {
         private CefSettings _CefSettings;
         private string[] _Args;
@@ -19,6 +19,7 @@ namespace MVVM.CEFGlue.CefSession
         {
             _Dispatcher = iIUIDispatcher;
             _CefApp = iCefApp;
+            _Args = iArgs;
             _CefSettings = iCefSettings;
             var mainArgs = new CefMainArgs(_Args);
 

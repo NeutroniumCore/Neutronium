@@ -12,9 +12,9 @@ namespace MVVM.CEFGlue.CefSession
         {
         }
 
-        protected override void OnLoadError(CefBrowser browser, CefFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
-        {
-        }
+        //protected override void OnLoadError(CefBrowser browser, CefFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
+        //{
+        //}
 
         protected override void OnLoadStart(CefBrowser browser, CefFrame frame)
         {

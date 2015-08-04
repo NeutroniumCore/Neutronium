@@ -11,10 +11,10 @@ namespace MVVM.CEFGlue.CefSession
 {
     public static class CefCoreSessionSingleton
     {
-        public static CefCoreSession Session
+        public static ICefCoreSession Session
         {
             get;
-            private set;
+            internal set;
         }
 
         public static CefCoreSessionFactory SessionFactory
@@ -23,7 +23,7 @@ namespace MVVM.CEFGlue.CefSession
             private set;
         }
 
-        public static CefCoreSession GetAndInitIfNeeded(IUIDispatcher iIUIDispatcher=null, CefSettings iCefSettings = null, params string[] args)
+        public static ICefCoreSession GetAndInitIfNeeded(IUIDispatcher iIUIDispatcher = null, CefSettings iCefSettings = null, params string[] args)
         {
             if (Session==null)
             {

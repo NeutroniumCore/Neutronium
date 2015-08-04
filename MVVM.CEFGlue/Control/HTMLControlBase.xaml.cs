@@ -26,7 +26,7 @@ namespace MVVM.CEFGlue
 {
     public partial class HTMLControlBase : UserControl, IWebViewLifeCycleManager, IDisposable
     {
-        private static CefCoreSession _CefCoreSession;
+        private static ICefCoreSession _CefCoreSession;
 
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
 

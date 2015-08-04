@@ -28,8 +28,6 @@ namespace MVVM.CEFGlue.CefSession
                 //LogFile = "cef.log",
                 RemoteDebuggingPort = 8080
             };
-
-            //var cefApp = new MVVMCefApp();
         }
 
         public CefSettings Settings 
@@ -37,7 +35,7 @@ namespace MVVM.CEFGlue.CefSession
             get { return _CefSettings; } 
         }
 
-        public CefCoreSession GetSession()
+        public ICefCoreSession GetSession()
         {
             return new CefCoreSession(_IUIDispatcher,_CefSettings, new MVVMCefApp(), _Args);
         }
