@@ -30,10 +30,10 @@ namespace MVVM.CEFGlue.CefSession
             };
         }
 
-        public CefSettings Settings 
-        { 
-            get { return _CefSettings; } 
-        }
+        //public CefSettings Settings 
+        //{ 
+        //    get { return _CefSettings; } 
+        //}
 
         public ICefCoreSession GetSession()
         {

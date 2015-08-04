@@ -41,7 +41,7 @@ namespace MVVM.CEFGlue
 
         public IWebSessionWatcher WebSessionWatcher
         {
-            get { return _IWebSessionWatcher; }
+            //get { return _IWebSessionWatcher; }
             set { _IWebSessionWatcher = value; }
         }
 
