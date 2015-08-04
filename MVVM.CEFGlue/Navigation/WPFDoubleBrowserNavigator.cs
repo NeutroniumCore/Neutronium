@@ -202,11 +202,7 @@ namespace MVVM.CEFGlue
             };
 
             _NextWebControl.LoadEnd += sourceupdate;
-
-            if (_NextWebControl.Url == iUri)
-                _NextWebControl.Refresh();
-            else
-                _NextWebControl.NavigateTo(iUri);
+            _NextWebControl.NavigateTo(iUri);
 
             return tcs.Task;
         }
