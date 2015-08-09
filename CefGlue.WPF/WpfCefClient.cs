@@ -22,7 +22,7 @@ namespace Xilium.CefGlue.WPF
             _lifeSpanHandler = new WpfCefLifeSpanHandler(owner);
             _displayHandler = new WpfCefDisplayHandler(owner);
             _CefNoContextMenuHandler = new CefNoContextMenuHandler();
-            _renderHandler = new WpfCefRenderHandler(owner, new NLogLogger("WpfCefRenderHandler"), new UiHelper(new NLogLogger("WpfCefRenderHandler")));
+            _renderHandler = new WpfCefRenderHandler(owner, Logger.Log, new UiHelper(Logger.Log));
             _loadHandler = new WpfCefLoadHandler(owner);
         }
 

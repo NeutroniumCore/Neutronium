@@ -45,7 +45,7 @@ namespace Xilium.CefGlue.WPF
 
         private readonly ILogger _logger;
 
-        public WpfCefBrowser() : this(new NLogLogger("WpfCefBrowser"))
+        public WpfCefBrowser(): this(Logger.Log)
         {
         }
 

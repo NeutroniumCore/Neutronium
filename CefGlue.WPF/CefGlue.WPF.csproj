@@ -58,9 +58,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.4.0.1\lib\net45\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -79,7 +76,9 @@
     <Compile Include="CefNoContextMenuHandler.cs" />
     <Compile Include="Helpers\CefKeyEventHelper.cs" />
     <Compile Include="Helpers\Log\ILogger.cs" />
+    <Compile Include="Helpers\Log\Logger.cs" />
     <Compile Include="Helpers\Log\NLogLogger.cs" />
+    <Compile Include="Helpers\Log\NoLogger.cs" />
     <Compile Include="IUiHelper.cs" />
     <Compile Include="LoadEndEventArgs.cs" />
     <Compile Include="LoadEndEventHandler.cs" />
