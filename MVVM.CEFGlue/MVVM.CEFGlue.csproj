@@ -90,7 +90,6 @@
     <Compile Include="Binding\HTMLBinding\GlueObject\JSCommand.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\JSSimpleCommand.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\JSResultCommand.cs" />
-    <Compile Include="Binding\HTMLBinding\Helper\CefGlueHelper.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\IJSObservableBridge.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\JSBasicObject.cs" />
     <Compile Include="Binding\HTMLBinding\GlueObject\JSCSGlueType.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="CefGlueHelper\CefTaskRunnerExtension.cs" />
     <Compile Include="CefGlueHelper\CefV8CompleteContext.cs" />
     <Compile Include="CefGlueHelper\CefV8Handler_Action.cs" />
-    <Compile Include="CefGlueHelper\CefV8Handler_Function.cs" />
     <Compile Include="CefGlueHelper\CefTask_Function.cs" />
     <Compile Include="CefGlueHelper\CefTask_Action.cs" />
     <Compile Include="CefGlueHelper\CefFrameExtensionExtension.cs" />

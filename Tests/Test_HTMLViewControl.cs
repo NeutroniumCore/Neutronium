@@ -203,7 +203,7 @@ namespace MVVM.CEFGlue.Test
 
                 mre.WaitOne();
 
-                Thread.Sleep(1500);
+                Thread.Sleep(2000);
                 foreach (string jv in jvs)
                 {
                     string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
@@ -262,7 +262,7 @@ namespace MVVM.CEFGlue.Test
 
                 mre.WaitOne();
 
-                Thread.Sleep(1500);
+                Thread.Sleep(2000);
                 foreach (string jv in jvs)
                 {
                     string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);

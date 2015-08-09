@@ -20,38 +20,28 @@ namespace MVVM.CEFGlue.CefGlueHelper
 
         public CefTaskRunner Runner { get; private set; }
 
-
-        public Task RunInContextAsync(Action ac)
-        {
-            Action InContext = () =>
-                {
-                    Context.Enter();
-                    ac();
-                    Context.Exit();
-                };
-            return Runner.RunInContextAsync(InContext);
-        }
-
-     
+   
 
         public Task RunAsync(Action act)
         {
             Action InContext = () =>
             {
-                Context.Enter();
-                act();
-                Context.Exit();
+                using (Enter())
+                {
+                    act();
+                }
             };
-            return Runner.RunInContextAsync(InContext);
+            return Runner.RunAsync(InContext);
         }
 
         public Task DispatchAsync(Action act)
         {
             Action InContext = () =>
             {
-                Context.Enter();
-                act();
-                Context.Exit();
+                using (Enter())
+                {
+                    act();
+                }
             };
             return Runner.DispatchAsync(InContext);
         }
@@ -65,10 +55,10 @@ namespace MVVM.CEFGlue.CefGlueHelper
         {
             Func<T> computeInContext = () =>
             {
-                Context.Enter();
-                T res = compute();
-                Context.Exit();
-                return res;
+                using (Enter())
+                {
+                    return compute();
+                }
             };
 
             return Runner.EvaluateAsync(computeInContext);
@@ -95,7 +85,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
         }
 
 
-        public IDisposable Enter()
+        private IDisposable Enter()
         {
             return new ContextOpener(Context);
         }

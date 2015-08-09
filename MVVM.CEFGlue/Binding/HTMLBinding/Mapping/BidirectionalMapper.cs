@@ -58,7 +58,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         {
             await InjectInHTLMSession(_Root, true);
 
-            await _V8Context.RunInContextAsync(() =>
+            await _V8Context.RunAsync(() =>
                   {
                       if (ListenToCSharp)
                       {
@@ -172,7 +172,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             await jvm.UpdateTask;
 
             if (isroot)
-                _SessionInjector.RegisterInSession(res);
+                await _SessionInjector.RegisterInSession(res);
         }
 
         public void OnJavaScriptObjectChanges(CefV8Value objectchanged, string PropertyName, CefV8Value newValue)
@@ -320,7 +320,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _V8Context.RunInContextAsync(() =>
+            _V8Context.RunAsync(() =>
             {
                 UnsafeCollectionChanged(sender, e);
             });
@@ -364,7 +364,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             var idisp = ReListen(ivalue);
 
             await InjectInHTLMSession(ivalue);
-            await _V8Context.RunInContextAsync(() =>
+            await _V8Context.RunAsync(() =>
                     {
                         using (idisp)
                         {

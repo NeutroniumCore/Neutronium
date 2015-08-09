@@ -32,13 +32,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         internal IJSCSGlue Map(object ifrom, object iadditional = null)
         {
-            using (_CefV8Context.Enter())
-            {
-                return InternalMap(ifrom, iadditional);
-                //var res = InternalMap(ifrom, iadditional);
-                //_CefV8Context.Exit();
-                //return res;
-            }
+            return _CefV8Context.Evaluate(() => InternalMap(ifrom, iadditional));
         }
 
         private IJSCSGlue InternalMap(object ifrom, object iadditional=null)
@@ -116,10 +110,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                 IJSCSGlue childres = InternalMap(childvalue);
 
                 _CefV8Context.Run(() => resobject.SetValue(pn, childres.JSValue, CefV8PropertyAttribute.None));
-                    //{
-                    //    resobject.SetValue(pn, childres.JSValue, CefV8PropertyAttribute.None);
-                    //});
-                //.Wait();
+
                 gres.Attributes[pn] = childres;
             }
 
@@ -128,7 +119,6 @@ namespace MVVM.CEFGlue.HTMLBinding
  
         private bool Convert(IEnumerable source, out IJSCSGlue res)
         {
-            //res = new JSArray(source.Cast<object>().Select(s => Map(s)), source, _Basic.GetElementType(source));
             res = new JSArray(this._CefV8Context, source.Cast<object>().Select(s => Map(s)), source, _Basic.GetElementType(source));
             _Cacher.Cache(source, res);
             return true;

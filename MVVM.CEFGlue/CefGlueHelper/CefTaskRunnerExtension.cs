@@ -9,7 +9,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
 {
     public static class CefTaskRunnerExtension
     {
-        public static Task RunInContextAsync(this CefTaskRunner @this, Action actionToRun)
+        public static Task RunAsync(this CefTaskRunner @this, Action actionToRun)
         {
             if (@this.BelongsToCurrentThread)
             {
@@ -28,8 +28,6 @@ namespace MVVM.CEFGlue.CefGlueHelper
             @this.PostTask(actiontask);
             return actiontask.Task;
         }
-
-        
 
         public static Task<T> EvaluateAsync<T>(this CefTaskRunner @this, Func<T> evaluate)
         {

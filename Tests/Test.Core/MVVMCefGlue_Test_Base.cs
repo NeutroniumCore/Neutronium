@@ -112,23 +112,11 @@ namespace MVVM.CEFGlue.Test
         internal Task RunInContext(Action act)
         {
             return _WebView.RunAsync(act);
-            //return _CefTaskRunner.RunInContextAsync(() =>
-            //{
-            //    this._WebView.Enter();
-            //    act();
-            //    this._WebView.Exit();
-            //});
         }
 
         internal Task DispatchInContext(Action act)
         {
             return _WebView.DispatchAsync(act);
-            //return _CefTaskRunner.RunInContextAsync(() =>
-            //{
-            //    this._WebView.Enter();
-            //    act();
-            //    this._WebView.Exit();
-            //});
         }
 
         protected async Task RunAsync(TestInContext test)

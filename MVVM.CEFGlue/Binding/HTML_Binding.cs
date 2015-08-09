@@ -55,40 +55,12 @@ namespace MVVM.CEFGlue
             _BirectionalMapper.Dispose();
         }
 
-        internal static Task<IHTMLBinding> Bind(ICefGlueWindow view, object iViewModel, object additional, JavascriptBindingMode iMode)
-        {
-            TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
-
-            view.ExecuteWhenReady(() =>
-                    {
-                        var context = view.MainFrame.GetMainContext();
-                        try 
-                        { 
-                            var mapper = new BidirectionalMapper(iViewModel, context, iMode, additional);
-                            mapper.Init().ContinueWith(t => 
-                            {
-                                if (t.IsFaulted)
-                                {
-                                    tcs.SetException(t.Exception);
-                                }
-                                else tcs.SetResult(new HTML_Binding(context, mapper));
-                            });
-                        }
-                        catch (Exception e)
-                        {
-                            tcs.SetException(e);
-                        }
-                    });
-
-            return tcs.Task;
+        internal static async Task<IHTMLBinding> Bind(ICefGlueWindow view, object iViewModel, JavascriptBindingMode iMode, object additional = null)
+        {      
+            var context = view.MainFrame.GetMainContext();
+            var mapper = await context.EvaluateAsync(() => new BidirectionalMapper(iViewModel, context, iMode, additional));
+            await mapper.Init();
+            return new HTML_Binding(context, mapper);
         }
-
-
-
-        public static Task<IHTMLBinding> Bind(ICefGlueWindow view, object iViewModel, JavascriptBindingMode iMode)
-        {
-            return Bind(view, iViewModel, null, iMode);
-        }
-
     }
 }

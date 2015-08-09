@@ -8,6 +8,7 @@ using Xilium.CefGlue;
 
 using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.Exceptions;
+using System.Threading.Tasks;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
@@ -122,12 +123,16 @@ namespace MVVM.CEFGlue.HTMLBinding
                 });
         }
 
-        public void RegisterInSession(CefV8Value iJSObject)
+        public Task RegisterInSession(CefV8Value iJSObject)
         {
             var ko = GetKo();
-            ko.Bind("log", _CefV8Context, (c, o, e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
-            ko.Invoke("register", _CefV8Context,iJSObject);
-            ko.Invoke("applyBindings", _CefV8Context,iJSObject);
+
+            return _CefV8Context.RunAsync(() =>
+                {
+                    ko.Bind("log", _CefV8Context, (c, o, e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
+                    ko.Invoke("register", _CefV8Context, iJSObject);
+                    ko.Invoke("applyBindings", _CefV8Context, iJSObject);
+                });
         }
 
         public void Dispose()

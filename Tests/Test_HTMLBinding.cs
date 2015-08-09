@@ -87,19 +87,18 @@ namespace MVVM.CEFGlue.Test
             using (Tester("javascript\\empty_with_js.html"))
             {
                 var vm = new object();
-                AggregateException ex = null;
+                MVVMCEFGlueException ex = null;
 
                 try
                 {
                     await HTML_Binding.Bind(_ICefGlueWindow, new object(), JavascriptBindingMode.OneTime);
                 }
-                catch (AggregateException myex)
+                catch (MVVMCEFGlueException myex)
                 {
                     ex = myex;
                 }
 
                 ex.Should().NotBeNull();
-                ex.Flatten().InnerException.Should().BeOfType<MVVMCEFGlueException>();
             }
         }
 
@@ -109,19 +108,18 @@ namespace MVVM.CEFGlue.Test
             using (Tester("javascript\\almost_empty.html"))
             {
                 var vm = new object();
-                AggregateException ex = null;
+                MVVMCEFGlueException ex = null;
 
                 try
                 {
                     await HTML_Binding.Bind(_ICefGlueWindow, _DataContext, JavascriptBindingMode.OneTime);
                 }
-                catch (AggregateException myex)
+                catch (MVVMCEFGlueException myex)
                 {
                     ex = myex;
                 }
 
                 ex.Should().NotBeNull();
-                ex.InnerException.Should().BeOfType<MVVMCEFGlueException>();
             }
         }
 
@@ -2275,19 +2273,18 @@ namespace MVVM.CEFGlue.Test
             using (Tester("javascript/almost_empty.html"))
             {
                 var vm = new object();
-                AggregateException ex = null;
+                MVVMCEFGlueException ex = null;
 
                 try
                 {
                     await HTML_Binding.Bind(_ICefGlueWindow, vm, JavascriptBindingMode.OneTime);
                 }
-                catch (AggregateException myex)
+                catch (MVVMCEFGlueException myex)
                 {
                     ex = myex;
                 }
 
                 ex.Should().NotBeNull();
-                ex.Flatten().InnerException.Should().BeOfType<MVVMCEFGlueException>();
             }
         }
     }

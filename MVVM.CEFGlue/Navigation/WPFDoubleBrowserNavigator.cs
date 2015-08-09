@@ -195,7 +195,7 @@ namespace MVVM.CEFGlue
             {
                 _NextWebControl.LoadEnd -= sourceupdate;
 
-                HTML_Binding.Bind(_NextWebControl, iViewModel, wh, iMode).
+                HTML_Binding.Bind(_NextWebControl, iViewModel, iMode, wh).
                              WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
 

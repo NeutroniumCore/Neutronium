@@ -30,14 +30,14 @@ namespace MVVM.CEFGlue
 
         public void Dispose()
         {
-            _Context.RunInContextAsync(() =>
+            _Context.RunAsync(() =>
             {
                 if (_JavascriptSessionInjector != null)
                 {
                     _JavascriptSessionInjector.Dispose();
                     _JavascriptSessionInjector = null;
                 }
-            } );
+            });
         }
 
         public CefV8Value JSRootObject
@@ -50,29 +50,22 @@ namespace MVVM.CEFGlue
             get { return null; }
         }
 
-        public static Task<IHTMLBinding> Bind(ICefGlueWindow view, string iViewModel)
+        public static async Task<IHTMLBinding> Bind(ICefGlueWindow view, string iViewModel)
         {
-            TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
+            var context = view.MainFrame.GetMainContext();
+            var v8context = context.Context;
 
-            view.ExecuteWhenReady(() =>
-            {
-                var context = view.MainFrame.GetMainContext();
-                var v8context = context.Context;
+            var root = await context.EvaluateAsync(() =>
+                {
+                    var json = v8context.GetGlobal().GetValue("JSON");
+                    return json.Invoke("parse", context, CefV8Value.CreateString(iViewModel));
+                });
 
-                var root = context.Evaluate(() =>
-                    {
-                        var json = v8context.GetGlobal().GetValue("JSON");
-                        return json.Invoke("parse", context, CefV8Value.CreateString(iViewModel));
-                    });
+            var injector = new JavascriptSessionInjector(context, new GlobalBuilder(context, "MVVMGlue"), null);
+            var mappedroot = injector.Map(root, null);
+            await injector.RegisterInSession(mappedroot);
 
-                var injector = new JavascriptSessionInjector(context, new GlobalBuilder(context, "MVVMGlue"), null);
-                var mappedroot = injector.Map(root, null);
-                injector.RegisterInSession(mappedroot);
-
-                tcs.SetResult(new StringBinding(context, mappedroot, injector));
-            });
-
-            return tcs.Task;
+            return new StringBinding(context, mappedroot, injector);
         }
 
         public CefV8CompleteContext Context
