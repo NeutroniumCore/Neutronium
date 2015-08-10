@@ -50,7 +50,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
             return context.EvaluateAsync(() =>
                 {
                     var fn = @this.GetValue(functionname);
-                    if ((fn==null) && !fn.IsFunction)
+                    if ((fn==null) || !fn.IsFunction)
                         return CefV8Value.CreateUndefined();
                     return fn.ExecuteFunction(@this, args);
                 }

@@ -52,6 +52,43 @@ namespace MVVM.CEFGlue.Test
         }
 
         [Fact]
+        public async Task Test_InvokeAsync_No_Function()
+        {
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
+                Test = (binding) =>
+                {
+                    var js = binding.JSRootObject;
+                    var res = js.InvokeAsync("NotFound",binding.Context).Result;
+                    res.IsUndefined.Should().BeTrue();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Test_GetElements_Should_Throw_Exception()
+        {
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
+                Test = (binding) =>
+                {
+                    var js = binding.JSRootObject;
+                    CefV8Value[] res = null;
+                    Action act = () => res = js.GetArrayElements();
+                    act.ShouldThrow<ArgumentException>();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        
+
+        [Fact]
         public async Task Test_HTMLBinding_Basic_OneWay_JSON_ToString()
         {
             var test = new TestInContext()
