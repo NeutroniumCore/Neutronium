@@ -8,5 +8,8 @@ namespace MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject
 {
     public interface IJavascriptObject
     {
+        bool IsUndefined { get;  }
+
+        bool IsNull { get; }
     }
 }
