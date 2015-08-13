@@ -1,4 +1,5 @@
-﻿using MVVM.CEFGlue.CefSession;
+﻿using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using MVVM.CEFGlue.CefSession;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
 {
     public static class CefFrameExtensionExtension
     {
-        public static CefV8CompleteContext GetMainContext(this CefFrame @this)
+        public static IWebView GetMainContext(this CefFrame @this)
         {
             return CefCoreSessionSingleton.Session.CefApp.GetContext(@this);
         }

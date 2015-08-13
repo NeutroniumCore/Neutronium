@@ -11,6 +11,7 @@ using MVVM.CEFGlue.CefGlueHelper;
 using System.Windows;
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.CefSession;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 
 
@@ -19,8 +20,8 @@ namespace MVVM.CEFGlue.HTMLBinding
     public class JSCommand : GlueBase, IJSObservableBridge
     {
         private int _Count = 1;
-        private CefV8CompleteContext _CefV8Context;
-        public JSCommand(CefV8CompleteContext iCefV8Context, IJSOBuilder builder, ICommand icValue)
+        private IWebView _CefV8Context;
+        public JSCommand(IWebView iCefV8Context, IJSOBuilder builder, ICommand icValue)
         {
             _CefV8Context = iCefV8Context;
             _Command = icValue;
@@ -34,11 +35,9 @@ namespace MVVM.CEFGlue.HTMLBinding
 
             JSValue = _CefV8Context.Evaluate(() =>
                 {
-                    //_CefV8Context.Enter();
                     CefV8Value res = builder.CreateJSO();
                     res.SetValue("CanExecuteValue", CefV8Value.CreateBool(canexecute),CefV8PropertyAttribute.None);
                     res.SetValue("CanExecuteCount", CefV8Value.CreateInt(_Count), CefV8PropertyAttribute.None); 
-                    //_CefV8Context.Exit();
                     return res;       
                 });
             //.Result;

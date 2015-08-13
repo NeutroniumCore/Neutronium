@@ -6,6 +6,7 @@ using Xilium.CefGlue;
 
 using MVVM.CEFGlue.CefSession;
 using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 
 namespace MVVM.CEFGlue.CefSession
@@ -14,8 +15,7 @@ namespace MVVM.CEFGlue.CefSession
     {
         private MVVMCefRenderProcessHandler _MVVMCefRenderProcessHandler;
         private MVVMCefLoadHandler _MVVMCefLoadHandler;
-        private Dictionary<long, CefV8CompleteContext> _Associated
-            = new Dictionary<long, CefV8CompleteContext>();
+        private Dictionary<long, IWebView> _Associated = new Dictionary<long, IWebView>();
 
         internal MVVMCefApp()
         {
@@ -33,19 +33,16 @@ namespace MVVM.CEFGlue.CefSession
             _Associated.Remove(frame.Identifier);
         }
 
-        
 
-        internal CefV8CompleteContext GetContext(CefFrame frame)
+        internal IWebView GetContext(CefFrame frame)
         {
-            CefV8CompleteContext res = null;
+            IWebView res = null;
             _Associated.TryGetValue(frame.Identifier, out res);
             return res;
         }
 
-
         protected override CefRenderProcessHandler GetRenderProcessHandler()
         {
-            //return base.GetRenderProcessHandler();
             return _MVVMCefRenderProcessHandler;
         }
     }

@@ -14,15 +14,16 @@ using MVVM.CEFGlue.CefGlueHelper;
 using Xilium.CefGlue;
 using Xilium.CefGlue.WPF;
 using CefGlue.Window;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue
 {
     public class HTML_Binding : IDisposable, IHTMLBinding
     {
         private BidirectionalMapper _BirectionalMapper;
-        private CefV8CompleteContext _CefV8Context;
+        private IWebView _CefV8Context;
 
-        private HTML_Binding(CefV8CompleteContext iContext, BidirectionalMapper iConvertToJSO)
+        private HTML_Binding(IWebView iContext, BidirectionalMapper iConvertToJSO)
         {
             _CefV8Context = iContext;
             _BirectionalMapper = iConvertToJSO;
@@ -33,7 +34,7 @@ namespace MVVM.CEFGlue
             get { return _BirectionalMapper.JSValueRoot.GetJSSessionValue(); }
         }
 
-        public CefV8CompleteContext Context { get { return _CefV8Context; } }
+        public IWebView Context { get { return _CefV8Context; } }
 
         public object Root
         {

@@ -102,6 +102,10 @@
     <Compile Include="Binding\HTMLBinding\Mapping\JavascriptObjectBuilder\IJSOLocalBuilder.cs" />
     <Compile Include="Binding\HTMLBinding\Mapping\JavascriptToCSharpMapper.cs" />
     <Compile Include="Binding\HTMLBinding\Mapping\SimpleCSharpMapping\BasicCSharpToJavascriptConverter.cs" />
+    <Compile Include="Binding\HTMLBinding\V8JavascriptObject\IJavascriptObject.cs" />
+    <Compile Include="Binding\HTMLBinding\V8JavascriptObject\IJavascriptObjectFactory.cs" />
+    <Compile Include="Binding\HTMLBinding\V8JavascriptObject\IWebView.cs" />
+    <Compile Include="Binding\HTMLBinding\V8JavascriptObject\JavascriptObjectFactory.cs" />
     <Compile Include="Binding\IHTMLBinding.cs" />
     <Compile Include="CefGlueHelper\CefTaskRunnerExtension.cs" />
     <Compile Include="CefGlueHelper\CefV8CompleteContext.cs" />

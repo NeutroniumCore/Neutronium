@@ -1461,12 +1461,12 @@ namespace MVVM.CEFGlue.Test
                    
                     var js = mb.JSRootObject;
                     CefV8Value mycommand = GetAttribute(js, "CreateObject");
-                    CefV8Exception ex = null;
+                    //CefV8Exception ex = null;
                     CefV8Value cb = null;
-                    bool res = _WebView.Context.TryEval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb, out ex);
+                    bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
 
                     res.Should().BeTrue();
-                    ex.Should().BeNull();
+                    //ex.Should().BeNull();
                     cb.Should().NotBeNull();
                     cb.IsObject.Should().BeTrue();
 
@@ -1477,10 +1477,10 @@ namespace MVVM.CEFGlue.Test
                 },
                 Then = (mb) =>
                    {
-                       var error = _WebView.Context.GetGlobal().GetValue("err");
+                       var error = _WebView.GetGlobal().GetValue("err");
                        error.IsUndefined.Should().BeTrue();
 
-                       CefV8Value resvalue = _WebView.Context.GetGlobal().GetValue("res");
+                       CefV8Value resvalue = _WebView.GetGlobal().GetValue("res");
                        int intres = resvalue.GetIntValue();
                        intres.Should().Be(255);
 
@@ -1513,7 +1513,7 @@ namespace MVVM.CEFGlue.Test
                     CefV8Value mycommand = GetAttribute(js, "CreateObject");
                     CefV8Exception ex = null;
                     CefV8Value cb = null;
-                    bool res = _WebView.Context.TryEval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb, out ex);
+                    bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
 
                     res.Should().BeTrue();
                     ex.Should().BeNull();
@@ -1526,10 +1526,10 @@ namespace MVVM.CEFGlue.Test
                 },
                 Then = (mb) =>
                 {
-                    var error = _WebView.Context.GetGlobal().GetValue("err").GetStringValue();
+                    var error = _WebView.GetGlobal().GetValue("err").GetStringValue();
                     error.Should().Be(errormessage);
 
-                    CefV8Value resvalue = _WebView.Context.GetGlobal().GetValue("res");
+                    CefV8Value resvalue = _WebView.GetGlobal().GetValue("res");
                     resvalue.IsUndefined.Should().BeTrue();
                 }
             };
@@ -1749,7 +1749,7 @@ namespace MVVM.CEFGlue.Test
                     string javascript = "window.app = function(value,coll){var args = []; args.push(0);args.push(0);for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);};";
                     CefV8Value res = null;
                     CefV8Exception ex = null;
-                    bool ok = _WebView.Context.TryEval(javascript, out res, out ex);
+                    bool ok = _WebView.Eval(javascript, out res);
                     ok.Should().BeTrue();
                     //JSObject win = null;
                     //win = GetSafe(() => (JSObject)_WebView.ExecuteJavascriptWithResult("window"));
@@ -1758,7 +1758,7 @@ namespace MVVM.CEFGlue.Test
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
-                    DoSafe(() => Call(_WebView.Context.GetGlobal(), "app", col1, l2c));
+                    DoSafe(() => Call(_WebView.GetGlobal(), "app", col1, l2c));
                     Thread.Sleep(100);
                     while (notok)
                     {

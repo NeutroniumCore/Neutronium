@@ -9,18 +9,19 @@ using Xilium.CefGlue;
 using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.Exceptions;
 using System.Threading.Tasks;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class JavascriptSessionInjector : IDisposable
     {
-        private CefV8CompleteContext _CefV8Context;
+        private IWebView _CefV8Context;
         private IJSOBuilder _GlobalBuilder;
         private CefV8Value _Listener;
         private IJavascriptListener _IJavascriptListener;
 
 
-        internal JavascriptSessionInjector(CefV8CompleteContext iWebView, IJSOBuilder iGlobalBuilder, IJavascriptListener iJavascriptListener)
+        internal JavascriptSessionInjector(IWebView iWebView, IJSOBuilder iGlobalBuilder, IJavascriptListener iJavascriptListener)
         {
             _CefV8Context = iWebView;
             _GlobalBuilder = iGlobalBuilder;
@@ -100,7 +101,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         {
             if (_Ko == null)
             {
-                _Ko = _CefV8Context.Context.GetGlobal().GetValue("ko");
+                _Ko = _CefV8Context.GetGlobal().GetValue("ko");
                 if ((_Ko==null) || (!_Ko.IsObject))
                     throw ExceptionHelper.NoKo();
             }

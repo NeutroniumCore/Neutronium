@@ -12,11 +12,11 @@ namespace MVVM.CEFGlue.Test.CefWindowless
     public class TestCefGlueWindow : ICefGlueWindow
     {
         private CefFrame _CefFrame;
-        private CefV8Context _CefV8Context;
-        public TestCefGlueWindow(CefFrame iFrame, CefV8CompleteContext iContext)
+        //private CefV8Context _CefV8Context;
+        public TestCefGlueWindow(CefFrame iFrame)
         {
             _CefFrame = iFrame;
-            _CefV8Context = iContext.Context;
+            //_CefV8Context = iContext.Context;
         }
 
         public CefFrame MainFrame

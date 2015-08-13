@@ -12,6 +12,7 @@ using Xilium.CefGlue;
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.Component;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 
 namespace MVVM.CEFGlue.HTMLBinding
@@ -21,8 +22,8 @@ namespace MVVM.CEFGlue.HTMLBinding
         private readonly IJSOLocalBuilder _IJSOBuilder;
         private readonly IJSCBridgeCache _Cacher;
         private readonly BasicCSharpToJavascriptConverter _Basic;
-        private CefV8CompleteContext _CefV8Context;
-        public CSharpToJavascriptMapper(CefV8CompleteContext context, IJSOLocalBuilder Builder, IJSCBridgeCache icacher)
+        private IWebView _CefV8Context;
+        public CSharpToJavascriptMapper(IWebView context, IJSOLocalBuilder Builder, IJSCBridgeCache icacher)
         {
             _CefV8Context = context;
             _IJSOBuilder = Builder;

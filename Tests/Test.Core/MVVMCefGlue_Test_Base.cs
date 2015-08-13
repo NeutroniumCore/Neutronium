@@ -12,13 +12,14 @@ using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.CefSession;
 using MVVM.CEFGlue.Test.CefWindowless;
 using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 
 namespace MVVM.CEFGlue.Test
 {
     public abstract class MVVMCefGlue_Test_Base : IDisposable
     {
-        protected CefV8CompleteContext _WebView = null;
+        protected IWebView _WebView = null;
         protected TestCefGlueWindow _ICefGlueWindow = null;
         //private CefTaskRunner _CefTaskRunner;
 
@@ -52,9 +53,9 @@ namespace MVVM.CEFGlue.Test
                 //CefRuntime.MessageLoopWork();
             }
 
-            private Task<CefV8CompleteContext> InitTask(string ipath)
+            private Task<IWebView> InitTask(string ipath)
             {
-                TaskCompletionSource<CefV8CompleteContext> tcs = new TaskCompletionSource<CefV8CompleteContext>();
+                TaskCompletionSource<IWebView> tcs = new TaskCompletionSource<IWebView>();
                 Task.Run(() =>
                 {
                     CefCoreSessionSingleton.GetAndInitIfNeeded();
@@ -78,7 +79,7 @@ namespace MVVM.CEFGlue.Test
                         {
                             var frame = t.Result.GetMainFrame();
                             var context = CefCoreSessionSingleton.Session.CefApp.GetContext(frame);
-                            _Father._ICefGlueWindow = new TestCefGlueWindow(frame, context);
+                            _Father._ICefGlueWindow = new TestCefGlueWindow(frame);
                             tcs.SetResult(context);
                         }
                     );

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xilium.CefGlue;
 
 using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
@@ -14,9 +15,9 @@ namespace MVVM.CEFGlue.HTMLBinding
     {
         private static uint _Count = 0;
         private string _NameScape;
-        private CefV8CompleteContext _CefV8Context;
+        private IWebView _CefV8Context;
 
-        public GlobalBuilder(CefV8CompleteContext iWebView, string iNameScape)
+        public GlobalBuilder(IWebView iWebView, string iNameScape)
         {
             _CefV8Context = iWebView;
             _NameScape = iNameScape;

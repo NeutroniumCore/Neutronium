@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
         #region function
 
         #region call function
-        public static CefV8Value Invoke(this CefV8Value @this, string functionname, CefV8CompleteContext iCefV8Context, params CefV8Value[] args)
+        public static CefV8Value Invoke(this CefV8Value @this, string functionname, IWebView iCefV8Context, params CefV8Value[] args)
         {
             return @this.InvokeAsync(functionname, iCefV8Context, args).Result;
         }
@@ -44,7 +45,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
             return @this.ExecuteFunction(null, new CefV8Value[] { });
         }
 
-        public static Task<CefV8Value> InvokeAsync(this CefV8Value @this, string functionname, CefV8CompleteContext context, params CefV8Value[] args)
+        public static Task<CefV8Value> InvokeAsync(this CefV8Value @this, string functionname, IWebView context, params CefV8Value[] args)
         {
             
             return context.EvaluateAsync(() =>
@@ -63,7 +64,7 @@ namespace MVVM.CEFGlue.CefGlueHelper
 
 
 
-        public static void Bind(this CefV8Value @this, string functionname, CefV8CompleteContext iCefV8Context, Action<string, CefV8Value, CefV8Value[]> iaction)
+        public static void Bind(this CefV8Value @this, string functionname, IWebView iCefV8Context, Action<string, CefV8Value, CefV8Value[]> iaction)
         {
             iCefV8Context.RunAsync(() =>
                 {

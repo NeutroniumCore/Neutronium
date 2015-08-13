@@ -8,14 +8,15 @@ using Xilium.CefGlue;
 
 using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.Component;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     public class JSResultCommand : GlueBase, IJSObservableBridge
     {
         private IResultCommand _JSResultCommand;
-        private CefV8CompleteContext _CefV8Context;
-        public JSResultCommand(CefV8CompleteContext ijsobject, IJSOBuilder builder, IResultCommand icValue)
+        private IWebView _CefV8Context;
+        public JSResultCommand(IWebView ijsobject, IJSOBuilder builder, IResultCommand icValue)
         {
             _CefV8Context = ijsobject;
             _JSResultCommand = icValue;

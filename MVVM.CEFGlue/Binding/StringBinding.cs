@@ -10,6 +10,7 @@ using MVVM.CEFGlue.HTMLBinding;
 using MVVM.CEFGlue.CefGlueHelper;
 using Xilium.CefGlue.WPF;
 using CefGlue.Window;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 
 
@@ -19,9 +20,9 @@ namespace MVVM.CEFGlue
     {
         private JavascriptSessionInjector _JavascriptSessionInjector;
         private CefV8Value _Root;
-        private CefV8CompleteContext _Context;
+        private IWebView _Context;
 
-        internal StringBinding(CefV8CompleteContext context, CefV8Value root, JavascriptSessionInjector iJavascriptSessionInjector)
+        internal StringBinding(IWebView context, CefV8Value root, JavascriptSessionInjector iJavascriptSessionInjector)
         {
             _JavascriptSessionInjector = iJavascriptSessionInjector;
             _Context = context;
@@ -53,11 +54,10 @@ namespace MVVM.CEFGlue
         public static async Task<IHTMLBinding> Bind(ICefGlueWindow view, string iViewModel)
         {
             var context = view.MainFrame.GetMainContext();
-            var v8context = context.Context;
 
             var root = await context.EvaluateAsync(() =>
                 {
-                    var json = v8context.GetGlobal().GetValue("JSON");
+                    var json = context.GetGlobal().GetValue("JSON");
                     return json.Invoke("parse", context, CefV8Value.CreateString(iViewModel));
                 });
 
@@ -68,7 +68,7 @@ namespace MVVM.CEFGlue
             return new StringBinding(context, mappedroot, injector);
         }
 
-        public CefV8CompleteContext Context
+        public IWebView Context
         {
             get { return _Context; }
         }

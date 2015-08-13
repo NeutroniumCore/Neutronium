@@ -10,6 +10,7 @@ using Xilium.CefGlue;
 using MVVM.CEFGlue.Exceptions;
 using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.CefSession;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 
 
@@ -17,9 +18,9 @@ namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class JSArray : GlueBase, IJSObservableBridge
     {
-        private CefV8CompleteContext _CefV8Context;
+        private IWebView _CefV8Context;
 
-        public JSArray(CefV8CompleteContext context, IEnumerable<IJSCSGlue> values, IEnumerable collection, Type ElementType)
+        public JSArray(IWebView context, IEnumerable<IJSCSGlue> values, IEnumerable collection, Type ElementType)
         {
             var dest = values.Select(v => v.JSValue).ToList();
             _CefV8Context = context;

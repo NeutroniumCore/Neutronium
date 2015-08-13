@@ -7,14 +7,15 @@ using System.Text;
 using Xilium.CefGlue;
 
 using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     public class JSSimpleCommand : GlueBase, IJSObservableBridge
     {
         private ISimpleCommand _JSSimpleCommand;
-        private CefV8CompleteContext _CefV8Context;
-        public JSSimpleCommand(CefV8CompleteContext iCefV8Context, IJSOBuilder builder, ISimpleCommand icValue)
+        private IWebView _CefV8Context;
+        public JSSimpleCommand(IWebView iCefV8Context, IJSOBuilder builder, ISimpleCommand icValue)
         {
             _CefV8Context = iCefV8Context;
             _JSSimpleCommand = icValue;

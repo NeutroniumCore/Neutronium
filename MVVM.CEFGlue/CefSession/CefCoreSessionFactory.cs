@@ -30,11 +30,6 @@ namespace MVVM.CEFGlue.CefSession
             };
         }
 
-        //public CefSettings Settings 
-        //{ 
-        //    get { return _CefSettings; } 
-        //}
-
         public ICefCoreSession GetSession()
         {
             return new CefCoreSession(_IUIDispatcher,_CefSettings, new MVVMCefApp(), _Args);

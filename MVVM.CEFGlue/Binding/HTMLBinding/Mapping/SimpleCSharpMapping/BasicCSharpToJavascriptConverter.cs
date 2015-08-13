@@ -8,14 +8,15 @@ using Xilium.CefGlue;
 
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class BasicCSharpToJavascriptConverter
     {
-        private CefV8CompleteContext _CefV8Context;
-        internal BasicCSharpToJavascriptConverter(CefV8CompleteContext iContext)
+        private IWebView _CefV8Context;
+        internal BasicCSharpToJavascriptConverter(IWebView iContext)
         {
             _CefV8Context = iContext;
         }

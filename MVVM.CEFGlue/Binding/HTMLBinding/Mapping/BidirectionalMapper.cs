@@ -13,6 +13,7 @@ using Xilium.CefGlue;
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.Exceptions;
 using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
@@ -20,7 +21,7 @@ namespace MVVM.CEFGlue.HTMLBinding
     {
         private readonly JavascriptBindingMode _BindingMode;
         private readonly IJSCSGlue _Root;
-        private readonly CefV8CompleteContext _V8Context;
+        private readonly IWebView _V8Context;
         private readonly List<IJSCSGlue> _UnrootedEntities;
 
         private CSharpToJavascriptMapper _JSObjectBuilder;
@@ -35,7 +36,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         private IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();
         private IDictionary<uint, IJSCSGlue> _FromJavascript_Local = new Dictionary<uint, IJSCSGlue>();
 
-        internal BidirectionalMapper(object iRoot, CefV8CompleteContext iwebview, JavascriptBindingMode iMode, object iadd)
+        internal BidirectionalMapper(object iRoot, IWebView iwebview, JavascriptBindingMode iMode, object iadd)
         {
             _V8Context = iwebview;
             _LocalBuilder = new LocalBuilder(iwebview);

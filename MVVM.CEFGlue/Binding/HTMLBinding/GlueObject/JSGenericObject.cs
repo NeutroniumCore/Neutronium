@@ -9,22 +9,21 @@ using Xilium.CefGlue;
 
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.CefGlueHelper;
-
-
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     public class JSGenericObject : GlueBase, IJSObservableBridge
     {
-        private CefV8CompleteContext _CefV8Context;
-        public JSGenericObject(CefV8CompleteContext context, CefV8Value value, object icValue)
+        private IWebView _CefV8Context;
+        public JSGenericObject(IWebView context, CefV8Value value, object icValue)
         {
             JSValue = value;
             CValue = icValue;
             _CefV8Context = context;
         }
 
-        private JSGenericObject(CefV8CompleteContext context, CefV8Value value)
+        private JSGenericObject(IWebView context, CefV8Value value)
         {
             JSValue = value;
             _MappedJSValue = value;
@@ -32,7 +31,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             _CefV8Context = context;
         }
 
-        public static JSGenericObject CreateNull(CefV8CompleteContext context, IJSOLocalBuilder builder)
+        public static JSGenericObject CreateNull(IWebView context, IJSOLocalBuilder builder)
         {
             return new JSGenericObject(context, builder.CreateNull());
         }
@@ -108,9 +107,6 @@ namespace MVVM.CEFGlue.HTMLBinding
             }
             else
             {
-                //WebCore.QueueWork(() =>
-                //    {
-
                 _CefV8Context.RunAsync( ()=>
                     {
                         var jso = _MappedJSValue;

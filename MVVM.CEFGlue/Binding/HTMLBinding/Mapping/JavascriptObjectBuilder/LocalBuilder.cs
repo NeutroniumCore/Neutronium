@@ -8,15 +8,16 @@ using Xilium.CefGlue;
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.Exceptions;
 using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     public class LocalBuilder : IJSOLocalBuilder
     {
        private static uint _MapCount = 0;
-       private CefV8CompleteContext _CefV8Context;
+       private IWebView _CefV8Context;
 
-       public LocalBuilder(CefV8CompleteContext iIWebView)
+       public LocalBuilder(IWebView iIWebView)
        {
            _CefV8Context = iIWebView;
        }
@@ -81,11 +82,10 @@ namespace MVVM.CEFGlue.HTMLBinding
             return _CefV8Context.Evaluate(() =>
                 {
                     CefV8Value res = null;
-                    CefV8Exception excep = null;
 
-                    _CefV8Context.Context.TryEval(string.Format("new Enum('{0}',{1},'{2}','{3}')",
+                    _CefV8Context.Eval(string.Format("new Enum('{0}',{1},'{2}','{3}')",
                         ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()),
-                        out res, out excep);
+                        out res);
              
                     return CheckUpdate(res);
                 });
