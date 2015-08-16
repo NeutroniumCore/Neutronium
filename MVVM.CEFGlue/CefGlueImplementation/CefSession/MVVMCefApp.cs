@@ -25,7 +25,7 @@ namespace MVVM.CEFGlue.CefSession
 
         internal void Associate(CefBrowser browser, CefFrame frame, CefV8Context context)
         {
-            _Associated.Add(frame.Identifier, new CefV8CompleteContext(context, context.GetTaskRunner()));
+            _Associated.Add(frame.Identifier, new CefV8_WebView(context, context.GetTaskRunner()));
         }
 
         internal void Reset(CefFrame frame)

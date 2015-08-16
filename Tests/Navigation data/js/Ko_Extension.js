@@ -6,8 +6,15 @@ function Enum(Type, intValue, name, displayName) {
     this.type = Type;
 }
 
-//to bypass awesomium limitations
-function Null_reference() {
+////to bypass awesomium limitations
+//function Null_reference() {
+//}
+
+function executeAsPromise(vm,fnname,argument) {
+    return new Promise(function (fullfill, reject) {
+        var res = { fullfill: function (res) {fullfill(res); }, reject: function(err){reject(new Error(err));}};
+        vm[fnname]().Execute( argument, res);
+    });
 }
 
 (function () {
@@ -38,7 +45,7 @@ function Null_reference() {
              observable.subscriber = observable.subscribe(listener);
              observable.silent = function (v) {
                  observable.subscriber.dispose();
-                 observable((v instanceof Null_reference) ? null : v);
+                 observable(v);
                  observable.subscriber = observable.subscribe(observable.listener);
              };
          }
@@ -46,9 +53,9 @@ function Null_reference() {
              observable.silent = observable;
      }
 
-     function createCollectionSubsription(observable, tracker, res, att) {
+     function createCollectionSubsription(observable, tracker) {
          if (tracker.TrackCollectionChanges) {
-             var collectionlistener = CollectionListener(res[att], tracker);
+             var collectionlistener = CollectionListener(observable, tracker);
              observable.listener = collectionlistener;
              observable.subscriber = observable.subscribe(collectionlistener, null, 'arrayChange');
              observable.silent = function (fn) {
@@ -83,7 +90,7 @@ function Null_reference() {
         if (!Mapper) Mapper = {};
         if (!Listener) Listener = {};
 
-        if (or instanceof Null_reference) {
+        if (or ===null) {
             if (context === null) {
                 if (Mapper.Register) Mapper.Register(or);
                 if (Mapper.End) Mapper.End(or);
@@ -106,7 +113,29 @@ function Null_reference() {
             or._MappedId = MapToObservable._MappedId;
         }
 
+        if (Array.isArray(or)) {
+            var arrayres = ko.observableArray();
+            arrayres._MappedId = or._MappedId;
+            MapToObservable.Cache[or._MappedId] = arrayres;
+            if ((Mapper.Register) && (context === null))
+                Mapper.Register(arrayres);
+
+            for (var i = 0; i < or.length; ++i) {
+                arrayres.push(MapToObservable(or[i], {
+                    object: arrayres,
+                    attribute: null,
+                    index: i
+                }, Mapper, Listener));
+            }
+
+            createCollectionSubsription(arrayres, Listener);
+            if ((context === null) && (Mapper.End)) Mapper.End(arrayres);
+    
+            return arrayres;
+        }
+
         var res = {};
+        res._MappedId = or._MappedId;
         MapToObservable.Cache[or._MappedId] = res;
         if (Mapper.Register){
             if (context===null) 
@@ -138,10 +167,12 @@ function Null_reference() {
                                 index: i
                             }, Mapper, Listener));
                         }
-
-                        res[att] = ko.observableArray(nar);
-                        if (Mapper.Register) Mapper.Register(res[att], res, att);
-                        createCollectionSubsription(res[att], Listener, res, att);
+                        var collection = ko.observableArray(nar);
+                        collection._MappedId = value._MappedId;
+                        res[att] = ko.observable(collection);
+                        if (Mapper.Register) Mapper.Register(collection, res, att);
+                        createCollectionSubsription(collection, Listener);
+                        createSubsription(res[att], Listener, res, att);
                     }
                 } else {
                     res[att] = ko.observable(value);
@@ -205,7 +236,6 @@ function Null_reference() {
 
 
         return function replacer(key, value) {
-
             if (first) {
                 first = false;
                 visit(value);
@@ -218,42 +248,147 @@ function Null_reference() {
         };
     };
 
+    function addClass(element,className) {
+        element.className += ' '+className;
+    }
+
+    function removeClass(element, className) {
+        var reg = new RegExp('(?:^|\s)' + className + '(?!\S)');
+        element.className.replace(RegExp, '');
+    }
+
+    function toogle(element,tooglevalue,className) {
+        if (!className)
+            return;
+
+        if (tooglevalue)
+            addClass(element, className);
+        else
+            removeClass(element, className);
+    }
+
     ko.bindingHandlers.command = {
-        preprocess: function (value, name, addBinding) {
-            addBinding('commandOnEvent', '{ "command": "' + value + '", "event": "click"}');
-            return value;
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var option = allBindings.get('commandoption') || {},
+               eventname = option.event || 'click', cb = option.callback,
+               value = valueAccessor(),
+                eventhandler = function handler(callback) {
+                    var myHandler = value();
+                    if (myHandler === null)
+                        return;
+
+                    if (!!callback)
+                        callback();
+
+                    myHandler.Execute(bindingContext.$data);
+                };
+
+            //create compute to create a dependency on observable values 
+            ko.computed({
+                read: function () {
+                    var myHandler = value(), key="enablevalue";
+                    var enable = (myHandler !== null) && (myHandler.CanExecute(bindingContext.$data) === undefined) &&
+                              (myHandler.CanExecuteCount()) && (myHandler.CanExecuteValue());
+
+                   var currentenable = ko.utils.domData.get(element, key);
+
+                   if (currentenable === enable)
+                        return;
+
+                    ko.utils.domData.set(element, key, enable);
+
+                    var cssOn = option.cssOn, ccsOff = option.ccsOff;
+
+                    ko.bindingHandlers.enable.update(element, function () { return enable; }, allBindings);
+
+                    toogle(element, enable, cssOn);
+                    toogle(element, !enable, ccsOff);
+                },
+                disposeWhenNodeIsRemoved: element
+            });
+
+            element.addEventListener(eventname, function () { eventhandler(cb) }, false);
         }
     };
 
-    ko.bindingHandlers.commandOnEvent = {
-        preprocess: function (compvalue, name, addBinding) {
-            var value = JSON.parse(compvalue.replace(/'/g, '"'));
-            addBinding('enable', value.command + '()!==null && ' + value.command + '().CanExecute($data)===undefined &&' + value.command + '().CanExecuteCount() &&' + value.command + '().CanExecuteValue()');
-            addBinding('event', '{' + value.event + ': function(){ if (' + value.command + '()!==null) {' + value.command + '().Execute($data);}}}');
-            return compvalue;
-        }
-    };
-
+  
     ko.bindingHandlers.execute = {
-        preprocess: function (value, name, addBinding) {
-            addBinding('executeOnEvent', '{ "command": "' + value + '", "event": "click"}');
-            return value;
+        init: function (element, valueAccessor, allBindings,viewModel, bindingContext) {
+            var option = allBindings.get('executeoption') || {},
+                eventname = option.event || 'click', cb = option.callback,
+                value = valueAccessor(),
+                eventhandler = function handler(callback) {
+                    var myHandler = value();
+                    if (myHandler === null)
+                        return;
+
+                    if (!!callback)
+                        callback();
+
+                    myHandler.Execute(bindingContext.$data);
+                };
+
+            element.addEventListener(eventname, function () { eventhandler(cb) }, false);
         }
     };
 
-    ko.bindingHandlers.executeOnEvent = {
-        preprocess: function (compvalue, name, addBinding) {
-            var value = JSON.parse(compvalue.replace(/'/g, '"'));
-            addBinding('event', '{' + value.event + ': function(){ if (' + value.command + '()!==null) {' + value.command + '().Execute($data);}}}');
-            return compvalue;
+    ko.bindingHandlers.parentCommand = {
+        preprocess: function (value, name, addBinding) {
+            return value;
+        },
+
+        init: function (element, valueAccessor, allBindings,viewModel,bindinContext) {
+            var value = valueAccessor();
+            var transformed = {};
+            ko.utils.objectForEach(value, function (event, keyvalue) {
+                var newlogic = {};
+                transformed[event] = newlogic;
+                ko.utils.objectForEach(keyvalue, function (logicname, logichandler) {
+                    newlogic[logicname] = function (el) { logichandler().Execute(el); };
+                });
+            });
+
+            console.log(transformed);
+
+            ko.bindingHandlers.delegatedParentHandler.init(element, function () { return transformed; }, allBindings, viewModel, bindinContext);
+        }
+    };
+
+    ko.bindingHandlers.executeResult = {
+
+        init: function (element, valueAccessor, allBindings) {
+            var promiseresult = allBindings.get('promiseoption'),
+                then = typeof promiseresult == 'function' ? promiseresult : promiseresult.then,
+                error = promiseresult.error || function () { },
+                arg = promiseresult.arg,
+                eventname = promiseresult.event || 'click',
+                value = valueAccessor(),
+                handlerevent = function handler(argv) {
+                    return new Promise(function (fullfill, reject) { 
+                        var res = { fullfill: function (res) { fullfill(res); }, reject: function (err) { reject(new Error(err)); } };
+                        value().Execute(argv, res);
+                    });
+                };
+
+            element.addEventListener(eventname, function () { handlerevent(ko.utils.unwrapObservable(allBindings.get('promiseoption').arg)).then(then).catch(error); }, false);
         }
     };
 
     ko.bindingHandlers.numberInput = {
-        init: function (element, valueAccessor, allBindingsAccessor) {
+        init: function (element, valueAccessor, allBindings) {
             var value = valueAccessor();
-            element.addEventListener('change', function () {
-                value(Number(element.value));
+
+            var valueUpdate = allBindings.get('valueUpdate');
+            var event = (valueUpdate === 'afterkeydown') ? 'input' : 'change';
+
+            element.addEventListener(event, function () {
+                var numb = Number(element.value);
+                if (isNaN(numb)) {
+                    element.value = 0;
+                    numb = 0;
+                }
+                
+                value(numb);
             }, false);
         },
 
@@ -293,7 +428,7 @@ function Null_reference() {
 
     ko.bindingHandlers.onclose = {
         preprocess: function (value) {
-            return '{when: $root.__window__().State, do: ' + value + '}';
+            return '{when: $root.__window__().State, act: ' + value + '}';
         },
 
         init: function (element, valueAccessor,allBindings,viewModel,bindingContext) {
@@ -305,13 +440,13 @@ function Null_reference() {
             if (v.when().name !== 'Closing')
                 return;
 
-            v.do(function () { bindingContext.$root.__window__().CloseReady().Execute(); }, element);
+            v.act(function () { bindingContext.$root.__window__().CloseReady().Execute(); }, element);
         }
     };
 
     ko.bindingHandlers.onopened= {
         preprocess: function (value) {
-            return '{when:  $root.__window__().State, do: ' + value + '}';
+            return '{when:  $root.__window__().State, act: ' + value + '}';
         },
 
         init: function (element, valueAccessor,allBindings,viewModel,bindingContext) {
@@ -323,7 +458,7 @@ function Null_reference() {
             if (v.when().name !== 'Opened')
                 return;
 
-            v.do(element, function () { bindingContext.$root.__window__().EndOpen().Execute(); });
+            v.act(element, function () { bindingContext.$root.__window__().EndOpen().Execute(); });
         }
     };
 

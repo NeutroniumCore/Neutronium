@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Xilium.CefGlue;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     public interface IJSCSGlue
     {
-        CefV8Value JSValue { get; }
+        IJavascriptObject JSValue { get; }
 
         object CValue { get;}
 

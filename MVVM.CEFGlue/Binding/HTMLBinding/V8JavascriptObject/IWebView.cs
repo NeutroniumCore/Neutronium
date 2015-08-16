@@ -14,8 +14,12 @@ namespace MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject
     {
         Task DispatchAsync(Action act);
 
-        CefV8Value GetGlobal() ;
+        IJavascriptObject GetGlobal();
 
-        bool Eval(string code, out CefV8Value res);
+        IJavascriptObjectConverter Converter { get; }
+
+        IJavascriptObjectFactory Factory { get; }
+
+        bool Eval(string code, out IJavascriptObject res);
     }
 }

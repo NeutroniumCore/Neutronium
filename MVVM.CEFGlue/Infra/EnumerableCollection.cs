@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,16 @@ namespace MVVM.CEFGlue.Infra
             }
 
             return @this;
+        }
+
+
+        public static Type GetElementType(this IEnumerable collection)
+        {
+            var typeo = collection.GetType();
+            var elementtype = typeo.GetEnumerableBase();
+            if (elementtype == null)
+                return null;
+            return elementtype.GetUnderlyingNullableType() ?? elementtype;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace MVVM.CEFGlue.CefSession
 {
     public interface ICefCoreSession : IDisposable
     {
-        IDispatcher Dispatcher { get; }
+        IDispatcher UIDispatcher { get; }
 
         MVVMCefApp CefApp  {  get ;  }
 

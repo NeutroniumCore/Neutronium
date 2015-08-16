@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xilium.CefGlue;
+
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
@@ -11,7 +13,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         private IJSCBridgeCache _IJSCBridgeCache;
         private Type _TargetedType;
 
-        public CollectionChanges(IJSCBridgeCache iJSCBridgeCache, CefV8Value[] value, CefV8Value[] status, CefV8Value[] index, Type iTargetedType)
+        public CollectionChanges(IJSCBridgeCache iJSCBridgeCache, IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index, Type iTargetedType)
         {
             _IJSCBridgeCache = iJSCBridgeCache;
             _TargetedType = iTargetedType;
@@ -21,7 +23,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public IEnumerable<IndividualCollectionChange> IndividualChanges { get; private set; }
 
-        public IEnumerable<IndividualCollectionChange> GetIndividualChanges(CefV8Value[] value, CefV8Value[] status, CefV8Value[] index)
+        public IEnumerable<IndividualCollectionChange> GetIndividualChanges(IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index)
         {
             int Length = value.Length;
             for (int i=0;i<Length;i++)

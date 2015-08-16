@@ -43,8 +43,8 @@ namespace MVVM.CEFGlue.CefSession
             base.OnBrowserDestroyed(browser);
         }
 
-        protected override void OnUncaughtException(CefBrowser browser, CefFrame frame, CefV8Context context, CefV8Exception exception, CefV8StackTrace stackTrace)
-        {
-        }
+        //protected override void OnUncaughtException(CefBrowser browser, CefFrame frame, CefV8Context context, CefV8Exception exception, CefV8StackTrace stackTrace)
+        //{
+        //}
     }
 }

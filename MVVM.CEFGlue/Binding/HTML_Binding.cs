@@ -11,7 +11,6 @@ using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.HTMLBinding;
 using MVVM.CEFGlue.CefGlueHelper;
 
-using Xilium.CefGlue;
 using Xilium.CefGlue.WPF;
 using CefGlue.Window;
 using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
@@ -29,7 +28,7 @@ namespace MVVM.CEFGlue
             _BirectionalMapper = iConvertToJSO;
         }
 
-        public CefV8Value JSRootObject
+        public IJavascriptObject JSRootObject
         {
             get { return _BirectionalMapper.JSValueRoot.GetJSSessionValue(); }
         }

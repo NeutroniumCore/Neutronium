@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xilium.CefGlue;
+
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     public interface IJavascriptListener
     {
-        void OnJavaScriptObjectChanges(CefV8Value objectchanged, string PropertyName, CefV8Value newValue);
+        void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string PropertyName, IJavascriptObject newValue);
 
-        void OnJavaScriptCollectionChanges(CefV8Value collectionchanged, CefV8Value[] value, CefV8Value[] status, CefV8Value[] index);
+        void OnJavaScriptCollectionChanges(IJavascriptObject collectionchanged, IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index);
     }
 }

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVM.CEFGlue.Infra;
 using System.Collections;
 
-using Xilium.CefGlue;
-
+using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.Exceptions;
 using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.CefSession;
@@ -18,16 +16,16 @@ namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class JSArray : GlueBase, IJSObservableBridge
     {
-        private IWebView _CefV8Context;
+        private IWebView _IWebView;
 
-        public JSArray(IWebView context, IEnumerable<IJSCSGlue> values, IEnumerable collection, Type ElementType)
+        public JSArray(IWebView context, IEnumerable<IJSCSGlue> values, IEnumerable collection)
         {
             var dest = values.Select(v => v.JSValue).ToList();
-            _CefV8Context = context;
+            _IWebView = context;
 
-            var res = _CefV8Context.Evaluate(() =>
+            var res = _IWebView.Evaluate(() =>
             {
-                CefV8Value myres = CefV8Value.CreateArray(dest.Count);
+                IJavascriptObject myres = _IWebView.Factory.CreateArray(dest.Count);
                 dest.ForEach((el, i) => myres.SetValue(i, el));
                 return myres;
             });
@@ -35,20 +33,21 @@ namespace MVVM.CEFGlue.HTMLBinding
             JSValue = res;
 
             Items = new List<IJSCSGlue>(values);
-            CValue = collection;
-            IndividualType = ElementType;
+            CValue = collection; 
+            var type = collection.GetElementType();
+            IndividualType = _IWebView.Factory.IsTypeBasic(type) ?  type : null;
         }
 
         private Type IndividualType { get; set; }
 
-        public CollectionChanges GetChanger(CefV8Value[] value, CefV8Value[] status, CefV8Value[] index, IJSCBridgeCache bridge)
+        public CollectionChanges GetChanger(IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index, IJSCBridgeCache bridge)
         {
             return new CollectionChanges(bridge, value, status, index, IndividualType);
         }
 
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)
         {
-            CefCoreSessionSingleton.Session.Dispatcher.Run(() =>
+            CefCoreSessionSingleton.Session.UIDispatcher.Run(() =>
             {
                 switch (change.CollectionChangeType)
                 {
@@ -85,7 +84,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public void Add(IJSCSGlue iIJSCBridge, int Index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _CefV8Context, CefV8Value.CreateInt(Index), CefV8Value.CreateInt(0), iIJSCBridge.GetJSSessionValue());
+            MappedJSValue.InvokeAsync("silentsplice", _IWebView, _IWebView.Factory.CreateInt(Index), _IWebView.Factory.CreateInt(0), iIJSCBridge.GetJSSessionValue());
             if (Index > Items.Count - 1)
                 Items.Add(iIJSCBridge);
             else
@@ -94,19 +93,19 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public void Insert(IJSCSGlue iIJSCBridge, int Index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _CefV8Context, CefV8Value.CreateInt(Index), CefV8Value.CreateInt(1), iIJSCBridge.GetJSSessionValue());
+            MappedJSValue.InvokeAsync("silentsplice", _IWebView, _IWebView.Factory.CreateInt(Index), _IWebView.Factory.CreateInt(1), iIJSCBridge.GetJSSessionValue());
             Items[Index] = iIJSCBridge;
         }
 
         public void Remove(int Index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _CefV8Context, CefV8Value.CreateInt(Index), CefV8Value.CreateInt(1));
+            MappedJSValue.InvokeAsync("silentsplice", _IWebView, _IWebView.Factory.CreateInt(Index), _IWebView.Factory.CreateInt(1));
             Items.RemoveAt(Index);
         }
 
         public void Reset()
         {
-            MappedJSValue.InvokeAsync("silentremoveAll", _CefV8Context);
+            MappedJSValue.InvokeAsync("silentremoveAll", _IWebView);
             Items.Clear();
         }
 
@@ -125,7 +124,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             sb.Append("]");
         }
 
-        public CefV8Value JSValue { get; private set; }
+        public IJavascriptObject JSValue { get; private set; }
 
         public object CValue { get; private set; }
 
@@ -138,9 +137,9 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public JSCSGlueType Type { get { return JSCSGlueType.Array; } }
 
-        public CefV8Value MappedJSValue { get; private set; }
+        public IJavascriptObject MappedJSValue { get; private set; }
 
-        public void SetMappedJSValue(CefV8Value ijsobject, IJSCBridgeCache mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
         {
             MappedJSValue = ijsobject;
         }

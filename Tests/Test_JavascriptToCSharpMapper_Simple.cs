@@ -9,6 +9,8 @@ using Xunit;
 using Xilium.CefGlue;
 
 using MVVM.CEFGlue.HTMLBinding;
+using MVVM.CEFGlue.CefGlueImplementation;
+using MVVM.CEFGlue.Test.Infra;
 
 
 namespace MVVM.CEFGlue.Test
@@ -16,10 +18,10 @@ namespace MVVM.CEFGlue.Test
     public class Test_JavascriptToCSharpMapper_Simple : MVVMCefGlue_Test_Base
     {
 
-        private JavascriptToCSharpMapper _JavascriptToCSharpMapper;
+        private CefV8_Converter _CefV8_Converter;
         public Test_JavascriptToCSharpMapper_Simple()
         {
-            _JavascriptToCSharpMapper = new JavascriptToCSharpMapper();
+            _CefV8_Converter = new CefV8_Converter();
         }
         
         [Fact]
@@ -28,7 +30,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
                 {
                     object res = null;
-                    bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateString("titi"), out res);
+                    bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateString("titi").Convert(), out res);
                     ok.Should().BeTrue();
                     res.Should().Be("titi");
                 });
@@ -40,7 +42,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
                {
                    object res = null;
-                   bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateInt(10), out res);
+                   bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateInt(10).Convert(), out res);
                    ok.Should().BeTrue();
                    res.Should().Be(10);
                });
@@ -52,7 +54,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
                {
                    object res = null;
-                   bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateBool(false), out res);
+                   bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateBool(false).Convert(), out res);
                    ok.Should().BeTrue();
                    res.Should().Be(false);
                });
@@ -64,7 +66,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
                {
                    object res = null;
-                   bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateBool(true), out res);
+                   bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateBool(true).Convert(), out res);
                    ok.Should().BeTrue();
                    res.Should().Be(true);
                });
@@ -76,7 +78,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
                {
                    object res = null;
-                   bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateDouble(0.5), out res);
+                   bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateDouble(0.5).Convert(), out res);
                    ok.Should().BeTrue();
                    res.Should().Be(0.5D);
                });
@@ -88,7 +90,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
               {
                   object res = null;
-                  bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateUndefined(), out res);
+                  bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateUndefined().Convert(), out res);
                   ok.Should().BeTrue();
                   res.Should().Be(null);
               });
@@ -100,7 +102,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
             {
                 object res = null;
-                bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateNull(), out res);
+                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateNull().Convert(), out res);
                 ok.Should().BeTrue();
                 res.Should().Be(null);
             });
@@ -114,7 +116,7 @@ namespace MVVM.CEFGlue.Test
             {
                 object res = null;
                 var date = new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc);
-                bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateDate(date), out res);
+                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateDate(date).Convert(), out res);
                 ok.Should().BeTrue();
                 res.Should().Be(date);
             });
@@ -126,7 +128,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
             {
                 object res = null;
-                bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateObject(null), out res);
+                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateObject(null).Convert(), out res);
                 ok.Should().BeFalse();
                 res.Should().BeNull();
             });
@@ -150,7 +152,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
             {
                 object res = null;
-                bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateUInt(uint.MaxValue), out res, typeof(UInt32));
+                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateUInt(uint.MaxValue).Convert(), out res, typeof(UInt32));
                 ok.Should().BeTrue();
                 res.Should().Be(uint.MaxValue);
             });
@@ -162,7 +164,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
             {
                 object res = null;
-                bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateInt(-1), out res);
+                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateInt(-1).Convert(), out res);
                 ok.Should().BeTrue();
                 res.Should().Be(-1);
             });

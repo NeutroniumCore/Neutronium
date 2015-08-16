@@ -19,10 +19,10 @@ namespace MVVM.CEFGlue
     public class StringBinding : IDisposable, IHTMLBinding
     {
         private JavascriptSessionInjector _JavascriptSessionInjector;
-        private CefV8Value _Root;
+        private IJavascriptObject _Root;
         private IWebView _Context;
 
-        internal StringBinding(IWebView context, CefV8Value root, JavascriptSessionInjector iJavascriptSessionInjector)
+        internal StringBinding(IWebView context, IJavascriptObject root, JavascriptSessionInjector iJavascriptSessionInjector)
         {
             _JavascriptSessionInjector = iJavascriptSessionInjector;
             _Context = context;
@@ -41,7 +41,7 @@ namespace MVVM.CEFGlue
             });
         }
 
-        public CefV8Value JSRootObject
+        public IJavascriptObject JSRootObject
         {
             get { return _Root; }
         }
@@ -58,10 +58,10 @@ namespace MVVM.CEFGlue
             var root = await context.EvaluateAsync(() =>
                 {
                     var json = context.GetGlobal().GetValue("JSON");
-                    return json.Invoke("parse", context, CefV8Value.CreateString(iViewModel));
+                    return json.Invoke("parse", context, context.Factory.CreateString(iViewModel));
                 });
 
-            var injector = new JavascriptSessionInjector(context, new GlobalBuilder(context, "MVVMGlue"), null);
+            var injector = new JavascriptSessionInjector(context, null);
             var mappedroot = injector.Map(root, null);
             await injector.RegisterInSession(mappedroot);
 

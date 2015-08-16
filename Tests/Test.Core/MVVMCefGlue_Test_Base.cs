@@ -13,7 +13,7 @@ using MVVM.CEFGlue.CefSession;
 using MVVM.CEFGlue.Test.CefWindowless;
 using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
-
+using MVVM.CEFGlue.Test.Infra;
 
 namespace MVVM.CEFGlue.Test
 {
@@ -137,47 +137,47 @@ namespace MVVM.CEFGlue.Test
             }
         }
 
-        protected CefV8Value GetAttribute(CefV8Value value, string attibutename)
+        protected IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
         {
-            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView));
+            return _WebView.Evaluate(() => value.Convert().Invoke(attibutename, _WebView)).Convert();
         }
 
-        protected string GetStringAttribute(CefV8Value value, string attibutename)
+        protected string GetStringAttribute(IJavascriptObject value, string attibutename)
         {
-            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetStringValue());
+            return _WebView.Evaluate(() => value.Convert().Invoke(attibutename, _WebView).GetStringValue());
         }
 
-        protected int GetIntAttribute(CefV8Value value, string attibutename)
+        protected int GetIntAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetIntValue());
         }
 
-        protected double GetDoubleAttribute(CefV8Value value, string attibutename)
+        protected double GetDoubleAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetDoubleValue());
         }
 
-        protected bool GetBoolAttribute(CefV8Value value, string attibutename)
+        protected bool GetBoolAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetBoolValue());
         }
 
-        protected CefV8Value CallWithRes(CefV8Value value, string functionname, params CefV8Value[] parameter)
+        protected IJavascriptObject CallWithRes(IJavascriptObject value, string functionname, params IJavascriptObject[] parameter)
         {
             return _WebView.Evaluate(() => value.Invoke(functionname, _WebView, parameter));
         }
 
-        protected void Call(CefV8Value value, string functionname, params CefV8Value[] parameter)
+        protected void Call(IJavascriptObject value, string functionname, params IJavascriptObject[] parameter)
         {
             _WebView.Run(() => value.Invoke(functionname,_WebView,parameter));
         }
 
-        protected void Call(CefV8Value value, string functionname, Func<IEnumerable<CefV8Value>> parameter)
+        protected void Call(IJavascriptObject value, string functionname, Func<IEnumerable<IJavascriptObject>> parameter)
         {
             _WebView.Run(() => value.Invoke(functionname, _WebView, parameter().ToArray()));
         }
 
-        protected void Call(CefV8Value value, string functionname, Func<CefV8Value> parameter)
+        protected void Call(IJavascriptObject value, string functionname, Func<IJavascriptObject> parameter)
         {
             _WebView.Run(() => value.Invoke(functionname, _WebView, parameter()));
         }

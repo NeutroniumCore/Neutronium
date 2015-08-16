@@ -8,11 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Xilium.CefGlue;
-
 using MVVM.CEFGlue.Infra;
 using MVVM.CEFGlue.Exceptions;
-using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
@@ -21,15 +18,12 @@ namespace MVVM.CEFGlue.HTMLBinding
     {
         private readonly JavascriptBindingMode _BindingMode;
         private readonly IJSCSGlue _Root;
-        private readonly IWebView _V8Context;
+        private readonly IWebView _IWebView;
         private readonly List<IJSCSGlue> _UnrootedEntities;
 
         private CSharpToJavascriptMapper _JSObjectBuilder;
         private JavascriptSessionInjector _SessionInjector;
-        private JavascriptToCSharpMapper _JavascriptToCSharpMapper;
 
-        private IJSOLocalBuilder _LocalBuilder;
-        private IGlobalBuilder _GlobalBuilder;
         private bool _IsListening = false;
 
         private IDictionary<object, IJSCSGlue> _FromCSharp = new Dictionary<object, IJSCSGlue>();
@@ -38,10 +32,8 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         internal BidirectionalMapper(object iRoot, IWebView iwebview, JavascriptBindingMode iMode, object iadd)
         {
-            _V8Context = iwebview;
-            _LocalBuilder = new LocalBuilder(iwebview);
-            _JSObjectBuilder = new CSharpToJavascriptMapper(iwebview, _LocalBuilder, this);
-            _JavascriptToCSharpMapper = new JavascriptToCSharpMapper();
+            _IWebView = iwebview;
+            _JSObjectBuilder = new CSharpToJavascriptMapper(iwebview, this);
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
             _UnrootedEntities = new List<IJSCSGlue>();
             _BindingMode = iMode;
@@ -50,16 +42,15 @@ namespace MVVM.CEFGlue.HTMLBinding
             if (iMode == JavascriptBindingMode.TwoWay)
                 JavascriptObjecChanges = this;
 
-            _GlobalBuilder = new GlobalBuilder(_V8Context, "MVVMGlue");
 
-            _SessionInjector = new JavascriptSessionInjector(iwebview, _GlobalBuilder, JavascriptObjecChanges);
+            _SessionInjector = new JavascriptSessionInjector(iwebview, JavascriptObjecChanges);
         }
 
         internal async Task Init()
         {
             await InjectInHTLMSession(_Root, true);
 
-            await _V8Context.RunAsync(() =>
+            await _IWebView.RunAsync(() =>
                   {
                       if (ListenToCSharp)
                       {
@@ -82,48 +73,47 @@ namespace MVVM.CEFGlue.HTMLBinding
                 _Root = iRoot;
             }
 
-            public void RegisterFirst(CefV8Value iRoot)
+            public void RegisterFirst(IJavascriptObject iRoot)
             {
                 _LiveMapper.Update(_Root, iRoot);
             }
 
-            public void RegisterMapping(CefV8Value iFather, string att, CefV8Value iChild)
+            public void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
             {
                 _LiveMapper.RegisterMapping(iFather, att, iChild);
             }
 
-            public void RegisterCollectionMapping(CefV8Value iFather, string att, int index, CefV8Value iChild)
+            public void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
             {
                 _LiveMapper.RegisterCollectionMapping(iFather, att, index, iChild);
             }
 
             internal Task UpdateTask { get { return _TCS.Task; } }
 
-            public void End(CefV8Value iRoot)
+            public void End(IJavascriptObject iRoot)
             {
                 _TCS.TrySetResult(null);
             }
         }
 
-        private IJSCSGlue GetFromJavascript(CefV8Value jsobject)
+        private IJSCSGlue GetFromJavascript(IJavascriptObject jsobject)
         {
-            return _FromJavascript_Global[_GlobalBuilder.GetID(jsobject)];
+            return _FromJavascript_Global[jsobject.GetID()];
         }
 
-        private void Update(IJSObservableBridge ibo, CefV8Value jsobject)
+        private void Update(IJSObservableBridge ibo, IJavascriptObject jsobject)
         {
-            _GlobalBuilder.CreateAndGetID(jsobject);
             ibo.SetMappedJSValue(jsobject, this);
-            _FromJavascript_Global[_GlobalBuilder.GetID(jsobject)] = ibo;
+            _FromJavascript_Global[jsobject.GetID()] = ibo;
         }
 
-        public void RegisterMapping(CefV8Value iFather, string att, CefV8Value iChild)
+        public void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
         {
             JSGenericObject jso = GetFromJavascript(iFather) as JSGenericObject;
             Update(jso.Attributes[att] as IJSObservableBridge, iChild);
         }
 
-        public void RegisterCollectionMapping(CefV8Value iFather, string att, int index, CefV8Value iChild)
+        public void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
         {
             var father = GetFromJavascript(iFather);
             var jsos = (att == null) ? father : (father as JSGenericObject).Attributes[att];
@@ -176,7 +166,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                 await _SessionInjector.RegisterInSession(res);
         }
 
-        public void OnJavaScriptObjectChanges(CefV8Value objectchanged, string PropertyName, CefV8Value newValue)
+        public void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string PropertyName, IJavascriptObject newValue)
         {
             try
             {
@@ -196,7 +186,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         }
 
 
-        public void OnJavaScriptCollectionChanges(CefV8Value collectionchanged, CefV8Value[] value, CefV8Value[] status, CefV8Value[] index)
+        public void OnJavaScriptCollectionChanges(IJavascriptObject collectionchanged, IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index)
         {
             try
             {
@@ -321,7 +311,7 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _V8Context.RunAsync(() =>
+            _IWebView.RunAsync(() =>
             {
                 UnsafeCollectionChanged(sender, e);
             });
@@ -365,7 +355,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             var idisp = ReListen(ivalue);
 
             await InjectInHTLMSession(ivalue);
-            await _V8Context.RunAsync(() =>
+            await _IWebView.RunAsync(() =>
                     {
                         using (idisp)
                         {
@@ -397,7 +387,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         void IJSCBridgeCache.CacheLocal(object key, IJSCSGlue value)
         {
             _FromCSharp.Add(key, value);
-            _FromJavascript_Local.Add(_LocalBuilder.GetID(value.JSValue), value);
+            _FromJavascript_Local.Add(value.JSValue.GetID(), value);
         }
 
         IJSCSGlue IJSCBridgeCache.GetCached(object key)
@@ -407,40 +397,43 @@ namespace MVVM.CEFGlue.HTMLBinding
             return res;
         }
 
-        public IJSCSGlue GetCached(CefV8Value globalkey)
+        public IJSCSGlue GetCached(IJavascriptObject globalkey)
         {
-            if (!_GlobalBuilder.HasRelevantId(globalkey))
-                return null;
+            return _IWebView.Evaluate(() =>
+                {
+                    if (!globalkey.HasRelevantId())
+                        return null;
 
-            IJSCSGlue res = null;
-            _FromJavascript_Global.TryGetValue(_GlobalBuilder.GetID(globalkey), out res);
-            return res;
+                    IJSCSGlue res = null;
+                    _FromJavascript_Global.TryGetValue(globalkey.GetID(), out res);
+                    return res;
+                });
         }
 
-        public IJSCSGlue GetCachedOrCreateBasic(CefV8Value globalkey, Type iTargetType)
+        public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject globalkey, Type iTargetType)
         {
             IJSCSGlue res = null;
-            CefV8Value obj = globalkey;
+            IJavascriptObject obj = globalkey;
 
             //Use local cache for objet not created in javascript session such as enum
             if ((obj != null) && ((res = GetCached(globalkey) ?? GetCachedLocal(globalkey)) != null))
                 return res;
 
             object targetvalue = null;
-            bool converted = _JavascriptToCSharpMapper.GetSimpleValue(globalkey, out targetvalue, iTargetType);
+            bool converted = _IWebView.Converter.GetSimpleValue(globalkey, out targetvalue, iTargetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
                 throw ExceptionHelper.Get(string.Format("Unable to convert javascript object: {0}", globalkey));
 
             return new JSBasicObject(globalkey, targetvalue);
         }
 
-        private IJSCSGlue GetCachedLocal(CefV8Value localkey)
+        private IJSCSGlue GetCachedLocal(IJavascriptObject localkey)
         {
-            if (!_LocalBuilder.HasRelevantId(localkey))
+            if (!localkey.HasRelevantId())
                 return null;
 
             IJSCSGlue res = null;
-            _FromJavascript_Local.TryGetValue(_LocalBuilder.GetID(localkey), out res);
+            _FromJavascript_Local.TryGetValue(localkey.GetID(), out res);
             return res;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using CefGlue.Window;
 using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using MVVM.CEFGlue.CefGlueImplementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +10,32 @@ using Xilium.CefGlue;
 
 namespace MVVM.CEFGlue.CefGlueHelper
 {
-    public class CefV8CompleteContext : IWebView 
+    public class CefV8_WebView : IWebView 
     {
-        public CefV8CompleteContext(CefV8Context iContext, CefTaskRunner iRunner)
+        private CefV8_Converter _CefV8_Converter;
+        private CefV8_Factory _CefV8_Factory;
+
+        public CefV8_WebView(CefV8Context iContext, CefTaskRunner iRunner)
         {
             Context = iContext;
             Runner = iRunner;
+            _CefV8_Converter = new CefV8_Converter();
+            _CefV8_Factory = new CefV8_Factory(this);
         }
 
-        public CefV8Value GetGlobal() 
+        public IJavascriptObject GetGlobal() 
         {
-            return Context.GetGlobal();
+            return new CefV8_JavascriptObject( Context.GetGlobal() );
         }
 
-        public bool Eval(string code, out CefV8Value res )
+        public bool Eval(string code, out IJavascriptObject res)
         {
             CefV8Exception exp=null;
-            return Context.TryEval(code, out res, out exp);
-        }
-
+            CefV8Value val = null;
+            bool bres = Context.TryEval(code, out val, out exp);
+            res = (val == null) ? null : new CefV8_JavascriptObject(val);
+            return bres;
+        } 
 
         private CefV8Context Context { get; set; }
 
@@ -99,6 +107,17 @@ namespace MVVM.CEFGlue.CefGlueHelper
         private IDisposable Enter()
         {
             return new ContextOpener(Context);
+        }
+
+
+        public IJavascriptObjectFactory Factory
+        {
+            get { return _CefV8_Factory; }
+        }
+
+        public IJavascriptObjectConverter Converter
+        {
+            get { return _CefV8_Converter; }
         }
     }
 }

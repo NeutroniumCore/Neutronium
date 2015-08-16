@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Xilium.CefGlue;
-
-using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.Component;
 using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
@@ -15,50 +12,50 @@ namespace MVVM.CEFGlue.HTMLBinding
     public class JSResultCommand : GlueBase, IJSObservableBridge
     {
         private IResultCommand _JSResultCommand;
-        private IWebView _CefV8Context;
-        public JSResultCommand(IWebView ijsobject, IJSOBuilder builder, IResultCommand icValue)
+        private IWebView _IWebView;
+        public JSResultCommand(IWebView ijsobject, IResultCommand icValue)
         {
-            _CefV8Context = ijsobject;
+            _IWebView = ijsobject;
             _JSResultCommand = icValue;
-            JSValue = builder.CreateJSO();    
+            JSValue = _IWebView.Factory.CreateObject();
         }
 
-        public CefV8Value JSValue { get; private set; }
+        public IJavascriptObject JSValue { get; private set; }
 
-        private CefV8Value _MappedJSValue;
+        private IJavascriptObject _MappedJSValue;
 
-        public CefV8Value MappedJSValue { get { return _MappedJSValue; } }
+        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(CefV8Value ijsobject, IJSCBridgeCache mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _CefV8Context,(c, o, e) => Execute(e, mapper));
+            _MappedJSValue.Bind("Execute", _IWebView,(c, o, e) => Execute(e, mapper));
         }
 
-        private object Convert(IJSCBridgeCache mapper, CefV8Value value)
+        private object Convert(IJSCBridgeCache mapper, IJavascriptObject value)
         {
             var found = mapper.GetCachedOrCreateBasic(value, null);
             return (found != null) ? found.CValue : null;
         }
 
-        private object GetArguments(IJSCBridgeCache mapper, CefV8Value[] e)
+        private object GetArguments(IJSCBridgeCache mapper, IJavascriptObject[] e)
         {
             return (e.Length == 0) ? null : Convert(mapper, e[0]);
         }
 
-        private void SetResult(CefV8Value[] e, IJSCBridgeCache bridge, Task<object> resulttask)
+        private void SetResult(IJavascriptObject[] e, IJSCBridgeCache bridge, Task<object> resulttask)
         {
-            _CefV8Context.RunAsync (() =>
+            _IWebView.RunAsync (() =>
                  {
                      if (e.Length < 2)
-                         return;       
-                    
-                     CefV8Value promise = e[1];
+                         return;
+
+                     IJavascriptObject promise = e[1];
                      if (!resulttask.IsFaulted)
                      {
                          bridge.RegisterInSession(resulttask.Result, (bridgevalue) =>
                          {
-                             promise.InvokeAsync("fullfill", _CefV8Context, bridgevalue.GetJSSessionValue());
+                             promise.InvokeAsync("fullfill", _IWebView, bridgevalue.GetJSSessionValue());
                          });
                      }
                      else
@@ -66,13 +63,13 @@ namespace MVVM.CEFGlue.HTMLBinding
                          string error = (resulttask.IsCanceled) ? "Cancelled" :
                              ((resulttask.Exception == null) ? "Faulted" : resulttask.Exception.Flatten().InnerException.Message);
 
-                         promise.InvokeAsync("reject", _CefV8Context, CefV8Value.CreateString(error));
+                         promise.InvokeAsync("reject", _IWebView, _IWebView.Factory.CreateString(error));
                      }
 
                  });
         }
 
-        private void Execute(CefV8Value[] e, IJSCBridgeCache mapper)
+        private void Execute(IJavascriptObject[] e, IJSCBridgeCache mapper)
         {
             _JSResultCommand.Execute(GetArguments(mapper, e))
                 .ContinueWith(t => SetResult(e, mapper, t));

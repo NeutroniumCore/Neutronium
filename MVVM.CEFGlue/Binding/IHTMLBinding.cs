@@ -1,7 +1,6 @@
 ﻿using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 using MVVM.CEFGlue.CefGlueHelper;
 using System;
-using Xilium.CefGlue;
 
 namespace MVVM.CEFGlue
 {
@@ -9,7 +8,7 @@ namespace MVVM.CEFGlue
     {
         IWebView Context { get; }
 
-        CefV8Value JSRootObject { get; }
+        IJavascriptObject JSRootObject { get; }
 
         object Root { get; }
     }

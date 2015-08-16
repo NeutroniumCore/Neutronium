@@ -17,7 +17,9 @@ using MVVM.CEFGlue.HTMLBinding;
 using MVVM.CEFGlue.CefSession;
 using MVVM.CEFGlue.Test.CefWindowless;
 using MVVM.CEFGlue.Infra;
-
+using MVVM.CEFGlue.CefGlueImplementation;
+using MVVM.CEFGlue.Test.Infra;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 
 namespace MVVM.CEFGlue.Test
@@ -38,7 +40,7 @@ namespace MVVM.CEFGlue.Test
 
 
         private CSharpToJavascriptMapper _ConverTOJSO;
-        private LocalBuilder _IJSOBuilder;
+        private CefV8_Factory _IJSOBuilder;
         private TestClass _Test;
         private Test2 _Test2;
         private List<TestClass> _Tests;
@@ -52,10 +54,10 @@ namespace MVVM.CEFGlue.Test
 
         protected override void Init()
         {
-            _IJSOBuilder = new LocalBuilder(_WebView);
+            _IJSOBuilder = new CefV8_Factory(_WebView);
             _ICSharpMapper = Substitute.For<IJSCBridgeCache>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
-            _ConverTOJSO = new CSharpToJavascriptMapper(_WebView, _IJSOBuilder, _ICSharpMapper);
+            _ConverTOJSO = new CSharpToJavascriptMapper(_WebView, _ICSharpMapper);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>();
             _Tests.Add(new TestClass() { S1 = "string1", I1 = 1 });
@@ -76,15 +78,15 @@ namespace MVVM.CEFGlue.Test
         {
             Test(() =>
                 {
-                    CefV8Value res = _ConverTOJSO.Map(_Test).JSValue;
+                    var res = _ConverTOJSO.Map(_Test).JSValue;
                     res.Should().NotBeNull();
                     var res1 = res.GetValue("S1");
                     res1.Should().NotBeNull();
-                    res1.IsString.Should().BeTrue();
+                    res1.Convert().IsString.Should().BeTrue();
 
                     var res2 = res.GetValue("I1");
                     res2.Should().NotBeNull();
-                    res2.IsInt.Should().BeTrue();
+                    res2.Convert().IsInt.Should().BeTrue();
                 });
         }
 
@@ -96,13 +98,13 @@ namespace MVVM.CEFGlue.Test
               {
                   var ibridgeresult = _ConverTOJSO.Map(_Tests);
                   ibridgeresult.Type.Should().Be(JSCSGlueType.Array);
-                  CefV8Value resv = ibridgeresult.JSValue;
+                  IJavascriptObject resv = ibridgeresult.JSValue;
 
                   resv.Should().NotBeNull();
                   resv.IsArray.Should().BeTrue();
                   resv.GetArrayLength().Should().Be(2);
 
-                  CefV8Value res = resv.GetValue(0);
+                  IJavascriptObject res = resv.GetValue(0);
                   res.Should().NotBeNull();
                   var res1 = res.GetValue("S1");
                   res1.Should().NotBeNull();
@@ -117,7 +119,7 @@ namespace MVVM.CEFGlue.Test
 
                   var res2 = res.GetValue("I1");
                   res2.Should().NotBeNull();
-                  res2.IsInt.Should().BeTrue();
+                  res2.IsNumber.Should().BeTrue();
                   int v2 = res2.GetIntValue();
                   v2.Should().Be(1);
               });
@@ -128,13 +130,13 @@ namespace MVVM.CEFGlue.Test
         {
             Test(() =>
               {
-                  CefV8Value resv = _ConverTOJSO.Map(_Tests_NG).JSValue;
+                  var resv = _ConverTOJSO.Map(_Tests_NG).JSValue;
 
                   resv.Should().NotBeNull();
                   resv.IsArray.Should().BeTrue();
                   resv.GetArrayLength().Should().Be(2);
 
-                  CefV8Value res = resv.GetValue(0);
+                  var res = resv.GetValue(0);
                   res.Should().NotBeNull();
                   var res1 = res.GetValue("S1");
                   res1.Should().NotBeNull();
@@ -149,7 +151,7 @@ namespace MVVM.CEFGlue.Test
 
                   var res2 = res.GetValue("I1");
                   res2.Should().NotBeNull();
-                  res2.IsInt.Should().BeTrue();
+                  res2.IsNumber.Should().BeTrue();
                   int v2 = res2.GetIntValue();
                   v2.Should().Be(1);
               });
@@ -161,9 +163,9 @@ namespace MVVM.CEFGlue.Test
         {
             Test(() =>
               {
-                  CefV8Value res = _ConverTOJSO.Map(0.2D).JSValue;
+                  var res = _ConverTOJSO.Map(0.2D).JSValue;
                   res.Should().NotBeNull();
-                  res.IsDouble.Should().BeTrue();
+                  res.IsNumber.Should().BeTrue();
                   double resd = res.GetDoubleValue();
 
                   resd.Should().Be(0.2D);
@@ -176,7 +178,7 @@ namespace MVVM.CEFGlue.Test
             Test(() =>
               {
                   var date = new DateTime(1974, 02, 26, 01, 02, 03,DateTimeKind.Utc);
-                  CefV8Value res = _ConverTOJSO.Map(date).JSValue;
+                  var res = _ConverTOJSO.Map(date).JSValue;
                   res.Should().NotBeNull();
                   res.IsDate.Should().BeTrue();
                   DateTime resd = res.GetDateValue();
@@ -192,7 +194,7 @@ namespace MVVM.CEFGlue.Test
               {
                   var res = _ConverTOJSO.Map(0.2M).JSValue;
                   res.Should().NotBeNull();
-                  res.IsDouble.Should().BeTrue();
+                  res.IsNumber.Should().BeTrue();
                   double resd = res.GetDoubleValue();
 
                   resd.Should().Be(0.2D);
@@ -248,7 +250,7 @@ namespace MVVM.CEFGlue.Test
         {
             Test(() =>
               {
-                  CefV8Value res = _ConverTOJSO.Map(_Test2).JSValue;
+                  var res = _ConverTOJSO.Map(_Test2).JSValue;
                   res.Should().NotBeNull();
 
                   _ICSharpMapper.Received().Cache(_Test, Arg.Any<IJSCSGlue>());

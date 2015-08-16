@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-using Xilium.CefGlue;
-
 using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.Exceptions;
 using System.Threading.Tasks;
@@ -15,44 +13,43 @@ namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class JavascriptSessionInjector : IDisposable
     {
-        private IWebView _CefV8Context;
-        private IJSOBuilder _GlobalBuilder;
-        private CefV8Value _Listener;
+        private IWebView _IWebView;
+        private IJavascriptObject _Listener;
         private IJavascriptListener _IJavascriptListener;
 
 
-        internal JavascriptSessionInjector(IWebView iWebView, IJSOBuilder iGlobalBuilder, IJavascriptListener iJavascriptListener)
+        internal JavascriptSessionInjector(IWebView iWebView, IJavascriptListener iJavascriptListener)
         {
-            _CefV8Context = iWebView;
-            _GlobalBuilder = iGlobalBuilder;
+            _IWebView = iWebView;
             _IJavascriptListener = iJavascriptListener;
 
+            _IWebView.Run(() =>
+                {
+                    _Listener = _IWebView.Factory.CreateObject();
 
-            if (_IJavascriptListener != null)
-            {
-                _Listener = _GlobalBuilder.CreateJSO();
-                _Listener.Bind("TrackChanges",_CefV8Context, (c, o, e) => _IJavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
-                _Listener.Bind("TrackCollectionChanges", _CefV8Context, (c, o, e) => _IJavascriptListener.OnJavaScriptCollectionChanges(e[0], e[1].GetArrayElements(), e[2].GetArrayElements(), e[3].GetArrayElements()));
-            }
-            else
-                _Listener = _GlobalBuilder.CreateJSO();
+                    if (_IJavascriptListener != null)
+                    {
+                        _Listener.Bind("TrackChanges", _IWebView, (c, o, e) => _IJavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
+                        _Listener.Bind("TrackCollectionChanges", _IWebView, (c, o, e) => _IJavascriptListener.OnJavaScriptCollectionChanges(e[0], e[1].GetArrayElements(), e[2].GetArrayElements(), e[3].GetArrayElements()));
+                    }
+                });
         }
 
         private Queue<IJavascriptMapper> _IJavascriptMapper = new Queue<IJavascriptMapper>();
         private IJavascriptMapper _Current;
         private bool _PullNextMapper = true;
-        private CefV8Value _Mapper;
+        private IJavascriptObject _Mapper;
 
-        private CefV8Value GetMapper(IJavascriptMapper iMapperListener)
+        private IJavascriptObject GetMapper(IJavascriptMapper iMapperListener)
         {
             _IJavascriptMapper.Enqueue(iMapperListener);
     
             if (_Mapper != null)
                 return _Mapper;
 
-            _Mapper = _GlobalBuilder.CreateJSO();
+            _Mapper = _IWebView.Factory.CreateObject();
 
-            _Mapper.Bind("Register", _CefV8Context, (c, o, e) =>
+            _Mapper.Bind("Register", _IWebView, (c, o, e) =>
             {
                 if (_PullNextMapper)
                 { 
@@ -64,7 +61,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                     return;
 
                 int count = e.Length;
-                CefV8Value registered = e[0];
+                IJavascriptObject registered = e[0];
 
                 switch (count)
                 {
@@ -82,7 +79,7 @@ namespace MVVM.CEFGlue.HTMLBinding
                 }
              });
 
-            _Mapper.Bind("End", _CefV8Context, (c, o, e) =>
+            _Mapper.Bind("End", _IWebView, (c, o, e) =>
                 {
                     if (_PullNextMapper)
                         _Current = _IJavascriptMapper.Dequeue();
@@ -96,12 +93,12 @@ namespace MVVM.CEFGlue.HTMLBinding
             return _Mapper;
         }
 
-        private CefV8Value _Ko;
-        private CefV8Value GetKo()
+        private IJavascriptObject _Ko;
+        private IJavascriptObject GetKo()
         {
             if (_Ko == null)
             {
-                _Ko = _CefV8Context.GetGlobal().GetValue("ko");
+                _Ko = _IWebView.GetGlobal().GetValue("ko");
                 if ((_Ko==null) || (!_Ko.IsObject))
                     throw ExceptionHelper.NoKo();
             }
@@ -110,12 +107,12 @@ namespace MVVM.CEFGlue.HTMLBinding
         }
 
 
-        public CefV8Value Map(CefV8Value ihybridobject, IJavascriptMapper ijvm, bool checknullvalue = true)
+        public IJavascriptObject Map(IJavascriptObject ihybridobject, IJavascriptMapper ijvm, bool checknullvalue = true)
         {
-            return _CefV8Context.Evaluate(() =>
+            return _IWebView.Evaluate(() =>
                 {
 
-                    CefV8Value res = GetKo().Invoke("MapToObservable", _CefV8Context,ihybridobject, GetMapper(ijvm), _Listener);
+                    IJavascriptObject res = GetKo().Invoke("MapToObservable", _IWebView, ihybridobject, GetMapper(ijvm), _Listener);
                     if (( (res == null) || (res.IsUndefined)) && checknullvalue)
                     {
                         throw ExceptionHelper.NoKo();
@@ -124,21 +121,21 @@ namespace MVVM.CEFGlue.HTMLBinding
                 });
         }
 
-        public Task RegisterInSession(CefV8Value iJSObject)
+        public Task RegisterInSession(IJavascriptObject iJSObject)
         {
             var ko = GetKo();
 
-            return _CefV8Context.RunAsync(() =>
+            return _IWebView.RunAsync(() =>
                 {
-                    ko.Bind("log", _CefV8Context, (c, o, e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
-                    ko.Invoke("register", _CefV8Context, iJSObject);
-                    ko.Invoke("applyBindings", _CefV8Context, iJSObject);
+                    ko.Bind("log", _IWebView, (c, o, e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
+                    ko.Invoke("register", _IWebView, iJSObject);
+                    ko.Invoke("applyBindings", _IWebView, iJSObject);
                 });
         }
 
         public void Dispose()
         {
-            _CefV8Context.Run(() =>
+            _IWebView.Run(() =>
             {
                 if (_Listener != null)
                 {

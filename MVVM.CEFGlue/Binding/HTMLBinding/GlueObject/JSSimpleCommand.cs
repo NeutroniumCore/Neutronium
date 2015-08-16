@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Xilium.CefGlue;
-
-using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
@@ -14,38 +11,38 @@ namespace MVVM.CEFGlue.HTMLBinding
     public class JSSimpleCommand : GlueBase, IJSObservableBridge
     {
         private ISimpleCommand _JSSimpleCommand;
-        private IWebView _CefV8Context;
-        public JSSimpleCommand(IWebView iCefV8Context, IJSOBuilder builder, ISimpleCommand icValue)
+        private IWebView _IWebView;
+        public JSSimpleCommand(IWebView iCefV8Context, ISimpleCommand icValue)
         {
-            _CefV8Context = iCefV8Context;
+            _IWebView = iCefV8Context;
             _JSSimpleCommand = icValue;
-            JSValue = builder.CreateJSO();    
+            JSValue = _IWebView.Factory.CreateObject();
         }
 
-        public CefV8Value JSValue { get; private set; }
+        public IJavascriptObject JSValue { get; private set; }
 
-        private CefV8Value _MappedJSValue;
+        private IJavascriptObject _MappedJSValue;
 
-        public CefV8Value MappedJSValue { get { return _MappedJSValue; } }
+        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(CefV8Value ijsobject, IJSCBridgeCache mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _CefV8Context, (c, o, e) => Execute(e, mapper));
+            _MappedJSValue.Bind("Execute", _IWebView, (c, o, e) => Execute(e, mapper));
         }
 
-        private object Convert(IJSCBridgeCache mapper, CefV8Value value)
+        private object Convert(IJSCBridgeCache mapper, IJavascriptObject value)
         {
             var found = mapper.GetCachedOrCreateBasic(value, null);
             return (found != null) ? found.CValue : null;
         }
 
-        private object GetArguments(IJSCBridgeCache mapper, CefV8Value[] e)
+        private object GetArguments(IJSCBridgeCache mapper, IJavascriptObject[] e)
         {
             return (e.Length == 0) ? null : Convert(mapper, e[0]);
         }
 
-        private void Execute(CefV8Value[] e, IJSCBridgeCache mapper)
+        private void Execute(IJavascriptObject[] e, IJSCBridgeCache mapper)
         {
             _JSSimpleCommand.Execute(GetArguments(mapper, e));
         }

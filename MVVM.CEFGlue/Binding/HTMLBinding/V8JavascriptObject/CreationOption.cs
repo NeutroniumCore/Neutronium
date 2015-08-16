@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject
 {
-    public static class JavascriptObjectFactory
+    public enum CreationOption
     {
-        public static IJavascriptObjectFactory Factory { get; set; }
+        DontDelete = 4,
+        DontEnum = 2,
+        None = 0,
+        ReadOnly = 1
     }
 }

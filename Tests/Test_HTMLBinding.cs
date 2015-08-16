@@ -25,7 +25,8 @@ using MVVM.CEFGlue.Exceptions;
 using MVVM.CEFGlue.Test.ViewModel.Test;
 using MVVM.Component;
 using MVVM.CEFGlue.CefGlueHelper;
-
+using MVVM.CEFGlue.Test.Infra;
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.Test
 {
@@ -77,7 +78,7 @@ namespace MVVM.CEFGlue.Test
                 Test = (binding) =>
                 {
                     var js = binding.JSRootObject;
-                    CefV8Value[] res = null;
+                    IJavascriptObject[] res = null;
                     Action act = () => res = js.GetArrayElements();
                     act.ShouldThrow<ArgumentException>();
                 }
@@ -224,7 +225,7 @@ namespace MVVM.CEFGlue.Test
                     res5.Should().Be("Langage");
 
                     //onetime does not update C# from javascript
-                    this.Call(js, "Name", () => CefV8Value.CreateString("resName"));
+                    this.Call(js, "Name", () => _WebView.Factory.CreateString("resName"));
                     Thread.Sleep(200);
                     _DataContext.Name.Should().Be("23");
                 }
@@ -280,7 +281,7 @@ namespace MVVM.CEFGlue.Test
                     res5.Should().Be("Ling");
 
 
-                    this.Call(js, "Name", () => CefV8Value.CreateString("resName"));
+                    this.Call(js, "Name", () => _WebView.Factory.CreateString("resName"));
                     Thread.Sleep(200);
                     _DataContext.Name.Should().Be("23");
                 }
@@ -355,7 +356,7 @@ namespace MVVM.CEFGlue.Test
                   {
                       var js = mb.JSRootObject;
 
-                      CefV8Value res = GetAttribute(js, "MainSkill");
+                      var res = GetAttribute(js, "MainSkill");
                       res.IsNull.Should().BeTrue();
 
                       DoSafe(() =>
@@ -402,7 +403,7 @@ namespace MVVM.CEFGlue.Test
                   {
                       var js = mb.JSRootObject;
 
-                      CefV8Value One = GetAttribute(js, "One");
+                      var One = GetAttribute(js, "One");
 
                       string res = GetStringAttribute(One, "Name");
                       res.Should().Be("O Monstro");
@@ -464,7 +465,7 @@ namespace MVVM.CEFGlue.Test
                       res5.Should().Be("Ling");
 
                       //Teste Two Way
-                      this.Call(js, "Name", () => CefV8Value.CreateString("resName"));
+                      this.Call(js, "Name", () => _WebView.Factory.CreateString("resName"));
 
                       string resName = GetStringAttribute(js, "Name");
                       resName.Should().Be("resName");
@@ -502,21 +503,21 @@ namespace MVVM.CEFGlue.Test
                       string res2 = GetStringAttribute(js, "LastName");
                       res2.Should().Be("Desmaisons");
 
-                      CefV8Value local = GetAttribute(js, "Local");
+                      var local = GetAttribute(js, "Local");
                       string city = GetStringAttribute(local, "City");
                       city.Should().Be("Florianopolis");
 
                       _DataContext.Local.City = "Foz de Iguaçu";
 
                       Thread.Sleep(100);
-                      CefV8Value local3 = GetAttribute(js, "Local");
+                      var local3 = GetAttribute(js, "Local");
                       string city3 = GetStringAttribute(local, "City");
                       city3.Should().Be("Foz de Iguaçu");
 
                       _DataContext.Local = new Local() { City = "Paris" };
 
                       Thread.Sleep(50);
-                      CefV8Value local2 = GetAttribute(js, "Local");
+                      var local2 = GetAttribute(js, "Local");
                       string city2 = GetStringAttribute(local2, "City");
                       city2.Should().Be("Paris");
                   }
@@ -538,7 +539,7 @@ namespace MVVM.CEFGlue.Test
                   {
                       var js = mb.JSRootObject;
 
-                      CefV8Value res = GetAttribute(js, "PersonalState");
+                      var res = GetAttribute(js, "PersonalState");
                       string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                       dres.Should().Be("Married");
 
@@ -567,7 +568,7 @@ namespace MVVM.CEFGlue.Test
                   {
                       var js = mb.JSRootObject;
 
-                      CefV8Value res = GetAttribute(js, "PersonalState");
+                      var res = GetAttribute(js, "PersonalState");
                       string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                       dres.Should().Be("Married");
 
@@ -580,7 +581,7 @@ namespace MVVM.CEFGlue.Test
 
                       var othervalue = GetSafe(() => js.Invoke("States", _WebView).ExecuteFunction());
                       //JSValue[] coll = (JSValue[])othervalue;
-                      CefV8Value di = othervalue.GetValue(2);
+                      var di = othervalue.GetValue(2);
                       string name = GetSafe(() => di.GetValue("displayName").GetStringValue());
                       name.Should().Be("Divorced");
 
@@ -618,7 +619,7 @@ namespace MVVM.CEFGlue.Test
                   {
                       var js = mb.JSRootObject;
 
-                      CefV8Value res = GetAttribute(js, "PersonalState");
+                      var res = GetAttribute(js, "PersonalState");
                       string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                       dres.Should().Be("Single");
 
@@ -653,11 +654,11 @@ namespace MVVM.CEFGlue.Test
                   {
                       var js = mb.JSRootObject;
 
-                      CefV8Value res1 = GetAttribute(js, "One");
+                      var res1 = GetAttribute(js, "One");
                       string n1 = GetStringAttribute(res1, "Name");
                       n1.Should().Be("David");
 
-                      CefV8Value res2 = GetAttribute(js, "Two");
+                      var res2 = GetAttribute(js, "Two");
                       res2.Should().NotBeNull();
                       var n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
@@ -665,7 +666,7 @@ namespace MVVM.CEFGlue.Test
                       DoSafe(() => Call(js, "One", () => GetAttribute(js, "Two")));
                       Thread.Sleep(100);
 
-                      CefV8Value res3 = GetAttribute(js, "One");
+                      var res3 = GetAttribute(js, "One");
                       res3.Should().NotBeNull();
                       string n3 = GetStringAttribute(res3, "Name");
                       n3.Should().Be("Claudia");
@@ -674,11 +675,11 @@ namespace MVVM.CEFGlue.Test
 
                       datacontext.One.Should().Be(p2);
 
-                      CefV8Value res4 = GetAttribute(res3, "ChildrenNumber");
+                      var res4 = GetAttribute(res3, "ChildrenNumber");
                       res4.IsNull.Should().BeTrue();
 
                       //CefV8Value five = get new JSValue(5);
-                      DoSafe(() => Call(res3, "ChildrenNumber", CefV8Value.CreateInt(5)));
+                      DoSafe(() => Call(res3, "ChildrenNumber", _WebView.Factory.CreateInt(5)));
                       Thread.Sleep(100);
 
                       datacontext.One.ChildrenNumber.Should().Be(5);
@@ -707,19 +708,19 @@ namespace MVVM.CEFGlue.Test
                   {
                       var js = mb.JSRootObject;
 
-                      CefV8Value res1 = GetAttribute(js, "One");
+                      var res1 = GetAttribute(js, "One");
                       res1.Should().NotBeNull();
                       string n1 = GetStringAttribute(res1, "Name");
                       n1.Should().Be("David");
 
-                      CefV8Value res2 = GetAttribute(js, "Two");
+                      var res2 = GetAttribute(js, "Two");
                       res2.Should().NotBeNull();
                       string n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      DoSafe(() => Call(js, "One", CefV8Value.CreateNull()));
+                      DoSafe(() => Call(js, "One", _WebView.Factory.CreateNull()));
 
-                      CefV8Value res3 = GetAttribute(js, "One");
+                      var res3 = GetAttribute(js, "One");
                       res3.IsNull.Should().BeTrue();
 
                       Thread.Sleep(100);
@@ -746,17 +747,17 @@ namespace MVVM.CEFGlue.Test
                   Test = (mb) =>
                   {
                       var js = mb.JSRootObject;
-                      CefV8Value res1 = GetAttribute(js, "One");
+                      var res1 = GetAttribute(js, "One");
                       res1.Should().NotBeNull();
                       string n1 = GetStringAttribute(res1, "Name");
                       n1.Should().Be("David");
 
-                      CefV8Value res2 = GetAttribute(js, "Two");
+                      var res2 = GetAttribute(js, "Two");
                       res2.Should().NotBeNull();
                       string n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      DoSafe(() => Call(js, "One", CefV8Value.CreateString("Dede")));
+                      DoSafe(() => Call(js, "One", _WebView.Factory.CreateString("Dede")));
 
                       string res3 = GetStringAttribute(js, "One");
                       res3.Should().Be("Dede");
@@ -785,19 +786,19 @@ namespace MVVM.CEFGlue.Test
                   Test = (mb) =>
                   {
                       var js = mb.JSRootObject;
-                      CefV8Value res1 = GetAttribute(js, "One");
+                      var res1 = GetAttribute(js, "One");
                       res1.Should().NotBeNull();
                       string n1 = GetStringAttribute(res1, "Name");
                       n1.Should().Be("David");
 
-                      CefV8Value res2 = GetAttribute(js, "Two");
+                      var res2 = GetAttribute(js, "Two");
                       res2.Should().NotBeNull();
                       string n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      DoSafe(() => Call(js, "One", CefV8Value.CreateObject(null)));
+                      DoSafe(() => Call(js, "One", _WebView.Factory.CreateObject()));
 
-                      CefV8Value res3 = GetAttribute(js, "One");
+                      var res3 = GetAttribute(js, "One");
                       res3.IsObject.Should().BeTrue();
 
                       Thread.Sleep(100);
@@ -811,7 +812,7 @@ namespace MVVM.CEFGlue.Test
 
 
 
-        private void Check(CefV8Value coll, IList<Skill> iskill)
+        private void Check(IJavascriptObject coll, IList<Skill> iskill)
         {
             coll.GetArrayLength().Should().Be(iskill.Count);
 
@@ -855,7 +856,7 @@ namespace MVVM.CEFGlue.Test
                     string res = GetStringAttribute(js, "Name");
                     res.Should().Be("NameTest");
 
-                    DoSafe(() => Call(js, "Name", CefV8Value.CreateString("NewName")));
+                    DoSafe(() => Call(js, "Name", _WebView.Factory.CreateString("NewName")));
                     res = GetStringAttribute(js, "Name");
                     res.Should().Be("NewName");
 
@@ -911,7 +912,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    var mycommand = GetAttribute(js, "Command");
                     DoSafe(() => Call(mycommand, "Execute"));
                     Thread.Sleep(100);
                     command.Received().Execute(Arg.Any<object>());
@@ -934,7 +935,7 @@ namespace MVVM.CEFGlue.Test
                 Test = (mb) =>
                 {
                     var js = mb.JSRootObject;
-                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    var mycommand = GetAttribute(js, "Command");
                     DoSafe(() => Call(mycommand, "Execute", js));
                     Thread.Sleep(100);
                     command.Received().Execute(datacontexttest);
@@ -958,7 +959,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    var mycommand = GetAttribute(js, "Command");
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
 
                     res.Should().BeFalse();
@@ -982,7 +983,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    var mycommand = GetAttribute(js, "Command");
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
 
                     res.Should().BeTrue();
@@ -1006,7 +1007,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value mycommand = GetAttribute(js, "Command");
+                    var mycommand = GetAttribute(js, "Command");
                     mycommand.IsNull.Should().BeTrue();
 
                     DoSafe(() => datacontexttest.Command = command);
@@ -1042,7 +1043,7 @@ namespace MVVM.CEFGlue.Test
                 Test = (mb) =>
                 {
                     var js = mb.JSRootObject;
-                    CefV8Value mycommand = GetAttribute(js, "SimpleCommand");
+                    var mycommand = GetAttribute(js, "SimpleCommand");
                     DoSafe(() => Call(mycommand, "Execute"));
                     Thread.Sleep(100);
                     command.Received().Execute(null);
@@ -1064,7 +1065,7 @@ namespace MVVM.CEFGlue.Test
                 Test = (mb) =>
                 {
                     var js = mb.JSRootObject;
-                    CefV8Value mycommand = GetAttribute(js, "SimpleCommand");
+                    var mycommand = GetAttribute(js, "SimpleCommand");
                     DoSafe(() => Call(mycommand, "Execute", js));
                     Thread.Sleep(100);
                     command.Received().Execute(datacontexttest);
@@ -1106,11 +1107,11 @@ namespace MVVM.CEFGlue.Test
 
         #endregion
 
-        private void CheckIntValue(CefV8Value js, string pn, int value)
+        private void CheckIntValue(IJavascriptObject js, string pn, int value)
         {
-            CefV8Value res = GetAttribute(js, pn);
+            IJavascriptObject res = GetAttribute(js, pn);
             res.Should().NotBeNull();
-            res.IsInt.Should().BeTrue();
+            res.IsNumber.Should().BeTrue();
             res.GetIntValue().Should().Be(0);
         }
 
@@ -1148,7 +1149,7 @@ namespace MVVM.CEFGlue.Test
         }
 
 
-        private void SetValue(CefV8Value js, string pn, CefV8Value value)
+        private void SetValue(IJavascriptObject js, string pn, IJavascriptObject value)
         {
             this.Call(js, pn, value);
             //DoSafe(() => js.Invoke(pn, value));
@@ -1169,31 +1170,31 @@ namespace MVVM.CEFGlue.Test
                     var js = mb.JSRootObject;
                     js.Should().NotBeNull();
 
-                    SetValue(js, "int64", CefV8Value.CreateInt(32));
+                    SetValue(js, "int64", _WebView.Factory.CreateInt(32));
                     Thread.Sleep(200);
                     datacontext.int64.Should().Be(32);
 
-                    SetValue(js, "uint64", CefV8Value.CreateInt(456));
+                    SetValue(js, "uint64",  _WebView.Factory.CreateInt(456));
                     Thread.Sleep(200);
                     datacontext.uint64.Should().Be(456);
 
-                    SetValue(js, "int32", CefV8Value.CreateInt(5));
+                    SetValue(js, "int32",  _WebView.Factory.CreateInt(5));
                     Thread.Sleep(200);
                     datacontext.int32.Should().Be(5);
 
-                    SetValue(js, "uint32", CefV8Value.CreateInt(67));
+                    SetValue(js, "uint32",  _WebView.Factory.CreateInt(67));
                     Thread.Sleep(200);
                     datacontext.uint32.Should().Be(67);
 
-                    SetValue(js, "int16", CefV8Value.CreateInt(-23));
+                    SetValue(js, "int16",  _WebView.Factory.CreateInt(-23));
                     Thread.Sleep(200);
                     datacontext.int16.Should().Be(-23);
 
-                    SetValue(js, "uint16", CefV8Value.CreateInt(9));
+                    SetValue(js, "uint16",  _WebView.Factory.CreateInt(9));
                     Thread.Sleep(200);
                     datacontext.uint16.Should().Be(9);
 
-                    SetValue(js, "Float", CefV8Value.CreateDouble(888.78));
+                    SetValue(js, "Float",  _WebView.Factory.CreateDouble(888.78));
                     Thread.Sleep(200);
                     datacontext.Float.Should().Be(888.78f);
 
@@ -1201,11 +1202,11 @@ namespace MVVM.CEFGlue.Test
                     //Thread.Sleep(200);
                     //datacontext.Char.Should().Be((char)128);
 
-                    SetValue(js, "Double", CefV8Value.CreateDouble(866.76));
+                    SetValue(js, "Double",  _WebView.Factory.CreateDouble(866.76));
                     Thread.Sleep(200);
                     datacontext.Double.Should().Be(866.76);
 
-                    SetValue(js, "Decimal", CefV8Value.CreateDouble(0.5));
+                    SetValue(js, "Decimal",  _WebView.Factory.CreateDouble(0.5));
                     Thread.Sleep(200);
                     datacontext.Decimal.Should().Be(0.5m);
                 }
@@ -1227,7 +1228,7 @@ namespace MVVM.CEFGlue.Test
                 Test = (mb) =>
                 {
                     var js = mb.JSRootObject;
-                    CefV8Value mycommand = GetAttribute(js, "TestCommand");
+                    var mycommand = GetAttribute(js, "TestCommand");
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeTrue();
 
@@ -1259,7 +1260,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value mycommand = GetAttribute(js, "TestCommand");
+                    var mycommand = GetAttribute(js, "TestCommand");
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeTrue();
 
@@ -1296,7 +1297,7 @@ namespace MVVM.CEFGlue.Test
                     _ICommand.Received().CanExecute(Arg.Any<object>());
                     var js = mb.JSRootObject;
 
-                    CefV8Value mycommand = GetAttribute(js, "TestCommand");
+                    var mycommand = GetAttribute(js, "TestCommand");
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeFalse();
 
@@ -1320,8 +1321,8 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value mycommand = GetAttribute(js, "TestCommand");
-                    Call(mycommand, "Execute", CefV8Value.CreateString("titi"));
+                    var mycommand = GetAttribute(js, "TestCommand");
+                    Call(mycommand, "Execute", _WebView.Factory.CreateString("titi"));
 
                     Thread.Sleep(150);
                     _ICommand.Received().Execute("titi");
@@ -1356,7 +1357,7 @@ namespace MVVM.CEFGlue.Test
 
                     Thread.Sleep(100);
 
-                    CefV8Value res = GetSafe(() =>
+                    var res = GetSafe(() =>
                         js.Invoke("Skills", this._WebView).ExecuteFunction());
 
                     res.Should().NotBeNull();
@@ -1380,8 +1381,8 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value mycommand = GetAttribute(js, "Command");
-                    Call(mycommand, "Execute", CefV8Value.CreateNull());
+                    var mycommand = GetAttribute(js, "Command");
+                    Call(mycommand, "Execute", _WebView.Factory.CreateNull());
 
                     Thread.Sleep(150);
                     command.Received().Execute(null);
@@ -1425,8 +1426,8 @@ namespace MVVM.CEFGlue.Test
                 Test = (mb) =>
                 {
                     var js = mb.JSRootObject;
-                    CefV8Value mycommand = GetAttribute(js, "CreateObject");
-                    Call(mycommand, "Execute", CefV8Value.CreateInt(25));
+                    var mycommand = GetAttribute(js, "CreateObject");
+                    Call(mycommand, "Execute", _WebView.Factory.CreateInt(25));
 
                     Thread.Sleep(700);
                     function.Received(1).Invoke(25);
@@ -1460,9 +1461,9 @@ namespace MVVM.CEFGlue.Test
                     }
                    
                     var js = mb.JSRootObject;
-                    CefV8Value mycommand = GetAttribute(js, "CreateObject");
+                    var mycommand = GetAttribute(js, "CreateObject");
                     //CefV8Exception ex = null;
-                    CefV8Value cb = null;
+                    IJavascriptObject cb = null;
                     bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
 
                     res.Should().BeTrue();
@@ -1470,7 +1471,7 @@ namespace MVVM.CEFGlue.Test
                     cb.Should().NotBeNull();
                     cb.IsObject.Should().BeTrue();
 
-                    CefV8Value resdummy = this.CallWithRes(mycommand, "Execute", CefV8Value.CreateInt(25), cb);
+                    var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
                     Thread.Sleep(100);
                     function.Received(1).Invoke(25);
@@ -1480,7 +1481,7 @@ namespace MVVM.CEFGlue.Test
                        var error = _WebView.GetGlobal().GetValue("err");
                        error.IsUndefined.Should().BeTrue();
 
-                       CefV8Value resvalue = _WebView.GetGlobal().GetValue("res");
+                       var resvalue = _WebView.GetGlobal().GetValue("res");
                        int intres = resvalue.GetIntValue();
                        intres.Should().Be(255);
 
@@ -1510,17 +1511,15 @@ namespace MVVM.CEFGlue.Test
                     var js = mb.JSRootObject;
 
 
-                    CefV8Value mycommand = GetAttribute(js, "CreateObject");
-                    CefV8Exception ex = null;
-                    CefV8Value cb = null;
+                    var mycommand = GetAttribute(js, "CreateObject");
+                    IJavascriptObject cb = null;
                     bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
 
                     res.Should().BeTrue();
-                    ex.Should().BeNull();
                     cb.Should().NotBeNull();
                     cb.IsObject.Should().BeTrue();
 
-                    CefV8Value resdummy = this.CallWithRes(mycommand, "Execute", CefV8Value.CreateInt(25), cb);
+                    var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
                     Thread.Sleep(200);
                     function.Received(1).Invoke(25);
                 },
@@ -1529,7 +1528,7 @@ namespace MVVM.CEFGlue.Test
                     var error = _WebView.GetGlobal().GetValue("err").GetStringValue();
                     error.Should().Be(errormessage);
 
-                    CefV8Value resvalue = _WebView.GetGlobal().GetValue("res");
+                    var resvalue = _WebView.GetGlobal().GetValue("res");
                     resvalue.IsUndefined.Should().BeTrue();
                 }
             };
@@ -1537,7 +1536,7 @@ namespace MVVM.CEFGlue.Test
             await RunAsync(test);
         }
 
-        private CefV8Value UnWrapCollection(CefV8Value root, string att)
+        private IJavascriptObject UnWrapCollection(IJavascriptObject root, string att)
         {
             return root.Invoke(att, this._WebView).ExecuteFunction();
         }
@@ -1553,7 +1552,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = UnWrapCollection(js, "Skills");
+                    var col = UnWrapCollection(js, "Skills");
                     col.Should().NotBeNull();
                     col.GetArrayLength().Should().Be(2);
 
@@ -1616,7 +1615,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "Skills")); ;
+                    var col = GetSafe(() => UnWrapCollection(js, "Skills")); ;
                     col.GetArrayLength().Should().Be(2);
 
                     Check(col, _DataContext.Skills);
@@ -1709,7 +1708,7 @@ namespace MVVM.CEFGlue.Test
 
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "L1"));
+                    var col = GetSafe(() => UnWrapCollection(js, "L1"));
                     col.GetArrayLength().Should().Be(r);
 
                     TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(excpected));
@@ -1736,19 +1735,18 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value col1 = GetSafe(() => UnWrapCollection(js, "L1"));
+                    var col1 = GetSafe(() => UnWrapCollection(js, "L1"));
                     col1.GetArrayLength().Should().Be(r);
 
-                    CefV8Value col2 = GetSafe(() => UnWrapCollection(js, "L2"));
+                    var col2 = GetSafe(() => UnWrapCollection(js, "L2"));
                     col2.GetArrayLength().Should().Be(0);
 
-                    CefV8Value l2c = GetAttribute(js, "L2");
+                    var l2c = GetAttribute(js, "L2");
                     //(JSObject)GetSafe(() => js.Invoke("L2"));
                     l2c.Should().NotBeNull();
 
                     string javascript = "window.app = function(value,coll){var args = []; args.push(0);args.push(0);for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);};";
-                    CefV8Value res = null;
-                    CefV8Exception ex = null;
+                    IJavascriptObject res = null;
                     bool ok = _WebView.Eval(javascript, out res);
                     ok.Should().BeTrue();
                     //JSObject win = null;
@@ -1841,12 +1839,12 @@ namespace MVVM.CEFGlue.Test
                     var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    var col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     col.GetArrayLength().Should().Be(2);
 
                     Check(col, _DataContext.Skills);
 
-                    CefV8Value coll = GetAttribute(js, "Skills");
+                    var coll = GetAttribute(js, "Skills");
                     Call(coll, "push", (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
 
                     Thread.Sleep(5000);
@@ -1912,13 +1910,13 @@ namespace MVVM.CEFGlue.Test
                     var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = UnWrapCollection(js, "Skills");
+                    var col = UnWrapCollection(js, "Skills");
                     col.GetArrayLength().Should().Be(2);
 
                     Check(col, _DataContext.Skills);
 
-                    CefV8Value coll = GetAttribute(js, "Skills");
-                    Call(coll, "push", CefV8Value.CreateString("Whatever"));
+                    var coll = GetAttribute(js, "Skills");
+                    Call(coll, "push", _WebView.Factory.CreateString("Whatever"));
 
                     Thread.Sleep(150);
                     _DataContext.Skills.Should().HaveCount(2);
@@ -1965,7 +1963,7 @@ namespace MVVM.CEFGlue.Test
         }
 
 
-        private void Checkstring(CefV8Value coll, IList<string> iskill)
+        private void Checkstring(IJavascriptObject coll, IList<string> iskill)
         {
             coll.GetArrayLength().Should().Be(iskill.Count);
 
@@ -1976,7 +1974,7 @@ namespace MVVM.CEFGlue.Test
             }
         }
 
-        private void Checkdecimal(CefV8Value coll, IList<decimal> iskill)
+        private void Checkdecimal(IJavascriptObject coll, IList<decimal> iskill)
         {
             coll.GetArrayLength().Should().Be(iskill.Count);
 
@@ -2003,7 +2001,7 @@ namespace MVVM.CEFGlue.Test
                     int res = GetIntAttribute(js, "decimalValue");
                     res.Should().Be(0);
 
-                    Call(js, "decimalValue", CefV8Value.CreateDouble(0.5));
+                    Call(js, "decimalValue", _WebView.Factory.CreateDouble(0.5));
 
                     datacontext.decimalValue.Should().Be(0.5m);
 
@@ -2046,7 +2044,7 @@ namespace MVVM.CEFGlue.Test
                     var doublev = GetDoubleAttribute(js, "longValue");
                     doublev.Should().Be(45);
 
-                    Call(js, "longValue", CefV8Value.CreateInt(24524));
+                    Call(js, "longValue",  _WebView.Factory.CreateInt(24524));
                     Thread.Sleep(100);
 
                     datacontext.longValue.Should().Be(24524);
@@ -2074,7 +2072,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "List"));
+                    var col = GetSafe(() => UnWrapCollection(js, "List"));
                     col.GetArrayLength().Should().Be(0);
 
                     Checkstring(col, datacontext.List);
@@ -2104,7 +2102,7 @@ namespace MVVM.CEFGlue.Test
 
                     col = GetSafe(() => UnWrapCollection(js, "List"));
                     var chcol = GetAttribute(js, "List");
-                    Call(chcol, "push", CefV8Value.CreateString("newvalue"));
+                    Call(chcol, "push", _WebView.Factory.CreateString("newvalue"));
 
                     Thread.Sleep(350);
 
@@ -2136,7 +2134,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "Items"));
+                    var col = GetSafe(() => UnWrapCollection(js, "Items"));
                     col.GetArrayLength().Should().NotBe(0);
 
 
@@ -2168,11 +2166,11 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "List"));
+                    var col = GetSafe(() => UnWrapCollection(js, "List"));
                     col.GetArrayLength().Should().Be(1);
 
-                    CefV8Value res = GetAttribute(js, "List");
-                    Call(res, "push", CefV8Value.CreateString("newvalue"));
+                    var res = GetAttribute(js, "List");
+                    Call(res, "push", _WebView.Factory.CreateString("newvalue"));
 
                     col = GetSafe(() => UnWrapCollection(js, "List"));
                     col.GetArrayLength().Should().Be(2);
@@ -2200,7 +2198,7 @@ namespace MVVM.CEFGlue.Test
                 {
                     var js = mb.JSRootObject;
 
-                    CefV8Value col = GetSafe(() => UnWrapCollection(js, "List"));
+                    var col = GetSafe(() => UnWrapCollection(js, "List"));
                     col.GetArrayLength().Should().Be(0);
 
                     Checkdecimal(col, datacontext.List);
@@ -2228,8 +2226,8 @@ namespace MVVM.CEFGlue.Test
                     var comp = new List<decimal>(datacontext.List);
                     comp.Add(0.55m);
 
-                    CefV8Value res = GetAttribute(js, "List");
-                    Call(res, "push", CefV8Value.CreateDouble(0.55));
+                    var res = GetAttribute(js, "List");
+                    Call(res, "push", _WebView.Factory.CreateDouble(0.55));
 
                     Thread.Sleep(350);
 
@@ -2270,7 +2268,7 @@ namespace MVVM.CEFGlue.Test
                     string res4 = CallWithRes(GetAttribute(js, "Local"), "City").GetStringValue();
                     res4.Should().Be("Florianopolis");
 
-                    CefV8Value res45 = UnWrapCollection(js, "Skills");
+                    var res45 = UnWrapCollection(js, "Skills");
                     string res5 = CallWithRes(res45.GetValue(0), "Name").GetStringValue();
                     res5.Should().Be("Langage");
                 }

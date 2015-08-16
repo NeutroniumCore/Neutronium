@@ -5,10 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Input;
 
-using Xilium.CefGlue;
-
 using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.CefGlueHelper;
 using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
 
 namespace MVVM.CEFGlue.HTMLBinding
@@ -16,14 +13,14 @@ namespace MVVM.CEFGlue.HTMLBinding
     public class JSGenericObject : GlueBase, IJSObservableBridge
     {
         private IWebView _CefV8Context;
-        public JSGenericObject(IWebView context, CefV8Value value, object icValue)
+        public JSGenericObject(IWebView context, IJavascriptObject value, object icValue)
         {
             JSValue = value;
             CValue = icValue;
             _CefV8Context = context;
         }
 
-        private JSGenericObject(IWebView context, CefV8Value value)
+        private JSGenericObject(IWebView context, IJavascriptObject value)
         {
             JSValue = value;
             _MappedJSValue = value;
@@ -31,9 +28,9 @@ namespace MVVM.CEFGlue.HTMLBinding
             _CefV8Context = context;
         }
 
-        public static JSGenericObject CreateNull(IWebView context, IJSOLocalBuilder builder)
+        public static JSGenericObject CreateNull(IWebView context)
         {
-            return new JSGenericObject(context, builder.CreateNull());
+            return new JSGenericObject(context, context.Factory.CreateNull());
         }
 
 
@@ -60,18 +57,18 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         public IDictionary<string, IJSCSGlue> Attributes { get { return _Attributes; } }
 
-        public CefV8Value JSValue { get; private set; }
+        public IJavascriptObject JSValue { get; private set; }
 
-        private CefV8Value _MappedJSValue;
+        private IJavascriptObject _MappedJSValue;
 
-        public CefV8Value MappedJSValue { get { return _MappedJSValue; } }
+        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(CefV8Value ijsobject, IJSCBridgeCache mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
         {
             _MappedJSValue = ijsobject;
         }
 
-        private IDictionary<string, CefV8Value> _Silenters = new Dictionary<string, CefV8Value>(); 
+        private IDictionary<string, IJavascriptObject> _Silenters = new Dictionary<string, IJavascriptObject>(); 
 
         public object CValue { get; private set; }
 
@@ -82,7 +79,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             return _Attributes.Values; 
         }
 
-        public void UpdateCSharpProperty(string PropertyName, IJSCBridgeCache converter, CefV8Value newValue)
+        public void UpdateCSharpProperty(string PropertyName, IJSCBridgeCache converter, IJavascriptObject newValue)
         {
             PropertyInfo propertyInfo = CValue.GetType().GetProperty(PropertyName, BindingFlags.Public | BindingFlags.Instance);
             if (!propertyInfo.CanWrite)
@@ -100,7 +97,7 @@ namespace MVVM.CEFGlue.HTMLBinding
         { 
             _Attributes[PropertyName]=newValue;
 
-            CefV8Value silenter = null;
+            IJavascriptObject silenter = null;
             if ( _Silenters.TryGetValue(PropertyName,out silenter))
             {
                 silenter.InvokeAsync("silent", _CefV8Context, newValue.GetJSSessionValue());      

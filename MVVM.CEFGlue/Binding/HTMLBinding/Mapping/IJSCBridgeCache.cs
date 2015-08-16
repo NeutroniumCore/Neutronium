@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xilium.CefGlue;
+
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
@@ -16,9 +17,9 @@ namespace MVVM.CEFGlue.HTMLBinding
 
         IJSCSGlue GetCached(object key);
 
-        IJSCSGlue GetCached(CefV8Value key);
+        IJSCSGlue GetCached(IJavascriptObject key);
 
-        IJSCSGlue GetCachedOrCreateBasic(CefV8Value key, Type iTargetType);
+        IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject key, Type iTargetType);
 
     }
 }

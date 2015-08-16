@@ -32,7 +32,7 @@ namespace MVVM.CEFGlue.CefSession
             CefRuntime.Initialize(mainArgs, _CefSettings, _CefApp, IntPtr.Zero);
         }
 
-        public IDispatcher Dispatcher
+        public IDispatcher UIDispatcher
         {
             get { return _Dispatcher; }
         }

@@ -115,6 +115,7 @@ function executeAsPromise(vm,fnname,argument) {
 
         if (Array.isArray(or)) {
             var arrayres = ko.observableArray();
+            arrayres._MappedId = or._MappedId;
             MapToObservable.Cache[or._MappedId] = arrayres;
             if ((Mapper.Register) && (context === null))
                 Mapper.Register(arrayres);
@@ -129,11 +130,12 @@ function executeAsPromise(vm,fnname,argument) {
 
             createCollectionSubsription(arrayres, Listener);
             if ((context === null) && (Mapper.End)) Mapper.End(arrayres);
-
+    
             return arrayres;
         }
 
         var res = {};
+        res._MappedId = or._MappedId;
         MapToObservable.Cache[or._MappedId] = res;
         if (Mapper.Register){
             if (context===null) 
@@ -165,7 +167,8 @@ function executeAsPromise(vm,fnname,argument) {
                                 index: i
                             }, Mapper, Listener));
                         }
-                        var collection = ko.observableArray(nar)
+                        var collection = ko.observableArray(nar);
+                        collection._MappedId = value._MappedId;
                         res[att] = ko.observable(collection);
                         if (Mapper.Register) Mapper.Register(collection, res, att);
                         createCollectionSubsription(collection, Listener);

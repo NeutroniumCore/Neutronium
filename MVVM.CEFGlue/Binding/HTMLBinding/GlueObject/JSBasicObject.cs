@@ -1,14 +1,14 @@
-﻿using System;
+﻿using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xilium.CefGlue;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     internal class JSBasicObject : IJSCSGlue
     {
-        internal JSBasicObject(CefV8Value value, object icValue)
+        internal JSBasicObject(IJavascriptObject value, object icValue)
         {
             JSValue = value;
             CValue = icValue;
@@ -40,7 +40,7 @@ namespace MVVM.CEFGlue.HTMLBinding
              sb.Append(this);
          }
 
-         public CefV8Value JSValue { get; private set; }
+         public IJavascriptObject JSValue { get; private set; }
 
         public object CValue { get; private set; }
 

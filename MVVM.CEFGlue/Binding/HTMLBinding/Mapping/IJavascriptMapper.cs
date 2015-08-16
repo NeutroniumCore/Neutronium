@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xilium.CefGlue;
+
+using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
     internal interface IJavascriptMapper
     {
-        void RegisterFirst(CefV8Value iRoot);
+        void RegisterFirst(IJavascriptObject iRoot);
 
-        void RegisterMapping(CefV8Value iFather, string att, CefV8Value iChild);
+        void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild);
 
-        void RegisterCollectionMapping(CefV8Value iFather, string att, int index, CefV8Value iChild);
+        void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild);
 
-        void End(CefV8Value iRoot);
+        void End(IJavascriptObject iRoot);
     }
 }

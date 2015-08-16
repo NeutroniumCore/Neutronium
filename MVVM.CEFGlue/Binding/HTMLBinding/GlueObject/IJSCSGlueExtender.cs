@@ -1,11 +1,11 @@
-﻿using System;
+﻿using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using Xilium.CefGlue;
 
 namespace MVVM.CEFGlue.HTMLBinding
 {
@@ -32,7 +32,7 @@ namespace MVVM.CEFGlue.HTMLBinding
             return res;
         }
 
-        public static CefV8Value GetJSSessionValue(this IJSCSGlue @this)
+        public static IJavascriptObject GetJSSessionValue(this IJSCSGlue @this)
         {
             IJSObservableBridge inj = @this as IJSObservableBridge;
             return (inj!=null) ?  inj.MappedJSValue : @this.JSValue;    
