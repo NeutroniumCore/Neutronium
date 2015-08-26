@@ -1,11 +1,13 @@
-﻿using CefGlue.Window;
+﻿using MVVM.HTML.Core;
+using MVVM.HTML.Core.JavascriptEngine;
+using MVVM.HTML.Core.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class TestInContext
     {
@@ -15,7 +17,7 @@ namespace MVVM.CEFGlue.Test
 
         public string Path { get; set; }
 
-        public Func<ICefGlueWindow,Task<IHTMLBinding>> Bind { get; set; }
+        public Func<IHTMLWindowProvider, Task<IHTMLBinding>> Bind { get; set; }
 
         public Action<IHTMLBinding> Test { get; set; }
 

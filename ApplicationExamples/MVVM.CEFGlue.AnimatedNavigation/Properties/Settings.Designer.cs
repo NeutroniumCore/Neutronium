@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVVM.CefGlue.AnimatedNavigation.Properties {
+namespace MVVM.Cef.Glue.AnimatedNavigation.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

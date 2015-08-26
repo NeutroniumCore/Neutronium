@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MVVM.HTML.Core</RootNamespace>
+    <AssemblyName>MVVM.HTML.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <NuGetPackageImportStamp>291146ae</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Binding\GlueObject\GlueBase.cs" />
+    <Compile Include="Binding\GlueObject\IJSCSGlueListenableVisitor.cs" />
+    <Compile Include="Binding\GlueObject\JSCBridgeListenableVisitor.cs" />
+    <Compile Include="Binding\GlueObject\JSCommand.cs" />
+    <Compile Include="Binding\GlueObject\JSSimpleCommand.cs" />
+    <Compile Include="Binding\GlueObject\JSResultCommand.cs" />
+    <Compile Include="Binding\GlueObject\IJSObservableBridge.cs" />
+    <Compile Include="Binding\GlueObject\JSBasicObject.cs" />
+    <Compile Include="Binding\GlueObject\JSCSGlueType.cs" />
+    <Compile Include="Binding\Mapping\CollectionChanges\CollectionChangeType.cs" />
+    <Compile Include="Binding\Mapping\CollectionChanges\CollectionChanges.cs" />
+    <Compile Include="Binding\Mapping\CollectionChanges\IndividualCollectionChange.cs" />
+    <Compile Include="Binding\Mapping\IJSCBridgeCache.cs" />
+    <Compile Include="Binding\Mapping\IJavascriptListener.cs" />
+    <Compile Include="JavascriptEngine\Control\IHTMLWindowProvider.cs" />
+    <Compile Include="JavascriptEngine\V8JavascriptObject\CreationOption.cs" />
+    <Compile Include="JavascriptEngine\V8JavascriptObject\IJavascriptObject.cs" />
+    <Compile Include="JavascriptEngine\V8JavascriptObject\IJavascriptObjectConverter.cs" />
+    <Compile Include="JavascriptEngine\V8JavascriptObject\IJavascriptObjectFactory.cs" />
+    <Compile Include="JavascriptEngine\V8JavascriptObject\IWebView.cs" />
+    <Compile Include="IHTMLBinding.cs" />
+    <Compile Include="Exceptions\MVVMCEFGlueException.cs" />
+    <Compile Include="Exceptions\ExceptionHelper.cs" />
+    <Compile Include="Infra\NullUIDispatcher.cs" />
+    <Compile Include="Infra\VM\BasicRelayCommand.cs" />
+    <Compile Include="Infra\DictionaryExtension.cs" />
+    <Compile Include="Infra\TypeExtension.cs" />
+    <Compile Include="Infra\VM\ViewModelBase.cs" />
+    <Compile Include="JavascriptEngine\Window\ConsoleMessageArgs.cs" />
+    <Compile Include="JavascriptEngine\Window\IDispatcher.cs" />
+    <Compile Include="JavascriptEngine\Window\IHTMLWindow.cs" />
+    <Compile Include="JavascriptEngine\Window\LoadEndEventArgs.cs" />
+    <Compile Include="Navigation\DisplayEvent.cs" />
+    <Compile Include="Navigation\INavigable.cs" />
+    <Compile Include="Navigation\INavigationBuilder.cs" />
+    <Compile Include="Navigation\INavigationSolver.cs" />
+    <Compile Include="Infra\EnumExtender.cs" />
+    <Compile Include="Infra\TaskHelper.cs" />
+    <Compile Include="JavascriptBindingMode.cs" />
+    <Compile Include="Binding\GlueObject\IJSCSGlueExtender.cs" />
+    <Compile Include="Binding\GlueObject\IJSCSGlue.cs" />
+    <Compile Include="Binding\Mapping\IJavascriptMapper.cs" />
+    <Compile Include="Binding\Mapping\JavascriptSessionInjector.cs" />
+    <Compile Include="Binding\GlueObject\JSArray.cs" />
+    <Compile Include="Binding\GlueObject\JSGenericObject.cs" />
+    <Compile Include="Binding\Mapping\BidirectionalMapper.cs" />
+    <Compile Include="Infra\AssemblyExtension.cs" />
+    <Compile Include="Infra\EnumerableCollection.cs" />
+    <Compile Include="HTML_Binding.cs" />
+    <Compile Include="Binding\Mapping\CSharpToJavascriptMapper.cs" />
+    <Compile Include="StringBinding.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Navigation\IUrlSolver.cs" />
+    <Compile Include="Navigation\IWebSessionWatcher.cs" />
+    <Compile Include="Navigation\NullWatcher.cs" />
+    <Compile Include="JavascriptEngine\Control\IWebViewLifeCycleManager.cs" />
+    <Compile Include="Navigation\NavigationEvent.cs" />
+    <Compile Include="Navigation\NavigationBuilder.cs" />
+    <Compile Include="Navigation\Window\HTMLWindow.cs" />
+    <Compile Include="Navigation\Window\WindowHelper.cs" />
+    <Compile Include="Navigation\Window\WindowLogicalState.cs" />
+    <Compile Include="Navigation\WPFDoubleBrowserNavigator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="Javascript\Ko_Extension.min.js.map">
+      <DependentUpon>Ko_Extension.min.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Javascript\knockout-delegatedEvents.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Navigation\javascript\ko-view.min.js.map">
+      <DependentUpon>ko-view.min.js</DependentUpon>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Javascript\knockout.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Javascript\Ko_Extension.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Javascript\Ko_Extension.min.js">
+      <DependentUpon>Ko_Extension.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Javascript\promise.min.js" />
+    <Content Include="Navigation\javascript\ko-view.js" />
+    <EmbeddedResource Include="Navigation\javascript\ko-view.min.js">
+      <DependentUpon>ko-view.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MVVM.Component\MVVM.Component.csproj">
+      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
+      <Name>MVVM.Component</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

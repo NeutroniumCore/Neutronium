@@ -1,4 +1,4 @@
-﻿using MVVM.CEFGlue.ViewModel.Example;
+﻿using MVVM.ViewModel.Example;
 using System;
 using System.Collections.Generic;
 using System.Linq;

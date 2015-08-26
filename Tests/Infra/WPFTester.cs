@@ -1,4 +1,4 @@
-﻿using MVVM.CEFGlue.Exceptions;
+﻿using MVVM.HTML.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Xunit;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
    
 

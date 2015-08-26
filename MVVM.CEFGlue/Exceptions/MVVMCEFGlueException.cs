@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MVVM.CEFGlue.Exceptions
+namespace MVVM.HTML.Core.Exceptions
 {
     public class MVVMCefGlueArgumentException : ArgumentException
     {

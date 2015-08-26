@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
 
     internal class WindowTest : IDisposable

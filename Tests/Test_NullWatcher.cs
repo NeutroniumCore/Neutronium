@@ -1,4 +1,4 @@
-﻿using MVVM.CEFGlue.Navigation;
+﻿using MVVM.Cef.Glue.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
+using MVVM.HTML.Core;
+using MVVM.HTML.Core.Navigation;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_NullWatcher
     {

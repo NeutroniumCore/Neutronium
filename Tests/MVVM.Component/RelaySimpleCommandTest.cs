@@ -10,7 +10,7 @@ using FluentAssertions;
 
 using MVVM.Component.Infra;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class TaskHelperTest
     {

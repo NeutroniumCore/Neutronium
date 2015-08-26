@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MVVM.CEFGlue.Infra
+namespace MVVM.HTML.Core.Infra
 {
     public static class TaskHelper
     {

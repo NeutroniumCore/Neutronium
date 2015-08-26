@@ -5,8 +5,9 @@ using System.Text;
 
 using Xunit;
 using FluentAssertions;
+using MVVM.HTML.Core;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_NavigationBuilder
     {

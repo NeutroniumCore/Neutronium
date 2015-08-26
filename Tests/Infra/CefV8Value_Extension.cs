@@ -1,5 +1,5 @@
-﻿using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
-using MVVM.CEFGlue.CefGlueImplementation;
+﻿using MVVM.Cef.Glue;
+using MVVM.HTML.Core.V8JavascriptObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xilium.CefGlue;
 
-namespace MVVM.CEFGlue.Test.Infra
+namespace MVVM.Cef.Glue.Test.Infra
 {
     public static class CefV8Value_Extension
     {

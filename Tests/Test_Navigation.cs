@@ -14,11 +14,12 @@ using Xunit;
 using FluentAssertions;
 using NSubstitute;
 
-using MVVM.CEFGlue.ViewModel;
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.ViewModel.Infra;
+using MVVM.ViewModel;
+using MVVM.HTML.Core.Infra;
+using MVVM.ViewModel.Infra;
+using MVVM.HTML.Core;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_Navigation
     {

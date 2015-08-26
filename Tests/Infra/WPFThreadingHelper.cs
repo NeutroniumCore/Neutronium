@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public static class DispatcherHelper
     {

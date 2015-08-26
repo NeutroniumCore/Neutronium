@@ -1,10 +1,10 @@
-﻿using MVVM.CEFGlue.ViewModel;
+﻿using MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class ViewModelCLRTypes : ViewModelBase
     {

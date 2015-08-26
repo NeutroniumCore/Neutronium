@@ -12,9 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MVVM.CEFGlue.ViewModel.Infra;
 
-namespace MVVM.CEFGlue.AnimatedNavigation
+using MVVM.HTML.Core;
+using MVVM.ViewModel.Infra;
+
+namespace MVVM.Cef.Glue.AnimatedNavigation
 {
     public class Nav:  INavigable
     {

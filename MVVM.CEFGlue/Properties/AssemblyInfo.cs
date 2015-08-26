@@ -7,15 +7,15 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MVVM.CEFGlue")]
+[assembly: AssemblyTitle("MVVM.HTML.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MVVM.CEFGlue")]
+[assembly: AssemblyProduct("MVVM.HTML.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("MVVM.CEFGlue.Test")]
+[assembly: InternalsVisibleTo("MVVM.Cef.Glue.Test")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")] 
 
 // Setting ComVisible to false makes the types in this assembly not visible 

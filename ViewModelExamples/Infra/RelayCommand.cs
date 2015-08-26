@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace MVVM.CEFGlue.ViewModel.Infra
+namespace MVVM.ViewModel.Infra
 {
    
     public class RelayCommand : ICommand

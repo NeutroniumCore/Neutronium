@@ -14,18 +14,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-using MVVM.CEFGlue.CefGlueHelper;
+using MVVM.Cef.Glue.CefGlueHelper;
 
 using Xunit;
 using FluentAssertions;
 using NSubstitute;
 
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.ViewModel.Infra;
-using MVVM.CEFGlue.Navigation;
-using MVVM.CEFGlue.ViewModel;
+using MVVM.HTML.Core.Infra;
+using MVVM.ViewModel.Infra;
+using MVVM.Cef.Glue.Navigation;
+using MVVM.ViewModel;
+using MVVM.HTML.Core;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
 
 
@@ -520,7 +521,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
                 mre = new ManualResetEvent(false);
 
@@ -540,7 +541,7 @@ namespace MVVM.CEFGlue.Test
                 });
 
                 WindowTest.RunOnUIThread(() =>
-                     wpfnav.Source.Should().EndWith("javascript/navigation_2.html"));
+                     wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html"));
 
             });
         }
@@ -574,7 +575,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
                 mre = new ManualResetEvent(false);
 
@@ -594,7 +595,7 @@ namespace MVVM.CEFGlue.Test
                 });
 
                 WindowTest.RunOnUIThread(() =>
-                     wpfnav.Source.Should().EndWith("javascript/navigation_2.html"));
+                     wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html"));
 
                 mre = new ManualResetEvent(false);
 
@@ -617,7 +618,7 @@ namespace MVVM.CEFGlue.Test
 
 
                 WindowTest.RunOnUIThread(() =>
-                     wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                     wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
             });
         }
@@ -653,7 +654,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
                 mre = new ManualResetEvent(false);
 
@@ -672,7 +673,7 @@ namespace MVVM.CEFGlue.Test
                 });
 
                 WindowTest.RunOnUIThread(() =>
-                     wpfnav.Source.Should().EndWith("javascript/navigation_2.html"));
+                     wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html"));
 
 
                 WindowTest.RunOnUIThread(
@@ -694,7 +695,7 @@ namespace MVVM.CEFGlue.Test
 
 
                 WindowTest.RunOnUIThread(() =>
-                     wpfnav.Source.Should().EndWith("javascript/navigation_3.html"));
+                     wpfnav.Source.Should().EndWith(@"javascript\navigation_3.html"));
 
             });
         }
@@ -728,7 +729,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
 
                 WindowTest.RunOnUIThread(
@@ -740,7 +741,7 @@ namespace MVVM.CEFGlue.Test
                 Thread.Sleep(1000);
 
                 WindowTest.RunOnUIThread(() =>
-                     wpfnav.Source.Should().EndWith("javascript/navigation_2.html"));
+                     wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html"));
 
             });
         }
@@ -774,7 +775,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
 
                 WindowTest.RunOnUIThread(
@@ -786,7 +787,7 @@ namespace MVVM.CEFGlue.Test
                 Thread.Sleep(200);
 
                 WindowTest.RunOnUIThread(() =>
-                     wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                     wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
             });
         }
@@ -819,7 +820,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
 
                 WindowTest.RunOnUIThread(
@@ -838,7 +839,7 @@ namespace MVVM.CEFGlue.Test
                 Thread.Sleep(200);
 
                 WindowTest.RunOnUIThread(() =>
-                     wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                     wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
             });
         }
@@ -874,7 +875,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
             });
         }
@@ -911,7 +912,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
                 mre = new ManualResetEvent(false);
                 WindowTest.RunOnUIThread(
@@ -933,7 +934,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_2.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html"));
 
             });
         }
@@ -973,7 +974,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_1.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
 
                 mre = new ManualResetEvent(false);
@@ -996,7 +997,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_2.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html"));
 
             });
         }
@@ -1047,7 +1048,7 @@ namespace MVVM.CEFGlue.Test
                 WindowTest.RunOnUIThread(() =>
                 {
                     a1.Navigation.Should().NotBeNull();
-                    wpfnav.Source.Should().EndWith("javascript/navigation_1.html");
+                    wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html");
                 });
 
             });
@@ -1098,7 +1099,7 @@ namespace MVVM.CEFGlue.Test
                 WindowTest.RunOnUIThread(() =>
                 {
                     a1.Navigation.Should().NotBeNull();
-                    wpfnav.Source.Should().EndWith("javascript/navigation_1.html");
+                    wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html");
                     wpfnav.ShowDebugWindow();
                     wpfnav.OpenDebugBrowser();
                 });
@@ -1178,7 +1179,7 @@ namespace MVVM.CEFGlue.Test
 
                 WindowTest.RunOnUIThread(
                 () =>
-                wpfnav.Source.Should().EndWith("javascript/navigation_2.html"));
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html"));
 
             });
         }

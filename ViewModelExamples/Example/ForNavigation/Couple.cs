@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
-using MVVM.CEFGlue.ViewModel.Infra;
 
-namespace MVVM.CEFGlue.ViewModel.Example.ForNavigation
+using MVVM.ViewModel.Infra;
+using MVVM.HTML.Core;
+
+namespace MVVM.ViewModel.Example.ForNavigation
 {
-    public class Couple : MVVM.CEFGlue.ViewModel.Example.Couple, INavigable
+    public class Couple : MVVM.ViewModel.Example.Couple, INavigable
     {
          public Couple():base()
         {

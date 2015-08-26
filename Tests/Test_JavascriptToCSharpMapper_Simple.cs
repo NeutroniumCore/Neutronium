@@ -8,12 +8,11 @@ using NSubstitute;
 using Xunit;
 using Xilium.CefGlue;
 
-using MVVM.CEFGlue.HTMLBinding;
-using MVVM.CEFGlue.CefGlueImplementation;
-using MVVM.CEFGlue.Test.Infra;
+using MVVM.HTML.Core.HTMLBinding;
+using MVVM.Cef.Glue.Test.Infra;
 
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_JavascriptToCSharpMapper_Simple : MVVMCefGlue_Test_Base
     {

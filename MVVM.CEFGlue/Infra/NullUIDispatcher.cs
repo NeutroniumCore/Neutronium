@@ -1,13 +1,14 @@
-﻿using CefGlue.Window;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM.CEFGlue.Infra
+using MVVM.HTML.Core.Window;
+
+namespace MVVM.HTML.Core.Infra
 {
-    class NullUIDispatcher : IDispatcher
+    public class NullUIDispatcher : IDispatcher
     {
         public Task RunAsync(Action act)
         {

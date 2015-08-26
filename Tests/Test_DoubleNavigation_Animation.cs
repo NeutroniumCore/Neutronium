@@ -8,9 +8,10 @@ using System.Windows.Controls;
 using FluentAssertions;
 using Xunit;
 
-using MVVM.CEFGlue.ViewModel;
+using MVVM.ViewModel;
+using MVVM.HTML.Core;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_DoubleNavigation_Animation
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MVVM.CEFGlue.UI.Calendar
+namespace MVVM.Cef.Glue.UI.Calendar
 {
     /// <summary>
     /// Interaction logic for App.xaml

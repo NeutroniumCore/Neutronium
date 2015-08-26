@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MVVM.CEFGlue.Infra
+namespace MVVM.HTML.Core.Infra
 {
     public static class EnumerableCollection
     {

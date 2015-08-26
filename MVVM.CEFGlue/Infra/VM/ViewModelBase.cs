@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace MVVM.CEFGlue.Infra.VM
+namespace MVVM.HTML.Core.Infra.VM
 {
     public abstract class NotifyPropertyChangedBase :  INotifyPropertyChanged
     {

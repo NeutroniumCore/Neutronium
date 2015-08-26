@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 using Xilium.CefGlue;
 
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.CefSession;
-using MVVM.CEFGlue.Test.CefWindowless;
-using MVVM.CEFGlue.CefGlueHelper;
-using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
-using MVVM.CEFGlue.Test.Infra;
+using MVVM.HTML.Core.Infra;
+using MVVM.Cef.Glue.CefSession;
+using MVVM.Cef.Glue.Test.CefWindowless;
+using MVVM.Cef.Glue.CefGlueHelper;
+using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.Cef.Glue.Test.Infra;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public abstract class MVVMCefGlue_Test_Base : IDisposable
     {
         protected IWebView _WebView = null;
-        protected TestCefGlueWindow _ICefGlueWindow = null;
-        //private CefTaskRunner _CefTaskRunner;
-
+        protected TestCefGlueHTMLWindowProvider _ICefGlueWindow = null;
+ 
         public MVVMCefGlue_Test_Base()
         {
         }
@@ -48,14 +47,12 @@ namespace MVVM.CEFGlue.Test
             {
                 _Father = Father;
                 var cc = InitTask(ipath).Result;
-                _Father._WebView = cc;
-                //_Father._CefTaskRunner = cc.Runner;
-                //CefRuntime.MessageLoopWork();
+                _Father._WebView = cc.HTMLWindow.MainFrame;
             }
 
-            private Task<IWebView> InitTask(string ipath)
+            private Task<TestCefGlueHTMLWindowProvider> InitTask(string ipath)
             {
-                TaskCompletionSource<IWebView> tcs = new TaskCompletionSource<IWebView>();
+                TaskCompletionSource<TestCefGlueHTMLWindowProvider> tcs = new TaskCompletionSource<TestCefGlueHTMLWindowProvider>();
                 Task.Run(() =>
                 {
                     CefCoreSessionSingleton.GetAndInitIfNeeded();
@@ -79,8 +76,8 @@ namespace MVVM.CEFGlue.Test
                         {
                             var frame = t.Result.GetMainFrame();
                             var context = CefCoreSessionSingleton.Session.CefApp.GetContext(frame);
-                            _Father._ICefGlueWindow = new TestCefGlueWindow(frame);
-                            tcs.SetResult(context);
+                            _Father._ICefGlueWindow = new TestCefGlueHTMLWindowProvider(frame);
+                            tcs.SetResult(_Father._ICefGlueWindow);
                         }
                     );
                 }

@@ -8,13 +8,14 @@ using NSubstitute;
 using Xunit;
 using FluentAssertions;
 
-using MVVM.CEFGlue.CefSession;
+using MVVM.Cef.Glue.CefSession;
 using System.Windows;
 using System.Threading;
-using Xilium.CefGlue.WPF;
-using CefGlue.Window;
+using MVVM.Cef.Glue.CefSession;
+using MVVM.Cef.Glue.WPF;
+using MVVM.HTML.Core.Window;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_HTMLApp
     {

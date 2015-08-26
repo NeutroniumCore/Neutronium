@@ -1,13 +1,14 @@
-﻿using MVVM.CEFGlue.ViewModel.Infra;
-using MVVM.CEFGlue.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 
-namespace MVVM.CEFGlue.ViewModel.Example
+using MVVM.ViewModel.Infra;
+using MVVM.ViewModel;
+
+namespace MVVM.ViewModel.Example
 {
     public class SkillsViewModel : ViewModelBase
     {

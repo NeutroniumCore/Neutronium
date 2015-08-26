@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace MVVM.CEFGlue.ViewModel
+namespace MVVM.ViewModel
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

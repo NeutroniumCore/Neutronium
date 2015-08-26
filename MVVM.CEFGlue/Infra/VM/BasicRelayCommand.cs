@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace MVVM.CEFGlue.Infra.VM
+namespace MVVM.HTML.Core.Infra.VM
 {
-    internal class BasicRelayCommand : ICommand
+    public class BasicRelayCommand : ICommand
     {
         readonly Action _execute;
 

@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
+using MVVM.Cef.Glue;
+
 namespace MVVM.CEFGlue.UI
 {
     /// <summary>

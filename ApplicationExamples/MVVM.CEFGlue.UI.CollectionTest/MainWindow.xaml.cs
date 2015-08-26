@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
-namespace MVVM.CEFGlue.UI.CollectionTest
+namespace MVVM.Cef.Glue.UI.CollectionTest
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

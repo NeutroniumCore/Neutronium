@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace MVVM.CEFGlue.Exceptions
+namespace MVVM.HTML.Core.Exceptions
 {
     public static class ExceptionHelper
     {

@@ -1,6 +1,4 @@
-﻿using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.ViewModel.Example;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -16,7 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM.CEFGlue.UI.SelectedItems
+using MVVM.HTML.Core.Infra;
+using MVVM.ViewModel.Example;
+
+namespace MVVM.Cef.Glue.UI.SelectedItems
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

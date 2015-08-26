@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xilium.CefGlue;
 
-namespace MVVM.CEFGlue.Test.CefWindowless
+namespace MVVM.Cef.Glue.Test.CefWindowless
 {
     internal class TestCefLoadHandler : CefLoadHandler
     {

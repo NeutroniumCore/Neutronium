@@ -13,10 +13,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
 
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.ViewModel.Example;
+using MVVM.ViewModel.Example;
 
-namespace MVVM.CEFGlue.UI
+namespace MVVM.Cef.Glue.UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,7 +24,7 @@ namespace MVVM.CEFGlue.UI
     {
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private Skill _FirstSkill;

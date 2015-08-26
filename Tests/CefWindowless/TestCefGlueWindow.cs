@@ -1,5 +1,5 @@
-﻿using CefGlue.Window;
-using MVVM.CEFGlue.CefGlueHelper;
+﻿using MVVM.Cef.Glue.CefGlueHelper;
+using MVVM.HTML.Core.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xilium.CefGlue;
 
-namespace MVVM.CEFGlue.Test.CefWindowless
+namespace MVVM.Cef.Glue.Test.CefWindowless
 {
-    public class TestCefGlueWindow : ICefGlueWindow
+    public class TestCefGlueWindow : IHTMLWindow
     {
         private CefFrame _CefFrame;
         //private CefV8Context _CefV8Context;
@@ -35,5 +35,17 @@ namespace MVVM.CEFGlue.Test.CefWindowless
         {
             return new TestIUIDispatcher();
         }
+
+        HTML.Core.V8JavascriptObject.IWebView IHTMLWindow.MainFrame
+        {
+            get { return _CefFrame.GetMainContext(); }
+        }
+ 
+        public void NavigateTo(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event EventHandler<HTML.Core.JavascriptEngine.ConsoleMessageArgs> ConsoleMessage;
     }
 }

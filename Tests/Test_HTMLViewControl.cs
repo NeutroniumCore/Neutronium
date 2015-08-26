@@ -9,12 +9,13 @@ using System.Reflection;
 using Xunit;
 using FluentAssertions;
 
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.ViewModel.Example;
-using MVVM.CEFGlue.Exceptions;
+using MVVM.HTML.Core.Infra;
+using MVVM.ViewModel.Example;
+using MVVM.HTML.Core.Exceptions;
 using System.IO;
+using MVVM.HTML.Core;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_HTMLViewControl
     {
@@ -151,7 +152,7 @@ namespace MVVM.CEFGlue.Test
 
                 mre.WaitOne();
 
-                Thread.Sleep(1500);
+                Thread.Sleep(2500);
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
 

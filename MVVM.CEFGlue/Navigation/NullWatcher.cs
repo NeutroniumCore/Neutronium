@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MVVM.CEFGlue.Navigation
+namespace MVVM.HTML.Core.Navigation
 {
-    internal class NullWatcher : IWebSessionWatcher
+    public class NullWatcher : IWebSessionWatcher
     {
         void IWebSessionWatcher.LogCritical(string iInformation)
         {

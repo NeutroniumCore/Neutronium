@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVM.CEFGlue.Infra;
 using System.IO;
 using System.Reflection;
-using MVVM.CEFGlue.Exceptions;
 
-namespace MVVM.CEFGlue
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Exceptions;
+
+namespace MVVM.HTML.Core
 {
     public class NavigationBuilder : INavigationBuilder, IUrlSolver
     {

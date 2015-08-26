@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-namespace MVVM.CEFGlue.Infra
+namespace MVVM.HTML.Core.Infra
 {
     public static class AssemblyExtension
     {

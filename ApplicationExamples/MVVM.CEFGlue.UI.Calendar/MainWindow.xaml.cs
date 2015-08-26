@@ -1,5 +1,5 @@
-﻿using MVVM.CEFGlue.ViewModel.Example;
-using MVVM.CEFGlue.Infra;
+﻿using MVVM.ViewModel.Example;
+using MVVM.HTML.Core.Infra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM.CEFGlue.UI.Calendar
+namespace MVVM.Cef.Glue.UI.Calendar
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

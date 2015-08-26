@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace MVVM.CEFGlue.Infra
+namespace MVVM.HTML.Core.Infra
 {
     public static class EnumExtender
     {

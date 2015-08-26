@@ -1,6 +1,4 @@
-﻿using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.Infra.VM;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,7 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MVVM.CEFGlue.Navigation.Window
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Infra.VM;
+
+namespace MVVM.HTML.Core.Navigation.Window
 {
     public class HTMLLogicWindow : NotifyPropertyChangedBase, INotifyPropertyChanged
     {

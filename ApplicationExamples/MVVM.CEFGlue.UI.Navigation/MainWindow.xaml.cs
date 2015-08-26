@@ -12,10 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MVVM.CEFGlue;
+using MVVM.Cef.Glue;
+using MVVM.HTML.Core;
 
 
-namespace MVVM.CEFGlue.UI.Navigation
+namespace MVVM.Cef.Glue.UI.Navigation
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,8 +26,8 @@ namespace MVVM.CEFGlue.UI.Navigation
 
         private void SetUpRoute(INavigationBuilder iNavigationBuilder)
         {
-            iNavigationBuilder.Register<MVVM.CEFGlue.ViewModel.Example.ForNavigation.Person>("HTMLUI\\index_one.html");
-            iNavigationBuilder.Register<MVVM.CEFGlue.ViewModel.Example.ForNavigation.Couple>("HTMLUI\\index_couple.html");
+            iNavigationBuilder.Register<MVVM.ViewModel.Example.ForNavigation.Person>("HTMLUI\\index_one.html");
+            iNavigationBuilder.Register<MVVM.ViewModel.Example.ForNavigation.Couple>("HTMLUI\\index_couple.html");
         }
 
 
@@ -37,12 +38,12 @@ namespace MVVM.CEFGlue.UI.Navigation
             HTMLWindow.UseINavigable = true;
             SetUpRoute(HTMLWindow.NavigationBuilder);
 
-            var datacontext = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Couple();
-            var my = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Person()
+            var datacontext = new MVVM.ViewModel.Example.ForNavigation.Couple();
+            var my = new MVVM.ViewModel.Example.ForNavigation.Person()
             {
                 Name = "O Monstro",
                 LastName = "Desmaisons",
-                Local = new MVVM.CEFGlue.ViewModel.Example.Local() { City = "Florianopolis", Region = "SC" }
+                Local = new MVVM.ViewModel.Example.Local() { City = "Florianopolis", Region = "SC" }
             };
             my.Couple = datacontext;
             datacontext.One = my;

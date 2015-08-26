@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-using MVVM.CEFGlue.CefSession;
+using MVVM.Cef.Glue;
 
 namespace MVVM.CEFGlue.UI2
 {

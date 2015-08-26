@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVVM.CefGlue.UI.Calendar.Properties {
+namespace MVVM.Cef.Glue.UI.Calendar.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

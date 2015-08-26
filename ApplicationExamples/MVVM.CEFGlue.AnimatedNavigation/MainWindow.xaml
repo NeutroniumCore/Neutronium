@@ -1,7 +1,7 @@
-﻿<Window xmlns:MVVM.CEFGlue="clr-namespace:MVVM.CEFGlue;assembly=MVVM.CEFGlue" 
+﻿<Window xmlns:MVVM.CEFGlue="clr-namespace:MVVM.Cef.Glue;assembly=MVVM.Cef.Glue" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:awe="http://schemas.awesomium.com/winfx" x:Class="MVVM.CEFGlue.AnimatedNavigation.MainWindow"
+        xmlns:awe="http://schemas.awesomium.com/winfx" x:Class="MVVM.Cef.Glue.AnimatedNavigation.MainWindow"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <MVVM.CEFGlue:HTMLWindow  UseINavigable="True" IsDebug="False" x:Name="HTMLWindow"/>

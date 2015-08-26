@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVVM.CefGlue.UI.SelectedItems.Properties {
+namespace MVVM.Cef.Glue.UI.SelectedItems.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

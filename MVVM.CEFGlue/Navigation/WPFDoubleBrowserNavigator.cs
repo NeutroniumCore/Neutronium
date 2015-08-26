@@ -8,54 +8,57 @@ using System.Windows.Data;
 using System.IO;
 using System.Windows;
 using System.Diagnostics;
+using System.Windows.Controls;
 
-using Xilium.CefGlue;
-using Xilium.CefGlue.WPF;
+using MVVM.HTML.Core.Navigation.Window;
+using MVVM.HTML.Core.Navigation;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core;
+using MVVM.HTML.Core.Window;
+using MVVM.HTML.Core.JavascriptEngine;
 
-using MVVM.CEFGlue.Navigation.Window;
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.Exceptions;
-using MVVM.CEFGlue.Navigation;
-using CefGlue.Window;
 
-namespace MVVM.CEFGlue
+
+namespace MVVM.HTML.Core
 {
     public class WPFDoubleBrowserNavigator : INavigationSolver
-        //, IWebViewProvider
     {
         private IWebViewLifeCycleManager _IWebViewLifeCycleManager;
 
-        private WpfCefBrowser _CurrentWebControl;
-        private WpfCefBrowser _NextWebControl;
+        private IHTMLWindowProvider _CurrentWebControl;
+        private IHTMLWindowProvider _NextWebControl;
 
-        //private IHTMLBindingFactory _IAwesomiumBindingFactory;
         private IHTMLBinding _IHTMLBinding;
         private IUrlSolver _INavigationBuilder;
-        private bool _Disposed = false;
-        private HTMLLogicWindow _Window;
-        private bool _Navigating = false;
 
-        internal WpfCefBrowser WebControl { get { return _CurrentWebControl; } }
+        private string _Url;
+        private bool _Disposed = false;
+        private bool _Navigating = false;
+        private HTMLLogicWindow _Window;
+
+        public string Url { get { return _Url; } }
+
+        internal IHTMLWindowProvider WebControl { get { return _CurrentWebControl; } }
 
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
 
         public IWebSessionWatcher WebSessionWatcher
         {
-            //get { return _IWebSessionWatcher; }
             set { _IWebSessionWatcher = value; }
         }
 
-        public WPFDoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver inb)
+        public WPFDoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler,  IUrlSolver inb)
         {
             _IWebViewLifeCycleManager = lifecycler;
             _INavigationBuilder = inb;
         }
 
-        private void ConsoleMessage(object sender, ConsoleMessageEventArgs e)
+        private void ConsoleMessage(object sender, ConsoleMessageArgs e)
         { 
             try
             {
-                LogBrowser(string.Format("{0}, source {1}, line number {2}, page {3}", e.Message, e.Source, e.Line, (_CurrentWebControl==null) ? null : _CurrentWebControl.Url));
+                LogBrowser(string.Format("{0}, source {1}, line number {2}, page {3}", e.Message, e.Source, e.Line, _Url));
             }
             catch { }
         }
@@ -94,8 +97,8 @@ namespace MVVM.CEFGlue
           
             if (_CurrentWebControl!=null)
             {
-                _CurrentWebControl.ConsoleMessage -= ConsoleMessage;
-                _IWebViewLifeCycleManager.Dispose(_CurrentWebControl);
+                _CurrentWebControl.HTMLWindow.ConsoleMessage -= ConsoleMessage;
+                _CurrentWebControl.Dispose();
             }
             else if (OnFirstLoad != null)
                 OnFirstLoad(this, EventArgs.Empty);
@@ -104,7 +107,7 @@ namespace MVVM.CEFGlue
             _NextWebControl = null;
             //_CurrentWebControl.Crashed += Crashed;
 
-            _IWebViewLifeCycleManager.Display(_CurrentWebControl);
+            _CurrentWebControl.Show();
     
             _Window = iwindow; 
 
@@ -126,8 +129,8 @@ namespace MVVM.CEFGlue
 
         private void EndAnimation(object inavgable)
         {
-            Action action = () => FireLoaded(inavgable);
-            this._CurrentWebControl.Dispatcher.BeginInvoke(action);
+            _IWebViewLifeCycleManager.GetDisplayDispatcher()
+                .RunAsync( () => FireLoaded(inavgable) );
         }
 
         //private void LogCritical(string iMessage)
@@ -186,21 +189,22 @@ namespace MVVM.CEFGlue
             Task closetask = ( _CurrentWebControl!=null) ? _Window.CloseAsync() : TaskHelper.Ended();
 
             _NextWebControl = _IWebViewLifeCycleManager.Create();
-            _NextWebControl.ConsoleMessage += ConsoleMessage;
+            _NextWebControl.HTMLWindow.ConsoleMessage += ConsoleMessage;
 
             TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
 
             EventHandler<LoadEndEventArgs> sourceupdate = null;
             sourceupdate = (o, e) =>
             {
-                _NextWebControl.LoadEnd -= sourceupdate;
+                _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
 
                 HTML_Binding.Bind(_NextWebControl, iViewModel, iMode, wh).
                              WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
 
-            _NextWebControl.LoadEnd += sourceupdate;
-            _NextWebControl.NavigateTo(iUri);
+            _Url = iUri;
+            _NextWebControl.HTMLWindow.LoadEnd += sourceupdate;
+            _NextWebControl.HTMLWindow.NavigateTo(iUri);
 
             return tcs.Task;
         }
@@ -209,7 +213,7 @@ namespace MVVM.CEFGlue
         {
             try 
             {
-                _CurrentWebControl.ExecuteJavaScript(icode, "WPFDoubleBrowserNavigator", 219);
+                _CurrentWebControl.HTMLWindow.MainFrame.ExecuteJavaScript(icode);
             }
             catch(Exception e)
             {
@@ -236,14 +240,14 @@ namespace MVVM.CEFGlue
             CleanWebControl(ref _NextWebControl);
         }
 
-        private void CleanWebControl(ref WpfCefBrowser iWebControl)
+        private void CleanWebControl(ref IHTMLWindowProvider iWebControl)
         {
             if (iWebControl == null)
                 return;
 
             //iWebControl.Crashed -= Crashed;
-            iWebControl.ConsoleMessage -= ConsoleMessage;
-            _IWebViewLifeCycleManager.Dispose(iWebControl);
+            iWebControl.HTMLWindow.ConsoleMessage -= ConsoleMessage;
+            iWebControl.Dispose();
             iWebControl = null;
         }
 

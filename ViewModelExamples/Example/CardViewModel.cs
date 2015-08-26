@@ -1,5 +1,4 @@
 ﻿using MVVM.Component;
-using MVVM.CEFGlue.ViewModel.Infra;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
-namespace MVVM.CEFGlue.ViewModel.Example
+using MVVM.ViewModel.Infra;
+
+namespace MVVM.ViewModel.Example
 {
 
     public class CardViewModel : ViewModelBase

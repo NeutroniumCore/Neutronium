@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVM.CEFGlue.ViewModel;
 
-namespace MVVM.CEFGlue.ViewModel.Example
+using MVVM.ViewModel;
+
+namespace MVVM.ViewModel.Example
 {
     public class Local : ViewModelBase
     {

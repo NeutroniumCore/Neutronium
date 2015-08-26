@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using MVVM.CEFGlue.ViewModel;
-using MVVM.CEFGlue.ViewModel.Infra;
+using MVVM.ViewModel;
+using MVVM.ViewModel.Infra;
 
 namespace MVVMAwesomium.UI.CollectionTest.ViewModel
 {

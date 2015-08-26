@@ -8,8 +8,8 @@ using System.Windows;
 using Xunit;
 using FluentAssertions;
 
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.Infra.VM;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Infra.VM;
 using System.Threading.Tasks;
 
 namespace MVVM.CEFGlue.Test

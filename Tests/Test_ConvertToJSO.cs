@@ -11,18 +11,16 @@ using FluentAssertions;
 using NSubstitute;
 using Xunit;
 using Xilium.CefGlue;
-using Xilium.CefGlue.WPF;
 
-using MVVM.CEFGlue.HTMLBinding;
-using MVVM.CEFGlue.CefSession;
-using MVVM.CEFGlue.Test.CefWindowless;
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.CefGlueImplementation;
-using MVVM.CEFGlue.Test.Infra;
-using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using MVVM.HTML.Core.HTMLBinding;
+using MVVM.Cef.Glue.CefSession;
+using MVVM.Cef.Glue.Test.CefWindowless;
+using MVVM.HTML.Core.Infra;
+using MVVM.Cef.Glue.Test.Infra;
+using MVVM.HTML.Core.V8JavascriptObject;
 
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_ConvertToJSO : MVVMCefGlue_Test_Base
     {
@@ -57,7 +55,7 @@ namespace MVVM.CEFGlue.Test
             _IJSOBuilder = new CefV8_Factory(_WebView);
             _ICSharpMapper = Substitute.For<IJSCBridgeCache>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
-            _ConverTOJSO = new CSharpToJavascriptMapper(_WebView, _ICSharpMapper);
+            _ConverTOJSO = new CSharpToJavascriptMapper(_WebView, new TestIUIDispatcher(), _ICSharpMapper);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>();
             _Tests.Add(new TestClass() { S1 = "string1", I1 = 1 });

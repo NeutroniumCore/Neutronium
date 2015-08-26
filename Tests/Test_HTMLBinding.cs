@@ -16,17 +16,19 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Xilium.CefGlue;
 
-using MVVM.CEFGlue.HTMLBinding;
-using MVVM.CEFGlue.Infra;
-using MVVM.CEFGlue.ViewModel.Example;
-using MVVM.CEFGlue.ViewModel;
-using MVVM.CEFGlue.ViewModel.Infra;
-using MVVM.CEFGlue.Exceptions;
-using MVVM.CEFGlue.Test.ViewModel.Test;
+using MVVM.HTML.Core.HTMLBinding;
+using MVVM.HTML.Core.Infra;
+using MVVM.ViewModel.Example;
+using MVVM.ViewModel;
+using MVVM.ViewModel.Infra;
+using MVVM.HTML.Core.Exceptions;
+using MVVM.Cef.Glue.Test.ViewModel.Test;
 using MVVM.Component;
-using MVVM.CEFGlue.CefGlueHelper;
-using MVVM.CEFGlue.Test.Infra;
-using MVVM.CEFGlue.Binding.HTMLBinding.V8JavascriptObject;
+using MVVM.Cef.Glue.CefGlueHelper;
+using MVVM.Cef.Glue.Test.Infra;
+using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.Cef.Glue.Test;
+using MVVM.HTML.Core;
 
 namespace MVVM.CEFGlue.Test
 {
@@ -386,12 +388,12 @@ namespace MVVM.CEFGlue.Test
         [Fact]
         public async Task Test_HTMLBinding_Basic_Circular_reference()
         {
-            var datacontext = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Couple();
-            var my = new MVVM.CEFGlue.ViewModel.Example.ForNavigation.Person()
+            var datacontext = new MVVM.ViewModel.Example.ForNavigation.Couple();
+            var my = new MVVM.ViewModel.Example.ForNavigation.Person()
             {
                 Name = "O Monstro",
                 LastName = "Desmaisons",
-                Local = new MVVM.CEFGlue.ViewModel.Example.Local() { City = "Florianopolis", Region = "SC" }
+                Local = new MVVM.ViewModel.Example.Local() { City = "Florianopolis", Region = "SC" }
             };
             my.Couple = datacontext;
             datacontext.One = my;
@@ -2248,7 +2250,7 @@ namespace MVVM.CEFGlue.Test
 
             var test = new TestInContext()
             {
-                Bind = (win) => StringBinding.Bind(win, "{\"LastName\":\"Desmaisons\",\"Name\":\"O Monstro\",\"BirthDay\":\"0001-01-01T00:00:00.000Z\",\"PersonalState\":\"Married\",\"Age\":0,\"Local\":{\"City\":\"Florianopolis\",\"Region\":\"SC\"},\"MainSkill\":{},\"States\":[\"Single\",\"Married\",\"Divorced\"],\"Skills\":[{\"Type\":\"French\",\"Name\":\"Langage\"},{\"Type\":\"C++\",\"Name\":\"Info\"}]}"),
+                Bind = (win) => StringBinding.Bind(win.HTMLWindow, "{\"LastName\":\"Desmaisons\",\"Name\":\"O Monstro\",\"BirthDay\":\"0001-01-01T00:00:00.000Z\",\"PersonalState\":\"Married\",\"Age\":0,\"Local\":{\"City\":\"Florianopolis\",\"Region\":\"SC\"},\"MainSkill\":{},\"States\":[\"Single\",\"Married\",\"Divorced\"],\"Skills\":[{\"Type\":\"French\",\"Name\":\"Langage\"},{\"Type\":\"C++\",\"Name\":\"Info\"}]}"),
                 Test = (mb) =>
                 {
                     var js = mb.JSRootObject;

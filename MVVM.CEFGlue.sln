@@ -21,29 +21,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASyncPromiseUIDemo", "Appli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParentEventBindingExample", "ViewModelExamples\ParentEventBindingExample\ParentEventBindingExample.csproj", "{E24112F1-092C-4BDC-AAE3-59B8931DF642}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.UI2", "ApplicationExamples\MVVM.CEFGlue.UI2\MVVM.CEFGlue.UI2.csproj", "{38FF36EE-304F-45E0-AFA7-F070CDE959E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue.UI2", "ApplicationExamples\MVVM.CEFGlue.UI2\MVVM.Cef.Glue.UI2.csproj", "{38FF36EE-304F-45E0-AFA7-F070CDE959E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.UI.SelectedItems", "ApplicationExamples\MVVM.CEFGlue.UI.SelectedItems\MVVM.CEFGlue.UI.SelectedItems.csproj", "{FEF389FD-A0B8-4BFD-9A8C-DE1203D6FAB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue.UI.SelectedItems", "ApplicationExamples\MVVM.CEFGlue.UI.SelectedItems\MVVM.Cef.Glue.UI.SelectedItems.csproj", "{FEF389FD-A0B8-4BFD-9A8C-DE1203D6FAB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.UI.Navigation", "ApplicationExamples\MVVM.CEFGlue.UI.Navigation\MVVM.CEFGlue.UI.Navigation.csproj", "{129B5DE2-523B-48EA-8676-1291D9A4DE0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue.UI.Navigation", "ApplicationExamples\MVVM.CEFGlue.UI.Navigation\MVVM.Cef.Glue.UI.Navigation.csproj", "{129B5DE2-523B-48EA-8676-1291D9A4DE0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.AnimatedNavigation", "ApplicationExamples\MVVM.CEFGlue.AnimatedNavigation\MVVM.CEFGlue.AnimatedNavigation.csproj", "{890F0720-601B-4868-AD9A-9527CA9F0BAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue.AnimatedNavigation", "ApplicationExamples\MVVM.CEFGlue.AnimatedNavigation\MVVM.Cef.Glue.AnimatedNavigation.csproj", "{890F0720-601B-4868-AD9A-9527CA9F0BAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.UI", "ApplicationExamples\MVVM.CEFGlue.UI\MVVM.CEFGlue.UI.csproj", "{83FD4663-5C46-4885-83DB-D65C99A1C9F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue.UI", "ApplicationExamples\MVVM.CEFGlue.UI\MVVM.Cef.Glue.UI.csproj", "{83FD4663-5C46-4885-83DB-D65C99A1C9F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.UI.Calendar", "ApplicationExamples\MVVM.CEFGlue.UI.Calendar\MVVM.CEFGlue.UI.Calendar.csproj", "{C71C2BF7-52D2-4F69-AB7A-9B29EEA8DBB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue.UI.Calendar", "ApplicationExamples\MVVM.CEFGlue.UI.Calendar\MVVM.Cef.Glue.UI.Calendar.csproj", "{C71C2BF7-52D2-4F69-AB7A-9B29EEA8DBB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.UI.CollectionTest", "ApplicationExamples\MVVM.CEFGlue.UI.CollectionTest\MVVM.CEFGlue.UI.CollectionTest.csproj", "{F3106EE2-0049-46EC-AF10-E346295F0B24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue.UI.CollectionTest", "ApplicationExamples\MVVM.CEFGlue.UI.CollectionTest\MVVM.Cef.Glue.UI.CollectionTest.csproj", "{F3106EE2-0049-46EC-AF10-E346295F0B24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.Test", "Tests\MVVM.CEFGlue.Test.csproj", "{84916CEB-FEF3-4A42-B1A0-7B43F3D88CCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue.Test", "Tests\MVVM.Cef.Glue.Test.csproj", "{84916CEB-FEF3-4A42-B1A0-7B43F3D88CCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue", "MVVM.CEFGlue\MVVM.CEFGlue.csproj", "{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.HTML.Core", "MVVM.CEFGlue\MVVM.HTML.Core.csproj", "{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.CEFGlue.ViewModel", "ViewModelExamples\MVVM.CEFGlue.ViewModel.csproj", "{E35B9010-5429-4FFE-A788-E9C40E743E9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.ViewModel", "ViewModelExamples\MVVM.ViewModel.csproj", "{E35B9010-5429-4FFE-A788-E9C40E743E9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue.WPF", "CefGlue.WPF\CefGlue.WPF.csproj", "{447C6790-E36E-4A54-BFAC-06C92FFF4AA3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue.Window", "CefGlueWindow\CefGlue.Window.csproj", "{B515447A-0AE0-4ECF-AA37-D5BA731820A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Cef.Glue", "MVVM.Cef.Glue\MVVM.Cef.Glue.csproj", "{447C6790-E36E-4A54-BFAC-06C92FFF4AA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -249,16 +247,6 @@ Global
 		{447C6790-E36E-4A54-BFAC-06C92FFF4AA3}.Release|Mixed Platforms.Build.0 = Release|x86
 		{447C6790-E36E-4A54-BFAC-06C92FFF4AA3}.Release|x86.ActiveCfg = Release|x86
 		{447C6790-E36E-4A54-BFAC-06C92FFF4AA3}.Release|x86.Build.0 = Release|x86
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B515447A-0AE0-4ECF-AA37-D5BA731820A3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

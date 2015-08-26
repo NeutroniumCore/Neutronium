@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVM.CEFGlue.ViewModel;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-using MVVM.CEFGlue.ViewModel.Infra;
-using MVVM.CEFGlue.Infra;
+using MVVM.ViewModel;
+using MVVM.ViewModel.Infra;
+using MVVM.HTML.Core.Infra;
 using MVVM.Component;
 
-namespace MVVM.CEFGlue.ViewModel.Example
+namespace MVVM.ViewModel.Example
 {
     public class Person : ViewModelBase
     {

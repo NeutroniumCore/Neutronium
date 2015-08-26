@@ -7,7 +7,7 @@ using Xunit;
 using FluentAssertions;
 using System.Threading.Tasks;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class RelaySimpleCommandTest
     {
