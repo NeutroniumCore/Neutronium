@@ -113,6 +113,8 @@ namespace MVVM.Cef.Glue.Test
                     string relp = "javascript\\navigation_1.html";
 
                     string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+                    string nd = Path.GetDirectoryName(path);
+                    Directory.CreateDirectory(nd);
 
                     File.Copy("javascript\\navigation_1.html", path);
 
@@ -172,23 +174,9 @@ namespace MVVM.Cef.Glue.Test
                 ea = (o, e) => { de = e; c.OnDisplay -= ea; };
                 c.OnDisplay += ea;
                 var dc = new Person();
- 
-                string relp = "javascript\\navigation_1.html";
+
                 string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
-
-                File.Copy("javascript\\navigation_1.html", path);
-
-                string[] jvs = new string[] { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
-
-                string src = string.Format("{0}\\javascript\\src", typeof(HTMLViewControl).Assembly.GetPath());
-                Directory.CreateDirectory(src);
-
-                foreach(string jv in jvs)
-                {
-                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
-                    if (!File.Exists(p))
-                        File.Copy(string.Format("javascript\\src\\{0}", jv), p);
-                }
+                var jvs = PrepareFiles();
 
                 //<script src="src\knockout.js" type="text/javascript"></script>
                 //<script src="src\Ko_Extension.js" type="text/javascript"></script>
@@ -218,6 +206,29 @@ namespace MVVM.Cef.Glue.Test
             });
         }
 
+        private string[] PrepareFiles()
+        {
+            string relp = "javascript\\navigation_1.html";
+            string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+            string nd = Path.GetDirectoryName(path);
+            Directory.CreateDirectory(nd);
+
+            File.Copy("javascript\\navigation_1.html", path);
+
+            string[] jvs = new string[] { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
+
+            string src = string.Format("{0}\\javascript\\src", typeof(HTMLViewControl).Assembly.GetPath());
+            Directory.CreateDirectory(src);
+
+            foreach (string jv in jvs)
+            {
+                string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                if (!File.Exists(p))
+                    File.Copy(string.Format("javascript\\src\\{0}", jv), p);
+            }
+
+            return jvs;
+        }
 
         [Fact]
         public void Basic_Option_Simple_UsingRelativePath_AfterDataContext()
@@ -232,22 +243,8 @@ namespace MVVM.Cef.Glue.Test
                 c.OnDisplay += ea;
                 var dc = new Person();
 
-                string relp = "javascript\\navigation_1.html";
                 string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
-
-                File.Copy("javascript\\navigation_1.html", path);
-
-                string[] jvs = new string[] { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
-
-                string src = string.Format("{0}\\javascript\\src", typeof(HTMLViewControl).Assembly.GetPath());
-                Directory.CreateDirectory(src);
-
-                foreach (string jv in jvs)
-                {
-                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
-                    if (!File.Exists(p))
-                        File.Copy(string.Format("javascript\\src\\{0}", jv), p);
-                }
+                var jvs = PrepareFiles();
 
                 //<script src="src\knockout.js" type="text/javascript"></script>
                 //<script src="src\Ko_Extension.js" type="text/javascript"></script>
