@@ -4,11 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
 using System.IO;
 using System.Windows;
 using System.Diagnostics;
-using System.Windows.Controls;
 
 using MVVM.HTML.Core.Navigation.Window;
 using MVVM.HTML.Core.Navigation;

@@ -84,21 +84,21 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="..\..\MVVM.CEFGlue\Javascript\knockout.js">
-      <Link>HTMLUI\js\knockout.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.CEFGlue\Javascript\Ko_Extension.js">
+    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.js">
       <Link>HTMLUI\js\Ko_Extension.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\MVVM.CEFGlue\Javascript\promise.min.js">
+    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.min.js">
+      <Link>HTMLUI\js\Ko_Extension.min.js</Link>
+    </Content>
+    <Content Include="..\..\MVVM.HTML.Core\Javascript\promise.min.js">
       <Link>HTMLUI\js\promise.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTMLUI\js\Init.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.min.js.map">
+      <Link>HTMLUI\js\Ko_Extension.min.js.map</Link>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -118,13 +118,13 @@
       <Project>{447c6790-e36e-4a54-bfac-06c92fff4aa3}</Project>
       <Name>MVVM.Cef.Glue</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MVVM.CEFGlue\MVVM.HTML.Core.csproj">
-      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>MVVM.HTML.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MVVM.Component\MVVM.Component.csproj">
       <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
       <Name>MVVM.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
+      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
+      <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ViewModelExamples\MVVM.ViewModel.csproj">
       <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>

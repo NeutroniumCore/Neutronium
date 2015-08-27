@@ -175,6 +175,7 @@ namespace MVVM.Cef.Glue.Test
                 c.OnDisplay += ea;
                 var dc = new Person();
 
+                string relp = "javascript\\navigation_1.html";
                 string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
                 var jvs = PrepareFiles();
 
@@ -243,6 +244,7 @@ namespace MVVM.Cef.Glue.Test
                 c.OnDisplay += ea;
                 var dc = new Person();
 
+                string relp = "javascript\\navigation_1.html";
                 string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
                 var jvs = PrepareFiles();
 

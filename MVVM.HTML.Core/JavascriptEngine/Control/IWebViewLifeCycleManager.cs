@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows.Controls;
 
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Window;
