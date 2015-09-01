@@ -7,8 +7,8 @@ function Enum(Type, intValue, name, displayName) {
 }
 
 ////to bypass awesomium limitations
-//function Null_reference() {
-//}
+function Null_reference() {
+}
 
 function executeAsPromise(vm,fnname,argument) {
     return new Promise(function (fullfill, reject) {
@@ -45,7 +45,7 @@ function executeAsPromise(vm,fnname,argument) {
              observable.subscriber = observable.subscribe(listener);
              observable.silent = function (v) {
                  observable.subscriber.dispose();
-                 observable(v);
+                 observable((v instanceof Null_reference) ? null : v);
                  observable.subscriber = observable.subscribe(observable.listener);
              };
          }
@@ -90,7 +90,7 @@ function executeAsPromise(vm,fnname,argument) {
         if (!Mapper) Mapper = {};
         if (!Listener) Listener = {};
 
-        if (or ===null) {
+        if ((or ===null) || (or instanceof Null_reference)) {
             if (context === null) {
                 if (Mapper.Register) Mapper.Register(or);
                 if (Mapper.End) Mapper.End(or);

@@ -1,4 +1,4 @@
-﻿using MVVMAwesomium.UI.CollectionTest.ViewModel;
+﻿using MVVM.CEFGlue.UI.CollectionTest.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;

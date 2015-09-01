@@ -9,7 +9,7 @@ using System.Windows.Input;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Infra;
 
-namespace MVVMAwesomium.UI.CollectionTest.ViewModel
+namespace MVVM.CEFGlue.UI.CollectionTest.ViewModel
 {
     public class ChangingCollectionViewModel : ViewModelBase
     {

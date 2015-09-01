@@ -102,7 +102,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 }
                 catch(Exception e)
                 {
-                    Trace.WriteLine(string.Format("MVVM for awesomium: Unable to convert property {0} from {1} exception {2}", pn, ifrom, e));
+                    Trace.WriteLine(string.Format("MVVM for HTML: Unable to convert property {0} from {1} exception {2}", pn, ifrom, e));
                     continue;
                 }
 

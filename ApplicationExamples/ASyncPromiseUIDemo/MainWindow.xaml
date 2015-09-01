@@ -1,8 +1,7 @@
 ﻿<Window x:Class="ASyncPromiseUIDemo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:awe="http://schemas.awesomium.com/winfx"
-          xmlns:MVVM.CEFGlue="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component"
+        xmlns:MVVM.CEFGlue="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component"
         Title="HTML" Height="350" Width="525">
     <Grid>
 

@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MVVM.Awesomium.UI.Navigation")]
+[assembly: AssemblyTitle("MVVM.CEFGlue.UI.Navigation")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MVVM.Awesomium.UI.Navigation")]
+[assembly: AssemblyProduct("MVVM.CEFGlue.UI.Navigation")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -7,8 +7,8 @@ function Enum(Type, intValue, name, displayName) {
 }
 
 ////to bypass awesomium limitations
-//function Null_reference() {
-//}
+function Null_reference() {
+}
 
 function executeAsPromise(vm,fnname,argument) {
     return new Promise(function (fullfill, reject) {
