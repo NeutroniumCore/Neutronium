@@ -1,39 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
-using MVVM.HTML.Core.Infra.VM;
-using MVVM.HTML.Core.Navigation;
 using MVVM.HTML.Core;
-
-using MVVM.Cef.Glue.Navigation;
-using MVVM.Cef.Glue.CefSession;
+using MVVM.HTML.Core.Navigation;
 
 
-
-namespace MVVM.Cef.Glue
+namespace HTML_WPF.Component
 {
     public partial class HTMLWindow : HTMLControlBase, INavigationSolver, IWebViewLifeCycleManager, IDisposable
     {
-        public HTMLWindow(): this(new NavigationBuilder())
+        public HTMLWindow() : this(new NavigationBuilder())
         {
         }
 
-        public HTMLWindow(IUrlSolver iIUrlSolver): base(iIUrlSolver)
+        public HTMLWindow(IUrlSolver iIUrlSolver)
+            : base(iIUrlSolver)
         {
             _INavigationBuilder = iIUrlSolver as INavigationBuilder;
         }

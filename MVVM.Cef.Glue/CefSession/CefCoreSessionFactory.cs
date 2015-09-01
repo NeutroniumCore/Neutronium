@@ -12,11 +12,11 @@ namespace MVVM.Cef.Glue.CefSession
     {
         private string[] _Args;
         private CefSettings _CefSettings;
-        private IDispatcher _IUIDispatcher;
+        //private IDispatcher _IUIDispatcher;
 
-        public CefCoreSessionFactory(IDispatcher iIUIDispatcher, CefSettings iCefSettings = null, string[] args = null)
+        public CefCoreSessionFactory(CefSettings iCefSettings = null, string[] args = null)
         {
-            _IUIDispatcher = iIUIDispatcher;
+            //_IUIDispatcher = iIUIDispatcher;
             _Args = args ?? new string[]{};
 
             _CefSettings = iCefSettings ?? new CefSettings
@@ -33,7 +33,7 @@ namespace MVVM.Cef.Glue.CefSession
 
         public ICefCoreSession GetSession()
         {
-            return new CefCoreSession(_IUIDispatcher,_CefSettings, new MVVMCefApp(), _Args);
+            return new CefCoreSession(_CefSettings, new MVVMCefApp(), _Args);
         }
     }
 }

@@ -57,6 +57,11 @@ namespace MVVM.Navigation2
         {
             base.OnClosed(e);
             this.HTMLWindow.Dispose();
+        }
+
+        private void HTMLWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+
         } 
     }
 }

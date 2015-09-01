@@ -1,8 +1,8 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:MVVM.CEFGlue="clr-namespace:MVVM.Cef.Glue;assembly=MVVM.Cef.Glue"
-        xmlns:awe="http://schemas.awesomium.com/winfx" x:Class="MVVM.Cef.Glue.UI.SelectedItems.MainWindow"
+        xmlns:HTML_WPF.Component="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component" 
+        x:Class="MVVM.Cef.Glue.UI.SelectedItems.MainWindow"
         Title="HTML vs WPF: two collection binding" Height="350" Width="525" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
@@ -14,7 +14,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <MVVM.CEFGlue:HTMLViewControl IsDebug="True"  x:Name="WebControl" RelativeSource="HTMLUI\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2"/>
+        <HTML_WPF.Component:HTMLViewControl IsDebug="True"  x:Name="WebControl" RelativeSource="HTMLUI\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2"/>
 
 
          <ListBox ItemsSource="{Binding Skills}" Grid.Column="1" HorizontalAlignment="Stretch" Margin="50,10" VerticalAlignment="Stretch" Grid.Row="0">

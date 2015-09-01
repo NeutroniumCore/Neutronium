@@ -10,6 +10,7 @@ using Xilium.CefGlue;
 
 using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.WPF;
+using HTML_WPF.Component;
 
 namespace MVVM.Cef.Glue
 {
@@ -17,16 +18,7 @@ namespace MVVM.Cef.Glue
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var settings = GetCefSettings();
-
-            if (CefCoreSessionSingleton.Session == null)
-            {
-                CefCoreSessionSingleton.GetAndInitIfNeeded(new WPFUIDispatcher(this.Dispatcher), settings);
-            }
-            else
-            {
-                Trace.WriteLine("MVVM for CEFGlue: Impossible to load custo settings");
-            }
+            HTMLEngineFactory.Engine.Register(new CefGlueWPFWebWindowFactory(GetCefSettings()));
 
             base.OnStartup(e);
         }
@@ -38,7 +30,7 @@ namespace MVVM.Cef.Glue
 
         protected override void OnExit(ExitEventArgs e)
         {
-            CefCoreSessionSingleton.Clean();
+            HTMLEngineFactory.Engine.Dispose();
         }
     }
 }

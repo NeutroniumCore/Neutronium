@@ -26,7 +26,7 @@ namespace MVVM.Cef.Glue.WPF
             Key.Tab, Key.Home, Key.End, Key.Left, Key.Right, Key.Up, Key.Down
         };
 
-        private bool _disposed;
+        //private bool _disposed;
         private bool _created;
 
         private Image _browserPageImage;
@@ -130,7 +130,7 @@ namespace MVVM.Cef.Glue.WPF
                 }
             }
 
-            _disposed = true;
+            //_disposed = true;
         }
 
         #endregion
@@ -195,6 +195,17 @@ namespace MVVM.Cef.Glue.WPF
                 var e = new LoadErrorEventArgs(frame, errorCode, errorText, failedUrl);
                 this.LoadError(this, e);
             }
+        }
+
+        internal void Inject(Key KeyToInject)
+        {
+            CefKeyEvent keyEvent = new CefKeyEvent()
+            {
+                EventType = CefKeyEventType.Char,
+                WindowsKeyCode = KeyInterop.VirtualKeyFromKey(KeyToInject)
+            };
+
+            _browserHost.SendKeyEvent(keyEvent);
         }
 
         public string StartUrl { get; set; }

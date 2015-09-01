@@ -22,7 +22,7 @@ namespace MVVM.Cef.Glue.AnimatedNavigation
     {
         public Nav()
         {
-            DoNav = new RelayCommand(() => Navigation.NavigateAsync(this));
+            DoNav = new RelayCommand(() => { if (Navigation != null) Navigation.NavigateAsync(this); });
         }
 
         public ICommand DoNav { get; private set;}

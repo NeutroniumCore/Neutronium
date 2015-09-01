@@ -1,10 +1,10 @@
-﻿<Window xmlns:MVVM.CEFGlue="clr-namespace:MVVM.Cef.Glue;assembly=MVVM.Cef.Glue" 
+﻿<Window xmlns:HTML_WPF.Component="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:awe="http://schemas.awesomium.com/winfx" x:Class="MVVM.Cef.Glue.AnimatedNavigation.MainWindow"
+        x:Class="MVVM.Cef.Glue.AnimatedNavigation.MainWindow"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <MVVM.CEFGlue:HTMLWindow  UseINavigable="True" IsDebug="False" x:Name="HTMLWindow"/>
+        <HTML_WPF.Component:HTMLWindow  UseINavigable="True" IsDebug="False" x:Name="HTMLWindow"/>
         <Button Content="Debug" HorizontalAlignment="Right" Margin="0,0,30,10" VerticalAlignment="Bottom" Click="Button_Click" />
         <TextBlock HorizontalAlignment="Right" Margin="0,0,40,40" TextWrapping="Wrap" Text="{Binding ElementName=HTMLWindow,Path=IsHTMLLoaded}" VerticalAlignment="Bottom"/>
 

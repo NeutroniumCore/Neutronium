@@ -1,11 +1,10 @@
-﻿<UserControl
+﻿<UserControl x:Class="HTML_WPF.Component.HTMLControlBase"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             x:Class="MVVM.Cef.Glue.HTMLControlBase" 
              mc:Ignorable="d" 
-             x:Name="Root"
+              x:Name="Root"
             PreviewKeyDown="Root_PreviewKeyDown"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>

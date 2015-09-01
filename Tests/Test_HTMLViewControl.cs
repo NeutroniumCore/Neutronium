@@ -14,6 +14,7 @@ using MVVM.ViewModel.Example;
 using MVVM.HTML.Core.Exceptions;
 using System.IO;
 using MVVM.HTML.Core;
+using HTML_WPF.Component;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -34,8 +35,13 @@ namespace MVVM.Cef.Glue.Test
                 );
         }
 
-        internal void Test(Action<HTMLViewControl, WindowTest> Test, bool iDebug = false)
+        internal void Test(Action<HTMLViewControl, WindowTest> Test, bool iDebug = false, bool Cef=true)
         {
+            if (Cef)
+            {
+                HTMLEngineFactory.Engine.Register(new CefGlueWPFWebWindowFactory());
+            }
+
             AssemblyHelper.SetEntryAssembly();
             HTMLViewControl wc1 = null;
             Func<HTMLViewControl> iWebControlFac = () =>
@@ -214,7 +220,8 @@ namespace MVVM.Cef.Glue.Test
             string nd = Path.GetDirectoryName(path);
             Directory.CreateDirectory(nd);
 
-            File.Copy("javascript\\navigation_1.html", path);
+            if (!File.Exists(path))
+                File.Copy("javascript\\navigation_1.html", path);
 
             string[] jvs = new string[] { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
 

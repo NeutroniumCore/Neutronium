@@ -6,32 +6,16 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
-using MVVM.HTML.Core.Infra.VM;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Navigation;
+using MVVM.HTML.Core.Infra;
 
-using MVVM.Cef.Glue.CefSession;
-using MVVM.Cef.Glue.Navigation;
-
-
-namespace MVVM.Cef.Glue
+namespace HTML_WPF.Component
 {
     public partial class HTMLViewControl : HTMLControlBase, IWebViewLifeCycleManager, IDisposable
     {
-    
-
         public static readonly DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(HTMLViewControl));
 
         public Uri Uri
@@ -42,16 +26,16 @@ namespace MVVM.Cef.Glue
 
         public string RelativeSource
         {
-            set 
+            set
             {
                 string path = string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), value);
                 if (!File.Exists(path))
-                    throw ExceptionHelper.Get(string.Format("Path not found {0}",path));
-                Uri = new Uri(path); 
+                    throw ExceptionHelper.Get(string.Format("Path not found {0}", path));
+                Uri = new Uri(path);
 
-                if (DataContext!=null)
+                if (DataContext != null)
                     this.NavigateAsyncBase(DataContext, null, Mode);
-            }          
+            }
         }
 
 
@@ -65,20 +49,22 @@ namespace MVVM.Cef.Glue
 
         private UrlSolver _UrlSolver;
 
-        public HTMLViewControl():this(new UrlSolver())
+        public HTMLViewControl()
+            : this(new UrlSolver())
         {
         }
 
-        private HTMLViewControl(UrlSolver iIUrlSolver) : base(iIUrlSolver)
+        private HTMLViewControl(UrlSolver iIUrlSolver)
+            : base(iIUrlSolver)
         {
-            _UrlSolver= iIUrlSolver;
+            _UrlSolver = iIUrlSolver;
             _UrlSolver.Solver = this;
             this.DataContextChanged += HTMLViewControl_DataContextChanged;
         }
 
         private void HTMLViewControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (Uri!=null)
+            if (Uri != null)
                 this.NavigateAsyncBase(DataContext, null, Mode);
         }
 

@@ -37,7 +37,7 @@ namespace MVVM.HTML.Core
 
         public string Url { get { return _Url; } }
 
-        internal IHTMLWindowProvider WebControl { get { return _CurrentWebControl; } }
+        public IHTMLWindowProvider WebControl { get { return _CurrentWebControl; } }
 
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
 
@@ -109,14 +109,15 @@ namespace MVVM.HTML.Core
     
             _Window = iwindow; 
 
+            var inav = _UseINavigable ? Binding.Root as INavigable : null;
+            if (inav != null)
+                inav.Navigation = this;
             _Window.State = WindowLogicalState.Opened;
 
             _Window.OpenAsync().ContinueWith(t => EndAnimation(Binding.Root));
 
             _Navigating = false;
-            var inav = _UseINavigable ? Binding.Root as INavigable : null;
-            if (inav != null)
-                inav.Navigation = this;
+           
 
             FireNavigate(Binding.Root, oldvm);
             

@@ -4,18 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{94FF7C56-B2B3-4E56-8E6F-8401E3E224EB}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{DCFC58E7-4D5B-43C5-827E-5D6F975F4995}</ProjectGuid>
+    <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVVM.CefGlue.Navigation2</RootNamespace>
-    <AssemblyName>MVVM.CefGlue.Navigation2</AssemblyName>
+    <RootNamespace>HTML_WPF.Component</RootNamespace>
+    <AssemblyName>HTML_WPF.Component</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,9 +22,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,7 +40,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -51,7 +49,6 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -69,20 +66,20 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="HTMLEngineFactory.cs" />
+    <Compile Include="HTMLViewControl.cs" />
+    <Compile Include="HTMLWindow.cs" />
+    <Compile Include="IHTMLEngineFactory.cs" />
+    <Compile Include="IWPFWebWindowFactory.cs" />
+    <Compile Include="Internal\WPFHTMLWindowProvider.cs" />
+    <Compile Include="Internal\WPFUIDispatcher.cs" />
+    <Compile Include="IWPFWebWindow.cs" />
+    <Page Include="Internal\HTMLControlBase.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Internal\HTMLControlBase.xaml.cs">
+      <DependentUpon>HTMLControlBase.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -111,46 +108,12 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\knockout.js">
-      <Link>HTMLUI\js\knockout.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.js">
-      <Link>HTMLUI\js\Ko_Extension.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\index_couple.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="HTMLUI\index_one.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
-      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>HTML_WPF.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MVVM.Cef.Glue\MVVM.Cef.Glue.csproj">
-      <Project>{447c6790-e36e-4a54-bfac-06c92fff4aa3}</Project>
-      <Name>MVVM.Cef.Glue</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MVVM.Component\MVVM.Component.csproj">
-      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
-      <Name>MVVM.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
+    <ProjectReference Include="..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ViewModelExamples\MVVM.ViewModel.csproj">
-      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
-      <Name>MVVM.ViewModel</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

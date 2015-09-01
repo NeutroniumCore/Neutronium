@@ -14,11 +14,11 @@ namespace MVVM.Cef.Glue.CefSession
         private CefSettings _CefSettings;
         private string[] _Args;
         private MVVMCefApp _CefApp;
-        private IDispatcher _Dispatcher;
+        //private IDispatcher _Dispatcher;
 
-        public CefCoreSession(IDispatcher iIUIDispatcher, CefSettings iCefSettings, MVVMCefApp iCefApp, string[] iArgs)
+        public CefCoreSession(CefSettings iCefSettings, MVVMCefApp iCefApp, string[] iArgs)
         {
-            _Dispatcher = iIUIDispatcher;
+            //_Dispatcher = iIUIDispatcher;
             _CefApp = iCefApp;
             _Args = iArgs;
             _CefSettings = iCefSettings;
@@ -33,10 +33,10 @@ namespace MVVM.Cef.Glue.CefSession
             CefRuntime.Initialize(mainArgs, _CefSettings, _CefApp, IntPtr.Zero);
         }
 
-        public IDispatcher UIDispatcher
-        {
-            get { return _Dispatcher; }
-        }
+        //public IDispatcher UIDispatcher
+        //{
+        //    get { return _Dispatcher; }
+        //}
 
         public MVVMCefApp CefApp 
         { 

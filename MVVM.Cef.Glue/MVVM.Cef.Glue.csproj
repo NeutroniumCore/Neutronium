@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -79,6 +79,8 @@
     <Compile Include="CefGlueHelper\CefTask_Function.cs" />
     <Compile Include="CefGlueHelper\CefV8Handler_Action.cs" />
     <Compile Include="CefGlueHelper\CefV8ValueExtension.cs" />
+    <Compile Include="CefGlueWPFWebWindow.cs" />
+    <Compile Include="CefGlueWPFWebWindowFactory.cs" />
     <Compile Include="CefSession\CefCoreSession.cs" />
     <Compile Include="CefSession\CefCoreSessionFactory.cs" />
     <Compile Include="CefSession\CefCoreSessionSingleton.cs" />
@@ -90,13 +92,7 @@
     <Compile Include="CefGlueImplementation\CefV8_Factory.cs" />
     <Compile Include="CefGlueImplementation\CefV8_JavascriptObject.cs" />
     <Compile Include="CefGlueImplementation\CefV8_WebView.cs" />
-    <Compile Include="Control\CefGlueHTMLWindowProvider.cs" />
-    <Compile Include="Control\HTMLControlBase.xaml.cs">
-      <DependentUpon>HTMLControlBase.xaml</DependentUpon>
-    </Compile>
     <Compile Include="HTMLApp.cs" />
-    <Compile Include="HTMLViewControl.cs" />
-    <Compile Include="HTMLWindow.cs" />
     <Compile Include="WindowImplementation\CefNoContextMenuHandler.cs" />
     <Compile Include="Helpers\Log\ILogger.cs" />
     <Compile Include="Helpers\Log\Logger.cs" />
@@ -146,12 +142,10 @@
     <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Control\HTMLControlBase.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\HTML.WPF.Component\HTML_WPF.Component.csproj">
+      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
+      <Name>HTML_WPF.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>

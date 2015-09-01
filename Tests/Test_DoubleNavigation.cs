@@ -22,9 +22,9 @@ using NSubstitute;
 
 using MVVM.HTML.Core.Infra;
 using MVVM.ViewModel.Infra;
-using MVVM.Cef.Glue.Navigation;
 using MVVM.ViewModel;
 using MVVM.HTML.Core;
+using HTML_WPF.Component;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -39,8 +39,14 @@ namespace MVVM.Cef.Glue.Test
         {
         }
 
-        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle)
+        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle, bool Cef=true)
         {
+            if (Cef)
+            {
+                HTMLEngineFactory.Engine.Register(new CefGlueWPFWebWindowFactory());
+            }
+
+
             return new WindowTest(
                 (w) =>
                 {

@@ -126,8 +126,11 @@ namespace MVVM.Cef.Glue
 
         public void ExecuteJavaScript(string code)
         {
-            IJavascriptObject res =null;
-            Eval(code, out res);
+            RunAsync(() =>
+                {
+                    IJavascriptObject res = null;
+                    Eval(code, out res);
+                });
         }
     }
 }

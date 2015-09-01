@@ -33,6 +33,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -96,18 +116,23 @@
   <ItemGroup>
     <Content Include="..\..\MVVM.HTML.Core\Javascript\knockout-delegatedEvents.min.js">
       <Link>HTML\scripts\knockout-delegatedEvents.min.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\MVVM.HTML.Core\Javascript\knockout.js">
       <Link>HTML\scripts\knockout.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.js">
       <Link>HTML\scripts\Ko_Extension.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.min.js">
       <Link>HTML\scripts\Ko_Extension.min.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\MVVM.HTML.Core\Javascript\promise.min.js">
       <Link>HTML\scripts\promise.min.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="HTML\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -117,6 +142,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
+      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
+      <Name>HTML_WPF.Component</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MVVM.Cef.Glue\MVVM.Cef.Glue.csproj">
       <Project>{447c6790-e36e-4a54-bfac-06c92fff4aa3}</Project>
       <Name>MVVM.Cef.Glue</Name>

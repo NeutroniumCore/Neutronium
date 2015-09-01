@@ -10,6 +10,7 @@ using Xunit;
 
 using MVVM.ViewModel;
 using MVVM.HTML.Core;
+using HTML_WPF.Component;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -37,8 +38,13 @@ namespace MVVM.Cef.Glue.Test
         }
 
 
-        internal void TestNavigation(Action<HTMLWindow, WindowTest> Test)
+        internal void TestNavigation(Action<HTMLWindow, WindowTest> Test, bool Cef=true)
         {
+            if (Cef)
+            {
+                HTMLEngineFactory.Engine.Register(new CefGlueWPFWebWindowFactory());
+            }
+
             AssemblyHelper.SetEntryAssembly();
 
             HTMLWindow wc1 = null;

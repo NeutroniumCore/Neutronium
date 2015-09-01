@@ -11,7 +11,6 @@ using FluentAssertions;
 using MVVM.Cef.Glue.CefSession;
 using System.Windows;
 using System.Threading;
-using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Window;
 

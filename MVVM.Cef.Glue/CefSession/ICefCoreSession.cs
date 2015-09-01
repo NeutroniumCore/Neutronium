@@ -11,7 +11,7 @@ namespace MVVM.Cef.Glue.CefSession
 {
     public interface ICefCoreSession : IDisposable
     {
-        IDispatcher UIDispatcher { get; }
+        //IDispatcher UIDispatcher { get; }
 
         MVVMCefApp CefApp  {  get ;  }
 

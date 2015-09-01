@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,34 +14,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Diagnostics;
-using System.ComponentModel;
 
-using Xilium.CefGlue;
-
-using MVVM.HTML.Core.Infra.VM;
-using MVVM.HTML.Core.Navigation;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Infra.VM;
 using MVVM.HTML.Core.JavascriptEngine;
+using MVVM.HTML.Core.Navigation;
 using MVVM.HTML.Core.Window;
+using System.Diagnostics;
+using MVVM.HTML.Core.Exceptions;
 
-using MVVM.Cef.Glue.WPF;
-using MVVM.Cef.Glue.Navigation;
-using MVVM.Cef.Glue.CefSession;
-
-
-
-namespace MVVM.Cef.Glue
+namespace HTML_WPF.Component
 {
+    /// <summary>
+    /// Interaction logic for UserControl1.xaml
+    /// </summary>
     public partial class HTMLControlBase : UserControl, IWebViewLifeCycleManager, IDisposable
     {
+        private IWPFWebWindowFactory _IWPFWebWindowFactory;
         protected HTMLControlBase(IUrlSolver iIUrlSolver)
         {
-            if ((_CefCoreSession == null) && !DesignerProperties.GetIsInDesignMode(this))
-            {
-                _CefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded(new WPFUIDispatcher(this.Dispatcher));
-            }
-
             _IUrlSolver = iIUrlSolver;
 
             DebugWindow = new BasicRelayCommand(() => ShowDebugWindow());
@@ -49,12 +40,12 @@ namespace MVVM.Cef.Glue
             DebugBrowser = new BasicRelayCommand(() => OpenDebugBrowser());
 
             InitializeComponent();
+
+            _IWPFWebWindowFactory = HTMLEngineFactory.Engine.Resolve(HTMLEngine);
+
             _WPFDoubleBrowserNavigator = new WPFDoubleBrowserNavigator(this, _IUrlSolver);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
-
         }
-
-        private static ICefCoreSession _CefCoreSession;
 
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
 
@@ -82,6 +73,16 @@ namespace MVVM.Cef.Glue
 
         public static readonly DependencyProperty IsHTMLLoadedProperty =
             DependencyProperty.Register("IsHTMLLoaded", typeof(Boolean), typeof(HTMLControlBase), new PropertyMetadata(false));
+
+        public string HTMLEngine
+        {
+            get { return (string)this.GetValue(HTMLEngineProperty); }
+            private set { this.SetValue(HTMLEngineProperty, value); }
+        }
+
+        public static readonly DependencyProperty HTMLEngineProperty =
+            DependencyProperty.Register("HTMLEngine", typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
+
 
 
         public ICommand DebugWindow { get; private set; }
@@ -126,8 +127,9 @@ namespace MVVM.Cef.Glue
 
         public void OpenDebugBrowser()
         {
-            if (_CefCoreSession.CefSettings.RemoteDebuggingPort!=null)
-                Process.Start(string.Format("http://localhost:{0}/", _CefCoreSession.CefSettings.RemoteDebuggingPort));
+            Nullable<int> RemoteDebuggingPort = _IWPFWebWindowFactory.GetRemoteDebuggingPort();
+            if (RemoteDebuggingPort!=null)
+                Process.Start(string.Format("http://localhost:{0}/", RemoteDebuggingPort));
             else
                 MessageBox.Show("EnableBrowserDebug should be set to true to enable debugging in a Webrowser!");
         }
@@ -185,26 +187,17 @@ namespace MVVM.Cef.Glue
 
         IHTMLWindowProvider IWebViewLifeCycleManager.Create()
         {
-            //if (_Session == null)
-            //{
-            //    _Session = (_WebSessionPath != null) ? WebCore.CreateWebSession(_WebSessionPath, new WebPreferences()) :
-            //            WebCore.CreateWebSession(new WebPreferences());
+            if (_IWPFWebWindowFactory == null)
+                    throw ExceptionHelper.Get(string.Format("Not able to find WebEngine {0}", HTMLEngine));
 
-            //    WebCore.ShuttingDown += WebCore_ShuttingDown;
-            //}
-
-            WpfCefBrowser nw = new WpfCefBrowser()
-            {
-                Visibility = Visibility.Hidden,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
-            };
-            Grid.SetColumnSpan(nw, 2);
-            Grid.SetRowSpan(nw, 2);
-            Panel.SetZIndex(nw, 0);
-            this.MainGrid.Children.Add(nw);
-            return new CefGlueHTMLWindowProvider( nw, this);
+            IWPFWebWindow webwindow = _IWPFWebWindowFactory.Create();
+            
+            var ui = webwindow.UIElement;
+            Grid.SetColumnSpan(ui, 2);
+            Grid.SetRowSpan(ui, 2);
+            Panel.SetZIndex(ui, 0);
+            this.MainGrid.Children.Add(ui);
+            return new WPFHTMLWindowProvider(webwindow, this );
         }
 
 
@@ -212,6 +205,17 @@ namespace MVVM.Cef.Glue
         IDispatcher IWebViewLifeCycleManager.GetDisplayDispatcher()
         {
             return new WPFUIDispatcher(this.Dispatcher);
+        }
+
+        public void Inject(Key KeyToInject)
+        {
+            var wpfacess =  (_WPFDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider);
+            if (wpfacess != null)
+                return;
+
+            var wpfweb = wpfacess.IWPFWebWindow;            
+            if (wpfweb!=null)
+                wpfweb.Inject(KeyToInject);
         }
 
         //private void WebCore_ShuttingDown(object sender, CoreShutdownEventArgs e)

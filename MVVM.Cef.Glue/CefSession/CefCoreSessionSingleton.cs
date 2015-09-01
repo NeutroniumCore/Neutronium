@@ -25,12 +25,12 @@ namespace MVVM.Cef.Glue.CefSession
             private set;
         }
 
-        public static ICefCoreSession GetAndInitIfNeeded(IDispatcher iIUIDispatcher = null, CefSettings iCefSettings = null, params string[] args)
+        public static ICefCoreSession GetAndInitIfNeeded(CefSettings iCefSettings = null, params string[] args)
         {
             if (Session==null)
             {
                 if (SessionFactory==null)
-                    SessionFactory = new CefCoreSessionFactory(iIUIDispatcher??new NullUIDispatcher(),iCefSettings, args);
+                    SessionFactory = new CefCoreSessionFactory(iCefSettings, args);
 
                 Session = SessionFactory.GetSession();
             }
