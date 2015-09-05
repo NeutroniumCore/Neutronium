@@ -47,10 +47,13 @@ namespace MVVM.HTML.Core.V8JavascriptObject
 
         /// <summary>
         /// Create IJavascriptObject object
-        /// </summary>
+        /// </summary>   
+        /// <param name="iLocal">
+        /// true if local object, only has meaning in a Awesomium context
+        /// </param>
         /// corresponding IJavascriptObject
         ///</returns>
-        IJavascriptObject CreateObject();
+        IJavascriptObject CreateObject(bool iLocal);
 
         /// <summary>
         /// Create IJavascriptObject from an int
@@ -101,13 +104,13 @@ namespace MVVM.HTML.Core.V8JavascriptObject
         /// <summary>
         /// Create IJavascriptObject list
         /// </summary>
-        /// <param name="iCount">
-        /// the initial size of the collection
+        /// <param name="iCollection">
+        /// the elements of the collection
         /// </param>
         /// <returns>
         /// corresponding IJavascriptObject
         ///</returns>
-        IJavascriptObject CreateArray(int iCount);
+        IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCollection);
 
 
         /// <summary>

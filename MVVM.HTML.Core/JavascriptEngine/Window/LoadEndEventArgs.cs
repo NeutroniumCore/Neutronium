@@ -10,13 +10,10 @@ namespace MVVM.HTML.Core.Window
 {
 	public class LoadEndEventArgs : EventArgs
 	{
-        public LoadEndEventArgs(IWebView frame, int httpStatusCode)
+        public LoadEndEventArgs(IWebView frame)
 		{
 			Frame = frame;
-			HttpStatusCode = httpStatusCode;
 		}
-
-		public int HttpStatusCode { get; private set; }
 
         public IWebView Frame { get; private set; }
 	}

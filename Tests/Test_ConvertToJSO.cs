@@ -179,7 +179,11 @@ namespace MVVM.Cef.Glue.Test
                   var res = _ConverTOJSO.Map(date).JSValue;
                   res.Should().NotBeNull();
                   res.IsDate.Should().BeTrue();
-                  DateTime resd = res.GetDateValue();
+                  var convert = new CefV8_Converter();
+                  object ores = null;
+
+                  convert.GetSimpleValue(res, out ores);
+                  var resd = (DateTime)ores;
 
                   resd.Should().Be(date);
               });

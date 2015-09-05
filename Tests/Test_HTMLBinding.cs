@@ -798,7 +798,7 @@ namespace MVVM.CEFGlue.Test
                       string n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      DoSafe(() => Call(js, "One", _WebView.Factory.CreateObject()));
+                      DoSafe(() => Call(js, "One", _WebView.Factory.CreateObject(true)));
 
                       var res3 = GetAttribute(js, "One");
                       res3.IsObject.Should().BeTrue();

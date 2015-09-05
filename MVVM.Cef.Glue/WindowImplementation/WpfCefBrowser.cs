@@ -175,7 +175,7 @@ namespace MVVM.Cef.Glue.WPF
         {
             if(this.LoadEnd != null)
             {
-                var e = new LoadEndEventArgs(this.MainFrame, httpStatusCode);
+                var e = new LoadEndEventArgs(this.MainFrame);
                 Action act = () => this.LoadEnd(this, e);
                 this.Dispatcher.BeginInvoke(act);
             }

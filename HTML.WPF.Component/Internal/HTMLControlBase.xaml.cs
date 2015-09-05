@@ -77,7 +77,7 @@ namespace HTML_WPF.Component
         public string HTMLEngine
         {
             get { return (string)this.GetValue(HTMLEngineProperty); }
-            private set { this.SetValue(HTMLEngineProperty, value); }
+            set { this.SetValue(HTMLEngineProperty, value); }
         }
 
         public static readonly DependencyProperty HTMLEngineProperty =
@@ -188,7 +188,12 @@ namespace HTML_WPF.Component
         IHTMLWindowProvider IWebViewLifeCycleManager.Create()
         {
             if (_IWPFWebWindowFactory == null)
+            {
+                _IWPFWebWindowFactory = HTMLEngineFactory.Engine.Resolve(HTMLEngine);
+
+                if (_IWPFWebWindowFactory==null)
                     throw ExceptionHelper.Get(string.Format("Not able to find WebEngine {0}", HTMLEngine));
+            }
 
             IWPFWebWindow webwindow = _IWPFWebWindowFactory.Create();
             

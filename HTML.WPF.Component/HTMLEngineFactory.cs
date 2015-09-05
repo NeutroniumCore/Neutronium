@@ -9,10 +9,16 @@ using MVVM.HTML.Core.Infra;
 
 namespace HTML_WPF.Component
 {
+    /// <summary>
+    /// IHTMLEngineFactory implementation
+    /// </summary>
     public class HTMLEngineFactory : IHTMLEngineFactory
     {
         private IDictionary<string, IWPFWebWindowFactory> _Dic = new Dictionary<string, IWPFWebWindowFactory>();
 
+        /// <summary>
+        /// Access the singleton IHTMLEngineFactory
+        /// </summary>
         public static IHTMLEngineFactory Engine
         {
             get; internal set;

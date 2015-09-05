@@ -1,0 +1,69 @@
+﻿using Awesomium.Core;
+using MVVM.HTML.Core.Window;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace MVVM.Awesomium
+{
+    internal class AwesomiumDispatcher : IDispatcher
+    {
+
+        private void RunOnContext(Action act)
+        {
+            if (Thread.CurrentThread == AwesomiumWPFWebWindowFactory.WebCoreThread)
+                act();
+            else
+                WebCore.QueueWork(act);
+        }
+        public Task RunAsync(Action act)
+        {
+            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            Action nact = () =>
+                {
+                    try
+                    {
+                        act();
+                        tcs.SetResult(null);
+                    }
+                    catch (Exception e)
+                    {
+                        tcs.SetException(e);
+                    }
+                };
+            RunOnContext(nact);
+            return tcs.Task;
+        }
+
+        public void Run(Action act)
+        {
+            RunAsync(act).Wait();
+        }
+
+        public Task<T> EvaluateAsync<T>(Func<T> compute)
+        {
+            TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
+            Action nact = () =>
+            {
+                try
+                {
+                    tcs.TrySetResult(compute());
+                }
+                catch (Exception e)
+                {
+                    tcs.TrySetException(e);
+                }
+            };
+            RunOnContext(nact);
+            return tcs.Task;
+        }
+
+        public T Evaluate<T>(Func<T> compute)
+        {
+            return EvaluateAsync(compute).Result;
+        }
+    }
+}

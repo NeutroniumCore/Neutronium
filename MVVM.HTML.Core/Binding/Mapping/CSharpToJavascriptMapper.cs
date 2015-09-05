@@ -74,7 +74,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 return res;
             }
 
-            IJavascriptObject resobject = _IWebView.Factory.CreateObject();
+            IJavascriptObject resobject = _IWebView.Factory.CreateObject(true);
 
             JSGenericObject gres = new JSGenericObject(_IWebView,resobject, ifrom);
             _Cacher.Cache(ifrom, gres);

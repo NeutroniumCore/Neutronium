@@ -84,7 +84,7 @@ namespace MVVM.Cef.Glue
             return new CefV8_JavascriptObject(CefV8Value.CreateNull());
         }
 
-        public IJavascriptObject CreateObject()
+        public IJavascriptObject CreateObject(bool iLocal)
         {
             return UpdateObject(CefV8Value.CreateObject(null));
         }
@@ -109,9 +109,12 @@ namespace MVVM.Cef.Glue
             return new CefV8_JavascriptObject(CefV8Value.CreateDouble(value));
         }
 
-        public IJavascriptObject CreateArray(int iCount)
+        public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCollection)
         {
-            return UpdateObject(CefV8Value.CreateArray(iCount));
+            var col = iCollection.ToList();
+            var res = CefV8Value.CreateArray(col.Count());
+            ((IEnumerable<IJavascriptObject>)col).ForEach((el, i) => res.SetValue(i, el.Convert()));
+            return UpdateObject(res);
         }
 
         private void BasicUpdateObject(CefV8Value ires)

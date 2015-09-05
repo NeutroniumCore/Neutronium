@@ -70,6 +70,7 @@ namespace MVVM.Cef.Glue
             get { return _CefV8Value.IsArray; }
         }
 
+
         public bool IsString
         {
             get { return _CefV8Value.IsString; }
@@ -116,10 +117,10 @@ namespace MVVM.Cef.Glue
             _CefV8Value.Bind(iFunctionName, iContext, Converted);
         }
 
-        public void SetValue(int position, IJavascriptObject element)
-        {
-            _CefV8Value.SetValue(position, Convert(element));
-        }
+        //public void SetValue(int position, IJavascriptObject element)
+        //{
+        //    _CefV8Value.SetValue(position, Convert(element));
+        //}
 
         public void SetValue(string AttributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None)
         {
@@ -144,11 +145,6 @@ namespace MVVM.Cef.Glue
         public bool GetBoolValue()
         {
             return _CefV8Value.GetBoolValue();
-        }
-
-        public DateTime GetDateValue()
-        {
-            return _CefV8Value.GetDateValue();
         }
 
         public IJavascriptObject GetValue(string ivalue)

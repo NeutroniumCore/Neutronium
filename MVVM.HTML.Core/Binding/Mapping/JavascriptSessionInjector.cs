@@ -24,7 +24,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             _IWebView.Run(() =>
                 {
-                    _Listener = _IWebView.Factory.CreateObject();
+                    _Listener = _IWebView.Factory.CreateObject(false);
 
                     if (_IJavascriptListener != null)
                     {
@@ -46,7 +46,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (_Mapper != null)
                 return _Mapper;
 
-            _Mapper = _IWebView.Factory.CreateObject();
+            _Mapper = _IWebView.Factory.CreateObject(false);
 
             _Mapper.Bind("Register", _IWebView, (c, o, e) =>
             {

@@ -16,7 +16,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         {
             _IWebView = iCefV8Context;
             _JSSimpleCommand = icValue;
-            JSValue = _IWebView.Factory.CreateObject();
+            JSValue = _IWebView.Factory.CreateObject(true);
         }
 
         public IJavascriptObject JSValue { get; private set; }

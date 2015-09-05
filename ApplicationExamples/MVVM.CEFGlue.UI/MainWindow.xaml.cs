@@ -52,7 +52,7 @@ namespace MVVM.Cef.Glue.UI
 
         protected override void OnClosed(EventArgs e)
         {
-            //this.wcBrowser.Dispose();
+            this.wcBrowser.Dispose();
             base.OnClosed(e);
         }
 

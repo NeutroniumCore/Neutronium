@@ -106,7 +106,8 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void Update(IJSObservableBridge ibo, IJavascriptObject jsobject)
         {
             ibo.SetMappedJSValue(jsobject, this);
-            _FromJavascript_Global[jsobject.GetID()] = ibo;
+            if (jsobject.HasRelevantId())
+                _FromJavascript_Global[jsobject.GetID()] = ibo;
         }
 
         public void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)

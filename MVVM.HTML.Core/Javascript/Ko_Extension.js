@@ -90,7 +90,7 @@ function executeAsPromise(vm,fnname,argument) {
         if (!Mapper) Mapper = {};
         if (!Listener) Listener = {};
 
-        if (or ===null) {
+        if ((or === null) || (or instanceof Null_reference)) {
             if (context === null) {
                 if (Mapper.Register) Mapper.Register(or);
                 if (Mapper.End) Mapper.End(or);

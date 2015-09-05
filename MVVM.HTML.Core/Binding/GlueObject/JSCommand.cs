@@ -35,7 +35,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             JSValue = _IWebView.Evaluate(() =>
                 {
-                    IJavascriptObject res = _IWebView.Factory.CreateObject();
+                    IJavascriptObject res = _IWebView.Factory.CreateObject(true);
                     res.SetValue("CanExecuteValue", _IWebView.Factory.CreateBool(canexecute));
                     res.SetValue("CanExecuteCount", _IWebView.Factory.CreateInt(_Count)); 
                     return res;       

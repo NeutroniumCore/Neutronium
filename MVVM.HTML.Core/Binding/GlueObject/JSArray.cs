@@ -26,8 +26,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             var res = _IWebView.Evaluate(() =>
             {
-                IJavascriptObject myres = _IWebView.Factory.CreateArray(dest.Count);
-                dest.ForEach((el, i) => myres.SetValue(i, el));
+                IJavascriptObject myres = _IWebView.Factory.CreateArray(dest);
                 return myres;
             });
 
