@@ -138,31 +138,18 @@ namespace MVVM.Cef.Glue
             return new CefV8_JavascriptObject(ires);
         }
 
-        private CefV8_JavascriptObject Check(CefV8_JavascriptObject ires)
+        public IJavascriptObject CreateObject(string iCreationCode)
         {
-            if (ires == null)
-                throw ExceptionHelper.NoKoExtension();
 
-            return ires;
-        }
-
-        private CefV8_JavascriptObject CheckUpdate(CefV8_JavascriptObject ires)
-        {
-            return UpdateObject(Check(ires));
-        }
-
-        public IJavascriptObject CreateEnum(Enum ienum)
-        {
             return _CefV8_WebView.Evaluate(() =>
-                {
-                    IJavascriptObject res = null;
+            {
+                IJavascriptObject res = null;
 
-                    _CefV8_WebView.Eval(string.Format("new Enum('{0}',{1},'{2}','{3}')",
-                        ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()),
-                        out res);
+                _CefV8_WebView.Eval(iCreationCode, out res);
 
-                    return CheckUpdate(res as CefV8_JavascriptObject);
-                });
+                return UpdateObject(res as CefV8_JavascriptObject);
+            });
         }
+      
     }
 }

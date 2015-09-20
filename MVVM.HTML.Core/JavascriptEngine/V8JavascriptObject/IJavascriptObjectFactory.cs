@@ -56,6 +56,18 @@ namespace MVVM.HTML.Core.V8JavascriptObject
         IJavascriptObject CreateObject(bool iLocal);
 
         /// <summary>
+        /// Create IJavascriptObject object from javascript code
+        /// </summary>   
+        /// <param name="iCreationCode">
+        /// the javascript code to create the object
+        /// </param>
+        /// corresponding IJavascriptObject
+        ///</returns>
+        IJavascriptObject CreateObject(string iCreationCode);
+
+
+
+        /// <summary>
         /// Create IJavascriptObject from an int
         /// </summary>
         /// <param name="value">
@@ -113,15 +125,15 @@ namespace MVVM.HTML.Core.V8JavascriptObject
         IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCollection);
 
 
-        /// <summary>
-        /// Create IJavascriptObject from enum
-        /// </summary>
-        /// <param name="value">
-        /// enum to convert
-        /// </param>
-        /// <returns>
-        /// corresponding IJavascriptObject
-        ///</returns>
-        IJavascriptObject CreateEnum(Enum value);
+        ///// <summary>
+        ///// Create IJavascriptObject from enum
+        ///// </summary>
+        ///// <param name="value">
+        ///// enum to convert
+        ///// </param>
+        ///// <returns>
+        ///// corresponding IJavascriptObject
+        /////</returns>
+        //IJavascriptObject CreateEnum(Enum value);
     }
 }

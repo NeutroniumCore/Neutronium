@@ -14,14 +14,13 @@ namespace MVVM.HTML.Core.Exceptions
         {
             Trace.WriteLine(string.Format("{0} - {1}", _Header,iMessageLog));
         }
-
-       
+    
         static public Exception Get(string iMessage)
         {
             return new MVVMCEFGlueException(iMessage);
         }
 
-        static public Exception NoKo()
+        static internal Exception NoKo()
         {
             return ExceptionHelper.Get("ko object not found! You should add a link to knockout.js script to the HML document!");
         }

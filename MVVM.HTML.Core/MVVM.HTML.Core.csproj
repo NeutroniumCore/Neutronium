@@ -83,6 +83,7 @@
     <Compile Include="Binding\Mapping\CollectionChanges\CollectionChangeType.cs" />
     <Compile Include="Binding\Mapping\CollectionChanges\CollectionChanges.cs" />
     <Compile Include="Binding\Mapping\CollectionChanges\IndividualCollectionChange.cs" />
+    <Compile Include="Binding\Mapping\IJavascriptObjectFactory_CreateEnum_extesion.cs" />
     <Compile Include="Binding\Mapping\IJSCBridgeCache.cs" />
     <Compile Include="Binding\Mapping\IJavascriptListener.cs" />
     <Compile Include="JavascriptEngine\Control\IHTMLWindowProvider.cs" />

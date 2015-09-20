@@ -105,11 +105,6 @@ namespace MVVM.Awesomium.HTMLEngine
              return ires;
          }
 
-         private Awesomium_Core.JSValue CheckUpdate(Awesomium_Core.JSObject ires)
-         {
-             return UpdateObject(Check(ires));
-         }
-
          public IJavascriptObject CreateNull()
          {
              if (_JSNull==null)
@@ -159,11 +154,10 @@ namespace MVVM.Awesomium.HTMLEngine
              return new Awesomium_Core.JSValue(iCount.Select(o => o.Convert()).ToArray()).Convert();
          }
 
-         public IJavascriptObject CreateEnum(Enum value)
+         public IJavascriptObject CreateObject(string iCreationCode)
          {
-             return _IWebView.EvaluateSafe(() =>
-                CheckUpdate(_IWebView.ExecuteJavascriptWithResult(string.Format("new Enum('{0}',{1},'{2}','{3}')",
-                                value.GetType().Name, Convert.ToInt32(value), value.ToString(), value.GetDescription())))).Convert();
+             return _IWebView.EvaluateSafe(() => UpdateObject(_IWebView.ExecuteJavascriptWithResult(iCreationCode))).Convert();
+   
          }
     }
 }

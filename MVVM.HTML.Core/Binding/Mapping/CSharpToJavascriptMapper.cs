@@ -8,7 +8,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 
 using MVVM.HTML.Core.Infra;
-
+using MVVM.HTML.Core.Binding;
 using MVVM.Component;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
