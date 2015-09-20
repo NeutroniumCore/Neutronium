@@ -32,7 +32,7 @@ namespace MVVM.HTML.Core.V8JavascriptObject
         IJavascriptObject GetGlobal();
 
         /// <summary>
-        /// Get the javascript bsic converter
+        /// Get the javascript basic converter
         /// </summary>
         IJavascriptObjectConverter Converter { get; }
 

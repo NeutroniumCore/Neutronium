@@ -117,11 +117,6 @@ namespace MVVM.Cef.Glue
             _CefV8Value.Bind(iFunctionName, iContext, Converted);
         }
 
-        //public void SetValue(int position, IJavascriptObject element)
-        //{
-        //    _CefV8Value.SetValue(position, Convert(element));
-        //}
-
         public void SetValue(string AttributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None)
         {
             _CefV8Value.SetValue(AttributeName, Convert(element),Convert(ioption));

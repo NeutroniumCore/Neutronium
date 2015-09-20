@@ -14,7 +14,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Background="Gray" FontWeight="Bold"  Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Text="WPF"/>
+        <TextBlock Background="Gray" FontWeight="Bold" Grid.Row="0" HorizontalAlignment="Stretch" Text="WPF" Margin="-413,-88,412,88"/>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -40,12 +40,8 @@
         <TextBlock Background="Gray"  Grid.Column="0" Grid.Row="0"  FontWeight="Bold" HorizontalAlignment="Stretch" Text="Cef.Glue"/>
         <HTMLComponent:HTMLViewControl HTMLEngine="Cef.Glue"  Grid.Row="1" Grid.Column="0" IsDebug="True"  x:Name="wcBrowser2" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-        <!--<StackPanel Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">-->
         <TextBlock Background="Gray" FontWeight="Bold"  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" Text="Awesomium"/>
         <HTMLComponent:HTMLViewControl HTMLEngine="Awesomium" Grid.Column="2" Grid.Row="1"   IsDebug="True"  x:Name="wcBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-        <!--</StackPanel>-->
 
-        <!--<StackPanel Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">-->
-           <!--</StackPanel>-->
     </Grid>
 </Window>
