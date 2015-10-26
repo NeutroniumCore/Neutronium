@@ -15,13 +15,20 @@ namespace MVVM.HTML.Core.Binding
 
         public static IJavascriptObject CreateEnum(this IJavascriptObjectFactory @this, Enum ienum)
         {
-            IJavascriptObject res = @this.CreateObject(string.Format("new Enum('{0}',{1},'{2}','{3}')",
-                ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()));
+            try
+            {
+                IJavascriptObject res = @this.CreateObject(string.Format("new Enum('{0}',{1},'{2}','{3}')",
+                    ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()));
 
-           if ((res==null) || (!res.IsObject))
-               throw ExceptionHelper.NoKoExtension();
+                if ((res == null) || (!res.IsObject))
+                    throw ExceptionHelper.NoKoExtension();
 
-            return res;
+                return res;
+            }
+            catch
+            {
+                throw ExceptionHelper.NoKoExtension();
+            }
         }
 
     
