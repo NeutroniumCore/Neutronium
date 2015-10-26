@@ -193,6 +193,7 @@ namespace MVVM.Cef.Glue.Test
             EventHandler ea = null;
             var a = new A1();
             string pn = Path.Combine(Path.GetTempPath(), "MVMMAWe");
+            Directory.Delete(pn);
 
             TestNavigation((wpfbuild, wpfnav, WindowTest)
                 =>

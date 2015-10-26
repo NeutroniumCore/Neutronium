@@ -182,7 +182,12 @@ namespace HTML_WPF.Component
         public string SessionPath
         {
             get { return _WebSessionPath; }
-            set { _WebSessionPath = value; }
+            set 
+            { 
+                _WebSessionPath = value;
+                if (_WebSessionPath != null)
+                    Directory.CreateDirectory(_WebSessionPath);
+            }
         }
 
         IHTMLWindowProvider IWebViewLifeCycleManager.Create()
