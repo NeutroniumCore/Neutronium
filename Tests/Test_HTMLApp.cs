@@ -77,8 +77,6 @@ namespace MVVM.Cef.Glue.Test
             });
 
             disp.Run(() => target.Run());
-
         }
-
     }
 }

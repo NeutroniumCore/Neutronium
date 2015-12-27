@@ -100,8 +100,6 @@
     <Compile Include="CefWindowless\TestCefLoadHandler.cs" />
     <Compile Include="CefWindowless\TestCefClient.cs" />
     <Compile Include="CefWindowless\TestCefRenderHandler.cs" />
-    <Compile Include="MVVM.Component\TaskHelperTest.cs" />
-    <Compile Include="MVVM.Component\RelaySimpleCommandTest.cs" />
     <Compile Include="Test.Core\TestInContext.cs" />
     <Compile Include="Test_CefTask_Action.cs" />
     <Compile Include="Test_HTMLApp.cs" />
@@ -183,11 +181,15 @@
     <Content Include="javascript\empty.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Navigation data\js\Ko_Extension.min.js.map">
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\navigation_3.html">

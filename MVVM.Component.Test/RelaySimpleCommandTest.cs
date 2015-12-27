@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NSubstitute;
 using Xunit;
 using FluentAssertions;
 using System.Threading.Tasks;
+using NSubstitute;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Component.Test
 {
     public class RelaySimpleCommandTest
     {
@@ -43,6 +43,20 @@ namespace MVVM.Cef.Glue.Test
             function.Invoke(arg).Returns(122);
             var target = new MVVM.Component.RelayResultCommand<object,int>(function);
       
+            var res = target.Execute(arg).Result;
+
+            function.Received(1).Invoke(arg);
+            res.Should().Be(122);
+        }
+
+        [Fact]
+        public void RelayResultCommandCreate_CreateCommandThatCallFunctionGeneric()
+        {
+            var function = Substitute.For<Func<object, int>>();
+            var arg = new object();
+            function.Invoke(arg).Returns(122);
+            var target = RelayResultCommand.Create(function);
+
             var res = target.Execute(arg).Result;
 
             function.Received(1).Invoke(arg);

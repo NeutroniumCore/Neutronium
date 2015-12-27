@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MVVM.Component.Infra;
 
 namespace MVVM.Component
 {
@@ -32,9 +31,9 @@ namespace MVVM.Component
             _ResultBuilder = iResultBuilder;
         }
 
-        public Task<object> Execute(object iargument)
+        public async Task<object> Execute(object iargument)
         {
-            return _ResultBuilder((Tin)iargument).Convert();
+            return await _ResultBuilder((Tin)iargument);
         }
     }
 

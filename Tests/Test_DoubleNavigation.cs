@@ -13,13 +13,10 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-
 using MVVM.Cef.Glue.CefGlueHelper;
-
 using Xunit;
 using FluentAssertions;
 using NSubstitute;
-
 using MVVM.HTML.Core.Infra;
 using MVVM.ViewModel.Infra;
 using MVVM.ViewModel;
@@ -28,24 +25,18 @@ using HTML_WPF.Component;
 
 namespace MVVM.Cef.Glue.Test
 {
-
-
-
-
     public class Test_DoubleNavigation
     {
-
         public Test_DoubleNavigation()
         {
         }
 
-        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle, bool Cef=true)
+        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle, bool Cef = true)
         {
             if (Cef)
             {
                 HTMLEngineFactory.Engine.Register(new CefGlueWPFWebWindowFactory());
             }
-
 
             return new WindowTest(
                 (w) =>
@@ -57,10 +48,8 @@ namespace MVVM.Cef.Glue.Test
                     if (iManageLifeCycle)
                         w.Closed += (o, e) => { iWebControl.Dispose(); };
                     stackPanel.Children.Add(iWebControl);
-                }
-                );
+                });
         }
-
 
         internal void TestNavigation(Action<INavigationBuilder, HTMLWindow, WindowTest> Test, bool iDebug = false, bool iManageLifeCycle = true)
         {
@@ -264,7 +253,6 @@ namespace MVVM.Cef.Glue.Test
             nea.Should().NotBeNull();
             nea.OldViewModel.Should().BeNull();
             nea.NewViewModel.Should().Be(a);
-
         }
 
         private void Test_HTMLWindowRecovery_Capacity_Base(IWebSessionWatcher iWatcher)
@@ -331,9 +319,6 @@ namespace MVVM.Cef.Glue.Test
                 //    mre.Set();
                 //});
                 //np.Should().NotBe(p);
-
-
-
             });
         }
 
@@ -387,7 +372,6 @@ namespace MVVM.Cef.Glue.Test
                 //watch.DidNotReceive().LogCritical("WebView crashed trying recover");
             }, false, false);
         }
-
 
         private void Test_HTMLWindow_WebCoreShutDown_Base(IWebSessionWatcher iWatcher)
         {
@@ -686,11 +670,8 @@ namespace MVVM.Cef.Glue.Test
                 WindowTest.RunOnUIThread(
             () =>
             {
-                wpfnav.NavigateAsync(a1, "NewPath").ContinueWith
-           (
-               t =>
-               {
-                   //a1.Navigation.Should().Be(wpfnav);
+                wpfnav.NavigateAsync(a1, "NewPath").ContinueWith (
+               t => {
                    a1.Navigation.Should().NotBeNull();
                    a2.Navigation.Should().BeNull();
                    mre.Set();
@@ -730,7 +711,6 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -775,7 +755,6 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                  {
-                     //a1.Navigation.Should().Be(wpfnav);
                      a1.Navigation.Should().NotBeNull();
                  });
 
@@ -821,7 +800,6 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -876,7 +854,6 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -886,8 +863,6 @@ namespace MVVM.Cef.Glue.Test
 
             });
         }
-
-        //string.Format("{0}\\{1}", Assembly.GetCallingAssembly().GetPath(), iPath)
 
         [Fact]
         public void Test_WPFBrowserNavigator_Navition_Resolve_OnName_alernativesignature()
@@ -913,7 +888,6 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -933,7 +907,6 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -971,11 +944,8 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
-
-
 
                 Thread.Sleep(1000);
 
@@ -996,7 +966,6 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -1026,7 +995,6 @@ namespace MVVM.Cef.Glue.Test
                    Action wf = () => wpfnav.NavigateAsync(a1);
                    wf.ShouldThrow<Exception>();
                });
-
             });
         }
 
@@ -1075,8 +1043,6 @@ namespace MVVM.Cef.Glue.Test
                     safe.ShouldNotThrow<Exception>();
                 });
 
-
-
                 wpfnav.Should().NotBeNull();
                 wpfbuild.Register<A>("javascript\\navigation_1.html");
                 wpfbuild.Register<A1>("javascript\\navigation_2.html", "Special");
@@ -1084,13 +1050,8 @@ namespace MVVM.Cef.Glue.Test
                 wpfnav.UseINavigable = true;
                 wpfnav.UseINavigable.Should().BeTrue();
 
-                //wpfnav.EnableBrowserDebug = true;
-                //wpfnav.EnableBrowserDebug.Should().BeTrue();
-
                 wpfnav.OnNavigate += wpfnav_OnNavigate;
                 wpfnav.OnNavigate -= wpfnav_OnNavigate;
-
-
 
                 var a1 = new A2();
                 var mre = new ManualResetEvent(false);
@@ -1110,7 +1071,6 @@ namespace MVVM.Cef.Glue.Test
                     wpfnav.ShowDebugWindow();
                     wpfnav.OpenDebugBrowser();
                 });
-
 
                 WindowTest.RunOnUIThread(() =>
                 {
@@ -1150,7 +1110,6 @@ namespace MVVM.Cef.Glue.Test
             });
         }
 
-
         void wpfnav_OnNavigate(object sender, NavigationEvent e)
         {
         }
@@ -1169,7 +1128,6 @@ namespace MVVM.Cef.Glue.Test
                 var a1 = new A1();
                 var mre = new ManualResetEvent(false);
 
-
                 WindowTest.RunOnUIThread(
                () =>
                {
@@ -1180,7 +1138,6 @@ namespace MVVM.Cef.Glue.Test
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -1214,5 +1171,4 @@ namespace MVVM.Cef.Glue.Test
             });
         }
     }
-
 }

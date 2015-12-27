@@ -67,10 +67,6 @@ namespace MVVM.Cef.Glue.Test
             _Tests_NG.Add(_Tests[0]);
         }
 
-
-
-
-
         [Fact]
         public void Test_Simple()
         {
@@ -87,7 +83,6 @@ namespace MVVM.Cef.Glue.Test
                     res2.Convert().IsInt.Should().BeTrue();
                 });
         }
-
 
         [Fact]
         public void Test_List()
@@ -154,7 +149,6 @@ namespace MVVM.Cef.Glue.Test
                   v2.Should().Be(1);
               });
         }
-
 
         [Fact]
         public void Test_Double()
@@ -232,7 +226,6 @@ namespace MVVM.Cef.Glue.Test
                 });
         }
 
-
         [Fact]
         public void Test_String()
         {
@@ -258,6 +251,5 @@ namespace MVVM.Cef.Glue.Test
                   _ICSharpMapper.Received().Cache(_Test, Arg.Any<IJSCSGlue>());
               });
         }
-
     }
 }
