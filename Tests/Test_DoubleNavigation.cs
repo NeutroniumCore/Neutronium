@@ -953,7 +953,6 @@ namespace MVVM.Cef.Glue.Test
                 () =>
                 wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
 
-
                 mre = new ManualResetEvent(false);
 
                 WindowTest.RunOnUIThread(
@@ -1025,7 +1024,6 @@ namespace MVVM.Cef.Glue.Test
                     a1.Navigation.Should().NotBeNull();
                     wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html");
                 });
-
             });
         }
 

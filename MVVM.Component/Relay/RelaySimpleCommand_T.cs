@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace MVVM.Component
 {
-    public class RelaySimpleCommand : ISimpleCommand
+    public class RelaySimpleCommand<T> : ISimpleCommand where T:class
     {
-        private Action _Do;
+        private Action<T> _Do;
 
-        public RelaySimpleCommand(Action iDo)
+        public RelaySimpleCommand(Action<T> iDo)
         {
             _Do = iDo;
         }
 
         public void Execute(object argument)
         {
-            _Do();
+            _Do(argument as T);
         }
     }
 }

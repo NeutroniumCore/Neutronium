@@ -67,6 +67,9 @@
     <Compile Include="ISimpleCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Relay\RelayResultCommand.cs" />
+    <Compile Include="Relay\RelayResultCommand_TResult.cs" />
+    <Compile Include="Relay\RelayResultCommand_Tin_TResult.cs" />
+    <Compile Include="Relay\RelaySimpleCommand_T.cs" />
     <Compile Include="Relay\RelaySimpleCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
