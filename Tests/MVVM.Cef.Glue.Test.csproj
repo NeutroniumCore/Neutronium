@@ -110,7 +110,6 @@
     <Compile Include="Infra\WPFThreadingHelper.cs" />
     <Compile Include="Test_DoubleNavigation.cs" />
     <Compile Include="Test_DoubleNavigation_Animation.cs" />
-    <Compile Include="Test_Infra.cs" />
     <Compile Include="Test_Navigation.cs" />
     <Compile Include="Test_JavascriptToCSharpMapper_Simple.cs" />
     <Compile Include="Test_HTMLBinding.cs" />

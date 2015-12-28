@@ -51,6 +51,7 @@ namespace MVVM.HTML.Core.V8JavascriptObject
         /// <param name="iLocal">
         /// true if local object, only has meaning in a Awesomium context
         /// </param>
+        /// <returns>
         /// corresponding IJavascriptObject
         ///</returns>
         IJavascriptObject CreateObject(bool iLocal);
@@ -61,6 +62,7 @@ namespace MVVM.HTML.Core.V8JavascriptObject
         /// <param name="iCreationCode">
         /// the javascript code to create the object
         /// </param>
+        /// <returns>
         /// corresponding IJavascriptObject
         ///</returns>
         IJavascriptObject CreateObject(string iCreationCode);

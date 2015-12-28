@@ -31,29 +31,10 @@ namespace HTML_WPF.Component
     public partial class HTMLControlBase : UserControl, IWebViewLifeCycleManager, IDisposable
     {
         private IWPFWebWindowFactory _IWPFWebWindowFactory;
-        protected HTMLControlBase(IUrlSolver iIUrlSolver)
-        {
-            _IUrlSolver = iIUrlSolver;
-
-            DebugWindow = new BasicRelayCommand(() => ShowDebugWindow());
-
-            DebugBrowser = new BasicRelayCommand(() => OpenDebugBrowser());
-
-            InitializeComponent();
-
-            _IWPFWebWindowFactory = HTMLEngineFactory.Engine.Resolve(HTMLEngine);
-
-            _WPFDoubleBrowserNavigator = new WPFDoubleBrowserNavigator(this, _IUrlSolver);
-            _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
-        }
-
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
-
-        public IWebSessionWatcher WebSessionWatcher
-        {
-            get { return _IWebSessionWatcher; }
-            set { _IWebSessionWatcher = value; _WPFDoubleBrowserNavigator.WebSessionWatcher = value; }
-        }
+        private IUrlSolver _IUrlSolver;
+        private WPFDoubleBrowserNavigator _WPFDoubleBrowserNavigator;
+        private string _KoView = null;
 
         public Boolean IsDebug
         {
@@ -84,25 +65,48 @@ namespace HTML_WPF.Component
             DependencyProperty.Register("HTMLEngine", typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
 
 
+        public string Source
+        {
+            get { return _WPFDoubleBrowserNavigator.Url; }
+        }
+
+        public bool UseINavigable
+        {
+            get { return _WPFDoubleBrowserNavigator.UseINavigable; }
+            set { _WPFDoubleBrowserNavigator.UseINavigable = value; }
+        }
 
         public ICommand DebugWindow { get; private set; }
 
-        public ICommand DebugBrowser { get; private set; }
+        public ICommand DebugBrowser { get; private set; }   
 
+        protected HTMLControlBase(IUrlSolver iIUrlSolver)
+        {
+            _IUrlSolver = iIUrlSolver;
 
-        private IUrlSolver _IUrlSolver;
+            DebugWindow = new BasicRelayCommand(() => ShowDebugWindow());
+            DebugBrowser = new BasicRelayCommand(() => OpenDebugBrowser());
 
-        private WPFDoubleBrowserNavigator _WPFDoubleBrowserNavigator;
+            InitializeComponent();
 
+            _IWPFWebWindowFactory = HTMLEngineFactory.Engine.Resolve(HTMLEngine);
 
+            _WPFDoubleBrowserNavigator = new WPFDoubleBrowserNavigator(this, _IUrlSolver);
+            _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
+        }
+
+        public IWebSessionWatcher WebSessionWatcher
+        {
+            get { return _IWebSessionWatcher; }
+            set { _IWebSessionWatcher = value; _WPFDoubleBrowserNavigator.WebSessionWatcher = value; }
+        }
 
         private void FirstLoad(object sender, EventArgs e)
         {
             IsHTMLLoaded = true;
             _WPFDoubleBrowserNavigator.OnFirstLoad -= FirstLoad;
         }
-
-        private string _KoView = null;
+       
         private void RunKoView()
         {
             if (_KoView == null)
@@ -132,17 +136,6 @@ namespace HTML_WPF.Component
                 Process.Start(string.Format("http://localhost:{0}/", RemoteDebuggingPort));
             else
                 MessageBox.Show("EnableBrowserDebug should be set to true to enable debugging in a Webrowser!");
-        }
-
-        public string Source
-        {
-            get { return _WPFDoubleBrowserNavigator.Url; }
-        }
-
-        public bool UseINavigable
-        {
-            get { return _WPFDoubleBrowserNavigator.UseINavigable; }
-            set { _WPFDoubleBrowserNavigator.UseINavigable = value; }
         }
 
         protected Task NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
@@ -209,8 +202,6 @@ namespace HTML_WPF.Component
             this.MainGrid.Children.Add(ui);
             return new WPFHTMLWindowProvider(webwindow, this );
         }
-
-
 
         IDispatcher IWebViewLifeCycleManager.GetDisplayDispatcher()
         {

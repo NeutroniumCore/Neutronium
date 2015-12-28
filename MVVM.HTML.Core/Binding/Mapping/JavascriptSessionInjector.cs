@@ -16,7 +16,6 @@ namespace MVVM.HTML.Core.HTMLBinding
         private IJavascriptObject _Listener;
         private IJavascriptListener _IJavascriptListener;
 
-
         internal JavascriptSessionInjector(IWebView iWebView, IJavascriptListener iJavascriptListener)
         {
             _IWebView = iWebView;

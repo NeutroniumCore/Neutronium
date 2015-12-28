@@ -1901,8 +1901,6 @@ namespace MVVM.CEFGlue.Test
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
         {
-
-
             var test = new TestInContext()
             {
                 Path = "javascript/simple.html",
@@ -1937,7 +1935,6 @@ namespace MVVM.CEFGlue.Test
                 List = new ObservableCollection<T>();
             }
             public ObservableCollection<T> List { get; private set; }
-
         }
 
         private class VMWithListNonGeneric : ViewModelBase
@@ -1947,7 +1944,6 @@ namespace MVVM.CEFGlue.Test
                 List = new ArrayList();
             }
             public ArrayList List { get; private set; }
-
         }
 
         private class VMwithdecimal : ViewModelBase
@@ -2275,13 +2271,8 @@ namespace MVVM.CEFGlue.Test
                     res5.Should().Be("Langage");
                 }
             };
-
             await RunAsync(test);
         }
-
-
-   
-
 
 
         //[Fact]
@@ -2300,9 +2291,6 @@ namespace MVVM.CEFGlue.Test
 
         //    await RunAsync(test);
         //}
-
-
-
 
         [Fact]
         public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()

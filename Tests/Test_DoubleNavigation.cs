@@ -154,10 +154,7 @@ namespace MVVM.Cef.Glue.Test
                         wpfnav.IsHTMLLoaded.Should().BeTrue();
                         a.Navigation.Should().NotBeNull();
                     });
-
-
                     mre.WaitOne();
-
                 });
         }
 
@@ -182,7 +179,14 @@ namespace MVVM.Cef.Glue.Test
             EventHandler ea = null;
             var a = new A1();
             string pn = Path.Combine(Path.GetTempPath(), "MVMMAWe");
-            Directory.Delete(pn);
+            try 
+            { 
+                Directory.Delete(pn);
+            }
+            catch
+            {
+            }
+            
 
             TestNavigation((wpfbuild, wpfnav, WindowTest)
                 =>
