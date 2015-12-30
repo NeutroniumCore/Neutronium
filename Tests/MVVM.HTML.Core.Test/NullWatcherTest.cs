@@ -10,9 +10,9 @@ using Xunit;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Navigation;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.HTML.Core.Test
 {
-    public class Test_NullWatcher
+    public class NullWatcherTest
     {
         private IWebSessionWatcher _NullWatcher = new NullWatcher();
        
