@@ -34,6 +34,5 @@ namespace MVVM.HTML.Core.Exceptions
         {
             return new MVVMCefGlueArgumentException(iMessage);
         }
-
     }
 }

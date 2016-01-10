@@ -221,12 +221,12 @@ namespace MVVM.HTML.Core
             
         }
 
-        public Task NavigateAsync(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        public async Task NavigateAsync(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             if ((iViewModel == null) || (_Navigating))
-                return TaskHelper.Ended();
+                return;
 
-            return Navigate(_INavigationBuilder.Solve(iViewModel, Id).LocalPath, iViewModel, iMode);
+            await Navigate(_INavigationBuilder.Solve(iViewModel, Id).LocalPath, iViewModel, iMode);
         }
 
         public void Dispose()

@@ -10,8 +10,6 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 
-
-
 namespace MVVM.HTML.Core.HTMLBinding
 {
     public class JSCommand : GlueBase, IJSObservableBridge
@@ -40,7 +38,6 @@ namespace MVVM.HTML.Core.HTMLBinding
                     res.SetValue("CanExecuteCount", _IWebView.Factory.CreateInt(_Count)); 
                     return res;       
                 });
-
         }
 
         public void ListenChanges()
@@ -61,7 +58,6 @@ namespace MVVM.HTML.Core.HTMLBinding
                 _MappedJSValue.Invoke("CanExecuteCount", _IWebView, _IWebView.Factory.CreateInt(_Count));
             });
         }
-
 
         public IJavascriptObject JSValue { get; private set; }
 
@@ -90,7 +86,6 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void ExecuteCommand(IJavascriptObject[] e, IJSCBridgeCache mapper)
         {
             _UIDispatcher.RunAsync(() => _Command.Execute(GetArguments(mapper, e)));
-            //CefCoreSessionSingleton.Session.UIDispatcher.RunAsync(() => _Command.Execute(GetArguments(mapper, e)));
         }
 
         private void CanExecuteCommand(IJavascriptObject[] e, IJSCBridgeCache mapper)

@@ -7,7 +7,6 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public abstract class GlueBase
     {
-
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

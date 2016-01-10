@@ -21,7 +21,6 @@ namespace MVVM.HTML.Core.Infra
             act();
         }
 
-
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
             return Task.FromResult<T>(compute());

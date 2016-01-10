@@ -48,7 +48,6 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)
         {
             _UIDispatcher.Run(() => 
-            //CefCoreSessionSingleton.Session.UIDispatcher.Run(() =>
             {
                 switch (change.CollectionChangeType)
                 {
@@ -80,8 +79,6 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             iCollectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, ilist));
         }
-
-
 
         public void Add(IJSCSGlue iIJSCBridge, int Index)
         {
@@ -144,6 +141,5 @@ namespace MVVM.HTML.Core.HTMLBinding
         {
             MappedJSValue = ijsobject;
         }
-
     }
 }

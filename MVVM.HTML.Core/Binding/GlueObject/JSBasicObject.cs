@@ -35,12 +35,12 @@ namespace MVVM.HTML.Core.HTMLBinding
             return CValue.ToString();
         }
 
-         public void BuilString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
-         {
-             sb.Append(this);
-         }
+        public void BuilString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
+        {
+            sb.Append(this);
+        }
 
-         public IJavascriptObject JSValue { get; private set; }
+        public IJavascriptObject JSValue { get; private set; }
 
         public object CValue { get; private set; }
 

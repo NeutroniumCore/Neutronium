@@ -52,8 +52,6 @@ namespace MVVM.HTML.Core.Navigation.Window
             return _OpenTask.Task;
         }
 
-
-
         private bool _IsLiteningClose;
         public bool IsListeningClose
         {
@@ -66,7 +64,6 @@ namespace MVVM.HTML.Core.Navigation.Window
             if (!IsListeningClose)
                 return TaskHelper.Ended();
 
-           
             TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
 
             PropertyChangedEventHandler echa = null;

@@ -30,7 +30,5 @@ namespace MVVM.HTML.Core.Binding
                 throw ExceptionHelper.NoKoExtension();
             }
         }
-
-    
     }
 }

@@ -9,16 +9,9 @@ namespace MVVM.HTML.Core.Infra
 {
     public static class TaskHelper
     {
-        public static Task<T> FromResult<T>(T result)
-        {
-            TaskCompletionSource<T> res = new TaskCompletionSource<T>();
-            res.SetResult(result);
-            return res.Task;
-        }
-
         public static Task Ended()
         {
-            return FromResult<object>(null);
+            return Task.FromResult<object>(null);
         }
 
         public static Task WaitWith<T>(this Task<T> @this, Task other, Action<Task<T>> ithen, TaskScheduler tsc)

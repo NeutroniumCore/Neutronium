@@ -20,6 +20,5 @@ namespace MVVM.HTML.Core.HTMLBinding
         IJSCSGlue GetCached(IJavascriptObject key);
 
         IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject key, Type iTargetType);
-
     }
 }

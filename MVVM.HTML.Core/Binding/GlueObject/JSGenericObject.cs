@@ -33,7 +33,6 @@ namespace MVVM.HTML.Core.HTMLBinding
             return new JSGenericObject(context, context.Factory.CreateNull());
         }
 
-
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
         {
             sb.Append("{");
@@ -90,8 +89,6 @@ namespace MVVM.HTML.Core.HTMLBinding
             _Attributes[PropertyName] = glue;
             propertyInfo.SetValue(CValue, glue.CValue, null);
         }
-
-        
 
         public void Reroot(string PropertyName, IJSCSGlue newValue)
         { 

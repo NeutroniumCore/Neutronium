@@ -20,5 +20,4 @@ namespace MVVM.HTML.Core.Exceptions
         {
         }
     }
-    
 }

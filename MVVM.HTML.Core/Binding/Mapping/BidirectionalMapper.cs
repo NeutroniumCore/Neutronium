@@ -44,7 +44,6 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (iMode == JavascriptBindingMode.TwoWay)
                 JavascriptObjecChanges = this;
 
-
             _SessionInjector = new JavascriptSessionInjector(iwebview, JavascriptObjecChanges);
         }
 
@@ -188,7 +187,6 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
         }
 
-
         public void OnJavaScriptCollectionChanges(IJavascriptObject collectionchanged, IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index)
         {
             try
@@ -211,7 +209,6 @@ namespace MVVM.HTML.Core.HTMLBinding
                 ExceptionHelper.Log(string.Format("Unable to update ViewModel from View, exception raised: {0}", e));
             }
         }
-
 
         private void Object_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -238,8 +235,6 @@ namespace MVVM.HTML.Core.HTMLBinding
             IJSCSGlue newbridgedchild = _JSObjectBuilder.Map(nv);
             RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); Continue(newbridgedchild); });
         }
-
-
 
         #region Relisten
 

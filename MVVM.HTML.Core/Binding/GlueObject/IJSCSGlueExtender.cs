@@ -39,7 +39,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             return (inj!=null) ?  inj.MappedJSValue : @this.JSValue;    
         }
 
-         public static void ApplyOnListenable(this IJSCSGlue @this, IJSCSGlueListenableVisitor ivisitor)
+        public static void ApplyOnListenable(this IJSCSGlue @this, IJSCSGlueListenableVisitor ivisitor)
         {
             foreach (var child in @this.GetAllChildren(true).Distinct())
             {

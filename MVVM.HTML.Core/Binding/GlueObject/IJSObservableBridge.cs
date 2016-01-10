@@ -12,5 +12,4 @@ namespace MVVM.HTML.Core.HTMLBinding
         IJavascriptObject MappedJSValue { get; }
         void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper);
     }
-
 }
