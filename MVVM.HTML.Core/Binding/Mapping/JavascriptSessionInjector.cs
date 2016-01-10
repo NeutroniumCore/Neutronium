@@ -12,9 +12,13 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     internal class JavascriptSessionInjector : IDisposable
     {
-        private IWebView _IWebView;
+        private readonly IWebView _IWebView;
+        private readonly IJavascriptListener _IJavascriptListener;
+        private readonly Queue<IJavascriptMapper> _IJavascriptMapper = new Queue<IJavascriptMapper>();
         private IJavascriptObject _Listener;
-        private IJavascriptListener _IJavascriptListener;
+        private IJavascriptMapper _Current;
+        private IJavascriptObject _Mapper;
+        private bool _PullNextMapper = true;
 
         internal JavascriptSessionInjector(IWebView iWebView, IJavascriptListener iJavascriptListener)
         {
@@ -32,11 +36,6 @@ namespace MVVM.HTML.Core.HTMLBinding
                     }
                 });
         }
-
-        private Queue<IJavascriptMapper> _IJavascriptMapper = new Queue<IJavascriptMapper>();
-        private IJavascriptMapper _Current;
-        private bool _PullNextMapper = true;
-        private IJavascriptObject _Mapper;
 
         private IJavascriptObject GetMapper(IJavascriptMapper iMapperListener)
         {
