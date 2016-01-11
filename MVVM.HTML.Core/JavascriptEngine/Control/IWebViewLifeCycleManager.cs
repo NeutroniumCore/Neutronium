@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using MVVM.HTML.Core.JavascriptEngine;
+﻿using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Window;
 
 namespace MVVM.HTML.Core.Navigation
@@ -13,9 +8,5 @@ namespace MVVM.HTML.Core.Navigation
         IHTMLWindowProvider Create();
 
         IDispatcher GetDisplayDispatcher();
-
-        //void Display(Control webview);
-
-        //void Dispose(Control ioldwebview);
     }
 }

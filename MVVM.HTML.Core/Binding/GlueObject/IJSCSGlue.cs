@@ -1,7 +1,7 @@
-﻿using MVVM.HTML.Core.V8JavascriptObject;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
+
+using MVVM.HTML.Core.V8JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {

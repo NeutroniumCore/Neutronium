@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/// <reference path="../../../MVVM.CEFGlue/Javascript/knockout.js" />
-/// <reference path="../../../MVVM.CEFGlue/Javascript//Ko_Extension.js" />
+/// <reference path="../../../MVVM.HTML.Core/Javascript/knockout.js" />
+/// <reference path="../../../MVVM.HTML.Core/Javascript/Ko_Extension.js" />
 
 
 describe("Map To Observable", function () {
@@ -83,7 +83,7 @@ describe("Map To Observable", function () {
 
         expect(mapper.Register).toHaveBeenCalled();
         expect(mapper.Register).toHaveBeenCalledWith(mapped);
-        expect(mapper.Register.calls.count()).toEqual(1);
+        expect(mapper.Register.calls.length).toEqual(1);
     });
 
     it("should call the mapper register with good parameters: nested", function () {
@@ -100,7 +100,7 @@ describe("Map To Observable", function () {
         expect(mapper.Register).toHaveBeenCalledWith(mapped_One,mapped,  'One' );
         expect(mapper.Register).toHaveBeenCalledWith(mapped_Two, mapped, 'Two' );
 
-        expect(mapper.Register.calls.count()).toEqual(3);
+        expect(mapper.Register.calls.length).toEqual(3);
     });
 
     it("should call the mapper register with good parameters: nested and shared", function () {
@@ -114,7 +114,7 @@ describe("Map To Observable", function () {
         expect(mapper.Register).toHaveBeenCalledWith(mapped);
         expect(mapper.Register).toHaveBeenCalledWith(mapped_One,  mapped, 'One' );
   
-        expect(mapper.Register.calls.count()).toEqual(2);
+        expect(mapper.Register.calls.length).toEqual(2);
     });
 
     it("should call the mapper register with good parameters: Collection", function () {
@@ -138,7 +138,7 @@ describe("Map To Observable", function () {
         expect(mapper.Register).toHaveBeenCalledWith(mapped.List(), mapped,  'List');
 
 
-        expect(mapper.Register.calls.count()).toEqual(5);
+        expect(mapper.Register.calls.length).toEqual(5);
     });
 
 
@@ -162,7 +162,7 @@ describe("Map To Observable", function () {
         var mapped = ko.MapToObservable(basicmaped, mapper);
 
         expect(mapper.End).toHaveBeenCalled();
-        expect(mapper.End.calls.count()).toEqual(1);
+        expect(mapper.End.calls.length).toEqual(1);
         expect(mapper.End).toHaveBeenCalledWith(mapped);
      });
 
@@ -175,7 +175,7 @@ describe("Map To Observable", function () {
          var mapped1 = ko.MapToObservable(basicmaped, mapper);
 
          expect(mapper.End).toHaveBeenCalled();
-         expect(mapper.End.calls.count()).toEqual(1);
+         expect(mapper.End.calls.length).toEqual(1);
          expect(mapper.End).toHaveBeenCalledWith(mapped0);
      });
 
@@ -189,7 +189,7 @@ describe("Map To Observable", function () {
          
          expect(mapped.Name()).toEqual("Toto");
          expect(Listener.TrackChanges).toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackChanges.calls.length).toEqual(1);
          expect(Listener.TrackChanges).toHaveBeenCalledWith(mapped,'Name','Toto');
      });
 
@@ -205,7 +205,7 @@ describe("Map To Observable", function () {
 
          expect(mapped.Age()).toEqual(10);
          expect(Listener.TrackChanges).toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackChanges.calls.length).toEqual(1);
          expect(Listener.TrackChanges).toHaveBeenCalledWith(mapped, 'Age', 10);
      });
 
@@ -219,7 +219,7 @@ describe("Map To Observable", function () {
 
          expect(mapped.Age()).toEqual(10);
          expect(Listener.TrackChanges).not.toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(0);
+         expect(Listener.TrackChanges.calls.length).toEqual(0);
      });
 
      it("should re-listen TrackChanges on int when silent and then not", function () {
@@ -232,13 +232,13 @@ describe("Map To Observable", function () {
 
          expect(mapped.Age()).toEqual(10);
          expect(Listener.TrackChanges).not.toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(0);
+         expect(Listener.TrackChanges.calls.length).toEqual(0);
 
          mapped.Age(60);
 
          expect(mapped.Age()).toEqual(60);
          expect(Listener.TrackChanges).toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackChanges.calls.length).toEqual(1);
          expect(Listener.TrackChanges).toHaveBeenCalledWith(mapped, 'Age', 60);
      });
 
@@ -257,7 +257,7 @@ describe("Map To Observable", function () {
 
        
          expect(Listener.TrackChanges).toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackChanges.calls.length).toEqual(1);
          expect(Listener.TrackChanges).toHaveBeenCalledWith(mapped, 'When', newDate);
      });
 
@@ -297,7 +297,7 @@ describe("Map To Observable", function () {
 
          expect(mapped.When()).toEqual(newDate);
          expect(Listener.TrackChanges).not.toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(0);
+         expect(Listener.TrackChanges.calls.length).toEqual(0);
 
          newDate = new Date(2002,2,2);
  
@@ -305,7 +305,7 @@ describe("Map To Observable", function () {
 
          expect(mapped.When()).toEqual(newDate);
          expect(Listener.TrackChanges).toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackChanges.calls.length).toEqual(1);
          expect(Listener.TrackChanges).toHaveBeenCalledWith(mapped, 'When', newDate);
      });
 
@@ -324,7 +324,7 @@ describe("Map To Observable", function () {
 
 
          expect(Listener.TrackChanges).toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackChanges.calls.length).toEqual(1);
          expect(Listener.TrackChanges).toHaveBeenCalledWith(mapped, 'Enum', newEnum);
      });
 
@@ -335,7 +335,7 @@ describe("Map To Observable", function () {
              TrackChanges: function (who, property, value)
              { console.log('who :'+who+' property '+property+'value'+value); }
          };
-          spyOn(Listener, 'TrackChanges').and.callThrough();;
+          spyOn(Listener, 'TrackChanges');
 
          var mapped = ko.MapToObservable(basicmaped4, null, Listener);
 
@@ -343,7 +343,7 @@ describe("Map To Observable", function () {
 
          expect(mapped.One().Name()).toEqual("Titi");
          expect(Listener.TrackChanges).toHaveBeenCalled();
-         expect(Listener.TrackChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackChanges.calls.length).toEqual(1);
          expect(Listener.TrackChanges).toHaveBeenCalledWith(mapped.One(), 'Name', 'Titi');
      });
 
@@ -358,34 +358,34 @@ describe("Map To Observable", function () {
          mapped.One(newone);
 
          expect(mapped.One()).toEqual(newone);
-         expect(Listener.TrackChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackChanges.calls.length).toEqual(1);
          expect(Listener.TrackChanges).toHaveBeenCalledWith(mapped, 'One', newone);
      });
 
 
      it("should listen TrackCollectionChanges on collection", function () {
          var Listener = { TrackCollectionChanges: function (o, v, c) { console.log(o); console.log(v); console.log(c); } };
-         spyOn(Listener, 'TrackCollectionChanges').and.callThrough();
+         spyOn(Listener, 'TrackCollectionChanges');
 
          var mapped = ko.MapToObservable(basicmaped6, null, Listener);
 
          mapped.List().push({Name:"titi"});
 
          expect(mapped.List()().length).toEqual(4);
-         expect(Listener.TrackCollectionChanges.calls.count()).toEqual(1);
+         expect(Listener.TrackCollectionChanges.calls.length).toEqual(1);
      });
 
 
      it("should not listen TrackCollectionChanges on silent changes", function () {
          var Listener = { TrackCollectionChanges: function (o, v, c) { console.log(o); console.log(v); console.log(c); } };
-         spyOn(Listener, 'TrackCollectionChanges').and.callThrough();
+         spyOn(Listener, 'TrackCollectionChanges');
 
          var mapped = ko.MapToObservable(basicmaped6, null, Listener);
 
          mapped.List().silentremoveAll();
 
          expect(mapped.List()().length).toEqual(0);
-         expect(Listener.TrackCollectionChanges.calls.count()).toEqual(0);
+         expect(Listener.TrackCollectionChanges.calls.length).toEqual(0);
      });
 
 });

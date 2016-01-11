@@ -4,8 +4,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/// <reference path="../../../MVVM.CEFGlue/Javascript/knockout.js" />
-/// <reference path="../../../MVVM.CEFGlue/Javascript//Ko_Extension.js" />
+/// <reference path="../../../MVVM.HTML.Core/Javascript/knockout.js" />
+/// <reference path="../../../MVVM.HTML.Core/Javascript//Ko_Extension.js" />
 /// <reference path="../src/Koaddon.js" />
 
 
