@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 using System.Collections;
 using System.Windows.Input;
 using System.Diagnostics;
 
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Binding;
 using MVVM.Component;
 using MVVM.HTML.Core.V8JavascriptObject;

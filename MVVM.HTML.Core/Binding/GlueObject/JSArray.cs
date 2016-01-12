@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 

@@ -1,8 +1,8 @@
-﻿using MVVM.Component;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using MVVM.Component;
 
 using MVVM.HTML.Core.V8JavascriptObject;
 

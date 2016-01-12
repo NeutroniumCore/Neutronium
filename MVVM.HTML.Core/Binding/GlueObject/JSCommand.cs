@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
-using System.Threading;
-using System.Windows;
 
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 
