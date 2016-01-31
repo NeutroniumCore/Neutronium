@@ -39,9 +39,9 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private Type IndividualType { get; set; }
 
-        public CollectionChanges GetChanger(IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index, IJSCBridgeCache bridge)
+        public CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJSCBridgeCache bridge)
         {
-            return new CollectionChanges(bridge, value, status, index, IndividualType);
+            return new CollectionChanges(bridge, changes, IndividualType);
         }
 
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)

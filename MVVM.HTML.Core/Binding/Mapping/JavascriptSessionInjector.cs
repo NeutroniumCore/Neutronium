@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.HTML.Core.Infra;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
@@ -30,9 +31,22 @@ namespace MVVM.HTML.Core.HTMLBinding
                     if (_IJavascriptListener != null)
                     {
                         _Listener.Bind("TrackChanges", _IWebView, (c, o, e) => _IJavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
-                        _Listener.Bind("TrackCollectionChanges", _IWebView, (c, o, e) => _IJavascriptListener.OnJavaScriptCollectionChanges(e[0], e[1].GetArrayElements(), e[2].GetArrayElements(), e[3].GetArrayElements()));
+                        _Listener.Bind("TrackCollectionChanges", _IWebView, (c, o, e) => JavascriptColectionChanged(e));
                     }
                 });
+        }
+
+        private void JavascriptColectionChanged(IJavascriptObject[] arguments)
+        {
+            var values = arguments[1].GetArrayElements();
+            var types = arguments[2].GetArrayElements();
+            var indexes = arguments[3].GetArrayElements();
+            var collectionChange = new JavascriptCollectionChanges(arguments[0], values.Zip(types, indexes,
+                                            (v, t, i) => new IndividualJavascriptCollectionChange(
+                                                t.GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove,
+                                                i.GetIntValue(), v)));
+       
+            _IJavascriptListener.OnJavaScriptCollectionChanges(collectionChange);
         }
 
         private IJavascriptObject GetMapper(IJavascriptMapper iMapperListener)

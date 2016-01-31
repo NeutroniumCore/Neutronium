@@ -138,9 +138,9 @@ namespace HTML_WPF.Component
                 MessageBox.Show("EnableBrowserDebug should be set to true to enable debugging in a Webrowser!");
         }
 
-        protected Task NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        protected async Task NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
-            return _WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, iMode);
+            await _WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, iMode);
         }
 
         public void Dispose()

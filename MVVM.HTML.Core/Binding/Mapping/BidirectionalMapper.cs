@@ -185,14 +185,14 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
         }
 
-        public void OnJavaScriptCollectionChanges(IJavascriptObject collectionchanged, IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index)
+        public void OnJavaScriptCollectionChanges(JavascriptCollectionChanges changes)
         {
             try
             {
-                var res = GetFromJavascript(collectionchanged) as JSArray;
+                var res = GetFromJavascript(changes.Collection) as JSArray;
                 if (res == null) return;
 
-                CollectionChanges cc = res.GetChanger(value, status, index, this);
+                CollectionChanges cc = res.GetChanger(changes, this);
 
                 using (ReListen(null))
                 {

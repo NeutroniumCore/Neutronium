@@ -10,28 +10,25 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class CollectionChanges :  IComparer<IndividualCollectionChange>
     {
-        private IJSCBridgeCache _IJSCBridgeCache;
-        private Type _TargetedType;
+        private readonly IJSCBridgeCache _IJSCBridgeCache;
+        private readonly Type _TargetedType;
+        private readonly JavascriptCollectionChanges _Changes;
 
-        public CollectionChanges(IJSCBridgeCache iJSCBridgeCache, IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index, Type iTargetedType)
+        public CollectionChanges(IJSCBridgeCache iJSCBridgeCache, JavascriptCollectionChanges changes, Type iTargetedType)
         {
             _IJSCBridgeCache = iJSCBridgeCache;
             _TargetedType = iTargetedType;
-            IndividualChanges = GetIndividualChanges(value, status, index).OrderBy(idc => idc, this);
+            _Changes = changes;
         }
 
 
-        public IEnumerable<IndividualCollectionChange> IndividualChanges { get; private set; }
-
-        public IEnumerable<IndividualCollectionChange> GetIndividualChanges(IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index)
+        public IEnumerable<IndividualCollectionChange> IndividualChanges 
         {
-            int Length = value.Length;
-            for (int i=0;i<Length;i++)
+            get
             {
-                yield return new IndividualCollectionChange(
-                    status[i].GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove,
-                    index[i].GetIntValue(),
-                    _IJSCBridgeCache.GetCachedOrCreateBasic(value[i], _TargetedType));
+                return _Changes.Changes
+                            .Select(jvchnage => new IndividualCollectionChange(jvchnage, _IJSCBridgeCache, _TargetedType))
+                            .OrderBy(idc => idc, this);
             }
         }
 

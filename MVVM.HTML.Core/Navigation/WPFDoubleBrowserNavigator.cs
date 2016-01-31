@@ -226,7 +226,11 @@ namespace MVVM.HTML.Core
             if ((iViewModel == null) || (_Navigating))
                 return;
 
-            await Navigate(_INavigationBuilder.Solve(iViewModel, Id).LocalPath, iViewModel, iMode);
+            var viewPath = _INavigationBuilder.Solve(iViewModel, Id);
+            if (viewPath == null)
+                throw ExceptionHelper.Get(string.Format("Unable to locate ViewModel {0}", iViewModel));
+
+            await Navigate(viewPath.LocalPath, iViewModel, iMode);
         }
 
         public void Dispose()

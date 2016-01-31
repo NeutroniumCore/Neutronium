@@ -22,6 +22,7 @@ using MVVM.ViewModel.Infra;
 using MVVM.ViewModel;
 using MVVM.HTML.Core;
 using HTML_WPF.Component;
+using MVVM.HTML.Core.Exceptions;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -995,8 +996,8 @@ namespace MVVM.Cef.Glue.Test
                 WindowTest.RunOnUIThread(
                () =>
                {
-                   Action wf = () => wpfnav.NavigateAsync(a1);
-                   wf.ShouldThrow<Exception>();
+                   Action wf = () => wpfnav.NavigateAsync(a1).Wait();
+                   wf.ShouldThrow<MVVMCEFGlueException>();
                });
             });
         }
@@ -1166,8 +1167,8 @@ namespace MVVM.Cef.Glue.Test
                 WindowTest.RunOnUIThread(
                () =>
                {
-                   Action wf = () => wpfnav.NavigateAsync(a1);
-                   wf.ShouldThrow<Exception>();
+                   Action wf = () => wpfnav.NavigateAsync(a1).Wait();
+                   wf.ShouldThrow<MVVMCEFGlueException>();
                });
 
             });

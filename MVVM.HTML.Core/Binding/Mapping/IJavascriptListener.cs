@@ -6,6 +6,6 @@ namespace MVVM.HTML.Core.HTMLBinding
     {
         void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string PropertyName, IJavascriptObject newValue);
 
-        void OnJavaScriptCollectionChanges(IJavascriptObject collectionchanged, IJavascriptObject[] value, IJavascriptObject[] status, IJavascriptObject[] index);
+        void OnJavaScriptCollectionChanges(JavascriptCollectionChanges changes);
     }
 }

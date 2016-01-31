@@ -7,12 +7,12 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class IndividualCollectionChange
     {
-        public IndividualCollectionChange(CollectionChangeType iCollectionChange, int iIndex, IJSCSGlue iObject)
+        public IndividualCollectionChange(IndividualJavascriptCollectionChange change, IJSCBridgeCache jSCBridgeCache, Type targetType)
         {
-            CollectionChangeType=iCollectionChange;
-             Index=   iIndex;
-             Object = iObject;
-        }
+            CollectionChangeType = change.CollectionChangeType;
+             Index = change.Index;
+             Object = jSCBridgeCache.GetCachedOrCreateBasic(change.Object, targetType);
+        } 
 
         public CollectionChangeType  CollectionChangeType {get;private set;}
 
