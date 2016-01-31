@@ -11,10 +11,11 @@ using MVVM.HTML.Core.Exceptions;
 
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
+using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public class BidirectionalMapper : IDisposable, IJSCBridgeCache, IJavascriptListener
+    public class BidirectionalMapper : IDisposable, IJSCBridgeCache, IJavascriptChangesListener
     {
         private readonly JavascriptBindingMode _BindingMode;
         private readonly IJSCSGlue _Root;
@@ -22,7 +23,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly List<IJSCSGlue> _UnrootedEntities;
 
         private CSharpToJavascriptMapper _JSObjectBuilder;
-        private JavascriptSessionInjector _SessionInjector;
+        private IJavascriptSessionInjector _SessionInjector;
 
         private bool _IsListening = false;
 
@@ -38,7 +39,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             _UnrootedEntities = new List<IJSCSGlue>();
             _BindingMode = iMode;
 
-            IJavascriptListener JavascriptObjecChanges = null;
+            IJavascriptChangesListener JavascriptObjecChanges = null;
             if (iMode == JavascriptBindingMode.TwoWay)
                 JavascriptObjecChanges = this;
 
@@ -158,12 +159,12 @@ namespace MVVM.HTML.Core.HTMLBinding
                 return;
 
             var jvm = new JavascriptMapper(iroot as IJSObservableBridge, this);
-            var res = _SessionInjector.Map(iroot.JSValue, jvm, (iroot.CValue != null));
+            var res = _SessionInjector.Inject(iroot.JSValue, jvm, (iroot.CValue != null));
 
             await jvm.UpdateTask;
 
             if (isroot)
-                await _SessionInjector.RegisterInSession(res);
+                await _SessionInjector.RegisterMainViewModel(res);
         }
 
         public void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string PropertyName, IJavascriptObject newValue)

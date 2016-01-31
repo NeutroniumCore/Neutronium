@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.HTMLBinding;
 using MVVM.HTML.Core.Window;
-
-
+using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.HTML.Core
 {
     public class StringBinding : IDisposable, IHTMLBinding
     {
-        private JavascriptSessionInjector _JavascriptSessionInjector;
+        private IJavascriptSessionInjector _JavascriptSessionInjector;
         private IJavascriptObject _Root;
         private IWebView _Context;
 
@@ -58,8 +57,8 @@ namespace MVVM.HTML.Core
                 });
 
             var injector = new JavascriptSessionInjector(context, null);
-            var mappedroot = injector.Map(root, null);
-            await injector.RegisterInSession(mappedroot);
+            var mappedroot = injector.Inject(root, null);
+            await injector.RegisterMainViewModel(mappedroot);
 
             return new StringBinding(context, mappedroot, injector);
         }

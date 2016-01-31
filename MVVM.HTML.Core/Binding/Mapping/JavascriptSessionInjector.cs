@@ -9,17 +9,17 @@ using MVVM.HTML.Core.Infra;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    internal class JavascriptSessionInjector : IDisposable
+    internal class JavascriptSessionInjector : IDisposable, MVVM.HTML.Core.Binding.Mapping.IJavascriptSessionInjector
     {
         private readonly IWebView _IWebView;
-        private readonly IJavascriptListener _IJavascriptListener;
+        private readonly IJavascriptChangesListener _IJavascriptListener;
         private readonly Queue<IJavascriptMapper> _IJavascriptMapper = new Queue<IJavascriptMapper>();
         private IJavascriptObject _Listener;
         private IJavascriptMapper _Current;
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
 
-        internal JavascriptSessionInjector(IWebView iWebView, IJavascriptListener iJavascriptListener)
+        internal JavascriptSessionInjector(IWebView iWebView, IJavascriptChangesListener iJavascriptListener)
         {
             _IWebView = iWebView;
             _IJavascriptListener = iJavascriptListener;
@@ -116,7 +116,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         }
 
 
-        public IJavascriptObject Map(IJavascriptObject ihybridobject, IJavascriptMapper ijvm, bool checknullvalue = true)
+        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptMapper ijvm, bool checknullvalue = true)
         {
             return _IWebView.Evaluate(() =>
                 {
@@ -130,7 +130,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 });
         }
 
-        public Task RegisterInSession(IJavascriptObject iJSObject)
+        public Task RegisterMainViewModel(IJavascriptObject iJSObject)
         {
             var ko = GetKo();
 

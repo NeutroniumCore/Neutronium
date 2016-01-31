@@ -2,7 +2,7 @@
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public interface IJavascriptListener
+    public interface IJavascriptChangesListener
     {
         void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string PropertyName, IJavascriptObject newValue);
 

@@ -10,7 +10,7 @@ using MVVM.HTML.Core.Exceptions;
 
 namespace MVVM.HTML.Core.Binding
 {
-    public static class IJavascriptObjectFactory_CreateEnum_extesion
+    public static class IJavascriptObjectFactoryExtension
     {
 
         public static IJavascriptObject CreateEnum(this IJavascriptObjectFactory @this, Enum ienum)
