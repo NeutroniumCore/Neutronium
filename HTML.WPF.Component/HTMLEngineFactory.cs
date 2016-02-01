@@ -54,7 +54,7 @@ namespace HTML_WPF.Component
 
         public void Dispose()
         {
-            _Dic.ForEach(kvp => kvp.Value.Dispose());
+            _Dic.Values.ForEach(fact => fact.Dispose());
             _Dic.Clear();
         }
     }

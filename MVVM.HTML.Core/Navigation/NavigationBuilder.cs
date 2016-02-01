@@ -14,7 +14,6 @@ namespace MVVM.HTML.Core
     {
         private IDictionary<Type, IDictionary<string, Uri>> _Mapper = new Dictionary<Type, IDictionary<string, Uri>>();
 
-
         private void Register(Type itype, Uri uri, string id)
         {
             try

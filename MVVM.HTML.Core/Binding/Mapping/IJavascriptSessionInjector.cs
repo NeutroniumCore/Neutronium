@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.Binding.Mapping
 {
-    interface IJavascriptSessionInjector : IDisposable
+    internal interface IJavascriptSessionInjector : IDisposable
     {
-        IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptMapper ijvm, bool checknullvalue = true);
-        Task RegisterMainViewModel(IJavascriptObject iJSObject);
+        IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptMapper ijvm, bool checknullvalue = true);
+        Task RegisterMainViewModel(IJavascriptObject rawObject);
     }
 }

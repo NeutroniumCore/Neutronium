@@ -16,7 +16,6 @@ namespace HTML_WPF.Component
         /// </summary>
         string Name { get; }
 
-
         /// <summary>
         /// Create a new IWPFWebWindow 
         /// </summary>

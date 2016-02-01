@@ -49,13 +49,11 @@ namespace HTML_WPF.Component
 
         private UrlSolver _UrlSolver;
 
-        public HTMLViewControl()
-            : this(new UrlSolver())
+        public HTMLViewControl() : this(new UrlSolver())
         {
         }
 
-        private HTMLViewControl(UrlSolver iIUrlSolver)
-            : base(iIUrlSolver)
+        private HTMLViewControl(UrlSolver iIUrlSolver): base(iIUrlSolver)
         {
             _UrlSolver = iIUrlSolver;
             _UrlSolver.Solver = this;
@@ -77,6 +75,5 @@ namespace HTML_WPF.Component
                 return Solver.Uri;
             }
         }
-
     }
 }
