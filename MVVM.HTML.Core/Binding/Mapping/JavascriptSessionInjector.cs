@@ -75,15 +75,15 @@ namespace MVVM.HTML.Core.HTMLBinding
                 switch (count)
                 {
                     case 1:
-                        _Current.RegisterFirst(registered);
+                        _Current.MapFirst(registered);
                         break;
 
                     case 3:
-                        _Current.RegisterMapping(e[1], e[2].GetStringValue(), registered);
+                        _Current.Map(e[1], e[2].GetStringValue(), registered);
                         break;
 
                     case 4:
-                        _Current.RegisterCollectionMapping(e[1], e[2].GetStringValue(), e[3].GetIntValue(), registered);
+                        _Current.MapCollection(e[1], e[2].GetStringValue(), e[3].GetIntValue(), registered);
                         break;
                 }
              });
@@ -94,7 +94,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                         _Current = _IJavascriptMapper.Dequeue();
 
                     if (_Current!=null)
-                        _Current.End(e[0]);
+                        _Current.EndMapping(e[0]);
                     _Current = null;
                     _PullNextMapper = true;
                 });

@@ -10,12 +10,12 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     internal interface IJavascriptMapper
     {
-        void RegisterFirst(IJavascriptObject iRoot);
+        void MapFirst(IJavascriptObject iRoot);
 
-        void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild);
+        void Map(IJavascriptObject iFather, string att, IJavascriptObject iChild);
 
-        void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild);
+        void MapCollection(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild);
 
-        void End(IJavascriptObject iRoot);
+        void EndMapping(IJavascriptObject iRoot);
     }
 }

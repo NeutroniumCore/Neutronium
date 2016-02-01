@@ -11,14 +11,13 @@ using MVVM.Component;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 
-
 namespace MVVM.HTML.Core.HTMLBinding
 {
     internal class CSharpToJavascriptMapper 
     {
         private readonly IJSCBridgeCache _Cacher;
-        private IWebView _IWebView;
-        private IDispatcher _UIDispatcher;
+        private readonly IWebView _IWebView;
+        private readonly IDispatcher _UIDispatcher;
 
         public CSharpToJavascriptMapper(IWebView context, IDispatcher iUIDispatcher, IJSCBridgeCache icacher)
         {

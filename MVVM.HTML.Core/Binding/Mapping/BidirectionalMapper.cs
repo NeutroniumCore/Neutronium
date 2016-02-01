@@ -73,24 +73,24 @@ namespace MVVM.HTML.Core.HTMLBinding
                 _Root = iRoot;
             }
 
-            public void RegisterFirst(IJavascriptObject iRoot)
+            public void MapFirst(IJavascriptObject iRoot)
             {
                 _LiveMapper.Update(_Root, iRoot);
             }
 
-            public void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
+            public void Map(IJavascriptObject iFather, string att, IJavascriptObject iChild)
             {
                 _LiveMapper.RegisterMapping(iFather, att, iChild);
             }
 
-            public void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
+            public void MapCollection(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
             {
                 _LiveMapper.RegisterCollectionMapping(iFather, att, index, iChild);
             }
 
             internal Task UpdateTask { get { return _TCS.Task; } }
 
-            public void End(IJavascriptObject iRoot)
+            public void EndMapping(IJavascriptObject iRoot)
             {
                 _TCS.TrySetResult(null);
             }
