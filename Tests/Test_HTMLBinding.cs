@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Input;
@@ -14,23 +12,17 @@ using Xunit;
 using NSubstitute;
 using FluentAssertions;
 using Newtonsoft.Json;
-using Xilium.CefGlue;
-
 using MVVM.HTML.Core.HTMLBinding;
-using MVVM.HTML.Core.Infra;
 using MVVM.ViewModel.Example;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Infra;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.Cef.Glue.Test.ViewModel.Test;
 using MVVM.Component;
-using MVVM.Cef.Glue.CefGlueHelper;
-using MVVM.Cef.Glue.Test.Infra;
 using MVVM.HTML.Core.V8JavascriptObject;
-using MVVM.Cef.Glue.Test;
 using MVVM.HTML.Core;
 
-namespace MVVM.CEFGlue.Test
+namespace MVVM.Cef.Glue.Test
 {
     public class Test_HTMLBinding : MVVMCefGlue_Test_Base
     {
@@ -88,8 +80,6 @@ namespace MVVM.CEFGlue.Test
 
             await RunAsync(test);
         }
-
-        
 
         [Fact]
         public async Task Test_HTMLBinding_Basic_OneWay_JSON_ToString()

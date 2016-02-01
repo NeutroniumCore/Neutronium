@@ -43,7 +43,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (iMode == JavascriptBindingMode.TwoWay)
                 JavascriptObjecChanges = this;
 
-            _SessionInjector = new JavascriptSessionInjector(iwebview, JavascriptObjecChanges);
+            var factory = new KnockoutSessionInjectorFactory();
+            _SessionInjector = factory.CreateInjector(iwebview, JavascriptObjecChanges);
         }
 
         internal async Task Init()

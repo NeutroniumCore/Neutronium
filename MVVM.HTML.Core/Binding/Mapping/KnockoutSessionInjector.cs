@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Infra;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    internal class JavascriptSessionInjector : IDisposable, MVVM.HTML.Core.Binding.Mapping.IJavascriptSessionInjector
+    internal class KnockoutSessionInjector : IJavascriptSessionInjector
     {
         private readonly IWebView _IWebView;
         private readonly IJavascriptChangesListener _IJavascriptListener;
@@ -19,7 +19,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
 
-        internal JavascriptSessionInjector(IWebView iWebView, IJavascriptChangesListener iJavascriptListener)
+        internal KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesListener iJavascriptListener)
         {
             _IWebView = iWebView;
             _IJavascriptListener = iJavascriptListener;

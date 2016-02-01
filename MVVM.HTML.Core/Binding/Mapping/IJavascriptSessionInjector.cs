@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.Binding.Mapping
 {
-    internal interface IJavascriptSessionInjector : IDisposable
+    public interface IJavascriptSessionInjector : IDisposable
     {
         IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptMapper ijvm, bool checknullvalue = true);
         Task RegisterMainViewModel(IJavascriptObject rawObject);
