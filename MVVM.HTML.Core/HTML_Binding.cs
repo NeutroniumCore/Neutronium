@@ -12,6 +12,7 @@ using MVVM.HTML.Core.HTMLBinding;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.JavascriptEngine;
+using MVVM.HTML.Core.Binding;
 
 namespace MVVM.HTML.Core
 {
@@ -53,8 +54,17 @@ namespace MVVM.HTML.Core
             _BirectionalMapper.Dispose();
         }
 
+        //internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)
+        //{
+        //    var windowprovider = viewEngine.HTMLWindowProvider;
+        //    var context = windowprovider.HTMLWindow.MainFrame;
+        //    var mapper = await context.EvaluateAsync(() => new BidirectionalMapper(iViewModel, context, windowprovider.UIDispatcher, iMode, additional));
+        //    await mapper.Init();
+        //    return new HTML_Binding(context, mapper);
+        //}
+
         internal static async Task<IHTMLBinding> Bind(IHTMLWindowProvider windowprovider, object iViewModel, JavascriptBindingMode iMode, object additional = null)
-        {      
+        {
             var context = windowprovider.HTMLWindow.MainFrame;
             var mapper = await context.EvaluateAsync(() => new BidirectionalMapper(iViewModel, context, windowprovider.UIDispatcher, iMode, additional));
             await mapper.Init();

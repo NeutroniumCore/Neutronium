@@ -18,6 +18,5 @@ namespace MVVM.Cef.Glue.CefGlueHelper
         {
             return CefCoreSessionSingleton.Session.CefApp.GetContext(@this);
         }
-
     }
 }

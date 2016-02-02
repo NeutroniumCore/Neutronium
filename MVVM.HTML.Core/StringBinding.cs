@@ -13,13 +13,13 @@ namespace MVVM.HTML.Core
 {
     public class StringBinding : IDisposable, IHTMLBinding
     {
-        private IJavascriptSessionInjector _knockoutSessionInjector;
-        private IJavascriptObject _Root;
-        private IWebView _Context;
+        private IJavascriptSessionInjector _JavascriptSessionInjector;
+        private readonly IJavascriptObject _Root;
+        private readonly IWebView _Context;
 
-        internal StringBinding(IWebView context, IJavascriptObject root, KnockoutSessionInjector iKnockoutSessionInjector)
+        internal StringBinding(IWebView context, IJavascriptObject root, IJavascriptSessionInjector iKnockoutSessionInjector)
         {
-            _knockoutSessionInjector = iKnockoutSessionInjector;
+            _JavascriptSessionInjector = iKnockoutSessionInjector;
             _Context = context;
             _Root = root;
         }
@@ -28,10 +28,10 @@ namespace MVVM.HTML.Core
         {
             _Context.RunAsync(() =>
             {
-                if (_knockoutSessionInjector != null)
+                if (_JavascriptSessionInjector != null)
                 {
-                    _knockoutSessionInjector.Dispose();
-                    _knockoutSessionInjector = null;
+                    _JavascriptSessionInjector.Dispose();
+                    _JavascriptSessionInjector = null;
                 }
             });
         }
@@ -55,8 +55,8 @@ namespace MVVM.HTML.Core
                     var json = context.GetGlobal().GetValue("JSON");
                     return json.Invoke("parse", context, context.Factory.CreateString(iViewModel));
                 });
-
-            var injector = new KnockoutSessionInjector(context, null);
+            var injectorFactory = new KnockoutSessionInjectorFactory();
+            var injector = injectorFactory.CreateInjector(context, null);
             var mappedroot = injector.Inject(root, null);
             await injector.RegisterMainViewModel(mappedroot);
 
