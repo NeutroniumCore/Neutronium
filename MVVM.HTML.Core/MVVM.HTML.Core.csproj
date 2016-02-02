@@ -140,7 +140,7 @@
     <Compile Include="Navigation\Window\HTMLWindow.cs" />
     <Compile Include="Navigation\Window\WindowHelper.cs" />
     <Compile Include="Navigation\Window\WindowLogicalState.cs" />
-    <Compile Include="Navigation\WPFDoubleBrowserNavigator.cs" />
+    <Compile Include="Navigation\DoubleBrowserNavigator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

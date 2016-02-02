@@ -16,13 +16,11 @@ using MVVM.HTML.Core;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.JavascriptEngine;
 
-
-
 namespace MVVM.HTML.Core
 {
-    public class WPFDoubleBrowserNavigator : INavigationSolver
+    public class DoubleBrowserNavigator : INavigationSolver
     {
-        private IWebViewLifeCycleManager _IWebViewLifeCycleManager;
+        private readonly IWebViewLifeCycleManager _IWebViewLifeCycleManager;
 
         private IHTMLWindowProvider _CurrentWebControl;
         private IHTMLWindowProvider _NextWebControl;
@@ -46,7 +44,7 @@ namespace MVVM.HTML.Core
             set { _IWebSessionWatcher = value; }
         }
 
-        public WPFDoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler,  IUrlSolver inb)
+        public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler,  IUrlSolver inb)
         {
             _IWebViewLifeCycleManager = lifecycler;
             _INavigationBuilder = inb;

@@ -33,7 +33,7 @@ namespace HTML_WPF.Component
         private IWPFWebWindowFactory _IWPFWebWindowFactory;
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
         private IUrlSolver _IUrlSolver;
-        private WPFDoubleBrowserNavigator _WPFDoubleBrowserNavigator;
+        private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private string _KoView = null;
 
         public Boolean IsDebug
@@ -91,7 +91,7 @@ namespace HTML_WPF.Component
 
             _IWPFWebWindowFactory = HTMLEngineFactory.Engine.Resolve(HTMLEngine);
 
-            _WPFDoubleBrowserNavigator = new WPFDoubleBrowserNavigator(this, _IUrlSolver);
+            _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _IUrlSolver);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
         }
 
