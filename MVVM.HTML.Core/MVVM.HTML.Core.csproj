@@ -80,6 +80,7 @@
     <Compile Include="Binding\GlueObject\IJSObservableBridge.cs" />
     <Compile Include="Binding\GlueObject\JSBasicObject.cs" />
     <Compile Include="Binding\GlueObject\JSCSGlueType.cs" />
+    <Compile Include="Binding\HTMLViewContext.cs" />
     <Compile Include="Binding\Mapping\IJavascriptSessionInjectorFactory.cs" />
     <Compile Include="Binding\Mapping\CollectionChanges\CollectionChangeType.cs" />
     <Compile Include="Binding\Mapping\CollectionChanges\CollectionChanges.cs" />

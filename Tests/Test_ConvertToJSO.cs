@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Reflection;
 
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
-using Xilium.CefGlue;
 
 using MVVM.HTML.Core.HTMLBinding;
-using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.Test.CefWindowless;
-using MVVM.HTML.Core.Infra;
-using MVVM.Cef.Glue.Test.Infra;
+using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.V8JavascriptObject;
 
 
@@ -43,6 +36,7 @@ namespace MVVM.Cef.Glue.Test
         private Test2 _Test2;
         private List<TestClass> _Tests;
         private ArrayList _Tests_NG;
+        private HTMLViewContext _HTMLViewContext;
 
         private IJSCBridgeCache _ICSharpMapper;
 
@@ -55,7 +49,8 @@ namespace MVVM.Cef.Glue.Test
             _IJSOBuilder = new CefV8_Factory(_WebView);
             _ICSharpMapper = Substitute.For<IJSCBridgeCache>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
-            _ConverTOJSO = new CSharpToJavascriptMapper(_WebView, new TestIUIDispatcher(), _ICSharpMapper);
+            _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), new KnockoutSessionInjectorFactory());
+            _ConverTOJSO = new CSharpToJavascriptMapper(_HTMLViewContext, _ICSharpMapper);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>();
             _Tests.Add(new TestClass() { S1 = "string1", I1 = 1 });

@@ -5,12 +5,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-
+using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Exceptions;
 
 using MVVM.HTML.Core.V8JavascriptObject;
-using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.HTML.Core.HTMLBinding
@@ -19,7 +18,8 @@ namespace MVVM.HTML.Core.HTMLBinding
     {
         private readonly JavascriptBindingMode _BindingMode;
         private readonly IJSCSGlue _Root;
-        private readonly IWebView _IWebView;
+        //private readonly IWebView _IWebView;
+        private readonly HTMLViewContext _Context;
         private readonly List<IJSCSGlue> _UnrootedEntities;
 
         private CSharpToJavascriptMapper _JSObjectBuilder;
@@ -31,10 +31,10 @@ namespace MVVM.HTML.Core.HTMLBinding
         private IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();
         private IDictionary<uint, IJSCSGlue> _FromJavascript_Local = new Dictionary<uint, IJSCSGlue>();
 
-        internal BidirectionalMapper(object iRoot, IWebView iwebview, IDispatcher UIDispatcher, JavascriptBindingMode iMode, object iadd)
+        internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         {
-            _IWebView = iwebview;
-            _JSObjectBuilder = new CSharpToJavascriptMapper(iwebview,UIDispatcher, this);
+            _Context = context;
+            _JSObjectBuilder = new CSharpToJavascriptMapper(_Context, this);
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
             _UnrootedEntities = new List<IJSCSGlue>();
             _BindingMode = iMode;
@@ -43,15 +43,16 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (iMode == JavascriptBindingMode.TwoWay)
                 JavascriptObjecChanges = this;
 
-            var factory = new KnockoutSessionInjectorFactory();
-            _SessionInjector = factory.CreateInjector(iwebview, JavascriptObjecChanges);
+            //var factory = new KnockoutSessionInjectorFactory();
+            //_SessionInjector = factory.CreateInjector(context, JavascriptObjecChanges);
+            _SessionInjector = _Context.JavascriptSessionInjectorFactory.CreateInjector(_Context.WebView, JavascriptObjecChanges);
         }
 
         internal async Task Init()
         {
             await InjectInHTLMSession(_Root, true);
 
-            await _IWebView.RunAsync(() =>
+            await _Context.WebView.RunAsync(() =>
                   {
                       if (ListenToCSharp)
                       {
@@ -309,7 +310,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _IWebView.RunAsync(() =>
+            _Context.WebView.RunAsync(() =>
             {
                 UnsafeCollectionChanged(sender, e);
             });
@@ -353,7 +354,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             var idisp = ReListen(ivalue);
 
             await InjectInHTLMSession(ivalue);
-            await _IWebView.RunAsync(() =>
+            await _Context.WebView.RunAsync(() =>
                     {
                         using (idisp)
                         {
@@ -397,7 +398,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJSCSGlue GetCached(IJavascriptObject globalkey)
         {
-            return _IWebView.Evaluate(() =>
+            return _Context.WebView.Evaluate(() =>
                 {
                     if (!globalkey.HasRelevantId())
                         return null;
@@ -418,7 +419,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 return res;
 
             object targetvalue = null;
-            bool converted = _IWebView.Converter.GetSimpleValue(globalkey, out targetvalue, iTargetType);
+            bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, iTargetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
                 throw ExceptionHelper.Get(string.Format("Unable to convert javascript object: {0}", globalkey));
 
@@ -430,7 +431,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (!localkey.HasRelevantId())
                 return null;
 
-            IJSCSGlue res = null;
+            IJSCSGlue res;
             _FromJavascript_Local.TryGetValue(localkey.GetID(), out res);
             return res;
         }

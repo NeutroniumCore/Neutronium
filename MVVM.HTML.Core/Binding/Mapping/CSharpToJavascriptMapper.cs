@@ -9,32 +9,29 @@ using System.Diagnostics;
 using MVVM.HTML.Core.Binding;
 using MVVM.Component;
 using MVVM.HTML.Core.V8JavascriptObject;
-using MVVM.HTML.Core.Window;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
     internal class CSharpToJavascriptMapper 
     {
         private readonly IJSCBridgeCache _Cacher;
-        private readonly IWebView _IWebView;
-        private readonly IDispatcher _UIDispatcher;
+        private readonly HTMLViewContext _Context;
 
-        public CSharpToJavascriptMapper(IWebView context, IDispatcher iUIDispatcher, IJSCBridgeCache icacher)
+        public CSharpToJavascriptMapper(HTMLViewContext context, IJSCBridgeCache icacher)
         {
-            _UIDispatcher = iUIDispatcher;
-            _IWebView = context;
+            _Context = context;
             _Cacher = icacher;
         }
 
         internal IJSCSGlue Map(object ifrom, object iadditional = null)
         {
-            return _IWebView.Evaluate(() => InternalMap(ifrom, iadditional));
+            return _Context.WebView.Evaluate(() => InternalMap(ifrom, iadditional));
         }
 
         private IJSCSGlue InternalMap(object ifrom, object iadditional=null)
         {
             if (ifrom == null)
-                return JSGenericObject.CreateNull(_IWebView);
+                return JSGenericObject.CreateNull(_Context.WebView);
 
             IJSCSGlue res = null;
             res = _Cacher.GetCached(ifrom);
@@ -44,23 +41,23 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
 
             if (ifrom is ICommand)
-                return new JSCommand(_IWebView, _UIDispatcher, ifrom as ICommand);
+                return new JSCommand(_Context.WebView, _Context.UIDispatcher, ifrom as ICommand);
 
             if (ifrom is ISimpleCommand)
-                return new JSSimpleCommand(_IWebView, ifrom as ISimpleCommand);
+                return new JSSimpleCommand(_Context.WebView, ifrom as ISimpleCommand);
 
             if (ifrom is IResultCommand)
-                return new JSResultCommand(_IWebView, ifrom as IResultCommand);
+                return new JSResultCommand(_Context.WebView, ifrom as IResultCommand);
 
             IJavascriptObject value;
-            if (_IWebView.Factory.SolveBasic(ifrom, out value))
+            if (_Context.WebView.Factory.SolveBasic(ifrom, out value))
             {
                 return new JSBasicObject(value, ifrom);
             }
 
             if (ifrom.GetType().IsEnum)
             {
-                var trueres = new JSBasicObject(_IWebView.Factory.CreateEnum((Enum)ifrom), ifrom);
+                var trueres = new JSBasicObject(_Context.WebView.Factory.CreateEnum((Enum)ifrom), ifrom);
                 _Cacher.CacheLocal(ifrom, trueres);
                 return trueres;
             }
@@ -71,9 +68,9 @@ namespace MVVM.HTML.Core.HTMLBinding
                 return res;
             }
 
-            IJavascriptObject resobject = _IWebView.Factory.CreateObject(true);
+            IJavascriptObject resobject = _Context.WebView.Factory.CreateObject(true);
 
-            JSGenericObject gres = new JSGenericObject(_IWebView,resobject, ifrom);
+            JSGenericObject gres = new JSGenericObject(_Context.WebView, resobject, ifrom);
             _Cacher.Cache(ifrom, gres);
 
             MappNested(ifrom, resobject,gres);
@@ -105,7 +102,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                 IJSCSGlue childres = InternalMap(childvalue);
 
-                _IWebView.Run(() => resobject.SetValue(pn, childres.JSValue));
+                _Context.WebView.Run(() => resobject.SetValue(pn, childres.JSValue));
 
                 gres.Attributes[pn] = childres;
             }
@@ -115,7 +112,7 @@ namespace MVVM.HTML.Core.HTMLBinding
  
         private bool Convert(IEnumerable source, out IJSCSGlue res)
         {
-            res = new JSArray(this._IWebView, _UIDispatcher, source.Cast<object>().Select(s => Map(s)), source);
+            res = new JSArray(this._Context.WebView, _Context.UIDispatcher, source.Cast<object>().Select(s => Map(s)), source);
             _Cacher.Cache(source, res);
             return true;
         }
