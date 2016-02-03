@@ -1,4 +1,5 @@
 ﻿using MVVM.HTML.Core;
+using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Window;
 using System;
@@ -17,7 +18,7 @@ namespace MVVM.Cef.Glue.Test
 
         public string Path { get; set; }
 
-        public Func<IHTMLWindowProvider, Task<IHTMLBinding>> Bind { get; set; }
+        public Func<HTMLViewEngine, Task<IHTMLBinding>> Bind { get; set; }
 
         public Action<IHTMLBinding> Test { get; set; }
 

@@ -14,13 +14,16 @@ using MVVM.Cef.Glue.Test.CefWindowless;
 using MVVM.Cef.Glue.CefGlueHelper;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.Cef.Glue.Test.Infra;
+using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.Cef.Glue.Test
 {
     public abstract class MVVMCefGlue_Test_Base : IDisposable
     {
         protected IWebView _WebView = null;
-        protected TestCefGlueHTMLWindowProvider _ICefGlueWindow = null;
+        //protected TestCefGlueHTMLWindowProvider _ICefGlueWindow = null;
+        protected HTMLViewEngine _ICefGlueWindow = null;
  
         public MVVMCefGlue_Test_Base()
         {
@@ -47,12 +50,12 @@ namespace MVVM.Cef.Glue.Test
             {
                 _Father = Father;
                 var cc = InitTask(ipath).Result;
-                _Father._WebView = cc.HTMLWindow.MainFrame;
+                _Father._WebView = cc.HTMLWindowProvider.HTMLWindow.MainFrame;
             }
 
-            private Task<TestCefGlueHTMLWindowProvider> InitTask(string ipath)
+            private Task<HTMLViewEngine> InitTask(string ipath)
             {
-                TaskCompletionSource<TestCefGlueHTMLWindowProvider> tcs = new TaskCompletionSource<TestCefGlueHTMLWindowProvider>();
+                TaskCompletionSource<HTMLViewEngine> tcs = new TaskCompletionSource<HTMLViewEngine>();
                 Task.Run(() =>
                 {
                     CefCoreSessionSingleton.GetAndInitIfNeeded();
@@ -76,7 +79,10 @@ namespace MVVM.Cef.Glue.Test
                         {
                             var frame = t.Result.GetMainFrame();
                             var context = CefCoreSessionSingleton.Session.CefApp.GetContext(frame);
-                            _Father._ICefGlueWindow = new TestCefGlueHTMLWindowProvider(frame);
+                            _Father._ICefGlueWindow = new HTMLViewEngine(
+                                new TestCefGlueHTMLWindowProvider(frame),
+                                new KnockoutSessionInjectorFactory()
+                            );  
                             tcs.SetResult(_Father._ICefGlueWindow);
                         }
                     );

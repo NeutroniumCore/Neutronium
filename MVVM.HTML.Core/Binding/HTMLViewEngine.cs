@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.Binding
 {
-    internal class HTMLViewEngine
+    public class HTMLViewEngine
     {
         internal HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptSessionInjectorFactory sessionInjectorFactory)
         {

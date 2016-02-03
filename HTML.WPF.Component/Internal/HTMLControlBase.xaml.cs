@@ -25,9 +25,6 @@ using MVVM.HTML.Core.Exceptions;
 
 namespace HTML_WPF.Component
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
     public partial class HTMLControlBase : UserControl, IWebViewLifeCycleManager, IDisposable
     {
         private IWPFWebWindowFactory _IWPFWebWindowFactory;

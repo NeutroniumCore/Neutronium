@@ -73,8 +73,6 @@ namespace MVVM.Cef.Glue.Test
                         });
 
                     mre.WaitOne();
-
-
                 });
         }
 
@@ -98,8 +96,6 @@ namespace MVVM.Cef.Glue.Test
                 });
 
                 mre.WaitOne();
-
-
             });
         }
 
@@ -131,8 +127,6 @@ namespace MVVM.Cef.Glue.Test
                 });
 
                 mre.WaitOne();
-
-
             });
         }
 
@@ -163,8 +157,6 @@ namespace MVVM.Cef.Glue.Test
                 Thread.Sleep(2500);
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
-
-
             });
         }
 
@@ -173,11 +165,11 @@ namespace MVVM.Cef.Glue.Test
         {
             Test((c, w) =>
             {
-                var mre = new ManualResetEvent(false);
+                var finalmre = new ManualResetEvent(false);
 
                 DisplayEvent de = null;
                 EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { de = e; c.OnDisplay -= ea; };
+                ea = (o, e) => { de = e; c.OnDisplay -= ea; finalmre.Set(); };
                 c.OnDisplay += ea;
                 var dc = new Person();
 
@@ -185,21 +177,14 @@ namespace MVVM.Cef.Glue.Test
                 string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
                 var jvs = PrepareFiles();
 
-                //<script src="src\knockout.js" type="text/javascript"></script>
-                //<script src="src\Ko_Extension.js" type="text/javascript"></script>
-                //<script src="src\Ko_register.js" type="text/javascript"></script>
-
                 w.RunOnUIThread(() =>
                 {
                     c.Mode = JavascriptBindingMode.OneWay;
                     c.RelativeSource = relp;
                     w.Window.DataContext = dc;
-                    mre.Set();
                 });
 
-                mre.WaitOne();
-
-                Thread.Sleep(2000);
+                finalmre.WaitOne();
                 foreach (string jv in jvs)
                 {
                     string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
@@ -208,8 +193,6 @@ namespace MVVM.Cef.Glue.Test
                 File.Delete(path);
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
-                
-
             });
         }
 
@@ -247,7 +230,7 @@ namespace MVVM.Cef.Glue.Test
 
                 DisplayEvent de = null;
                 EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { de = e; c.OnDisplay -= ea; };
+                ea = (o, e) => { de = e; c.OnDisplay -= ea;   mre.Set();};
                 c.OnDisplay += ea;
                 var dc = new Person();
 
@@ -255,21 +238,16 @@ namespace MVVM.Cef.Glue.Test
                 string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
                 var jvs = PrepareFiles();
 
-                //<script src="src\knockout.js" type="text/javascript"></script>
-                //<script src="src\Ko_Extension.js" type="text/javascript"></script>
-                //<script src="src\Ko_register.js" type="text/javascript"></script>
-
                 w.RunOnUIThread(() =>
                 {
                     c.Mode = JavascriptBindingMode.OneWay; 
                     w.Window.DataContext = dc;
                     c.RelativeSource = relp;
-                    mre.Set();
+                  
                 });
 
                 mre.WaitOne();
 
-                Thread.Sleep(2000);
                 foreach (string jv in jvs)
                 {
                     string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
@@ -278,8 +256,6 @@ namespace MVVM.Cef.Glue.Test
                 File.Delete(path);
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
-
-
             });
         }
     }

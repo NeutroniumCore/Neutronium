@@ -15,18 +15,21 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.JavascriptEngine;
+using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.HTML.Core
 {
     public class DoubleBrowserNavigator : INavigationSolver
     {
-        private readonly IWebViewLifeCycleManager _IWebViewLifeCycleManager;
+        private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
+        private readonly IJavascriptSessionInjectorFactory _JavascriptSessionInjectorFactory;
 
         private IHTMLWindowProvider _CurrentWebControl;
         private IHTMLWindowProvider _NextWebControl;
 
-        private IHTMLBinding _IHTMLBinding;
-        private IUrlSolver _INavigationBuilder;
+        private IHTMLBinding _HTMLBinding;
+        private IUrlSolver _UrlSolver;
 
         private string _Url;
         private bool _Disposed = false;
@@ -46,8 +49,9 @@ namespace MVVM.HTML.Core
 
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler,  IUrlSolver inb)
         {
-            _IWebViewLifeCycleManager = lifecycler;
-            _INavigationBuilder = inb;
+            _WebViewLifeCycleManager = lifecycler;
+            _UrlSolver = inb;
+            _JavascriptSessionInjectorFactory = new KnockoutSessionInjectorFactory();
         }
 
         private void ConsoleMessage(object sender, ConsoleMessageArgs e)
@@ -61,15 +65,15 @@ namespace MVVM.HTML.Core
 
         private IHTMLBinding Binding
         {
-            get { return _IHTMLBinding; }
+            get { return _HTMLBinding; }
             set
             {
-                if (_IHTMLBinding != null)
-                    _IHTMLBinding.Dispose();
+                if (_HTMLBinding != null)
+                    _HTMLBinding.Dispose();
 
-                _IHTMLBinding = value;
+                _HTMLBinding = value;
 
-                if (_Disposed && (_IHTMLBinding!=null))
+                if (_Disposed && (_HTMLBinding!=null))
                    Binding = null;
             }
         }
@@ -116,17 +120,14 @@ namespace MVVM.HTML.Core
 
             _Navigating = false;
            
-
             FireNavigate(Binding.Root, oldvm);
             
             if (tcs != null) tcs.SetResult(Binding);
-        }
-
-       
+        }    
 
         private void EndAnimation(object inavgable)
         {
-            _IWebViewLifeCycleManager.GetDisplayDispatcher()
+            _WebViewLifeCycleManager.GetDisplayDispatcher()
                 .RunAsync( () => FireLoaded(inavgable) );
         }
 
@@ -185,7 +186,7 @@ namespace MVVM.HTML.Core
 
             Task closetask = ( _CurrentWebControl!=null) ? _Window.CloseAsync() : TaskHelper.Ended();
 
-            _NextWebControl = _IWebViewLifeCycleManager.Create();
+            _NextWebControl = _WebViewLifeCycleManager.Create();
             _NextWebControl.HTMLWindow.ConsoleMessage += ConsoleMessage;
 
             TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
@@ -195,8 +196,9 @@ namespace MVVM.HTML.Core
             {
                 _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
 
-                HTML_Binding.Bind(_NextWebControl, iViewModel, iMode, wh).
-                             WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
+                var engine = new HTMLViewEngine(_NextWebControl, _JavascriptSessionInjectorFactory);
+
+                HTML_Binding.Bind(engine, iViewModel, iMode, wh).WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
 
             _Url = iUri;
@@ -215,8 +217,7 @@ namespace MVVM.HTML.Core
             catch(Exception e)
             {
                 LogBrowser(string.Format("Can not execute javascript: {0}, reason: {1}",icode,e));
-            }
-            
+            }          
         }
 
         public async Task NavigateAsync(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
@@ -224,7 +225,7 @@ namespace MVVM.HTML.Core
             if ((iViewModel == null) || (_Navigating))
                 return;
 
-            var viewPath = _INavigationBuilder.Solve(iViewModel, Id);
+            var viewPath = _UrlSolver.Solve(iViewModel, Id);
             if (viewPath == null)
                 throw ExceptionHelper.Get(string.Format("Unable to locate ViewModel {0}", iViewModel));
 
