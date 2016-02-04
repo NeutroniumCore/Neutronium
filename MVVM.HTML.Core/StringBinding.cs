@@ -8,6 +8,7 @@ using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.HTMLBinding;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.Binding.Mapping;
+using MVVM.HTML.Core.Binding;
 
 namespace MVVM.HTML.Core
 {
@@ -46,17 +47,17 @@ namespace MVVM.HTML.Core
             get { return null; }
         }
 
-        public static async Task<IHTMLBinding> Bind(IHTMLWindow view, string iViewModel)
+        public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel)
         {
-            var context = view.MainFrame;
+            var context = engine.HTMLWindowProvider.HTMLWindow.MainFrame;
 
             var root = await context.EvaluateAsync(() =>
                 {
                     var json = context.GetGlobal().GetValue("JSON");
                     return json.Invoke("parse", context, context.Factory.CreateString(iViewModel));
                 });
-            var injectorFactory = new KnockoutSessionInjectorFactory();
-            var injector = injectorFactory.CreateInjector(context, null);
+
+            var injector = engine.SessionInjectorFactory.CreateInjector(context, null);
             var mappedroot = injector.Inject(root, null);
             await injector.RegisterMainViewModel(mappedroot);
 

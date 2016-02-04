@@ -86,8 +86,7 @@ namespace MVVM.Cef.Glue.Test
                             tcs.SetResult(_Father._ICefGlueWindow);
                         }
                     );
-                }
-                );
+                } );
 
                 return tcs.Task;
             }
