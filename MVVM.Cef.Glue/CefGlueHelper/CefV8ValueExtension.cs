@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xilium.CefGlue;
 
@@ -10,8 +9,6 @@ namespace MVVM.Cef.Glue.CefGlueHelper
 {
     public static class CefV8ValueExtension
     {
-        #region array
-
         private  static IEnumerable<CefV8Value> GetElements(this CefV8Value @this)
         {
             if (!@this.IsArray)
@@ -30,11 +27,6 @@ namespace MVVM.Cef.Glue.CefGlueHelper
             return @this.GetElements().ToArray();     
         }
 
-        #endregion
-
-        #region function
-
-        #region call function
         public static CefV8Value Invoke(this CefV8Value @this, string functionname, IWebView iCefV8Context, params CefV8Value[] args)
         {
             return @this.InvokeAsync(functionname, iCefV8Context, args).Result;
@@ -58,12 +50,6 @@ namespace MVVM.Cef.Glue.CefGlueHelper
                 );
         }
 
-        #endregion
-
-        #region Bind : creation of native method
-
-
-
         public static void Bind(this CefV8Value @this, string functionname, IWebView iCefV8Context, Action<string, CefV8Value, CefV8Value[]> iaction)
         {
             iCefV8Context.RunAsync(() =>
@@ -72,10 +58,5 @@ namespace MVVM.Cef.Glue.CefGlueHelper
                     @this.SetValue(functionname, function, CefV8PropertyAttribute.None);
                 });
         }
-
-      
-        #endregion
-
-        #endregion
     }
 }

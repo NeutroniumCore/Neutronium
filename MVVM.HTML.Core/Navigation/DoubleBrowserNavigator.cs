@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Windows;
 using System.Diagnostics;
 
 using MVVM.HTML.Core.Navigation.Window;
 using MVVM.HTML.Core.Navigation;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Binding;
@@ -259,11 +252,6 @@ namespace MVVM.HTML.Core
             get { return _UseINavigable; }
             set { _UseINavigable = value; }
         }
-
-        //public IWebView WebView
-        //{
-        //    get { return this._CurrentWebControl; }
-        //}
 
         public event EventHandler<NavigationEvent> OnNavigate;
 

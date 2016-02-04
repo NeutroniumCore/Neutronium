@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using Xilium.CefGlue;
-
 using MVVM.HTML.Core.V8JavascriptObject;
-
 using MVVM.Cef.Glue.CefGlueHelper;
 
 
@@ -93,7 +87,7 @@ namespace MVVM.Cef.Glue
 
         private class ContextOpener : IDisposable
         {
-            private CefV8Context _CefV8Context;
+            private readonly CefV8Context _CefV8Context;
             internal ContextOpener(CefV8Context iCefV8Context)
             {
                 _CefV8Context = iCefV8Context;
@@ -105,7 +99,6 @@ namespace MVVM.Cef.Glue
                 _CefV8Context.Exit();
             }
         }
-
 
         private IDisposable Enter()
         {
@@ -122,7 +115,6 @@ namespace MVVM.Cef.Glue
         {
             get { return _CefV8_Converter; }
         }
-
 
         public void ExecuteJavaScript(string code)
         {

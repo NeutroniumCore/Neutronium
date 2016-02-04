@@ -1,8 +1,5 @@
 ﻿using MVVM.HTML.Core.Window;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -28,12 +25,10 @@ namespace HTML_WPF.Component
             return tcs.Task;
         }
 
-
         public void Run(Action act)
         {
             _Dispatcher.Invoke(act);
         }
-
 
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
@@ -48,7 +43,7 @@ namespace HTML_WPF.Component
 
         public T Evaluate<T>(Func<T> compute)
         {
-            T res = default(T);
+            var res = default(T);
             Action Compute = () => res = compute();
             _Dispatcher.Invoke(Compute);
             return res;

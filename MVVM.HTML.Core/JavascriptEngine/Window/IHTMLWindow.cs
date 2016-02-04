@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine;
 
@@ -42,10 +37,5 @@ namespace MVVM.HTML.Core.Window
         /// event fired when the console log is called in the browser
         /// </summary>
         event EventHandler<ConsoleMessageArgs> ConsoleMessage;
-
-        /// <summary>
-        /// get the browser dispatcher
-        /// </summary>
-        IDispatcher GetDispatcher();
     }
 }

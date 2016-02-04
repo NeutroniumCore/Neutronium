@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.Window
 {
     /// <summary>
-    /// Abstraction of a WPF implementation of an HTML Browser
+    /// Abstraction of a dipatcher used to communication with object having thread affinity
+    /// such as HMTL C# browser implementation, or UI framework (WPF) 
     /// </summary>
     public interface IDispatcher
     {

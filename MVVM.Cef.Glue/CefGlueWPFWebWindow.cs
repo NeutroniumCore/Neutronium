@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -15,7 +10,7 @@ namespace MVVM.Cef.Glue
 {
     internal class CefGlueWPFWebWindow : IWPFWebWindow
     {
-        private WpfCefBrowser _WpfCefBrowser;
+        private readonly WpfCefBrowser _WpfCefBrowser;
         internal CefGlueWPFWebWindow()
         {
             _WpfCefBrowser = new WpfCefBrowser()
@@ -26,7 +21,6 @@ namespace MVVM.Cef.Glue
                 ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
             };
         }
-
 
         public IHTMLWindow IHTMLWindow
         {

@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xilium.CefGlue;
-
-using MVVM.HTML.Core.Window;
+﻿using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.CefSession
 {
     public class CefCoreSessionFactory
     {
-        private string[] _Args;
-        private CefSettings _CefSettings;
-        //private IDispatcher _IUIDispatcher;
+        private readonly string[] _Args;
+        private readonly CefSettings _CefSettings;
 
         public CefCoreSessionFactory(CefSettings iCefSettings = null, string[] args = null)
         {
-            //_IUIDispatcher = iIUIDispatcher;
             _Args = args ?? new string[]{};
 
             _CefSettings = iCefSettings ?? new CefSettings
             {
-                // BrowserSubprocessPath = browserSubprocessPath,
                 SingleProcess = true,
                 WindowlessRenderingEnabled = true,
                 MultiThreadedMessageLoop = true,
                 LogSeverity = CefLogSeverity.Disable,
-                //LogFile = "cef.log",
                 RemoteDebuggingPort = 8080
             };
         }

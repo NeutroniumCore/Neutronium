@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xilium.CefGlue;
+﻿using Xilium.CefGlue;
 
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.Cef.Glue.CefSession;

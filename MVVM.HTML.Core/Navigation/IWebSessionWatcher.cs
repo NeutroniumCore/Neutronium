@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MVVM.HTML.Core
 {
@@ -11,6 +8,6 @@ namespace MVVM.HTML.Core
 
         void LogBrowser(string iInformation);
 
-        void OnSessionError(Exception iexception, Action Cancel);
+        void OnSessionError(Exception exception, Action cancel);
     }
 }

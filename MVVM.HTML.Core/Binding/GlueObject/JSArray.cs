@@ -9,7 +9,6 @@ using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 
 
-
 namespace MVVM.HTML.Core.HTMLBinding
 {
     internal class JSArray : GlueBase, IJSObservableBridge

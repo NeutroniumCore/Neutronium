@@ -1,19 +1,14 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Window;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace HTML_WPF.Component
 {
     public class WPFHTMLWindowProvider : IHTMLWindowProvider
     {
-        private UIElement _UIElement;
-        private HTMLControlBase _HTMLControlBase;
-        private IWPFWebWindow _IWPFWebWindow;
+        private readonly UIElement _UIElement;
+        private readonly HTMLControlBase _HTMLControlBase;
+        private readonly IWPFWebWindow _IWPFWebWindow;
 
         public WPFHTMLWindowProvider(IWPFWebWindow iIWPFWebWindow, HTMLControlBase iHTMLControlBase)
         {

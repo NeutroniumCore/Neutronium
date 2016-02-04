@@ -1,10 +1,6 @@
 ﻿using HTML_WPF.Component;
 using MVVM.Cef.Glue.CefSession;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue
@@ -16,7 +12,6 @@ namespace MVVM.Cef.Glue
         {
             _ICefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded(iCefSettings);
         }
-
 
         public string Name
         {

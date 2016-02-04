@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xilium.CefGlue;
+﻿using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.CefSession
 {
@@ -13,8 +9,6 @@ namespace MVVM.Cef.Glue.CefSession
         }
 
         //protected override void OnLoadError(CefBrowser browser, CefFrame frame, CefErrorCode errorCode, string errorText, string failedUrl)
-        //{
-        //}
 
         protected override void OnLoadStart(CefBrowser browser, CefFrame frame)
         {

@@ -1,9 +1,6 @@
 ﻿using Awesomium.Core;
 using MVVM.HTML.Core.Window;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,9 +16,10 @@ namespace MVVM.Awesomium
             else
                 WebCore.QueueWork(act);
         }
+
         public Task RunAsync(Action act)
         {
-            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<object>();
             Action nact = () =>
                 {
                     try
@@ -45,7 +43,7 @@ namespace MVVM.Awesomium
 
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
-            TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
+            var tcs = new TaskCompletionSource<T>();
             Action nact = () =>
             {
                 try

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -29,7 +26,6 @@ namespace MVVM.Cef.Glue.WPF
             return tcs.Task;
         }
 
-
         public void Run(Action act)
         {
             _Dispatcher.Invoke(act);
@@ -49,7 +45,7 @@ namespace MVVM.Cef.Glue.WPF
 
         public T Evaluate<T>(Func<T> compute)
         {
-            T res = default(T);
+            var res = default(T);
             Action Compute = () =>  res = compute();
             _Dispatcher.Invoke(Compute);
             return res;

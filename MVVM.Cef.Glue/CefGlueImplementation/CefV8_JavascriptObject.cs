@@ -1,8 +1,6 @@
 ﻿using MVVM.HTML.Core.V8JavascriptObject;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xilium.CefGlue;
@@ -13,7 +11,7 @@ namespace MVVM.Cef.Glue
 {
     public class CefV8_JavascriptObject : IJavascriptObject
     {
-        private CefV8Value _CefV8Value;
+        private readonly CefV8Value _CefV8Value;
         public CefV8_JavascriptObject(CefV8Value iCefV8Value)
         {
             _CefV8Value = iCefV8Value;
@@ -69,7 +67,6 @@ namespace MVVM.Cef.Glue
         {
             get { return _CefV8Value.IsArray; }
         }
-
 
         public bool IsString
         {
@@ -176,6 +173,5 @@ namespace MVVM.Cef.Glue
         {
             return (_CefV8Value.HasValue("_MappedId")) ? _CefV8Value.GetValue("_MappedId").GetUIntValue() : 0;
         }
-
     }
 }

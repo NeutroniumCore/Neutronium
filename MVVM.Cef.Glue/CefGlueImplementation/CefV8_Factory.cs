@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using Xilium.CefGlue;
 
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Exceptions;
-
-using MVVM.Cef.Glue.CefGlueHelper;
 
 
 namespace MVVM.Cef.Glue
@@ -19,18 +15,18 @@ namespace MVVM.Cef.Glue
     {
         private static uint _Count = 0;
 
-        private static IDictionary<Type, Func<object, CefV8Value>> _Converters = new Dictionary<Type, Func<object, CefV8Value>>();
-
+        private static readonly IDictionary<Type, Func<object, CefV8Value>> _Converters = new Dictionary<Type, Func<object, CefV8Value>>();
+        private readonly IWebView _CefV8_WebView;
 
         static CefV8_Factory()
         {
-            Register<string>((source) => CefV8Value.CreateString(source));
+            Register<string>(CefV8Value.CreateString);
 
             Register<Int64>((source) => CefV8Value.CreateDouble((double)source));
             Register<UInt64>((source) => CefV8Value.CreateDouble((double)source));
             Register<float>((source) => CefV8Value.CreateDouble((double)source));
 
-            Register<Int32>((source) => CefV8Value.CreateInt(source));
+            Register<Int32>(CefV8Value.CreateInt);
             Register<Int16>((source) => CefV8Value.CreateInt((int)source));
 
             Register<UInt32>((source) => CefV8Value.CreateUInt(source));
@@ -39,10 +35,10 @@ namespace MVVM.Cef.Glue
             //check two way and convertion back
             Register<char>((source) => CefV8Value.CreateString(new StringBuilder().Append(source).ToString()));
 
-            Register<double>((source) => CefV8Value.CreateDouble(source));
+            Register<double>(CefV8Value.CreateDouble);
             Register<decimal>((source) => CefV8Value.CreateDouble((double)source));
-            Register<bool>((source) => CefV8Value.CreateBool(source));
-            Register<DateTime>((source) => CefV8Value.CreateDate(source));
+            Register<bool>(CefV8Value.CreateBool);
+            Register<DateTime>(CefV8Value.CreateDate);
         }
 
         
@@ -51,8 +47,6 @@ namespace MVVM.Cef.Glue
             _Converters.Add(typeof(T), (o) => Factory((T)o));
         }
 
-
-        private IWebView _CefV8_WebView;
         public CefV8_Factory(IWebView iCefV8_WebView)
         {
             _CefV8_WebView = iCefV8_WebView;
@@ -149,7 +143,6 @@ namespace MVVM.Cef.Glue
 
                 return UpdateObject(res as CefV8_JavascriptObject);
             });
-        }
-      
+        }     
     }
 }

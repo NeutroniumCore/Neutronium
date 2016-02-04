@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xilium.CefGlue;
+﻿using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.WPF
 {
     public class WpfCefLoadHandler : CefLoadHandler
     {
-        private WpfCefBrowser _owner;
+        private readonly WpfCefBrowser _owner;
 
         public WpfCefLoadHandler(WpfCefBrowser owner)
         {

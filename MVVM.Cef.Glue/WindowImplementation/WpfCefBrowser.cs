@@ -40,12 +40,8 @@ namespace MVVM.Cef.Glue.WPF
         private CefBrowserHost _browserHost;
         private WpfCefClient _cefClient;
 
-        //private Popup _popup;
         private Image _popupImage;
         private WriteableBitmap _popupImageBitmap;
-
-        //private ToolTip _tooltip;
-        //private DispatcherTimer _tooltipTimer;
 
         Dispatcher _mainUiDispatcher;
 
@@ -65,17 +61,6 @@ namespace MVVM.Cef.Glue.WPF
             _logger = logger;
 
             StartUrl = "about:blank";
-
-            //_popup = CreatePopup();
-
-            //_tooltip = new ToolTip();
-            //_tooltip.StaysOpen = true;
-            //_tooltip.Visibility = Visibility.Collapsed;
-            //_tooltip.Closed += TooltipOnClosed;
-
-            //_tooltipTimer = new DispatcherTimer();
-            //_tooltipTimer.Interval = TimeSpan.FromSeconds(0.5);
-
             KeyboardNavigation.SetAcceptsReturn(this, true);
             _mainUiDispatcher = Dispatcher.CurrentDispatcher;
         }
@@ -97,11 +82,6 @@ namespace MVVM.Cef.Glue.WPF
         {
             if (disposing)
             {
-                //if (_tooltipTimer != null)
-                //{
-                //    _tooltipTimer.Stop();
-                //}
-
                 if (_browserPageImage != null)
                 {
                     _browserPageImage.Source = null;
@@ -112,9 +92,6 @@ namespace MVVM.Cef.Glue.WPF
                 {
                     _browserPageBitmap = null;
                 }
-
-                // 					if (this.browserPageD3dImage != null)
-                // 						this.browserPageD3dImage = null;
 
                 // TODO: What's the right way of disposing the browser instance?
                 if (_browserHost != null)
@@ -129,8 +106,6 @@ namespace MVVM.Cef.Glue.WPF
                     _browser = null;
                 }
             }
-
-            //_disposed = true;
         }
 
         #endregion
@@ -145,11 +120,6 @@ namespace MVVM.Cef.Glue.WPF
         { 
             get { return this._browser; } 
         }
-
-        // public CefV8Context MainV8Context 
-        //{ 
-        //    get { return this._browser.GetMainFrame().V8Context; } 
-        //}
 
          private CefFrame RawMainFrame
          {
@@ -213,8 +183,6 @@ namespace MVVM.Cef.Glue.WPF
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
-            //this.browserPageD3dImage = new D3DImage();
 
             _browserPageImage = new Image()
             {
@@ -344,7 +312,6 @@ namespace MVVM.Cef.Glue.WPF
                         mouseEvent.Modifiers = GetMouseModifiers();
 
                         _browserHost.SendMouseMoveEvent(mouseEvent, true);
-                        //_logger.Debug("Browser_MouseLeave");
                     }
                 }
                 catch (Exception ex)
@@ -480,7 +447,6 @@ namespace MVVM.Cef.Glue.WPF
                         {
                             EventType = CefKeyEventType.Char,
                             WindowsKeyCode = (int)c,
-                            // Character = c,
                         };
 
                         keyEvent.Modifiers = GetKeyboardModifiers();
@@ -499,7 +465,6 @@ namespace MVVM.Cef.Glue.WPF
                 {
                     if (_browserHost != null)
                     {
-                        //_logger.Debug(string.Format("KeyDown: system key {0}, key {1}", arg.SystemKey, arg.Key));
                         CefKeyEvent keyEvent = new CefKeyEvent()
                         {
                             EventType = CefKeyEventType.RawKeyDown,
@@ -549,32 +514,6 @@ namespace MVVM.Cef.Glue.WPF
 
                 arg.Handled = true;
             };
-            //browser._popup.MouseMove += (sender, arg) =>
-            //{
-            //    try
-            //    {
-            //        if (_browserHost != null)
-            //        {
-            //            Point cursorPos = arg.GetPosition(this);
-
-            //            CefMouseEvent mouseEvent = new CefMouseEvent()
-            //            {
-            //                X = (int)cursorPos.X,
-            //                Y = (int)cursorPos.Y
-            //            };
-
-            //            mouseEvent.Modifiers = GetMouseModifiers();
-
-            //            _browserHost.SendMouseMoveEvent(mouseEvent, false);
-
-            //            //_logger.Debug(string.Format("Popup_MouseMove: ({0},{1})", cursorPos.X, cursorPos.Y));
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        _logger.ErrorException("WpfCefBrowser: Caught exception in Popup.MouseMove()", ex);
-            //    }
-            //};
         }
 
         #region Handlers
@@ -608,15 +547,6 @@ namespace MVVM.Cef.Glue.WPF
 
             if (width > 0 && height > 0)
                 _browserHost.WasResized();
-
-            // 			mainUiDispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
-            // 			{
-            // 				if (!string.IsNullOrEmpty(this.initialUrl))
-            // 				{
-            // 					NavigateTo(this.initialUrl);
-            // 					this.initialUrl = string.Empty;
-            // 				}
-            // 			}));
         }
 
         internal bool GetViewRect(ref CefRectangle rect)
@@ -625,8 +555,7 @@ namespace MVVM.Cef.Glue.WPF
             CefRectangle browserRect = new CefRectangle();
 
             // TODO: simplify this
-            //_mainUiDispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
-            //{
+
                 try
                 {
                     // The simulated screen and view rectangle are the same. This is necessary
@@ -642,7 +571,7 @@ namespace MVVM.Cef.Glue.WPF
                     _logger.ErrorException("WpfCefBrowser: Caught exception in GetViewRect()", ex);
                     rectProvided = false;
                 }
-            //}));
+
 
             if (rectProvided)
             {
@@ -776,46 +705,14 @@ namespace MVVM.Cef.Glue.WPF
 
                 // If the window has been resized, make sure we never try to render too much
                 int adjustedWidth = (int)dirtyRect.Width;
-                //if (dirtyRect.X + dirtyRect.Width > (int) bitmap.Width)
-                //{
-                //    adjustedWidth = (int) bitmap.Width - (int) dirtyRect.X;
-                //}
 
                 int adjustedHeight = (int)dirtyRect.Height;
-                //if (dirtyRect.Y + dirtyRect.Height > (int) bitmap.Height)
-                //{
-                //    adjustedHeight = (int) bitmap.Height - (int) dirtyRect.Y;
-                //}
 
                 // Update the dirty region
                 Int32Rect sourceRect = new Int32Rect((int)dirtyRect.X, (int)dirtyRect.Y, adjustedWidth, adjustedHeight);
                 bitmap.WritePixels(sourceRect, sourceBuffer, sourceBufferSize, stride, (int)dirtyRect.X, (int)dirtyRect.Y);
-
-                // 			int adjustedWidth = browserWidth;
-                // 			if (browserWidth > (int)bitmap.Width)
-                // 				adjustedWidth = (int)bitmap.Width;
-                // 
-                // 			int adjustedHeight = browserHeight;
-                // 			if (browserHeight > (int)bitmap.Height)
-                // 				adjustedHeight = (int)bitmap.Height;
-                // 
-                // 			int sourceBufferSize = browserWidth * browserHeight * 4;
-                // 			int stride = browserWidth * 4;
-                // 
-                // 			Int32Rect sourceRect = new Int32Rect(0, 0, adjustedWidth, adjustedHeight);
-                // 			bitmap.WritePixels(sourceRect, sourceBuffer, sourceBufferSize, stride, 0, 0);
             }
         }
-
-        //internal void OnPopupShow(bool show)
-        //{
-        //    if (_popup == null)
-        //    {
-        //        return;
-        //    }
-
-        //    _mainUiDispatcher.Invoke(new Action(() => _popup.IsOpen = show));
-        //}
 
         internal void OnPopupSize(CefRectangle rect)
         {
@@ -833,11 +730,6 @@ namespace MVVM.Cef.Glue.WPF
                             null);
 
                         _popupImage.Source = this._popupImageBitmap;
-
-                        //_popup.Width = rect.Width;
-                        //_popup.Height = rect.Height;
-                        //_popup.HorizontalOffset = rect.X;
-                        //_popup.VerticalOffset = rect.Y;
                     }));
         }
 
@@ -853,22 +745,6 @@ namespace MVVM.Cef.Glue.WPF
            return  false;
 
         }
-
-        //internal bool OnTooltip(string text)
-        //{
-        //    if (string.IsNullOrEmpty(text))
-        //    {
-        //        _tooltipTimer.Stop();
-        //        UpdateTooltip(null);
-        //    }
-        //    else
-        //    {
-        //        _tooltipTimer.Tick += (sender, args) => UpdateTooltip(text);
-        //        _tooltipTimer.Start();
-        //    }
-
-        //    return true;
-        //}
 
         #endregion
 
@@ -960,35 +836,6 @@ namespace MVVM.Cef.Glue.WPF
             return temp;
         }
 
-        //private void UpdateTooltip(string text)
-        //{
-        //    _mainUiDispatcher.Invoke(
-        //        DispatcherPriority.Render,
-        //        new Action(
-        //            () =>
-        //            {
-        //                if (string.IsNullOrEmpty(text))
-        //                {
-        //                    _tooltip.IsOpen = false;
-        //                }
-        //                else
-        //                {
-        //                    _tooltip.Placement = PlacementMode.Mouse;
-        //                    _tooltip.Content = text;
-        //                    _tooltip.IsOpen = true;
-        //                    _tooltip.Visibility = Visibility.Visible;
-        //                }
-        //            }));
-
-        //    _tooltipTimer.Stop();
-        //}
-
-        //private void TooltipOnClosed(object sender, RoutedEventArgs routedEventArgs)
-        //{
-        //    _tooltip.Visibility = Visibility.Collapsed;
-        //    _tooltip.Placement = PlacementMode.Absolute;
-        //}
-
         #endregion
 
         #region Methods
@@ -1029,10 +876,7 @@ namespace MVVM.Cef.Glue.WPF
 
         public bool CanGoForward()
         {
-            if (_browser != null)
-                return _browser.CanGoForward;
-            else
-                return false;
+            return _browser != null && _browser.CanGoForward;
         }
 
         public void GoForward()
@@ -1048,13 +892,6 @@ namespace MVVM.Cef.Glue.WPF
         }
 
         #endregion
-
-
-   
-        public IDispatcher GetDispatcher()
-        {
-            return new WPFUIDispatcher(this.Dispatcher);
-        }
 
         public IWebView MainFrame
         {

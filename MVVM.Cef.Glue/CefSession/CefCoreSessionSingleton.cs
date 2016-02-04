@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xilium.CefGlue;
-
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Window;
+﻿using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.CefSession
 {
@@ -46,6 +37,5 @@ namespace MVVM.Cef.Glue.CefSession
             Session.Dispose();
             Session = null;
         }
-
     }
 }

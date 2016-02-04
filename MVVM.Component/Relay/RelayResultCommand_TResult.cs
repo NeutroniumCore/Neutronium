@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MVVM.Component
 {
     public class RelayResultCommand<TResult> : IResultCommand
     {
-
-        private Func<TResult> _Function;
+        private readonly Func<TResult> _Function;
         public RelayResultCommand(Func<TResult> iFunction)
         {
             _Function = iFunction;

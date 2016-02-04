@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using MVVM.HTML.Core.JavascriptEngine;
@@ -16,12 +9,10 @@ namespace MVVM.Awesomium
 {
     internal class AwesomiumHTMLWindow : IHTMLWindow, IDisposable
     {
-        private WebSession _Session;
         private IWebView _WebControl;
 
-        public AwesomiumHTMLWindow(WebSession iSession, WebControl iWebControl)
+        public AwesomiumHTMLWindow(WebControl iWebControl)
         {
-            _Session = iSession;
             _WebControl = iWebControl;
             _WebControl.SynchronousMessageTimeout = 0;
             _WebControl.ExecuteWhenReady(FireLoaded);
@@ -60,13 +51,6 @@ namespace MVVM.Awesomium
         public event EventHandler<LoadEndEventArgs> LoadEnd;
 
         public event EventHandler<ConsoleMessageArgs> ConsoleMessage;
-
-        public IDispatcher GetDispatcher()
-        {
-            return new AwesomiumDispatcher();
-        }
-
-
 
         public void Dispose()
         {

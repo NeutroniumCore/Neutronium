@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xilium.CefGlue;
 
 using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Window;
 
 namespace MVVM.Cef.Glue.CefSession
 {
     public class CefCoreSession : ICefCoreSession, IDisposable
     {
-        private CefSettings _CefSettings;
-        private string[] _Args;
-        private MVVMCefApp _CefApp;
-        //private IDispatcher _Dispatcher;
+        private readonly CefSettings _CefSettings;
+        private readonly string[] _Args;
+        private readonly MVVMCefApp _CefApp;
 
         public CefCoreSession(CefSettings iCefSettings, MVVMCefApp iCefApp, string[] iArgs)
         {
-            //_Dispatcher = iIUIDispatcher;
             _CefApp = iCefApp;
             _Args = iArgs;
             _CefSettings = iCefSettings;
@@ -33,11 +27,6 @@ namespace MVVM.Cef.Glue.CefSession
             CefRuntime.Initialize(mainArgs, _CefSettings, _CefApp, IntPtr.Zero);
         }
 
-        //public IDispatcher UIDispatcher
-        //{
-        //    get { return _Dispatcher; }
-        //}
-
         public MVVMCefApp CefApp 
         { 
             get { return _CefApp; } 
@@ -47,7 +36,6 @@ namespace MVVM.Cef.Glue.CefSession
         {
             get { return _CefSettings; }
         }
-
 
         public void Dispose()
         {

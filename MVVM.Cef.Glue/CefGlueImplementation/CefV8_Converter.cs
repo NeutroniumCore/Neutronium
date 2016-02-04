@@ -1,10 +1,5 @@
 ﻿using MVVM.HTML.Core.V8JavascriptObject;
-using MVVM.Cef.Glue.CefGlueHelper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue
@@ -74,6 +69,5 @@ namespace MVVM.Cef.Glue
 
             return false;
         }
-
     }
 }

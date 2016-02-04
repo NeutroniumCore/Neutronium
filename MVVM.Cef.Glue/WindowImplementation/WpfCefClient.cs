@@ -8,11 +8,11 @@ namespace MVVM.Cef.Glue.WPF
     {
         private WpfCefBrowser _owner;
 
-        private WpfCefLifeSpanHandler _lifeSpanHandler;
-        private WpfCefDisplayHandler _displayHandler;
-        private WpfCefRenderHandler _renderHandler;
-        private WpfCefLoadHandler _loadHandler;
-        private CefNoContextMenuHandler _CefNoContextMenuHandler;
+        private readonly WpfCefLifeSpanHandler _lifeSpanHandler;
+        private readonly WpfCefDisplayHandler _displayHandler;
+        private readonly WpfCefRenderHandler _renderHandler;
+        private readonly WpfCefLoadHandler _loadHandler;
+        private readonly CefNoContextMenuHandler _CefNoContextMenuHandler;
 
         public WpfCefClient(WpfCefBrowser owner)
         {

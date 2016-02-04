@@ -1,16 +1,12 @@
 ﻿using MVVM.HTML.Core.V8JavascriptObject;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Awesomium_Core = Awesomium.Core;
 
 namespace MVVM.Awesomium.HTMLEngine
 {
     internal class AwesomiumJavascriptObjectConverter : IJavascriptObjectConverter
     {
-        private Awesomium_Core.IWebView _IWebView;
+        private readonly Awesomium_Core.IWebView _IWebView;
         public AwesomiumJavascriptObjectConverter(Awesomium_Core.IWebView iIWebView)
         {
             _IWebView = iIWebView;
@@ -32,17 +28,13 @@ namespace MVVM.Awesomium.HTMLEngine
 
             object res =null;
 
-            if (ijsvalue.IsNumber)
-            {
+            if (ijsvalue.IsNumber) {
                 if (ijsvalue.IsInteger)
                     res = (int)ijsvalue;
                 else if (ijsvalue.IsDouble)
                     res = (double)ijsvalue;
 
-                if (iTargetType == null)
-                    return res;
-                else
-                    return Convert.ChangeType(res, iTargetType);
+                return (iTargetType == null) ? res : Convert.ChangeType(res, iTargetType);
             }
 
             var resdate =  GetDate(ijsvalue);
@@ -76,8 +68,5 @@ namespace MVVM.Awesomium.HTMLEngine
 
             return new DateTime(year, month, day, hour, minute, second, millisecond);
         }
-
-
-      
     }
 }

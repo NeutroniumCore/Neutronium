@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -13,8 +9,8 @@ namespace MVVM.HTML.Core.Navigation.Window
 {
     public class HTMLLogicWindow : NotifyPropertyChangedBase, INotifyPropertyChanged
     {
-        static private int _GId = 0;
-        private int _Id;
+        private static int _GId = 0;
+        private readonly int _Id;
 
         internal HTMLLogicWindow()
         {

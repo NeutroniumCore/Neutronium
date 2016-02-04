@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using MVVM.HTML.Core.V8JavascriptObject;
@@ -154,13 +152,13 @@ namespace MVVM.Awesomium
 
         public IJavascriptObject GetValue(int ivalue)
         {
-            JSValue[] ar = (JSValue[])_JSValue;
+            var ar = (JSValue[])_JSValue;
             return ar[ivalue].Convert();
         }
 
         public IJavascriptObject[] GetArrayElements()
         {
-            JSValue[] ar = (JSValue[])_JSValue;
+            var ar = (JSValue[])_JSValue;
             return ar.Cast<JSValue>().Select(el => el.Convert()).ToArray();
         }
 

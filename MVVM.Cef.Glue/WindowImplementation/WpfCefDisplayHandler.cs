@@ -5,7 +5,7 @@ namespace MVVM.Cef.Glue.WPF
 {
     internal sealed class WpfCefDisplayHandler : CefDisplayHandler
     {
-        WpfCefBrowser _owner;
+        private readonly WpfCefBrowser _owner;
 
         public WpfCefDisplayHandler(WpfCefBrowser owner)
         {

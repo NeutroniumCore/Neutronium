@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using Xilium.CefGlue;
 
 using MVVM.HTML.Core.V8JavascriptObject;
-
-using MVVM.Cef.Glue.CefSession;
-using MVVM.Cef.Glue.CefGlueHelper;
-using MVVM.Cef.Glue;
-
-
 
 namespace MVVM.Cef.Glue.CefSession
 {
@@ -19,7 +9,7 @@ namespace MVVM.Cef.Glue.CefSession
     {
         private MVVMCefRenderProcessHandler _MVVMCefRenderProcessHandler;
         private MVVMCefLoadHandler _MVVMCefLoadHandler;
-        private Dictionary<long, IWebView> _Associated = new Dictionary<long, IWebView>();
+        private readonly IDictionary<long, IWebView> _Associated = new Dictionary<long, IWebView>();
 
         internal MVVMCefApp()
         {
@@ -36,7 +26,6 @@ namespace MVVM.Cef.Glue.CefSession
         {
             _Associated.Remove(frame.Identifier);
         }
-
 
         internal IWebView GetContext(CefFrame frame)
         {

@@ -2,14 +2,11 @@
 using MVVM.Awesomium.HTMLEngine;
 using MVVM.HTML.Core.Window;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MVVM.Awesomium
 {
-    class AwesomiumWebView : HTML.Core.V8JavascriptObject.IWebView
+    internal class AwesomiumWebView : HTML.Core.V8JavascriptObject.IWebView
     {
         private IWebView _IWebView;
         private IDispatcher _Dispatcher;

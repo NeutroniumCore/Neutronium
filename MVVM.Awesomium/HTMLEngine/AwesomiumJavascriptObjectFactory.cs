@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using Awesomium_Core = Awesomium.Core;
 using MVVM.HTML.Core.Infra;
@@ -13,14 +12,16 @@ namespace MVVM.Awesomium.HTMLEngine
 {
     internal class AwesomiumJavascriptObjectFactory : IJavascriptObjectFactory
     {
-         private Awesomium_Core.IWebView _IWebView;
+        private static readonly IDictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>> _Converters =
+         new Dictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>>();
+
+        private readonly Awesomium_Core.IWebView _IWebView;
+        private IJavascriptObject _JSNull = null;
+
         public AwesomiumJavascriptObjectFactory(Awesomium_Core.IWebView iIWebView)
         {
             _IWebView = iIWebView;
         }
-
-        private static IDictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>> _Converters = 
-            new Dictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>>();
 
         private static void Register<T>(Func<T, Awesomium_Core.IWebView, Awesomium_Core.JSValue> Factory)
         {
@@ -69,8 +70,6 @@ namespace MVVM.Awesomium.HTMLEngine
             return true;
         }
 
-
-
          public bool SolveBasic(object ifrom, out IJavascriptObject res)
          {
              res = null;
@@ -88,8 +87,6 @@ namespace MVVM.Awesomium.HTMLEngine
 
              return _Converters.ContainsKey(itype);
          }
-
-         private IJavascriptObject _JSNull = null;
 
          private Awesomium_Core.JSValue Check(Awesomium_Core.JSObject ires)
          {
@@ -157,7 +154,6 @@ namespace MVVM.Awesomium.HTMLEngine
          public IJavascriptObject CreateObject(string iCreationCode)
          {
              return _IWebView.EvaluateSafe(() => UpdateObject(_IWebView.ExecuteJavascriptWithResult(iCreationCode))).Convert();
-   
          }
     }
 }
