@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,7 +49,7 @@ namespace MVVM.Cef.Glue.Test
             {
                 _Father = Father;
                 var cc = InitTask(ipath).Result;
-                _Father._WebView = cc.HTMLWindowProvider.HTMLWindow.MainFrame;
+                _Father._WebView = cc.MainView;
             }
 
             private Task<HTMLViewEngine> InitTask(string ipath)

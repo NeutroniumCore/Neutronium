@@ -1,4 +1,5 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine;
+using MVVM.HTML.Core.V8JavascriptObject;
 
 namespace MVVM.HTML.Core.Binding
 {
@@ -10,8 +11,18 @@ namespace MVVM.HTML.Core.Binding
             SessionInjectorFactory = sessionInjectorFactory;
         }
 
-        public IHTMLWindowProvider HTMLWindowProvider { get; private set; }
+        private IHTMLWindowProvider HTMLWindowProvider { get;  set; }
 
-        public IJavascriptSessionInjectorFactory SessionInjectorFactory { get; private set; }
+        private IJavascriptSessionInjectorFactory SessionInjectorFactory { get; set; }
+
+        public HTMLViewContext GetContext()
+        {
+            return new HTMLViewContext(MainView, HTMLWindowProvider.UIDispatcher, SessionInjectorFactory);
+        }
+
+        public IWebView MainView
+        {
+            get { return HTMLWindowProvider.HTMLWindow.MainFrame; }
+        }
     }
 }

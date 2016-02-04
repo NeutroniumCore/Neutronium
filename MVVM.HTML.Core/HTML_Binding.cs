@@ -46,13 +46,11 @@ namespace MVVM.HTML.Core
 
         internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)
         {
-            var windowprovider = viewEngine.HTMLWindowProvider;
-            var context = windowprovider.HTMLWindow.MainFrame;
-
-            var htmlContext = new HTMLViewContext(context, windowprovider.UIDispatcher, viewEngine.SessionInjectorFactory);
-            var mapper = await context.EvaluateAsync(() => new BidirectionalMapper(iViewModel, htmlContext, iMode, additional));
+            var mainView = viewEngine.MainView;
+            var htmlContext = viewEngine.GetContext();
+            var mapper = await mainView.EvaluateAsync(() => new BidirectionalMapper(iViewModel, htmlContext, iMode, additional));
             await mapper.Init();
-            return new HTML_Binding(context, mapper);
+            return new HTML_Binding(mainView, mapper);
         }
     }
 }

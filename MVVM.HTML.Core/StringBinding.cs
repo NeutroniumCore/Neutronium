@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using MVVM.HTML.Core.V8JavascriptObject;
-using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Binding;
 
@@ -43,21 +42,20 @@ namespace MVVM.HTML.Core
             get { return null; }
         }
 
-        public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel)
-        {
-            var context = engine.HTMLWindowProvider.HTMLWindow.MainFrame;
+        public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel) {
+            var mainView = engine.MainView;
 
-            var root = await context.EvaluateAsync(() =>
+            var root = await mainView.EvaluateAsync(() =>
                 {
-                    var json = context.GetGlobal().GetValue("JSON");
-                    return json.Invoke("parse", context, context.Factory.CreateString(iViewModel));
+                    var json = mainView.GetGlobal().GetValue("JSON");
+                    return json.Invoke("parse", mainView, mainView.Factory.CreateString(iViewModel));
                 });
 
-            var injector = engine.SessionInjectorFactory.CreateInjector(context, null);
+            var injector = engine.GetContext().CreateInjector(null);
             var mappedroot = injector.Inject(root, null);
             await injector.RegisterMainViewModel(mappedroot);
 
-            return new StringBinding(context, mappedroot, injector);
+            return new StringBinding(mainView, mappedroot, injector);
         }
 
         public IWebView Context
