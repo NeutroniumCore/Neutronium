@@ -1,4 +1,6 @@
-﻿using MVVM.HTML.Core.V8JavascriptObject;
+﻿using MVVM.HTML.Core.Binding.Mapping;
+using MVVM.HTML.Core.HTMLBinding;
+using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 
 namespace MVVM.HTML.Core.Binding
@@ -15,6 +17,11 @@ namespace MVVM.HTML.Core.Binding
 
         public IDispatcher UIDispatcher { get; private set; }
 
-        public IJavascriptSessionInjectorFactory JavascriptSessionInjectorFactory { get; private set; }
+        private IJavascriptSessionInjectorFactory JavascriptSessionInjectorFactory { get; set; }
+
+        public IJavascriptSessionInjector CreateInjector(IJavascriptChangesListener JavascriptObjecChanges)
+        {
+            return JavascriptSessionInjectorFactory.CreateInjector(WebView, JavascriptObjecChanges);
+        }
     }
 }

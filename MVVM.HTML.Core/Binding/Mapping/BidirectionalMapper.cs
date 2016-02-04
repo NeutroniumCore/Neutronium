@@ -18,7 +18,6 @@ namespace MVVM.HTML.Core.HTMLBinding
     {
         private readonly JavascriptBindingMode _BindingMode;
         private readonly IJSCSGlue _Root;
-        //private readonly IWebView _IWebView;
         private readonly HTMLViewContext _Context;
         private readonly List<IJSCSGlue> _UnrootedEntities;
 
@@ -43,9 +42,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (iMode == JavascriptBindingMode.TwoWay)
                 JavascriptObjecChanges = this;
 
-            //var factory = new KnockoutSessionInjectorFactory();
-            //_SessionInjector = factory.CreateInjector(context, JavascriptObjecChanges);
-            _SessionInjector = _Context.JavascriptSessionInjectorFactory.CreateInjector(_Context.WebView, JavascriptObjecChanges);
+            _SessionInjector = _Context.CreateInjector(JavascriptObjecChanges);
         }
 
         internal async Task Init()
