@@ -21,7 +21,6 @@ namespace MVVM.Cef.Glue.Test
     public abstract class MVVMCefGlue_Test_Base : IDisposable
     {
         protected IWebView _WebView = null;
-        //protected TestCefGlueHTMLWindowProvider _ICefGlueWindow = null;
         protected HTMLViewEngine _ICefGlueWindow = null;
  
         public MVVMCefGlue_Test_Base()

@@ -1,22 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using System.Windows.Input;
-using System.Reflection;
-
 using Xunit;
 using FluentAssertions;
-using NSubstitute;
-
-using MVVM.ViewModel;
-using MVVM.HTML.Core.Infra;
-using MVVM.ViewModel.Infra;
 using MVVM.HTML.Core;
 
 namespace MVVM.Cef.Glue.Test
@@ -56,7 +40,5 @@ namespace MVVM.Cef.Glue.Test
                     };
                     wf.ShouldThrow<Exception>();
         }
-
     }
-
 }

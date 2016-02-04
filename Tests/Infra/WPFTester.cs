@@ -1,8 +1,4 @@
-﻿using MVVM.HTML.Core.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Threading;
 using Xunit;
@@ -149,7 +145,6 @@ namespace MVVM.Cef.Glue.Test
         }
 
         #endregion
-
     }   
 }
 

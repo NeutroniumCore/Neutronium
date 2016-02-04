@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Controls;
 
@@ -33,10 +30,8 @@ namespace MVVM.Cef.Glue.Test
                     var iWebControl = iWebControlFac();
                     w.RegisterName(iWebControl.Name, iWebControl);
                     stackPanel.Children.Add(iWebControl);
-                }
-                );
+                });
         }
-
 
         internal void TestNavigation(Action<HTMLWindow, WindowTest> Test, bool Cef=true)
         {
@@ -122,9 +117,6 @@ namespace MVVM.Cef.Glue.Test
                     mre.WaitOne();
                     Thread.Sleep(500);
                 });
-
-
         }
-
     }
 }

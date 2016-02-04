@@ -1,10 +1,4 @@
-﻿using MVVM.Cef.Glue;
-using MVVM.HTML.Core.V8JavascriptObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MVVM.HTML.Core.V8JavascriptObject;
 using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.Test.Infra

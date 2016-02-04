@@ -1,8 +1,5 @@
 ﻿using MVVM.HTML.Core.Window;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MVVM.Cef.Glue.Test.CefWindowless

@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using FluentAssertions;
-using NSubstitute;
 using Xunit;
 using Xilium.CefGlue;
-
-using MVVM.HTML.Core.HTMLBinding;
 using MVVM.Cef.Glue.Test.Infra;
 
 
@@ -17,7 +11,7 @@ namespace MVVM.Cef.Glue.Test
     public class Test_JavascriptToCSharpMapper_Simple : MVVMCefGlue_Test_Base
     {
 
-        private CefV8_Converter _CefV8_Converter;
+        private readonly CefV8_Converter _CefV8_Converter;
         public Test_JavascriptToCSharpMapper_Simple()
         {
             _CefV8_Converter = new CefV8_Converter();
