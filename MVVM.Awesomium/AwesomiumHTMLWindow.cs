@@ -4,12 +4,11 @@ using Awesomium.Windows.Controls;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Window;
 
-
 namespace MVVM.Awesomium
 {
     internal class AwesomiumHTMLWindow : IHTMLWindow, IDisposable
     {
-        private IWebView _WebControl;
+        private readonly IWebView _WebControl;
 
         public AwesomiumHTMLWindow(WebControl iWebControl)
         {
