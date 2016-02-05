@@ -1,7 +1,7 @@
-﻿using MVVM.ViewModel;
-using System;
+﻿using System;
+using MVVM.ViewModel;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Cef.Glue.Test.Core
 {
     public class ViewModelCLRTypes : ViewModelBase
     {

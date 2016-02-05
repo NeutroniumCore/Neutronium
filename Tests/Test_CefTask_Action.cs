@@ -2,6 +2,7 @@
 using NSubstitute;
 using Xunit;
 using FluentAssertions;
+using MVVM.Cef.Glue.Test.Core;
 
 namespace MVVM.Cef.Glue.Test
 {

@@ -8,6 +8,7 @@ using Xunit;
 using MVVM.ViewModel;
 using MVVM.HTML.Core;
 using HTML_WPF.Component;
+using MVVM.Cef.Glue.Test.Infra;
 
 namespace MVVM.Cef.Glue.Test
 {

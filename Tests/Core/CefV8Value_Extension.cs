@@ -1,7 +1,7 @@
 ﻿using MVVM.HTML.Core.V8JavascriptObject;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.Test.Infra
+namespace MVVM.Cef.Glue.Test.Core
 {
     public static class CefV8Value_Extension
     {
@@ -12,7 +12,7 @@ namespace MVVM.Cef.Glue.Test.Infra
 
         public static CefV8Value Convert(this IJavascriptObject value)
         {
-            return (value as CefV8_JavascriptObject).RawValue;
+            return ((CefV8_JavascriptObject) value).RawValue;
         }
     }
 }

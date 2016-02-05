@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 
 using MVVM.ViewModel.Infra;
-using MVVM.ViewModel;
 
 namespace MVVM.ViewModel.Example
 {

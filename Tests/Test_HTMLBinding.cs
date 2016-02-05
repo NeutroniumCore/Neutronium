@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Xunit;
 using NSubstitute;
 using FluentAssertions;
+using MVVM.Cef.Glue.Test.Core;
 using Newtonsoft.Json;
 using MVVM.HTML.Core.HTMLBinding;
 using MVVM.ViewModel.Example;

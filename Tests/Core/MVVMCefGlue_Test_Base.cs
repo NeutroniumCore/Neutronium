@@ -4,28 +4,21 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Xilium.CefGlue;
-
-using MVVM.HTML.Core.Infra;
+using MVVM.Cef.Glue.CefGlueHelper;
 using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.Test.CefWindowless;
-using MVVM.Cef.Glue.CefGlueHelper;
-using MVVM.HTML.Core.V8JavascriptObject;
-using MVVM.Cef.Glue.Test.Infra;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Mapping;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.V8JavascriptObject;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Cef.Glue.Test.Core
 {
     public abstract class MVVMCefGlue_Test_Base : IDisposable
     {
         protected IWebView _WebView = null;
         protected HTMLViewEngine _ICefGlueWindow = null;
- 
-        public MVVMCefGlue_Test_Base()
-        {
-        }
 
         protected virtual void Init()
         {
@@ -42,7 +35,7 @@ namespace MVVM.Cef.Glue.Test
 
         private class TestContext : IDisposable
         {
-            private MVVMCefGlue_Test_Base _Father;
+            private readonly MVVMCefGlue_Test_Base _Father;
             
             public TestContext(MVVMCefGlue_Test_Base Father, string ipath)
             {
@@ -139,12 +132,12 @@ namespace MVVM.Cef.Glue.Test
 
         protected IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
         {
-            return _WebView.Evaluate(() => value.Convert().Invoke(attibutename, _WebView)).Convert();
+            return _WebView.Evaluate(() => CefV8_Helper.Convert(value).Invoke(attibutename, _WebView)).Convert();
         }
 
         protected string GetStringAttribute(IJavascriptObject value, string attibutename)
         {
-            return _WebView.Evaluate(() => value.Convert().Invoke(attibutename, _WebView).GetStringValue());
+            return _WebView.Evaluate(() => CefV8_Helper.Convert(value).Invoke(attibutename, _WebView).GetStringValue());
         }
 
         protected int GetIntAttribute(IJavascriptObject value, string attibutename)

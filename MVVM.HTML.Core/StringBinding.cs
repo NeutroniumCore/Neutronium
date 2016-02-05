@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Binding.Mapping;
@@ -7,13 +6,13 @@ using MVVM.HTML.Core.Binding;
 
 namespace MVVM.HTML.Core
 {
-    public class StringBinding : IDisposable, IHTMLBinding
+    public class StringBinding :  IHTMLBinding
     {
         private IJavascriptSessionInjector _JavascriptSessionInjector;
         private readonly IJavascriptObject _Root;
-        private readonly IWebView _Context;
+        private readonly HTMLViewContext _Context;
 
-        internal StringBinding(IWebView context, IJavascriptObject root, IJavascriptSessionInjector iKnockoutSessionInjector)
+        internal StringBinding(HTMLViewContext context, IJavascriptObject root, IJavascriptSessionInjector iKnockoutSessionInjector)
         {
             _JavascriptSessionInjector = iKnockoutSessionInjector;
             _Context = context;
@@ -22,7 +21,7 @@ namespace MVVM.HTML.Core
 
         public void Dispose()
         {
-            _Context.RunAsync(() =>
+            Context.RunAsync(() =>
             {
                 if (_JavascriptSessionInjector != null)
                 {
@@ -42,8 +41,15 @@ namespace MVVM.HTML.Core
             get { return null; }
         }
 
-        public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel) {
-            var mainView = engine.MainView;
+        public IJavascriptSessionInjector JavascriptUIFramework
+        {
+            get { return _Context.JavascriptSessionInjector; }
+        }
+
+        public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel)
+        {
+            var context = engine.GetContext();
+            var mainView = context.WebView;
 
             var root = await mainView.EvaluateAsync(() =>
                 {
@@ -51,16 +57,16 @@ namespace MVVM.HTML.Core
                     return json.Invoke("parse", mainView, mainView.Factory.CreateString(iViewModel));
                 });
 
-            var injector = engine.GetContext().CreateInjector(null);
+            var injector = context.CreateInjector(null);
             var mappedroot = injector.Inject(root, null);
             await injector.RegisterMainViewModel(mappedroot);
 
-            return new StringBinding(mainView, mappedroot, injector);
+            return new StringBinding(context, mappedroot, injector);
         }
 
         public IWebView Context
         {
-            get { return _Context; }
+            get { return _Context.WebView; }
         }
     }
 }

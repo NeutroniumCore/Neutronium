@@ -1,8 +1,4 @@
 ﻿using MVVM.HTML.Core.Infra;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
@@ -11,7 +7,7 @@ namespace MVVM.HTML.Core.Test
 {
     public class NullUIDispatcherTest
     {
-        private NullUIDispatcher _NullUIDispatcher;
+        private readonly NullUIDispatcher _NullUIDispatcher;
         public NullUIDispatcherTest()
         {
             _NullUIDispatcher = new NullUIDispatcher();

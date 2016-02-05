@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Cef.Glue.Test.Infra
 {
    
     /// <summary>
@@ -26,12 +26,12 @@ namespace MVVM.Cef.Glue.Test
         /// <param name="assembly">Assembly to set as entry assembly</param>
         public static void SetEntryAssembly(Assembly assembly)
         {
-            AppDomainManager manager = new AppDomainManager();
-            FieldInfo entryAssemblyfield = manager.GetType().GetField("m_entryAssembly", BindingFlags.Instance | BindingFlags.NonPublic);
+            var manager = new AppDomainManager();
+            var entryAssemblyfield = manager.GetType().GetField("m_entryAssembly", BindingFlags.Instance | BindingFlags.NonPublic);
             entryAssemblyfield.SetValue(manager, assembly);
 
-            AppDomain domain = AppDomain.CurrentDomain;
-            FieldInfo domainManagerField = domain.GetType().GetField("_domainManager", BindingFlags.Instance | BindingFlags.NonPublic);
+            var domain = AppDomain.CurrentDomain;
+            var domainManagerField = domain.GetType().GetField("_domainManager", BindingFlags.Instance | BindingFlags.NonPublic);
             domainManagerField.SetValue(domain, manager);
         }
     }

@@ -21,14 +21,14 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly HTMLViewContext _Context;
         private readonly List<IJSCSGlue> _UnrootedEntities;
 
-        private CSharpToJavascriptMapper _JSObjectBuilder;
-        private IJavascriptSessionInjector _SessionInjector;
+        private readonly CSharpToJavascriptMapper _JSObjectBuilder;
+        private IJavascriptSessionInjector _sessionInjector;
 
         private bool _IsListening = false;
 
-        private IDictionary<object, IJSCSGlue> _FromCSharp = new Dictionary<object, IJSCSGlue>();
-        private IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();
-        private IDictionary<uint, IJSCSGlue> _FromJavascript_Local = new Dictionary<uint, IJSCSGlue>();
+        private readonly IDictionary<object, IJSCSGlue> _FromCSharp = new Dictionary<object, IJSCSGlue>();
+        private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();
+        private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Local = new Dictionary<uint, IJSCSGlue>();
 
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         {
@@ -38,11 +38,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             _UnrootedEntities = new List<IJSCSGlue>();
             _BindingMode = iMode;
 
-            IJavascriptChangesListener JavascriptObjecChanges = null;
-            if (iMode == JavascriptBindingMode.TwoWay)
-                JavascriptObjecChanges = this;
-
-            _SessionInjector = _Context.CreateInjector(JavascriptObjecChanges);
+             var JavascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesListener)this : null;
+            _sessionInjector = _Context.CreateInjector(JavascriptObjecChanges);
         }
 
         internal async Task Init()
@@ -63,9 +60,9 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private class JavascriptMapper : IJavascriptMapper
         {
-            private IJSObservableBridge _Root;
-            private BidirectionalMapper _LiveMapper;
-            private TaskCompletionSource<object> _TCS = new TaskCompletionSource<object>();
+            private readonly IJSObservableBridge _Root;
+            private readonly BidirectionalMapper _LiveMapper;
+            private readonly TaskCompletionSource<object> _TCS = new TaskCompletionSource<object>();
             public JavascriptMapper(IJSObservableBridge iRoot, BidirectionalMapper iFather)
             {
                 _LiveMapper = iFather;
@@ -109,7 +106,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
         {
-            JSGenericObject jso = GetFromJavascript(iFather) as JSGenericObject;
+            var jso = GetFromJavascript(iFather) as JSGenericObject;
             Update(jso.Attributes[att] as IJSObservableBridge, iChild);
         }
 
@@ -118,7 +115,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             var father = GetFromJavascript(iFather);
             var jsos = (att == null) ? father : (father as JSGenericObject).Attributes[att];
 
-            Update((jsos as JSArray).Items[index] as IJSObservableBridge, iChild);
+            Update(((JSArray) jsos).Items[index] as IJSObservableBridge, iChild);
         }
 
         #endregion
@@ -158,12 +155,12 @@ namespace MVVM.HTML.Core.HTMLBinding
                 return;
 
             var jvm = new JavascriptMapper(iroot as IJSObservableBridge, this);
-            var res = _SessionInjector.Inject(iroot.JSValue, jvm, (iroot.CValue != null));
+            var res = _sessionInjector.Inject(iroot.JSValue, jvm, (iroot.CValue != null));
 
             await jvm.UpdateTask;
 
             if (isroot)
-                await _SessionInjector.RegisterMainViewModel(res);
+                await _sessionInjector.RegisterMainViewModel(res);
         }
 
         public void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string PropertyName, IJavascriptObject newValue)
@@ -366,10 +363,10 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (ListenToCSharp)
                 UnlistenToCSharpChanges();
 
-            if (_SessionInjector != null)
+            if (_sessionInjector != null)
             {
-                _SessionInjector.Dispose();
-                _SessionInjector = null;
+                _sessionInjector.Dispose();
+                _sessionInjector = null;
             }
 
             _UnrootedEntities.Clear();
@@ -388,7 +385,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         IJSCSGlue IJSCBridgeCache.GetCached(object key)
         {
-            IJSCSGlue res = null;
+            IJSCSGlue res;
             _FromCSharp.TryGetValue(key, out res);
             return res;
         }
@@ -400,7 +397,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                     if (!globalkey.HasRelevantId())
                         return null;
 
-                    IJSCSGlue res = null;
+                    IJSCSGlue res;
                     _FromJavascript_Global.TryGetValue(globalkey.GetID(), out res);
                     return res;
                 });

@@ -1,8 +1,5 @@
 ﻿using MVVM.Component;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MVVM.ViewModel.Example
 {
@@ -20,7 +17,6 @@ namespace MVVM.ViewModel.Example
 
             return new Person() { LastName = n + "99" };
         }
-
 
         public IResultCommand CreateObject { get; set; }
 

@@ -1,10 +1,10 @@
 ﻿using System;
 
 using FluentAssertions;
+using MVVM.Cef.Glue.Test.Core;
 using Xunit;
 using Xilium.CefGlue;
 using MVVM.Cef.Glue.Test.Infra;
-
 
 namespace MVVM.Cef.Glue.Test
 {

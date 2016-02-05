@@ -8,6 +8,7 @@ using Xunit;
 
 using MVVM.HTML.Core.HTMLBinding;
 using MVVM.Cef.Glue.Test.CefWindowless;
+using MVVM.Cef.Glue.Test.Core;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.V8JavascriptObject;
@@ -31,7 +32,7 @@ namespace MVVM.Cef.Glue.Test
 
 
         private CSharpToJavascriptMapper _ConverTOJSO;
-        private CefV8_Factory _IJSOBuilder;
+        //private CefV8_Factory _IJSOBuilder;
         private TestClass _Test;
         private Test2 _Test2;
         private List<TestClass> _Tests;
@@ -46,7 +47,7 @@ namespace MVVM.Cef.Glue.Test
 
         protected override void Init()
         {
-            _IJSOBuilder = new CefV8_Factory(_WebView);
+            //_IJSOBuilder = new CefV8_Factory(_WebView);
             _ICSharpMapper = Substitute.For<IJSCBridgeCache>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), new KnockoutSessionInjectorFactory());

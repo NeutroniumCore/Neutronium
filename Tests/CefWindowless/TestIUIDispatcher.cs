@@ -12,12 +12,10 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
             return Task.FromResult<object>(null);
         }
 
-
         public void Run(Action act)
         {
             act();
         }
-
 
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {

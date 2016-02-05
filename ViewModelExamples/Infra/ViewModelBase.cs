@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace MVVM.ViewModel
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-
         protected bool Set<T>(ref T ipnv, T value, string ipn)
         {
             if (object.Equals(ipnv, value))

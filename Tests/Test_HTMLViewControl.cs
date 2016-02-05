@@ -12,6 +12,7 @@ using MVVM.HTML.Core.Exceptions;
 using System.IO;
 using MVVM.HTML.Core;
 using HTML_WPF.Component;
+using MVVM.Cef.Glue.Test.Infra;
 
 namespace MVVM.Cef.Glue.Test
 {

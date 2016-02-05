@@ -3,7 +3,7 @@ using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.Test.CefWindowless
 {
-    class TestCefRenderHandler : CefRenderHandler
+    internal class TestCefRenderHandler : CefRenderHandler
     {
         protected override bool GetScreenInfo(CefBrowser browser, CefScreenInfo screenInfo)
         {

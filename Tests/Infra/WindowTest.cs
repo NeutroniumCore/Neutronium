@@ -2,13 +2,11 @@
 using System.Windows;
 using System.Windows.Threading;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Cef.Glue.Test.Infra
 {
-
-    internal class WindowTest : IDisposable
+    public class WindowTest : IDisposable
     {
-        private WPFThreadingHelper _WPFThreadingHelper;
-
+        private readonly WPFThreadingHelper _WPFThreadingHelper;
 
         public WindowTest(Action<Window> Init)
         {
@@ -16,17 +14,14 @@ namespace MVVM.Cef.Glue.Test
                 () =>
                 {
                     var window = new Window();
-                    NameScope.SetNameScope(window, new NameScope());
                     Init(window);
                     return window;
-                }
-                );
+                } );
         }
 
         public Window Window { get { return _WPFThreadingHelper.MainWindow; } }
 
         public Dispatcher Dispatcher { get { return Window.Dispatcher; } }
-
 
         public void RunOnUIThread(Action Do)
         {

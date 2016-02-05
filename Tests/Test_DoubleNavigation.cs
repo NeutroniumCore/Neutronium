@@ -15,6 +15,7 @@ using MVVM.ViewModel.Infra;
 using MVVM.ViewModel;
 using MVVM.HTML.Core;
 using HTML_WPF.Component;
+using MVVM.Cef.Glue.Test.Infra;
 using MVVM.HTML.Core.Exceptions;
 
 namespace MVVM.Cef.Glue.Test
@@ -474,7 +475,7 @@ namespace MVVM.Cef.Glue.Test
         //[Fact]
         //public void Test_HTMLWindow_WebCoreShutDown_Watcher_Exception()
         //{
-        //    WPFTester.ShouldReceivedError = true;
+        //    WPFWindowTestWrapper.ShouldReceivedError = true;
         //    IWebSessionWatcher watch = Substitute.For<IWebSessionWatcher>();
         //    var exp = Test_HTMLWindow_WebCoreShutDown_Base_Exception(watch);
         //    //watch.Received().LogCritical("Critical: WebCore ShuttingDown!!");

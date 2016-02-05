@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using FluentAssertions;
-using NSubstitute;
 using Xunit;
-using MVVM.HTML.Core;
 using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.HTML.Core.Test
 {
     public class NullWatcherTest
     {
-        private IWebSessionWatcher _NullWatcher = new NullWatcher();
+        private readonly IWebSessionWatcher _NullWatcher = new NullWatcher();
        
         [Fact]
         public void Test_LogCritical()

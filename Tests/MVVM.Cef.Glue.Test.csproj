@@ -96,18 +96,19 @@
     <Compile Include="CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
     <Compile Include="CefWindowless\TestCefGlueWindow.cs" />
     <Compile Include="CefWindowless\TestIUIDispatcher.cs" />
-    <Compile Include="Infra\CefV8Value_Extension.cs" />
-    <Compile Include="Test.Core\MVVMCefGlue_Test_Base.cs" />
+    <Compile Include="Infra\DispatcherHelper.cs" />
+    <Compile Include="Core\CefV8Value_Extension.cs" />
+    <Compile Include="Core\MVVMCefGlue_Test_Base.cs" />
     <Compile Include="CefWindowless\TestCefLifeSpanHandler.cs" />
     <Compile Include="CefWindowless\TestCefLoadHandler.cs" />
     <Compile Include="CefWindowless\TestCefClient.cs" />
     <Compile Include="CefWindowless\TestCefRenderHandler.cs" />
-    <Compile Include="Test.Core\TestInContext.cs" />
+    <Compile Include="Core\TestInContext.cs" />
     <Compile Include="Test_CefTask_Action.cs" />
     <Compile Include="Test_HTMLApp.cs" />
     <Compile Include="Test_HTMLViewControl.cs" />
     <Compile Include="Infra\AssemblyHelper.cs" />
-    <Compile Include="Infra\ViewModelCLRTypes.cs" />
+    <Compile Include="Core\ViewModelCLRTypes.cs" />
     <Compile Include="Infra\WindowTest.cs" />
     <Compile Include="Infra\WPFThreadingHelper.cs" />
     <Compile Include="Test_DoubleNavigation.cs" />
@@ -117,7 +118,7 @@
     <Compile Include="Test_HTMLBinding.cs" />
     <Compile Include="Test_ConvertToJSO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Infra\WPFTester.cs" />
+    <Compile Include="Infra\WPFWindowTestWrapper.cs" />
     <Compile Include="Test_NavigationBuilder.cs" />
     <Compile Include="ViewModel.Test\ChangingCollectionViewModel.cs" />
   </ItemGroup>

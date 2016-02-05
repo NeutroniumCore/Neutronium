@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using MVVM.ViewModel;
-
-namespace MVVM.ViewModel.Example
+﻿namespace MVVM.ViewModel.Example
 {
     public class Local : ViewModelBase
     {
-
         private string _City;
         public string City
         {
@@ -30,6 +22,4 @@ namespace MVVM.ViewModel.Example
             }
         }
     }
-
-
 }

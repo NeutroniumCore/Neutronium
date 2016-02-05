@@ -1,35 +1,15 @@
 ﻿using System;
-using System.Security.Permissions;
 using System.Threading;
 using System.Windows;
-using System.Windows.Threading;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Cef.Glue.Test.Infra
 {
-    public static class DispatcherHelper
-    {
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        public static void DoEvents()
-        {
-            DispatcherFrame frame = new DispatcherFrame();
-            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background,
-                new DispatcherOperationCallback(ExitFrame), frame);
-            Dispatcher.PushFrame(frame);
-        }
-
-        private static object ExitFrame(object frame)
-        {
-            ((DispatcherFrame)frame).Continue = false;
-            return null;
-        }
-    }
     internal class WPFThreadingHelper : IDisposable
     {
-
-        private Thread _UIThread;
-        private AutoResetEvent _ARE;
-        private Window _window;
-        private WPFTester _wpfTester;
+        private readonly Thread _UIThread;
+        private readonly Func<Window> _factory;
+        private readonly AutoResetEvent _ARE;
+        private WPFWindowTestWrapper _wpfWindowTestWrapper;
         private CancellationTokenSource _CTS;
 
         internal Thread UIThread
@@ -39,31 +19,28 @@ namespace MVVM.Cef.Glue.Test
 
         internal Window MainWindow
         {
-            get { return _window; }
+            get { return _wpfWindowTestWrapper.Window; }
         }
 
-        private Func<Window> _factory;
-        private Func<Application> _applicationfactory;
-
-        public WPFThreadingHelper(Func<Window> ifactory=null, Func<Application> iappbuilder=null )
+        public WPFThreadingHelper(Func<Window> ifactory=null )
         {
             Func<Window> basic =() => new Window();
-            _applicationfactory = iappbuilder;
             _factory = ifactory ?? basic;
             _CTS = new CancellationTokenSource();
             _ARE = new AutoResetEvent(false);
-            Thread thread = new Thread(InitUIinSTA);
-            thread.Name = "Simulated UI Thread";
+            var thread = new Thread(InitUIinSTA) {
+                Name = "Simulated UI Thread"
+            };
             thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
             thread.Start();
 
             _ARE.WaitOne();
-            _UIThread = _window.Dispatcher.Thread;
+            _UIThread = MainWindow.Dispatcher.Thread;
         }
 
         public void Close()
         {
-            _wpfTester.Close();
+            _wpfWindowTestWrapper.Close();
         }
 
         public void Dispose()
@@ -71,17 +48,13 @@ namespace MVVM.Cef.Glue.Test
             _CTS.Cancel();
             _UIThread.Join();
             _ARE.Dispose();
-            _ARE = null;
             _CTS.Dispose();
-            _CTS = null;
         }
 
         private void InitUIinSTA()
         {
-            _wpfTester = new WPFTester();
-            var application = (_applicationfactory != null) ? _applicationfactory() :  new Application();
-            _window = _factory();
-            _wpfTester.ShowWindow(_window);
+            _wpfWindowTestWrapper = new WPFWindowTestWrapper(_factory());        
+            _wpfWindowTestWrapper.ShowWindow();
             _ARE.Set();
 
             while (_CTS.IsCancellationRequested == false)

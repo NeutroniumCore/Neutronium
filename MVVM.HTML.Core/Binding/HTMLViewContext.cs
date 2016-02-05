@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.Binding.Mapping;
+﻿using System.Threading.Tasks;
+using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.HTMLBinding;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
@@ -17,11 +18,20 @@ namespace MVVM.HTML.Core.Binding
 
         public IDispatcher UIDispatcher { get; private set; }
 
+        public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
+
         private IJavascriptSessionInjectorFactory JavascriptSessionInjectorFactory { get; set; }
 
         public IJavascriptSessionInjector CreateInjector(IJavascriptChangesListener JavascriptObjecChanges)
         {
-            return JavascriptSessionInjectorFactory.CreateInjector(WebView, JavascriptObjecChanges);
+            return JavascriptSessionInjector = JavascriptSessionInjectorFactory.CreateInjector(WebView, JavascriptObjecChanges);
+        }
+
+        internal async Task<BidirectionalMapper> GetMapper(object viewModel, JavascriptBindingMode iMode, object additional)
+        {
+            var mapper = await WebView.EvaluateAsync(() => new BidirectionalMapper(viewModel, this, iMode, additional));
+            await mapper.Init();
+            return mapper;
         }
     }
 }

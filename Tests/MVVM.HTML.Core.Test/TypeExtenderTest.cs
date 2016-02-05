@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Windows;
-
 using Xunit;
 using FluentAssertions;
 
 using MVVM.HTML.Core.Infra;
-using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.Test
 {
