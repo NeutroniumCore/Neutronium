@@ -15,5 +15,12 @@ namespace MVVM.HTML.Core.Infra
             dic.Add(key, res);
             return res;
         }
+
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dic, TKey key)
+        {
+            TValue res;
+            dic.TryGetValue(key, out res);
+            return res;
+        }
     }
 }

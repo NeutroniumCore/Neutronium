@@ -39,9 +39,7 @@ namespace HTML_WPF.Component
                 return res;
             }
 
-            IWPFWebWindowFactory myres = null;
-            _Dic.TryGetValue(EngineName, out myres);
-            return myres;
+            return _Dic.GetOrDefault(EngineName);
         }
 
         public void Register(IWPFWebWindowFactory iWPFWebWindowFactory)

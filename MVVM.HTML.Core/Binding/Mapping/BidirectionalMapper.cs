@@ -122,26 +122,24 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
 
-        private void ApplyOnListenableReferencedObjects(JSCBridgeListenableVisitor visitor)
+        private void ApplyOnListenableReferencedObjects(Action<INotifyPropertyChanged> onObject,
+                            Action<INotifyCollectionChanged> onCollection, Action<JSCommand> onCommand)
         {
+            var visitor = new JSCBridgeListenableVisitor(onObject, onCollection, onCommand);
             _Root.ApplyOnListenable(visitor);
             _UnrootedEntities.ForEach(js => js.ApplyOnListenable(visitor));
         }
 
         private void ListenToCSharpChanges()
         {
-            var list = new JSCBridgeListenableVisitor(n => n.PropertyChanged += Object_PropertyChanged,
+            ApplyOnListenableReferencedObjects(n => n.PropertyChanged += Object_PropertyChanged,
                                      c => c.CollectionChanged += CollectionChanged, co => co.ListenChanges());
-
-            ApplyOnListenableReferencedObjects(list);
         }
 
         private void UnlistenToCSharpChanges()
         {
-            var list = new JSCBridgeListenableVisitor(n => n.PropertyChanged -= Object_PropertyChanged,
+            ApplyOnListenableReferencedObjects(n => n.PropertyChanged -= Object_PropertyChanged,
                            c => c.CollectionChanged -= CollectionChanged, co => co.UnListenChanges());
-
-            ApplyOnListenableReferencedObjects(list);
         }
 
         public IJSCSGlue JSValueRoot { get { return _Root; } }
@@ -245,10 +243,9 @@ namespace MVVM.HTML.Core.HTMLBinding
             public ReListener(BidirectionalMapper iBidirectionalMapper)
             {
                 _BidirectionalMapper = iBidirectionalMapper;
-                var list = new JSCBridgeListenableVisitor((e) => _OldObject.Add(e),
-                    (e) => _OldCollections.Add(e), e => _OldCommands.Add(e));
 
-                _BidirectionalMapper.ApplyOnListenableReferencedObjects(list);
+                _BidirectionalMapper.ApplyOnListenableReferencedObjects((e) => _OldObject.Add(e),
+                    (e) => _OldCollections.Add(e), e => _OldCommands.Add(e));
             }
 
             public void AddRef()
@@ -270,11 +267,8 @@ namespace MVVM.HTML.Core.HTMLBinding
                 var new_Collections = new HashSet<INotifyCollectionChanged>();
                 var new_Commands = new HashSet<JSCommand>();
 
-                var list = new JSCBridgeListenableVisitor((e) => newObject.Add(e),
+                _BidirectionalMapper.ApplyOnListenableReferencedObjects((e) => newObject.Add(e),
                                 (e) => new_Collections.Add(e), e => new_Commands.Add(e));
-
-
-                _BidirectionalMapper.ApplyOnListenableReferencedObjects(list);
 
                 _OldObject.Where(o => !newObject.Contains(o)).ForEach(o => o.PropertyChanged -= _BidirectionalMapper.Object_PropertyChanged);
                 newObject.Where(o => !_OldObject.Contains(o)).ForEach(o => o.PropertyChanged += _BidirectionalMapper.Object_PropertyChanged);
@@ -385,9 +379,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         IJSCSGlue IJSCBridgeCache.GetCached(object key)
         {
-            IJSCSGlue res;
-            _FromCSharp.TryGetValue(key, out res);
-            return res;
+            return _FromCSharp.GetOrDefault(key);
         }
 
         public IJSCSGlue GetCached(IJavascriptObject globalkey)
@@ -397,9 +389,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                     if (!globalkey.HasRelevantId())
                         return null;
 
-                    IJSCSGlue res;
-                    _FromJavascript_Global.TryGetValue(globalkey.GetID(), out res);
-                    return res;
+                    return _FromJavascript_Global.GetOrDefault(globalkey.GetID());
                 });
         }
 
@@ -425,9 +415,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (!localkey.HasRelevantId())
                 return null;
 
-            IJSCSGlue res;
-            _FromJavascript_Local.TryGetValue(localkey.GetID(), out res);
-            return res;
+            return _FromJavascript_Local.GetOrDefault(localkey.GetID());
         }
     }
 }
