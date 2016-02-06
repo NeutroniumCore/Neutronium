@@ -51,7 +51,7 @@ namespace MVVM.HTML.Core
 
         internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)
         {
-            var htmlContext = viewEngine.GetContext();
+            var htmlContext = viewEngine.GetMainContext();
             var mapper = await htmlContext.GetMapper(iViewModel, iMode, additional);
             return new HTML_Binding(htmlContext, mapper);
         }

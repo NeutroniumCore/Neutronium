@@ -48,7 +48,7 @@ namespace MVVM.HTML.Core
 
         public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel)
         {
-            var context = engine.GetContext();
+            var context = engine.GetMainContext();
             var mainView = context.WebView;
 
             var root = await mainView.EvaluateAsync(() =>

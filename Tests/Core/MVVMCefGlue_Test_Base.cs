@@ -12,6 +12,7 @@ using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.V8JavascriptObject;
 using Xilium.CefGlue;
+using MVVM.HTML.Core.JavascriptEngine;
 
 namespace MVVM.Cef.Glue.Test.Core
 {
@@ -41,12 +42,12 @@ namespace MVVM.Cef.Glue.Test.Core
             {
                 _Father = Father;
                 var cc = InitTask(ipath).Result;
-                _Father._WebView = cc.MainView;
+                _Father._WebView = cc.HTMLWindow.MainFrame;
             }
 
-            private Task<HTMLViewEngine> InitTask(string ipath)
+            private Task<IHTMLWindowProvider> InitTask(string ipath)
             {
-                TaskCompletionSource<HTMLViewEngine> tcs = new TaskCompletionSource<HTMLViewEngine>();
+                TaskCompletionSource<IHTMLWindowProvider> tcs = new TaskCompletionSource<IHTMLWindowProvider>();
                 Task.Run(() =>
                 {
                     CefCoreSessionSingleton.GetAndInitIfNeeded();
@@ -70,11 +71,12 @@ namespace MVVM.Cef.Glue.Test.Core
                         {
                             var frame = t.Result.GetMainFrame();
                             var context = CefCoreSessionSingleton.Session.CefApp.GetContext(frame);
+                            var htmlWindowProvider = new TestCefGlueHTMLWindowProvider(frame);
                             _Father._ICefGlueWindow = new HTMLViewEngine(
-                                new TestCefGlueHTMLWindowProvider(frame),
+                                htmlWindowProvider,
                                 new KnockoutSessionInjectorFactory()
-                            );  
-                            tcs.SetResult(_Father._ICefGlueWindow);
+                            );
+                            tcs.SetResult(htmlWindowProvider);
                         }
                     );
                 } );

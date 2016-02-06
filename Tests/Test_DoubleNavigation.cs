@@ -39,7 +39,7 @@ namespace MVVM.Cef.Glue.Test
                     StackPanel stackPanel = new StackPanel();
                     w.Content = stackPanel;
                     var iWebControl = iWebControlFac();
-                    w.RegisterName(iWebControl.Name, iWebControl);
+                    //w.RegisterName(iWebControl.Name, iWebControl);
                     if (iManageLifeCycle)
                         w.Closed += (o, e) => { iWebControl.Dispose(); };
                     stackPanel.Children.Add(iWebControl);

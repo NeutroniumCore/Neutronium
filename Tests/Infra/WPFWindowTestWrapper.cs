@@ -16,7 +16,6 @@ namespace MVVM.Cef.Glue.Test.Infra
                 throw new ArgumentNullException("window", "You must initialize WPFWindowTestWrapper before you can update the window layout.");
 
             Window = window;
-            NameScope.SetNameScope(Window, new NameScope());
             Window.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
         }
        

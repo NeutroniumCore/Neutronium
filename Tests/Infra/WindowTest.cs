@@ -14,6 +14,7 @@ namespace MVVM.Cef.Glue.Test.Infra
                 () =>
                 {
                     var window = new Window();
+                    NameScope.SetNameScope(window, new NameScope());
                     Init(window);
                     return window;
                 } );

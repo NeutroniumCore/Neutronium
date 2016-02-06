@@ -6,8 +6,8 @@ namespace MVVM.HTML.Core.Binding
     public class HTMLViewEngine
     {
         private IHTMLWindowProvider _HTMLWindowProvider;
-
         private IJavascriptSessionInjectorFactory _SessionInjectorFactory;
+
 
         internal HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptSessionInjectorFactory sessionInjectorFactory)
         {
@@ -15,14 +15,14 @@ namespace MVVM.HTML.Core.Binding
             _SessionInjectorFactory = sessionInjectorFactory;
         }
 
-        public HTMLViewContext GetContext()
-        {
-            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _SessionInjectorFactory);
-        }
-
-        public IWebView MainView
+        private IWebView MainView
         {
             get { return _HTMLWindowProvider.HTMLWindow.MainFrame; }
+        }
+
+        public HTMLViewContext GetMainContext()
+        {
+            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _SessionInjectorFactory);
         }
     }
 }

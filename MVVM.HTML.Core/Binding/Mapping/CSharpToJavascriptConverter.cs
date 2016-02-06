@@ -12,12 +12,12 @@ using MVVM.HTML.Core.V8JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    internal class CSharpToJavascriptMapper 
+    internal class CSharpToJavascriptConverter 
     {
         private readonly IJSCBridgeCache _Cacher;
         private readonly HTMLViewContext _Context;
 
-        public CSharpToJavascriptMapper(HTMLViewContext context, IJSCBridgeCache icacher)
+        public CSharpToJavascriptConverter(HTMLViewContext context, IJSCBridgeCache icacher)
         {
             _Context = context;
             _Cacher = icacher;
@@ -36,9 +36,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             IJSCSGlue res = null;
             res = _Cacher.GetCached(ifrom);
             if (res != null)
-            {
                 return res;
-            }
 
             if (ifrom is ICommand)
                 return new JSCommand(_Context.WebView, _Context.UIDispatcher, ifrom as ICommand);
@@ -51,9 +49,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             IJavascriptObject value;
             if (_Context.WebView.Factory.SolveBasic(ifrom, out value))
-            {
                 return new JSBasicObject(value, ifrom);
-            }
 
             if (ifrom.GetType().IsEnum)
             {
@@ -63,10 +59,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
 
             IEnumerable ienfro = ifrom as IEnumerable;
-            if ((ienfro!=null) && Convert(ienfro, out res))
-            {
-                return res;
-            }
+            if (ienfro!=null)
+                return  Convert(ienfro);
 
             IJavascriptObject resobject = _Context.WebView.Factory.CreateObject(true);
 
@@ -108,13 +102,13 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
 
             return gres;
-        }      
- 
-        private bool Convert(IEnumerable source, out IJSCSGlue res)
+        }
+
+        private IJSCSGlue Convert(IEnumerable source)
         {
-            res = new JSArray(this._Context.WebView, _Context.UIDispatcher, source.Cast<object>().Select(s => Map(s)), source);
+            var res = new JSArray(this._Context.WebView, _Context.UIDispatcher, source.Cast<object>().Select(s => Map(s)), source);
             _Cacher.Cache(source, res);
-            return true;
+            return res;
         }
     }
 }

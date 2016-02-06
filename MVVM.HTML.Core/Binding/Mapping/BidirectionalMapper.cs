@@ -21,7 +21,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly HTMLViewContext _Context;
         private readonly List<IJSCSGlue> _UnrootedEntities;
 
-        private readonly CSharpToJavascriptMapper _JSObjectBuilder;
+        private readonly CSharpToJavascriptConverter _JSObjectBuilder;
         private IJavascriptSessionInjector _sessionInjector;
 
         private bool _IsListening = false;
@@ -30,10 +30,24 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();
         private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Local = new Dictionary<uint, IJSCSGlue>();
 
+        private readonly Action<INotifyPropertyChanged> RegisterPropertyChanged;
+        private readonly Action<INotifyPropertyChanged> UnRegisterPropertyChanged;
+        private readonly Action<INotifyCollectionChanged> RegisterCollectionChanged;
+        private readonly Action<INotifyCollectionChanged> UnRegisterCollectionChanged;
+        private readonly Action<JSCommand> RegisterCommandChanged;
+        private readonly Action<JSCommand> UnRegisterCommandChanged;
+
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         {
+            RegisterPropertyChanged = (n) => n.PropertyChanged += Object_PropertyChanged;
+            UnRegisterPropertyChanged = (n) => n.PropertyChanged -= Object_PropertyChanged;
+            RegisterCollectionChanged = (n) => n.CollectionChanged += CollectionChanged;
+            UnRegisterCollectionChanged = (n) => n.CollectionChanged -= CollectionChanged;
+            RegisterCommandChanged = (c) => c.ListenChanges();
+            UnRegisterCommandChanged = (c) => c.UnListenChanges();
+
             _Context = context;
-            _JSObjectBuilder = new CSharpToJavascriptMapper(_Context, this);
+            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, this);
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
             _UnrootedEntities = new List<IJSCSGlue>();
             _BindingMode = iMode;
@@ -120,6 +134,8 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         #endregion
 
+
+
         public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
 
         private void ApplyOnListenableReferencedObjects(Action<INotifyPropertyChanged> onObject,
@@ -132,14 +148,12 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private void ListenToCSharpChanges()
         {
-            ApplyOnListenableReferencedObjects(n => n.PropertyChanged += Object_PropertyChanged,
-                                     c => c.CollectionChanged += CollectionChanged, co => co.ListenChanges());
+            ApplyOnListenableReferencedObjects(RegisterPropertyChanged, RegisterCollectionChanged, RegisterCommandChanged);
         }
 
         private void UnlistenToCSharpChanges()
         {
-            ApplyOnListenableReferencedObjects(n => n.PropertyChanged -= Object_PropertyChanged,
-                           c => c.CollectionChanged -= CollectionChanged, co => co.UnListenChanges());
+            ApplyOnListenableReferencedObjects(UnRegisterPropertyChanged, UnRegisterCollectionChanged, UnRegisterCommandChanged);
         }
 
         public IJSCSGlue JSValueRoot { get { return _Root; } }
@@ -192,9 +206,9 @@ namespace MVVM.HTML.Core.HTMLBinding
                 using (ReListen(null))
                 {
                     INotifyCollectionChanged inc = res.CValue as INotifyCollectionChanged;
-                    if (inc != null) inc.CollectionChanged -= CollectionChanged;
+                    if (inc != null) UnRegisterCollectionChanged(inc);
                     res.UpdateEventArgsFromJavascript(cc);
-                    if (inc != null) inc.CollectionChanged += CollectionChanged;
+                    if (inc != null) RegisterCollectionChanged(inc);
                 }
             }
             catch (Exception e)
@@ -270,14 +284,14 @@ namespace MVVM.HTML.Core.HTMLBinding
                 _BidirectionalMapper.ApplyOnListenableReferencedObjects((e) => newObject.Add(e),
                                 (e) => new_Collections.Add(e), e => new_Commands.Add(e));
 
-                _OldObject.Where(o => !newObject.Contains(o)).ForEach(o => o.PropertyChanged -= _BidirectionalMapper.Object_PropertyChanged);
-                newObject.Where(o => !_OldObject.Contains(o)).ForEach(o => o.PropertyChanged += _BidirectionalMapper.Object_PropertyChanged);
+                _OldObject.Where(o => !newObject.Contains(o)).ForEach(_BidirectionalMapper.UnRegisterPropertyChanged);
+                newObject.Where(o => !_OldObject.Contains(o)).ForEach(_BidirectionalMapper.RegisterPropertyChanged);
 
-                _OldCollections.Where(o => !new_Collections.Contains(o)).ForEach(o => o.CollectionChanged -= _BidirectionalMapper.CollectionChanged);
-                new_Collections.Where(o => !_OldCollections.Contains(o)).ForEach(o => o.CollectionChanged += _BidirectionalMapper.CollectionChanged);
+                _OldCollections.Where(o => !new_Collections.Contains(o)).ForEach(_BidirectionalMapper.UnRegisterCollectionChanged);
+                new_Collections.Where(o => !_OldCollections.Contains(o)).ForEach(_BidirectionalMapper.RegisterCollectionChanged);
 
-                _OldCommands.Where(o => !new_Commands.Contains(o)).ForEach(o => o.UnListenChanges());
-                new_Commands.Where(o => !_OldCommands.Contains(o)).ForEach(o => o.ListenChanges());
+                _OldCommands.Where(o => !new_Commands.Contains(o)).ForEach(_BidirectionalMapper.UnRegisterCommandChanged);
+                new_Commands.Where(o => !_OldCommands.Contains(o)).ForEach(_BidirectionalMapper.RegisterCommandChanged);
 
                 _BidirectionalMapper._ReListen = null;
             }

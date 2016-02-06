@@ -128,7 +128,7 @@
     <Compile Include="Infra\AssemblyExtension.cs" />
     <Compile Include="Infra\EnumerableCollection.cs" />
     <Compile Include="HTML_Binding.cs" />
-    <Compile Include="Binding\Mapping\CSharpToJavascriptMapper.cs" />
+    <Compile Include="Binding\Mapping\CSharpToJavascriptConverter.cs" />
     <Compile Include="StringBinding.cs" />
   </ItemGroup>
   <ItemGroup>
