@@ -184,9 +184,9 @@ namespace MVVM.HTML.Core.HTMLBinding
                     return;
 
                 INotifyPropertyChanged inc = (!_IsListening) ? null : res.CValue as INotifyPropertyChanged;
-                if (inc != null) inc.PropertyChanged -= Object_PropertyChanged;
+                if (inc != null) UnRegisterPropertyChanged(inc);
                 res.UpdateCSharpProperty(PropertyName, this, newValue);
-                if (inc != null) inc.PropertyChanged += Object_PropertyChanged;
+                if (inc != null) RegisterPropertyChanged(inc);
             }
             catch (Exception e)
             {
@@ -203,7 +203,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                 CollectionChanges cc = res.GetChanger(changes, this);
 
-                using (ReListen(null))
+                using (ReListen())
                 {
                     INotifyCollectionChanged inc = res.CValue as INotifyCollectionChanged;
                     if (inc != null) UnRegisterCollectionChanged(inc);
@@ -262,9 +262,10 @@ namespace MVVM.HTML.Core.HTMLBinding
                     (e) => _OldCollections.Add(e), e => _OldCommands.Add(e));
             }
 
-            public void AddRef()
+            public ReListener AddRef()
             {
                 _Count++;
+                return this;
             }
 
             public void Dispose()
@@ -298,14 +299,9 @@ namespace MVVM.HTML.Core.HTMLBinding
         }
 
         private ReListener _ReListen = null;
-        private IDisposable ReListen(IJSCSGlue ivalue)
+        private IDisposable ReListen()
         {
-            if (_ReListen != null)
-                _ReListen.AddRef();
-            else
-                _ReListen = new ReListener(this);
-
-            return _ReListen;
+            return (_ReListen != null) ? _ReListen.AddRef() :  _ReListen = new ReListener(this);
         }
 
         #endregion
@@ -353,7 +349,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private async void RegisterAndDo(IJSCSGlue ivalue, Action Do)
         {
-            var idisp = ReListen(ivalue);
+            var idisp = ReListen();
 
             await InjectInHTLMSession(ivalue);
             await _Context.WebView.RunAsync(() =>

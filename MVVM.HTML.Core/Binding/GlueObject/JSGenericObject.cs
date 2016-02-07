@@ -9,12 +9,12 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class JSGenericObject : GlueBase, IJSObservableBridge
     {
-        private IWebView _CefV8Context;
+        private IWebView _WebView;
         public JSGenericObject(IWebView context, IJavascriptObject value, object icValue)
         {
             JSValue = value;
             CValue = icValue;
-            _CefV8Context = context;
+            _WebView = context;
         }
 
         private JSGenericObject(IWebView context, IJavascriptObject value)
@@ -22,7 +22,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             JSValue = value;
             _MappedJSValue = value;
             CValue = null;
-            _CefV8Context = context;
+            _WebView = context;
         }
 
         public static JSGenericObject CreateNull(IWebView context)
@@ -94,11 +94,11 @@ namespace MVVM.HTML.Core.HTMLBinding
             IJavascriptObject silenter = null;
             if ( _Silenters.TryGetValue(PropertyName,out silenter))
             {
-                silenter.InvokeAsync("silent", _CefV8Context, newValue.GetJSSessionValue());      
+                silenter.InvokeAsync("silent", _WebView, newValue.GetJSSessionValue());      
             }
             else
             {
-                _CefV8Context.RunAsync( ()=>
+                _WebView.RunAsync( ()=>
                     {
                         var jso = _MappedJSValue;
                         if (!_Silenters.TryGetValue(PropertyName, out silenter))
@@ -106,7 +106,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                             silenter = jso.GetValue(PropertyName);
                             _Silenters.Add(PropertyName, silenter);
                         }
-                        silenter.Invoke("silent", _CefV8Context, newValue.GetJSSessionValue());
+                        silenter.Invoke("silent", _WebView, newValue.GetJSSessionValue());
                     });
             }
         }     
