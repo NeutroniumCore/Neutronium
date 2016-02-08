@@ -77,14 +77,14 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public void UpdateCSharpProperty(string PropertyName, IJSCBridgeCache converter, IJavascriptObject newValue)
         {
-            PropertyInfo propertyInfo = CValue.GetType().GetProperty(PropertyName, BindingFlags.Public | BindingFlags.Instance);
-            if (!propertyInfo.CanWrite)
+            var propertyAccessor = new PropertyAccessor(CValue, PropertyName);
+            if (!propertyAccessor.IsSettable)
                 return;
 
-            var type = propertyInfo.PropertyType.GetUnderlyingNullableType() ?? propertyInfo.PropertyType;
-            IJSCSGlue glue = converter.GetCachedOrCreateBasic(newValue, type);
+            var targetType = propertyAccessor.GetTargetType();
+            var glue = converter.GetCachedOrCreateBasic(newValue, targetType);
             _Attributes[PropertyName] = glue;
-            propertyInfo.SetValue(CValue, glue.CValue, null);
+            propertyAccessor.Set(glue.CValue);
         }
 
         public void Reroot(string PropertyName, IJSCSGlue newValue)

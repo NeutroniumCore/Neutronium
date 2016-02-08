@@ -220,19 +220,18 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void Object_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             string pn = e.PropertyName;
-
-            PropertyInfo propertyInfo = sender.GetType().GetProperty(pn, BindingFlags.Public | BindingFlags.Instance);
-            if (propertyInfo == null)
+            var propertyAccessor = new PropertyAccessor(sender, pn);
+            if (!propertyAccessor.IsGettable)
                 return;
 
-            JSGenericObject currentfather = _FromCSharp[sender] as JSGenericObject;
+            var currentfather = _FromCSharp[sender] as JSGenericObject;
 
-            object nv = propertyInfo.GetValue(sender, null);
-            IJSCSGlue oldbridgedchild = currentfather.Attributes[pn];
+            object nv = propertyAccessor.Get();
+            var oldbridgedchild = currentfather.Attributes[pn];
 
             if (Object.Equals(nv, oldbridgedchild.CValue)) return;
 
-            IJSCSGlue newbridgedchild = _JSObjectBuilder.Map(nv);
+            var newbridgedchild = _JSObjectBuilder.Map(nv);
 
             RegisterAndDo(newbridgedchild, () => currentfather.Reroot(pn, newbridgedchild));
         }

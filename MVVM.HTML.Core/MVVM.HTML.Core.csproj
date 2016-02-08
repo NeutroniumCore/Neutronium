@@ -93,6 +93,7 @@
     <Compile Include="Binding\Mapping\IJavascriptChangesListener.cs" />
     <Compile Include="Binding\Mapping\KnockoutInject\KnockoutSessionInjectorFactory.cs" />
     <Compile Include="Binding\HTMLViewEngine.cs" />
+    <Compile Include="Infra\PropertyAccessor.cs" />
     <Compile Include="JavascriptEngine\Control\IHTMLWindowProvider.cs" />
     <Compile Include="JavascriptEngine\V8JavascriptObject\CreationOption.cs" />
     <Compile Include="JavascriptEngine\V8JavascriptObject\IJavascriptObject.cs" />
