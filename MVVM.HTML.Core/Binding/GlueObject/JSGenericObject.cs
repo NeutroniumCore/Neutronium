@@ -50,13 +50,11 @@ namespace MVVM.HTML.Core.HTMLBinding
         }
 
         private Dictionary<string, IJSCSGlue> _Attributes = new Dictionary<string, IJSCSGlue>();
-
-        public IDictionary<string, IJSCSGlue> Attributes { get { return _Attributes; } }
+        public IReadOnlyDictionary<string, IJSCSGlue> Attributes { get { return _Attributes; } }
 
         public IJavascriptObject JSValue { get; private set; }
 
         private IJavascriptObject _MappedJSValue;
-
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
@@ -75,21 +73,14 @@ namespace MVVM.HTML.Core.HTMLBinding
             return _Attributes.Values; 
         }
 
-        public void UpdateCSharpProperty(string PropertyName, IJSCBridgeCache converter, IJavascriptObject newValue)
+        public void UpdateCSharpProperty(string PropertyName, IJSCSGlue glue)
         {
-            var propertyAccessor = new PropertyAccessor(CValue, PropertyName);
-            if (!propertyAccessor.IsSettable)
-                return;
-
-            var targetType = propertyAccessor.GetTargetType();
-            var glue = converter.GetCachedOrCreateBasic(newValue, targetType);
             _Attributes[PropertyName] = glue;
-            propertyAccessor.Set(glue.CValue);
         }
 
         public void Reroot(string PropertyName, IJSCSGlue newValue)
         { 
-            _Attributes[PropertyName]=newValue;
+            UpdateCSharpProperty(PropertyName, newValue);
 
             IJavascriptObject silenter = null;
             if ( _Silenters.TryGetValue(PropertyName,out silenter))
@@ -100,12 +91,9 @@ namespace MVVM.HTML.Core.HTMLBinding
             {
                 _WebView.RunAsync( ()=>
                     {
-                        var jso = _MappedJSValue;
-                        if (!_Silenters.TryGetValue(PropertyName, out silenter))
-                        {
-                            silenter = jso.GetValue(PropertyName);
-                            _Silenters.Add(PropertyName, silenter);
-                        }
+                        silenter = _Silenters.FindOrCreateEntity(PropertyName, name => 
+                            _MappedJSValue.GetValue(name));
+
                         silenter.Invoke("silent", _WebView, newValue.GetJSSessionValue());
                     });
             }

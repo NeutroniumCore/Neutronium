@@ -98,7 +98,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                 _Context.WebView.Run(() => resobject.SetValue(pn, childres.JSValue));
 
-                gres.Attributes[pn] = childres;
+                gres.UpdateCSharpProperty(pn,childres);
             }
 
             return gres;

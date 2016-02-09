@@ -183,9 +183,17 @@ namespace MVVM.HTML.Core.HTMLBinding
                 if (res == null)
                     return;
 
+                var propertyAccessor = new PropertyAccessor(res.CValue, PropertyName);
+                if (!propertyAccessor.IsSettable)
+                    return;
+
+                var targetType = propertyAccessor.GetTargetType();
+                var glue = GetCachedOrCreateBasic(newValue, targetType);
+
                 INotifyPropertyChanged inc = (!_IsListening) ? null : res.CValue as INotifyPropertyChanged;
                 if (inc != null) UnRegisterPropertyChanged(inc);
-                res.UpdateCSharpProperty(PropertyName, this, newValue);
+                propertyAccessor.Set(glue.CValue);
+                res.UpdateCSharpProperty(PropertyName, glue);
                 if (inc != null) RegisterPropertyChanged(inc);
             }
             catch (Exception e)
@@ -218,21 +226,22 @@ namespace MVVM.HTML.Core.HTMLBinding
         }
 
         private void Object_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            string pn = e.PropertyName;
+        { 
+            var pn = e.PropertyName;
             var propertyAccessor = new PropertyAccessor(sender, pn);
             if (!propertyAccessor.IsGettable)
                 return;
 
             var currentfather = _FromCSharp[sender] as JSGenericObject;
+            if (currentfather == null)
+                return;
 
-            object nv = propertyAccessor.Get();
+            var nv = propertyAccessor.Get();
             var oldbridgedchild = currentfather.Attributes[pn];
 
             if (Object.Equals(nv, oldbridgedchild.CValue)) return;
 
             var newbridgedchild = _JSObjectBuilder.Map(nv);
-
             RegisterAndDo(newbridgedchild, () => currentfather.Reroot(pn, newbridgedchild));
         }
 
