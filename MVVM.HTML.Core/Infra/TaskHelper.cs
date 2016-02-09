@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,5 +22,11 @@ namespace MVVM.HTML.Core.Infra
         {
             return @this.WaitWith(other, ithen, TaskScheduler.FromCurrentSynchronizationContext());
         }      
+
+        public static void DoNotWait(this Task task)
+        {
+            task.ContinueWith( t => Trace.WriteLine(string.Format("Exception during task execution: {0}", t.Exception))
+                , TaskContinuationOptions.OnlyOnFaulted);
+        }
     }
 }

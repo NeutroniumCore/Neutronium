@@ -9,6 +9,7 @@ using MVVM.Cef.Glue.CefSession;
 using System.Threading;
 using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Window;
+using MVVM.HTML.Core.Infra;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -48,7 +49,7 @@ namespace MVVM.Cef.Glue.Test
                     Thread.Sleep(1000);
                     CefCoreSessionSingleton.Session.Should().Be(ctx.Session);
                     disp.Run(() => target.Shutdown(0));
-                });
+                }).DoNotWait();
 
                 disp.Run(() => target.Run());
             }
@@ -70,7 +71,7 @@ namespace MVVM.Cef.Glue.Test
                 Thread.Sleep(1000);
                 CefCoreSessionSingleton.Session.Should().NotBeNull();
                 disp.Run(() => target.Shutdown(0));
-            });
+            }).DoNotWait();
 
             disp.Run(() => target.Run());
         }

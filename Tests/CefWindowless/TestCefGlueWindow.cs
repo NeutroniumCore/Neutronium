@@ -23,7 +23,10 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
             get { return true; }
         }
 
-        public event EventHandler<LoadEndEventArgs> LoadEnd;
+        public event EventHandler<LoadEndEventArgs> LoadEnd 
+        { 
+            add { } remove { } 
+        }
 
         HTML.Core.V8JavascriptObject.IWebView IHTMLWindow.MainFrame
         {
@@ -35,6 +38,9 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
             throw new NotImplementedException();
         }
 
-        public event EventHandler<HTML.Core.JavascriptEngine.ConsoleMessageArgs> ConsoleMessage;
+        public event EventHandler<HTML.Core.JavascriptEngine.ConsoleMessageArgs> ConsoleMessage
+        {
+            add { } remove { }
+        }
     }
 }
