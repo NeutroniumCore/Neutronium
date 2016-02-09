@@ -15,7 +15,7 @@ using MVVM.HTML.Core.Binding.Listeners;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public class BidirectionalMapper : IDisposable, IJSCBridgeCache, IJavascriptChangesListener
+    public class BidirectionalMapper : IDisposable, IVisitable, IJSCBridgeCache, IJavascriptChangesListener
     {
         private readonly JavascriptBindingMode _BindingMode;
         private readonly IJSCSGlue _Root;
@@ -30,24 +30,17 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly IDictionary<object, IJSCSGlue> _FromCSharp = new Dictionary<object, IJSCSGlue>();
         private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();
         private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Local = new Dictionary<uint, IJSCSGlue>();
-
-
-        private readonly ListenerRegister<INotifyPropertyChanged> RegisterPropertyChanged;
-        private readonly ListenerRegister<INotifyCollectionChanged> RegisterCollectionChanged;
-        private readonly ListenerRegister<JSCommand> RegisterCommandChanged;
+        private readonly FullListenerRegister _ListenerRegister;
 
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         {
-            RegisterPropertyChanged = new ListenerRegister<INotifyPropertyChanged>(
+            _ListenerRegister = new FullListenerRegister(
                                         (n) => n.PropertyChanged += Object_PropertyChanged,
-                                        (n) => n.PropertyChanged -= Object_PropertyChanged);
-            RegisterCollectionChanged = new ListenerRegister<INotifyCollectionChanged>(
+                                        (n) => n.PropertyChanged -= Object_PropertyChanged,
                                         (n) => n.CollectionChanged += CollectionChanged,
-                                        (n) => n.CollectionChanged -= CollectionChanged);
-            RegisterCommandChanged = new ListenerRegister<JSCommand>(
+                                        (n) => n.CollectionChanged -= CollectionChanged,
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
-
             _Context = context;
             _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, this);
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
@@ -139,22 +132,20 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
 
-        private void ApplyOnListenableReferencedObjects(Action<INotifyPropertyChanged> onObject,
-                            Action<INotifyCollectionChanged> onCollection, Action<JSCommand> onCommand)
+        public void Visit(IListenableObjectVisitor visitor)
         {
-            var visitor = new JSCBridgeListenableVisitor(onObject, onCollection, onCommand);
             _Root.ApplyOnListenable(visitor);
             _UnrootedEntities.ForEach(js => js.ApplyOnListenable(visitor));
         }
 
         private void ListenToCSharpChanges()
         {
-            ApplyOnListenableReferencedObjects(RegisterPropertyChanged.On, RegisterCollectionChanged.On, RegisterCommandChanged.On);
+            Visit(_ListenerRegister.GetOn());
         }
 
         private void UnlistenToCSharpChanges()
         {
-            ApplyOnListenableReferencedObjects(RegisterPropertyChanged.Off, RegisterCollectionChanged.Off, RegisterCommandChanged.Off);
+            Visit(_ListenerRegister.GetOff());
         }
 
         public IJSCSGlue JSValueRoot { get { return _Root; } }
@@ -191,7 +182,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 var targetType = propertyAccessor.GetTargetType();
                 var glue = GetCachedOrCreateBasic(newValue, targetType);
 
-                using (_IsListening ? Silenter.GetSilenter(RegisterPropertyChanged, res.CValue) : null)
+                using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null)
                 {
                     propertyAccessor.Set(glue.CValue);
                     res.UpdateCSharpProperty(PropertyName, glue);
@@ -212,8 +203,8 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                 CollectionChanges cc = res.GetChanger(changes, this);
 
-                using (ReListen())
-                using (_IsListening ? Silenter.GetSilenter(RegisterCollectionChanged, res.CValue) : null)
+                using (ReListen()) 
+                using (_IsListening ? _ListenerRegister.GetColllectionSilenter(res.CValue) : null)
                 {
                     res.UpdateEventArgsFromJavascript(cc);
                 }
@@ -250,60 +241,12 @@ namespace MVVM.HTML.Core.HTMLBinding
             RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); Continue(newbridgedchild); });
         }
 
-        #region Relisten
-
-        private class ReListener : IDisposable
-        {
-            private readonly DeltaListener<INotifyPropertyChanged> _DeltaProperty;
-            private readonly DeltaListener<INotifyCollectionChanged> _DeltaCollection;
-            private readonly DeltaListener<JSCommand> _DeltaCommand;
-            private int _Count = 1;
-
-            private BidirectionalMapper _BidirectionalMapper;
-            public ReListener(BidirectionalMapper iBidirectionalMapper)
-            {
-                _BidirectionalMapper = iBidirectionalMapper;
-
-                _DeltaProperty = DeltaListener.GetDeltaListener(_BidirectionalMapper.RegisterPropertyChanged);
-                _DeltaCollection = DeltaListener.GetDeltaListener(_BidirectionalMapper.RegisterCollectionChanged);
-                _DeltaCommand = DeltaListener.GetDeltaListener(_BidirectionalMapper.RegisterCommandChanged);
-
-                _BidirectionalMapper.ApplyOnListenableReferencedObjects(_DeltaProperty.VisitOld, _DeltaCollection.VisitOld, 
-                    _DeltaCommand.VisitOld);
-            }
-
-            public ReListener AddRef()
-            {
-                _Count++;
-                return this;
-            }
-
-            public void Dispose()
-            {
-                if (--_Count == 0)
-                    Clean();
-            }
-
-            private void Clean()
-            {
-                _BidirectionalMapper.ApplyOnListenableReferencedObjects(_DeltaProperty.VisitNew, _DeltaCollection.VisitNew,
-                                         _DeltaCommand.VisitNew);
-
-                _DeltaProperty.Apply();
-                _DeltaCollection.Apply();
-                _DeltaCommand.Apply();
-
-                _BidirectionalMapper._ReListen = null;
-            }
-        }
-
         private ReListener _ReListen = null;
         private IDisposable ReListen()
         {
-            return (_ReListen != null) ? _ReListen.AddRef() :  _ReListen = new ReListener(this);
+            return (_ReListen != null) ?  _ReListen.AddRef() :        
+                        _ReListen = new ReListener(this, _ListenerRegister, () => _ReListen=null);
         }
-
-        #endregion
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

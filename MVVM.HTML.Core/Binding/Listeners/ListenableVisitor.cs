@@ -5,12 +5,12 @@ using System.ComponentModel;
 
 namespace MVVM.HTML.Core.Binding.Listeners
 {
-    public class JSCBridgeListenableVisitor : IListenableObjectVisitor
+    public class ListenableVisitor : IListenableObjectVisitor
     {
-        private Action<INotifyPropertyChanged> _OnObject;
-        private Action<INotifyCollectionChanged> _OnCollection;
-        private Action<JSCommand> _OnCommand;
-        public JSCBridgeListenableVisitor(Action<INotifyPropertyChanged> iOnObject,
+        private readonly Action<INotifyPropertyChanged> _OnObject;
+        private readonly Action<INotifyCollectionChanged> _OnCollection;
+        private readonly Action<JSCommand> _OnCommand;
+        public ListenableVisitor(Action<INotifyPropertyChanged> iOnObject,
                             Action<INotifyCollectionChanged> iOnCollection, Action<JSCommand> iOnCommand)
         {
             _OnObject = iOnObject;
