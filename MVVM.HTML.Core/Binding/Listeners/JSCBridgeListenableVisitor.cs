@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MVVM.HTML.Core.HTMLBinding;
+using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.Listeners
 {
-    public class JSCBridgeListenableVisitor : IJSCSGlueListenableVisitor
+    public class JSCBridgeListenableVisitor : IListenableObjectVisitor
     {
         private Action<INotifyPropertyChanged> _OnObject;
         private Action<INotifyCollectionChanged> _OnCollection;

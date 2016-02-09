@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.V8JavascriptObject;
+﻿using MVVM.HTML.Core.Binding.Listeners;
+using MVVM.HTML.Core.V8JavascriptObject;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -36,7 +37,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             return (inj!=null) ?  inj.MappedJSValue : @this.JSValue;    
         }
 
-        public static void ApplyOnListenable(this IJSCSGlue @this, IJSCSGlueListenableVisitor ivisitor)
+        public static void ApplyOnListenable(this IJSCSGlue @this, IListenableObjectVisitor ivisitor)
         {
             foreach (var child in @this.GetAllChildren(true).Distinct())
             {

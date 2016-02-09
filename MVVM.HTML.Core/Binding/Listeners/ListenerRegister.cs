@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MVVM.HTML.Core.Binding.Listeners
+{
+    internal struct ListenerRegister<T> where T:class
+    {
+        public ListenerRegister(Action<T> on, Action<T> off) : this()
+        {
+            On = on;
+            Off = off;
+        }
+
+        public Action<T> On { get; private set; }
+
+        public Action<T> Off { get; private set; }
+    }
+}

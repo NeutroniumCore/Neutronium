@@ -8,7 +8,6 @@ namespace MVVM.HTML.Core.Binding
         private IHTMLWindowProvider _HTMLWindowProvider;
         private IJavascriptSessionInjectorFactory _SessionInjectorFactory;
 
-
         internal HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptSessionInjectorFactory sessionInjectorFactory)
         {
             _HTMLWindowProvider = hTMLWindowProvider;

@@ -1,9 +1,10 @@
-﻿using System.Collections.Specialized;
+﻿using MVVM.HTML.Core.HTMLBinding;
+using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.Listeners
 {
-    public interface IJSCSGlueListenableVisitor
+    public interface IListenableObjectVisitor
     {
         void OnObject(INotifyPropertyChanged iobject);
 
