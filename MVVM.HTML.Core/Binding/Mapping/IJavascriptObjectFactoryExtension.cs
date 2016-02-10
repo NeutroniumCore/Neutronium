@@ -12,7 +12,6 @@ namespace MVVM.HTML.Core.Binding
 {
     public static class IJavascriptObjectFactoryExtension
     {
-
         public static IJavascriptObject CreateEnum(this IJavascriptObjectFactory @this, Enum ienum)
         {
             try

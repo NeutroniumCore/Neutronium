@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVM.HTML.Core.Binding.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class IndividualCollectionChange
     {
-        public IndividualCollectionChange(IndividualJavascriptCollectionChange change, IJSCBridgeCache jSCBridgeCache, Type targetType)
+        public IndividualCollectionChange(IndividualJavascriptCollectionChange change, IJavascriptToCSharpConverter jSCBridgeCache, Type targetType)
         {
             CollectionChangeType = change.CollectionChangeType;
              Index = change.Index;

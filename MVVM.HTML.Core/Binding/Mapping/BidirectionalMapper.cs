@@ -15,15 +15,16 @@ using MVVM.HTML.Core.Binding.Listeners;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public class BidirectionalMapper : IDisposable, IVisitable, IJSCBridgeCache, IJavascriptChangesListener
+    public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, 
+                                    IJSCBridgeCache, IJavascriptChangesListener
     {
+        private readonly HTMLViewContext _Context;        
         private readonly JavascriptBindingMode _BindingMode;
-        private readonly IJSCSGlue _Root;
-        private readonly HTMLViewContext _Context;
-        private readonly List<IJSCSGlue> _UnrootedEntities;
-
         private readonly CSharpToJavascriptConverter _JSObjectBuilder;
-        private IJavascriptSessionInjector _sessionInjector;
+        private readonly IJavascriptSessionInjector _sessionInjector;
+        private readonly IJSCSGlue _Root;
+      
+        private readonly List<IJSCSGlue> _UnrootedEntities;
 
         private bool _IsListening = false;
 
@@ -309,12 +310,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (ListenToCSharp)
                 UnlistenToCSharpChanges();
 
-            if (_sessionInjector != null)
-            {
-                _sessionInjector.Dispose();
-                _sessionInjector = null;
-            }
-
+            _sessionInjector.Dispose();
             _UnrootedEntities.Clear();
         }
 

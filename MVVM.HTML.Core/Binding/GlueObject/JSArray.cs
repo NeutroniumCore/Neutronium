@@ -7,6 +7,7 @@ using System.Collections;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
+using MVVM.HTML.Core.Binding.Mapping;
 
 
 namespace MVVM.HTML.Core.HTMLBinding
@@ -38,7 +39,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private Type IndividualType { get; set; }
 
-        public CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJSCBridgeCache bridge)
+        public CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
         {
             return new CollectionChanges(bridge, changes, IndividualType);
         }
@@ -135,7 +136,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJavascriptObject MappedJSValue { get; private set; }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper)
         {
             MappedJSValue = ijsobject;
         }

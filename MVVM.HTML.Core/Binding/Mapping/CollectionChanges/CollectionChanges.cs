@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 
 using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.HTML.Core.Binding.Mapping;
 
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
     public class CollectionChanges :  IComparer<IndividualCollectionChange>
     {
-        private readonly IJSCBridgeCache _IJSCBridgeCache;
+        private readonly IJavascriptToCSharpConverter _IJSCBridgeCache;
         private readonly Type _TargetedType;
         private readonly JavascriptCollectionChanges _Changes;
 
-        public CollectionChanges(IJSCBridgeCache iJSCBridgeCache, JavascriptCollectionChanges changes, Type iTargetedType)
+        public CollectionChanges(IJavascriptToCSharpConverter iJSCBridgeCache, JavascriptCollectionChanges changes, Type iTargetedType)
         {
             _IJSCBridgeCache = iJSCBridgeCache;
             _TargetedType = iTargetedType;

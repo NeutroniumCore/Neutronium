@@ -92,6 +92,7 @@
     <Compile Include="Binding\Mapping\CollectionChanges\JavascriptCollectionChanges.cs" />
     <Compile Include="Binding\Mapping\IJavascriptObjectFactoryExtension.cs" />
     <Compile Include="Binding\Mapping\IJavascriptSessionInjector.cs" />
+    <Compile Include="Binding\Mapping\IJavascriptToCSharpConverter.cs" />
     <Compile Include="Binding\Mapping\IJSCBridgeCache.cs" />
     <Compile Include="Binding\Mapping\IJavascriptChangesListener.cs" />
     <Compile Include="Binding\Mapping\KnockoutInject\KnockoutSessionInjectorFactory.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Binding\Listeners\DeltaListener.cs" />
     <Compile Include="Binding\Listeners\ListenerRegister.cs" />
     <Compile Include="Binding\Listeners\Silenter.cs" />
+    <Compile Include="Binding\Mapping\Mapper.cs" />
     <Compile Include="Infra\PropertyAccessor.cs" />
     <Compile Include="JavascriptEngine\Control\IHTMLWindowProvider.cs" />
     <Compile Include="JavascriptEngine\V8JavascriptObject\CreationOption.cs" />

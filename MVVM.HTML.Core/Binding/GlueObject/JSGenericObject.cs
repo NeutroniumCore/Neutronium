@@ -4,6 +4,7 @@ using System.Text;
 using System.Reflection;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
@@ -57,7 +58,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private IJavascriptObject _MappedJSValue;
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper)
         {
             _MappedJSValue = ijsobject;
         }

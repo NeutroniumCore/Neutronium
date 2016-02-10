@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using MVVM.Component;
 using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
@@ -25,24 +26,24 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper)
         {
             _MappedJSValue = ijsobject;
             _MappedJSValue.Bind("Execute", _IWebView,(c, o, e) => Execute(e, mapper));
         }
 
-        private object Convert(IJSCBridgeCache mapper, IJavascriptObject value)
+        private object Convert(IJavascriptToCSharpConverter mapper, IJavascriptObject value)
         {
             var found = mapper.GetCachedOrCreateBasic(value, null);
             return (found != null) ? found.CValue : null;
         }
 
-        private object GetArguments(IJSCBridgeCache mapper, IJavascriptObject[] e)
+        private object GetArguments(IJavascriptToCSharpConverter mapper, IJavascriptObject[] e)
         {
             return (e.Length == 0) ? null : Convert(mapper, e[0]);
         }
 
-        private void SetResult(IJavascriptObject[] e, IJSCBridgeCache bridge, Task<object> resulttask)
+        private void SetResult(IJavascriptObject[] e, IJavascriptToCSharpConverter bridge, Task<object> resulttask)
         {
             _IWebView.RunAsync (() =>
                  {
@@ -68,7 +69,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                  });
         }
 
-        private void Execute(IJavascriptObject[] e, IJSCBridgeCache mapper)
+        private void Execute(IJavascriptObject[] e, IJavascriptToCSharpConverter mapper)
         {
             _JSResultCommand.Execute(GetArguments(mapper, e))
                 .ContinueWith(t => SetResult(e, mapper, t));

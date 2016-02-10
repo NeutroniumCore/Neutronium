@@ -6,6 +6,7 @@ using System.Windows.Input;
 
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
+using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
@@ -62,30 +63,30 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject, IJSCBridgeCache mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper)
         {
             _MappedJSValue = ijsobject;
             _MappedJSValue.Bind("Execute", _IWebView, (c, o, e) => ExecuteCommand(e, mapper));
             _MappedJSValue.Bind("CanExecute", _IWebView, (c, o, e) => CanExecuteCommand(e, mapper));
         }
 
-        private object Convert(IJSCBridgeCache mapper, IJavascriptObject value)
+        private object Convert(IJavascriptToCSharpConverter mapper, IJavascriptObject value)
         {
             var found = mapper.GetCachedOrCreateBasic(value,null);
             return (found != null) ? found.CValue : null;
         }
 
-        private object GetArguments(IJSCBridgeCache mapper, IJavascriptObject[] e)
+        private object GetArguments(IJavascriptToCSharpConverter mapper, IJavascriptObject[] e)
         {
             return (e.Length == 0) ? null : Convert(mapper, e[0]);
         }
 
-        private void ExecuteCommand(IJavascriptObject[] e, IJSCBridgeCache mapper)
+        private void ExecuteCommand(IJavascriptObject[] e, IJavascriptToCSharpConverter mapper)
         {
             _UIDispatcher.RunAsync(() => _Command.Execute(GetArguments(mapper, e)));
         }
 
-        private void CanExecuteCommand(IJavascriptObject[] e, IJSCBridgeCache mapper)
+        private void CanExecuteCommand(IJavascriptObject[] e, IJavascriptToCSharpConverter mapper)
         {
             bool res = _Command.CanExecute(GetArguments(mapper, e));
             _MappedJSValue.Invoke("CanExecuteValue", _IWebView, _IWebView.Factory.CreateBool(res));

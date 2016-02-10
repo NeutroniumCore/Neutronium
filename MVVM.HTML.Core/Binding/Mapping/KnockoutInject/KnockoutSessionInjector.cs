@@ -115,7 +115,6 @@ namespace MVVM.HTML.Core.HTMLBinding
             return _Ko;
         }
 
-
         public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptMapper ijvm, bool checknullvalue = true)
         {
             return _IWebView.Evaluate(() =>
