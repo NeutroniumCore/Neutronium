@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Infra;
@@ -15,23 +14,17 @@ using MVVM.HTML.Core.Binding.Listeners;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, 
-                                    IJSCBridgeCache, IJavascriptChangesListener
+    public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, IJavascriptChangesListener   
     {
         private readonly HTMLViewContext _Context;        
         private readonly JavascriptBindingMode _BindingMode;
         private readonly CSharpToJavascriptConverter _JSObjectBuilder;
         private readonly IJavascriptSessionInjector _sessionInjector;
+        private readonly Cacher _SessionCache;
         private readonly IJSCSGlue _Root;
-      
-        private readonly List<IJSCSGlue> _UnrootedEntities;
-
-        private bool _IsListening = false;
-
-        private readonly IDictionary<object, IJSCSGlue> _FromCSharp = new Dictionary<object, IJSCSGlue>();
-        private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();
-        private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Local = new Dictionary<uint, IJSCSGlue>();
         private readonly FullListenerRegister _ListenerRegister;
+        private readonly List<IJSCSGlue> _UnrootedEntities;
+        private bool _IsListening = false;
 
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         {
@@ -43,7 +36,8 @@ namespace MVVM.HTML.Core.HTMLBinding
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
             _Context = context;
-            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, this);
+            _SessionCache = new Cacher();
+            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache);
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
             _UnrootedEntities = new List<IJSCSGlue>();
             _BindingMode = iMode;
@@ -102,34 +96,27 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
         }
 
-        private IJSCSGlue GetFromJavascript(IJavascriptObject jsobject)
-        {
-            return _FromJavascript_Global[jsobject.GetID()];
-        }
-
         private void Update(IJSObservableBridge ibo, IJavascriptObject jsobject)
         {
             ibo.SetMappedJSValue(jsobject, this);
-            if (jsobject.HasRelevantId())
-                _FromJavascript_Global[jsobject.GetID()] = ibo;
+            _SessionCache.CacheGlobal(jsobject, ibo);
         }
 
         public void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
         {
-            var jso = GetFromJavascript(iFather) as JSGenericObject;
+            var jso = _SessionCache.GetGlobalCached(iFather) as JSGenericObject;
             Update(jso.Attributes[att] as IJSObservableBridge, iChild);
         }
 
         public void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
         {
-            var father = GetFromJavascript(iFather);
+            var father = _SessionCache.GetGlobalCached(iFather);
             var jsos = (att == null) ? father : (father as JSGenericObject).Attributes[att];
 
             Update(((JSArray) jsos).Items[index] as IJSObservableBridge, iChild);
         }
 
         #endregion
-
 
         public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
 
@@ -172,7 +159,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         {
             try
             {
-                var res = GetFromJavascript(objectchanged) as JSGenericObject;
+                var res = _SessionCache.GetGlobalCached(objectchanged) as JSGenericObject;
                 if (res == null)
                     return;
 
@@ -199,13 +186,13 @@ namespace MVVM.HTML.Core.HTMLBinding
         {
             try
             {
-                var res = GetFromJavascript(changes.Collection) as JSArray;
+                var res = _SessionCache.GetGlobalCached(changes.Collection) as JSArray;
                 if (res == null) return;
 
                 CollectionChanges cc = res.GetChanger(changes, this);
 
                 using (ReListen()) 
-                using (_IsListening ? _ListenerRegister.GetColllectionSilenter(res.CValue) : null)
+                using (_ListenerRegister.GetColllectionSilenter(res.CValue))
                 {
                     res.UpdateEventArgsFromJavascript(cc);
                 }
@@ -223,8 +210,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (!propertyAccessor.IsGettable)
                 return;
 
-            var currentfather = _FromCSharp[sender] as JSGenericObject;
-            if (currentfather == null)
+            var currentfather = _SessionCache.GetCached(sender) as JSGenericObject;
+            if (currentfather == null) 
                 return;
 
             var nv = propertyAccessor.Get();
@@ -259,7 +246,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private void UnsafeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            JSArray arr = _FromCSharp[sender] as JSArray;
+            JSArray arr = _SessionCache.GetCached(sender) as JSArray;
             if (arr == null) return;
 
             switch (e.Action)
@@ -314,40 +301,13 @@ namespace MVVM.HTML.Core.HTMLBinding
             _UnrootedEntities.Clear();
         }
 
-        void IJSCBridgeCache.Cache(object key, IJSCSGlue value)
-        {
-            _FromCSharp.Add(key, value);
-        }
-
-        void IJSCBridgeCache.CacheLocal(object key, IJSCSGlue value)
-        {
-            _FromCSharp.Add(key, value);
-            _FromJavascript_Local.Add(value.JSValue.GetID(), value);
-        }
-
-        IJSCSGlue IJSCBridgeCache.GetCached(object key)
-        {
-            return _FromCSharp.GetOrDefault(key);
-        }
-
-        public IJSCSGlue GetCached(IJavascriptObject globalkey)
-        {
-            return _Context.WebView.Evaluate(() =>
-                {
-                    if (!globalkey.HasRelevantId())
-                        return null;
-
-                    return _FromJavascript_Global.GetOrDefault(globalkey.GetID());
-                });
-        }
-
-        public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject globalkey, Type iTargetType)
+        private IJSCSGlue GetCachedOrCreateBasicUnsafe(IJavascriptObject globalkey, Type iTargetType)
         {
             IJSCSGlue res = null;
-            IJavascriptObject obj = globalkey;
 
             //Use local cache for objet not created in javascript session such as enum
-            if ((obj != null) && ((res = GetCached(globalkey) ?? GetCachedLocal(globalkey)) != null))
+            if ((globalkey != null) && 
+                ((res = _SessionCache.GetGlobalCached(globalkey) ?? _SessionCache.GetCachedLocal(globalkey)) != null))
                 return res;
 
             object targetvalue = null;
@@ -358,12 +318,9 @@ namespace MVVM.HTML.Core.HTMLBinding
             return new JSBasicObject(globalkey, targetvalue);
         }
 
-        private IJSCSGlue GetCachedLocal(IJavascriptObject localkey)
+        public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject globalkey, Type iTargetType)
         {
-            if (!localkey.HasRelevantId())
-                return null;
-
-            return _FromJavascript_Local.GetOrDefault(localkey.GetID());
+            return _Context.WebView.Evaluate(()=> GetCachedOrCreateBasicUnsafe(globalkey,iTargetType));
         }
     }
 }

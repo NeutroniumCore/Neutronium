@@ -14,6 +14,8 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         IJSCSGlue GetCached(object key);
 
-        IJSCSGlue GetCached(IJavascriptObject key);
+        IJSCSGlue GetGlobalCached(IJavascriptObject key);
+
+        IJSCSGlue GetCachedLocal(IJavascriptObject localkey);
     }
 }
