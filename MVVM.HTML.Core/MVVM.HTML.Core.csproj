@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
+    <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IVisitable.cs" />
     <Compile Include="Binding\Listeners\IListenableObjectVisitor.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Binding\GlueObject\JSCSGlueType.cs" />
     <Compile Include="Binding\HTMLViewContext.cs" />
     <Compile Include="Binding\Listeners\ReListener.cs" />
+    <Compile Include="Binding\Mapping\CommandFactory.cs" />
     <Compile Include="Binding\Mapping\IJavascriptSessionCache.cs" />
     <Compile Include="Binding\Mapping\IJavascriptSessionInjectorFactory.cs" />
     <Compile Include="Binding\Mapping\CollectionChanges\CollectionChangeType.cs" />

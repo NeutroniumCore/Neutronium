@@ -11,11 +11,13 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class JSSimpleCommand : GlueBase, IJSObservableBridge
     {
-        private ISimpleCommand _JSSimpleCommand;
-        private IWebView _IWebView;
-        public JSSimpleCommand(IWebView iCefV8Context, ISimpleCommand icValue)
+        private readonly ISimpleCommand _JSSimpleCommand;
+        private readonly IWebView _IWebView;
+        private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        public JSSimpleCommand(IWebView iCefV8Context, IJavascriptToCSharpConverter converter, ISimpleCommand icValue)
         {
             _IWebView = iCefV8Context;
+            _JavascriptToCSharpConverter = converter;
             _JSSimpleCommand = icValue;
             JSValue = _IWebView.Factory.CreateObject(true);
         }
@@ -26,26 +28,26 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _IWebView, (c, o, e) => Execute(e, mapper));
+            _MappedJSValue.Bind("Execute", _IWebView, (c, o, e) => Execute(e));
         }
 
-        private object Convert(IJavascriptToCSharpConverter mapper, IJavascriptObject value)
+        private object Convert(IJavascriptObject value)
         {
-            var found = mapper.GetCachedOrCreateBasic(value, null);
+            var found = _JavascriptToCSharpConverter.GetCachedOrCreateBasic(value, null);
             return (found != null) ? found.CValue : null;
         }
 
-        private object GetArguments(IJavascriptToCSharpConverter mapper, IJavascriptObject[] e)
+        private object GetArguments(IJavascriptObject[] e)
         {
-            return (e.Length == 0) ? null : Convert(mapper, e[0]);
+            return (e.Length == 0) ? null : Convert(e[0]);
         }
 
-        private void Execute(IJavascriptObject[] e, IJavascriptToCSharpConverter mapper)
+        private void Execute(IJavascriptObject[] e)
         {
-            _JSSimpleCommand.Execute(GetArguments(mapper, e));
+            _JSSimpleCommand.Execute(GetArguments(e));
         }
 
         public object CValue

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 using MVVM.Cef.Glue;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Infra;
 
 namespace Navigation_HTMLWindow
 {
@@ -44,7 +45,7 @@ namespace Navigation_HTMLWindow
             };
             my.Couple = datacontext;
             datacontext.One = my;
-            HTMLWindow.NavigateAsync(datacontext);
+            HTMLWindow.NavigateAsync(datacontext).DoNotWait();
 
         }
 

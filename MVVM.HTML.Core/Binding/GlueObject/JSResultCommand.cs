@@ -11,11 +11,13 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class JSResultCommand : GlueBase, IJSObservableBridge
     {
-        private IResultCommand _JSResultCommand;
-        private IWebView _IWebView;
-        public JSResultCommand(IWebView ijsobject, IResultCommand icValue)
+        private readonly IResultCommand _JSResultCommand;
+        private readonly IWebView _IWebView;
+        private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        public JSResultCommand(IWebView ijsobject, IJavascriptToCSharpConverter converter, IResultCommand icValue)
         {
             _IWebView = ijsobject;
+            _JavascriptToCSharpConverter = converter;
             _JSResultCommand = icValue;
             JSValue = _IWebView.Factory.CreateObject(true);
         }
@@ -26,24 +28,24 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _IWebView,(c, o, e) => Execute(e, mapper));
+            _MappedJSValue.Bind("Execute", _IWebView,(c, o, e) => Execute(e));
         }
 
-        private object Convert(IJavascriptToCSharpConverter mapper, IJavascriptObject value)
+        private object Convert(IJavascriptObject value)
         {
-            var found = mapper.GetCachedOrCreateBasic(value, null);
+            var found = _JavascriptToCSharpConverter.GetCachedOrCreateBasic(value, null);
             return (found != null) ? found.CValue : null;
         }
 
-        private object GetArguments(IJavascriptToCSharpConverter mapper, IJavascriptObject[] e)
+        private object GetArguments(IJavascriptObject[] e)
         {
-            return (e.Length == 0) ? null : Convert(mapper, e[0]);
+            return (e.Length == 0) ? null : Convert(e[0]);
         }
 
-        private void SetResult(IJavascriptObject[] e, IJavascriptToCSharpConverter bridge, Task<object> resulttask)
+        private void SetResult(IJavascriptObject[] e, Task<object> resulttask)
         {
             _IWebView.RunAsync (() =>
                  {
@@ -53,7 +55,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                      IJavascriptObject promise = e[1];
                      if (!resulttask.IsFaulted)
                      {
-                         bridge.RegisterInSession(resulttask.Result, (bridgevalue) =>
+                         _JavascriptToCSharpConverter.RegisterInSession(resulttask.Result, (bridgevalue) =>
                          {
                              promise.InvokeAsync("fullfill", _IWebView, bridgevalue.GetJSSessionValue());
                          });
@@ -65,14 +67,13 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                          promise.InvokeAsync("reject", _IWebView, _IWebView.Factory.CreateString(error));
                      }
-
                  });
         }
 
-        private void Execute(IJavascriptObject[] e, IJavascriptToCSharpConverter mapper)
+        private void Execute(IJavascriptObject[] e)
         {
-            _JSResultCommand.Execute(GetArguments(mapper, e))
-                .ContinueWith(t => SetResult(e, mapper, t));
+            _JSResultCommand.Execute(GetArguments( e))
+                .ContinueWith(t => SetResult(e, t));
         }
 
         public object CValue

@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.V8JavascriptObject;
+﻿using System.Threading.Tasks;
+using MVVM.HTML.Core.V8JavascriptObject;
 
 
 namespace MVVM.HTML.Core.HTMLBinding
@@ -12,5 +13,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         void MapCollection(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild);
 
         void EndMapping(IJavascriptObject iRoot);
+
+        Task UpdateTask { get; }
     }
 }

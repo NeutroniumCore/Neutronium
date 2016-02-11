@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MVVM.Cef.Glue;
 using MVVM.HTML.Core;
-
+using MVVM.HTML.Core.Infra;
 
 namespace MVVM.Cef.Glue.UI.Navigation
 {
@@ -48,7 +48,7 @@ namespace MVVM.Cef.Glue.UI.Navigation
             my.Couple = datacontext;
             datacontext.One = my;
 
-            HTMLWindow.NavigateAsync(datacontext);
+            HTMLWindow.NavigateAsync(datacontext).DoNotWait();
         }
 
         protected override void OnClosed(EventArgs e)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding.Mapping;
@@ -70,7 +69,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                     return;
 
                 int count = e.Length;
-                IJavascriptObject registered = e[0];
+                var registered = e[0];
 
                 switch (count)
                 {
@@ -145,11 +144,11 @@ namespace MVVM.HTML.Core.HTMLBinding
         {
             _IWebView.Run(() =>
             {
-                if (_Listener != null)
-                {
-                    _Listener.Dispose();
-                    _Listener = null;
-                }
+                if (_Listener == null)
+                    return;
+
+                _Listener.Dispose();
+                _Listener = null;
             });
         }
     }

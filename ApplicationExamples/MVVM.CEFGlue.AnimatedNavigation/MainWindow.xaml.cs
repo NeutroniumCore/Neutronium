@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Infra;
 using MVVM.ViewModel.Infra;
 
 namespace MVVM.Cef.Glue.AnimatedNavigation
@@ -46,7 +47,7 @@ namespace MVVM.Cef.Glue.AnimatedNavigation
 
             SetUpRoute(HTMLWindow.NavigationBuilder);
             var datacontext = new Nav();
-            HTMLWindow.NavigateAsync(datacontext);
+            HTMLWindow.NavigateAsync(datacontext).DoNotWait();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 using MVVM.HTML.Core.Binding;
 using MVVM.Component;
+using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.V8JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
@@ -15,10 +16,12 @@ namespace MVVM.HTML.Core.HTMLBinding
     internal class CSharpToJavascriptConverter 
     {
         private readonly IJavascriptSessionCache _Cacher;
+        private readonly IJSCommandFactory _CommandFactory;
         private readonly HTMLViewContext _Context;
 
-        public CSharpToJavascriptConverter(HTMLViewContext context, IJavascriptSessionCache icacher)
+        public CSharpToJavascriptConverter(HTMLViewContext context, IJavascriptSessionCache icacher, IJSCommandFactory commandFactory)
         {
+            _CommandFactory = commandFactory;
             _Context = context;
             _Cacher = icacher;
         }
@@ -33,19 +36,21 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (ifrom == null)
                 return JSGenericObject.CreateNull(_Context.WebView);
 
-            IJSCSGlue res = null;
-            res = _Cacher.GetCached(ifrom);
+            var res = _Cacher.GetCached(ifrom);
             if (res != null)
                 return res;
 
-            if (ifrom is ICommand)
-                return new JSCommand(_Context.WebView, _Context.UIDispatcher, ifrom as ICommand);
+            var command = ifrom as ICommand;
+            if (command != null)
+                return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, command);
 
-            if (ifrom is ISimpleCommand)
-                return new JSSimpleCommand(_Context.WebView, ifrom as ISimpleCommand);
+            var simpleCommand = ifrom as ISimpleCommand;
+            if (simpleCommand != null)
+                return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, simpleCommand);
 
-            if (ifrom is IResultCommand)
-                return new JSResultCommand(_Context.WebView, ifrom as IResultCommand);
+            var resultCommand = ifrom as IResultCommand;
+            if (resultCommand != null)
+                return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, resultCommand);
 
             IJavascriptObject value;
             if (_Context.WebView.Factory.SolveBasic(ifrom, out value))
@@ -58,13 +63,13 @@ namespace MVVM.HTML.Core.HTMLBinding
                 return trueres;
             }
 
-            IEnumerable ienfro = ifrom as IEnumerable;
+            var ienfro = ifrom as IEnumerable;
             if (ienfro!=null)
                 return  Convert(ienfro);
 
-            IJavascriptObject resobject = _Context.WebView.Factory.CreateObject(true);
+            var resobject = _Context.WebView.Factory.CreateObject(true);
 
-            JSGenericObject gres = new JSGenericObject(_Context.WebView, resobject, ifrom);
+            var gres = new JSGenericObject(_Context.WebView, resobject, ifrom);
             _Cacher.Cache(ifrom, gres);
 
             MappNested(ifrom, resobject,gres);

@@ -6,6 +6,6 @@ namespace MVVM.HTML.Core.HTMLBinding
     public interface IJSObservableBridge : IJSCSGlue
     {
         IJavascriptObject MappedJSValue { get; }
-        void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper);
+        void SetMappedJSValue(IJavascriptObject ijsobject);
     }
 }

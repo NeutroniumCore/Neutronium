@@ -13,12 +13,14 @@ namespace MVVM.HTML.Core.HTMLBinding
     public class JSCommand : GlueBase, IJSObservableBridge
     {
         private int _Count = 1;
-        private IWebView _IWebView;
-        private IDispatcher _UIDispatcher;
+        private readonly IWebView _IWebView;
+        private readonly IDispatcher _UIDispatcher;
+        private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
 
-        public JSCommand(IWebView iCefV8Context, IDispatcher iUIDispatcher, ICommand icValue)
+        public JSCommand(IWebView iCefV8Context, IJavascriptToCSharpConverter converter, IDispatcher iUIDispatcher, ICommand icValue)
         {
             _UIDispatcher = iUIDispatcher;
+            _JavascriptToCSharpConverter = converter;
             _IWebView = iCefV8Context;
             _Command = icValue;
        
@@ -63,32 +65,32 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _IWebView, (c, o, e) => ExecuteCommand(e, mapper));
-            _MappedJSValue.Bind("CanExecute", _IWebView, (c, o, e) => CanExecuteCommand(e, mapper));
+            _MappedJSValue.Bind("Execute", _IWebView, (c, o, e) => ExecuteCommand(e));
+            _MappedJSValue.Bind("CanExecute", _IWebView, (c, o, e) => CanExecuteCommand(e));
         }
 
-        private object Convert(IJavascriptToCSharpConverter mapper, IJavascriptObject value)
+        private object Convert(IJavascriptObject value)
         {
-            var found = mapper.GetCachedOrCreateBasic(value,null);
+            var found = _JavascriptToCSharpConverter.GetCachedOrCreateBasic(value,null);
             return (found != null) ? found.CValue : null;
         }
 
-        private object GetArguments(IJavascriptToCSharpConverter mapper, IJavascriptObject[] e)
+        private object GetArguments(IJavascriptObject[] e)
         {
-            return (e.Length == 0) ? null : Convert(mapper, e[0]);
+            return (e.Length == 0) ? null : Convert(e[0]);
         }
 
-        private void ExecuteCommand(IJavascriptObject[] e, IJavascriptToCSharpConverter mapper)
+        private void ExecuteCommand(IJavascriptObject[] e)
         {
-            _UIDispatcher.RunAsync(() => _Command.Execute(GetArguments(mapper, e)));
+            _UIDispatcher.RunAsync(() => _Command.Execute(GetArguments(e)));
         }
 
-        private void CanExecuteCommand(IJavascriptObject[] e, IJavascriptToCSharpConverter mapper)
+        private void CanExecuteCommand(IJavascriptObject[] e)
         {
-            bool res = _Command.CanExecute(GetArguments(mapper, e));
+            bool res = _Command.CanExecute(GetArguments(e));
             _MappedJSValue.Invoke("CanExecuteValue", _IWebView, _IWebView.Factory.CreateBool(res));
         }
 

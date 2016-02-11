@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationExamples", "ApplicationExamples", "{0F0F34BE-CD06-4C13-967D-BB0760617486}"
 EndProject
@@ -272,8 +272,8 @@ Global
 		{DCFC58E7-4D5B-43C5-827E-5D6F975F4995}.Release|x86.Build.0 = Release|x86
 		{52FB8303-7251-4F31-A491-CC30347274D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52FB8303-7251-4F31-A491-CC30347274D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52FB8303-7251-4F31-A491-CC30347274D7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{52FB8303-7251-4F31-A491-CC30347274D7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{52FB8303-7251-4F31-A491-CC30347274D7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{52FB8303-7251-4F31-A491-CC30347274D7}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{52FB8303-7251-4F31-A491-CC30347274D7}.Debug|x86.ActiveCfg = Debug|x86
 		{52FB8303-7251-4F31-A491-CC30347274D7}.Debug|x86.Build.0 = Debug|x86
 		{52FB8303-7251-4F31-A491-CC30347274D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -284,8 +284,8 @@ Global
 		{52FB8303-7251-4F31-A491-CC30347274D7}.Release|x86.Build.0 = Release|x86
 		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Debug|x86.ActiveCfg = Debug|x86
 		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Debug|x86.Build.0 = Debug|x86
 		{723A4723-FAE8-4B50-B061-A4C599F4722E}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -25,6 +25,9 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly List<IJSCSGlue> _UnrootedEntities;
         private bool _IsListening = false;
 
+        public IJSCSGlue JSValueRoot { get { return _Root; } }
+        public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
+
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         {
             _ListenerRegister = new FullListenerRegister(
@@ -36,7 +39,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                                         (c) => c.UnListenChanges());
             _Context = context;
             _SessionCache = new SessionCacher();
-            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache);
+            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, new CommandFactory(this));
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
             _UnrootedEntities = new List<IJSCSGlue>();
             _BindingMode = iMode;
@@ -68,66 +71,6 @@ namespace MVVM.HTML.Core.HTMLBinding
             _UnrootedEntities.Clear();
         }
 
-        #region IJavascriptMapper
-
-        private class JavascriptMapper : IJavascriptObjectMapper
-        {
-            private readonly IJSObservableBridge _Root;
-            private readonly BidirectionalMapper _LiveMapper;
-            private readonly TaskCompletionSource<object> _TCS = new TaskCompletionSource<object>();
-            public JavascriptMapper(IJSObservableBridge iRoot, BidirectionalMapper iFather)
-            {
-                _LiveMapper = iFather;
-                _Root = iRoot;
-            }
-
-            public void MapFirst(IJavascriptObject iRoot)
-            {
-                _LiveMapper.Update(_Root, iRoot);
-            }
-
-            public void Map(IJavascriptObject iFather, string att, IJavascriptObject iChild)
-            {
-                _LiveMapper.RegisterMapping(iFather, att, iChild);
-            }
-
-            public void MapCollection(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
-            {
-                _LiveMapper.RegisterCollectionMapping(iFather, att, index, iChild);
-            }
-
-            internal Task UpdateTask { get { return _TCS.Task; } }
-
-            public void EndMapping(IJavascriptObject iRoot)
-            {
-                _TCS.TrySetResult(null);
-            }
-        }
-
-        private void Update(IJSObservableBridge ibo, IJavascriptObject jsobject)
-        {
-            ibo.SetMappedJSValue(jsobject, this);
-            _SessionCache.CacheGlobal(jsobject, ibo);
-        }
-
-        public void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
-        {
-            var jso = _SessionCache.GetGlobalCached(iFather) as JSGenericObject;
-            Update(jso.Attributes[att] as IJSObservableBridge, iChild);
-        }
-
-        public void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
-        {
-            var father = _SessionCache.GetGlobalCached(iFather);
-            var jsos = (att == null) ? father : ((JSGenericObject) father).Attributes[att];
-
-            Update(((JSArray) jsos).Items[index] as IJSObservableBridge, iChild);
-        }
-
-        #endregion
-
-        public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
-
         public void Visit(IListenableObjectVisitor visitor)
         {
             _Root.ApplyOnListenable(visitor);
@@ -144,17 +87,23 @@ namespace MVVM.HTML.Core.HTMLBinding
             Visit(_ListenerRegister.GetOff());
         }
 
-        public IJSCSGlue JSValueRoot { get { return _Root; } }
-
         private async Task InjectInHTLMSession(IJSCSGlue iroot, bool isroot = false)
         {
-            if ((iroot == null) || (iroot.Type == JSCSGlueType.Basic))
+            if (iroot == null)
                 return;
 
-            if ((iroot.Type == JSCSGlueType.Object) && (iroot.JSValue.IsNull))
-                return;
+            switch (iroot.Type)
+            {
+                case JSCSGlueType.Basic:
+                    return;
 
-            var jvm = new JavascriptMapper(iroot as IJSObservableBridge, this);
+                case JSCSGlueType.Object:
+                    if ((iroot.JSValue.IsNull))
+                        return;
+                    break;
+            }
+
+            var jvm = _SessionCache.GetMapper(iroot as IJSObservableBridge);
             var res = _sessionInjector.Inject(iroot.JSValue, jvm, (iroot.CValue != null));
 
             await jvm.UpdateTask;
@@ -262,7 +211,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    IJSCSGlue addvalue = _JSObjectBuilder.Map(e.NewItems[0]);
+                    var addvalue = _JSObjectBuilder.Map(e.NewItems[0]);
 
                     if (addvalue == null) return;
 
@@ -270,7 +219,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    IJSCSGlue newvalue = _JSObjectBuilder.Map(e.NewItems[0]);
+                    var newvalue = _JSObjectBuilder.Map(e.NewItems[0]);
 
                     if (newvalue == null) return;
 

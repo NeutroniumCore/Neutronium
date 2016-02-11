@@ -136,7 +136,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJavascriptObject MappedJSValue { get; private set; }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject, IJavascriptToCSharpConverter mapper)
+        public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             MappedJSValue = ijsobject;
         }
