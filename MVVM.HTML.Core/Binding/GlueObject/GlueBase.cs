@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using System.Linq;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Collections;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
@@ -25,27 +21,5 @@ namespace MVVM.HTML.Core.HTMLBinding
             BuilString(sb, new HashSet<IJSCSGlue>());
             return sb.ToString();
         }
-
-        //public void ApplyOnListenable(IJSCSGlueListenableVisitor ivisitor)
-        //{
-        //    var jsGlue = (IJSCSGlue)this;
-        //    foreach (var child in jsGlue.GetAllChildren(true).Distinct())
-        //    {
-        //        var c_childvalue = child.CValue;
-        //        var NotifyCollectionChanged = c_childvalue as INotifyCollectionChanged;
-        //        if (NotifyCollectionChanged != null)
-        //        {
-        //            ivisitor.OnCollection(NotifyCollectionChanged);
-        //            continue;
-        //        }
-
-        //        var NotifyPropertyChanged = c_childvalue as INotifyPropertyChanged;
-        //        if ((NotifyPropertyChanged != null) && !(child is IEnumerable))
-        //            ivisitor.OnObject(NotifyPropertyChanged);
-
-        //        if (child.Type == JSCSGlueType.Command)
-        //            ivisitor.OnCommand(child as JSCommand);
-        //    }
-        //}
     }
 }
