@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />
+    <Compile Include="Binding\Mapping\IJavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IVisitable.cs" />
     <Compile Include="Binding\Listeners\IListenableObjectVisitor.cs" />

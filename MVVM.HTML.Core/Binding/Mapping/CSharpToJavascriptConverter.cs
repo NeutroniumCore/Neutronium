@@ -78,17 +78,17 @@ namespace MVVM.HTML.Core.HTMLBinding
             return gres;
         }
 
-        private JSGenericObject MappNested(object ifrom, IJavascriptObject resobject, JSGenericObject gres)
+        private void MappNested(object ifrom, IJavascriptObject resobject, JSGenericObject gres)
         {
             if (ifrom == null)
-                return gres;
+                return;
 
             IEnumerable<PropertyInfo> propertyInfos = ifrom.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (PropertyInfo propertyInfo in propertyInfos.Where(p => p.CanRead))
             {
                 string pn = propertyInfo.Name;
-                object childvalue = null;
+                object childvalue;
                 try
                 {
                     childvalue = propertyInfo.GetValue(ifrom, null); 
@@ -105,8 +105,6 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                 gres.UpdateCSharpProperty(pn,childres);
             }
-
-            return gres;
         }
 
         private IJSCSGlue Convert(IEnumerable source)

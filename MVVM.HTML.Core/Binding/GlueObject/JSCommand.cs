@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
-
+using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.Binding.Mapping;
@@ -72,25 +72,14 @@ namespace MVVM.HTML.Core.HTMLBinding
             _MappedJSValue.Bind("CanExecute", _IWebView, (c, o, e) => CanExecuteCommand(e));
         }
 
-        private object Convert(IJavascriptObject value)
-        {
-            var found = _JavascriptToCSharpConverter.GetCachedOrCreateBasic(value,null);
-            return (found != null) ? found.CValue : null;
-        }
-
-        private object GetArguments(IJavascriptObject[] e)
-        {
-            return (e.Length == 0) ? null : Convert(e[0]);
-        }
-
         private void ExecuteCommand(IJavascriptObject[] e)
         {
-            _UIDispatcher.RunAsync(() => _Command.Execute(GetArguments(e)));
+            _UIDispatcher.RunAsync(() => _Command.Execute(_JavascriptToCSharpConverter.GetArguments(e)));
         }
 
         private void CanExecuteCommand(IJavascriptObject[] e)
         {
-            bool res = _Command.CanExecute(GetArguments(e));
+            bool res = _Command.CanExecute(_JavascriptToCSharpConverter.GetArguments(e));
             _MappedJSValue.Invoke("CanExecuteValue", _IWebView, _IWebView.Factory.CreateBool(res));
         }
 

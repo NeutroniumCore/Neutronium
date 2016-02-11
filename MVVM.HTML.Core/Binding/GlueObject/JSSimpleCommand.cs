@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 
 using MVVM.Component;
-
+using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Binding.Mapping;
 
@@ -34,20 +34,9 @@ namespace MVVM.HTML.Core.HTMLBinding
             _MappedJSValue.Bind("Execute", _IWebView, (c, o, e) => Execute(e));
         }
 
-        private object Convert(IJavascriptObject value)
-        {
-            var found = _JavascriptToCSharpConverter.GetCachedOrCreateBasic(value, null);
-            return (found != null) ? found.CValue : null;
-        }
-
-        private object GetArguments(IJavascriptObject[] e)
-        {
-            return (e.Length == 0) ? null : Convert(e[0]);
-        }
-
         private void Execute(IJavascriptObject[] e)
         {
-            _JSSimpleCommand.Execute(GetArguments(e));
+            _JSSimpleCommand.Execute(_JavascriptToCSharpConverter.GetArguments(e));
         }
 
         public object CValue
