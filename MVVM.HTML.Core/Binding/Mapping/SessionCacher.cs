@@ -1,10 +1,7 @@
 ﻿using MVVM.HTML.Core.HTMLBinding;
 using MVVM.HTML.Core.V8JavascriptObject;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Window;
 
 namespace MVVM.HTML.Core.Binding.Mapping
 {

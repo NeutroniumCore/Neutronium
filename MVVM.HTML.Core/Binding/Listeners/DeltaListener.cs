@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MVVM.HTML.Core.Infra;
 
 namespace MVVM.HTML.Core.Binding.Listeners
 {
     internal class DeltaListener<T> where T:class
     {
-        private HashSet<T> _Old = new HashSet<T>();
-        private HashSet<T> _New = new HashSet<T>();
-        private ListenerRegister<T> _ListenerRegister;
+        private readonly HashSet<T> _Old = new HashSet<T>();
+        private readonly HashSet<T> _New = new HashSet<T>();
+        private readonly ListenerRegister<T> _ListenerRegister;
         public DeltaListener(ListenerRegister<T> listenerRegister)
         {
             _ListenerRegister = listenerRegister;

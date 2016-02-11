@@ -1,6 +1,4 @@
 ﻿using MVVM.HTML.Core.V8JavascriptObject;
-using System;
-using System.Collections.Generic;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {

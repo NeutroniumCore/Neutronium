@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Infra;
@@ -42,8 +41,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             _UnrootedEntities = new List<IJSCSGlue>();
             _BindingMode = iMode;
 
-             var JavascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesListener)this : null;
-            _sessionInjector = _Context.CreateInjector(JavascriptObjecChanges);
+             var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesListener)this : null;
+            _sessionInjector = _Context.CreateInjector(javascriptObjecChanges);
         }
 
         internal async Task Init()
@@ -120,7 +119,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         public void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
         {
             var father = _SessionCache.GetGlobalCached(iFather);
-            var jsos = (att == null) ? father : (father as JSGenericObject).Attributes[att];
+            var jsos = (att == null) ? father : ((JSGenericObject) father).Attributes[att];
 
             Update(((JSArray) jsos).Items[index] as IJSObservableBridge, iChild);
         }
@@ -226,7 +225,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             var nv = propertyAccessor.Get();
             var oldbridgedchild = currentfather.Attributes[pn];
 
-            if (Object.Equals(nv, oldbridgedchild.CValue)) return;
+            if (Object.Equals(nv, oldbridgedchild.CValue))
+                return;
 
             var newbridgedchild = _JSObjectBuilder.Map(nv);
             RegisterAndDo(newbridgedchild, () => currentfather.Reroot(pn, newbridgedchild));
@@ -234,7 +234,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public void RegisterInSession(object nv, Action<IJSCSGlue> Continue)
         {
-            IJSCSGlue newbridgedchild = _JSObjectBuilder.Map(nv);
+            var newbridgedchild = _JSObjectBuilder.Map(nv);
             RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); Continue(newbridgedchild); });
         }
 
@@ -255,8 +255,9 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private void UnsafeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            JSArray arr = _SessionCache.GetCached(sender) as JSArray;
-            if (arr == null) return;
+            var arr = _SessionCache.GetCached(sender) as JSArray;
+            if (arr == null)
+                return;
 
             switch (e.Action)
             {
@@ -303,14 +304,14 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private IJSCSGlue GetCachedOrCreateBasicUnsafe(IJavascriptObject globalkey, Type iTargetType)
         {
-            IJSCSGlue res = null;
+            IJSCSGlue res;
 
             //Use local cache for objet not created in javascript session such as enum
             if ((globalkey != null) && 
                 ((res = _SessionCache.GetGlobalCached(globalkey) ?? _SessionCache.GetCachedLocal(globalkey)) != null))
                 return res;
 
-            object targetvalue = null;
+            object targetvalue;
             bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, iTargetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
                 throw ExceptionHelper.Get(string.Format("Unable to convert javascript object: {0}", globalkey));
