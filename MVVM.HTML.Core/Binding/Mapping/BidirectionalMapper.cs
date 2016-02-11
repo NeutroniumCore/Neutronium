@@ -20,7 +20,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly JavascriptBindingMode _BindingMode;
         private readonly CSharpToJavascriptConverter _JSObjectBuilder;
         private readonly IJavascriptSessionInjector _sessionInjector;
-        private readonly Cacher _SessionCache;
+        private readonly SessionCacher _SessionCache;
         private readonly IJSCSGlue _Root;
         private readonly FullListenerRegister _ListenerRegister;
         private readonly List<IJSCSGlue> _UnrootedEntities;
@@ -36,7 +36,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
             _Context = context;
-            _SessionCache = new Cacher();
+            _SessionCache = new SessionCacher();
             _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache);
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
             _UnrootedEntities = new List<IJSCSGlue>();
@@ -60,9 +60,18 @@ namespace MVVM.HTML.Core.HTMLBinding
                   });
         }
 
+        public void Dispose()
+        {
+            if (ListenToCSharp)
+                UnlistenToCSharpChanges();
+
+            _sessionInjector.Dispose();
+            _UnrootedEntities.Clear();
+        }
+
         #region IJavascriptMapper
 
-        private class JavascriptMapper : IJavascriptMapper
+        private class JavascriptMapper : IJavascriptObjectMapper
         {
             private readonly IJSObservableBridge _Root;
             private readonly BidirectionalMapper _LiveMapper;
@@ -290,15 +299,6 @@ namespace MVVM.HTML.Core.HTMLBinding
                         }
                     }
                );
-        }
-
-        public void Dispose()
-        {
-            if (ListenToCSharp)
-                UnlistenToCSharpChanges();
-
-            _sessionInjector.Dispose();
-            _UnrootedEntities.Clear();
         }
 
         private IJSCSGlue GetCachedOrCreateBasicUnsafe(IJavascriptObject globalkey, Type iTargetType)

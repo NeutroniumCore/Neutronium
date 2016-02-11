@@ -2,15 +2,13 @@
 using MVVM.HTML.Core.V8JavascriptObject;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Window;
 
 namespace MVVM.HTML.Core.Binding.Mapping
 {
-    internal class Cacher : IJSCBridgeCache
+    internal class SessionCacher : IJavascriptSessionCache
     {
         private readonly IDictionary<object, IJSCSGlue> _FromCSharp = new Dictionary<object, IJSCSGlue>();
         private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();

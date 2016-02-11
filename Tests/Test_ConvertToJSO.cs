@@ -39,7 +39,7 @@ namespace MVVM.Cef.Glue.Test
         private ArrayList _Tests_NG;
         private HTMLViewContext _HTMLViewContext;
 
-        private IJSCBridgeCache _ICSharpMapper;
+        private IJavascriptSessionCache _ICSharpMapper;
 
         public Test_ConvertToJSO()
         {
@@ -48,7 +48,7 @@ namespace MVVM.Cef.Glue.Test
         protected override void Init()
         {
             //_IJSOBuilder = new CefV8_Factory(_WebView);
-            _ICSharpMapper = Substitute.For<IJSCBridgeCache>();
+            _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), new KnockoutSessionInjectorFactory());
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper);

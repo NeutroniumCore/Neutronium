@@ -3,7 +3,7 @@
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public interface IJavascriptMapper
+    public interface IJavascriptObjectMapper
     {
         void MapFirst(IJavascriptObject iRoot);
 

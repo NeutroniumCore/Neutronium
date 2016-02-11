@@ -1,12 +1,10 @@
 ﻿using MVVM.HTML.Core.V8JavascriptObject;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public interface IJSCBridgeCache
+    public interface IJavascriptSessionCache
     {
         void Cache(object key, IJSCSGlue value);
 

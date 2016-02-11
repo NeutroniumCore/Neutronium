@@ -84,6 +84,7 @@
     <Compile Include="Binding\GlueObject\JSCSGlueType.cs" />
     <Compile Include="Binding\HTMLViewContext.cs" />
     <Compile Include="Binding\Listeners\ReListener.cs" />
+    <Compile Include="Binding\Mapping\IJavascriptSessionCache.cs" />
     <Compile Include="Binding\Mapping\IJavascriptSessionInjectorFactory.cs" />
     <Compile Include="Binding\Mapping\CollectionChanges\CollectionChangeType.cs" />
     <Compile Include="Binding\Mapping\CollectionChanges\CollectionChanges.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Binding\Mapping\IJavascriptObjectFactoryExtension.cs" />
     <Compile Include="Binding\Mapping\IJavascriptSessionInjector.cs" />
     <Compile Include="Binding\Mapping\IJavascriptToCSharpConverter.cs" />
-    <Compile Include="Binding\Mapping\IJSCBridgeCache.cs" />
     <Compile Include="Binding\Mapping\IJavascriptChangesListener.cs" />
     <Compile Include="Binding\Mapping\KnockoutInject\KnockoutSessionInjectorFactory.cs" />
     <Compile Include="Binding\HTMLViewEngine.cs" />
@@ -129,7 +129,7 @@
     <Compile Include="JavascriptBindingMode.cs" />
     <Compile Include="Binding\GlueObject\IJSCSGlueExtender.cs" />
     <Compile Include="Binding\GlueObject\IJSCSGlue.cs" />
-    <Compile Include="Binding\Mapping\IJavascriptMapper.cs" />
+    <Compile Include="Binding\Mapping\IJavascriptObjectMapper.cs" />
     <Compile Include="Binding\Mapping\KnockoutInject\KnockoutSessionInjector.cs" />
     <Compile Include="Binding\GlueObject\JSArray.cs" />
     <Compile Include="Binding\GlueObject\JSGenericObject.cs" />

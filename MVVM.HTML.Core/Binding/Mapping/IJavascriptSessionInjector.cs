@@ -7,7 +7,7 @@ namespace MVVM.HTML.Core.Binding.Mapping
 {
     public interface IJavascriptSessionInjector : IDisposable
     {
-        IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptMapper ijvm, bool checknullvalue = true);
+        IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper ijvm, bool checknullvalue = true);
         Task RegisterMainViewModel(IJavascriptObject rawObject);
     }
 }

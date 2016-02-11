@@ -13,9 +13,9 @@ namespace MVVM.HTML.Core.HTMLBinding
     {
         private readonly IWebView _IWebView;
         private readonly IJavascriptChangesListener _IJavascriptListener;
-        private readonly Queue<IJavascriptMapper> _IJavascriptMapper = new Queue<IJavascriptMapper>();
+        private readonly Queue<IJavascriptObjectMapper> _IJavascriptMapper = new Queue<IJavascriptObjectMapper>();
         private IJavascriptObject _Listener;
-        private IJavascriptMapper _Current;
+        private IJavascriptObjectMapper _Current;
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
 
@@ -49,7 +49,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             _IJavascriptListener.OnJavaScriptCollectionChanges(collectionChange);
         }
 
-        private IJavascriptObject GetMapper(IJavascriptMapper iMapperListener)
+        private IJavascriptObject GetMapper(IJavascriptObjectMapper iMapperListener)
         {
             _IJavascriptMapper.Enqueue(iMapperListener);
     
@@ -115,7 +115,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             return _Ko;
         }
 
-        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptMapper ijvm, bool checknullvalue = true)
+        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm, bool checknullvalue = true)
         {
             return _IWebView.Evaluate(() =>
                 {

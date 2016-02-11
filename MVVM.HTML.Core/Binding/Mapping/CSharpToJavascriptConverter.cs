@@ -14,10 +14,10 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     internal class CSharpToJavascriptConverter 
     {
-        private readonly IJSCBridgeCache _Cacher;
+        private readonly IJavascriptSessionCache _Cacher;
         private readonly HTMLViewContext _Context;
 
-        public CSharpToJavascriptConverter(HTMLViewContext context, IJSCBridgeCache icacher)
+        public CSharpToJavascriptConverter(HTMLViewContext context, IJavascriptSessionCache icacher)
         {
             _Context = context;
             _Cacher = icacher;
