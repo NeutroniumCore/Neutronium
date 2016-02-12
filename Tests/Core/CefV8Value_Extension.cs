@@ -1,4 +1,4 @@
-﻿using MVVM.HTML.Core.V8JavascriptObject;
+﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.Test.Core

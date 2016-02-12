@@ -20,8 +20,8 @@ using MVVM.ViewModel.Infra;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.Cef.Glue.Test.ViewModel.Test;
 using MVVM.Component;
-using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue.Test
 {

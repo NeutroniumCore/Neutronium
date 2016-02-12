@@ -1,8 +1,6 @@
 ﻿using Xilium.CefGlue;
-
-using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.Cef.Glue.CefSession;
-
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue.CefGlueHelper
 {

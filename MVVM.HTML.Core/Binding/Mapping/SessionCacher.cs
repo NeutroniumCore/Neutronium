@@ -1,8 +1,8 @@
 ﻿using MVVM.HTML.Core.HTMLBinding;
-using MVVM.HTML.Core.V8JavascriptObject;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.Binding.Mapping
 {

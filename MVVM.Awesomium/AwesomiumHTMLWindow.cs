@@ -26,7 +26,7 @@ namespace MVVM.Awesomium
                 ConsoleMessage(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
         }
 
-        public   HTML.Core.V8JavascriptObject.IWebView MainFrame
+        public   HTML.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame
         {
             get;  private set;
         }

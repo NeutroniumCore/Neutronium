@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.HTMLBinding;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {

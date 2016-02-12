@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MVVM.HTML.Core.V8JavascriptObject
+namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
 {
     /// <summary>
     /// Factory to create IJavascriptObject

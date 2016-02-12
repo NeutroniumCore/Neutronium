@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 
 using Xilium.CefGlue;
-
-using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Infra;
-
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue
 {

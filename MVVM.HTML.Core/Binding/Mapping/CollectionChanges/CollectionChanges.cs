@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Binding.Mapping;
 
 

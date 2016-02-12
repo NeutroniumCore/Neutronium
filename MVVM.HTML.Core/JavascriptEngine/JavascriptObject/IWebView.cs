@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using MVVM.HTML.Core.Window;
 
-
-namespace MVVM.HTML.Core.V8JavascriptObject
+namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
 {
     /// <summary>
     /// Javacsript Window interaction

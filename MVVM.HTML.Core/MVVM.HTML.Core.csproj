@@ -107,11 +107,11 @@
     <Compile Include="Binding\Mapping\SessionCacher.cs" />
     <Compile Include="Infra\PropertyAccessor.cs" />
     <Compile Include="JavascriptEngine\Control\IHTMLWindowProvider.cs" />
-    <Compile Include="JavascriptEngine\V8JavascriptObject\CreationOption.cs" />
-    <Compile Include="JavascriptEngine\V8JavascriptObject\IJavascriptObject.cs" />
-    <Compile Include="JavascriptEngine\V8JavascriptObject\IJavascriptObjectConverter.cs" />
-    <Compile Include="JavascriptEngine\V8JavascriptObject\IJavascriptObjectFactory.cs" />
-    <Compile Include="JavascriptEngine\V8JavascriptObject\IWebView.cs" />
+    <Compile Include="JavascriptEngine\JavascriptObject\CreationOption.cs" />
+    <Compile Include="JavascriptEngine\JavascriptObject\IJavascriptObject.cs" />
+    <Compile Include="JavascriptEngine\JavascriptObject\IJavascriptObjectConverter.cs" />
+    <Compile Include="JavascriptEngine\JavascriptObject\IJavascriptObjectFactory.cs" />
+    <Compile Include="JavascriptEngine\JavascriptObject\IWebView.cs" />
     <Compile Include="IHTMLBinding.cs" />
     <Compile Include="Exceptions\MVVMCEFGlueException.cs" />
     <Compile Include="Exceptions\ExceptionHelper.cs" />

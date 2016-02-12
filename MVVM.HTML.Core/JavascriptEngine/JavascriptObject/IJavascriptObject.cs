@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MVVM.HTML.Core.V8JavascriptObject
+namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
 {
     /// <summary>
     /// Abstraction of a javascript object

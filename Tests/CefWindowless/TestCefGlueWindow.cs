@@ -1,6 +1,7 @@
 ﻿using MVVM.Cef.Glue.CefGlueHelper;
 using MVVM.HTML.Core.Window;
 using System;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.Test.CefWindowless
@@ -28,7 +29,7 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
             add { } remove { } 
         }
 
-        HTML.Core.V8JavascriptObject.IWebView IHTMLWindow.MainFrame
+        IWebView IHTMLWindow.MainFrame
         {
             get { return _CefFrame.GetMainContext(); }
         }

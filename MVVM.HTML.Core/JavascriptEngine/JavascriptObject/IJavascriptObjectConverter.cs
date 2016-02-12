@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.HTML.Core.V8JavascriptObject
+namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
 {
     /// <summary>
     /// Converter from IJavascriptObject to basic CLR Type

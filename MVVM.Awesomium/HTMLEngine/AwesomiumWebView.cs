@@ -1,18 +1,20 @@
-﻿using Awesomium.Core;
-using MVVM.Awesomium.HTMLEngine;
+﻿using MVVM.Awesomium.HTMLEngine;
 using MVVM.HTML.Core.Window;
 using System;
 using System.Threading.Tasks;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using AwesomiumIWebView = Awesomium.Core.IWebView;
+using MVVMIWebView = MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView;
 
 namespace MVVM.Awesomium
 {
-    internal class AwesomiumWebView : HTML.Core.V8JavascriptObject.IWebView
+    internal class AwesomiumWebView : MVVMIWebView
     {
-        private IWebView _IWebView;
+        private AwesomiumIWebView _IWebView;
         private IDispatcher _Dispatcher;
         private AwesomiumJavascriptObjectConverter _AwesomiumJavascriptObjectConverter;
         private AwesomiumJavascriptObjectFactory _AwesomiumJavascriptObjectFactory;
-        public AwesomiumWebView(IWebView iwebview)
+        public AwesomiumWebView(AwesomiumIWebView iwebview)
         {
             _IWebView = iwebview;
             _Dispatcher = new AwesomiumDispatcher();
@@ -25,22 +27,22 @@ namespace MVVM.Awesomium
            return _Dispatcher.RunAsync(act);
         }
 
-        public HTML.Core.V8JavascriptObject.IJavascriptObject GetGlobal()
+        public IJavascriptObject GetGlobal()
         {
             return _IWebView.ExecuteJavascriptWithResult("window").Convert();
         }
 
-        public HTML.Core.V8JavascriptObject.IJavascriptObjectConverter Converter
+        public IJavascriptObjectConverter Converter
         {
             get { return _AwesomiumJavascriptObjectConverter; }
         }
 
-        public HTML.Core.V8JavascriptObject.IJavascriptObjectFactory Factory
+        public IJavascriptObjectFactory Factory
         {
             get { return _AwesomiumJavascriptObjectFactory; }
         }
 
-        public bool Eval(string code, out HTML.Core.V8JavascriptObject.IJavascriptObject res)
+        public bool Eval(string code, out IJavascriptObject res)
         {
            res = _IWebView.ExecuteJavascriptWithResult(code).Convert();
            return res != null;

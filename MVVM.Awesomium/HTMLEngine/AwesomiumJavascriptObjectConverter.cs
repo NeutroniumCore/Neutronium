@@ -1,5 +1,5 @@
-﻿using MVVM.HTML.Core.V8JavascriptObject;
-using System;
+﻿using System;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Awesomium_Core = Awesomium.Core;
 
 namespace MVVM.Awesomium.HTMLEngine

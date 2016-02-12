@@ -14,8 +14,8 @@ using Xilium.CefGlue;
 using MVVM.Cef.Glue.CefGlueHelper;
 using MVVM.Cef.Glue.Helpers.Log;
 using MVVM.HTML.Core.Window;
-using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue.WPF
 {

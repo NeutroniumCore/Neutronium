@@ -1,5 +1,5 @@
-﻿using MVVM.HTML.Core.V8JavascriptObject;
-using System;
+﻿using System;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue

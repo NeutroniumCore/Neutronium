@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-
-using MVVM.HTML.Core.V8JavascriptObject;
 using Awesomium.Core;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using IWebView = MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView;
 
 namespace MVVM.Awesomium
 {
@@ -98,18 +98,18 @@ namespace MVVM.Awesomium
             return ((JSObject)_JSValue).HasProperty(attributename);
         }
 
-        public IJavascriptObject Invoke(string iFunctionName, HTML.Core.V8JavascriptObject.IWebView iContext, params IJavascriptObject[] iparam)
+        public IJavascriptObject Invoke(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam)
         {
             var res =((JSObject)_JSValue).Invoke(iFunctionName, iparam.Cast<IJavascriptObject>().Select(c => c.Convert()).ToArray());
             return res.Convert();
         }
 
-        public Task<IJavascriptObject> InvokeAsync(string iFunctionName, HTML.Core.V8JavascriptObject.IWebView iContext, params IJavascriptObject[] iparam)
+        public Task<IJavascriptObject> InvokeAsync(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam)
         {
             return Task.FromResult(Invoke(iFunctionName, iContext, iparam));
         }
 
-        public void Bind(string iFunctionName, HTML.Core.V8JavascriptObject.IWebView iContext, Action<string, IJavascriptObject, IJavascriptObject[]> action)
+        public void Bind(string iFunctionName, IWebView iContext, Action<string, IJavascriptObject, IJavascriptObject[]> action)
         {
             JSObject ob = _JSValue;
             ob.Bind(iFunctionName, false, (o, e) => { action(iFunctionName, null, e.Arguments.Select(el => el.Convert()).ToArray()); });

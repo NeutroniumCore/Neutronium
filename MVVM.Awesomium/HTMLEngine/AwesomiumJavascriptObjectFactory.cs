@@ -6,7 +6,7 @@ using System.Linq;
 using Awesomium_Core = Awesomium.Core;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Awesomium.HTMLEngine
 {

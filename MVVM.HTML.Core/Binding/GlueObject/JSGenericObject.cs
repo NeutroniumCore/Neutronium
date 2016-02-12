@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {

@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-
-using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core
 {

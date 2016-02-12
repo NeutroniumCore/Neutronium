@@ -1,4 +1,4 @@
-﻿namespace MVVM.HTML.Core.V8JavascriptObject
+﻿namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
 {
     public enum CreationOption
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.Binding.Extension
 {

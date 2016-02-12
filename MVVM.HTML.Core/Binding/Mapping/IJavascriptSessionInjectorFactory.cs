@@ -1,6 +1,6 @@
 ﻿using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.HTMLBinding;
-using MVVM.HTML.Core.V8JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.Binding
 {

@@ -11,8 +11,7 @@ using MVVM.Cef.Glue.Test.CefWindowless;
 using MVVM.Cef.Glue.Test.Core;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Mapping;
-using MVVM.HTML.Core.V8JavascriptObject;
-
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue.Test
 {
