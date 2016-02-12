@@ -9,6 +9,16 @@ namespace MVVM.HTML.Core.HTMLBinding
     public class JSGenericObject : GlueBase, IJSObservableBridge
     {
         private readonly IWebView _WebView;
+        private IJavascriptObject _MappedJSValue;
+        private readonly Dictionary<string, IJSCSGlue> _Attributes = new Dictionary<string, IJSCSGlue>();
+        private readonly IDictionary<string, IJavascriptObject> _Silenters = new Dictionary<string, IJavascriptObject>();
+
+        public IReadOnlyDictionary<string, IJSCSGlue> Attributes { get { return _Attributes; } }
+        public IJavascriptObject JSValue { get; private set; }
+        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
+        public object CValue { get; private set; }
+        public JSCSGlueType Type { get { return JSCSGlueType.Object; } }
+
         public JSGenericObject(IWebView context, IJavascriptObject value, object icValue)
         {
             JSValue = value;
@@ -48,33 +58,19 @@ namespace MVVM.HTML.Core.HTMLBinding
             sb.Append("}");
         }
 
-        private readonly Dictionary<string, IJSCSGlue> _Attributes = new Dictionary<string, IJSCSGlue>();
-        public IReadOnlyDictionary<string, IJSCSGlue> Attributes { get { return _Attributes; } }
-
-        public IJavascriptObject JSValue { get; private set; }
-
-        private IJavascriptObject _MappedJSValue;
-        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
-
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
         }
-
-        private IDictionary<string, IJavascriptObject> _Silenters = new Dictionary<string, IJavascriptObject>(); 
-
-        public object CValue { get; private set; }
-
-        public JSCSGlueType Type { get { return JSCSGlueType.Object; } }
 
         public IEnumerable<IJSCSGlue> GetChildren()
         {
             return _Attributes.Values; 
         }
 
-        public void UpdateCSharpProperty(string PropertyName, IJSCSGlue glue)
+        public void UpdateCSharpProperty(string propertyName, IJSCSGlue glue)
         {
-            _Attributes[PropertyName] = glue;
+            _Attributes[propertyName] = glue;
         }
 
         public void Reroot(string propertyName, IJSCSGlue newValue)
