@@ -17,7 +17,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             BuilString(sb, new HashSet<IJSCSGlue>());
             return sb.ToString();
         }

@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Reflection;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.V8JavascriptObject;
-using MVVM.HTML.Core.Binding.Mapping;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
     public class JSGenericObject : GlueBase, IJSObservableBridge
     {
-        private IWebView _WebView;
+        private readonly IWebView _WebView;
         public JSGenericObject(IWebView context, IJavascriptObject value, object icValue)
         {
             JSValue = value;
@@ -50,7 +48,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             sb.Append("}");
         }
 
-        private Dictionary<string, IJSCSGlue> _Attributes = new Dictionary<string, IJSCSGlue>();
+        private readonly Dictionary<string, IJSCSGlue> _Attributes = new Dictionary<string, IJSCSGlue>();
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes { get { return _Attributes; } }
 
         public IJavascriptObject JSValue { get; private set; }
@@ -79,12 +77,13 @@ namespace MVVM.HTML.Core.HTMLBinding
             _Attributes[PropertyName] = glue;
         }
 
-        public void Reroot(string PropertyName, IJSCSGlue newValue)
+        public void Reroot(string propertyName, IJSCSGlue newValue)
         { 
-            UpdateCSharpProperty(PropertyName, newValue);
+            UpdateCSharpProperty(propertyName, newValue);
 
-            IJavascriptObject silenter = null;
-            if ( _Silenters.TryGetValue(PropertyName,out silenter))
+#region Knockout
+            IJavascriptObject silenter;
+            if ( _Silenters.TryGetValue(propertyName,out silenter))
             {
                 silenter.InvokeAsync("silent", _WebView, newValue.GetJSSessionValue());      
             }
@@ -92,12 +91,13 @@ namespace MVVM.HTML.Core.HTMLBinding
             {
                 _WebView.RunAsync( ()=>
                     {
-                        silenter = _Silenters.FindOrCreateEntity(PropertyName, name => 
+                        silenter = _Silenters.FindOrCreateEntity(propertyName, name => 
                             _MappedJSValue.GetValue(name));
 
                         silenter.Invoke("silent", _WebView, newValue.GetJSSessionValue());
                     });
             }
+#endregion
         }     
     }
 }

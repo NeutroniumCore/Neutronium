@@ -12,10 +12,17 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class JSCommand : GlueBase, IJSObservableBridge
     {
-        private int _Count = 1;
         private readonly IWebView _IWebView;
         private readonly IDispatcher _UIDispatcher;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        private readonly ICommand _Command;
+        private IJavascriptObject _MappedJSValue;
+        private int _Count = 1;
+
+        public IJavascriptObject JSValue { get; private set; }
+        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
+        public object CValue { get { return _Command; } }
+        public JSCSGlueType Type { get { return JSCSGlueType.Command; } }
 
         public JSCommand(IWebView iCefV8Context, IJavascriptToCSharpConverter converter, IDispatcher iUIDispatcher, ICommand icValue)
         {
@@ -33,7 +40,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             JSValue = _IWebView.Evaluate(() =>
                 {
-                    IJavascriptObject res = _IWebView.Factory.CreateObject(true);
+                    var res = _IWebView.Factory.CreateObject(true);
                     res.SetValue("CanExecuteValue", _IWebView.Factory.CreateBool(canexecute));
                     res.SetValue("CanExecuteCount", _IWebView.Factory.CreateInt(_Count)); 
                     return res;       
@@ -53,17 +60,11 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void _Command_CanExecuteChanged(object sender, EventArgs e)
         {
             _Count = (_Count == 1) ? 2 : 1;
-            this._IWebView.RunAsync(() =>
+            _IWebView.RunAsync(() =>
             {
                 _MappedJSValue.Invoke("CanExecuteCount", _IWebView, _IWebView.Factory.CreateInt(_Count));
             });
         }
-
-        public IJavascriptObject JSValue { get; private set; }
-
-        private IJavascriptObject _MappedJSValue;
-
-        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
@@ -80,13 +81,10 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void CanExecuteCommand(IJavascriptObject[] e)
         {
             bool res = _Command.CanExecute(_JavascriptToCSharpConverter.GetArguments(e));
+#region Knockout
             _MappedJSValue.Invoke("CanExecuteValue", _IWebView, _IWebView.Factory.CreateBool(res));
+#endregion
         }
-
-        private ICommand _Command;
-        public object CValue { get { return _Command; } }
-
-        public JSCSGlueType Type { get { return JSCSGlueType.Command; } }
 
         public IEnumerable<IJSCSGlue> GetChildren()
         {

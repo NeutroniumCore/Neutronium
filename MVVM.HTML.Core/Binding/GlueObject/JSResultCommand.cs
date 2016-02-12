@@ -15,6 +15,13 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly IResultCommand _JSResultCommand;
         private readonly IWebView _IWebView;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        private IJavascriptObject _MappedJSValue;
+
+        public IJavascriptObject JSValue { get; private set; } 
+        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
+        public object CValue { get { return _JSResultCommand; } }
+        public JSCSGlueType Type  { get { return JSCSGlueType.ResultCommand; }  }
+
         public JSResultCommand(IWebView ijsobject, IJavascriptToCSharpConverter converter, IResultCommand icValue)
         {
             _IWebView = ijsobject;
@@ -22,12 +29,6 @@ namespace MVVM.HTML.Core.HTMLBinding
             _JSResultCommand = icValue;
             JSValue = _IWebView.Factory.CreateObject(true);
         }
-
-        public IJavascriptObject JSValue { get; private set; }
-
-        private IJavascriptObject _MappedJSValue;
-
-        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
@@ -42,7 +43,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                      if (e.Length < 2)
                          return;
 
-                     IJavascriptObject promise = e[1];
+                     var promise = e[1];
                      if (!resulttask.IsFaulted)
                      {
                          _JavascriptToCSharpConverter.RegisterInSession(resulttask.Result, (bridgevalue) =>
@@ -52,28 +53,18 @@ namespace MVVM.HTML.Core.HTMLBinding
                      }
                      else
                      {
-                         string error = (resulttask.IsCanceled) ? "Cancelled" :
+                         var errormessage = (resulttask.IsCanceled) ? "Cancelled" :
                              ((resulttask.Exception == null) ? "Faulted" : resulttask.Exception.Flatten().InnerException.Message);
 
-                         promise.InvokeAsync("reject", _IWebView, _IWebView.Factory.CreateString(error));
+                         promise.InvokeAsync("reject", _IWebView, _IWebView.Factory.CreateString(errormessage));
                      }
                  });
         }
 
         private void Execute(IJavascriptObject[] e)
         {
-            _JSResultCommand.Execute(_JavascriptToCSharpConverter.GetArguments( e))
+            _JSResultCommand.Execute(_JavascriptToCSharpConverter.GetArguments(e))
                 .ContinueWith(t => SetResult(e, t));
-        }
-
-        public object CValue
-        {
-            get { return _JSResultCommand; }
-        }
-
-        public JSCSGlueType Type
-        {
-            get { return JSCSGlueType.ResultCommand; }
         }
 
         public IEnumerable<IJSCSGlue> GetChildren()

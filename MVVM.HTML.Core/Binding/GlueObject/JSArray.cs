@@ -14,34 +14,33 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     internal class JSArray : GlueBase, IJSObservableBridge
     {
-        private IWebView _IWebView;
-        private IDispatcher _UIDispatcher;
+        private readonly IWebView _WebView;
+        private readonly IDispatcher _UIDispatcher;
+        private readonly Type _IndividualType;
 
-        public JSArray(IWebView context, IDispatcher iUIDispatcher, IEnumerable<IJSCSGlue> values, IEnumerable collection)
+        public IJavascriptObject JSValue { get; private set; }
+        public object CValue { get; private set; }
+        public IList<IJSCSGlue> Items { get; private set; }
+      
+        public JSCSGlueType Type { get { return JSCSGlueType.Array; } }
+        public IJavascriptObject MappedJSValue { get; private set; }
+
+        public JSArray(IWebView webView, IDispatcher uiDispatcher, IEnumerable<IJSCSGlue> values, IEnumerable collection)
         {
-            _UIDispatcher = iUIDispatcher;
-            var dest = values.Select(v => v.JSValue).ToList();
-            _IWebView = context;
-
-            var res = _IWebView.Evaluate(() =>
-            {
-                IJavascriptObject myres = _IWebView.Factory.CreateArray(dest);
-                return myres;
-            });
-
-            JSValue = res;
-
+            _UIDispatcher = uiDispatcher;
+            _WebView = webView;
+            CValue = collection;
             Items = new List<IJSCSGlue>(values);
-            CValue = collection; 
-            var type = collection.GetElementType();
-            IndividualType = _IWebView.Factory.IsTypeBasic(type) ?  type : null;
-        }
 
-        private Type IndividualType { get; set; }
+            var dest = values.Select(v => v.JSValue).ToList();    
+            JSValue = _WebView.Evaluate(() => _WebView.Factory.CreateArray(dest));
+            var type = collection.GetElementType();
+            _IndividualType = _WebView.Factory.IsTypeBasic(type) ?  type : null;
+        }
 
         public CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
         {
-            return new CollectionChanges(bridge, changes, IndividualType);
+            return new CollectionChanges(bridge, changes, _IndividualType);
         }
 
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)
@@ -73,38 +72,40 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public void UpdateEventArgsFromJavascript(CollectionChanges iCollectionChanges)
         {
-            IList ilist = CValue as IList;
+            var ilist = CValue as IList;
             if (ilist == null) return;
 
             iCollectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, ilist));
         }
 
-        public void Add(IJSCSGlue iIJSCBridge, int Index)
+#region Knockout
+        public void Add(IJSCSGlue jscBridge, int index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _IWebView, _IWebView.Factory.CreateInt(Index), _IWebView.Factory.CreateInt(0), iIJSCBridge.GetJSSessionValue());
-            if (Index > Items.Count - 1)
-                Items.Add(iIJSCBridge);
+            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(0), jscBridge.GetJSSessionValue());
+            if (index > Items.Count - 1)
+                Items.Add(jscBridge);
             else
-                Items.Insert(Index, iIJSCBridge);
+                Items.Insert(index, jscBridge);
         }
 
-        public void Insert(IJSCSGlue iIJSCBridge, int Index)
+        public void Replace(IJSCSGlue jscBridge, int index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _IWebView, _IWebView.Factory.CreateInt(Index), _IWebView.Factory.CreateInt(1), iIJSCBridge.GetJSSessionValue());
-            Items[Index] = iIJSCBridge;
+            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(1), jscBridge.GetJSSessionValue());
+            Items[index] = jscBridge;
         }
 
-        public void Remove(int Index)
+        public void Remove(int index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _IWebView, _IWebView.Factory.CreateInt(Index), _IWebView.Factory.CreateInt(1));
-            Items.RemoveAt(Index);
+            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(1));
+            Items.RemoveAt(index);
         }
 
         public void Reset()
         {
-            MappedJSValue.InvokeAsync("silentremoveAll", _IWebView);
+            MappedJSValue.InvokeAsync("silentremoveAll", _WebView);
             Items.Clear();
         }
+#endregion
 
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
         {
@@ -121,20 +122,10 @@ namespace MVVM.HTML.Core.HTMLBinding
             sb.Append("]");
         }
 
-        public IJavascriptObject JSValue { get; private set; }
-
-        public object CValue { get; private set; }
-
-        public IList<IJSCSGlue> Items { get; private set; }
-
         public IEnumerable<IJSCSGlue> GetChildren()
         {
             return Items;
         }
-
-        public JSCSGlueType Type { get { return JSCSGlueType.Array; } }
-
-        public IJavascriptObject MappedJSValue { get; private set; }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {

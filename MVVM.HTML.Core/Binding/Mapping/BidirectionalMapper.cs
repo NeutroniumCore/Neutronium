@@ -33,8 +33,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             _ListenerRegister = new FullListenerRegister(
                                         (n) => n.PropertyChanged += Object_PropertyChanged,
                                         (n) => n.PropertyChanged -= Object_PropertyChanged,
-                                        (n) => n.CollectionChanged += CollectionChanged,
-                                        (n) => n.CollectionChanged -= CollectionChanged,
+                                        (n) => n.CollectionChanged += CSharpCollectionChanged,
+                                        (n) => n.CollectionChanged -= CSharpCollectionChanged,
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
             _Context = context;
@@ -112,7 +112,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 await _sessionInjector.RegisterMainViewModel(res);
         }
 
-        public void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string PropertyName, IJavascriptObject newValue)
+        public void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string propertyName, IJavascriptObject newValue)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 if (res == null)
                     return;
 
-                var propertyAccessor = new PropertyAccessor(res.CValue, PropertyName);
+                var propertyAccessor = new PropertyAccessor(res.CValue, propertyName);
                 if (!propertyAccessor.IsSettable)
                     return;
 
@@ -130,7 +130,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null)
                 {
                     propertyAccessor.Set(glue.CValue);
-                    res.UpdateCSharpProperty(PropertyName, glue);
+                    res.UpdateCSharpProperty(propertyName, glue);
                 }
             }
             catch (Exception e)
@@ -181,28 +181,15 @@ namespace MVVM.HTML.Core.HTMLBinding
             RegisterAndDo(newbridgedchild, () => currentfather.Reroot(pn, newbridgedchild));
         }
 
-        public void RegisterInSession(object nv, Action<IJSCSGlue> Continue)
-        {
-            var newbridgedchild = _JSObjectBuilder.Map(nv);
-            RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); Continue(newbridgedchild); });
-        }
-
-        private ReListener _ReListen = null;
-        private IDisposable ReListen()
-        {
-            return (_ReListen != null) ?  _ReListen.AddRef() :        
-                        _ReListen = new ReListener(this, _ListenerRegister, () => _ReListen=null);
-        }
-
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             _Context.WebView.RunAsync(() =>
             {
-                UnsafeCollectionChanged(sender, e);
+                UnsafeCSharpCollectionChanged(sender, e);
             });
         }
 
-        private void UnsafeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var arr = _SessionCache.GetCached(sender) as JSArray;
             if (arr == null)
@@ -223,7 +210,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                     if (newvalue == null) return;
 
-                    RegisterAndDo(newvalue, () => arr.Insert(newvalue, e.NewStartingIndex));
+                    RegisterAndDo(newvalue, () => arr.Replace(newvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
@@ -233,7 +220,17 @@ namespace MVVM.HTML.Core.HTMLBinding
                 case NotifyCollectionChangedAction.Reset:
                     RegisterAndDo(null, () => arr.Reset());
                     break;
+
+                case NotifyCollectionChangedAction.Move:
+                    //TDO: implement behaviour here
+                    break;
             }
+        }
+
+        public void RegisterInSession(object nv, Action<IJSCSGlue> Continue)
+        {
+            var newbridgedchild = _JSObjectBuilder.Map(nv);
+            RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); Continue(newbridgedchild); });
         }
 
         private async void RegisterAndDo(IJSCSGlue ivalue, Action Do)
@@ -251,26 +248,33 @@ namespace MVVM.HTML.Core.HTMLBinding
                );
         }
 
-        private IJSCSGlue GetCachedOrCreateBasicUnsafe(IJavascriptObject globalkey, Type iTargetType)
+        private ReListener _ReListen = null;
+        private IDisposable ReListen()
         {
-            IJSCSGlue res;
-
-            //Use local cache for objet not created in javascript session such as enum
-            if ((globalkey != null) && 
-                ((res = _SessionCache.GetGlobalCached(globalkey) ?? _SessionCache.GetCachedLocal(globalkey)) != null))
-                return res;
-
-            object targetvalue;
-            bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, iTargetType);
-            if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
-                throw ExceptionHelper.Get(string.Format("Unable to convert javascript object: {0}", globalkey));
-
-            return new JSBasicObject(globalkey, targetvalue);
+            return (_ReListen != null) ? _ReListen.AddRef() :
+                        _ReListen = new ReListener(this, _ListenerRegister, () => _ReListen = null);
         }
 
         public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject globalkey, Type iTargetType)
         {
-            return _Context.WebView.Evaluate(()=> GetCachedOrCreateBasicUnsafe(globalkey,iTargetType));
+            return _Context.WebView.Evaluate(() => GetCachedOrCreateBasicUnsafe(globalkey, iTargetType));
+        }
+
+        private IJSCSGlue GetCachedOrCreateBasicUnsafe(IJavascriptObject globalkey, Type targetType) {
+            if (globalkey == null)
+                return null;
+
+            //Use local cache for objet not created in javascript session such as enum
+            var res = _SessionCache.GetGlobalCached(globalkey) ?? _SessionCache.GetCachedLocal(globalkey);
+            if (res!=null)
+                return res;
+
+            object targetvalue;
+            bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, targetType);
+            if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
+                throw ExceptionHelper.Get(string.Format("Unable to convert javascript object: {0}", globalkey));
+
+            return new JSBasicObject(globalkey, targetvalue);
         }
     }
 }
