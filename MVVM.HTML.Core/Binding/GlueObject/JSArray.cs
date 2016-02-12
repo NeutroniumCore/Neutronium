@@ -79,9 +79,25 @@ namespace MVVM.HTML.Core.HTMLBinding
         }
 
 #region Knockout
+        private void Splice(int index, int number, IJSCSGlue glue)
+        {
+            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), glue.GetJSSessionValue());
+        }
+
+        private void Splice(int index, int number)
+        {
+            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
+        }
+
+        private void ClearAllJavascriptCollection()
+        {
+            MappedJSValue.InvokeAsync("silentremoveAll", _WebView);
+        }
+#endregion
+
         public void Add(IJSCSGlue jscBridge, int index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(0), jscBridge.GetJSSessionValue());
+            Splice(index, 0, jscBridge);
             if (index > Items.Count - 1)
                 Items.Add(jscBridge);
             else
@@ -90,22 +106,21 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public void Replace(IJSCSGlue jscBridge, int index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(1), jscBridge.GetJSSessionValue());
+            Splice(index, 1, jscBridge);
             Items[index] = jscBridge;
         }
 
         public void Remove(int index)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(1));
+            Splice(index, 1) ;
             Items.RemoveAt(index);
         }
 
         public void Reset()
         {
-            MappedJSValue.InvokeAsync("silentremoveAll", _WebView);
+            ClearAllJavascriptCollection();
             Items.Clear();
         }
-#endregion
 
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
         {
