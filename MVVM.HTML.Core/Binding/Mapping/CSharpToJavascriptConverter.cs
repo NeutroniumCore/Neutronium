@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 using MVVM.HTML.Core.Binding;
 using MVVM.Component;
+using MVVM.HTML.Core.Binding.Extension;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.V8JavascriptObject;
 

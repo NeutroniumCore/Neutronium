@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.Binding.Extension;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.Binding.Mapping;
@@ -69,8 +70,8 @@ namespace MVVM.HTML.Core.HTMLBinding
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _IWebView, (c, o, e) => ExecuteCommand(e));
-            _MappedJSValue.Bind("CanExecute", _IWebView, (c, o, e) => CanExecuteCommand(e));
+            _MappedJSValue.Bind("Execute", _IWebView, ExecuteCommand);
+            _MappedJSValue.Bind("CanExecute", _IWebView, CanExecuteCommand);
         }
 
         private void ExecuteCommand(IJavascriptObject[] e)

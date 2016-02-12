@@ -5,6 +5,7 @@ using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.V8JavascriptObject;
 using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Binding.Extension;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
@@ -29,8 +30,8 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                     if (_IJavascriptListener != null)
                     {
-                        _Listener.Bind("TrackChanges", _IWebView, (c, o, e) => _IJavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
-                        _Listener.Bind("TrackCollectionChanges", _IWebView, (c, o, e) => JavascriptColectionChanged(e));
+                        _Listener.Bind("TrackChanges", _IWebView, (e) => _IJavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
+                        _Listener.Bind("TrackCollectionChanges", _IWebView, JavascriptColectionChanged);
                     }
                 });
         }
@@ -57,7 +58,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             _Mapper = _IWebView.Factory.CreateObject(false);
 
-            _Mapper.Bind("Register", _IWebView, (c, o, e) =>
+            _Mapper.Bind("Register", _IWebView, (e) =>
             {
                 if (_PullNextMapper)
                 { 
@@ -87,7 +88,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 }
              });
 
-            _Mapper.Bind("End", _IWebView, (c, o, e) =>
+            _Mapper.Bind("End", _IWebView, (e) =>
                 {
                     if (_PullNextMapper)
                         _Current = _IJavascriptMapper.Dequeue();
@@ -134,7 +135,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             return _IWebView.RunAsync(() =>
                 {
-                    ko.Bind("log", _IWebView, (c, o, e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
+                    ko.Bind("log", _IWebView, (e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
                     ko.Invoke("register", _IWebView, iJSObject);
                     ko.Invoke("applyBindings", _IWebView, iJSObject);
                 });

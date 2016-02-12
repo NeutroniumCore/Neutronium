@@ -1,9 +1,9 @@
-﻿using MVVM.HTML.Core.V8JavascriptObject;
-using System;
-using MVVM.HTML.Core.Infra;
+﻿using System;
 using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.V8JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding
+namespace MVVM.HTML.Core.Binding.Extension
 {
     public static class IJavascriptObjectFactoryExtension
     {

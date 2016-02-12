@@ -1,7 +1,7 @@
 ﻿using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.V8JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding
+namespace MVVM.HTML.Core.Binding.Extension
 {
     public static class IJavascriptToCSharpConverterExtension
     {
