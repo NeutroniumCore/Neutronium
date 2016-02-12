@@ -31,59 +31,59 @@ namespace MVVM.HTML.Core.HTMLBinding
             return _Context.WebView.Evaluate(() => InternalMap(ifrom, iadditional));
         }
 
-        private IJSCSGlue InternalMap(object ifrom, object iadditional=null)
+        private IJSCSGlue InternalMap(object from, object iadditional=null)
         {
-            if (ifrom == null)
+            if (from == null)
                 return JSGenericObject.CreateNull(_Context.WebView);
 
-            var res = _Cacher.GetCached(ifrom);
+            var res = _Cacher.GetCached(from);
             if (res != null)
                 return res;
 
-            var command = ifrom as ICommand;
+            var command = from as ICommand;
             if (command != null)
                 return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, command);
 
-            var simpleCommand = ifrom as ISimpleCommand;
+            var simpleCommand = from as ISimpleCommand;
             if (simpleCommand != null)
                 return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, simpleCommand);
 
-            var resultCommand = ifrom as IResultCommand;
+            var resultCommand = from as IResultCommand;
             if (resultCommand != null)
                 return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, resultCommand);
 
             IJavascriptObject value;
-            if (_Context.WebView.Factory.SolveBasic(ifrom, out value))
-                return new JSBasicObject(value, ifrom);
+            if (_Context.WebView.Factory.SolveBasic(from, out value))
+                return new JSBasicObject(value, from);
 
-            if (ifrom.GetType().IsEnum)
+            if (from.GetType().IsEnum)
             {
-                var trueres = new JSBasicObject(_Context.WebView.Factory.CreateEnum((Enum)ifrom), ifrom);
-                _Cacher.CacheLocal(ifrom, trueres);
+                var trueres = new JSBasicObject(_Context.WebView.Factory.CreateEnum((Enum)from), from);
+                _Cacher.CacheLocal(from, trueres);
                 return trueres;
             }
 
-            var ienfro = ifrom as IEnumerable;
+            var ienfro = from as IEnumerable;
             if (ienfro!=null)
                 return  Convert(ienfro);
 
             var resobject = _Context.WebView.Factory.CreateObject(true);
 
-            var gres = new JSGenericObject(_Context.WebView, resobject, ifrom);
-            _Cacher.Cache(ifrom, gres);
+            var gres = new JSGenericObject(_Context.WebView, resobject, from);
+            _Cacher.Cache(from, gres);
 
-            MappNested(ifrom, resobject,gres);
+            MappNested(from, resobject,gres);
             MappNested(iadditional, resobject, gres);
 
             return gres;
         }
 
-        private void MappNested(object ifrom, IJavascriptObject resobject, JSGenericObject gres)
+        private void MappNested(object from, IJavascriptObject resobject, JSGenericObject gres)
         {
-            if (ifrom == null)
+            if (from == null)
                 return;
 
-            IEnumerable<PropertyInfo> propertyInfos = ifrom.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            IEnumerable<PropertyInfo> propertyInfos = from.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (PropertyInfo propertyInfo in propertyInfos.Where(p => p.CanRead))
             {
@@ -91,11 +91,11 @@ namespace MVVM.HTML.Core.HTMLBinding
                 object childvalue;
                 try
                 {
-                    childvalue = propertyInfo.GetValue(ifrom, null); 
+                    childvalue = propertyInfo.GetValue(from, null); 
                 }
                 catch(Exception e)
                 {
-                    Trace.WriteLine(string.Format("MVVM for HTML: Unable to convert property {0} from {1} exception {2}", pn, ifrom, e));
+                    Trace.WriteLine(string.Format("MVVM for HTML: Unable to convert property {0} from {1} exception {2}", pn, from, e));
                     continue;
                 }
 
