@@ -12,6 +12,7 @@
         vm.error = function (err) {
             vm.lastError(err);
             console.log(err);
+            alert(err);
         };
 
         vm.click = function () {
@@ -22,6 +23,7 @@
                 }
             ).catch(function(reason) {
                 console.log(reason);
+                alert(reason);
             });
         };
     };

@@ -39,9 +39,6 @@ namespace MVVM.HTML.Core.HTMLBinding
       
         private async void Execute(IJavascriptObject[] e)
         {
-            if (e.Length ==0)
-                return;
-
             var argument = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             var promise = (e.Length > 1) ? e[1] : null;
 
