@@ -13,7 +13,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class JSCommand : GlueBase, IJSObservableBridge
     {
-        private readonly IWebView _IWebView;
+        private readonly IWebView _WebView;
         private readonly IDispatcher _UIDispatcher;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly ICommand _Command;
@@ -25,12 +25,12 @@ namespace MVVM.HTML.Core.HTMLBinding
         public object CValue { get { return _Command; } }
         public JSCSGlueType Type { get { return JSCSGlueType.Command; } }
 
-        public JSCommand(IWebView iCefV8Context, IJavascriptToCSharpConverter converter, IDispatcher iUIDispatcher, ICommand icValue)
+        public JSCommand(IWebView webView, IJavascriptToCSharpConverter converter, IDispatcher uiDispatcher, ICommand command)
         {
-            _UIDispatcher = iUIDispatcher;
+            _UIDispatcher = uiDispatcher;
             _JavascriptToCSharpConverter = converter;
-            _IWebView = iCefV8Context;
-            _Command = icValue;
+            _WebView = webView;
+            _Command = command;
        
             bool canexecute = true;
             try
@@ -39,11 +39,11 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
             catch { }
 
-            JSValue = _IWebView.Evaluate(() =>
+            JSValue = _WebView.Evaluate(() =>
                 {
-                    var res = _IWebView.Factory.CreateObject(true);
-                    res.SetValue("CanExecuteValue", _IWebView.Factory.CreateBool(canexecute));
-                    res.SetValue("CanExecuteCount", _IWebView.Factory.CreateInt(_Count)); 
+                    var res = _WebView.Factory.CreateObject(true);
+                    res.SetValue("CanExecuteValue", _WebView.Factory.CreateBool(canexecute));
+                    res.SetValue("CanExecuteCount", _WebView.Factory.CreateInt(_Count)); 
                     return res;       
                 });
         }
@@ -61,17 +61,19 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void _Command_CanExecuteChanged(object sender, EventArgs e)
         {
             _Count = (_Count == 1) ? 2 : 1;
-            _IWebView.RunAsync(() =>
+#region Knockout
+            _WebView.RunAsync(() =>
             {
-                _MappedJSValue.Invoke("CanExecuteCount", _IWebView, _IWebView.Factory.CreateInt(_Count));
+                _MappedJSValue.Invoke("CanExecuteCount", _WebView, _WebView.Factory.CreateInt(_Count));
             });
+#endregion
         }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _IWebView, ExecuteCommand);
-            _MappedJSValue.Bind("CanExecute", _IWebView, CanExecuteCommand);
+            _MappedJSValue.Bind("Execute", _WebView, ExecuteCommand);
+            _MappedJSValue.Bind("CanExecute", _WebView, CanExecuteCommand);
         }
 
         private void ExecuteCommand(IJavascriptObject[] e)
@@ -83,7 +85,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         {
             bool res = _Command.CanExecute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
 #region Knockout
-            _MappedJSValue.Invoke("CanExecuteValue", _IWebView, _IWebView.Factory.CreateBool(res));
+            _MappedJSValue.Invoke("CanExecuteValue", _WebView, _WebView.Factory.CreateBool(res));
 #endregion
         }
 

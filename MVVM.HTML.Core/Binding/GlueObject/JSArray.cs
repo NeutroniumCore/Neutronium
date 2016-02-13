@@ -103,16 +103,16 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private void InsertAt(int index, IJSCSGlue jscBridge)
         {
-            if (index > Items.Count - 1)
-                Items.Add(jscBridge);
-            else
+            //if (index > Items.Count - 1)
+            //    Items.Add(jscBridge);
+            //else
                 Items.Insert(index, jscBridge);
         }
 
         public void Add(IJSCSGlue jscBridge, int index)
         {
             Splice(index, 0, jscBridge);
-            InsertAt(index, jscBridge);
+            Items.Insert(index, jscBridge);
         }
 
         public void Replace(IJSCSGlue jscBridge, int index)
@@ -138,7 +138,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             MoveJavascriptCollection(oldIndex, newIndex);
             var item = Items[oldIndex];
             Items.RemoveAt(oldIndex);
-            InsertAt(newIndex, item);
+            Items.Insert(newIndex, item);
         }
 
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)

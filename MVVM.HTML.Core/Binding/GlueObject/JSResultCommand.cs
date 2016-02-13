@@ -14,7 +14,7 @@ namespace MVVM.HTML.Core.HTMLBinding
     public class JSResultCommand : GlueBase, IJSObservableBridge
     {
         private readonly IResultCommand _JSResultCommand;
-        private readonly IWebView _IWebView;
+        private readonly IWebView _WebView;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
@@ -23,18 +23,18 @@ namespace MVVM.HTML.Core.HTMLBinding
         public object CValue { get { return _JSResultCommand; } }
         public JSCSGlueType Type { get { return JSCSGlueType.ResultCommand; } }
 
-        public JSResultCommand(IWebView ijsobject, IJavascriptToCSharpConverter converter, IResultCommand icValue)
+        public JSResultCommand(IWebView webView, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
         {
-            _IWebView = ijsobject;
+            _WebView = webView;
             _JavascriptToCSharpConverter = converter;
-            _JSResultCommand = icValue;
-            JSValue = _IWebView.Factory.CreateObject(true);
+            _JSResultCommand = resultCommand;
+            JSValue = _WebView.Factory.CreateObject(true);
         }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _IWebView, Execute);
+            _MappedJSValue.Bind("Execute", _WebView, Execute);
         }
       
         private async void Execute(IJavascriptObject[] e)
@@ -58,10 +58,10 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (promise == null)
                 return;
 
-            await _IWebView.RunAsync(async () =>
+            await _WebView.RunAsync(async () =>
             {
                 var errormessage = (exception == null) ? "Faulted" : exception.Message;
-                await promise.InvokeAsync("reject", _IWebView, _IWebView.Factory.CreateString(errormessage));
+                await promise.InvokeAsync("reject", _WebView, _WebView.Factory.CreateString(errormessage));
             });
         }
 
@@ -70,10 +70,10 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (promise == null)
                 return;
 
-            await _IWebView.RunAsync(async () =>
+            await _WebView.RunAsync(async () =>
             {
                 var bridgevalue = await _JavascriptToCSharpConverter.RegisterInSession(result);
-                await promise.InvokeAsync("fullfill", _IWebView, bridgevalue.GetJSSessionValue());
+                await promise.InvokeAsync("fullfill", _WebView, bridgevalue.GetJSSessionValue());
             });
         }
 

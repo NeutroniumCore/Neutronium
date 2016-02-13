@@ -13,41 +13,32 @@ namespace MVVM.HTML.Core.HTMLBinding
     public class JSSimpleCommand : GlueBase, IJSObservableBridge
     {
         private readonly ISimpleCommand _JSSimpleCommand;
-        private readonly IWebView _IWebView;
+        private readonly IWebView _WebView;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
-        public JSSimpleCommand(IWebView iCefV8Context, IJavascriptToCSharpConverter converter, ISimpleCommand icValue)
-        {
-            _IWebView = iCefV8Context;
-            _JavascriptToCSharpConverter = converter;
-            _JSSimpleCommand = icValue;
-            JSValue = _IWebView.Factory.CreateObject(true);
-        }
-
-        public IJavascriptObject JSValue { get; private set; }
-
         private IJavascriptObject _MappedJSValue;
 
+        public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
+        public object CValue { get { return _JSSimpleCommand; } }
+        public JSCSGlueType Type { get { return JSCSGlueType.SimpleCommand; } }
+
+        public JSSimpleCommand(IWebView webView, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
+        {
+            _WebView = webView;
+            _JavascriptToCSharpConverter = converter;
+            _JSSimpleCommand = simpleCommand;
+            JSValue = _WebView.Factory.CreateObject(true);
+        }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _IWebView, Execute);
+            _MappedJSValue.Bind("Execute", _WebView, Execute);
         }
 
         private void Execute(IJavascriptObject[] e)
         {
             _JSSimpleCommand.Execute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
-        }
-
-        public object CValue
-        {
-            get { return _JSSimpleCommand; }
-        }
-
-        public JSCSGlueType Type
-        {
-            get { return JSCSGlueType.SimpleCommand; }
         }
 
         public IEnumerable<IJSCSGlue> GetChildren()
