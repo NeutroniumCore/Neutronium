@@ -92,7 +92,6 @@ namespace MVVM.HTML.Core.HTMLBinding
         {
             MappedJSValue.InvokeAsync("silentremoveAll", _WebView);
         }
-#endregion
 
         public void MoveJavascriptCollection(int oldIndex, int newIndex)
         {
@@ -100,14 +99,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             Splice(oldIndex, 1);
             Splice(newIndex, 0, item);
         }
-
-        private void InsertAt(int index, IJSCSGlue jscBridge)
-        {
-            //if (index > Items.Count - 1)
-            //    Items.Add(jscBridge);
-            //else
-                Items.Insert(index, jscBridge);
-        }
+#endregion
 
         public void Add(IJSCSGlue jscBridge, int index)
         {
