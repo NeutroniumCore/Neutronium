@@ -76,12 +76,12 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private void ExecuteCommand(IJavascriptObject[] e)
         {
-            _UIDispatcher.RunAsync(() => _Command.Execute(_JavascriptToCSharpConverter.GetArguments(e)));
+            _UIDispatcher.RunAsync(() => _Command.Execute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e)));
         }
 
         private void CanExecuteCommand(IJavascriptObject[] e)
         {
-            bool res = _Command.CanExecute(_JavascriptToCSharpConverter.GetArguments(e));
+            bool res = _Command.CanExecute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
 #region Knockout
             _MappedJSValue.Invoke("CanExecuteValue", _IWebView, _IWebView.Factory.CreateBool(res));
 #endregion

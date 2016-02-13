@@ -37,7 +37,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private void Execute(IJavascriptObject[] e)
         {
-            _JSSimpleCommand.Execute(_JavascriptToCSharpConverter.GetArguments(e));
+            _JSSimpleCommand.Execute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
         }
 
         public object CValue

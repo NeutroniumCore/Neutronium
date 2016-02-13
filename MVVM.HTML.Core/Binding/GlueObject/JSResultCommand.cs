@@ -36,15 +36,14 @@ namespace MVVM.HTML.Core.HTMLBinding
             _MappedJSValue = ijsobject;
             _MappedJSValue.Bind("Execute", _IWebView, Execute);
         }
-
       
         private async void Execute(IJavascriptObject[] e)
         {
-            if (e.Length != 2)
+            if (e.Length ==0)
                 return;
 
-            var argument = _JavascriptToCSharpConverter.GetArgument(e[0]);
-            var promise = e[1];
+            var argument = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
+            var promise = (e.Length > 1) ? e[1] : null;
 
             try
             {
@@ -59,6 +58,9 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private async Task SetError(IJavascriptObject promise, Exception exception)
         {
+            if (promise == null)
+                return;
+
             await _IWebView.RunAsync(async () =>
             {
                 var errormessage = (exception == null) ? "Faulted" : exception.Message;
@@ -68,6 +70,9 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private async Task SetResult(IJavascriptObject promise, object result)
         {
+            if (promise == null)
+                return;
+
             await _IWebView.RunAsync(async () =>
             {
                 var bridgevalue = await _JavascriptToCSharpConverter.RegisterInSession(result);

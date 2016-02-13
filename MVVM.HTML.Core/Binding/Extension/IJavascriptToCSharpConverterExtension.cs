@@ -13,7 +13,7 @@ namespace MVVM.HTML.Core.Binding.Extension
         }
 
 
-        public static object GetArguments(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
+        public static object GetFirstArgumentOrNull(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
         {
             if (javascriptObjects.Length == 0)
                 return null;

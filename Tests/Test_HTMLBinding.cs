@@ -1477,8 +1477,6 @@ namespace MVVM.Cef.Glue.Test
                        var resvalue = _WebView.GetGlobal().GetValue("res");
                        int intres = resvalue.GetIntValue();
                        intres.Should().Be(255);
-
-
                    }
             };
 
