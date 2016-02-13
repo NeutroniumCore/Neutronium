@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System;
 using MVVM.Component;
 using MVVM.HTML.Core.Binding.Extension;
 using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.Infra;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
@@ -17,10 +18,10 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
-        public IJavascriptObject JSValue { get; private set; } 
+        public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
         public object CValue { get { return _JSResultCommand; } }
-        public JSCSGlueType Type  { get { return JSCSGlueType.ResultCommand; }  }
+        public JSCSGlueType Type { get { return JSCSGlueType.ResultCommand; } }
 
         public JSResultCommand(IWebView ijsobject, IJavascriptToCSharpConverter converter, IResultCommand icValue)
         {
@@ -36,35 +37,42 @@ namespace MVVM.HTML.Core.HTMLBinding
             _MappedJSValue.Bind("Execute", _IWebView, Execute);
         }
 
-        private void SetResult(IJavascriptObject[] e, Task<object> resulttask)
+      
+        private async void Execute(IJavascriptObject[] e)
         {
-            _IWebView.RunAsync (() =>
-                 {
-                     if (e.Length < 2)
-                         return;
+            if (e.Length != 2)
+                return;
 
-                     var promise = e[1];
-                     if (!resulttask.IsFaulted)
-                     {
-                         _JavascriptToCSharpConverter.RegisterInSession(resulttask.Result, (bridgevalue) =>
-                         {
-                             promise.InvokeAsync("fullfill", _IWebView, bridgevalue.GetJSSessionValue());
-                         });
-                     }
-                     else
-                     {
-                         var errormessage = (resulttask.IsCanceled) ? "Cancelled" :
-                             ((resulttask.Exception == null) ? "Faulted" : resulttask.Exception.Flatten().InnerException.Message);
+            var argument = _JavascriptToCSharpConverter.GetArgument(e[0]);
+            var promise = e[1];
 
-                         promise.InvokeAsync("reject", _IWebView, _IWebView.Factory.CreateString(errormessage));
-                     }
-                 });
+            try
+            {
+                var res = await _JSResultCommand.Execute(argument);
+                await SetResult(promise, res);
+            }
+            catch (Exception exception)
+            {
+                SetError(promise, exception).DoNotWait();
+            }
         }
 
-        private void Execute(IJavascriptObject[] e)
+        private async Task SetError(IJavascriptObject promise, Exception exception)
         {
-            _JSResultCommand.Execute(_JavascriptToCSharpConverter.GetArguments(e))
-                .ContinueWith(t => SetResult(e, t));
+            await _IWebView.RunAsync(async () =>
+            {
+                var errormessage = (exception == null) ? "Faulted" : exception.Message;
+                await promise.InvokeAsync("reject", _IWebView, _IWebView.Factory.CreateString(errormessage));
+            });
+        }
+
+        private async Task SetResult(IJavascriptObject promise, object result)
+        {
+            await _IWebView.RunAsync(async () =>
+            {
+                var bridgevalue = await _JavascriptToCSharpConverter.RegisterInSession(result);
+                await promise.InvokeAsync("fullfill", _IWebView, bridgevalue.GetJSSessionValue());
+            });
         }
 
         public IEnumerable<IJSCSGlue> GetChildren()

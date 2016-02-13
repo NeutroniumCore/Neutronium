@@ -30,8 +30,8 @@ namespace MVVM.HTML.Core.HTMLBinding
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         {
             _ListenerRegister = new FullListenerRegister(
-                                        (n) => n.PropertyChanged += Object_PropertyChanged,
-                                        (n) => n.PropertyChanged -= Object_PropertyChanged,
+                                        (n) => n.PropertyChanged += CSharpPropertyChanged,
+                                        (n) => n.PropertyChanged -= CSharpPropertyChanged,
                                         (n) => n.CollectionChanged += CSharpCollectionChanged,
                                         (n) => n.CollectionChanged -= CSharpCollectionChanged,
                                         (c) => c.ListenChanges(),
@@ -47,11 +47,16 @@ namespace MVVM.HTML.Core.HTMLBinding
             _sessionInjector = _Context.CreateInjector(javascriptObjecChanges);
         }
 
+        private async Task RunInJavascriptContext(Action Run)
+        {
+            await _Context.WebView.RunAsync(Run);
+        }
+
         internal async Task Init()
         {
             await InjectInHTLMSession(_Root, true);
 
-            await _Context.WebView.RunAsync(() =>
+            await RunInJavascriptContext(() =>
                   {
                       if (ListenToCSharp)
                       {
@@ -159,7 +164,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
         }
 
-        private void Object_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async void CSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         { 
             var pn = e.PropertyName;
             var propertyAccessor = new PropertyAccessor(sender, pn);
@@ -177,18 +182,18 @@ namespace MVVM.HTML.Core.HTMLBinding
                 return;
 
             var newbridgedchild = _JSObjectBuilder.Map(nv);
-            RegisterAndDo(newbridgedchild, () => currentfather.Reroot(pn, newbridgedchild));
+            await RegisterAndDo(newbridgedchild, () => currentfather.Reroot(pn, newbridgedchild));
         }
 
-        private void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _Context.WebView.RunAsync(() =>
+            await RunInJavascriptContext(async () =>
             {
-                UnsafeCSharpCollectionChanged(sender, e);
+                await UnsafeCSharpCollectionChanged(sender, e);
             });
         }
 
-        private void UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private async Task UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var arr = _SessionCache.GetCached(sender) as JSArray;
             if (arr == null)
@@ -201,7 +206,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                     if (addvalue == null) return;
 
-                    RegisterAndDo(addvalue, () => arr.Add(addvalue, e.NewStartingIndex));
+                    await RegisterAndDo(addvalue, () => arr.Add(addvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
@@ -209,35 +214,47 @@ namespace MVVM.HTML.Core.HTMLBinding
 
                     if (newvalue == null) return;
 
-                    RegisterAndDo(newvalue, () => arr.Replace(newvalue, e.NewStartingIndex));
+                    await RegisterAndDo(newvalue, () => arr.Replace(newvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    RegisterAndDo(null, () => arr.Remove(e.OldStartingIndex));
+                    await RegisterAndDo(() => arr.Remove(e.OldStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Reset:
-                    RegisterAndDo(null, () => arr.Reset());
+                    await RegisterAndDo(() => arr.Reset());
                     break;
 
                 case NotifyCollectionChangedAction.Move:
-                    //TDO: implement behaviour here
+                    arr.Move(e.OldStartingIndex, e.NewStartingIndex);
                     break;
             }
         }
 
-        public void RegisterInSession(object nv, Action<IJSCSGlue> Continue)
+        public async Task<IJSCSGlue> RegisterInSession(object nv)
         {
             var newbridgedchild = _JSObjectBuilder.Map(nv);
-            RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); Continue(newbridgedchild); });
+            await RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); });
+            return newbridgedchild;
         }
 
-        private async void RegisterAndDo(IJSCSGlue ivalue, Action Do)
+        private async Task RegisterAndDo(Action Do)
+        {
+            await RunInJavascriptContext(() =>
+            {
+                using (ReListen())
+                {
+                    Do();
+                }
+            } );
+        }
+
+        private async Task RegisterAndDo(IJSCSGlue ivalue, Action Do)
         {
             var idisp = ReListen();
 
             await InjectInHTLMSession(ivalue);
-            await _Context.WebView.RunAsync(() =>
+            await RunInJavascriptContext(() =>
                     {
                         using (idisp)
                         {

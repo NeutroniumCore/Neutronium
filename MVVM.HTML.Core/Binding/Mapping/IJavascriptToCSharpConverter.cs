@@ -1,6 +1,7 @@
 ﻿using MVVM.HTML.Core.HTMLBinding;
 using System;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.Binding.Mapping
 {
@@ -8,6 +9,6 @@ namespace MVVM.HTML.Core.Binding.Mapping
     {
         IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject key, Type iTargetType);
 
-        void RegisterInSession(object nv, Action<IJSCSGlue> Continue);
+        Task<IJSCSGlue> RegisterInSession(object nv);
     }
 }

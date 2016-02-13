@@ -1954,13 +1954,8 @@ namespace MVVM.Cef.Glue.Test
 
         private void Checkstring(IJavascriptObject coll, IList<string> iskill)
         {
-            coll.GetArrayLength().Should().Be(iskill.Count);
-
-            for (int i = 0; i < iskill.Count; i++)
-            {
-                var c = coll.GetValue(i).GetStringValue();
-                c.Should().Be(iskill[i]);
-            }
+            var javaCollection = Enumerable.Range(0, coll.GetArrayLength()).Select(i => coll.GetValue(i).GetStringValue());
+            javaCollection.Should().Equal(iskill);
         }
 
         private void Checkdecimal(IJavascriptObject coll, IList<decimal> iskill)
@@ -2067,23 +2062,24 @@ namespace MVVM.Cef.Glue.Test
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Add("titi");
-
                     Thread.Sleep(100);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
-
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Add("kiki");
                     datacontext.List.Add("toto");
-
                     Thread.Sleep(100);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
-
                     Checkstring(col, datacontext.List);
 
+                    datacontext.List.Move(0, 2);
                     Thread.Sleep(100);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
+                    Checkstring(col, datacontext.List);
 
+                    datacontext.List.Move(2, 1);
+                    Thread.Sleep(100);
+                    col = GetSafe(() => UnWrapCollection(js, "List"));
                     Checkstring(col, datacontext.List);
 
                     var comp = new List<string>(datacontext.List);

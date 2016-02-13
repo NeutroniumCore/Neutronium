@@ -94,13 +94,25 @@ namespace MVVM.HTML.Core.HTMLBinding
         }
 #endregion
 
-        public void Add(IJSCSGlue jscBridge, int index)
+        public void MoveJavascriptCollection(int oldIndex, int newIndex)
         {
-            Splice(index, 0, jscBridge);
+            var item = Items[oldIndex];
+            Splice(oldIndex, 1);
+            Splice(newIndex, 0, item);
+        }
+
+        private void InsertAt(int index, IJSCSGlue jscBridge)
+        {
             if (index > Items.Count - 1)
                 Items.Add(jscBridge);
             else
                 Items.Insert(index, jscBridge);
+        }
+
+        public void Add(IJSCSGlue jscBridge, int index)
+        {
+            Splice(index, 0, jscBridge);
+            InsertAt(index, jscBridge);
         }
 
         public void Replace(IJSCSGlue jscBridge, int index)
@@ -119,6 +131,14 @@ namespace MVVM.HTML.Core.HTMLBinding
         {
             ClearAllJavascriptCollection();
             Items.Clear();
+        }
+
+        public void Move(int oldIndex, int newIndex)
+        {
+            MoveJavascriptCollection(oldIndex, newIndex);
+            var item = Items[oldIndex];
+            Items.RemoveAt(oldIndex);
+            InsertAt(newIndex, item);
         }
 
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
