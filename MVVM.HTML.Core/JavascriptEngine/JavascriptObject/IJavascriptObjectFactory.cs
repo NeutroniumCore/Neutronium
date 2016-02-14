@@ -122,17 +122,5 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// corresponding IJavascriptObject
         ///</returns>
         IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCollection);
-
-
-        ///// <summary>
-        ///// Create IJavascriptObject from enum
-        ///// </summary>
-        ///// <param name="value">
-        ///// enum to convert
-        ///// </param>
-        ///// <returns>
-        ///// corresponding IJavascriptObject
-        /////</returns>
-        //IJavascriptObject CreateEnum(Enum value);
     }
 }

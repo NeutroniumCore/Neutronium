@@ -108,7 +108,12 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
 
             var jvm = _SessionCache.GetMapper(iroot as IJSObservableBridge);
-            var res = _sessionInjector.Inject(iroot.JSValue, jvm, (iroot.CValue != null));
+            var res = _sessionInjector.Inject(iroot.JSValue, jvm);
+
+            if ((iroot.CValue != null) && ((res==null) || (res.IsUndefined)))
+            {
+                throw ExceptionHelper.NoKo();
+            }
 
             await jvm.UpdateTask;
 

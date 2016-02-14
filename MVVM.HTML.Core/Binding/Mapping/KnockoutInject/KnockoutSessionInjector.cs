@@ -115,17 +115,11 @@ namespace MVVM.HTML.Core.HTMLBinding
             return _Ko;
         }
 
-        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm, bool checknullvalue = true)
+        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm)
         {
             return _IWebView.Evaluate(() =>
                 {
-
-                    IJavascriptObject res = GetKo().Invoke("MapToObservable", _IWebView, ihybridobject, GetMapper(ijvm), _Listener);
-                    if (( (res == null) || (res.IsUndefined)) && checknullvalue)
-                    {
-                        throw ExceptionHelper.NoKo();
-                    }
-                    return res;
+                    return GetKo().Invoke("MapToObservable", _IWebView, ihybridobject, GetMapper(ijvm), _Listener);
                 });
         }
 
