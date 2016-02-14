@@ -22,7 +22,7 @@ namespace MVVM.HTML.Core.Binding
 
         private IJavascriptSessionInjectorFactory JavascriptSessionInjectorFactory { get; set; }
 
-        public IJavascriptSessionInjector CreateInjector(IJavascriptChangesListener JavascriptObjecChanges)
+        public IJavascriptSessionInjector CreateInjector(IJavascriptChangesObserver JavascriptObjecChanges)
         {
             return JavascriptSessionInjector = JavascriptSessionInjectorFactory.CreateInjector(WebView, JavascriptObjecChanges);
         }

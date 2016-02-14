@@ -5,9 +5,9 @@ namespace MVVM.HTML.Core.Binding.Mapping
 {
     internal class KnockoutSessionInjectorFactory : IJavascriptSessionInjectorFactory
     {
-        public IJavascriptSessionInjector CreateInjector(IWebView iWebView, IJavascriptChangesListener iJavascriptListener)
+        public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {
-            return new KnockoutSessionInjector(iWebView, iJavascriptListener);
+            return new KnockoutSessionInjector(webView, javascriptObserver);
         }
     }
 }

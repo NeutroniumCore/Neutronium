@@ -13,7 +13,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly Type _TargetedType;
         private readonly JavascriptCollectionChanges _Changes;
 
-        public CollectionChanges(IJavascriptToCSharpConverter iJSCBridgeCache, JavascriptCollectionChanges changes, Type iTargetedType)
+        internal CollectionChanges(IJavascriptToCSharpConverter iJSCBridgeCache, JavascriptCollectionChanges changes, Type iTargetedType)
         {
             _IJSCBridgeCache = iJSCBridgeCache;
             _TargetedType = iTargetedType;

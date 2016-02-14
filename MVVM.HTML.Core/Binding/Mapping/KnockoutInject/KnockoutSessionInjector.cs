@@ -12,14 +12,14 @@ namespace MVVM.HTML.Core.HTMLBinding
     internal class KnockoutSessionInjector : IJavascriptSessionInjector
     {
         private readonly IWebView _IWebView;
-        private readonly IJavascriptChangesListener _IJavascriptListener;
+        private readonly IJavascriptChangesObserver _IJavascriptListener;
         private readonly Queue<IJavascriptObjectMapper> _IJavascriptMapper = new Queue<IJavascriptObjectMapper>();
         private IJavascriptObject _Listener;
         private IJavascriptObjectMapper _Current;
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
 
-        internal KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesListener iJavascriptListener)
+        internal KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener)
         {
             _IWebView = iWebView;
             _IJavascriptListener = iJavascriptListener;

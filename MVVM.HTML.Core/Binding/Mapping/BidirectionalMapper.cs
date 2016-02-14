@@ -12,7 +12,7 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, IJavascriptChangesListener   
+    public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, IJavascriptChangesObserver   
     {
         private readonly HTMLViewContext _Context;        
         private readonly JavascriptBindingMode _BindingMode;
@@ -43,7 +43,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, new CommandFactory(this));
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
 
-             var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesListener)this : null;
+             var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
             _sessionInjector = _Context.CreateInjector(javascriptObjecChanges);
         }
 
