@@ -21,14 +21,17 @@ namespace MVVM.HTML.Core.HTMLBinding
         private readonly SessionCacher _SessionCache;
         private readonly IJSCSGlue _Root;
         private readonly FullListenerRegister _ListenerRegister;
-        private readonly List<IJSCSGlue> _UnrootedEntities;
+        private readonly List<IJSCSGlue> _UnrootedEntities= new List<IJSCSGlue>();
         private bool _IsListening = false;
 
         public IJSCSGlue JSValueRoot { get { return _Root; } }
         public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
 
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
-        {
+        { 
+            _Context = context;  
+            _BindingMode = iMode;     
+            _SessionCache = new SessionCacher();
             _ListenerRegister = new FullListenerRegister(
                                         (n) => n.PropertyChanged += CSharpPropertyChanged,
                                         (n) => n.PropertyChanged -= CSharpPropertyChanged,
@@ -36,12 +39,9 @@ namespace MVVM.HTML.Core.HTMLBinding
                                         (n) => n.CollectionChanged -= CSharpCollectionChanged,
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
-            _Context = context;
-            _SessionCache = new SessionCacher();
+            
             _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, new CommandFactory(this));
             _Root = _JSObjectBuilder.Map(iRoot, iadd);
-            _UnrootedEntities = new List<IJSCSGlue>();
-            _BindingMode = iMode;
 
              var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesListener)this : null;
             _sessionInjector = _Context.CreateInjector(javascriptObjecChanges);
@@ -54,7 +54,9 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         internal async Task Init()
         {
-            await InjectInHTLMSession(_Root, true);
+            var res = await InjectInHTLMSession(_Root);
+
+            await _sessionInjector.RegisterMainViewModel(res);
 
             await RunInJavascriptContext(() =>
                   {
@@ -91,19 +93,19 @@ namespace MVVM.HTML.Core.HTMLBinding
             Visit(_ListenerRegister.GetOff());
         }
 
-        private async Task InjectInHTLMSession(IJSCSGlue iroot, bool isroot = false)
+        private async Task<IJavascriptObject> InjectInHTLMSession(IJSCSGlue iroot)
         {
             if (iroot == null)
-                return;
+                return null;
 
             switch (iroot.Type)
             {
                 case JSCSGlueType.Basic:
-                    return;
+                    return null;
 
                 case JSCSGlueType.Object:
                     if ((iroot.JSValue.IsNull))
-                        return;
+                        return null;
                     break;
             }
 
@@ -116,9 +118,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
 
             await jvm.UpdateTask;
-
-            if (isroot)
-                await _sessionInjector.RegisterMainViewModel(res);
+            return res;
         }
 
         public void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string propertyName, IJavascriptObject newValue)
@@ -257,7 +257,6 @@ namespace MVVM.HTML.Core.HTMLBinding
         private async Task RegisterAndDo(IJSCSGlue ivalue, Action Do)
         {
             var idisp = ReListen();
-
             await InjectInHTLMSession(ivalue);
             await RunInJavascriptContext(() =>
                     {
