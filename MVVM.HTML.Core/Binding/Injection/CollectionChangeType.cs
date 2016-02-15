@@ -1,5 +1,4 @@
-﻿using System;
-namespace MVVM.HTML.Core.HTMLBinding
+﻿namespace MVVM.HTML.Core.HTMLBinding
 {
     public enum  CollectionChangeType
     {

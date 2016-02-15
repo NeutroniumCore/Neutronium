@@ -23,7 +23,6 @@ namespace MVVM.HTML.Core.HTMLBinding
         /// <param name="attribute">
         /// Attribute name
         /// </param>
-        /// </param>
         /// <param name="child">
         /// child observable object to be mapped
         /// </param>
@@ -38,10 +37,8 @@ namespace MVVM.HTML.Core.HTMLBinding
         /// <param name="attribute">
         /// Attribute name of the collection
         /// </param>
-        /// </param>
         /// <param name="index">
         /// index of the child observable object in the collection
-        /// </param>
         /// </param>
         /// <param name="child">
         /// child observable object to be mapped
