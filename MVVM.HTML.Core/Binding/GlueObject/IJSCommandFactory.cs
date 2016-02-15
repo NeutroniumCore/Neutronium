@@ -8,10 +8,10 @@ namespace MVVM.HTML.Core.Binding.GlueObject
 {
     internal interface IJSCommandFactory
     {
-        JSCommand Build(IWebView view, IDispatcher uiDispatcher, ICommand command);
+        JSCommand Build(ICommand command);
 
-        JSSimpleCommand Build(IWebView view, IDispatcher uiDispatcher, ISimpleCommand command);
+        JSSimpleCommand Build(ISimpleCommand command);
 
-        JSResultCommand Build(IWebView view, IDispatcher uiDispatcher, IResultCommand command);
+        JSResultCommand Build(IResultCommand command);
     }
 }

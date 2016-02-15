@@ -37,5 +37,7 @@ namespace MVVM.HTML.Core.Binding.Mapping
         /// task that completes when all binding are done
         ///</returns>
         Task RegisterMainViewModel(IJavascriptObject viewModel);
+
+        void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value);
     }
 }

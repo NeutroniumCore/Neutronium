@@ -11,24 +11,26 @@ namespace MVVM.HTML.Core.Binding.Mapping
     internal class CommandFactory : IJSCommandFactory
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
-        public CommandFactory(IJavascriptToCSharpConverter converter)
+        private readonly HTMLViewContext _HTMLViewContext;
+        public CommandFactory(HTMLViewContext context, IJavascriptToCSharpConverter converter)
         {
+            _HTMLViewContext = context;
             _JavascriptToCSharpConverter = converter;
         }
 
-        public JSCommand Build(IWebView view, IDispatcher uiDispatcher, ICommand command)
+        public JSCommand Build(ICommand command)
         {
-            return new JSCommand(view, _JavascriptToCSharpConverter, uiDispatcher, command);
+            return new JSCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
         }
 
-        public JSSimpleCommand Build(IWebView view, IDispatcher uiDispatcher, ISimpleCommand command)
+        public JSSimpleCommand Build(ISimpleCommand command)
         {
-            return new JSSimpleCommand(view, _JavascriptToCSharpConverter, command);
+            return new JSSimpleCommand(_HTMLViewContext.WebView, _JavascriptToCSharpConverter, command);
         }
 
-        public JSResultCommand Build(IWebView view, IDispatcher uiDispatcher, IResultCommand command)
+        public JSResultCommand Build(IResultCommand command)
         {
-            return new JSResultCommand(view, _JavascriptToCSharpConverter, command);
+            return new JSResultCommand(_HTMLViewContext.WebView, _JavascriptToCSharpConverter, command);
         }
     }
 }

@@ -12,6 +12,7 @@ using MVVM.Cef.Glue.Test.Core;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.Binding.GlueObject;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -31,13 +32,12 @@ namespace MVVM.Cef.Glue.Test
 
 
         private CSharpToJavascriptConverter _ConverTOJSO;
-        //private CefV8_Factory _IJSOBuilder;
         private TestClass _Test;
         private Test2 _Test2;
         private List<TestClass> _Tests;
         private ArrayList _Tests_NG;
         private HTMLViewContext _HTMLViewContext;
-
+        private IJSCommandFactory _JSCommandFactory;
         private IJavascriptSessionCache _ICSharpMapper;
 
         public Test_ConvertToJSO()
@@ -47,9 +47,10 @@ namespace MVVM.Cef.Glue.Test
         protected override void Init()
         {
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
+            _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), new KnockoutSessionInjectorFactory());
-            _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, new CommandFactory(null));
+            _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>();
             _Tests.Add(new TestClass() { S1 = "string1", I1 = 1 });

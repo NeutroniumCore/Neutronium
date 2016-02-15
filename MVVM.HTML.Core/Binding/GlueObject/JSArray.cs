@@ -19,8 +19,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJavascriptObject JSValue { get; private set; }
         public object CValue { get; private set; }
-        public IList<IJSCSGlue> Items { get; private set; }
-      
+        public IList<IJSCSGlue> Items { get; private set; }     
         public JSCSGlueType Type { get { return JSCSGlueType.Array; } }
         public IJavascriptObject MappedJSValue { get; private set; }
 

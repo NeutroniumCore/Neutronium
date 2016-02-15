@@ -13,8 +13,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 {
     public class JSCommand : GlueBase, IJSObservableBridge
     {
-        private readonly IWebView _WebView;
-        private readonly IDispatcher _UIDispatcher;
+        private readonly HTMLViewContext _HTMLViewContext;       
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly ICommand _Command;
         private IJavascriptObject _MappedJSValue;
@@ -24,12 +23,14 @@ namespace MVVM.HTML.Core.HTMLBinding
         public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
         public object CValue { get { return _Command; } }
         public JSCSGlueType Type { get { return JSCSGlueType.Command; } }
+        private IWebView WebView { get { return _HTMLViewContext.WebView; } }
+        private IDispatcher UIDispatcher { get { return _HTMLViewContext.UIDispatcher; } }
+        private IJavascriptSessionInjector JavascriptSessionInjector { get { return _HTMLViewContext.JavascriptSessionInjector; } }
 
-        public JSCommand(IWebView webView, IJavascriptToCSharpConverter converter, IDispatcher uiDispatcher, ICommand command)
+        public JSCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command)
         {
-            _UIDispatcher = uiDispatcher;
             _JavascriptToCSharpConverter = converter;
-            _WebView = webView;
+            _HTMLViewContext = context;
             _Command = command;
        
             bool canexecute = true;
@@ -39,11 +40,11 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
             catch { }
 
-            JSValue = _WebView.Evaluate(() =>
+            JSValue = WebView.Evaluate(() =>
                 {
-                    var res = _WebView.Factory.CreateObject(true);
-                    res.SetValue("CanExecuteValue", _WebView.Factory.CreateBool(canexecute));
-                    res.SetValue("CanExecuteCount", _WebView.Factory.CreateInt(_Count)); 
+                    var res = WebView.Factory.CreateObject(true);
+                    res.SetValue("CanExecuteValue", WebView.Factory.CreateBool(canexecute));
+                    res.SetValue("CanExecuteCount", WebView.Factory.CreateInt(_Count)); 
                     return res;       
                 });
         }
@@ -58,35 +59,36 @@ namespace MVVM.HTML.Core.HTMLBinding
             _Command.CanExecuteChanged -= _Command_CanExecuteChanged;
         }
 
+        private void ExecuteCommand(IJavascriptObject[] e)
+        {
+            UIDispatcher.RunAsync(() => _Command.Execute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e)));
+        }
+
         private void _Command_CanExecuteChanged(object sender, EventArgs e)
         {
             _Count = (_Count == 1) ? 2 : 1;
-#region Knockout
-            _WebView.RunAsync(() =>
+            WebView.RunAsync(() =>
             {
-                _MappedJSValue.Invoke("CanExecuteCount", _WebView, _WebView.Factory.CreateInt(_Count));
+                UpdateProperty("CanExecuteCount", (f) => f.CreateInt(_Count));
             });
-#endregion
-        }
-
-        public void SetMappedJSValue(IJavascriptObject ijsobject)
-        {
-            _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _WebView, ExecuteCommand);
-            _MappedJSValue.Bind("CanExecute", _WebView, CanExecuteCommand);
-        }
-
-        private void ExecuteCommand(IJavascriptObject[] e)
-        {
-            _UIDispatcher.RunAsync(() => _Command.Execute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e)));
         }
 
         private void CanExecuteCommand(IJavascriptObject[] e)
         {
             bool res = _Command.CanExecute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
-#region Knockout
-            _MappedJSValue.Invoke("CanExecuteValue", _WebView, _WebView.Factory.CreateBool(res));
-#endregion
+            UpdateProperty("CanExecuteValue", (f) => f.CreateBool(res));
+        }
+
+        private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
+        {
+            JavascriptSessionInjector.UpdateProperty(_MappedJSValue, propertyName, factory(WebView.Factory));
+        }
+
+        public void SetMappedJSValue(IJavascriptObject ijsobject)
+        {
+            _MappedJSValue = ijsobject;
+            _MappedJSValue.Bind("Execute", WebView, ExecuteCommand);
+            _MappedJSValue.Bind("CanExecute", WebView, CanExecuteCommand);
         }
 
         public IEnumerable<IJSCSGlue> GetChildren()

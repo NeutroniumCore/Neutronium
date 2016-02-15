@@ -35,7 +35,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private IJSCSGlue InternalMap(object from, object iadditional=null)
         {
             if (from == null)
-                return JSGenericObject.CreateNull(_Context.WebView);
+                return JSGenericObject.CreateNull(_Context);
 
             var res = _Cacher.GetCached(from);
             if (res != null)
@@ -43,15 +43,15 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             var command = from as ICommand;
             if (command != null)
-                return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, command);
+                return _CommandFactory.Build(command);
 
             var simpleCommand = from as ISimpleCommand;
             if (simpleCommand != null)
-                return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, simpleCommand);
+                return _CommandFactory.Build(simpleCommand);
 
             var resultCommand = from as IResultCommand;
             if (resultCommand != null)
-                return _CommandFactory.Build(_Context.WebView, _Context.UIDispatcher, resultCommand);
+                return _CommandFactory.Build(resultCommand);
 
             IJavascriptObject value;
             if (_Context.WebView.Factory.SolveBasic(from, out value))
@@ -70,7 +70,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             var resobject = _Context.WebView.Factory.CreateObject(true);
 
-            var gres = new JSGenericObject(_Context.WebView, resobject, from);
+            var gres = new JSGenericObject(_Context, resobject, from);
             _Cacher.Cache(from, gres);
 
             MappNested(from, resobject,gres);

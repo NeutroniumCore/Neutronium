@@ -30,7 +30,9 @@ namespace MVVM.HTML.Core.HTMLBinding
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         { 
             _Context = context;  
-            _BindingMode = iMode;     
+            _BindingMode = iMode; 
+            var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
+            _sessionInjector = _Context.CreateInjector(javascriptObjecChanges);    
             _SessionCache = new SessionCacher();
             _ListenerRegister = new FullListenerRegister(
                                         (n) => n.PropertyChanged += CSharpPropertyChanged,
@@ -39,12 +41,9 @@ namespace MVVM.HTML.Core.HTMLBinding
                                         (n) => n.CollectionChanged -= CSharpCollectionChanged,
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
-            
-            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, new CommandFactory(this));
-            _Root = _JSObjectBuilder.Map(iRoot, iadd);
-
-             var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
-            _sessionInjector = _Context.CreateInjector(javascriptObjecChanges);
+            var commandFactory = new CommandFactory(context, this);
+            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, commandFactory) ;
+            _Root = _JSObjectBuilder.Map(iRoot, iadd); 
         }
 
         private async Task RunInJavascriptContext(Action Run)
@@ -187,7 +186,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 return;
 
             var newbridgedchild = _JSObjectBuilder.Map(nv);
-            await RegisterAndDo(newbridgedchild, () => currentfather.Reroot(pn, newbridgedchild));
+            await RegisterAndDo(newbridgedchild, () => currentfather.ReRoot(pn, newbridgedchild) );
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
