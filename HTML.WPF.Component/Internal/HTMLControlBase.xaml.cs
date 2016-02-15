@@ -11,41 +11,46 @@ using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Navigation;
 using MVVM.HTML.Core.Window;
 using System.Diagnostics;
+using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Exceptions;
 
 namespace HTML_WPF.Component
 {
-    public partial class HTMLControlBase : UserControl, IWebViewLifeCycleManager, IDisposable
+    public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
         private IWPFWebWindowFactory _IWPFWebWindowFactory;
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
         private IUrlSolver _IUrlSolver;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private string _KoView = null;
+        private readonly IJavascriptSessionInjectorFactory _Injector = new KnockoutSessionInjectorFactory();
 
-        public Boolean IsDebug
+        public ICommand DebugWindow { get; private set; }
+        public ICommand DebugBrowser { get; private set; }
+
+        public bool IsDebug
         {
-            get { return (Boolean)this.GetValue(IsDebugProperty); }
-            set { this.SetValue(IsDebugProperty, value); }
+            get { return (bool)GetValue(IsDebugProperty); }
+            set { SetValue(IsDebugProperty, value); }
         }
 
         public static readonly DependencyProperty IsDebugProperty =
-            DependencyProperty.Register("IsDebug", typeof(Boolean), typeof(HTMLControlBase), new PropertyMetadata(false));
+            DependencyProperty.Register("IsDebug", typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
 
-
-        public Boolean IsHTMLLoaded
+        public bool IsHTMLLoaded
         {
-            get { return (Boolean)this.GetValue(IsHTMLLoadedProperty); }
-            private set { this.SetValue(IsHTMLLoadedProperty, value); }
+            get { return (bool)GetValue(IsHTMLLoadedProperty); }
+            private set { SetValue(IsHTMLLoadedProperty, value); }
         }
 
         public static readonly DependencyProperty IsHTMLLoadedProperty =
-            DependencyProperty.Register("IsHTMLLoaded", typeof(Boolean), typeof(HTMLControlBase), new PropertyMetadata(false));
+            DependencyProperty.Register("IsHTMLLoaded", typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
 
         public string HTMLEngine
         {
-            get { return (string)this.GetValue(HTMLEngineProperty); }
-            set { this.SetValue(HTMLEngineProperty, value); }
+            get { return (string)GetValue(HTMLEngineProperty); }
+            set { SetValue(HTMLEngineProperty, value); }
         }
 
         public static readonly DependencyProperty HTMLEngineProperty =
@@ -63,16 +68,12 @@ namespace HTML_WPF.Component
             set { _WPFDoubleBrowserNavigator.UseINavigable = value; }
         }
 
-        public ICommand DebugWindow { get; private set; }
-
-        public ICommand DebugBrowser { get; private set; }   
-
         protected HTMLControlBase(IUrlSolver iIUrlSolver)
         {
             _IUrlSolver = iIUrlSolver;
 
-            DebugWindow = new BasicRelayCommand(() => ShowDebugWindow());
-            DebugBrowser = new BasicRelayCommand(() => OpenDebugBrowser());
+            DebugWindow = new BasicRelayCommand(ShowDebugWindow);
+            DebugBrowser = new BasicRelayCommand(OpenDebugBrowser);
 
             InitializeComponent();
 
@@ -118,16 +119,17 @@ namespace HTML_WPF.Component
 
         public void OpenDebugBrowser()
         {
-            Nullable<int> RemoteDebuggingPort = _IWPFWebWindowFactory.GetRemoteDebuggingPort();
-            if (RemoteDebuggingPort!=null)
-                Process.Start(string.Format("http://localhost:{0}/", RemoteDebuggingPort));
+            var remoteDebuggingPort = _IWPFWebWindowFactory.GetRemoteDebuggingPort();
+            if (remoteDebuggingPort!=null)
+                Process.Start(string.Format("http://localhost:{0}/", remoteDebuggingPort));
             else
                 MessageBox.Show("EnableBrowserDebug should be set to true to enable debugging in a Webrowser!");
         }
 
-        protected async Task NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        protected async Task NavigateAsyncBase(object iViewModel, string Id = null, IJavascriptSessionInjectorFactory injectorFactory = null, 
+            JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
-            await _WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, iMode);
+            await _WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, injectorFactory?? _Injector, iMode);
         }
 
         public void Dispose()
@@ -180,8 +182,7 @@ namespace HTML_WPF.Component
                     throw ExceptionHelper.Get(string.Format("Not able to find WebEngine {0}", HTMLEngine));
             }
 
-            IWPFWebWindow webwindow = _IWPFWebWindowFactory.Create();
-            
+            var webwindow = _IWPFWebWindowFactory.Create();           
             var ui = webwindow.UIElement;
             Grid.SetColumnSpan(ui, 2);
             Grid.SetRowSpan(ui, 2);
@@ -195,15 +196,15 @@ namespace HTML_WPF.Component
             return new WPFUIDispatcher(this.Dispatcher);
         }
 
-        public void Inject(Key KeyToInject)
+        public void Inject(Key keyToInject)
         {
             var wpfacess =  (_WPFDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider);
-            if (wpfacess != null)
+            if (wpfacess == null)
                 return;
 
             var wpfweb = wpfacess.IWPFWebWindow;            
             if (wpfweb!=null)
-                wpfweb.Inject(KeyToInject);
+                wpfweb.Inject(keyToInject);
         }
 
         //private void WebCore_ShuttingDown(object sender, CoreShutdownEventArgs e)

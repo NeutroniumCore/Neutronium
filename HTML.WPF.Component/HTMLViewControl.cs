@@ -30,7 +30,7 @@ namespace HTML_WPF.Component
                 Uri = new Uri(path);
 
                 if (DataContext != null)
-                    this.NavigateAsyncBase(DataContext, null, Mode).DoNotWait();
+                    this.NavigateAsyncBase(DataContext, null, null, Mode).DoNotWait();
             }
         }
 
@@ -59,7 +59,7 @@ namespace HTML_WPF.Component
         private void HTMLViewControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Uri != null)
-                this.NavigateAsyncBase(DataContext, null, Mode).DoNotWait();
+                this.NavigateAsyncBase(DataContext, null, null, Mode).DoNotWait();
         }
 
         private class UrlSolver : IUrlSolver

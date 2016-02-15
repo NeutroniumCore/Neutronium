@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MVVM.HTML.Core.Binding;
 
 namespace  MVVM.HTML.Core
 {
@@ -7,7 +8,8 @@ namespace  MVVM.HTML.Core
     {
         bool UseINavigable { get; set; }
 
-        Task NavigateAsync(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay);
+        Task NavigateAsync(object iViewModel, string Id = null, IJavascriptSessionInjectorFactory injectorFactory=null,
+                            JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay);
 
         event EventHandler<NavigationEvent> OnNavigate;
 

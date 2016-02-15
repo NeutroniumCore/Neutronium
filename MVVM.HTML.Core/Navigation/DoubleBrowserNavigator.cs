@@ -213,7 +213,8 @@ namespace MVVM.HTML.Core
             }          
         }
 
-        public async Task NavigateAsync(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        public async Task NavigateAsync(object iViewModel, string Id = null, IJavascriptSessionInjectorFactory injectorFactory = null, 
+                                            JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             if ((iViewModel == null) || (_Navigating))
                 return;

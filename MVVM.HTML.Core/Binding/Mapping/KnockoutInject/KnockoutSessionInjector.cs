@@ -9,7 +9,7 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    internal class KnockoutSessionInjector : IJavascriptSessionInjector
+    public class KnockoutSessionInjector : IJavascriptSessionInjector
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptChangesObserver _JavascriptListener;
@@ -21,7 +21,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
 
-        internal KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener)
+        public KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener)
         {
             _WebView = iWebView;
             _JavascriptListener = iJavascriptListener;
