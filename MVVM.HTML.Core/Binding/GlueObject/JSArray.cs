@@ -93,9 +93,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             Injector.ClearAllCollection(MappedJSValue);
         }
 
-        public void MoveJavascriptCollection(int oldIndex, int newIndex)
+        public void MoveJavascriptCollection(IJavascriptObject item, int oldIndex, int newIndex)
         { 
-            var item = Items[oldIndex].GetJSSessionValue();
             Injector.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
         }
 
@@ -125,8 +124,8 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public void Move(int oldIndex, int newIndex)
         {
-            MoveJavascriptCollection(oldIndex, newIndex);
             var item = Items[oldIndex];
+            MoveJavascriptCollection(item.GetJSSessionValue(), oldIndex, newIndex);
             Items.RemoveAt(oldIndex);
             Items.Insert(newIndex, item);
         }
@@ -142,7 +141,6 @@ namespace MVVM.HTML.Core.HTMLBinding
                 f = false;
                 it.BuilString(sb, alreadyComputed);
             }
-
             sb.Append("]");
         }
 
