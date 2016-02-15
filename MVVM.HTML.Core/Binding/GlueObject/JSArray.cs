@@ -8,13 +8,13 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.Binding;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
     internal class JSArray : GlueBase, IJSObservableBridge
     {
-        private readonly IWebView _WebView;
-        private readonly IDispatcher _UIDispatcher;
+        private readonly HTMLViewContext _HTMLViewContext;   
         private readonly Type _IndividualType;
 
         public IJavascriptObject JSValue { get; private set; }
@@ -22,18 +22,20 @@ namespace MVVM.HTML.Core.HTMLBinding
         public IList<IJSCSGlue> Items { get; private set; }     
         public JSCSGlueType Type { get { return JSCSGlueType.Array; } }
         public IJavascriptObject MappedJSValue { get; private set; }
+        private IWebView WebView { get { return _HTMLViewContext.WebView; } }
+        private IJavascriptSessionInjector Injector { get { return _HTMLViewContext.JavascriptSessionInjector; } }
+        private IDispatcher UIDispatcher { get { return _HTMLViewContext.UIDispatcher; } }
 
-        public JSArray(IWebView webView, IDispatcher uiDispatcher, IEnumerable<IJSCSGlue> values, IEnumerable collection)
+        public JSArray(HTMLViewContext context, IEnumerable<IJSCSGlue> values, IEnumerable collection)
         {
-            _UIDispatcher = uiDispatcher;
-            _WebView = webView;
+            _HTMLViewContext = context;
             CValue = collection;
             Items = new List<IJSCSGlue>(values);
 
             var dest = values.Select(v => v.JSValue).ToList();    
-            JSValue = _WebView.Evaluate(() => _WebView.Factory.CreateArray(dest));
+            JSValue = WebView.Evaluate(() => WebView.Factory.CreateArray(dest));
             var type = collection.GetElementType();
-            _IndividualType = _WebView.Factory.IsTypeBasic(type) ?  type : null;
+            _IndividualType = WebView.Factory.IsTypeBasic(type) ?  type : null;
         }
 
         public CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
@@ -43,7 +45,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)
         {
-            _UIDispatcher.Run(() => 
+            UIDispatcher.Run(() => 
             {
                 switch (change.CollectionChangeType)
                 {
@@ -76,29 +78,26 @@ namespace MVVM.HTML.Core.HTMLBinding
             iCollectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, ilist));
         }
 
-#region Knockout
         private void Splice(int index, int number, IJSCSGlue glue)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), glue.GetJSSessionValue());
+            Injector.SpliceCollection(MappedJSValue, index, number, glue.GetJSSessionValue());
         }
 
         private void Splice(int index, int number)
         {
-            MappedJSValue.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
+            Injector.SpliceCollection(MappedJSValue, index, number);
         }
 
         private void ClearAllJavascriptCollection()
         {
-            MappedJSValue.InvokeAsync("silentremoveAll", _WebView);
+            Injector.ClearAllCollection(MappedJSValue);
         }
 
         public void MoveJavascriptCollection(int oldIndex, int newIndex)
-        {
-            var item = Items[oldIndex];
-            Splice(oldIndex, 1);
-            Splice(newIndex, 0, item);
+        { 
+            var item = Items[oldIndex].GetJSSessionValue();
+            Injector.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
         }
-#endregion
 
         public void Add(IJSCSGlue jscBridge, int index)
         {

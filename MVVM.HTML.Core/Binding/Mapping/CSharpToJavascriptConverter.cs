@@ -110,7 +110,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private IJSCSGlue Convert(IEnumerable source)
         {
-            var res = new JSArray(this._Context.WebView, _Context.UIDispatcher, source.Cast<object>().Select(s => Map(s)), source);
+            var res = new JSArray(this._Context, source.Cast<object>().Select(s => Map(s)), source);
             _Cacher.Cache(source, res);
             return res;
         }

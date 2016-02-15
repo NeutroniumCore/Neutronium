@@ -51,12 +51,12 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public void ListenChanges()
         {
-            _Command.CanExecuteChanged += _Command_CanExecuteChanged;
+            _Command.CanExecuteChanged += Command_CanExecuteChanged;
         }
 
         public void UnListenChanges()
         {
-            _Command.CanExecuteChanged -= _Command_CanExecuteChanged;
+            _Command.CanExecuteChanged -= Command_CanExecuteChanged;
         }
 
         private void ExecuteCommand(IJavascriptObject[] e)
@@ -64,7 +64,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             UIDispatcher.RunAsync(() => _Command.Execute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e)));
         }
 
-        private void _Command_CanExecuteChanged(object sender, EventArgs e)
+        private void Command_CanExecuteChanged(object sender, EventArgs e)
         {
             _Count = (_Count == 1) ? 2 : 1;
             WebView.RunAsync(() =>

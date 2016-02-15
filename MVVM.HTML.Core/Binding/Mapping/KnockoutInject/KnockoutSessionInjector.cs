@@ -47,14 +47,48 @@ namespace MVVM.HTML.Core.HTMLBinding
                                             (v, t, i) => new IndividualJavascriptCollectionChange(
                                                 t.GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove,
                                                 i.GetIntValue(), v)));
-       
+
             _JavascriptListener.OnJavaScriptCollectionChanges(collectionChange);
+        }
+
+        public void Dispose()
+        {
+            _Silenters.Clear();
+            _WebView.Run(() =>
+            {
+                if (_Listener == null)
+                    return;
+
+                _Listener.Dispose();
+                _Listener = null;
+            });
+        }
+
+        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm)
+        {
+            return _WebView.Evaluate(() =>
+                {
+                    return GetKo().Invoke("MapToObservable", _WebView, ihybridobject, GetMapper(ijvm), _Listener);
+                });
+        }
+
+        private IJavascriptObject _Ko;
+        private IJavascriptObject GetKo()
+        {
+            if (_Ko == null)
+            {
+                _Ko = _WebView.GetGlobal().GetValue("ko");
+                if ((_Ko == null) || (!_Ko.IsObject))
+                    throw ExceptionHelper.NoKo();
+            }
+
+            return _Ko;
         }
 
         private IJavascriptObject GetMapper(IJavascriptObjectMapper iMapperListener)
         {
             _JavascriptMapper.Enqueue(iMapperListener);
-    
+
             if (_Mapper != null)
                 return _Mapper;
 
@@ -63,7 +97,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             _Mapper.Bind("Register", _WebView, (e) =>
             {
                 if (_PullNextMapper)
-                { 
+                {
                     _Current = _JavascriptMapper.Dequeue();
                     _PullNextMapper = false;
                 }
@@ -88,41 +122,20 @@ namespace MVVM.HTML.Core.HTMLBinding
                         _Current.MapCollection(e[1], e[2].GetStringValue(), e[3].GetIntValue(), registered);
                         break;
                 }
-             });
+            });
 
             _Mapper.Bind("End", _WebView, (e) =>
-                {
-                    if (_PullNextMapper)
-                        _Current = _JavascriptMapper.Dequeue();
+            {
+                if (_PullNextMapper)
+                    _Current = _JavascriptMapper.Dequeue();
 
-                    if (_Current!=null)
-                        _Current.EndMapping(e[0]);
-                    _Current = null;
-                    _PullNextMapper = true;
-                });
+                if (_Current != null)
+                    _Current.EndMapping(e[0]);
+                _Current = null;
+                _PullNextMapper = true;
+            });
 
             return _Mapper;
-        }
-
-        private IJavascriptObject _Ko;
-        private IJavascriptObject GetKo()
-        {
-            if (_Ko == null)
-            {
-                _Ko = _WebView.GetGlobal().GetValue("ko");
-                if ((_Ko==null) || (!_Ko.IsObject))
-                    throw ExceptionHelper.NoKo();
-            }
-
-            return _Ko;
-        }
-
-        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm)
-        {
-            return _WebView.Evaluate(() =>
-                {
-                    return GetKo().Invoke("MapToObservable", _WebView, ihybridobject, GetMapper(ijvm), _Listener);
-                });
         }
 
         public Task RegisterMainViewModel(IJavascriptObject iJSObject)
@@ -135,18 +148,6 @@ namespace MVVM.HTML.Core.HTMLBinding
                     ko.Invoke("register", _WebView, iJSObject);
                     ko.Invoke("applyBindings", _WebView, iJSObject);
                 });
-        }
-
-        public void Dispose()
-        {
-            _WebView.Run(() =>
-            {
-                if (_Listener == null)
-                    return;
-
-                _Listener.Dispose();
-                _Listener = null;
-            });
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
@@ -180,6 +181,27 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void Silent(IJavascriptObject silenter, IJavascriptObject value)
         {
             silenter.Invoke("silent", _WebView, value);
+        }
+
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added)
+        {
+            array.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), added);
+        }
+
+        public void SpliceCollection(IJavascriptObject array, int index, int number)
+        {
+            array.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
+        }
+
+        public void ClearAllCollection(IJavascriptObject array)
+        {
+            array.InvokeAsync("silentremoveAll", _WebView);
+        }
+
+        public void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex)
+        {
+            SpliceCollection(array, oldIndex, 1);
+            SpliceCollection(array, newIndex, 0, item);
         }
     }
 }

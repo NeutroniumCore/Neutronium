@@ -28,7 +28,6 @@ namespace MVVM.HTML.Core.Binding.Mapping
 
         /// <summary>
         /// Register main view model in javascript windows
-        /// and 
         /// </summary>
         /// <param name="rawObject">
         /// Main ViewModel: javascript Observable object 
@@ -38,6 +37,26 @@ namespace MVVM.HTML.Core.Binding.Mapping
         ///</returns>
         Task RegisterMainViewModel(IJavascriptObject viewModel);
 
+        /// <summary>
+        /// Update javascript viewmodel without raising listeners events
+        /// </summary>
+        /// <param name="father">
+        /// view model to be updated
+        /// </param>
+        /// <param name="propertyName">
+        /// Name of the property to be updated
+        /// </param>
+        /// <param name="value">
+        /// new value of the property
+        /// </param>
         void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value);
+
+        void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject glue);
+
+        void SpliceCollection(IJavascriptObject array,int index, int number);
+
+        void ClearAllCollection(IJavascriptObject array);
+
+        void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex);
     }
 }
