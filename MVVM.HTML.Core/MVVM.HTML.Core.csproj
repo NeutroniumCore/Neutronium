@@ -165,7 +165,7 @@
     <Content Include="Javascript\knockout-delegatedEvents.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Navigation\javascript\ko-view.min.js.map">
+    <None Include="Binding\Mapping\KnockoutInject\javascript\ko-view.min.js.map">
       <DependentUpon>ko-view.min.js</DependentUpon>
     </None>
     <AppDesigner Include="Properties\" />
@@ -182,8 +182,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Javascript\promise.min.js" />
-    <Content Include="Navigation\javascript\ko-view.js" />
-    <EmbeddedResource Include="Navigation\javascript\ko-view.min.js">
+    <Content Include="Binding\Mapping\KnockoutInject\javascript\ko-view.js" />
+    <EmbeddedResource Include="Binding\Mapping\KnockoutInject\javascript\ko-view.min.js">
       <DependentUpon>ko-view.js</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

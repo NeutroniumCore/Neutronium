@@ -23,7 +23,7 @@ namespace HTML_WPF.Component
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
         private IUrlSolver _IUrlSolver;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
-        private string _KoView = null;
+        private string _JavascriptDebugScript = null;
         private readonly IJavascriptSessionInjectorFactory _Injector = new KnockoutSessionInjectorFactory();
 
         public ICommand DebugWindow { get; private set; }
@@ -97,18 +97,11 @@ namespace HTML_WPF.Component
        
         private void RunKoView()
         {
-            if (_KoView == null)
+            if (_JavascriptDebugScript == null)
             {
-                using (Stream stream = typeof(IHTMLBinding).Assembly.
-                        GetManifestResourceStream("MVVM.HTML.Core.Navigation.javascript.ko-view.min.js"))
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        _KoView = reader.ReadToEnd();
-                    }
-                }
+                _JavascriptDebugScript = _Injector.GetDebugScript();
             }
-            _WPFDoubleBrowserNavigator.ExcecuteJavascript(_KoView);
+            _WPFDoubleBrowserNavigator.ExcecuteJavascript(_JavascriptDebugScript);
         }
 
         public void ShowDebugWindow()

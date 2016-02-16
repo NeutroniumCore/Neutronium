@@ -22,5 +22,9 @@ namespace MVVM.HTML.Core.Binding
         /// the newly created IJavascriptSessionInjector
         ///</returns>
         IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver);
+
+        string GetDebugScript();
+
+        bool HasDebugScript();
     }
 }

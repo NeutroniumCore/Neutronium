@@ -21,7 +21,7 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="Button_DebugWindow" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}"  Content="Ko-Debug" HorizontalAlignment="Right"  Grid.Row="1" Width="74" Margin="0,0,10,5" Command="{Binding ElementName=Root,Path=DebugWindow}" Panel.ZIndex="1"/>
+        <Button x:Name="Button_DebugWindow" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}"  Content="VM Debug" HorizontalAlignment="Right"  Grid.Row="1" Width="74" Margin="0,0,10,5" Command="{Binding ElementName=Root,Path=DebugWindow}" Panel.ZIndex="1"/>
         <Button x:Name="Button_DebugBrowser" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}" Content="Open browser" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" Width="85"  Margin="10,0,0,5" Command="{Binding ElementName=Root,Path=DebugBrowser}" Panel.ZIndex="1"/>
 
     </Grid>
