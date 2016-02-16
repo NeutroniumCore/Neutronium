@@ -16,8 +16,8 @@ namespace HTML_WPF.Component
 
         public Uri Uri
         {
-            get { return (Uri)this.GetValue(UriProperty); }
-            internal set { this.SetValue(UriProperty, value); }
+            get { return (Uri)GetValue(UriProperty); }
+            internal set { SetValue(UriProperty, value); }
         }
 
         public string RelativeSource
@@ -63,7 +63,7 @@ namespace HTML_WPF.Component
 
         private class UrlSolver : IUrlSolver
         {
-            public HTMLViewControl Solver { get; set; }
+            public HTMLViewControl Solver { private get; set; }
 
             Uri IUrlSolver.Solve(object iViewModel, string Id)
             {
