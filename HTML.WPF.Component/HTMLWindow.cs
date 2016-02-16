@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using MVVM.HTML.Core;
-using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Navigation;
-
 
 namespace HTML_WPF.Component
 {
@@ -18,13 +15,10 @@ namespace HTML_WPF.Component
 
         public HTMLWindow(IUrlSolver iIUrlSolver) : base(iIUrlSolver)
         {
-            _INavigationBuilder = iIUrlSolver as INavigationBuilder;
+            NavigationBuilder = iIUrlSolver as INavigationBuilder;
         }
       
-        public INavigationBuilder NavigationBuilder
-        {
-            get { return _INavigationBuilder; }
-        }
+        public INavigationBuilder NavigationBuilder { get; private set; }
 
         public async Task NavigateAsync(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
