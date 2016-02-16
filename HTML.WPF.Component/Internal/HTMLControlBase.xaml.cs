@@ -79,7 +79,7 @@ namespace HTML_WPF.Component
 
             _IWPFWebWindowFactory = HTMLEngineFactory.Engine.Resolve(HTMLEngine);
 
-            _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _IUrlSolver);
+            _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _IUrlSolver, _Injector);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
         }
 
@@ -126,10 +126,9 @@ namespace HTML_WPF.Component
                 MessageBox.Show("EnableBrowserDebug should be set to true to enable debugging in a Webrowser!");
         }
 
-        protected async Task NavigateAsyncBase(object iViewModel, string Id = null, IJavascriptSessionInjectorFactory injectorFactory = null, 
-            JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        protected async Task NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
-            await _WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, injectorFactory?? _Injector, iMode);
+            await _WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, iMode);
         }
 
         public void Dispose()

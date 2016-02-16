@@ -8,8 +8,7 @@ namespace  MVVM.HTML.Core
     {
         bool UseINavigable { get; set; }
 
-        Task NavigateAsync(object iViewModel, string Id = null, IJavascriptSessionInjectorFactory injectorFactory=null,
-                            JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay);
+        Task NavigateAsync(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay);
 
         event EventHandler<NavigationEvent> OnNavigate;
 

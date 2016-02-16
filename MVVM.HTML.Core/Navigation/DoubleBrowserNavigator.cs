@@ -17,7 +17,6 @@ namespace MVVM.HTML.Core
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
         private readonly IJavascriptSessionInjectorFactory _JavascriptSessionInjectorFactory;
-
         private IHTMLWindowProvider _CurrentWebControl;
         private IHTMLWindowProvider _NextWebControl;
 
@@ -40,11 +39,12 @@ namespace MVVM.HTML.Core
             set { _IWebSessionWatcher = value; }
         }
 
-        public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler,  IUrlSolver inb)
+        public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, 
+                                        IJavascriptSessionInjectorFactory javascriptSessionInjectorFactory)
         {
+            _JavascriptSessionInjectorFactory = javascriptSessionInjectorFactory;
             _WebViewLifeCycleManager = lifecycler;
-            _UrlSolver = inb;
-            _JavascriptSessionInjectorFactory = new KnockoutSessionInjectorFactory();
+            _UrlSolver = urlSolver;
         }
 
         private void ConsoleMessage(object sender, ConsoleMessageArgs e)
@@ -158,7 +158,7 @@ namespace MVVM.HTML.Core
         //    WebCore.QueueWork(() => Navigate(dest, vm, JavascriptBindingMode.TwoWay));
         //}
 
-        public Task Navigate(string iUri, object iViewModel, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        private Task Navigate(string iUri, object iViewModel, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             if (iUri == null)
                 throw ExceptionHelper.GetArgument(string.Format("ViewModel not registered: {0}", iViewModel.GetType()));
@@ -187,9 +187,9 @@ namespace MVVM.HTML.Core
             EventHandler<LoadEndEventArgs> sourceupdate = null;
             sourceupdate = (o, e) =>
             {
+                var injectorFactory = GetInjectorFactory(iUri);
                 _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
-
-                var engine = new HTMLViewEngine(_NextWebControl, _JavascriptSessionInjectorFactory);
+                var engine = new HTMLViewEngine(_NextWebControl, injectorFactory);
 
                 HTML_Binding.Bind(engine, iViewModel, iMode, wh).WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
@@ -200,6 +200,12 @@ namespace MVVM.HTML.Core
 
             return tcs.Task;
         }
+
+        private IJavascriptSessionInjectorFactory GetInjectorFactory(string iUri)
+        {
+            return _JavascriptSessionInjectorFactory;
+        }
+
 
         public void ExcecuteJavascript(string icode)
         {
@@ -213,8 +219,7 @@ namespace MVVM.HTML.Core
             }          
         }
 
-        public async Task NavigateAsync(object iViewModel, string Id = null, IJavascriptSessionInjectorFactory injectorFactory = null, 
-                                            JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        public async Task NavigateAsync(object iViewModel, string Id = null,JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             if ((iViewModel == null) || (_Navigating))
                 return;

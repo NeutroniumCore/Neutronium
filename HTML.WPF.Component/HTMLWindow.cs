@@ -26,10 +26,9 @@ namespace HTML_WPF.Component
             get { return _INavigationBuilder; }
         }
 
-        public async Task NavigateAsync(object iViewModel, string Id = null, IJavascriptSessionInjectorFactory injectorFactory = null, 
-                                            JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        public async Task NavigateAsync(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
-            await NavigateAsyncBase(iViewModel, Id, injectorFactory, iMode);
+            await NavigateAsyncBase(iViewModel, Id, iMode);
         }
     }
 }

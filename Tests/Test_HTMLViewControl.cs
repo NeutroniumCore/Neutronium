@@ -13,6 +13,7 @@ using System.IO;
 using MVVM.HTML.Core;
 using HTML_WPF.Component;
 using MVVM.Cef.Glue.Test.Infra;
+using System.Threading.Tasks;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -134,10 +135,10 @@ namespace MVVM.Cef.Glue.Test
             Test((c, w) =>
             {
                 var mre = new ManualResetEvent(false);
+                var tcs = new TaskCompletionSource<DisplayEvent>();
 
-                DisplayEvent de = null;
                 EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { de = e; c.OnDisplay -= ea; };
+                ea = (o, e) => { tcs.TrySetResult(e); c.OnDisplay -= ea; };
                 c.OnDisplay += ea;
                 var dc = new Person();
 
@@ -153,6 +154,7 @@ namespace MVVM.Cef.Glue.Test
                 mre.WaitOne();
 
                 Thread.Sleep(2500);
+                var de = tcs.Task.Result;
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
             });
