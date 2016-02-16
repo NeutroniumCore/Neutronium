@@ -10,7 +10,7 @@ using MVVM.HTML.Core.Infra;
 
 namespace HTML_WPF.Component
 {
-    public partial class HTMLViewControl : HTMLControlBase, IWebViewLifeCycleManager, IDisposable
+    public class HTMLViewControl : HTMLControlBase, IWebViewLifeCycleManager, IDisposable
     {
         public static readonly DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(HTMLViewControl));
 
@@ -24,23 +24,22 @@ namespace HTML_WPF.Component
         {
             set
             {
-                string path = string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), value);
+                var path = string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), value);
                 if (!File.Exists(path))
                     throw ExceptionHelper.Get(string.Format("Path not found {0}", path));
                 Uri = new Uri(path);
 
                 if (DataContext != null)
-                    this.NavigateAsyncBase(DataContext, null, Mode).DoNotWait();
+                    NavigateAsyncBase(DataContext, null, Mode).DoNotWait();
             }
         }
-
 
         public static readonly DependencyProperty ModeProperty = DependencyProperty.Register("Mode", typeof(JavascriptBindingMode), typeof(HTMLViewControl), new PropertyMetadata(JavascriptBindingMode.TwoWay));
 
         public JavascriptBindingMode Mode
         {
-            get { return (JavascriptBindingMode)this.GetValue(ModeProperty); }
-            set { this.SetValue(ModeProperty, value); }
+            get { return (JavascriptBindingMode)GetValue(ModeProperty); }
+            set { SetValue(ModeProperty, value); }
         }
 
         private UrlSolver _UrlSolver;
@@ -53,13 +52,13 @@ namespace HTML_WPF.Component
         {
             _UrlSolver = iIUrlSolver;
             _UrlSolver.Solver = this;
-            this.DataContextChanged += HTMLViewControl_DataContextChanged;
+            DataContextChanged += HTMLViewControl_DataContextChanged;
         }
 
-        private void HTMLViewControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private async void HTMLViewControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (Uri != null)
-                this.NavigateAsyncBase(DataContext, null, Mode).DoNotWait();
+                await NavigateAsyncBase(DataContext, null, Mode);
         }
 
         private class UrlSolver : IUrlSolver
