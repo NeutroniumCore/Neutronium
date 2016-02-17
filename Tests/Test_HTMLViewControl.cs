@@ -30,8 +30,7 @@ namespace MVVM.Cef.Glue.Test
                     w.RegisterName(iWebControl.Name, iWebControl);
                     w.Closed += (o, e) => { iWebControl.Dispose(); };
                     stackPanel.Children.Add(iWebControl);
-                }
-                );
+                } );
         }
 
         internal void Test(Action<HTMLViewControl, WindowTest> Test, bool iDebug = false, bool Cef=true)
@@ -134,7 +133,6 @@ namespace MVVM.Cef.Glue.Test
         {
             Test((c, w) =>
             {
-                var mre = new ManualResetEvent(false);
                 var tcs = new TaskCompletionSource<DisplayEvent>();
 
                 EventHandler<DisplayEvent> ea = null;
@@ -148,12 +146,8 @@ namespace MVVM.Cef.Glue.Test
                     string relp = "javascript\\navigation_1.html";
                     c.Uri = new Uri(string.Format("{0}\\{1}", Assembly.GetAssembly(typeof(Test_HTMLViewControl)).GetPath(), relp));
                     w.Window.DataContext = dc;
-                    mre.Set();
                 });
 
-                mre.WaitOne();
-
-                Thread.Sleep(2500);
                 var de = tcs.Task.Result;
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
