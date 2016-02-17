@@ -30,11 +30,11 @@ namespace MVVM.HTML.Core.HTMLBinding
                 {
                     _Listener = _WebView.Factory.CreateObject(false);
 
-                    if (_JavascriptListener != null)
-                    {
-                        _Listener.Bind("TrackChanges", _WebView, (e) => _JavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
-                        _Listener.Bind("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
-                    }
+                    if (_JavascriptListener == null)
+                        return;
+
+                    _Listener.Bind("TrackChanges", _WebView, (e) => _JavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
+                    _Listener.Bind("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
                 });
         }
 

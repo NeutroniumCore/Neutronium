@@ -19,7 +19,7 @@ namespace MVVM.HTML.Core.Exceptions
 
         static internal Exception NoKo()
         {
-            return ExceptionHelper.Get("ko object not found! You should add a link to knockout.js script to the HML document!");
+            return Get("ko object not found! You should add a link to knockout.js script to the HML document!");
         }
 
         static public Exception NoKoExtension()

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Collections;
@@ -84,11 +83,11 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (from == null)
                 return;
 
-            IEnumerable<PropertyInfo> propertyInfos = from.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+           var propertyInfos = from.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead);
 
-            foreach (PropertyInfo propertyInfo in propertyInfos.Where(p => p.CanRead))
+            foreach (var propertyInfo in propertyInfos)
             {
-                string pn = propertyInfo.Name;
+                
                 object childvalue;
                 try
                 {
@@ -100,11 +99,11 @@ namespace MVVM.HTML.Core.HTMLBinding
                     continue;
                 }
 
-                IJSCSGlue childres = InternalMap(childvalue);
+                var childres = InternalMap(childvalue);
 
-                _Context.WebView.Run(() => resobject.SetValue(pn, childres.JSValue));
-
-                gres.UpdateCSharpProperty(pn,childres);
+                var propertyName = propertyInfo.Name;
+                _Context.WebView.Run(() => resobject.SetValue(propertyName, childres.JSValue));
+                gres.UpdateCSharpProperty(propertyName, childres);
             }
         }
 

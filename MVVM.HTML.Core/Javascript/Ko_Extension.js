@@ -1,9 +1,9 @@
 
-function Enum(Type, intValue, name, displayName) {
+function Enum(type, intValue, name, displayName) {
     this.intValue = intValue;
     this.displayName = displayName;
     this.name = name;
-    this.type = Type;
+    this.type = type;
 }
 
 ////to bypass awesomium limitations

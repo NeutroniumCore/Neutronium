@@ -23,8 +23,15 @@ namespace MVVM.HTML.Core.Binding
         ///</returns>
         IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver);
 
+        /// <summary>
+        /// return javascript debug script to allow interactive debug
+        /// of view model bound to the view
+        /// </summary>
         string GetDebugScript();
 
+        /// <summary>
+        /// true if the injector returns a valid devug script
+        /// </summary>
         bool HasDebugScript();
     }
 }
