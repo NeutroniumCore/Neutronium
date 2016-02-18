@@ -105,6 +105,7 @@
     <Compile Include="Binding\Listeners\ListenerRegister.cs" />
     <Compile Include="Binding\Listeners\Silenter.cs" />
     <Compile Include="Binding\Mapping\SessionCacher.cs" />
+    <Compile Include="Infra\DispatcherSynchronizationContext.cs" />
     <Compile Include="Infra\PropertyAccessor.cs" />
     <Compile Include="JavascriptEngine\Control\IHTMLWindowProvider.cs" />
     <Compile Include="JavascriptEngine\JavascriptObject\CreationOption.cs" />

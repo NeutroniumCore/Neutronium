@@ -87,7 +87,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             foreach (var propertyInfo in propertyInfos)
             {
-                
+                var propertyName = propertyInfo.Name;
                 object childvalue;
                 try
                 {
@@ -95,13 +95,11 @@ namespace MVVM.HTML.Core.HTMLBinding
                 }
                 catch(Exception e)
                 {
-                    Trace.WriteLine(string.Format("MVVM for HTML: Unable to convert property {0} from {1} exception {2}", pn, from, e));
+                    Trace.WriteLine(string.Format("MVVM for HTML: Unable to convert property {0} from {1} exception {2}", propertyName, from, e));
                     continue;
                 }
 
-                var childres = InternalMap(childvalue);
-
-                var propertyName = propertyInfo.Name;
+                var childres = InternalMap(childvalue);          
                 _Context.WebView.Run(() => resobject.SetValue(propertyName, childres.JSValue));
                 gres.UpdateCSharpProperty(propertyName, childres);
             }

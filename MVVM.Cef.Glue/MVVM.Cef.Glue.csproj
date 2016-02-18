@@ -79,6 +79,7 @@
     <Compile Include="CefGlueHelper\CefTask_Function.cs" />
     <Compile Include="CefGlueHelper\CefV8Handler_Action.cs" />
     <Compile Include="CefGlueHelper\CefV8ValueExtension.cs" />
+    <Compile Include="CefGlueHelper\CefTaskRunnerSynchronizationContext.cs" />
     <Compile Include="CefGlueImplementation\CefV8_Helper.cs" />
     <Compile Include="CefGlueWPFWebWindow.cs" />
     <Compile Include="CefGlueWPFWebWindowFactory.cs" />
