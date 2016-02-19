@@ -40,7 +40,7 @@ function executeAsPromise(vm,fnname,argument) {
 
      function createSubsription(observable, tracker,res,att) {
          if (tracker.TrackChanges) {
-             listener = PropertyListener(res, att, tracker);
+             var listener = PropertyListener(res, att, tracker);
              observable.listener = listener;
              observable.subscriber = observable.subscribe(listener);
              observable.silent = function (v) {

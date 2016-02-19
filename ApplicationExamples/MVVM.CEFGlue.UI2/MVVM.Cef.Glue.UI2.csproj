@@ -126,6 +126,9 @@
     <Content Include="HTMLUI\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="HTMLUI\js\Enum.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
