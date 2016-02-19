@@ -10,7 +10,8 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public class KnockoutSessionInjector : IJavascriptSessionInjector {
+    public class KnockoutSessionInjector : IJavascriptSessionInjector
+    {
         private readonly IWebView _WebView;
         private readonly IJavascriptChangesObserver _JavascriptListener;
         private readonly Queue<IJavascriptObjectMapper> _JavascriptMapper = new Queue<IJavascriptObjectMapper>();
@@ -20,11 +21,13 @@ namespace MVVM.HTML.Core.HTMLBinding
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
 
-        public KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener) {
+        public KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener)
+        {
             _WebView = iWebView;
             _JavascriptListener = iJavascriptListener;
 
-            _WebView.Run(() => {
+            _WebView.Run(() =>
+            {
                 _Listener = _WebView.Factory.CreateObject(false);
 
                 if (_JavascriptListener == null)
@@ -35,7 +38,8 @@ namespace MVVM.HTML.Core.HTMLBinding
             });
         }
 
-        private void JavascriptColectionChanged(IJavascriptObject[] arguments) {
+        private void JavascriptColectionChanged(IJavascriptObject[] arguments)
+        {
             var values = arguments[1].GetArrayElements();
             var types = arguments[2].GetArrayElements();
             var indexes = arguments[3].GetArrayElements();
@@ -44,9 +48,11 @@ namespace MVVM.HTML.Core.HTMLBinding
             _JavascriptListener.OnJavaScriptCollectionChanges(collectionChange);
         }
 
-        public void Dispose() {
+        public void Dispose()
+        {
             _Silenters.Clear();
-            _WebView.Run(() => {
+            _WebView.Run(() =>
+            {
                 if (_Listener == null)
                     return;
 
@@ -55,13 +61,15 @@ namespace MVVM.HTML.Core.HTMLBinding
             });
         }
 
-        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm) {
+        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm)
+        {
             return _WebView.Evaluate(() => GetKo().Invoke("MapToObservable", _WebView, ihybridobject, GetMapper(ijvm), _Listener));
         }
 
         private IJavascriptObject _Ko;
 
-        private IJavascriptObject GetKo() {
+        private IJavascriptObject GetKo()
+        {
             if (_Ko != null)
                 return _Ko;
 
@@ -80,21 +88,15 @@ namespace MVVM.HTML.Core.HTMLBinding
             return JavascriptSource.Select(GetJavascriptCodeFromResource).All(ExcecuteOk);
         }
 
-        private IEnumerable<string> JavascriptSource
+        private static IEnumerable<string> JavascriptSource
         {
             get
             {
                 yield return "knockout.js";
                 yield return "knockout-delegatedEvents.min.js";
                 yield return "promise.min.js";
-                yield return "Ko_Extension.js";
+                yield return "Ko_Extension.min.js";
             }
-        }
-
-        private bool ExcecuteOk(string code)
-        {
-            IJavascriptObject res;
-            return _WebView.Eval(code, out res);
         }
 
         private string GetJavascriptCodeFromResource(string name)
@@ -105,6 +107,12 @@ namespace MVVM.HTML.Core.HTMLBinding
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        private bool ExcecuteOk(string code)
+        {
+            IJavascriptObject res;
+            return _WebView.Eval(code, out res);
         }
 
         private IJavascriptObject GetMapper(IJavascriptObjectMapper iMapperListener)

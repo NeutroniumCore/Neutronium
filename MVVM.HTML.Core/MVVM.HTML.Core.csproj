@@ -163,9 +163,9 @@
     <EmbeddedResource Include="Binding\Mapping\KnockoutInject\javascript\knockout-delegatedEvents.min.js" />
     <EmbeddedResource Include="Binding\Mapping\KnockoutInject\javascript\knockout.js" />
     <EmbeddedResource Include="Binding\Mapping\KnockoutInject\javascript\Ko_Extension.js" />
-    <Content Include="Binding\Mapping\KnockoutInject\javascript\Ko_Extension.min.js">
+    <EmbeddedResource Include="Binding\Mapping\KnockoutInject\javascript\Ko_Extension.min.js">
       <DependentUpon>Ko_Extension.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="Binding\Mapping\KnockoutInject\javascript\promise.min.js" />
     <Content Include="Javascript\Ko_Extension.min.js.map">
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
