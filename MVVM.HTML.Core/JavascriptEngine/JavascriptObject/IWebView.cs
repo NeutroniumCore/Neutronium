@@ -42,13 +42,16 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <param name="code">
         /// javascript code to be executed
         /// </param>
+        /// <param name="res">
+        /// javascript object returned by the code
+        /// </param>
         /// <returns>
         /// true if code run without error
         ///</returns>
         bool Eval(string code, out IJavascriptObject res);
 
         /// <summary>
-        ///  Evaluate a javascript code with result
+        ///  Evaluate a javascript code without result
         /// </summary>
         void ExecuteJavaScript(string code);
     }

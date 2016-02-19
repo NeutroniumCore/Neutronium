@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding.Mapping;
@@ -9,53 +10,43 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {
-    public class KnockoutSessionInjector : IJavascriptSessionInjector
-    {
+    public class KnockoutSessionInjector : IJavascriptSessionInjector {
         private readonly IWebView _WebView;
         private readonly IJavascriptChangesObserver _JavascriptListener;
         private readonly Queue<IJavascriptObjectMapper> _JavascriptMapper = new Queue<IJavascriptObjectMapper>();
-        private readonly IDictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>>
-                            _Silenters = new Dictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>>();
+        private readonly IDictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>> _Silenters = new Dictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>>();
         private IJavascriptObject _Listener;
         private IJavascriptObjectMapper _Current;
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
 
-        public KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener)
-        {
+        public KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener) {
             _WebView = iWebView;
             _JavascriptListener = iJavascriptListener;
 
-            _WebView.Run(() =>
-                {
-                    _Listener = _WebView.Factory.CreateObject(false);
+            _WebView.Run(() => {
+                _Listener = _WebView.Factory.CreateObject(false);
 
-                    if (_JavascriptListener == null)
-                        return;
+                if (_JavascriptListener == null)
+                    return;
 
-                    _Listener.Bind("TrackChanges", _WebView, (e) => _JavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
-                    _Listener.Bind("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
-                });
+                _Listener.Bind("TrackChanges", _WebView, (e) => _JavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
+                _Listener.Bind("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
+            });
         }
 
-        private void JavascriptColectionChanged(IJavascriptObject[] arguments)
-        {
+        private void JavascriptColectionChanged(IJavascriptObject[] arguments) {
             var values = arguments[1].GetArrayElements();
             var types = arguments[2].GetArrayElements();
             var indexes = arguments[3].GetArrayElements();
-            var collectionChange = new JavascriptCollectionChanges(arguments[0], values.Zip(types, indexes,
-                                            (v, t, i) => new IndividualJavascriptCollectionChange(
-                                                t.GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove,
-                                                i.GetIntValue(), v)));
+            var collectionChange = new JavascriptCollectionChanges(arguments[0], values.Zip(types, indexes, (v, t, i) => new IndividualJavascriptCollectionChange(t.GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove, i.GetIntValue(), v)));
 
             _JavascriptListener.OnJavaScriptCollectionChanges(collectionChange);
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             _Silenters.Clear();
-            _WebView.Run(() =>
-            {
+            _WebView.Run(() => {
                 if (_Listener == null)
                     return;
 
@@ -64,25 +55,56 @@ namespace MVVM.HTML.Core.HTMLBinding
             });
         }
 
-        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm)
-        {
-            return _WebView.Evaluate(() =>
-                {
-                    return GetKo().Invoke("MapToObservable", _WebView, ihybridobject, GetMapper(ijvm), _Listener);
-                });
+        public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm) {
+            return _WebView.Evaluate(() => GetKo().Invoke("MapToObservable", _WebView, ihybridobject, GetMapper(ijvm), _Listener));
         }
 
         private IJavascriptObject _Ko;
-        private IJavascriptObject GetKo()
-        {
-            if (_Ko == null)
-            {
-                _Ko = _WebView.GetGlobal().GetValue("ko");
-                if ((_Ko == null) || (!_Ko.IsObject))
-                    throw ExceptionHelper.NoKo();
-            }
+
+        private IJavascriptObject GetKo() {
+            if (_Ko != null)
+                return _Ko;
+
+            if (!LoadKnockoutCode())
+                throw ExceptionHelper.NoKo();
+
+            _Ko = _WebView.GetGlobal().GetValue("ko");
+            if ((_Ko == null) || (!_Ko.IsObject))
+                throw ExceptionHelper.NoKo();
 
             return _Ko;
+        }
+
+        private bool LoadKnockoutCode()
+        {
+            return JavascriptSource.Select(GetJavascriptCodeFromResource).All(ExcecuteOk);
+        }
+
+        private IEnumerable<string> JavascriptSource
+        {
+            get
+            {
+                yield return "knockout.js";
+                yield return "knockout-delegatedEvents.min.js";
+                yield return "promise.min.js";
+                yield return "Ko_Extension.js";
+            }
+        }
+
+        private bool ExcecuteOk(string code)
+        {
+            IJavascriptObject res;
+            return _WebView.Eval(code, out res);
+        }
+
+        private string GetJavascriptCodeFromResource(string name)
+        {
+            var fullPath = string.Format("MVVM.HTML.Core.Binding.Mapping.KnockoutInject.javascript.{0}", name);
+            using (var stream = GetType().Assembly.GetManifestResourceStream(fullPath))
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
         }
 
         private IJavascriptObject GetMapper(IJavascriptObjectMapper iMapperListener)
@@ -138,15 +160,15 @@ namespace MVVM.HTML.Core.HTMLBinding
             return _Mapper;
         }
 
-        public Task RegisterMainViewModel(IJavascriptObject iJSObject)
+        public Task RegisterMainViewModel(IJavascriptObject jsObject)
         {
             var ko = GetKo();
 
             return _WebView.RunAsync(() =>
                 {
                     ko.Bind("log", _WebView, (e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
-                    ko.Invoke("register", _WebView, iJSObject);
-                    ko.Invoke("applyBindings", _WebView, iJSObject);
+                    ko.Invoke("register", _WebView, jsObject);
+                    ko.Invoke("applyBindings", _WebView, jsObject);
                 });
         }
 

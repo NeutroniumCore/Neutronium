@@ -35,7 +35,7 @@ namespace MVVM.HTML.Core.Binding.Mapping
         /// <returns>
         /// task that completes when all binding are done
         ///</returns>
-        Task RegisterMainViewModel(IJavascriptObject viewModel);
+        Task RegisterMainViewModel(IJavascriptObject jsObject);
 
         /// <summary>
         /// Update javascript viewmodel without raising listeners events
