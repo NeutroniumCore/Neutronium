@@ -23,6 +23,11 @@ namespace MVVM.HTML.Core.Window
         void NavigateTo(string path);
 
         /// <summary>
+        /// Url of the browser
+        /// </summary>
+        string Url { get; }
+
+        /// <summary>
         /// true if the content is loaded and ready
         /// </summary>
         bool IsLoaded { get; }
@@ -36,5 +41,10 @@ namespace MVVM.HTML.Core.Window
         /// event fired when the console log is called in the browser
         /// </summary>
         event EventHandler<ConsoleMessageArgs> ConsoleMessage;
+
+        /// <summary>
+        /// event fired when browser process crashed
+        /// </summary>
+        event EventHandler<BrowserCrashedArgs> Crashed;
     }
 }

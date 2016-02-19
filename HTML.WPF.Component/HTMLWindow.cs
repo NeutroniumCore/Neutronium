@@ -7,8 +7,6 @@ namespace HTML_WPF.Component
 {
     public class HTMLWindow : HTMLControlBase, INavigationSolver, IWebViewLifeCycleManager, IDisposable
     {
-        private readonly INavigationBuilder _INavigationBuilder;
-
         public HTMLWindow() : this(new NavigationBuilder())
         {
         }

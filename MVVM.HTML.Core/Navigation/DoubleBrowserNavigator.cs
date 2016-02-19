@@ -17,22 +17,19 @@ namespace MVVM.HTML.Core
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
         private readonly IJavascriptSessionInjectorFactory _JavascriptSessionInjectorFactory;
+        private readonly IUrlSolver _UrlSolver;        
         private IHTMLWindowProvider _CurrentWebControl;
         private IHTMLWindowProvider _NextWebControl;
-
         private IHTMLBinding _HTMLBinding;
-        private IUrlSolver _UrlSolver;
-
+        private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
         private string _Url;
         private bool _Disposed = false;
         private bool _Navigating = false;
         private HTMLLogicWindow _Window;
 
         public string Url { get { return _Url; } }
-
         public IHTMLWindowProvider WebControl { get { return _CurrentWebControl; } }
 
-        private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
 
         public IWebSessionWatcher WebSessionWatcher
         {
@@ -98,7 +95,7 @@ namespace MVVM.HTML.Core
 
             _CurrentWebControl = _NextWebControl;     
             _NextWebControl = null;
-            //_CurrentWebControl.Crashed += Crashed;
+            _CurrentWebControl.HTMLWindow.Crashed += Crashed;
 
             _CurrentWebControl.Show();
     
@@ -124,39 +121,31 @@ namespace MVVM.HTML.Core
                 .RunAsync( () => FireLoaded(inavgable) );
         }
 
-        //private void LogCritical(string iMessage)
-        //{
-        //    _IWebSessionWatcher.LogCritical(iMessage);
-
-        //    Trace.WriteLine(string.Format("MVVM for CEFGlue: Critical: {0}", iMessage));
-        //}
+        private void LogCritical(string iMessage)
+        {
+            _IWebSessionWatcher.LogCritical(iMessage);
+            Trace.WriteLine(string.Format("MVVM for CEFGlue: Critical: {0}", iMessage));
+        }
 
         private void LogBrowser(string iMessage)
         {
             _IWebSessionWatcher.LogBrowser(iMessage);
-
             Trace.WriteLine(string.Format("MVVM for CEFGlue: WebSession log message: {0}", iMessage));
         }
 
-        //private void Crashed(object sender, CrashedEventArgs e)
-        //{
-        //    if ((WebCore.IsShuttingDown) || (!WebCore.IsInitialized) || (Application.Current==null))
-        //        return;
+        private void Crashed(object sender, BrowserCrashedArgs e)
+        {
+            var dest = _CurrentWebControl.HTMLWindow.Url;
+            var vm = Binding.Root;
+            var mode = Binding.Mode;
 
-        //    var dest = _CurrentWebControl.Source;
-        //    var vm = Binding.Root;
+            LogCritical("WebView crashed trying recover");
 
-        //    LogCritical("WebView crashed trying recover");
-   
-        //    _IWebViewLifeCycleManager.Dispose(_CurrentWebControl);
-        //    _CurrentWebControl.ConsoleMessage -= ConsoleMessage;
-        //    _CurrentWebControl.Crashed -= Crashed;
-        //    _CurrentWebControl = null;
+            CleanWebControl(ref _CurrentWebControl);
+            Binding = null;
 
-        //    Binding = null;
-
-        //    WebCore.QueueWork(() => Navigate(dest, vm, JavascriptBindingMode.TwoWay));
-        //}
+            Navigate(dest, vm, mode);
+        }
 
         private Task Navigate(string iUri, object iViewModel, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
@@ -174,8 +163,8 @@ namespace MVVM.HTML.Core
 
             var wh = new WindowHelper(new HTMLLogicWindow());
 
-            //if (_CurrentWebControl != null)
-            //    _CurrentWebControl.Crashed -= Crashed;
+            if (_CurrentWebControl != null)
+                _CurrentWebControl.HTMLWindow.Crashed -= Crashed;
 
             Task closetask = ( _CurrentWebControl!=null) ? _Window.CloseAsync() : TaskHelper.Ended();
 
@@ -205,7 +194,6 @@ namespace MVVM.HTML.Core
         {
             return _JavascriptSessionInjectorFactory;
         }
-
 
         public void ExcecuteJavascript(string icode)
         {
@@ -246,7 +234,7 @@ namespace MVVM.HTML.Core
             if (iWebControl == null)
                 return;
 
-            //iWebControl.Crashed -= Crashed;
+            iWebControl.HTMLWindow.Crashed -= Crashed;
             iWebControl.HTMLWindow.ConsoleMessage -= ConsoleMessage;
             iWebControl.Dispose();
             iWebControl = null;

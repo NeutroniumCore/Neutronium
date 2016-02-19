@@ -26,6 +26,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         public IJSCSGlue JSValueRoot { get { return _Root; } }
         public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
+        public JavascriptBindingMode Mode { get { return _BindingMode; } }
 
         internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
         { 

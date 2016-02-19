@@ -30,6 +30,8 @@ namespace MVVM.HTML.Core
             });
         }
 
+        public JavascriptBindingMode Mode { get { return JavascriptBindingMode.OneTime; } }
+
         public IJavascriptObject JSRootObject
         {
             get { return _Root; }

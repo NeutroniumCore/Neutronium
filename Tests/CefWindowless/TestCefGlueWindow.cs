@@ -39,7 +39,18 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
             throw new NotImplementedException();
         }
 
+        public string Url
+        {
+            get { return _CefFrame.Url; }
+        }
+
         public event EventHandler<HTML.Core.JavascriptEngine.ConsoleMessageArgs> ConsoleMessage
+        {
+            add { } remove { }
+        }
+
+
+        public event EventHandler<HTML.Core.JavascriptEngine.BrowserCrashedArgs> Crashed
         {
             add { } remove { }
         }

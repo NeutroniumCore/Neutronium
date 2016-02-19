@@ -897,5 +897,10 @@ namespace MVVM.Cef.Glue.WPF
         {
             get { return _browser.GetMainFrame().GetMainContext(); }
         }
+
+        public event EventHandler<BrowserCrashedArgs> Crashed
+        {
+            add { } remove { }
+        }
     }
 }

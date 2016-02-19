@@ -27,6 +27,8 @@ namespace MVVM.HTML.Core
             get { return _BirectionalMapper.JSValueRoot.GetJSSessionValue(); }
         }
 
+        public JavascriptBindingMode Mode { get { return _BirectionalMapper.Mode; } }
+
         public IWebView Context { get { return _Context.WebView; } }
 
         public object Root

@@ -6,6 +6,8 @@ namespace MVVM.HTML.Core
 {
     public interface IHTMLBinding : IDisposable
     {
+        JavascriptBindingMode Mode { get; }
+
         IWebView Context { get; }
 
         IJavascriptSessionInjector JavascriptUIFramework { get; }

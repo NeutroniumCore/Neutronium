@@ -16,8 +16,18 @@ namespace MVVM.Awesomium
             _WebControl.SynchronousMessageTimeout = 0;
             _WebControl.ExecuteWhenReady(FireLoaded);
             _WebControl.ConsoleMessage += _WebControl_ConsoleMessage;
+            _WebControl.Crashed += _WebControl_Crashed;
 
             MainFrame = new AwesomiumWebView(_WebControl);
+        }
+
+        private void _WebControl_Crashed(object sender, CrashedEventArgs e)
+        {
+            if ((WebCore.IsShuttingDown) || (!WebCore.IsInitialized))
+                return;
+
+            if (Crashed != null)
+                Crashed(this, new BrowserCrashedArgs());
         }
 
         private void _WebControl_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
@@ -26,14 +36,14 @@ namespace MVVM.Awesomium
                 ConsoleMessage(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
         }
 
-        public   HTML.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame
+        public HTML.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame
         {
             get;  private set;
         }
 
         public void NavigateTo(string path)
         {
-            _WebControl.Source = new Uri( path);
+            _WebControl.Source = new Uri(path);
         }
 
         public bool IsLoaded
@@ -51,9 +61,16 @@ namespace MVVM.Awesomium
 
         public event EventHandler<ConsoleMessageArgs> ConsoleMessage;
 
+        public event EventHandler<BrowserCrashedArgs> Crashed;
+
         public void Dispose()
         {
             _WebControl.ConsoleMessage -= _WebControl_ConsoleMessage;
+        }
+
+        public string Url
+        {
+            get { return _WebControl.Source.AbsolutePath; }
         }
     }
 }

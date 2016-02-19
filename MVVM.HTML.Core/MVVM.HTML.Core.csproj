@@ -121,6 +121,7 @@
     <Compile Include="Infra\DictionaryExtension.cs" />
     <Compile Include="Infra\TypeExtension.cs" />
     <Compile Include="Infra\VM\ViewModelBase.cs" />
+    <Compile Include="JavascriptEngine\Window\BrowserCrashedArgs.cs" />
     <Compile Include="JavascriptEngine\Window\ConsoleMessageArgs.cs" />
     <Compile Include="JavascriptEngine\Window\IDispatcher.cs" />
     <Compile Include="JavascriptEngine\Window\IHTMLWindow.cs" />
