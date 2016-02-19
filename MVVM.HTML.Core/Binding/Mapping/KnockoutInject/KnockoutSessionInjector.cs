@@ -85,7 +85,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private bool LoadKnockoutCode()
         {
-            return JavascriptSource.Select(GetJavascriptCodeFromResource).All(ExcecuteOk);
+            return JavascriptSource.Select(GetJavascriptCodeFromResource).All(Excecute);
         }
 
         private static IEnumerable<string> JavascriptSource
@@ -109,7 +109,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             }
         }
 
-        private bool ExcecuteOk(string code)
+        private bool Excecute(string code)
         {
             IJavascriptObject res;
             return _WebView.Eval(code, out res);

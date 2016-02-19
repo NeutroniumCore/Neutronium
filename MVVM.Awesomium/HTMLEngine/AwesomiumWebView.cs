@@ -10,10 +10,10 @@ namespace MVVM.Awesomium
 {
     internal class AwesomiumWebView : MVVMIWebView
     {
-        private AwesomiumIWebView _IWebView;
-        private IDispatcher _Dispatcher;
-        private AwesomiumJavascriptObjectConverter _AwesomiumJavascriptObjectConverter;
-        private AwesomiumJavascriptObjectFactory _AwesomiumJavascriptObjectFactory;
+        private readonly AwesomiumIWebView _IWebView;
+        private readonly IDispatcher _Dispatcher;
+        private readonly AwesomiumJavascriptObjectConverter _AwesomiumJavascriptObjectConverter;
+        private readonly AwesomiumJavascriptObjectFactory _AwesomiumJavascriptObjectFactory;
         public AwesomiumWebView(AwesomiumIWebView iwebview)
         {
             _IWebView = iwebview;

@@ -5,12 +5,12 @@ namespace MVVM.Awesomium
 {
     internal class ViewReadyExecuter
     {
-        private IWebView _IWebView;
-        private Action _Do;
+        private readonly IWebView _WebView;
+        private readonly Action _Do;
         private int _DoneCount = 0;
-        internal ViewReadyExecuter(IWebView iview, Action Do)
+        internal ViewReadyExecuter(IWebView view, Action Do)
         {
-            _IWebView = iview;
+            _WebView = view;
             _Do = Do;
         }
 
@@ -18,13 +18,13 @@ namespace MVVM.Awesomium
         {
             WebCore.QueueWork(() =>
             {
-                if (_IWebView.IsDocumentReady)
+                if (_WebView.IsDocumentReady)
                     _DoneCount++;
                 else
-                    _IWebView.DocumentReady += _IWebView_DocumentReady;
+                    _WebView.DocumentReady += WebViewDocumentReady;
 
-                if (_IWebView.IsLoading)
-                    _IWebView.LoadingFrameComplete += _IWebView_LoadingFrameComplete;
+                if (_WebView.IsLoading)
+                    _WebView.LoadingFrameComplete += WebViewLoadingFrameComplete;
                 else
                     _DoneCount++;
 
@@ -32,18 +32,18 @@ namespace MVVM.Awesomium
             });
         }
 
-        void _IWebView_LoadingFrameComplete(object sender, FrameEventArgs e)
+        private void WebViewLoadingFrameComplete(object sender, FrameEventArgs e)
         {
             if (e.IsMainFrame)
             {
-                _IWebView.LoadingFrameComplete -= _IWebView_LoadingFrameComplete;
+                _WebView.LoadingFrameComplete -= WebViewLoadingFrameComplete;
                 CheckCompletion();
             }
         }
 
-        private void _IWebView_DocumentReady(object sender, UrlEventArgs e)
+        private void WebViewDocumentReady(object sender, UrlEventArgs e)
         {
-            _IWebView.DocumentReady -= _IWebView_DocumentReady;
+            _WebView.DocumentReady -= WebViewDocumentReady;
             CheckCompletion();
         }
 

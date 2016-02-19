@@ -17,7 +17,7 @@ namespace MVVM.Awesomium
 
         public static JSValue Convert(this IJavascriptObject ivalue)
         {
-            return (ivalue as JSValue_JavascriptObject).JSValue;
+            return ((JSValue_JavascriptObject) ivalue).JSValue;
         }
     }
 }

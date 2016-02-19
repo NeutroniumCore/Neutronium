@@ -6,10 +6,10 @@ namespace MVVM.Awesomium.HTMLEngine
 {
     internal class AwesomiumJavascriptObjectConverter : IJavascriptObjectConverter
     {
-        private readonly Awesomium_Core.IWebView _IWebView;
-        public AwesomiumJavascriptObjectConverter(Awesomium_Core.IWebView iIWebView)
+        private readonly Awesomium_Core.IWebView _WebView;
+        public AwesomiumJavascriptObjectConverter(Awesomium_Core.IWebView webView)
         {
-            _IWebView = iIWebView;
+            _WebView = webView;
         }
 
         public bool GetSimpleValue(IJavascriptObject value, out object res, Type iTargetType = null)
@@ -54,7 +54,7 @@ namespace MVVM.Awesomium.HTMLEngine
             if (ob == null)
                 return null;
 
-            Awesomium_Core.JSObject ko = _IWebView.ExecuteJavascriptWithResult("ko");
+            Awesomium_Core.JSObject ko = _WebView.ExecuteJavascriptWithResult("ko");
             if ((bool)ko.Invoke("isDate", iJSValue) == false)
                 return null;
 

@@ -8,7 +8,7 @@ namespace MVVM.Awesomium
     {
         private static Task<T> EvaluateSafeAsync<T>(this IWebView iwb, Func<T> evaluate)
         {
-            TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
+            var tcs = new TaskCompletionSource<T>();
             WebCore.QueueWork(iwb, () => tcs.SetResult(evaluate()));
             return tcs.Task;
         }
@@ -25,9 +25,9 @@ namespace MVVM.Awesomium
             }
         }
 
-        public static void ExecuteWhenReady(this IWebView view, Action ToBeApply)
+        public static void ExecuteWhenReady(this IWebView view, Action toBeApplied)
         {
-            new ViewReadyExecuter(view, ToBeApply).Do();
+            new ViewReadyExecuter(view, toBeApplied).Do();
         }
     }
 }

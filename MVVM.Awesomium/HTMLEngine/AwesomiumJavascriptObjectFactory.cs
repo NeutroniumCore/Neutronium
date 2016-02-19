@@ -43,10 +43,10 @@ namespace MVVM.Awesomium.HTMLEngine
             Register<string>((source, b) => new Awesomium_Core.JSValue(source));
             Register<Int64>((source, b) => new Awesomium_Core.JSValue(source));
             Register<Int32>((source, b) => new Awesomium_Core.JSValue(source));
-            Register<Int16>((source, b) => new Awesomium_Core.JSValue((int)source));
+            Register<Int16>((source, b) => new Awesomium_Core.JSValue(source));
             Register<UInt64>((source, b) => new Awesomium_Core.JSValue(source));
             Register<UInt32>((source, b) => new Awesomium_Core.JSValue(source));
-            Register<UInt16>((source, b) => new Awesomium_Core.JSValue((int)source));
+            Register<UInt16>((source, b) => new Awesomium_Core.JSValue(source));
             Register<float>((source, b) => new Awesomium_Core.JSValue(source));
             Register<char>((source, b) => new Awesomium_Core.JSValue(source));
             Register<double>((source, b) => new Awesomium_Core.JSValue(source));
