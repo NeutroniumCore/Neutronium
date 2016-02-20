@@ -13,7 +13,7 @@ namespace MVVM.Cef.Glue.CefSession
 
         internal MVVMCefApp()
         {
-            _MVVMCefLoadHandler = new MVVMCefLoadHandler();
+            _MVVMCefLoadHandler = new MVVMCefLoadHandler(this);
             _MVVMCefRenderProcessHandler = new MVVMCefRenderProcessHandler(this, _MVVMCefLoadHandler);
         }
 
@@ -25,6 +25,15 @@ namespace MVVM.Cef.Glue.CefSession
         internal void Reset(CefFrame frame)
         {
             _Associated.Remove(frame.Identifier);
+        }
+
+        internal void EnsureLoaded(CefFrame frame)
+        {
+            var view = GetContext(frame);
+            if (view != null)
+                return;
+            //run dummy script to load context
+            frame.ExecuteJavaScript("(funcion(){}())", string.Empty, 0);
         }
 
         internal IWebView GetContext(CefFrame frame)
