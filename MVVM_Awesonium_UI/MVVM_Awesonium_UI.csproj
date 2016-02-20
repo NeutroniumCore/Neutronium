@@ -154,6 +154,9 @@
     <Content Include="src\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="src\js\Enum.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="src\js\init.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

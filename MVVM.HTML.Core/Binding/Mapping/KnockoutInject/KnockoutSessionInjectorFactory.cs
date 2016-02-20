@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using MVVM.HTML.Core.HTMLBinding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.Infra;
 
 namespace MVVM.HTML.Core.Binding.Mapping
 {
@@ -17,12 +18,9 @@ namespace MVVM.HTML.Core.Binding.Mapping
             if (_JavascriptDebugScript != null)
                 return _JavascriptDebugScript;
 
-            using (var stream = GetType().Assembly.GetManifestResourceStream("MVVM.HTML.Core.Binding.Mapping.KnockoutInject.javascript.ko-view.min.js"))
-            using (var reader = new StreamReader(stream))
-            {
-                _JavascriptDebugScript = reader.ReadToEnd();
-            }
-            return _JavascriptDebugScript;
+            _JavascriptDebugScript = new ResourceReader("MVVM.HTML.Core.Binding.Mapping.KnockoutInject.javascript",this)
+                                                  .Load("ko-view.min.js");
+            return _JavascriptDebugScript ;
         }
 
         public bool HasDebugScript()

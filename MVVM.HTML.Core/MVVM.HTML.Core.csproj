@@ -107,6 +107,7 @@
     <Compile Include="Binding\Mapping\SessionCacher.cs" />
     <Compile Include="Infra\DispatcherSynchronizationContext.cs" />
     <Compile Include="Infra\PropertyAccessor.cs" />
+    <Compile Include="Infra\ResourceReader.cs" />
     <Compile Include="JavascriptEngine\Control\IHTMLWindowProvider.cs" />
     <Compile Include="JavascriptEngine\JavascriptObject\CreationOption.cs" />
     <Compile Include="JavascriptEngine\JavascriptObject\IJavascriptObject.cs" />
@@ -167,6 +168,9 @@
       <DependentUpon>Ko_Extension.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Binding\Mapping\KnockoutInject\javascript\promise.min.js" />
+    <EmbeddedResource Include="Binding\Mapping\scripts\Infra.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Javascript\Ko_Extension.min.js.map">
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

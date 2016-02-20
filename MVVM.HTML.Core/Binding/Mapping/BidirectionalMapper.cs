@@ -43,9 +43,18 @@ namespace MVVM.HTML.Core.HTMLBinding
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
             var commandFactory = new CommandFactory(context, this);
+            RegisterJavascriptHelper();
             _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, commandFactory) ;
             _Root = _JSObjectBuilder.Map(iRoot, iadd); 
         }
+
+        private void RegisterJavascriptHelper()
+        {
+            IJavascriptObject res;
+            var resource = new ResourceReader("MVVM.HTML.Core.Binding.Mapping.scripts", this);
+            _Context.WebView.Eval(resource.Load("Infra.js"), out res);
+        }
+
 
         private async Task RunInJavascriptContext(Action Run)
         {

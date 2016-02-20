@@ -85,7 +85,8 @@ namespace MVVM.HTML.Core.HTMLBinding
 
         private bool LoadKnockoutCode()
         {
-            return JavascriptSource.Select(GetJavascriptCodeFromResource).All(Excecute);
+            var resourceLoader = new ResourceReader("MVVM.HTML.Core.Binding.Mapping.KnockoutInject.javascript", this);
+            return JavascriptSource.Select(resourceLoader.Load).All(Excecute);
         }
 
         private static IEnumerable<string> JavascriptSource
@@ -96,16 +97,6 @@ namespace MVVM.HTML.Core.HTMLBinding
                 yield return "knockout-delegatedEvents.min.js";
                 yield return "promise.min.js";
                 yield return "Ko_Extension.min.js";
-            }
-        }
-
-        private string GetJavascriptCodeFromResource(string name)
-        {
-            var fullPath = string.Format("MVVM.HTML.Core.Binding.Mapping.KnockoutInject.javascript.{0}", name);
-            using (var stream = GetType().Assembly.GetManifestResourceStream(fullPath))
-            using (var reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
             }
         }
 
