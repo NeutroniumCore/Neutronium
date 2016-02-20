@@ -9,7 +9,7 @@ namespace MVVM.ViewModel.Example.ForNavigation
     {
         public Person():base()
         {
-            GoCouple = new RelayCommand(() => Navigation.NavigateAsync(Couple));
+            GoCouple = new RelayCommand(() => { if (Navigation != null) Navigation.NavigateAsync(Couple); });
         }
         public INavigationSolver Navigation { get; set; }
 

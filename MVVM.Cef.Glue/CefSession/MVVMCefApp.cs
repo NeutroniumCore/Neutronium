@@ -2,6 +2,7 @@
 using Xilium.CefGlue;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using System.Threading.Tasks;
 
 namespace MVVM.Cef.Glue.CefSession
 {
@@ -10,6 +11,8 @@ namespace MVVM.Cef.Glue.CefSession
         private readonly MVVMCefRenderProcessHandler _MVVMCefRenderProcessHandler;
         private readonly MVVMCefLoadHandler _MVVMCefLoadHandler;
         private readonly IDictionary<long, IWebView> _Associated = new Dictionary<long, IWebView>();
+        private readonly IDictionary<long, TaskCompletionSource<IWebView>> _TaskCompletionSources
+            = new Dictionary<long, TaskCompletionSource<IWebView>>();
 
         internal MVVMCefApp()
         {
@@ -19,7 +22,15 @@ namespace MVVM.Cef.Glue.CefSession
 
         internal void Associate(CefBrowser browser, CefFrame frame, CefV8Context context)
         {
-            _Associated.Add(frame.Identifier, new CefV8_WebView(context, context.GetTaskRunner()));
+            var webView = new CefV8_WebView(context,context.GetTaskRunner());
+            var taskCompletionSource =  _TaskCompletionSources.GetOrDefault(frame.Identifier);  
+            if (taskCompletionSource!=null)
+            {
+                _TaskCompletionSources.Remove(frame.Identifier);
+                taskCompletionSource.TrySetResult(webView);
+            }
+            _Associated.Add(frame.Identifier, webView);
+          
         }
 
         internal void Reset(CefFrame frame)
@@ -32,12 +43,19 @@ namespace MVVM.Cef.Glue.CefSession
             var view = GetContext(frame);
             if (view != null)
                 return;
+            var taskCompletionSource = new TaskCompletionSource<IWebView>();
+            _TaskCompletionSources.Add(frame.Identifier, taskCompletionSource);
             //run dummy script to load context
-            frame.ExecuteJavaScript("(funcion(){}())", string.Empty, 0);
+            frame.ExecuteJavaScript("(function(){})()", string.Empty, 0);
+            //taskCompletionSource.Task.Wait();
         }
 
         internal IWebView GetContext(CefFrame frame)
         {
+            var taskCompletionSource = _TaskCompletionSources.GetOrDefault(frame.Identifier);
+            if (taskCompletionSource != null)
+                return taskCompletionSource.Task.Result;
+
             return _Associated.GetOrDefault(frame.Identifier);
         }
 

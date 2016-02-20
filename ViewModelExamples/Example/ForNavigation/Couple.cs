@@ -7,12 +7,16 @@ namespace MVVM.ViewModel.Example.ForNavigation
 {
     public class Couple : MVVM.ViewModel.Example.Couple, INavigable
     {
-         public Couple():base()
+        public Couple() : base()
         {
-            GoOne = new RelayCommand(() => 
-                Navigation.NavigateAsync(One));
-            GoTwo = new RelayCommand(() => 
-                Navigation.NavigateAsync(Two));
+            GoOne = new RelayCommand(() => Goto(One));
+            GoTwo = new RelayCommand(() => Goto(Two));
+        }
+
+        private void Goto(MVVM.ViewModel.Example.Person person)
+        {
+            if (Navigation != null)
+                Navigation.NavigateAsync(person);
         }
 
         public INavigationSolver Navigation { get; set; }
