@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -8,7 +7,7 @@ namespace MVVM.HTML.Core
 {
     public class StringBinding :  IHTMLBinding
     {
-        private IJavascriptSessionInjector _JavascriptSessionInjector;
+        private readonly IJavascriptSessionInjector _JavascriptSessionInjector;
         private readonly IJavascriptObject _Root;
         private readonly HTMLViewContext _Context;
 

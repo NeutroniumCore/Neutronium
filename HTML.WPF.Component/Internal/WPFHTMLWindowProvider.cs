@@ -19,7 +19,7 @@ namespace HTML_WPF.Component
 
         public IHTMLWindow HTMLWindow
         {
-            get { return _IWPFWebWindow.IHTMLWindow; }
+            get { return _IWPFWebWindow.HTMLWindow; }
         }
 
         public IWPFWebWindow IWPFWebWindow

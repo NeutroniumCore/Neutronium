@@ -30,7 +30,7 @@ namespace MVVM.Awesomium
             _AwesomiumHTMLWindow = new AwesomiumHTMLWindow(_WebControl);     
         }
 
-        public IHTMLWindow IHTMLWindow
+        public IHTMLWindow HTMLWindow
         {
             get { return _AwesomiumHTMLWindow; }
         }

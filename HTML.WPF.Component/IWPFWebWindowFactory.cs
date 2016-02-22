@@ -13,7 +13,7 @@ namespace HTML_WPF.Component
         string EngineName { get; }
 
         /// <summary>
-        /// value of the .Net Glue to javascript engine
+        /// value of the .Net glue framework to javascript engine
         /// </summary>
         string Name { get; }
 

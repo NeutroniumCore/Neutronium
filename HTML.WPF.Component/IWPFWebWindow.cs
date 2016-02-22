@@ -13,15 +13,15 @@ namespace HTML_WPF.Component
         /// <summary>
         /// Get the browser HTMLWindow
         /// </summary>
-        IHTMLWindow IHTMLWindow { get; }
+        IHTMLWindow HTMLWindow { get; }
 
         /// <summary>
         /// Inject a key event to the browser
         /// </summary>
-        /// <param name="Key">
+        /// <param name="keyToInject">
         /// the key value to inject to the browser
         /// </param>
-        void Inject(Key KeyToInject);
+        void Inject(Key keyToInject);
 
         /// <summary>
         /// Get the UIElement representing the browser

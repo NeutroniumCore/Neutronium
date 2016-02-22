@@ -8,6 +8,17 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
     /// </summary>
     public interface IJavascriptSessionInjectorFactory
     {
+
+        /// <summary>
+        /// Get the name and version of unferlying javascript framework
+        /// </summary>
+        string FrameworkName { get; }
+
+        /// <summary>
+        /// name of the javascript C# bridge engine
+        /// </summary>
+        string Name { get; }
+
         /// <summary>
         /// Create an IJavascriptSessionInjector from webview and IJavascriptChangesObserver
         /// </summary>
@@ -23,17 +34,15 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver);
 
         /// <summary>
-        /// Callback called on page load before any javascript is excecuted.
-        /// Allow to automatically execute scripts.
-        /// Notr that not all javascriot browser support this function
-        /// </summary>
-        void ExcecuteFirst(Action<string> executeSript);
-
-        /// <summary>
         /// return javascript debug script to allow interactive debug
         /// of view model bound to the view
         /// </summary>
         string GetDebugScript();
+
+        /// <summary>
+        /// return main javascript debug including framework code
+        /// </summary>
+        string GetMainScript();
 
         /// <summary>
         /// true if the injector returns a valid devug script

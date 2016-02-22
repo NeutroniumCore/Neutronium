@@ -9,7 +9,6 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
@@ -27,11 +26,11 @@ namespace MVVM.HTML.Core
         private string _Url;
         private bool _Disposed = false;
         private bool _Navigating = false;
+        private bool _UseINavigable = false;
         private HTMLLogicWindow _Window;
 
         public string Url { get { return _Url; } }
         public IHTMLWindowProvider WebControl { get { return _CurrentWebControl; } }
-
 
         public IWebSessionWatcher WebSessionWatcher
         {
@@ -156,7 +155,7 @@ namespace MVVM.HTML.Core
 
             _Navigating = true;
 
-            INavigable oldvm = (Binding != null) ? Binding.Root as INavigable : null;
+            var oldvm = (Binding != null) ? Binding.Root as INavigable : null;
 
             if (_UseINavigable && (oldvm!=null))
             {
@@ -180,7 +179,7 @@ namespace MVVM.HTML.Core
                 before = (o,e) =>
                 {
                     moderWindow.BeforeJavascriptExecuted -= before;
-                    _JavascriptSessionInjectorFactory.ExcecuteFirst(e.JavascriptExecutor);
+                    e.JavascriptExecutor(_JavascriptSessionInjectorFactory.GetMainScript());
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }
@@ -254,7 +253,6 @@ namespace MVVM.HTML.Core
             iWebControl = null;
         }
 
-        private bool _UseINavigable = false;
         public bool UseINavigable
         {
             get { return _UseINavigable; }

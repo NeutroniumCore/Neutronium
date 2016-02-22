@@ -1,5 +1,4 @@
 ﻿using System;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 

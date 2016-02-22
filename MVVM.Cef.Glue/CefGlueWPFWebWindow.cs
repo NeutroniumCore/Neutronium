@@ -23,7 +23,7 @@ namespace MVVM.Cef.Glue
             };
         }
 
-        public IHTMLWindow IHTMLWindow
+        public IHTMLWindow HTMLWindow
         {
             get { return _WpfCefBrowser; }
         }

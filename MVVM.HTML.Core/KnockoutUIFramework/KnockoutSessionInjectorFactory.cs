@@ -12,6 +12,10 @@ namespace MVVM.HTML.Core.KnockoutUIFramework
     {
         private string _JavascriptDebugScript;
         private string _MainScript;
+
+        public string FrameworkName { get { return "knockout.js 3.3.0"; } }
+        public string Name { get { return "KnockoutInjector "; } }
+
         public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {
             return new KnockoutSessionInjector(webView, javascriptObserver);
@@ -31,12 +35,7 @@ namespace MVVM.HTML.Core.KnockoutUIFramework
             return true;
         }
 
-        public void ExcecuteFirst(Action<string> executeSript)
-        {
-            executeSript(GetMainScript());
-        }
-
-        private string GetMainScript()
+        public string GetMainScript()
         {
             if (_MainScript != null)
                 return _MainScript;
