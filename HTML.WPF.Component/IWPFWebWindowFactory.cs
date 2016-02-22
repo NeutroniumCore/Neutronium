@@ -8,7 +8,12 @@ namespace HTML_WPF.Component
     public interface IWPFWebWindowFactory : IDisposable
     {
         /// <summary>
-        /// value of the Engine Name
+        /// Get the name and version of unferlying javascript engine
+        /// </summary>
+        string EngineName { get; }
+
+        /// <summary>
+        /// value of the .Net Glue to javascript engine
         /// </summary>
         string Name { get; }
 
@@ -19,7 +24,6 @@ namespace HTML_WPF.Component
         /// a new IWPFWebWindow
         ///</returns>
         IWPFWebWindow Create();
-
 
         /// <summary>
         /// Get the localhost port allowing HTML debugging

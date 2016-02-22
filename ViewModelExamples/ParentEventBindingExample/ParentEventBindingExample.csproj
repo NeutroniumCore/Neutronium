@@ -114,26 +114,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\knockout-delegatedEvents.min.js">
-      <Link>HTML\scripts\knockout-delegatedEvents.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\knockout.js">
-      <Link>HTML\scripts\knockout.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.js">
-      <Link>HTML\scripts\Ko_Extension.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.min.js">
-      <Link>HTML\scripts\Ko_Extension.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\promise.min.js">
-      <Link>HTML\scripts\promise.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="HTML\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

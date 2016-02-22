@@ -35,6 +35,11 @@ namespace MVVM.Awesomium
             }
         }
 
+        public string EngineName
+        {
+            get { return "Chromium 19"; }
+        }
+
         public string Name
         {
             get { return "Awesomium"; }

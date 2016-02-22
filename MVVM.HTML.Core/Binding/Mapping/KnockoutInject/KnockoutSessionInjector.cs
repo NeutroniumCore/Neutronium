@@ -73,37 +73,11 @@ namespace MVVM.HTML.Core.HTMLBinding
             if (_Ko != null)
                 return _Ko;
 
-            if (!LoadKnockoutCode())
-                throw ExceptionHelper.NoKo();
-
             _Ko = _WebView.GetGlobal().GetValue("ko");
             if ((_Ko == null) || (!_Ko.IsObject))
                 throw ExceptionHelper.NoKo();
 
             return _Ko;
-        }
-
-        private bool LoadKnockoutCode()
-        {
-            var resourceLoader = new ResourceReader("MVVM.HTML.Core.Binding.Mapping.KnockoutInject.javascript", this);
-            return JavascriptSource.Select(resourceLoader.Load).All(Excecute);
-        }
-
-        private static IEnumerable<string> JavascriptSource
-        {
-            get
-            {
-                yield return "knockout.js";
-                yield return "knockout-delegatedEvents.min.js";
-                yield return "promise.min.js";
-                yield return "Ko_Extension.min.js";
-            }
-        }
-
-        private bool Excecute(string code)
-        {
-            IJavascriptObject res;
-            return _WebView.Eval(code, out res);
         }
 
         private IJavascriptObject GetMapper(IJavascriptObjectMapper iMapperListener)

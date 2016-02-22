@@ -26,7 +26,6 @@ namespace HTML_WPF.Component
             Engine = new HTMLEngineFactory();
         }
 
-
         public IWPFWebWindowFactory Resolve(string EngineName)
         {
             if (_Dic.Count == 1)

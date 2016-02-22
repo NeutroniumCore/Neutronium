@@ -126,14 +126,6 @@
       <Link>HTML\js\animation.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\Tests\Navigation data\js\knockout.js">
-      <Link>HTML\js\knockout.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Tests\Navigation data\js\Ko_Extension.js">
-      <Link>HTML\js\Ko_Extension.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\..\Tests\Navigation data\js\ref\jquery.min.js">
       <Link>HTML\js\ref\jquery.min.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -19,6 +19,7 @@ namespace MVVM.Cef.Glue.CefSession
 
         protected override void OnLoadStart(CefBrowser browser, CefFrame frame)
         {
+            _MVVMCefApp.OnLoadStart(browser, frame);
         }
     }
 }

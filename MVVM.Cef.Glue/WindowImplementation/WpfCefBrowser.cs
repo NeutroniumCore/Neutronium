@@ -16,10 +16,12 @@ using MVVM.Cef.Glue.Helpers.Log;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
+using MVVM.Cef.Glue.CefSession;
 
 namespace MVVM.Cef.Glue.WPF
 {
-    public class WpfCefBrowser : ContentControl, IDisposable, IHTMLWindow
+    public class WpfCefBrowser : ContentControl, IDisposable, IHTMLModernWindow
     {
         private static readonly Key[] HandledKeys =
         {
@@ -46,13 +48,15 @@ namespace MVVM.Cef.Glue.WPF
         Dispatcher _mainUiDispatcher;
 
         private readonly ILogger _logger;
+        private readonly MVVMCefApp _App;
 
-        public WpfCefBrowser(): this(Logger.Log)
+        public WpfCefBrowser(MVVMCefApp app): this(app, Logger.Log)
         {
         }
 
-        public WpfCefBrowser(ILogger logger)
+        public WpfCefBrowser(MVVMCefApp app, ILogger logger)
         {
+            _App = app;
             if (logger == null)
             {
                 throw new ArgumentNullException("logger");
@@ -79,9 +83,10 @@ namespace MVVM.Cef.Glue.WPF
         }
 
         protected virtual void Dispose(bool disposing)
-        {
+        {    
             if (disposing)
-            {
+            { 
+                _App.Reset(_browser);
                 if (_browserPageImage != null)
                 {
                     _browserPageImage.Source = null;
@@ -138,6 +143,16 @@ namespace MVVM.Cef.Glue.WPF
             {
                 var e = new LoadStartEventArgs(frame);
                 this.LoadStart(this, e);
+            }
+        }
+
+        internal void FireFirstLoad(CefFrame frame)
+        {
+            if (BeforeJavascriptExecuted!=null)
+            {
+                Action<string> execute = (code) => frame.ExecuteJavaScript(code, string.Empty, 0);
+                var beforeJavascriptExcecutionArgs = new BeforeJavascriptExcecutionArgs(execute);
+                BeforeJavascriptExecuted(this, beforeJavascriptExcecutionArgs);
             }
         }
 
@@ -534,6 +549,7 @@ namespace MVVM.Cef.Glue.WPF
                 {
                     _browser = browser;
                     _browserHost = _browser.GetHost();
+                    _App.Associate(_browser, this);
                     // _browserHost.SetFocus(IsFocused);
 
                     width = (int)_browserWidth;
@@ -902,5 +918,7 @@ namespace MVVM.Cef.Glue.WPF
         {
             add { } remove { }
         }
+
+        public event EventHandler<BeforeJavascriptExcecutionArgs> BeforeJavascriptExecuted;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.HTMLBinding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using System;
 
 namespace MVVM.HTML.Core.Binding
 {
@@ -22,6 +23,13 @@ namespace MVVM.HTML.Core.Binding
         /// the newly created IJavascriptSessionInjector
         ///</returns>
         IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver);
+
+        /// <summary>
+        /// Callback called on page load before any javascript is excecuted.
+        /// Allow to automatically execute scripts.
+        /// Notr that not all javascriot browser support this function
+        /// </summary>
+        void ExcecuteFirst(Action<string> executeSript);
 
         /// <summary>
         /// return javascript debug script to allow interactive debug

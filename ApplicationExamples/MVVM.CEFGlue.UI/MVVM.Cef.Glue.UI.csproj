@@ -110,16 +110,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="src\js\bower_components\jquery\.bower.json" />
-    <None Include="src\js\bower_components\jquery\bower.json" />
-    <None Include="src\js\bower_components\knockout\.bower.json" />
-    <None Include="src\js\bower_components\knockout\bower.json" />
-    <None Include="src\js\bower_components\knockout\LICENSE" />
-    <None Include="src\js\bower_components\knockout\package.json" />
-    <None Include="src\js\bower_components\knockout\README.md" />
-    <Content Include="src\js\Enum.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml">
@@ -128,10 +118,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.js">
-      <Link>src\js\Ko_Extension.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="src\images\male.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -141,17 +127,6 @@
     <Content Include="src\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="src\js\jquery-1.7.1.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\js\ko-view.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="src\js\bower_components\jquery\MIT-LICENSE.txt" />
-    <Content Include="src\js\bower_components\knockout\dist\knockout.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\js\bower_components\knockout\Gruntfile.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\js\init.js">

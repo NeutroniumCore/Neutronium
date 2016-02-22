@@ -10,7 +10,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <HTML_WPF.Component:HTMLViewControl  x:Name="WebControl" RelativeSource="HTLM\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <HTML_WPF.Component:HTMLViewControl IsDebug="True"  x:Name="WebControl" RelativeSource="HTLM\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <DatePicker SelectedDate="{Binding Path=Date}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
     </Grid>

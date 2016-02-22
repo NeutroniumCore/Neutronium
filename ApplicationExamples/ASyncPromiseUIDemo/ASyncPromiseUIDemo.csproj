@@ -104,27 +104,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\knockout.js">
-      <Link>HTMLUI\js\knockout.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.js">
-      <Link>HTMLUI\js\Ko_Extension.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.min.js">
-      <Link>HTMLUI\js\Ko_Extension.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\promise.min.js">
-      <Link>HTMLUI\js\promise.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="HTMLUI\js\Init.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.min.js.map">
-      <Link>HTMLUI\js\Ko_Extension.min.js.map</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\Settings.settings">

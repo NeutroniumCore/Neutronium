@@ -10,6 +10,7 @@ using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Mapping;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.HTML.Core
 {
@@ -171,7 +172,19 @@ namespace MVVM.HTML.Core
             _NextWebControl = _WebViewLifeCycleManager.Create();
             _NextWebControl.HTMLWindow.ConsoleMessage += ConsoleMessage;
 
-            TaskCompletionSource<IHTMLBinding> tcs = new TaskCompletionSource<IHTMLBinding>();
+            var moderWindow = _NextWebControl.HTMLWindow as IHTMLModernWindow;
+            if (moderWindow!=null)
+            {
+                EventHandler<BeforeJavascriptExcecutionArgs> before = null;
+                before = (o,e) =>
+                {
+                    moderWindow.BeforeJavascriptExecuted -= before;
+                    _JavascriptSessionInjectorFactory.ExcecuteFirst(e.JavascriptExecutor);
+                };
+                moderWindow.BeforeJavascriptExecuted += before;
+            }
+
+            var tcs = new TaskCompletionSource<IHTMLBinding>();
 
             EventHandler<LoadEndEventArgs> sourceupdate = null;
             sourceupdate = (o, e) =>

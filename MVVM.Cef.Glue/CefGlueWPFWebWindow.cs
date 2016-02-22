@@ -5,15 +5,16 @@ using System.Windows.Input;
 using HTML_WPF.Component;
 using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Window;
+using MVVM.Cef.Glue.CefSession;
 
 namespace MVVM.Cef.Glue
 {
     internal class CefGlueWPFWebWindow : IWPFWebWindow
     {
         private readonly WpfCefBrowser _WpfCefBrowser;
-        internal CefGlueWPFWebWindow()
+        internal CefGlueWPFWebWindow(MVVMCefApp app)
         {
-            _WpfCefBrowser = new WpfCefBrowser()
+            _WpfCefBrowser = new WpfCefBrowser(app)
             {
                 Visibility = Visibility.Hidden,
                 HorizontalAlignment = HorizontalAlignment.Stretch,

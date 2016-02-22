@@ -13,6 +13,11 @@ namespace MVVM.Cef.Glue
             _ICefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded(iCefSettings);
         }
 
+        public string EngineName
+        {
+            get { return "Chromium 41"; }
+        }
+
         public string Name
         {
             get { return "Cef.Glue"; }
@@ -20,7 +25,7 @@ namespace MVVM.Cef.Glue
 
         public IWPFWebWindow Create()
         {
-            return new CefGlueWPFWebWindow();
+            return new CefGlueWPFWebWindow(_ICefCoreSession.CefApp);
         }
 
         public Nullable<int> GetRemoteDebuggingPort()

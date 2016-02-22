@@ -3,6 +3,7 @@ using Xilium.CefGlue;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using System.Threading.Tasks;
+using MVVM.Cef.Glue.WPF;
 
 namespace MVVM.Cef.Glue.CefSession
 {
@@ -11,6 +12,7 @@ namespace MVVM.Cef.Glue.CefSession
         private readonly MVVMCefRenderProcessHandler _MVVMCefRenderProcessHandler;
         private readonly MVVMCefLoadHandler _MVVMCefLoadHandler;
         private readonly IDictionary<long, IWebView> _Associated = new Dictionary<long, IWebView>();
+        private readonly IDictionary<long, WpfCefBrowser> _Browsers = new Dictionary<long, WpfCefBrowser>();
         private readonly IDictionary<long, TaskCompletionSource<IWebView>> _TaskCompletionSources
             = new Dictionary<long, TaskCompletionSource<IWebView>>();
 
@@ -29,8 +31,17 @@ namespace MVVM.Cef.Glue.CefSession
                 _TaskCompletionSources.Remove(frame.Identifier);
                 taskCompletionSource.TrySetResult(webView);
             }
-            _Associated.Add(frame.Identifier, webView);
-          
+            _Associated.Add(frame.Identifier, webView);  
+        }
+
+        internal void Reset(CefBrowser browser)
+        {
+            _Browsers.Remove(browser.Identifier);
+        }
+
+        internal void Associate(CefBrowser browser, WpfCefBrowser wpfBrowser)
+        {
+            _Browsers.Add(browser.Identifier, wpfBrowser);
         }
 
         internal void Reset(CefFrame frame)
@@ -47,7 +58,6 @@ namespace MVVM.Cef.Glue.CefSession
             _TaskCompletionSources.Add(frame.Identifier, taskCompletionSource);
             //run dummy script to load context
             frame.ExecuteJavaScript("(function(){})()", string.Empty, 0);
-            //taskCompletionSource.Task.Wait();
         }
 
         internal IWebView GetContext(CefFrame frame)
@@ -57,6 +67,13 @@ namespace MVVM.Cef.Glue.CefSession
                 return taskCompletionSource.Task.Result;
 
             return _Associated.GetOrDefault(frame.Identifier);
+        }
+
+        internal void OnLoadStart(CefBrowser browser, CefFrame frame)
+        {
+            var wpfBrowser = _Browsers.GetOrDefault(browser.Identifier);
+            if (wpfBrowser != null)
+                wpfBrowser.FireFirstLoad(frame);
         }
 
         protected override CefRenderProcessHandler GetRenderProcessHandler()

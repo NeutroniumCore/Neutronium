@@ -114,14 +114,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\knockout.js">
-      <Link>HTLM\src\knockout.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\MVVM.HTML.Core\Javascript\Ko_Extension.js">
-      <Link>HTLM\src\Ko_Extension.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="HTLM\css\Default\sprite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
