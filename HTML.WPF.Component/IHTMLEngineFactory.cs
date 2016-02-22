@@ -1,4 +1,5 @@
 ﻿using System;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace HTML_WPF.Component
 {
@@ -12,21 +13,42 @@ namespace HTML_WPF.Component
         /// Find a IWPFWebWindowFactory by name.
         /// This method is called internally by HTLM_WPF.Component controls
         /// </summary>
-        /// <param name="EngineName">
+        /// <param name="engineName">
         /// the name of the factory to be found
         /// </param>
         /// <returns>
         /// IWPFWebWindowFactory registered with a similar name.
         ///</returns>
-        IWPFWebWindowFactory Resolve(string EngineName);
+        IWPFWebWindowFactory ResolveJavaScriptEngine(string engineName);
 
         /// <summary>
         /// register a IWPFWebWindowFactory using its Name property
         /// </summary>
-        /// <param name="value">
+        /// <param name="wpfWebWindowFactory">
         /// IWPFWebWindowFactory to be registered
         /// </param>
-        void Register(IWPFWebWindowFactory iWPFWebWindowFactory);
+        void Register(IWPFWebWindowFactory wpfWebWindowFactory);
+
+
+        /// <summary>
+        /// Find a IJavascriptSessionInjectorFactory by name.
+        /// This method is called internally by HTLM_WPF.Component controls
+        /// </summary>
+        /// <param name="frameworkName">
+        /// the name of the factory to be found
+        /// </param>
+        /// <returns>
+        /// IJavascriptSessionInjectorFactory registered with a similar name.
+        ///</returns>
+        IJavascriptSessionInjectorFactory ResolveJavaScriptFramework(string frameworkName);
+
+        /// <summary>
+        /// register a IJavascriptSessionInjectorFactory using its Name property
+        /// </summary>
+        /// <param name="javascriptSessionInjectorFactory">
+        /// IJavascriptSessionInjectorFactory to be registered
+        /// </param>
+        void Register(IJavascriptSessionInjectorFactory javascriptSessionInjectorFactory);
 
     }
 }

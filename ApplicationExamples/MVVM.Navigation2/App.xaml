@@ -1,9 +1,0 @@
-﻿<MVVM_CEFGlue:HTMLApp x:Class="MVVM.Navigation2.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:MVVM_CEFGlue="clr-namespace:MVVM.Cef.Glue;assembly=MVVM.Cef.Glue" 
-             StartupUri="MainWindow.xaml">
-    <MVVM_CEFGlue:HTMLApp.Resources>
-         
-    </MVVM_CEFGlue:HTMLApp.Resources>
-</MVVM_CEFGlue:HTMLApp>

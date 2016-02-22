@@ -69,7 +69,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="CefGlueApp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
@@ -77,8 +77,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
+    <Compile Include="CefGlueApp.xaml.cs">
+      <DependentUpon>CefGlueApp.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -125,6 +125,10 @@
     <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>HTML_WPF.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\KnockoutCefMVVMApp\KnockoutCefMVVMApp.csproj">
+      <Project>{aabc737d-3fee-4066-a90d-d00002404feb}</Project>
+      <Name>KnockoutCefMVVMApp</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MVVM.Cef.Glue\MVVM.Cef.Glue.csproj">
       <Project>{447c6790-e36e-4a54-bfac-06c92fff4aa3}</Project>

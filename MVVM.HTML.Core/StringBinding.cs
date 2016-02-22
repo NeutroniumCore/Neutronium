@@ -7,7 +7,7 @@ namespace MVVM.HTML.Core
 {
     public class StringBinding :  IHTMLBinding
     {
-        private readonly IJavascriptSessionInjector _JavascriptSessionInjector;
+        private IJavascriptSessionInjector _JavascriptSessionInjector;
         private readonly IJavascriptObject _Root;
         private readonly HTMLViewContext _Context;
 

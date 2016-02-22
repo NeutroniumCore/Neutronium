@@ -36,10 +36,10 @@ namespace MVVM.Cef.Glue.Test
         {
             using (var ctx = new EnvironmentBuilder())
             {
-                HTMLApp target = null;
+                HTMLCefGlueApp target = null;
                 IDispatcher disp = await Task.Run(() =>
                 {
-                    target = new HTMLApp();
+                    target = new HTMLCefGlueApp();
                     return new WPFUIDispatcher(target.Dispatcher);
 
                 });
@@ -59,10 +59,10 @@ namespace MVVM.Cef.Glue.Test
         [Fact]
         public async Task Test_HTMLApp_Start_Should_Create_Session()
         {
-            HTMLApp target = null;
+            HTMLCefGlueApp target = null;
             IDispatcher disp = await Task.Run(() =>
             {
-                target = new HTMLApp();
+                target = new HTMLCefGlueApp();
                 return new WPFUIDispatcher(target.Dispatcher);
             });
 

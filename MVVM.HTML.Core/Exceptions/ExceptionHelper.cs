@@ -7,27 +7,27 @@ namespace MVVM.HTML.Core.Exceptions
     {
         private const string _Header = "MVVM for CEFGlue";
 
-        static public void Log(string iMessageLog)
+        public static void Log(string iMessageLog)
         {
             Trace.WriteLine(string.Format("{0} - {1}", _Header,iMessageLog));
         }
     
-        static public Exception Get(string iMessage)
+        public static Exception Get(string iMessage)
         {
             return new MVVMCEFGlueException(iMessage);
         }
 
-        static internal Exception NoKo()
+        public static Exception GetUnexpected()
         {
-            return Get("ko object not found! You should add a link to knockout.js script to the HML document!");
+            return Get("Unexpected error");
         }
 
-        static public Exception NoKoExtension()
-        {
-           return Get("Critical error! You should add a link to knockout_Extension.js script to the HML document!");
-        }
+        //static public Exception NoKoExtension()
+        //{
+        //   return Get("Critical error! You should add a link to knockout_Extension.js script to the HML document!");
+        //}
 
-        static public ArgumentException GetArgument(string iMessage)
+        public static ArgumentException GetArgument(string iMessage)
         {
             return new MVVMCefGlueArgumentException(iMessage);
         }

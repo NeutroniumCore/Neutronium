@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationExamples", "ApplicationExamples", "{0F0F34BE-CD06-4C13-967D-BB0760617486}"
 EndProject
@@ -55,6 +55,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Component.Test", "Tests\MVVM.Component.Test\MVVM.Component.Test.csproj", "{371234C6-4903-4F7D-8283-C0F8DBEF8755}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.HTML.Core.Test", "Tests\MVVM.HTML.Core.Test\MVVM.HTML.Core.Test.csproj", "{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutUIFramework", "KnockoutUIFramework\KnockoutUIFramework.csproj", "{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutCefMVVMApp", "KnockoutCefMVVMApp\KnockoutCefMVVMApp.csproj", "{AABC737D-3FEE-4066-A90D-D00002404FEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -318,6 +322,30 @@ Global
 		{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}.Release|Mixed Platforms.Build.0 = Debug|x86
 		{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}.Release|x86.ActiveCfg = Release|x86
 		{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}.Release|x86.Build.0 = Release|x86
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Debug|x86.Build.0 = Debug|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Release|x86.ActiveCfg = Release|Any CPU
+		{587C57A8-510C-4DDF-BA5D-C45BD6050BB3}.Release|x86.Build.0 = Release|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Debug|x86.Build.0 = Debug|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|x86.ActiveCfg = Release|Any CPU
+		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -339,6 +367,7 @@ Global
 		{723A4723-FAE8-4B50-B061-A4C599F4722E} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{371234C6-4903-4F7D-8283-C0F8DBEF8755} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
+		{AABC737D-3FEE-4066-A90D-D00002404FEB} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

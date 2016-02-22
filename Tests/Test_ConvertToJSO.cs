@@ -10,10 +10,9 @@ using MVVM.HTML.Core.HTMLBinding;
 using MVVM.Cef.Glue.Test.CefWindowless;
 using MVVM.Cef.Glue.Test.Core;
 using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.KnockoutUIFramework;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -40,6 +39,7 @@ namespace MVVM.Cef.Glue.Test
         private HTMLViewContext _HTMLViewContext;
         private IJSCommandFactory _JSCommandFactory;
         private IJavascriptSessionCache _ICSharpMapper;
+        private IJavascriptSessionInjectorFactory _JavascriptSessionInjectorFactory;
 
         public Test_ConvertToJSO()
         {
@@ -50,7 +50,8 @@ namespace MVVM.Cef.Glue.Test
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
-            _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), new KnockoutSessionInjectorFactory());
+            _JavascriptSessionInjectorFactory = Substitute.For<IJavascriptSessionInjectorFactory>();
+            _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), _JavascriptSessionInjectorFactory);
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>();

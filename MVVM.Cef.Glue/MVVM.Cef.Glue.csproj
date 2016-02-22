@@ -94,7 +94,7 @@
     <Compile Include="CefGlueImplementation\CefV8_Factory.cs" />
     <Compile Include="CefGlueImplementation\CefV8_JavascriptObject.cs" />
     <Compile Include="CefGlueImplementation\CefV8_WebView.cs" />
-    <Compile Include="HTMLApp.cs" />
+    <Compile Include="HTMLCefGlueApp.cs" />
     <Compile Include="WindowImplementation\CefNoContextMenuHandler.cs" />
     <Compile Include="Helpers\Log\ILogger.cs" />
     <Compile Include="Helpers\Log\Logger.cs" />

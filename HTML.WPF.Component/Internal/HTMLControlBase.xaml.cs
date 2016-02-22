@@ -11,11 +11,8 @@ using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Navigation;
 using MVVM.HTML.Core.Window;
 using System.Diagnostics;
-using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using MVVM.HTML.Core.KnockoutUIFramework;
 
 namespace HTML_WPF.Component
 {
@@ -26,7 +23,7 @@ namespace HTML_WPF.Component
         private IUrlSolver _IUrlSolver;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private string _JavascriptDebugScript = null;
-        private readonly IJavascriptSessionInjectorFactory _Injector = new KnockoutSessionInjectorFactory();
+        private readonly IJavascriptSessionInjectorFactory _Injector;
 
         public ICommand DebugWindow { get; private set; }
         public ICommand DebugBrowser { get; private set; }
@@ -79,7 +76,9 @@ namespace HTML_WPF.Component
 
             InitializeComponent();
 
-            _IWPFWebWindowFactory = HTMLEngineFactory.Engine.Resolve(HTMLEngine);
+            var engine = HTMLEngineFactory.Engine;
+            _IWPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
+            _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);
 
             _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _IUrlSolver, _Injector);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
@@ -170,7 +169,7 @@ namespace HTML_WPF.Component
         {
             if (_IWPFWebWindowFactory == null)
             {
-                _IWPFWebWindowFactory = HTMLEngineFactory.Engine.Resolve(HTMLEngine);
+                _IWPFWebWindowFactory = HTMLEngineFactory.Engine.ResolveJavaScriptEngine(HTMLEngine);
 
                 if (_IWPFWebWindowFactory==null)
                     throw ExceptionHelper.Get(string.Format("Not able to find WebEngine {0}", HTMLEngine));

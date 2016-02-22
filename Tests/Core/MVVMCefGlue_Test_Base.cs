@@ -4,16 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using KnockoutUIFramework;
 using MVVM.Cef.Glue.CefGlueHelper;
 using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.Test.CefWindowless;
 using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Infra;
 using Xilium.CefGlue;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.KnockoutUIFramework;
 
 namespace MVVM.Cef.Glue.Test.Core
 {

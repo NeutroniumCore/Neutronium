@@ -71,6 +71,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HTMLAwesomiumApp.cs" />
     <Compile Include="HTMLEngine\AwesomiumJavascriptObjectConverter.cs" />
     <Compile Include="HTMLEngine\AwesomiumJavascriptObjectFactory.cs" />
     <Compile Include="HTMLEngine\AwesomiumWebView.cs" />

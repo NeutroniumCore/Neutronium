@@ -91,7 +91,7 @@ namespace MVVM.Awesomium.HTMLEngine
          private Awesomium_Core.JSValue Check(Awesomium_Core.JSObject ires)
          {
              if (ires == null)
-                 throw ExceptionHelper.NoKoExtension();
+                 throw ExceptionHelper.GetUnexpected();
 
              return ires;
          }

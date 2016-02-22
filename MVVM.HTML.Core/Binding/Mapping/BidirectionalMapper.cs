@@ -124,7 +124,7 @@ namespace MVVM.HTML.Core.HTMLBinding
 
             if ((iroot.CValue != null) && ((res==null) || (res.IsUndefined)))
             {
-                throw ExceptionHelper.NoKo();
+                throw ExceptionHelper.GetUnexpected();
             }
 
             await jvm.UpdateTask;

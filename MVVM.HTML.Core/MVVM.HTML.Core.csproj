@@ -99,7 +99,6 @@
     <Compile Include="JavascriptUIFramework\IJavascriptSessionInjector.cs" />
     <Compile Include="Binding\Mapping\IJavascriptToCSharpConverter.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptChangesObserver.cs" />
-    <Compile Include="KnockoutUIFramework\KnockoutSessionInjectorFactory.cs" />
     <Compile Include="Binding\HTMLViewEngine.cs" />
     <Compile Include="Binding\Listeners\DeltaListener.cs" />
     <Compile Include="Binding\Listeners\ListenerRegister.cs" />
@@ -139,7 +138,6 @@
     <Compile Include="Binding\GlueObject\IJSCSGlueExtender.cs" />
     <Compile Include="Binding\GlueObject\IJSCSGlue.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptObjectMapper.cs" />
-    <Compile Include="KnockoutUIFramework\KnockoutSessionInjector.cs" />
     <Compile Include="Binding\GlueObject\JSArray.cs" />
     <Compile Include="Binding\GlueObject\JSGenericObject.cs" />
     <Compile Include="Binding\Mapping\BidirectionalMapper.cs" />
@@ -163,13 +161,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="KnockoutUIFramework\scripts\knockout-delegatedEvents.min.js" />
-    <EmbeddedResource Include="KnockoutUIFramework\scripts\knockout.js" />
-    <EmbeddedResource Include="KnockoutUIFramework\scripts\Ko_Extension.js" />
-    <EmbeddedResource Include="KnockoutUIFramework\scripts\Ko_Extension.min.js">
-      <DependentUpon>Ko_Extension.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="KnockoutUIFramework\scripts\promise.min.js" />
     <EmbeddedResource Include="Binding\Mapping\scripts\Infra.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -180,13 +171,7 @@
     <Content Include="Javascript\knockout-delegatedEvents.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="KnockoutUIFramework\scripts\ko-view.min.js.map">
-      <DependentUpon>ko-view.min.js</DependentUpon>
-    </None>
     <AppDesigner Include="Properties\" />
-    <Content Include="KnockoutUIFramework\scripts\Ko_Extension.min.js.map">
-      <DependentUpon>Ko_Extension.min.js</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Javascript\knockout.js">
@@ -200,10 +185,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Javascript\promise.min.js" />
-    <Content Include="KnockoutUIFramework\scripts\ko-view.js" />
-    <EmbeddedResource Include="KnockoutUIFramework\scripts\ko-view.min.js">
-      <DependentUpon>ko-view.js</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MVVM.Component\MVVM.Component.csproj">

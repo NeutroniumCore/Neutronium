@@ -66,6 +66,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HTMLApp.cs" />
     <Compile Include="HTMLEngineFactory.cs" />
     <Compile Include="HTMLViewControl.cs" />
     <Compile Include="HTMLWindow.cs" />
