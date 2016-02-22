@@ -8,19 +8,17 @@ namespace MVVM.HTML.Core.Binding
 {
     public class HTMLViewContext
     {
+        public IWebView WebView { get; private set; }
+        public IDispatcher UIDispatcher { get; private set; }
+        public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
+        private IJavascriptSessionInjectorFactory JavascriptSessionInjectorFactory { get; set; }
+
         public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptSessionInjectorFactory javascriptSessionInjectorFactory)
         {
             WebView = webView;
             UIDispatcher = uiDispatcher;
             JavascriptSessionInjectorFactory = javascriptSessionInjectorFactory;
         }
-        public IWebView WebView { get; private set; }
-
-        public IDispatcher UIDispatcher { get; private set; }
-
-        public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
-
-        private IJavascriptSessionInjectorFactory JavascriptSessionInjectorFactory { get; set; }
 
         public IJavascriptSessionInjector CreateInjector(IJavascriptChangesObserver JavascriptObjecChanges)
         {

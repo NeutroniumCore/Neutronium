@@ -34,9 +34,13 @@ namespace MVVM.Cef.Glue.CefSession
 
         protected override void OnWebKitInitialized()
         {
-
         }
-        //protected override void OnBrowserDestroyed(CefBrowser browser)
+
+        protected override void OnBrowserDestroyed(CefBrowser browser)
+        {
+            _MVVMCefApp.Reset(browser);
+        }
+
         //protected override void OnUncaughtException(CefBrowser browser, CefFrame frame, CefV8Context context, CefV8Exception exception, CefV8StackTrace stackTrace)
     }
 }

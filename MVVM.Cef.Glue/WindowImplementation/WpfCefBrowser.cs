@@ -86,7 +86,6 @@ namespace MVVM.Cef.Glue.WPF
         {    
             if (disposing)
             { 
-                _App.Reset(_browser);
                 if (_browserPageImage != null)
                 {
                     _browserPageImage.Source = null;
