@@ -1,6 +1,6 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.JavascriptUIFramework
 {
     /// <summary>
     /// javascript observer for changes occuring on ViewModel

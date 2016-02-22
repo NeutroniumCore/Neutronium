@@ -1,12 +1,11 @@
-﻿using System.IO;
-using System.Linq;
-using MVVM.HTML.Core.HTMLBinding;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.Infra;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Linq;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding.Mapping
+namespace MVVM.HTML.Core.KnockoutUIFramework
 {
     public class KnockoutSessionInjectorFactory : IJavascriptSessionInjectorFactory
     {
@@ -49,7 +48,7 @@ namespace MVVM.HTML.Core.Binding.Mapping
 
         private ResourceReader GetResourceReader()
         {
-            return new ResourceReader("MVVM.HTML.Core.Binding.Mapping.KnockoutInject.scripts", this);
+            return new ResourceReader("MVVM.HTML.Core.KnockoutUIFramework.scripts", this);
         }
     }
 }

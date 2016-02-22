@@ -1,5 +1,6 @@
 ﻿using MVVM.HTML.Core.Binding.Mapping;
 using System;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {

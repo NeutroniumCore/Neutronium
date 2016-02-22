@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MVVM.HTML.Core.Binding.Mapping;
-
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {

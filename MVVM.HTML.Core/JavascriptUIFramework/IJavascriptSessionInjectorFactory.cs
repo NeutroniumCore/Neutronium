@@ -1,9 +1,7 @@
-﻿using MVVM.HTML.Core.Binding.Mapping;
-using MVVM.HTML.Core.HTMLBinding;
+﻿using System;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using System;
 
-namespace MVVM.HTML.Core.Binding
+namespace MVVM.HTML.Core.JavascriptUIFramework
 {
     /// <summary>
     /// IJavascriptSessionInjector factory

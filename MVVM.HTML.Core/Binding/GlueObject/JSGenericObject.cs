@@ -5,6 +5,7 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Mapping;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {

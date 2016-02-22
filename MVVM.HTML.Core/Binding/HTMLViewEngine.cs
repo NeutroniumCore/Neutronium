@@ -1,5 +1,6 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.HTML.Core.Binding
 {

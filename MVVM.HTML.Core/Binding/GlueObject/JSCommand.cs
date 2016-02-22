@@ -8,6 +8,7 @@ using MVVM.HTML.Core.Binding.Extension;
 using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.HTML.Core.HTMLBinding
 {

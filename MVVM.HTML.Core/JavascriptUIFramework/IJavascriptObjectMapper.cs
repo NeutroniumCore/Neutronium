@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.JavascriptUIFramework
 {
     /// <summary>
     /// Mapper used to create corresponde beetween simple javascript object
@@ -26,7 +26,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         /// <param name="child">
         /// child observable object to be mapped
         /// </param>
-        void Map(IJavascriptObject father, string att, IJavascriptObject child);
+        void Map(IJavascriptObject father, string attribute, IJavascriptObject child);
 
         /// <summary>
         /// Map a child object in a collection relative to its father and index

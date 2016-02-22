@@ -1,4 +1,4 @@
-﻿namespace MVVM.HTML.Core.HTMLBinding
+﻿namespace MVVM.HTML.Core.JavascriptUIFramework
 {
     public enum  CollectionChangeType
     {

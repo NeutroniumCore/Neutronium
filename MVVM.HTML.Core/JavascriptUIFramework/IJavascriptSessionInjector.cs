@@ -1,9 +1,8 @@
-﻿using MVVM.HTML.Core.HTMLBinding;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.Mapping
+namespace MVVM.HTML.Core.JavascriptUIFramework
 {
     /// <summary>
     /// Abstraction of the javascript framework responsible for databind
@@ -29,7 +28,7 @@ namespace MVVM.HTML.Core.Binding.Mapping
         /// <summary>
         /// Register main view model in javascript windows
         /// </summary>
-        /// <param name="rawObject">
+        /// <param name="jsObject">
         /// Main ViewModel: javascript Observable object 
         /// </param>
         /// <returns>

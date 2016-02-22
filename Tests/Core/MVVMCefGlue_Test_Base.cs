@@ -13,6 +13,7 @@ using MVVM.HTML.Core.Infra;
 using Xilium.CefGlue;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.KnockoutUIFramework;
 
 namespace MVVM.Cef.Glue.Test.Core
 {

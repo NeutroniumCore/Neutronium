@@ -14,6 +14,8 @@ using System.Diagnostics;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.JavascriptUIFramework;
+using MVVM.HTML.Core.KnockoutUIFramework;
 
 namespace HTML_WPF.Component
 {
