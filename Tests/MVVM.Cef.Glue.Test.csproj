@@ -149,22 +149,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\MVVM.HTML.Core\Javascript\knockout-delegatedEvents.min.js">
-      <Link>javascript\src\knockout-delegatedEvents.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\MVVM.HTML.Core\Javascript\knockout.js">
-      <Link>javascript\src\knockout.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\MVVM.HTML.Core\Javascript\Ko_Extension.js">
-      <Link>javascript\src\Ko_Extension.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\MVVM.HTML.Core\Javascript\promise.min.js">
-      <Link>javascript\src\promise.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="javascript\almost_empty.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -174,6 +158,26 @@
     <Content Include="javascript\index_promise.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="javascript\src\knockout-delegatedEvents.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\knockout.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\ko-view.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="javascript\src\ko-view.min.js">
+      <DependentUpon>ko-view.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="javascript\src\Ko_Extension.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="javascript\src\Ko_Extension.min.js">
+      <DependentUpon>Ko_Extension.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="javascript\src\Ko_register_promise.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -189,6 +193,14 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="javascript\src\ko-view.min.js.map">
+      <DependentUpon>ko-view.min.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="javascript\src\Ko_Extension.min.js.map">
+      <DependentUpon>Ko_Extension.min.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Navigation data\js\Ko_Extension.min.js.map">
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
     </None>
@@ -230,13 +242,10 @@
     <Content Include="javascript\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="javascript\spec\Spec_koaddon.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\spec\Spec_MapToObservable.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="javascript\src\Koaddon.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\promise.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Navigation data\css\style.css">

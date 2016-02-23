@@ -70,7 +70,6 @@ namespace MVVM.Cef.Glue.Test.Core
                     cefClient.GetLoadedBroserAsync().ContinueWith(t =>
                         {
                             var frame = t.Result.GetMainFrame();
-                            var context = CefCoreSessionSingleton.Session.CefApp.GetContext(frame);
                             var htmlWindowProvider = new TestCefGlueHTMLWindowProvider(frame);
                             _Father._ICefGlueWindow = new HTMLViewEngine(
                                 htmlWindowProvider,

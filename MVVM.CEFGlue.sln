@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutUIFramework", "Knoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutCefMVVMApp", "KnockoutCefMVVMApp\KnockoutCefMVVMApp.csproj", "{AABC737D-3FEE-4066-A90D-D00002404FEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutUIFramework.Test", "Tests\KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj", "{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -346,6 +348,18 @@ Global
 		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|x86.ActiveCfg = Release|Any CPU
 		{AABC737D-3FEE-4066-A90D-D00002404FEB}.Release|x86.Build.0 = Release|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -368,6 +382,7 @@ Global
 		{371234C6-4903-4F7D-8283-C0F8DBEF8755} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{AABC737D-3FEE-4066-A90D-D00002404FEB} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
+		{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

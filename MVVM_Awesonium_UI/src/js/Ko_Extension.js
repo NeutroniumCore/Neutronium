@@ -1,15 +1,3 @@
-
-function Enum(type, intValue, name, displayName) {
-    this.intValue = intValue;
-    this.displayName = displayName;
-    this.name = name;
-    this.type = type;
-}
-
-////to bypass awesomium limitations
-function Null_reference() {
-}
-
 function executeAsPromise(vm,fnname,argument) {
     return new Promise(function (fullfill, reject) {
         var res = { fullfill: function (res) {fullfill(res); }, reject: function(err){reject(new Error(err));}};
@@ -40,7 +28,7 @@ function executeAsPromise(vm,fnname,argument) {
 
      function createSubsription(observable, tracker,res,att) {
          if (tracker.TrackChanges) {
-             listener = PropertyListener(res, att, tracker);
+             var listener = PropertyListener(res, att, tracker);
              observable.listener = listener;
              observable.subscriber = observable.subscribe(listener);
              observable.silent = function (v) {

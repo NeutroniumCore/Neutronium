@@ -1,3 +1,17 @@
+
+//function Enum(type, intValue, name, displayName) {
+//    this.intValue = intValue;
+//    this.displayName = displayName;
+//    this.name = name;
+//    this.type = type;
+//}
+
+////to bypass awesomium limitations
+//function Null_reference() {
+//}
+
+console.log('extension');
+
 function executeAsPromise(vm,fnname,argument) {
     return new Promise(function (fullfill, reject) {
         var res = { fullfill: function (res) {fullfill(res); }, reject: function(err){reject(new Error(err));}};

@@ -164,27 +164,7 @@
     <EmbeddedResource Include="Binding\Mapping\scripts\Infra.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="Javascript\Ko_Extension.min.js.map">
-      <DependentUpon>Ko_Extension.min.js</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Javascript\knockout-delegatedEvents.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Javascript\knockout.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Javascript\Ko_Extension.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Javascript\Ko_Extension.min.js">
-      <DependentUpon>Ko_Extension.js</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Javascript\promise.min.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MVVM.Component\MVVM.Component.csproj">
