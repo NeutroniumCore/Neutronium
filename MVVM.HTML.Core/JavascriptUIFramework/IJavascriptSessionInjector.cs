@@ -11,7 +11,7 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
     public interface IJavascriptSessionInjector : IDisposable
     {
         /// <summary>
-        /// Maps a simple javascript object to an obseravble javscript object
+        /// Maps a simple javascript object to an observable javascript object
         /// </summary>
         /// <param name="rawObject">
         /// Simple javascript to be mapped

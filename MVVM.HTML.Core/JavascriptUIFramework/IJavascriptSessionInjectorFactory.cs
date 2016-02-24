@@ -45,7 +45,7 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         string GetMainScript();
 
         /// <summary>
-        /// true if the injector returns a valid devug script
+        /// true if the injector returns a valid debug script
         /// </summary>
         bool HasDebugScript();
     }
