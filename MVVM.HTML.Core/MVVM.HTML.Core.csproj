@@ -71,10 +71,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Binding\Extension\IJavascriptObjectExtension.cs" />
+    <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />
-    <Compile Include="Binding\Extension\IJavascriptToCSharpConverterExtension.cs" />
+    <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IVisitable.cs" />
     <Compile Include="Binding\Listeners\IListenableObjectVisitor.cs" />
@@ -87,23 +87,23 @@
     <Compile Include="Binding\GlueObject\JSCSGlueType.cs" />
     <Compile Include="Binding\HTMLViewContext.cs" />
     <Compile Include="Binding\Listeners\ReListener.cs" />
-    <Compile Include="Binding\Mapping\CommandFactory.cs" />
-    <Compile Include="Binding\Mapping\IJavascriptSessionCache.cs" />
+    <Compile Include="Binding\CommandFactory.cs" />
+    <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptSessionInjectorFactory.cs" />
     <Compile Include="JavascriptUIFramework\CollectionChangeType.cs" />
-    <Compile Include="Binding\Mapping\CollectionChanges\CollectionChanges.cs" />
-    <Compile Include="Binding\Mapping\CollectionChanges\IndividualCollectionChange.cs" />
+    <Compile Include="Binding\CollectionChanges\CollectionChanges.cs" />
+    <Compile Include="Binding\CollectionChanges\IndividualCollectionChange.cs" />
     <Compile Include="JavascriptUIFramework\IndividualJavascriptCollectionChange.cs" />
     <Compile Include="JavascriptUIFramework\JavascriptCollectionChanges.cs" />
-    <Compile Include="Binding\Extension\IJavascriptObjectFactoryExtension.cs" />
+    <Compile Include="Extension\IJavascriptObjectFactoryExtension.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptSessionInjector.cs" />
-    <Compile Include="Binding\Mapping\IJavascriptToCSharpConverter.cs" />
+    <Compile Include="Binding\IJavascriptToCSharpConverter.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptChangesObserver.cs" />
     <Compile Include="Binding\HTMLViewEngine.cs" />
     <Compile Include="Binding\Listeners\DeltaListener.cs" />
     <Compile Include="Binding\Listeners\ListenerRegister.cs" />
     <Compile Include="Binding\Listeners\Silenter.cs" />
-    <Compile Include="Binding\Mapping\SessionCacher.cs" />
+    <Compile Include="Binding\SessionCacher.cs" />
     <Compile Include="Infra\DispatcherSynchronizationContext.cs" />
     <Compile Include="Infra\PropertyAccessor.cs" />
     <Compile Include="Infra\ResourceReader.cs" />
@@ -140,11 +140,11 @@
     <Compile Include="JavascriptUIFramework\IJavascriptObjectMapper.cs" />
     <Compile Include="Binding\GlueObject\JSArray.cs" />
     <Compile Include="Binding\GlueObject\JSGenericObject.cs" />
-    <Compile Include="Binding\Mapping\BidirectionalMapper.cs" />
+    <Compile Include="Binding\BidirectionalMapper.cs" />
     <Compile Include="Infra\AssemblyExtension.cs" />
     <Compile Include="Infra\EnumerableCollection.cs" />
     <Compile Include="HTML_Binding.cs" />
-    <Compile Include="Binding\Mapping\CSharpToJavascriptConverter.cs" />
+    <Compile Include="Binding\CSharpToJavascriptConverter.cs" />
     <Compile Include="StringBinding.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +161,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="Binding\Mapping\scripts\Infra.js">
+    <EmbeddedResource Include="scripts\Infra.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <AppDesigner Include="Properties\" />

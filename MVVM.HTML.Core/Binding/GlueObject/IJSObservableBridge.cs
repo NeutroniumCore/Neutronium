@@ -1,7 +1,6 @@
-﻿using MVVM.HTML.Core.Binding.Mapping;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.GlueObject
 {
     public interface IJSObservableBridge : IJSCSGlue
     {

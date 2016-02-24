@@ -1,17 +1,15 @@
 ﻿using System;
+using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Collections;
 using System.Windows.Input;
-using System.Diagnostics;
-
-using MVVM.HTML.Core.Binding;
 using MVVM.Component;
 using MVVM.HTML.Core.Binding.Extension;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding
 {
     internal class CSharpToJavascriptConverter 
     {

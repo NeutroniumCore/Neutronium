@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.CollectionChanges
 {
     public class CollectionChanges :  IComparer<IndividualCollectionChange>
     {

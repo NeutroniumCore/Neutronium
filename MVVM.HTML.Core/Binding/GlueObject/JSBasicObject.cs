@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.GlueObject
 {
     internal class JSBasicObject : IJSCSGlue
     {

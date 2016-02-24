@@ -1,8 +1,8 @@
-﻿using MVVM.HTML.Core.Binding.Mapping;
-using System;
+﻿using System;
+using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.CollectionChanges
 {
     public class IndividualCollectionChange
     {

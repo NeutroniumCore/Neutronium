@@ -5,8 +5,6 @@ using System.Collections;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
-
-using MVVM.HTML.Core.HTMLBinding;
 using MVVM.Cef.Glue.Test.CefWindowless;
 using MVVM.Cef.Glue.Test.Core;
 using MVVM.HTML.Core.Binding;

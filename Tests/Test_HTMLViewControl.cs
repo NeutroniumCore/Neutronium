@@ -14,6 +14,7 @@ using MVVM.HTML.Core;
 using HTML_WPF.Component;
 using MVVM.Cef.Glue.Test.Infra;
 using System.Threading.Tasks;
+using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.Cef.Glue.Test
 {

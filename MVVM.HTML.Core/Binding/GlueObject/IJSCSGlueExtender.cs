@@ -1,12 +1,12 @@
-﻿using MVVM.HTML.Core.Binding.Listeners;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using MVVM.HTML.Core.Binding.Listeners;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.GlueObject
 {
     public static class IJSCSGlueExtender
     {

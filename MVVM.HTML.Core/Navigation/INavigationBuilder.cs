@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.HTML.Core
+namespace MVVM.HTML.Core.Navigation
 {
     public interface INavigationBuilder
     {

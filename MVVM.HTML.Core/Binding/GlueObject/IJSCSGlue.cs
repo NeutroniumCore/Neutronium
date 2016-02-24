@@ -2,7 +2,7 @@
 using System.Text;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.GlueObject
 {
     public interface IJSCSGlue
     {

@@ -5,6 +5,7 @@ using System.Reflection;
 
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.HTML.Core
 {

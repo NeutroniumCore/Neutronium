@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using MVVM.Component;
-using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Extension;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.GlueObject
 {
     public class JSSimpleCommand : GlueBase, IJSObservableBridge
     {

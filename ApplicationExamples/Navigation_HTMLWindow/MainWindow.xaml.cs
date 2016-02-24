@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using MVVM.Cef.Glue;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Navigation;
 
 namespace Navigation_HTMLWindow
 {

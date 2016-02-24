@@ -1,6 +1,7 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using MVVM.HTML.Core.Binding.GlueObject;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding
 {
     public interface IJavascriptSessionCache
     {

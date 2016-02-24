@@ -1,11 +1,11 @@
-﻿using MVVM.HTML.Core.HTMLBinding;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding.Mapping
+namespace MVVM.HTML.Core.Binding
 {
     internal class SessionCacher : IJavascriptSessionCache
     {

@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.GlueObject
 {
     public class JSGenericObject : GlueBase, IJSObservableBridge
     {

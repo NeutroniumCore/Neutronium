@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel.Infra;
 
 namespace MVVM.Cef.Glue.AnimatedNavigation

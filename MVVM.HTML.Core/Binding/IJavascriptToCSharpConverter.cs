@@ -1,9 +1,9 @@
-﻿using MVVM.HTML.Core.HTMLBinding;
-using System;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using System;
 using System.Threading.Tasks;
+using MVVM.HTML.Core.Binding.GlueObject;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.Mapping
+namespace MVVM.HTML.Core.Binding
 {
     public interface IJavascriptToCSharpConverter
     {

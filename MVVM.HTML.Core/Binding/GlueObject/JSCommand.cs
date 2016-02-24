@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
-using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.Extension;
-using MVVM.HTML.Core.Window;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using MVVM.HTML.Core.Window;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.GlueObject
 {
     public class JSCommand : GlueBase, IJSObservableBridge
     {

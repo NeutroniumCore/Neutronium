@@ -2,6 +2,7 @@
 
 using MVVM.ViewModel.Infra;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.ViewModel.Example.ForNavigation
 {

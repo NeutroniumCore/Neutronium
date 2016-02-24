@@ -2,6 +2,7 @@
 using System.Windows;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.Navigation2
 {

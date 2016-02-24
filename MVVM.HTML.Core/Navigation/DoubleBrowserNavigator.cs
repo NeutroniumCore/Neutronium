@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Diagnostics;
-
-using MVVM.HTML.Core.Navigation.Window;
-using MVVM.HTML.Core.Navigation;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Window;
-using MVVM.HTML.Core.JavascriptEngine;
+using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using MVVM.HTML.Core.Navigation.Window;
+using MVVM.HTML.Core.Window;
 
-namespace MVVM.HTML.Core
+namespace MVVM.HTML.Core.Navigation
 {
     public class DoubleBrowserNavigator : INavigationSolver
     {

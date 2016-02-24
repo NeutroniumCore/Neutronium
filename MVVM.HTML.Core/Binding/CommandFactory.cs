@@ -1,9 +1,8 @@
 ﻿using System.Windows.Input;
 using MVVM.Component;
 using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.HTMLBinding;
 
-namespace MVVM.HTML.Core.Binding.Mapping
+namespace MVVM.HTML.Core.Binding
 {
     internal class CommandFactory : IJSCommandFactory
     {

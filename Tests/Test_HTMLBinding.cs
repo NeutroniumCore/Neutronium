@@ -13,7 +13,6 @@ using NSubstitute;
 using FluentAssertions;
 using MVVM.Cef.Glue.Test.Core;
 using Newtonsoft.Json;
-using MVVM.HTML.Core.HTMLBinding;
 using MVVM.ViewModel.Example;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Infra;
@@ -21,6 +20,7 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.Cef.Glue.Test.ViewModel.Test;
 using MVVM.Component;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue.Test

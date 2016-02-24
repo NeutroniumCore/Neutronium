@@ -1,6 +1,6 @@
-﻿using MVVM.HTML.Core.HTMLBinding;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using MVVM.HTML.Core.Binding.GlueObject;
 
 namespace MVVM.HTML.Core.Binding.Listeners
 {

@@ -1,17 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections;
-
+using MVVM.HTML.Core.Binding.CollectionChanges;
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Window;
-using MVVM.HTML.Core.Binding.Mapping;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using MVVM.HTML.Core.Window;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding.GlueObject
 {
     internal class JSArray : GlueBase, IJSObservableBridge
     {
@@ -39,9 +37,9 @@ namespace MVVM.HTML.Core.HTMLBinding
             _IndividualType = WebView.Factory.IsTypeBasic(type) ?  type : null;
         }
 
-        public CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
+        public CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
         {
-            return new CollectionChanges(bridge, changes, _IndividualType);
+            return new CollectionChanges.CollectionChanges(bridge, changes, _IndividualType);
         }
 
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)
@@ -71,7 +69,7 @@ namespace MVVM.HTML.Core.HTMLBinding
             });
         }
 
-        public void UpdateEventArgsFromJavascript(CollectionChanges iCollectionChanges)
+        public void UpdateEventArgsFromJavascript(CollectionChanges.CollectionChanges iCollectionChanges)
         {
             var ilist = CValue as IList;
             if (ilist == null) return;

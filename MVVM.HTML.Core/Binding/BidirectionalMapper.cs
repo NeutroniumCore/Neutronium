@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Binding.Mapping;
+using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.Binding.Listeners;
+using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.HTMLBinding
+namespace MVVM.HTML.Core.Binding
 {
     public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, IJavascriptChangesObserver   
     {
@@ -52,7 +51,7 @@ namespace MVVM.HTML.Core.HTMLBinding
         private void RegisterJavascriptHelper()
         {
             IJavascriptObject res;
-            var resource = new ResourceReader("MVVM.HTML.Core.Binding.Mapping.scripts", this);
+            var resource = new ResourceReader("MVVM.HTML.Core.scripts", this);
             _Context.WebView.Eval(resource.Load("Infra.js"), out res);
         }
 
@@ -165,7 +164,7 @@ namespace MVVM.HTML.Core.HTMLBinding
                 var res = _SessionCache.GetGlobalCached(changes.Collection) as JSArray;
                 if (res == null) return;
 
-                CollectionChanges cc = res.GetChanger(changes, this);
+                CollectionChanges.CollectionChanges cc = res.GetChanger(changes, this);
 
                 using (ReListen()) 
                 using (_ListenerRegister.GetColllectionSilenter(res.CValue))
