@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MVVM.HTML.Core.Window;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
 {

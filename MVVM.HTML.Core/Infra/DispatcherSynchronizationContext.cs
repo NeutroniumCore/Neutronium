@@ -1,5 +1,5 @@
 ﻿using System.Threading;
-using MVVM.HTML.Core.Window;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.HTML.Core.Infra
 {

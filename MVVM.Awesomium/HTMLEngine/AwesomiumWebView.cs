@@ -1,8 +1,8 @@
 ﻿using MVVM.Awesomium.HTMLEngine;
-using MVVM.HTML.Core.Window;
 using System;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 using AwesomiumIWebView = Awesomium.Core.IWebView;
 using MVVMIWebView = MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView;
 

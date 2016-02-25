@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MVVM.HTML.Core.Window
+namespace MVVM.HTML.Core.JavascriptEngine.Window
 {
     /// <summary>
     /// Abstraction of a dipatcher used to communication with object having thread affinity
@@ -28,6 +28,7 @@ namespace MVVM.HTML.Core.Window
         /// </param>
         void Run(Action act);
 
+        /// <summary>
         /// Compute a function on a safe thread
         /// </summary>
         /// <param name="compute">
@@ -38,7 +39,7 @@ namespace MVVM.HTML.Core.Window
         ///</returns>
         Task<T> EvaluateAsync<T>(Func<T> compute);
 
-
+        /// <summary>
         /// Compute a function on a safe thread and wait for result
         /// </summary>
         /// <param name="compute">

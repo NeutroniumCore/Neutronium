@@ -12,6 +12,7 @@ using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Infra;
 using Xilium.CefGlue;
 using MVVM.HTML.Core.JavascriptEngine;
+using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue.Test.Core

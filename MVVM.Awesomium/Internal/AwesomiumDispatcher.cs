@@ -1,8 +1,8 @@
 ﻿using Awesomium.Core;
-using MVVM.HTML.Core.Window;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.Awesomium
 {

@@ -1,7 +1,7 @@
-﻿using MVVM.HTML.Core.Window;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace HTML_WPF.Component
 {

@@ -8,8 +8,8 @@ using FluentAssertions;
 using MVVM.Cef.Glue.CefSession;
 using System.Threading;
 using MVVM.Cef.Glue.WPF;
-using MVVM.HTML.Core.Window;
 using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.Cef.Glue.Test
 {

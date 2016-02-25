@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MVVM.HTML.Core.Navigation;
 
-namespace  MVVM.HTML.Core
+namespace  MVVM.HTML.Core.Navigation
 {
     public interface INavigationSolver : IDisposable
     {

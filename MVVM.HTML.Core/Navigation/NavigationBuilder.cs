@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Navigation;
+using MVVM.HTML.Core.Infra;
 
-namespace MVVM.HTML.Core
+namespace MVVM.HTML.Core.Navigation
 {
     public class NavigationBuilder : INavigationBuilder, IUrlSolver
     {
@@ -37,7 +35,6 @@ namespace MVVM.HTML.Core
             CheckPath(iPath);
             return new Uri(iPath);
         }
-
 
         public void Register<T>(string iPath, string Id = null)
         {

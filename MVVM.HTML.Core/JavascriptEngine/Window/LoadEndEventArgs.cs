@@ -1,7 +1,7 @@
 ﻿using System;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Window
+namespace MVVM.HTML.Core.JavascriptEngine.Window
 {
 	public class LoadEndEventArgs : EventArgs
 	{

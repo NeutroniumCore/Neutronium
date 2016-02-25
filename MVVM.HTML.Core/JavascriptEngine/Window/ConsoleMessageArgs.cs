@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.HTML.Core.JavascriptEngine
+namespace MVVM.HTML.Core.JavascriptEngine.Window
 {
     public class ConsoleMessageArgs : EventArgs
     {

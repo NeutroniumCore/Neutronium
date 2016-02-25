@@ -1,8 +1,7 @@
 ﻿using System;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
-using MVVM.HTML.Core.Window;
-
-namespace MVVM.HTML.Core.JavascriptEngine
+namespace MVVM.HTML.Core.JavascriptEngine.Control
 {
     public interface IHTMLWindowProvider : IDisposable
     {

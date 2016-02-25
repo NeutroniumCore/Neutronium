@@ -22,11 +22,6 @@ namespace MVVM.HTML.Core.Exceptions
             return Get("Unexpected error");
         }
 
-        //static public Exception NoKoExtension()
-        //{
-        //   return Get("Critical error! You should add a link to knockout_Extension.js script to the HML document!");
-        //}
-
         public static ArgumentException GetArgument(string iMessage)
         {
             return new MVVMCefGlueArgumentException(iMessage);

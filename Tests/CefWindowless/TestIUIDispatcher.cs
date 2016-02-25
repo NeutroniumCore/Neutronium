@@ -1,6 +1,6 @@
-﻿using MVVM.HTML.Core.Window;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.Cef.Glue.Test.CefWindowless
 {

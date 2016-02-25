@@ -11,12 +11,12 @@ namespace MVVM.HTML.Core.Infra
             if (o == null) return string.Empty;
 
             string valuename = o.ToString();
-            Type EnumType = o.GetType();
-            FieldInfo fi = EnumType.GetField(valuename);
+            var enumType = o.GetType();
+            var fi = enumType.GetField(valuename);
             if (fi == null)
                 return valuename;
             
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
             return (attributes != null && attributes.Length > 0) ? attributes[0].Description : valuename;
         }
 

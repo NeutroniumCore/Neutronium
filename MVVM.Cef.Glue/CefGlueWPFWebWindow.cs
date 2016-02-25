@@ -4,8 +4,8 @@ using System.Windows.Input;
 
 using HTML_WPF.Component;
 using MVVM.Cef.Glue.WPF;
-using MVVM.HTML.Core.Window;
 using MVVM.Cef.Glue.CefSession;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.Cef.Glue
 {

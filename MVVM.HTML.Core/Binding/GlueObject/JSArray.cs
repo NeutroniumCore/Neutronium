@@ -6,8 +6,8 @@ using System.Text;
 using MVVM.HTML.Core.Binding.CollectionChanges;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using MVVM.HTML.Core.Window;
 
 namespace MVVM.HTML.Core.Binding.GlueObject
 {

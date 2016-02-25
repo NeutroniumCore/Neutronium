@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-
-using MVVM.HTML.Core.Window;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.Cef.Glue.WPF
 {

@@ -1,10 +1,16 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.Window;
-using System;
+﻿using System;
 
-namespace MVVM.HTML.Core.Window
+namespace MVVM.HTML.Core.JavascriptEngine.Window
 {
+    /// <summary>
+    /// HTML Window with extended capacity
+    /// </summary>
     public interface IHTMLModernWindow : IHTMLWindow
     {
+        /// <summary>
+        /// event fired when script are ready to be executed
+        /// but external javascript have not been executed yet
+        /// </summary>
         event EventHandler<BeforeJavascriptExcecutionArgs> BeforeJavascriptExecuted;
     }
 }

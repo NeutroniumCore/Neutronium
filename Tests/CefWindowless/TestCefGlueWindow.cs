@@ -1,7 +1,7 @@
 ﻿using MVVM.Cef.Glue.CefGlueHelper;
-using MVVM.HTML.Core.Window;
 using System;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.Test.CefWindowless
@@ -44,13 +44,13 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
             get { return _CefFrame.Url; }
         }
 
-        public event EventHandler<HTML.Core.JavascriptEngine.ConsoleMessageArgs> ConsoleMessage
+        public event EventHandler<ConsoleMessageArgs> ConsoleMessage
         {
             add { } remove { }
         }
 
 
-        public event EventHandler<HTML.Core.JavascriptEngine.BrowserCrashedArgs> Crashed
+        public event EventHandler<BrowserCrashedArgs> Crashed
         {
             add { } remove { }
         }

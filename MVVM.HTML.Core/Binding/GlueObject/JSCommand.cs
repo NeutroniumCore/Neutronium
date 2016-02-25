@@ -5,8 +5,8 @@ using System.Text;
 using System.Windows.Input;
 using MVVM.HTML.Core.Binding.Extension;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using MVVM.HTML.Core.Window;
 
 namespace MVVM.HTML.Core.Binding.GlueObject
 {

@@ -9,9 +9,10 @@ using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra.VM;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Navigation;
-using MVVM.HTML.Core.Window;
 using System.Diagnostics;
 using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.JavascriptEngine.Control;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace HTML_WPF.Component
