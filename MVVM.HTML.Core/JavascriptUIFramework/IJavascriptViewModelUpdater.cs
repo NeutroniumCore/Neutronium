@@ -1,9 +1,4 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.JavascriptUIFramework
 {
@@ -27,12 +22,64 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// </param>
         void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value);
 
-        void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject glue);
+        /// <summary>
+        /// Update javascript collection without raising listeners events
+        /// performing javascript splice operation https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+        /// </summary>
+        /// <param name="array">
+        /// collection to be updated
+        /// </param>
+        /// <param name="index">
+        /// index argument
+        /// </param>
+        /// <param name="number">
+        /// number argument
+        /// </param>
+        /// <param name="item">
+        /// item argument
+        /// </param>
+        void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject item);
 
+        /// <summary>
+        /// Update javascript collection without raising listeners events
+        /// performing javascript splice operation https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+        /// </summary>
+        /// <param name="array">
+        /// collection to be updated
+        /// </param>
+        /// <param name="index">
+        /// index argument
+        /// </param>
+        /// <param name="number">
+        /// number argument
+        /// </param>
         void SpliceCollection(IJavascriptObject array, int index, int number);
 
+        /// <summary>
+        /// Update javascript collection without raising listeners events
+        /// clearing collection
+        /// </summary>
+        /// <param name="array">
+        /// collection to be cleared
+        /// </param>
         void ClearAllCollection(IJavascriptObject array);
 
+        /// <summary>
+        /// Update javascript collection without raising listeners events
+        /// moving an object position
+        /// </summary>
+        /// <param name="array">
+        /// collection to be updated
+        /// </param>
+        /// <param name="item">
+        /// item to be moved
+        /// </param>
+        /// <param name="oldIndex">
+        /// old index value
+        /// </param>
+        /// <param name="newIndex">
+        /// new index value
+        /// </param>
         void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex);
     }
 }
