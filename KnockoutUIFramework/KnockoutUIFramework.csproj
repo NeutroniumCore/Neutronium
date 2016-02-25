@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="KnockoutSessionInjector.cs" />
     <Compile Include="KnockoutSessionInjectorFactory.cs" />
+    <Compile Include="KnockoutViewModelUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -93,6 +93,7 @@
     <Compile Include="JavascriptUIFramework\CollectionChangeType.cs" />
     <Compile Include="Binding\CollectionChanges\CollectionChanges.cs" />
     <Compile Include="Binding\CollectionChanges\IndividualCollectionChange.cs" />
+    <Compile Include="JavascriptUIFramework\IJavascriptViewModelUpdater.cs" />
     <Compile Include="JavascriptUIFramework\IndividualJavascriptCollectionChange.cs" />
     <Compile Include="JavascriptUIFramework\JavascriptCollectionChanges.cs" />
     <Compile Include="Extension\IJavascriptObjectFactoryExtension.cs" />

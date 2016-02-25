@@ -24,7 +24,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         public JSCSGlueType Type { get { return JSCSGlueType.Command; } }
         private IWebView WebView { get { return _HTMLViewContext.WebView; } }
         private IDispatcher UIDispatcher { get { return _HTMLViewContext.UIDispatcher; } }
-        private IJavascriptSessionInjector JavascriptSessionInjector { get { return _HTMLViewContext.JavascriptSessionInjector; } }
+        private IJavascriptViewModelUpdater ViewModelUpdater { get { return _HTMLViewContext.ViewModelUpdater; } }
 
         public JSCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command)
         {
@@ -80,7 +80,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
 
         private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
         {
-            JavascriptSessionInjector.UpdateProperty(_MappedJSValue, propertyName, factory(WebView.Factory));
+            ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, factory(WebView.Factory));
         }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)

@@ -19,7 +19,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         public object CValue { get; private set; }
         public JSCSGlueType Type { get { return JSCSGlueType.Object; } } 
         private IWebView WebView { get { return _HTMLViewContext.WebView; } }
-        private IJavascriptSessionInjector Injector { get { return _HTMLViewContext.JavascriptSessionInjector; } }
+        private IJavascriptViewModelUpdater ViewModelUpdater { get { return _HTMLViewContext.ViewModelUpdater; } }
 
         public JSGenericObject(HTMLViewContext context, IJavascriptObject value, object icValue)
         {
@@ -78,7 +78,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         public void ReRoot(string propertyName, IJSCSGlue glue)
         {
             UpdateCSharpProperty(propertyName, glue);
-            Injector.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue());
+            ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue());
         }    
     }
 }

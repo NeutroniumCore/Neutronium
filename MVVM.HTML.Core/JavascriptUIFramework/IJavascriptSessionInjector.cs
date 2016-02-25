@@ -37,25 +37,8 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         Task RegisterMainViewModel(IJavascriptObject jsObject);
 
         /// <summary>
-        /// Update javascript viewmodel without raising listeners events
+        /// Get the corresponding ViewModel updater
         /// </summary>
-        /// <param name="father">
-        /// view model to be updated
-        /// </param>
-        /// <param name="propertyName">
-        /// Name of the property to be updated
-        /// </param>
-        /// <param name="value">
-        /// new value of the property
-        /// </param>
-        void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value);
-
-        void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject glue);
-
-        void SpliceCollection(IJavascriptObject array,int index, int number);
-
-        void ClearAllCollection(IJavascriptObject array);
-
-        void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex);
+        IJavascriptViewModelUpdater ViewModelUpdater { get; }
     }
 }

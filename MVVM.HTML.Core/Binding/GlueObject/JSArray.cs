@@ -22,7 +22,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         public JSCSGlueType Type { get { return JSCSGlueType.Array; } }
         public IJavascriptObject MappedJSValue { get; private set; }
         private IWebView WebView { get { return _HTMLViewContext.WebView; } }
-        private IJavascriptSessionInjector Injector { get { return _HTMLViewContext.JavascriptSessionInjector; } }
+        private IJavascriptViewModelUpdater ViewModelUpdater { get { return _HTMLViewContext.ViewModelUpdater; } }
         private IDispatcher UIDispatcher { get { return _HTMLViewContext.UIDispatcher; } }
 
         public JSArray(HTMLViewContext context, IEnumerable<IJSCSGlue> values, IEnumerable collection)
@@ -79,22 +79,22 @@ namespace MVVM.HTML.Core.Binding.GlueObject
 
         private void Splice(int index, int number, IJSCSGlue glue)
         {
-            Injector.SpliceCollection(MappedJSValue, index, number, glue.GetJSSessionValue());
+            ViewModelUpdater.SpliceCollection(MappedJSValue, index, number, glue.GetJSSessionValue());
         }
 
         private void Splice(int index, int number)
         {
-            Injector.SpliceCollection(MappedJSValue, index, number);
+            ViewModelUpdater.SpliceCollection(MappedJSValue, index, number);
         }
 
         private void ClearAllJavascriptCollection()
         {
-            Injector.ClearAllCollection(MappedJSValue);
+            ViewModelUpdater.ClearAllCollection(MappedJSValue);
         }
 
         public void MoveJavascriptCollection(IJavascriptObject item, int oldIndex, int newIndex)
-        { 
-            Injector.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
+        {
+            ViewModelUpdater.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
         }
 
         public void Add(IJSCSGlue jscBridge, int index)
