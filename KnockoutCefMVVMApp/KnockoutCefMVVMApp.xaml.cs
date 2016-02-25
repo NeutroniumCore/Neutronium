@@ -9,7 +9,7 @@ namespace KnockoutCefMVVMApp
     {
         public App()
         {
-            JavascriptSessionInjectorFactory = new KnockoutSessionInjectorFactory();
+            JavascriptUiFrameworkManager = new KnockoutUiFrameworkManager();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace HTML_WPF.Component
         private IUrlSolver _IUrlSolver;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private string _JavascriptDebugScript = null;
-        private readonly IJavascriptSessionInjectorFactory _Injector;
+        private readonly IJavascriptUIFrameworkManager _Injector;
 
         public ICommand DebugWindow { get; private set; }
         public ICommand DebugBrowser { get; private set; }

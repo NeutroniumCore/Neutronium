@@ -35,10 +35,5 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// task that completes when all binding are done
         ///</returns>
         Task RegisterMainViewModel(IJavascriptObject jsObject);
-
-        /// <summary>
-        /// Get the corresponding ViewModel updater
-        /// </summary>
-        IJavascriptViewModelUpdater ViewModelUpdater { get; }
     }
 }

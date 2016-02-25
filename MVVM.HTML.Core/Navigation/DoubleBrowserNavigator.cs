@@ -15,7 +15,7 @@ namespace MVVM.HTML.Core.Navigation
     public class DoubleBrowserNavigator : INavigationSolver
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
-        private readonly IJavascriptSessionInjectorFactory _JavascriptSessionInjectorFactory;
+        private readonly IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
         private readonly IUrlSolver _UrlSolver;        
         private IHTMLWindowProvider _CurrentWebControl;
         private IHTMLWindowProvider _NextWebControl;
@@ -36,9 +36,9 @@ namespace MVVM.HTML.Core.Navigation
         }
 
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, 
-                                        IJavascriptSessionInjectorFactory javascriptSessionInjectorFactory)
+                                        IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
         {
-            _JavascriptSessionInjectorFactory = javascriptSessionInjectorFactory;
+            _javascriptUiFrameworkManager = javascriptUiFrameworkManager;
             _WebViewLifeCycleManager = lifecycler;
             _UrlSolver = urlSolver;
         }
@@ -177,7 +177,7 @@ namespace MVVM.HTML.Core.Navigation
                 before = (o,e) =>
                 {
                     moderWindow.BeforeJavascriptExecuted -= before;
-                    e.JavascriptExecutor(_JavascriptSessionInjectorFactory.GetMainScript());
+                    e.JavascriptExecutor(_javascriptUiFrameworkManager.GetMainScript());
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }
@@ -201,9 +201,9 @@ namespace MVVM.HTML.Core.Navigation
             return tcs.Task;
         }
 
-        private IJavascriptSessionInjectorFactory GetInjectorFactory(string iUri)
+        private IJavascriptUIFrameworkManager GetInjectorFactory(string iUri)
         {
-            return _JavascriptSessionInjectorFactory;
+            return _javascriptUiFrameworkManager;
         }
 
         public void ExcecuteJavascript(string icode)

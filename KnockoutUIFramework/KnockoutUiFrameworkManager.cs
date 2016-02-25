@@ -7,7 +7,7 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace KnockoutUIFramework
 {
-    public class KnockoutSessionInjectorFactory : IJavascriptSessionInjectorFactory
+    public class KnockoutUiFrameworkManager : IJavascriptUIFrameworkManager
     {
         private string _JavascriptDebugScript;
         private string _MainScript;
@@ -18,6 +18,11 @@ namespace KnockoutUIFramework
         public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {
             return new KnockoutSessionInjector(webView, javascriptObserver);
+        }
+
+        public IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView)
+        {
+            return new KnockoutViewModelUpdater(webView);
         }
 
         public string GetDebugScript()

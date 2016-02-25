@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using System;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.JavascriptUIFramework
 {
@@ -6,7 +7,7 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
     /// Interface responsible for updating javascript ViewModel to reflect
     /// C# ViewModel updates
     /// </summary>
-    public interface IJavascriptViewModelUpdater
+    public interface IJavascriptViewModelUpdater : IDisposable
     {
         /// <summary>
         /// Update javascript viewmodel without raising listeners events

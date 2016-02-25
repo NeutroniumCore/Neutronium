@@ -13,7 +13,6 @@ namespace KnockoutUIFramework
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptChangesObserver _JavascriptListener;
-        private readonly KnockoutViewModelUpdater _KnockoutViewModelUpdater;
         private readonly Queue<IJavascriptObjectMapper> _JavascriptMapper = new Queue<IJavascriptObjectMapper>();
         private IJavascriptObject _Listener;
         private IJavascriptObjectMapper _Current;
@@ -24,7 +23,6 @@ namespace KnockoutUIFramework
         {
             _WebView = iWebView;
             _JavascriptListener = iJavascriptListener;
-            _KnockoutViewModelUpdater = new KnockoutViewModelUpdater(_WebView);
 
             _WebView.Run(() =>
             {
@@ -50,7 +48,6 @@ namespace KnockoutUIFramework
 
         public void Dispose()
         {
-            _KnockoutViewModelUpdater.Dispose();
             _WebView.Run(() =>
             {
                 if (_Listener == null)
@@ -143,11 +140,6 @@ namespace KnockoutUIFramework
                     ko.Invoke("register", _WebView, jsObject);
                     ko.Invoke("applyBindings", _WebView, jsObject);
                 });
-        }
-
-        public IJavascriptViewModelUpdater ViewModelUpdater
-        {
-            get { return _KnockoutViewModelUpdater; }
         }
     }
 }

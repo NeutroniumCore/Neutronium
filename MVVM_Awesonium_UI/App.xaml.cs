@@ -16,7 +16,7 @@ namespace MVVM_Awesonium_UI
             var engine = HTMLEngineFactory.Engine;
             engine.Register(new AwesomiumWPFWebWindowFactory() );
             engine.Register(new CefGlueWPFWebWindowFactory());
-            engine.Register(new KnockoutSessionInjectorFactory());
+            engine.Register(new KnockoutUiFrameworkManager());
             base.OnStartup(e);
         }
 

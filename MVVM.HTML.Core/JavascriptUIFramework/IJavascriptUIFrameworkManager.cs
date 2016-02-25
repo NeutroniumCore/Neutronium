@@ -4,9 +4,9 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 namespace MVVM.HTML.Core.JavascriptUIFramework
 {
     /// <summary>
-    /// IJavascriptSessionInjector factory
+    /// IJavascriptUIFrameworkManager factory
     /// </summary>
-    public interface IJavascriptSessionInjectorFactory
+    public interface IJavascriptUIFrameworkManager
     {
 
         /// <summary>
@@ -32,6 +32,14 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// the newly created IJavascriptSessionInjector
         ///</returns>
         IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver);
+
+        /// <summary>
+        /// Create  ViewModel updater from webview
+        /// </summary>
+        /// <param name="webView">
+        /// IWebView
+        /// </param>
+        IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView);
 
         /// <summary>
         /// return javascript debug script to allow interactive debug

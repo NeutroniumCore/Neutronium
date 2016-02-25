@@ -82,7 +82,7 @@ namespace MVVM.HTML.Core.Binding
             if (ListenToCSharp)
                 UnlistenToCSharpChanges();
 
-            _sessionInjector.Dispose();
+            _Context.Dispose();
             _UnrootedEntities.Clear();
         }
 

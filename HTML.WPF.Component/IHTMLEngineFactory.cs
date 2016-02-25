@@ -31,24 +31,24 @@ namespace HTML_WPF.Component
 
 
         /// <summary>
-        /// Find a IJavascriptSessionInjectorFactory by name.
+        /// Find a IJavascriptUIFrameworkManager by name.
         /// This method is called internally by HTLM_WPF.Component controls
         /// </summary>
         /// <param name="frameworkName">
         /// the name of the factory to be found
         /// </param>
         /// <returns>
-        /// IJavascriptSessionInjectorFactory registered with a similar name.
+        /// IJavascriptUIFrameworkManager registered with a similar name.
         ///</returns>
-        IJavascriptSessionInjectorFactory ResolveJavaScriptFramework(string frameworkName);
+        IJavascriptUIFrameworkManager ResolveJavaScriptFramework(string frameworkName);
 
         /// <summary>
-        /// register a IJavascriptSessionInjectorFactory using its Name property
+        /// register a IJavascriptUIFrameworkManager using its Name property
         /// </summary>
-        /// <param name="javascriptSessionInjectorFactory">
-        /// IJavascriptSessionInjectorFactory to be registered
+        /// <param name="javascriptUiFrameworkManager">
+        /// IJavascriptUIFrameworkManager to be registered
         /// </param>
-        void Register(IJavascriptSessionInjectorFactory javascriptSessionInjectorFactory);
+        void Register(IJavascriptUIFrameworkManager javascriptUiFrameworkManager);
 
     }
 }

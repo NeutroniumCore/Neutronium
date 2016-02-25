@@ -1,5 +1,4 @@
-﻿using MVVM.HTML.Core.JavascriptEngine;
-using MVVM.HTML.Core.JavascriptEngine.Control;
+﻿using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
@@ -8,12 +7,12 @@ namespace MVVM.HTML.Core.Binding
     public class HTMLViewEngine
     {
         private IHTMLWindowProvider _HTMLWindowProvider;
-        private IJavascriptSessionInjectorFactory _SessionInjectorFactory;
+        private IJavascriptUIFrameworkManager _uiFrameworkManager;
 
-        internal HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptSessionInjectorFactory sessionInjectorFactory)
+        internal HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptUIFrameworkManager uiFrameworkManager)
         {
             _HTMLWindowProvider = hTMLWindowProvider;
-            _SessionInjectorFactory = sessionInjectorFactory;
+            _uiFrameworkManager = uiFrameworkManager;
         }
 
         private IWebView MainView
@@ -23,7 +22,7 @@ namespace MVVM.HTML.Core.Binding
 
         public HTMLViewContext GetMainContext()
         {
-            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _SessionInjectorFactory);
+            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _uiFrameworkManager);
         }
     }
 }

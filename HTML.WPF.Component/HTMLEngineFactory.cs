@@ -13,7 +13,7 @@ namespace HTML_WPF.Component
     public class HTMLEngineFactory : IHTMLEngineFactory
     {
         private IDictionary<string, IWPFWebWindowFactory> _Engines = new Dictionary<string, IWPFWebWindowFactory>();
-        private IDictionary<string, IJavascriptSessionInjectorFactory> _JavascriptFrameworks = new Dictionary<string, IJavascriptSessionInjectorFactory>();
+        private IDictionary<string, IJavascriptUIFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptUIFrameworkManager>();
 
         /// <summary>
         /// Access the singleton IHTMLEngineFactory
@@ -49,14 +49,14 @@ namespace HTML_WPF.Component
         }
 
 
-        public IJavascriptSessionInjectorFactory ResolveJavaScriptFramework(string frameworkName)
+        public IJavascriptUIFrameworkManager ResolveJavaScriptFramework(string frameworkName)
         {
             if (_JavascriptFrameworks.Count == 1)
             {
                 var res = _JavascriptFrameworks.First().Value;
                 if (!string.IsNullOrEmpty(frameworkName) && (res.Name != frameworkName))
                 {
-                    Trace.WriteLine(string.Format("Name mismatch in IJavascriptSessionInjectorFactory resolution {0} vs {1}", frameworkName, res.Name));
+                    Trace.WriteLine(string.Format("Name mismatch in IJavascriptUIFrameworkManager resolution {0} vs {1}", frameworkName, res.Name));
                 }
                 return res;
             }
@@ -64,9 +64,9 @@ namespace HTML_WPF.Component
             return _JavascriptFrameworks.GetOrDefault(frameworkName);
         }
 
-        public void Register(IJavascriptSessionInjectorFactory javascriptSessionInjectorFactory)
+        public void Register(IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
         {
-            _JavascriptFrameworks.Add(javascriptSessionInjectorFactory.Name, javascriptSessionInjectorFactory);
+            _JavascriptFrameworks.Add(javascriptUiFrameworkManager.Name, javascriptUiFrameworkManager);
         }
 
         public void Dispose()

@@ -37,7 +37,7 @@ namespace MVVM.Cef.Glue.Test
         private HTMLViewContext _HTMLViewContext;
         private IJSCommandFactory _JSCommandFactory;
         private IJavascriptSessionCache _ICSharpMapper;
-        private IJavascriptSessionInjectorFactory _JavascriptSessionInjectorFactory;
+        private IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
 
         public Test_ConvertToJSO()
         {
@@ -48,8 +48,8 @@ namespace MVVM.Cef.Glue.Test
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
-            _JavascriptSessionInjectorFactory = Substitute.For<IJavascriptSessionInjectorFactory>();
-            _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), _JavascriptSessionInjectorFactory);
+            _javascriptUiFrameworkManager = Substitute.For<IJavascriptUIFrameworkManager>();
+            _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), _javascriptUiFrameworkManager);
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>();

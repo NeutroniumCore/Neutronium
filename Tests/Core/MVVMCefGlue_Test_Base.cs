@@ -74,7 +74,7 @@ namespace MVVM.Cef.Glue.Test.Core
                             var htmlWindowProvider = new TestCefGlueHTMLWindowProvider(frame);
                             _Father._ICefGlueWindow = new HTMLViewEngine(
                                 htmlWindowProvider,
-                                new KnockoutSessionInjectorFactory()
+                                new KnockoutUiFrameworkManager()
                             );
                             tcs.SetResult(htmlWindowProvider);
                         }
