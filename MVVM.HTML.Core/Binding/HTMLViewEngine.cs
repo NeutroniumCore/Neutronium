@@ -7,13 +7,13 @@ namespace MVVM.HTML.Core.Binding
 {
     public class HTMLViewEngine
     {
-        private IHTMLWindowProvider _HTMLWindowProvider;
-        private IJavascriptUIFrameworkManager _uiFrameworkManager;
+        private readonly IHTMLWindowProvider _HTMLWindowProvider;
+        private readonly IJavascriptUIFrameworkManager _UIFrameworkManager;
 
         internal HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptUIFrameworkManager uiFrameworkManager)
         {
             _HTMLWindowProvider = hTMLWindowProvider;
-            _uiFrameworkManager = uiFrameworkManager;
+            _UIFrameworkManager = uiFrameworkManager;
         }
 
         private IWebView MainView
@@ -23,7 +23,7 @@ namespace MVVM.HTML.Core.Binding
 
         public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {
-            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _uiFrameworkManager, javascriptChangesObserver);
+            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _UIFrameworkManager, javascriptChangesObserver);
         }
 
         internal async Task<BidirectionalMapper> GetMapper(object viewModel, JavascriptBindingMode iMode, object additional)
