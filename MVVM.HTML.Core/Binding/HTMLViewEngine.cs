@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.Control;
+﻿using System.Threading.Tasks;
+using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
@@ -20,9 +21,16 @@ namespace MVVM.HTML.Core.Binding
             get { return _HTMLWindowProvider.HTMLWindow.MainFrame; }
         }
 
-        public HTMLViewContext GetMainContext()
+        public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {
-            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _uiFrameworkManager);
+            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _uiFrameworkManager, javascriptChangesObserver);
+        }
+
+        internal async Task<BidirectionalMapper> GetMapper(object viewModel, JavascriptBindingMode iMode, object additional)
+        {
+            var mapper = await MainView.EvaluateAsync(() => new BidirectionalMapper(viewModel, this, iMode, additional));
+            await mapper.Init();
+            return mapper;
         }
     }
 }

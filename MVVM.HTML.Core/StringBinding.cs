@@ -49,7 +49,7 @@ namespace MVVM.HTML.Core
 
         public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel)
         {
-            var context = engine.GetMainContext();
+            var context = engine.GetMainContext(null);
             var mainView = context.WebView;
 
             var root = await mainView.EvaluateAsync(() =>
@@ -58,7 +58,7 @@ namespace MVVM.HTML.Core
                     return json.Invoke("parse", mainView, mainView.Factory.CreateString(iViewModel));
                 });
 
-            var injector = context.CreateInjector(null);
+            var injector = context.JavascriptSessionInjector;
             var mappedroot = injector.Inject(root, null);
             await injector.RegisterMainViewModel(mappedroot);
 

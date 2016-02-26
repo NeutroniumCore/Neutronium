@@ -11,9 +11,9 @@ namespace MVVM.HTML.Core
         private readonly BidirectionalMapper _BirectionalMapper;
         private readonly HTMLViewContext _Context;
 
-        private HTML_Binding(HTMLViewContext iContext, BidirectionalMapper iConvertToJSO)
+        private HTML_Binding(BidirectionalMapper iConvertToJSO)
         {
-            _Context = iContext;
+            _Context = iConvertToJSO.Context;
             _BirectionalMapper = iConvertToJSO;
         }
 
@@ -53,9 +53,8 @@ namespace MVVM.HTML.Core
 
         internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)
         {
-            var htmlContext = viewEngine.GetMainContext();
-            var mapper = await htmlContext.GetMapper(iViewModel, iMode, additional);
-            return new HTML_Binding(htmlContext, mapper);
+            var mapper = await viewEngine.GetMapper(iViewModel, iMode, additional);
+            return new HTML_Binding(mapper);
         }
     }
 }

@@ -27,13 +27,15 @@ namespace MVVM.HTML.Core.Binding
         public IJSCSGlue JSValueRoot { get { return _Root; } }
         public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
         public JavascriptBindingMode Mode { get { return _BindingMode; } }
+        public HTMLViewContext Context { get { return _Context; } }
 
-        internal BidirectionalMapper(object iRoot, HTMLViewContext context, JavascriptBindingMode iMode, object iadd)
-        { 
-            _Context = context;  
+
+        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, object iadd)
+        {        
             _BindingMode = iMode; 
             var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
-            _sessionInjector = _Context.CreateInjector(javascriptObjecChanges);    
+            _Context = contextBuilder.GetMainContext(javascriptObjecChanges);
+            _sessionInjector = _Context.JavascriptSessionInjector;  
             _SessionCache = new SessionCacher();
             _ListenerRegister = new FullListenerRegister(
                                         (n) => n.PropertyChanged += CSharpPropertyChanged,
@@ -42,7 +44,7 @@ namespace MVVM.HTML.Core.Binding
                                         (n) => n.CollectionChanged -= CSharpCollectionChanged,
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
-            var commandFactory = new CommandFactory(context, this);
+            var commandFactory = new CommandFactory(_Context, this);
             RegisterJavascriptHelper();
             _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, commandFactory) ;
             _Root = _JSObjectBuilder.Map(iRoot, iadd); 

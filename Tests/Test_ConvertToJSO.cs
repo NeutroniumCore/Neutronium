@@ -49,12 +49,14 @@ namespace MVVM.Cef.Glue.Test
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _javascriptUiFrameworkManager = Substitute.For<IJavascriptUIFrameworkManager>();
-            _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), _javascriptUiFrameworkManager);
+            _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), _javascriptUiFrameworkManager, null);
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory);
             _Test = new TestClass { S1 = "string", I1 = 25 };
-            _Tests = new List<TestClass>();
-            _Tests.Add(new TestClass() { S1 = "string1", I1 = 1 });
-            _Tests.Add(new TestClass() { S1 = "string2", I1 = 2 });
+            _Tests = new List<TestClass>
+            {
+                new TestClass() {  S1 = "string1", I1 = 1 },
+                new TestClass() { S1 = "string2", I1 = 2  }
+            };
             _Test2 = new Test2() { T1 = _Test, T2 = _Test };
 
             _Tests_NG = new ArrayList();
