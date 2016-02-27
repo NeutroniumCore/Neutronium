@@ -22,6 +22,7 @@ using MVVM.Component;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using IntegratedTest;
 
 namespace MVVM.Cef.Glue.Test
 {

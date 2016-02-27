@@ -22,18 +22,18 @@ namespace MVVM.Cef.Glue.Test
         }
 
         [Fact]
-        public void Test_CefTask_Action_Should_Swallow_Exception()
+        public void Test_CefTask_Action_Should_Not_Swallow_Exception()
         {
             using (Tester())
             {
-                Action Do = Substitute.For<Action>();
-                Do.When(d => d()).Do(_ => { throw new Exception(); });
+                Action action = Substitute.For<Action>();
+                action.When(d => d()).Do(_ => { throw new Exception(); });
 
-                Action wf = () => DoSafe(Do);
+                Action wf = () => DoSafe(action);
 
                 wf.ShouldThrow<Exception>();
 
-                Do.Received(1).Invoke();
+                action.Received(1).Invoke();
             }
         }
     }

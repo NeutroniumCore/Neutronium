@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
 
-namespace MVVM.Cef.Glue.Test.Core
+namespace IntegratedTest
 {
     public class TestInContext
     {

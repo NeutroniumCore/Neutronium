@@ -93,22 +93,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
-    <Compile Include="CefWindowless\TestCefGlueWindow.cs" />
-    <Compile Include="CefWindowless\TestIUIDispatcher.cs" />
+    <Compile Include="Cef.Glue\CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
+    <Compile Include="Cef.Glue\CefWindowless\TestCefGlueWindow.cs" />
+    <Compile Include="Cef.Glue\CefWindowless\TestIUIDispatcher.cs" />
+    <Compile Include="Cef.Glue\CefGlueWindowlessJavascriptEngine.cs" />
     <Compile Include="Infra\DispatcherHelper.cs" />
     <Compile Include="Core\CefV8Value_Extension.cs" />
     <Compile Include="Core\MVVMCefGlue_Test_Base.cs" />
-    <Compile Include="CefWindowless\TestCefLifeSpanHandler.cs" />
-    <Compile Include="CefWindowless\TestCefLoadHandler.cs" />
-    <Compile Include="CefWindowless\TestCefClient.cs" />
-    <Compile Include="CefWindowless\TestCefRenderHandler.cs" />
-    <Compile Include="Core\TestInContext.cs" />
+    <Compile Include="Cef.Glue\CefWindowless\TestCefLifeSpanHandler.cs" />
+    <Compile Include="Cef.Glue\CefWindowless\TestCefLoadHandler.cs" />
+    <Compile Include="Cef.Glue\CefWindowless\TestCefClient.cs" />
+    <Compile Include="Cef.Glue\CefWindowless\TestCefRenderHandler.cs" />
     <Compile Include="Test_CefTask_Action.cs" />
     <Compile Include="Test_HTMLApp.cs" />
     <Compile Include="Test_HTMLViewControl.cs" />
     <Compile Include="Infra\AssemblyHelper.cs" />
-    <Compile Include="Core\ViewModelCLRTypes.cs" />
     <Compile Include="Infra\WindowTest.cs" />
     <Compile Include="Infra\WPFThreadingHelper.cs" />
     <Compile Include="Test_DoubleNavigation.cs" />
@@ -146,6 +145,14 @@
     <ProjectReference Include="..\ViewModelExamples\MVVM.ViewModel.csproj">
       <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
       <Name>MVVM.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="IntegratedTest\IntegratedTest.csproj">
+      <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
+      <Name>IntegratedTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj">
+      <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
+      <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
