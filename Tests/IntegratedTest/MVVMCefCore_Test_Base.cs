@@ -9,6 +9,7 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace IntegratedTest
 {
@@ -18,10 +19,12 @@ namespace IntegratedTest
         protected HTMLViewEngine _ICefGlueWindow = null;
         private IWindowlessJavascriptEngine _Tester;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
+        private TestEnvironment _TestEnvironment;
 
-        protected abstract IWindowlessJavascriptEngine GetWindowlessJavascriptEngine();
-
-        protected abstract IJavascriptFrameworkExtractor BuildJavascriptFrameworkExtractor(IWebView webview);
+        public MVVMCefCore_Test_Base(TestEnvironment testEnvironment)
+        {
+            _TestEnvironment = testEnvironment;
+        }
 
         protected virtual void Init()
         {
@@ -42,12 +45,17 @@ namespace IntegratedTest
             if (_Tester != null)
                 _Tester.Dispose();
 
-            _Tester = GetWindowlessJavascriptEngine();
+            _Tester = _TestEnvironment.WindowlessJavascriptEngineBuilder();
             _Tester.Init(ihtlmpath);
             _ICefGlueWindow = _Tester.ViewEngine;
             _WebView = _Tester.WebView;
-            _JavascriptFrameworkExtractor = BuildJavascriptFrameworkExtractor(_WebView);
+            _JavascriptFrameworkExtractor = _TestEnvironment.JavascriptFrameworkExtractorBuilder(_WebView);
             return _Tester;
+        }
+
+        public IDispatcher  GetTestUIDispacther()
+        {
+            return _TestEnvironment.TestUIDispacther;
         }
 
         protected T GetSafe<T>(Func<T> UnsafeGet)

@@ -61,6 +61,7 @@
     <Compile Include="IWindowlessJavascriptEngine.cs" />
     <Compile Include="MVVMCefCore_Test_Base.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestEnvironment.cs" />
     <Compile Include="TestInContext.cs" />
     <Compile Include="ViewModelCLRTypes.cs" />
   </ItemGroup>
