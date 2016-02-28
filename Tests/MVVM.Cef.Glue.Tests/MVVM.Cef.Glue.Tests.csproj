@@ -99,7 +99,7 @@
     <Compile Include="Test_ConvertToJSO.cs" />
     <Compile Include="Test_DoubleNavigation_Animation_Cef.cs" />
     <Compile Include="Test_DoubleNavigation_Cef.cs" />
-    <Compile Include="Test_HTMLApp.cs" />
+    <Compile Include="Test_HTMLCefGlueApp.cs" />
     <Compile Include="Test_HTMLBinding.cs" />
     <Compile Include="Test_HTMLViewControl_Cef.cs" />
     <Compile Include="Test_JavascriptToCSharpMapper_Simple.cs" />

@@ -15,7 +15,7 @@ using MVVM.Cef.Glue.Test.Infra;
 
 namespace MVVM.Cef.Glue.Test
 {
-    public class Test_HTMLApp
+    public class Test_HTMLCefGlueApp
     {
         private class EnvironmentBuilder : IDisposable
         {
