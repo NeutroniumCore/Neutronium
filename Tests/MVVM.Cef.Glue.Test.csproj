@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Cef.Glue\CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
     <Compile Include="Cef.Glue\CefWindowless\TestCefGlueWindow.cs" />
+    <Compile Include="Cef.Glue\CefWindowless\TestDisplayHandler.cs" />
     <Compile Include="Cef.Glue\CefWindowless\TestIUIDispatcher.cs" />
     <Compile Include="Cef.Glue\CefGlueWindowlessJavascriptEngine.cs" />
     <Compile Include="Infra\DispatcherHelper.cs" />
@@ -165,6 +166,9 @@
     <Content Include="javascript\index_promise.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="javascript\src\Infra.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="javascript\src\knockout-delegatedEvents.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -223,27 +227,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="javascript\navigation_1.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\lib\jasmine-2.0.3\boot.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\lib\jasmine-2.0.3\console.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\lib\jasmine-2.0.3\jasmine-html.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\lib\jasmine-2.0.3\jasmine.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\lib\jasmine-2.0.3\jasmine.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\lib\jasmine-2.0.3\jasmine_favicon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\SpecRunner.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="javascript\index.html">

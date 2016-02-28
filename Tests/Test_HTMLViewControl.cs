@@ -36,10 +36,12 @@ namespace MVVM.Cef.Glue.Test
 
         internal void Test(Action<HTMLViewControl, WindowTest> Test, bool iDebug = false, bool Cef=true)
         {
+            var engine = HTMLEngineFactory.Engine;
             if (Cef)
             {
-                HTMLEngineFactory.Engine.Register(new CefGlueWPFWebWindowFactory());
+                engine.Register(new CefGlueWPFWebWindowFactory());
             }
+            engine.Register(new KnockoutUIFramework.KnockoutUiFrameworkManager());
 
             AssemblyHelper.SetEntryAssembly();
             HTMLViewControl wc1 = null;

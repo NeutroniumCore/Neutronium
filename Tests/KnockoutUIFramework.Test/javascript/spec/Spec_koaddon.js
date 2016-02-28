@@ -1,3 +1,4 @@
+/// <reference path="../../../../knockoutuiframework/scripts/infra.js" />
 /// <reference path="../../../../knockoutuiframework/scripts/knockout.js" />
 /// <reference path="../../../../knockoutuiframework/scripts/ko_extension.js" />
 /// <reference path="../../../../mvvm.html.core/binding/mapping/scripts/infra.js" />

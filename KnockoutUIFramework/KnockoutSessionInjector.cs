@@ -132,10 +132,9 @@ namespace KnockoutUIFramework
 
         public Task RegisterMainViewModel(IJavascriptObject jsObject)
         {
-            var ko = GetKo();
-
             return _WebView.RunAsync(() =>
-                {
+                {  
+                    var ko = GetKo();
                     ko.Bind("log", _WebView, (e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
                     ko.Invoke("register", _WebView, jsObject);
                     ko.Invoke("applyBindings", _WebView, jsObject);

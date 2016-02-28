@@ -18,6 +18,7 @@ using HTML_WPF.Component;
 using MVVM.Cef.Glue.Test.Infra;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Navigation;
+using KnockoutUIFramework;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -29,10 +30,12 @@ namespace MVVM.Cef.Glue.Test
 
         private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle, bool Cef = true)
         {
+            var engine = HTMLEngineFactory.Engine;
             if (Cef)
             {
-                HTMLEngineFactory.Engine.Register(new CefGlueWPFWebWindowFactory());
+                engine.Register(new CefGlueWPFWebWindowFactory());
             }
+            engine.Register(new KnockoutUiFrameworkManager());
 
             return new WindowTest(
                 (w) =>

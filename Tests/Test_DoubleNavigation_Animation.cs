@@ -10,6 +10,7 @@ using MVVM.HTML.Core;
 using HTML_WPF.Component;
 using MVVM.Cef.Glue.Test.Infra;
 using MVVM.HTML.Core.Navigation;
+using KnockoutUIFramework;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -37,10 +38,12 @@ namespace MVVM.Cef.Glue.Test
 
         internal void TestNavigation(Action<HTMLWindow, WindowTest> Test, bool Cef=true)
         {
+            var engine =HTMLEngineFactory.Engine;
             if (Cef)
             {
-                HTMLEngineFactory.Engine.Register(new CefGlueWPFWebWindowFactory());
+                engine.Register(new CefGlueWPFWebWindowFactory());
             }
+            engine.Register(new KnockoutUiFrameworkManager());
 
             AssemblyHelper.SetEntryAssembly();
 

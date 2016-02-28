@@ -162,9 +162,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="scripts\Infra.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="scripts\Infra.js" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>

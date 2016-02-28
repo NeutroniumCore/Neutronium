@@ -1552,7 +1552,7 @@ namespace MVVM.Cef.Glue.Test
 
                     _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000);
                     col = UnWrapCollection(js, "Skills");
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using MVVM.Cef.Glue.Test.Cef.Glue.CefWindowless;
+using System.Threading.Tasks;
 using Xilium.CefGlue;
 
 namespace MVVM.Cef.Glue.Test.CefWindowless
@@ -8,11 +9,14 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
         private readonly TestCefLoadHandler _TestCefLoadHandler;
         private readonly TestCefRenderHandler _TestCefRenderHandler;
         private readonly TestCefLifeSpanHandler _TestCefLifeSpanHandler;
+        private readonly TestDisplayHandler _TestDisplayHandler;
+
         public TestCefClient()
         {
             _TestCefLoadHandler = new TestCefLoadHandler();
             _TestCefRenderHandler = new TestCefRenderHandler();
             _TestCefLifeSpanHandler = new TestCefLifeSpanHandler();
+            _TestDisplayHandler = new TestDisplayHandler();
         }
 
         internal Task<CefBrowser> GetLoadedBroserAsync()
@@ -33,6 +37,11 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
         protected override CefRenderHandler GetRenderHandler()
         {
             return _TestCefRenderHandler;
+        }
+
+        protected override CefDisplayHandler GetDisplayHandler()
+        {
+            return _TestDisplayHandler;
         }
     }
 }

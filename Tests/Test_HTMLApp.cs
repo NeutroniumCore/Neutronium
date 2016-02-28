@@ -10,6 +10,7 @@ using System.Threading;
 using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using KnockoutUIFramework;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -31,6 +32,11 @@ namespace MVVM.Cef.Glue.Test
             }
         }
 
+        private static HTMLCefGlueApp GetApplication()
+        {
+            return new HTMLCefGlueApp() { JavascriptUiFrameworkManager = new KnockoutUiFrameworkManager() };
+        }
+
         [Fact]
         public async Task Test_HTMLApp_Start_Should_not_Override_Session()
         {
@@ -39,7 +45,7 @@ namespace MVVM.Cef.Glue.Test
                 HTMLCefGlueApp target = null;
                 IDispatcher disp = await Task.Run(() =>
                 {
-                    target = new HTMLCefGlueApp();
+                    target = GetApplication();
                     return new WPFUIDispatcher(target.Dispatcher);
 
                 });
@@ -62,7 +68,7 @@ namespace MVVM.Cef.Glue.Test
             HTMLCefGlueApp target = null;
             IDispatcher disp = await Task.Run(() =>
             {
-                target = new HTMLCefGlueApp();
+                target = GetApplication();
                 return new WPFUIDispatcher(target.Dispatcher);
             });
 
