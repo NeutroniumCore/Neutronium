@@ -1,19 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{84916CEB-FEF3-4A42-B1A0-7B43F3D88CCB}</ProjectGuid>
+    <ProjectGuid>{D2C8F24F-7614-4126-B0D0-4967234565E3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVVM.Cef.Glue.Test</RootNamespace>
-    <AssemblyName>MVVM.Cef.Glue.Test</AssemblyName>
+    <RootNamespace>MVVM.Cef.Glue.Tests</RootNamespace>
+    <AssemblyName>MVVM.Cef.Glue.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>f8b9d04e</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>1bc64b0d</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,17 +21,14 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -43,38 +38,34 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NSubstitute">
-      <HintPath>..\packages\NSubstitute.1.7.2.0\lib\NET40\NSubstitute.dll</HintPath>
+      <HintPath>..\..\packages\NSubstitute.1.9.2.0\lib\net45\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -82,80 +73,63 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationClient" />
-    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
     <Reference Include="Xilium.CefGlue">
-      <HintPath>..\packages\Unofficial.CefGlue.Core.3.2272.2035\lib\Xilium.CefGlue.dll</HintPath>
+      <HintPath>..\..\packages\Unofficial.CefGlue.Core.3.2272.2035\lib\Xilium.CefGlue.dll</HintPath>
     </Reference>
     <Reference Include="xunit">
-      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+      <HintPath>..\..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infra\CefGlueWindowlessJavascriptEngine.cs" />
+    <Compile Include="Infra\CefTestHelper.cs" />
+    <Compile Include="Infra\CefV8Value_Extension.cs" />
+    <Compile Include="Infra\CefWindowless\TestCefClient.cs" />
     <Compile Include="Infra\CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
     <Compile Include="Infra\CefWindowless\TestCefGlueWindow.cs" />
-    <Compile Include="Infra\CefWindowless\TestDisplayHandler.cs" />
-    <Compile Include="Infra\CefWindowless\TestIUIDispatcher.cs" />
-    <Compile Include="Infra\CefGlueWindowlessJavascriptEngine.cs" />
-    <Compile Include="Infra\MVVMCefGlue_Test_Base.cs" />
     <Compile Include="Infra\CefWindowless\TestCefLifeSpanHandler.cs" />
     <Compile Include="Infra\CefWindowless\TestCefLoadHandler.cs" />
-    <Compile Include="Infra\CefWindowless\TestCefClient.cs" />
     <Compile Include="Infra\CefWindowless\TestCefRenderHandler.cs" />
-    <Compile Include="Infra\CefTestHelper.cs" />
-    <Compile Include="Test_CefTask_Action.cs" />
-    <Compile Include="Test_HTMLApp.cs" />
-    <Compile Include="Test_HTMLViewControl_Cef.cs" />
-    <Compile Include="Test_DoubleNavigation_Cef.cs" />
-    <Compile Include="Test_DoubleNavigation_Animation_Cef.cs" />
-    <Compile Include="Test_JavascriptToCSharpMapper_Simple.cs" />
-    <Compile Include="Test_HTMLBinding.cs" />
-    <Compile Include="Test_ConvertToJSO.cs" />
+    <Compile Include="Infra\CefWindowless\TestDisplayHandler.cs" />
+    <Compile Include="Infra\CefWindowless\TestIUIDispatcher.cs" />
+    <Compile Include="Infra\MVVMCefGlue_Test_Base.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HTML.WPF.Component\HTML_WPF.Component.csproj">
-      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>HTML_WPF.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KnockoutUIFramework\KnockoutUIFramework.csproj">
-      <Project>{587c57a8-510c-4ddf-ba5d-c45bd6050bb3}</Project>
-      <Name>KnockoutUIFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MVVM.Cef.Glue\MVVM.Cef.Glue.csproj">
-      <Project>{447c6790-e36e-4a54-bfac-06c92fff4aa3}</Project>
-      <Name>MVVM.Cef.Glue</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MVVM.Component\MVVM.Component.csproj">
-      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
-      <Name>MVVM.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
-      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>MVVM.HTML.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ViewModelExamples\MVVM.ViewModel.csproj">
-      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
-      <Name>MVVM.ViewModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="IntegratedTest\IntegratedTest.csproj">
-      <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
-      <Name>IntegratedTest</Name>
-    </ProjectReference>
-    <ProjectReference Include="KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj">
-      <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
-      <Name>KnockoutUIFramework.Test</Name>
-    </ProjectReference>
+    <Compile Include="Test_CefTask_Action.cs" />
+    <Compile Include="Test_ConvertToJSO.cs" />
+    <Compile Include="Test_DoubleNavigation_Animation_Cef.cs" />
+    <Compile Include="Test_DoubleNavigation_Cef.cs" />
+    <Compile Include="Test_HTMLApp.cs" />
+    <Compile Include="Test_HTMLBinding.cs" />
+    <Compile Include="Test_HTMLViewControl_Cef.cs" />
+    <Compile Include="Test_JavascriptToCSharpMapper_Simple.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\almost_empty.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="javascript\empty.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="javascript\empty_with_js.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="javascript\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="javascript\index_promise.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\navigation_1.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\navigation_2.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\navigation_3.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\simple.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="javascript\src\Infra.js">
@@ -168,6 +142,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="javascript\src\ko-view.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\Koaddon.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\Ko_Extension.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\Ko_register.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\Ko_register_promise.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\promise.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Navigation data\css\style.css">
@@ -191,29 +180,16 @@
     <Content Include="Navigation data\js\ref\jquery.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="javascript\src\ko-view.min.js">
-      <DependentUpon>ko-view.js</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Content Include="javascript\src\Ko_Extension.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="javascript\src\Ko_Extension.min.js">
       <DependentUpon>Ko_Extension.js</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Content Include="javascript\src\Ko_register_promise.js">
+    <EmbeddedResource Include="javascript\src\ko-view.min.js">
+      <DependentUpon>ko-view.js</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\Ko_register.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\simple.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\empty.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -228,41 +204,49 @@
     <None Include="Navigation data\js\Ko_Extension.min.js.map">
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="javascript\navigation_3.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\navigation_2.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\navigation_1.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\Koaddon.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\promise.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
+      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
+      <Name>HTML_WPF.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\KnockoutUIFramework\KnockoutUIFramework.csproj">
+      <Project>{587c57a8-510c-4ddf-ba5d-c45bd6050bb3}</Project>
+      <Name>KnockoutUIFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MVVM.Cef.Glue\MVVM.Cef.Glue.csproj">
+      <Project>{447c6790-e36e-4a54-bfac-06c92fff4aa3}</Project>
+      <Name>MVVM.Cef.Glue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MVVM.Component\MVVM.Component.csproj">
+      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
+      <Name>MVVM.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
+      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
+      <Name>MVVM.HTML.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ViewModelExamples\MVVM.ViewModel.csproj">
+      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
+      <Name>MVVM.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IntegratedTest\IntegratedTest.csproj">
+      <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
+      <Name>IntegratedTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj">
+      <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
+      <Name>KnockoutUIFramework.Test</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />
+  <Import Project="..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

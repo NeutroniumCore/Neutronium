@@ -114,22 +114,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Tests\Navigation data\css\style.css">
-      <Link>HTML\css\style.css</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Tests\Navigation data\index.html">
-      <Link>HTML\index.html</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Tests\Navigation data\js\animation.js">
-      <Link>HTML\js\animation.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Tests\Navigation data\js\ref\jquery.min.js">
-      <Link>HTML\js\ref\jquery.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="HTML\css\style.css" />
+    <Content Include="HTML\index.html" />
+    <Content Include="HTML\js\animation.js" />
+    <Content Include="HTML\js\ref\jquery.min.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">

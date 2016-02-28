@@ -16,7 +16,7 @@ using System.Windows;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: InternalsVisibleTo("MVVM.Cef.Glue.Test")]
+[assembly: InternalsVisibleTo("MVVM.Cef.Glue.Tests")]
 [assembly: InternalsVisibleTo("IntegratedTest")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
