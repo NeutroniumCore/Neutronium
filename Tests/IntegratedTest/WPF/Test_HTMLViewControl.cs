@@ -12,14 +12,17 @@ using MVVM.HTML.Core.Exceptions;
 using System.IO;
 using MVVM.HTML.Core;
 using HTML_WPF.Component;
-using MVVM.Cef.Glue.Test.Infra;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Navigation;
+using IntegratedTest;
+using Integrated.WPFInfra;
 
-namespace MVVM.Cef.Glue.Test
+namespace IntegratedTest.WPF
 {
-    public class Test_HTMLViewControl
+    public abstract class Test_HTMLViewControl
     {
+        protected abstract WindowTestEnvironment GetEnvironment();
+
         private WindowTest BuildWindow(Func<HTMLViewControl> iWebControlFac)
         {
             return new WindowTest(
@@ -34,14 +37,11 @@ namespace MVVM.Cef.Glue.Test
                 } );
         }
 
-        internal void Test(Action<HTMLViewControl, WindowTest> Test, bool iDebug = false, bool Cef=true)
+        internal void Test(Action<HTMLViewControl, WindowTest> Test, bool iDebug = false, 
+                            WindowTestEnvironment environment=null)
         {
-            var engine = HTMLEngineFactory.Engine;
-            if (Cef)
-            {
-                engine.Register(new CefGlueWPFWebWindowFactory());
-            }
-            engine.Register(new KnockoutUIFramework.KnockoutUiFrameworkManager());
+            environment = environment ?? GetEnvironment();
+            environment.Register();
 
             AssemblyHelper.SetEntryAssembly();
             HTMLViewControl wc1 = null;

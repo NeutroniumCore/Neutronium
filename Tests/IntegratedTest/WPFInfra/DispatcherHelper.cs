@@ -1,7 +1,7 @@
 ﻿using System.Security.Permissions;
 using System.Windows.Threading;
 
-namespace MVVM.Cef.Glue.Test.Infra
+namespace Integrated.WPFInfra
 {
     public static class DispatcherHelper
     {

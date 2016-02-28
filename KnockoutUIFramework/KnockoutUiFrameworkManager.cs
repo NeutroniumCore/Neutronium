@@ -13,7 +13,7 @@ namespace KnockoutUIFramework
         private string _MainScript;
 
         public string FrameworkName { get { return "knockout.js 3.3.0"; } }
-        public string Name { get { return "KnockoutInjector "; } }
+        public string Name { get { return "KnockoutInjector"; } }
 
         public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {

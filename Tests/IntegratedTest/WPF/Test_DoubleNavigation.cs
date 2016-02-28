@@ -11,31 +11,25 @@ using Xunit;
 using FluentAssertions;
 using NSubstitute;
 using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core;
 using MVVM.ViewModel.Infra;
 using MVVM.ViewModel;
-using MVVM.HTML.Core;
 using HTML_WPF.Component;
-using MVVM.Cef.Glue.Test.Infra;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Navigation;
-using KnockoutUIFramework;
+using IntegratedTest;
+using Integrated.WPFInfra;
 
-namespace MVVM.Cef.Glue.Test
+namespace Integrated.WPF
 {
-    public class Test_DoubleNavigation
+    public abstract class Test_DoubleNavigation
     {
-        public Test_DoubleNavigation()
-        {
-        }
+        protected abstract WindowTestEnvironment GetEnvironment();
 
-        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle, bool Cef = true)
+        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, WindowTestEnvironment environment, 
+                                        bool iManageLifeCycle)
         {
-            var engine = HTMLEngineFactory.Engine;
-            if (Cef)
-            {
-                engine.Register(new CefGlueWPFWebWindowFactory());
-            }
-            engine.Register(new KnockoutUiFrameworkManager());
+            environment.Register();
 
             return new WindowTest(
                 (w) =>
@@ -43,7 +37,6 @@ namespace MVVM.Cef.Glue.Test
                     StackPanel stackPanel = new StackPanel();
                     w.Content = stackPanel;
                     var iWebControl = iWebControlFac();
-                    //w.RegisterName(iWebControl.Name, iWebControl);
                     if (iManageLifeCycle)
                         w.Closed += (o, e) => { iWebControl.Dispose(); };
                     stackPanel.Children.Add(iWebControl);
@@ -61,7 +54,7 @@ namespace MVVM.Cef.Glue.Test
                 return wc1;
             };
 
-            using (var wcontext = BuildWindow(iWebControlFac, iManageLifeCycle))
+            using (var wcontext = BuildWindow(iWebControlFac, GetEnvironment(), iManageLifeCycle))
             {
                 Test(wc1.NavigationBuilder, wc1, wcontext);
             }

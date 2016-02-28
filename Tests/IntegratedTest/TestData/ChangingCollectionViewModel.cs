@@ -4,7 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace MVVM.Cef.Glue.Test.ViewModel.Test
+namespace IntegratedTest.TestData
 {
     public class ChangingCollectionViewModel : ViewModelBase
     {

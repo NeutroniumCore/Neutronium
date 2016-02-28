@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows;
 
-namespace MVVM.Cef.Glue.Test.Infra
+namespace Integrated.WPFInfra
 {
     internal class WPFThreadingHelper : IDisposable
     {

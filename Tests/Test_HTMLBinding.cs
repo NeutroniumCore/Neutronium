@@ -7,22 +7,24 @@ using System.Threading;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-
 using Xunit;
+
 using NSubstitute;
 using FluentAssertions;
-using MVVM.Cef.Glue.Test.Core;
 using Newtonsoft.Json;
 using MVVM.ViewModel.Example;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Infra;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.Cef.Glue.Test.ViewModel.Test;
 using MVVM.Component;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+
+using MVVM.Cef.Glue.Test.Core;
+
 using IntegratedTest;
+using IntegratedTest.TestData;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -31,9 +33,7 @@ namespace MVVM.Cef.Glue.Test
         private Person _DataContext;
         private ICommand _ICommand;
 
-
-        public Test_HTMLBinding()
-            : base()
+        public Test_HTMLBinding() : base()
         {
             _ICommand = Substitute.For<ICommand>();
             _DataContext = new Person(_ICommand)

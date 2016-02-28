@@ -11,6 +11,7 @@ using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using KnockoutUIFramework;
+using MVVM.Cef.Glue.Test.Infra;
 
 namespace MVVM.Cef.Glue.Test
 {
@@ -34,7 +35,7 @@ namespace MVVM.Cef.Glue.Test
 
         private static HTMLCefGlueApp GetApplication()
         {
-            return new HTMLCefGlueApp() { JavascriptUiFrameworkManager = new KnockoutUiFrameworkManager() };
+            return new HTMLCefGlueApp() { JavascriptUiFrameworkManager = CefTestHelper.GetUIFrameworkManager() };
         }
 
         [Fact]
@@ -47,7 +48,6 @@ namespace MVVM.Cef.Glue.Test
                 {
                     target = GetApplication();
                     return new WPFUIDispatcher(target.Dispatcher);
-
                 });
 
                 Task.Run(() =>

@@ -8,15 +8,16 @@ using Xunit;
 using MVVM.ViewModel;
 using MVVM.HTML.Core;
 using HTML_WPF.Component;
-using MVVM.Cef.Glue.Test.Infra;
 using MVVM.HTML.Core.Navigation;
-using KnockoutUIFramework;
+using Integrated.WPFInfra;
 
-namespace MVVM.Cef.Glue.Test
+namespace IntegratedTest.WPF
 {
-    public class Test_DoubleNavigation_Animation
+    public abstract class Test_DoubleNavigation_Animation
     {
         private NavigationBuilder _INavigationBuilder;
+
+        protected abstract WindowTestEnvironment GetEnvironment();
 
         public Test_DoubleNavigation_Animation()
         {
@@ -36,14 +37,10 @@ namespace MVVM.Cef.Glue.Test
                 });
         }
 
-        internal void TestNavigation(Action<HTMLWindow, WindowTest> Test, bool Cef=true)
+        internal void TestNavigation(Action<HTMLWindow, WindowTest> Test, bool Cef = true)
         {
-            var engine =HTMLEngineFactory.Engine;
-            if (Cef)
-            {
-                engine.Register(new CefGlueWPFWebWindowFactory());
-            }
-            engine.Register(new KnockoutUiFrameworkManager());
+            var environment = GetEnvironment();
+            environment.Register();
 
             AssemblyHelper.SetEntryAssembly();
 

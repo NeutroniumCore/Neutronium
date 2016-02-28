@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 
-namespace MVVM.Cef.Glue.Test.Infra
+namespace Integrated.WPFInfra
 {
     public class WindowTest : IDisposable
     {

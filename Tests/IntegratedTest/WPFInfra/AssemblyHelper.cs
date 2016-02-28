@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace MVVM.Cef.Glue.Test.Infra
+namespace Integrated.WPFInfra
 {
    
     /// <summary>
@@ -9,7 +9,7 @@ namespace MVVM.Cef.Glue.Test.Infra
     /// Use AssemblyUtilities.SetEntryAssembly() 
     /// to prepare ad hoc tests' working directory. (needed before XNA content specifically)
     /// </summary>
-    class AssemblyHelper
+    public class AssemblyHelper
     {
         /// <summary>
         /// Use as first line in ad hoc tests (needed by XNA specifically)

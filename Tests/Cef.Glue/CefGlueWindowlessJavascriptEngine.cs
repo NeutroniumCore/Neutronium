@@ -1,5 +1,4 @@
-﻿using KnockoutUIFramework;
-using MVVM.Cef.Glue.CefSession;
+﻿using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.Test.CefWindowless;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.Control;
@@ -13,14 +12,17 @@ using System.Threading.Tasks;
 using Xilium.CefGlue;
 using MVVM.HTML.Core.Infra;
 using IntegratedTest;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.Cef.Glue.Test.Generic
 {
     internal class CefGlueWindowlessJavascriptEngine : IDisposable, IWindowlessJavascriptEngine
     {
+        private readonly IJavascriptUIFrameworkManager _JavascriptUIFrameworkManager;
 
-        public CefGlueWindowlessJavascriptEngine()
-        { 
+        public CefGlueWindowlessJavascriptEngine(IJavascriptUIFrameworkManager javascriptUIFrameworkManager)
+        {
+            _JavascriptUIFrameworkManager = javascriptUIFrameworkManager;
         }
 
         public void Init(string path = "javascript\\index.html")
@@ -61,7 +63,7 @@ namespace MVVM.Cef.Glue.Test.Generic
                     var htmlWindowProvider = new TestCefGlueHTMLWindowProvider(frame);
                     ViewEngine = new HTMLViewEngine(
                         htmlWindowProvider,
-                        new KnockoutUiFrameworkManager()
+                        _JavascriptUIFrameworkManager
                     );
                     tcs.SetResult(htmlWindowProvider);
                 }

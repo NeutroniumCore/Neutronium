@@ -5,7 +5,6 @@ using System.Collections;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
-using MVVM.Cef.Glue.Test.CefWindowless;
 using MVVM.Cef.Glue.Test.Core;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
@@ -49,7 +48,7 @@ namespace MVVM.Cef.Glue.Test
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _javascriptUiFrameworkManager = Substitute.For<IJavascriptUIFrameworkManager>();
-            _HTMLViewContext = new HTMLViewContext(_WebView, new TestIUIDispatcher(), _javascriptUiFrameworkManager, null);
+            _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptUiFrameworkManager, null);
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>

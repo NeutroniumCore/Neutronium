@@ -19,9 +19,9 @@ namespace IntegratedTest
         protected HTMLViewEngine _ICefGlueWindow = null;
         private IWindowlessJavascriptEngine _Tester;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
-        private TestEnvironment _TestEnvironment;
+        private WindowlessTestEnvironment _TestEnvironment;
 
-        public MVVMCefCore_Test_Base(TestEnvironment testEnvironment)
+        public MVVMCefCore_Test_Base(WindowlessTestEnvironment testEnvironment)
         {
             _TestEnvironment = testEnvironment;
         }
@@ -45,7 +45,7 @@ namespace IntegratedTest
             if (_Tester != null)
                 _Tester.Dispose();
 
-            _Tester = _TestEnvironment.WindowlessJavascriptEngineBuilder();
+            _Tester = _TestEnvironment.Build();
             _Tester.Init(ihtlmpath);
             _ICefGlueWindow = _Tester.ViewEngine;
             _WebView = _Tester.WebView;

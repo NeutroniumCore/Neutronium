@@ -4,7 +4,7 @@ using FluentAssertions;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Navigation;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.HTML.Core.Test
 {
     public class Test_NavigationBuilder
     {

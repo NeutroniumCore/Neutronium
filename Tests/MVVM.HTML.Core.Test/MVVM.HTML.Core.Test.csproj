@@ -73,12 +73,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumExtenderTest.cs" />
-    <Compile Include="NotifyPropertyChangedBaseTest.cs" />
-    <Compile Include="NullUIDispatcherTest.cs" />
+    <Compile Include="Infra\EnumExtenderTest.cs" />
+    <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />
+    <Compile Include="Infra\NullUIDispatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NullWatcherTest.cs" />
-    <Compile Include="TypeExtenderTest.cs" />
+    <Compile Include="Navigation\NullWatcherTest.cs" />
+    <Compile Include="Navigation\Test_Navigation.cs" />
+    <Compile Include="Navigation\Test_NavigationBuilder.cs" />
+    <Compile Include="Infra\TypeExtenderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -88,6 +90,11 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="javascript\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
