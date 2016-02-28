@@ -93,17 +93,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cef.Glue\CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
-    <Compile Include="Cef.Glue\CefWindowless\TestCefGlueWindow.cs" />
-    <Compile Include="Cef.Glue\CefWindowless\TestDisplayHandler.cs" />
-    <Compile Include="Cef.Glue\CefWindowless\TestIUIDispatcher.cs" />
-    <Compile Include="Cef.Glue\CefGlueWindowlessJavascriptEngine.cs" />
-    <Compile Include="Core\CefV8Value_Extension.cs" />
-    <Compile Include="Core\MVVMCefGlue_Test_Base.cs" />
-    <Compile Include="Cef.Glue\CefWindowless\TestCefLifeSpanHandler.cs" />
-    <Compile Include="Cef.Glue\CefWindowless\TestCefLoadHandler.cs" />
-    <Compile Include="Cef.Glue\CefWindowless\TestCefClient.cs" />
-    <Compile Include="Cef.Glue\CefWindowless\TestCefRenderHandler.cs" />
+    <Compile Include="Infra\CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
+    <Compile Include="Infra\CefWindowless\TestCefGlueWindow.cs" />
+    <Compile Include="Infra\CefWindowless\TestDisplayHandler.cs" />
+    <Compile Include="Infra\CefWindowless\TestIUIDispatcher.cs" />
+    <Compile Include="Infra\CefGlueWindowlessJavascriptEngine.cs" />
+    <Compile Include="Infra\MVVMCefGlue_Test_Base.cs" />
+    <Compile Include="Infra\CefWindowless\TestCefLifeSpanHandler.cs" />
+    <Compile Include="Infra\CefWindowless\TestCefLoadHandler.cs" />
+    <Compile Include="Infra\CefWindowless\TestCefClient.cs" />
+    <Compile Include="Infra\CefWindowless\TestCefRenderHandler.cs" />
     <Compile Include="Infra\CefTestHelper.cs" />
     <Compile Include="Test_CefTask_Action.cs" />
     <Compile Include="Test_HTMLApp.cs" />
