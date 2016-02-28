@@ -15,25 +15,22 @@ using Newtonsoft.Json;
 using MVVM.ViewModel.Example;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Infra;
-using MVVM.Component;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-
-using MVVM.Cef.Glue.Test.Core;
-
 using IntegratedTest;
 using IntegratedTest.TestData;
+using MVVM.Component;
 
-namespace MVVM.Cef.Glue.Test
+namespace IntegratedTest.Windowless
 {
-    public class Test_HTMLBinding : MVVMCefGlue_Test_Base
+    public abstract class Test_HTMLBinding : MVVMCefCore_Test_Base
     {
-        private Person _DataContext;
+        private readonly Person _DataContext;
         private ICommand _ICommand;
 
-        public Test_HTMLBinding() : base()
+        public Test_HTMLBinding(WindowlessTestEnvironment testEnvironment): base(testEnvironment)
         {
             _ICommand = Substitute.For<ICommand>();
             _DataContext = new Person(_ICommand)

@@ -50,7 +50,7 @@ namespace MVVM.Cef.Glue
             _CefV8_WebView = iCefV8_WebView;
         }
 
-        public bool SolveBasic(object ifrom, out IJavascriptObject res)
+        public bool CreateBasic(object ifrom, out IJavascriptObject res)
         {
             Func<object, CefV8Value> conv = null;
             if (!_Converters.TryGetValue(ifrom.GetType(), out conv))
@@ -74,6 +74,11 @@ namespace MVVM.Cef.Glue
         public IJavascriptObject CreateNull()
         {
             return new CefV8_JavascriptObject(CefV8Value.CreateNull());
+        }
+
+        public IJavascriptObject CreateUndefined()
+        {
+            return new CefV8_JavascriptObject(CefV8Value.CreateUndefined());
         }
 
         public IJavascriptObject CreateObject(bool iLocal)
@@ -141,6 +146,6 @@ namespace MVVM.Cef.Glue
 
                 return UpdateObject(res as CefV8_JavascriptObject);
             });
-        }     
+        }
     }
 }

@@ -28,7 +28,7 @@ namespace MVVM.Cef.Glue.Test
     {
         protected override WindowTestEnvironment GetEnvironment()
         {
-            return CefTestHelper.GetEnvironment();
+            return CefTestHelper.GetWindowEnvironment();
         }
     }
 }

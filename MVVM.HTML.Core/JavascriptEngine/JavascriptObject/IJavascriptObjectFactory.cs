@@ -20,7 +20,7 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <returns>
         /// true if the IJavascriptObject has been created
         ///</returns>
-        bool SolveBasic(object ifrom, out IJavascriptObject res);
+        bool CreateBasic(object ifrom, out IJavascriptObject res);
 
         /// <summary>
         /// Indicates if a type is a basic CLR type which
@@ -64,7 +64,10 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         ///</returns>
         IJavascriptObject CreateObject(string iCreationCode);
 
-
+        /// <summary>
+        /// Create IJavascriptObject corresponding to undefined
+        /// </summary>   
+        IJavascriptObject CreateUndefined();
 
         /// <summary>
         /// Create IJavascriptObject from an int

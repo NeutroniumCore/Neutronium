@@ -10,7 +10,7 @@ namespace MVVM.Cef.Glue.Test.Core
 {
     public abstract class MVVMCefGlue_Test_Base : MVVMCefCore_Test_Base
     {
-        public MVVMCefGlue_Test_Base(): base(CefTestHelper.GetWindowEnvironment())
+        public MVVMCefGlue_Test_Base(): base(CefTestHelper.GetWindowlessEnvironment())
         {
         }
     }

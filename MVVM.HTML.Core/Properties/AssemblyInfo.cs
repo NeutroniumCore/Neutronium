@@ -17,6 +17,7 @@ using System.Windows;
 [assembly: AssemblyCulture("")]
 
 [assembly: InternalsVisibleTo("MVVM.Cef.Glue.Tests")]
+[assembly: InternalsVisibleTo("IntegratedTest")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")] 
 
 // Setting ComVisible to false makes the types in this assembly not visible 

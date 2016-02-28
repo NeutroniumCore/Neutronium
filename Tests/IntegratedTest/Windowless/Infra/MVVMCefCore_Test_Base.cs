@@ -21,6 +21,11 @@ namespace IntegratedTest
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private WindowlessTestEnvironment _TestEnvironment;
 
+        protected IJavascriptObjectConverter Converter { get { return _WebView.Converter; } }
+
+        protected IJavascriptObjectFactory Factory { get { return _WebView.Factory; } }
+        
+
         public MVVMCefCore_Test_Base(WindowlessTestEnvironment testEnvironment)
         {
             _TestEnvironment = testEnvironment;

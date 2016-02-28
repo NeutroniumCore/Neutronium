@@ -19,7 +19,7 @@ namespace MVVM.Cef.Glue.Test.Infra
             return new KnockoutUiFrameworkManager();
         }
 
-        public static WindowTestEnvironment GetEnvironment()
+        public static WindowTestEnvironment GetWindowEnvironment()
         {
             return new WindowTestEnvironment()
             {
@@ -28,7 +28,7 @@ namespace MVVM.Cef.Glue.Test.Infra
             };
         }
 
-        public static WindowlessTestEnvironment GetWindowEnvironment()
+        public static WindowlessTestEnvironment GetWindowlessEnvironment()
         {
             return new WindowlessTestEnvironment()
             {

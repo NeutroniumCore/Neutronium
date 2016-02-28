@@ -51,7 +51,7 @@ namespace MVVM.HTML.Core.Binding
                 return _CommandFactory.Build(resultCommand);
 
             IJavascriptObject value;
-            if (_Context.WebView.Factory.SolveBasic(from, out value))
+            if (_Context.WebView.Factory.CreateBasic(from, out value))
                 return new JSBasicObject(value, from);
 
             if (from.GetType().IsEnum)

@@ -1,29 +1,20 @@
 ﻿using System;
-
 using FluentAssertions;
 using MVVM.Cef.Glue.Test.Core;
 using Xunit;
-using Xilium.CefGlue;
-//using MVVM.Cef.Glue.Test.Infra;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue.Test
 {
     public class Test_JavascriptToCSharpMapper_Simple : MVVMCefGlue_Test_Base
-    {
-
-        private readonly CefV8_Converter _CefV8_Converter;
-        public Test_JavascriptToCSharpMapper_Simple()
-        {
-            _CefV8_Converter = new CefV8_Converter();
-        }
-        
+    {        
         [Fact]
         public void Test_GetSimpleValue_String()
         {
             Test(() =>
                 {
                     object res = null;
-                    bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateString("titi").Convert(), out res);
+                    bool ok = Converter.GetSimpleValue(Factory.CreateString("titi"), out res);
                     ok.Should().BeTrue();
                     res.Should().Be("titi");
                 });
@@ -35,7 +26,7 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
                {
                    object res = null;
-                   bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateInt(10).Convert(), out res);
+                   bool ok = Converter.GetSimpleValue(Factory.CreateInt(10), out res);
                    ok.Should().BeTrue();
                    res.Should().Be(10);
                });
@@ -47,7 +38,7 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
                {
                    object res = null;
-                   bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateBool(false).Convert(), out res);
+                   bool ok = Converter.GetSimpleValue(Factory.CreateBool(false), out res);
                    ok.Should().BeTrue();
                    res.Should().Be(false);
                });
@@ -59,7 +50,7 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
                {
                    object res = null;
-                   bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateBool(true).Convert(), out res);
+                   bool ok = Converter.GetSimpleValue(Factory.CreateBool(true), out res);
                    ok.Should().BeTrue();
                    res.Should().Be(true);
                });
@@ -71,7 +62,7 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
                {
                    object res = null;
-                   bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateDouble(0.5).Convert(), out res);
+                   bool ok = Converter.GetSimpleValue(Factory.CreateDouble(0.5), out res);
                    ok.Should().BeTrue();
                    res.Should().Be(0.5D);
                });
@@ -83,7 +74,7 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
               {
                   object res = null;
-                  bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateUndefined().Convert(), out res);
+                  bool ok = Converter.GetSimpleValue(Factory.CreateUndefined(), out res);
                   ok.Should().BeTrue();
                   res.Should().Be(null);
               });
@@ -95,7 +86,7 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
             {
                 object res = null;
-                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateNull().Convert(), out res);
+                bool ok = Converter.GetSimpleValue(Factory.CreateNull(), out res);
                 ok.Should().BeTrue();
                 res.Should().Be(null);
             });
@@ -109,7 +100,10 @@ namespace MVVM.Cef.Glue.Test
             {
                 object res = null;
                 var date = new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc);
-                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateDate(date).Convert(), out res);
+                IJavascriptObject dateJavascript = null;
+                bool ok = Factory.CreateBasic(date, out dateJavascript);
+                ok.Should().BeTrue();
+                ok = Converter.GetSimpleValue(dateJavascript, out res);
                 ok.Should().BeTrue();
                 res.Should().Be(date);
             });
@@ -121,8 +115,8 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
             {
                 object res = null;
-                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateObject(null).Convert(), out res);
-                ok.Should().BeFalse();
+                bool ok = Converter.GetSimpleValue(Factory.CreateNull(), out res);
+                ok.Should().BeTrue();
                 res.Should().BeNull();
             });
         }
@@ -145,7 +139,10 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
             {
                 object res = null;
-                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateUInt(uint.MaxValue).Convert(), out res, typeof(UInt32));
+                IJavascriptObject maxuint = null;
+                bool ok = Factory.CreateBasic(uint.MaxValue, out maxuint);
+                ok.Should().BeTrue();
+                ok = Converter.GetSimpleValue(maxuint, out res, typeof(UInt32));
                 ok.Should().BeTrue();
                 res.Should().Be(uint.MaxValue);
             });
@@ -157,7 +154,7 @@ namespace MVVM.Cef.Glue.Test
             Test(() =>
             {
                 object res = null;
-                bool ok = _CefV8_Converter.GetSimpleValue(CefV8Value.CreateInt(-1).Convert(), out res);
+                bool ok = Converter.GetSimpleValue(Factory.CreateInt(-1), out res);
                 ok.Should().BeTrue();
                 res.Should().Be(-1);
             });

@@ -70,7 +70,7 @@ namespace MVVM.Awesomium.HTMLEngine
             return true;
         }
 
-         public bool SolveBasic(object ifrom, out IJavascriptObject res)
+         public bool CreateBasic(object ifrom, out IJavascriptObject res)
          {
              res = null;
              Awesomium_Core.JSValue jsres;  
@@ -154,6 +154,11 @@ namespace MVVM.Awesomium.HTMLEngine
          public IJavascriptObject CreateObject(string iCreationCode)
          {
              return _IWebView.EvaluateSafe(() => UpdateObject(_IWebView.ExecuteJavascriptWithResult(iCreationCode))).Convert();
+         }
+
+         public IJavascriptObject CreateUndefined()
+         {
+             return new Awesomium_Core.JSValue().Convert();
          }
     }
 }
