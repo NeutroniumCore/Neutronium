@@ -1,11 +1,7 @@
-﻿using System;
-using FluentAssertions;
-using Xunit;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using IntegratedTest.Windowless;
-using MVVM.Cef.Glue.Test.Infra;
+﻿using IntegratedTest.Windowless;
+using MVVM.Cef.Glue.Tests.Infra;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Cef.Glue.Tests.Integrated
 {
     public class Test_JavascriptToCSharpMapper_Simple_Cef : Test_JavascriptToCSharpMapper_Simple
     {

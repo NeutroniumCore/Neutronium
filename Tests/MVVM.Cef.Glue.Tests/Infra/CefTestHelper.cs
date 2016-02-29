@@ -1,16 +1,10 @@
 ﻿using IntegratedTest;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHelper;
-using MVVM.Cef.Glue.Test.Generic;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MVVM.Cef.Glue.Test.Infra
+namespace MVVM.Cef.Glue.Tests.Infra
 {
     public static class CefTestHelper
     {

@@ -11,7 +11,7 @@ using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using KnockoutUIFramework;
-using MVVM.Cef.Glue.Test.Infra;
+using MVVM.Cef.Glue.Tests.Infra;
 
 namespace MVVM.Cef.Glue.Test
 {

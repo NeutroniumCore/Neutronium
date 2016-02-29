@@ -1,20 +1,17 @@
-﻿using MVVM.Cef.Glue.CefSession;
+﻿using System;
+using System.Reflection;
+using System.Threading.Tasks;
+using IntegratedTest;
+using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.Test.CefWindowless;
 using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Xilium.CefGlue;
-using MVVM.HTML.Core.Infra;
-using IntegratedTest;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.Test.Generic
+namespace MVVM.Cef.Glue.Tests.Infra
 {
     internal class CefGlueWindowlessJavascriptEngine : IDisposable, IWindowlessJavascriptEngine
     {

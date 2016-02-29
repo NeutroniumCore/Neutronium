@@ -8,11 +8,6 @@ namespace MVVM.Awesomium.Tests.Infra
 {
     public static class AwesomiumTestHelper
     {
-        //private static AwesomiumWPFWebWindowFactory _AwesomiumWPFWebWindowFactory;
-        //static AwesomiumTestHelper()
-        //{
-        //    _AwesomiumWPFWebWindowFactory = new AwesomiumWPFWebWindowFactory();
-        //}
         public static IJavascriptUIFrameworkManager GetUIFrameworkManager()
         {
             return new KnockoutUiFrameworkManager();

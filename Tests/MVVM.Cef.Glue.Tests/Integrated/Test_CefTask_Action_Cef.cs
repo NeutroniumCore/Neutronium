@@ -1,11 +1,7 @@
-﻿using System;
-using NSubstitute;
-using Xunit;
-using FluentAssertions;
-using IntegratedTest.Windowless;
-using MVVM.Cef.Glue.Test.Infra;
+﻿using IntegratedTest.Windowless;
+using MVVM.Cef.Glue.Tests.Infra;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Cef.Glue.Tests.Integrated
 {
     public class Test_CefTask_Action_Cef : Test_CefTask_Action
     {

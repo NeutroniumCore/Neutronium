@@ -1,25 +1,8 @@
-﻿using System;
-using System.Windows.Controls;
-using System.Threading;
-using System.Reflection;
-
-using Xunit;
-using FluentAssertions;
-
-using MVVM.HTML.Core.Infra;
-using MVVM.ViewModel.Example;
-using MVVM.HTML.Core.Exceptions;
-using System.IO;
-using MVVM.HTML.Core;
-using HTML_WPF.Component;
-using System.Threading.Tasks;
-using MVVM.HTML.Core.Navigation;
-using IntegratedTest;
-using Integrated.WPFInfra;
+﻿using IntegratedTest;
 using IntegratedTest.WPF;
-using MVVM.Cef.Glue.Test.Infra;
+using MVVM.Cef.Glue.Tests.Infra;
 
-namespace MVVM.Cef.Glue.Test
+namespace MVVM.Cef.Glue.Tests.Integrated
 {
     public class Test_HTMLViewControl_Cef : Test_HTMLViewControl
     {
