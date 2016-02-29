@@ -5,15 +5,14 @@ using System.Collections;
 using FluentAssertions;
 using NSubstitute;
 using Xunit;
-using MVVM.Cef.Glue.Test.Core;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.Cef.Glue.Test
+namespace IntegratedTest.Windowless
 {
-    public class Test_ConvertToJSO : MVVMCefGlue_Test_Base
+    public abstract class Test_ConvertToJSO : MVVMCefCore_Test_Base
     {
         private class TestClass
         {
@@ -38,7 +37,7 @@ namespace MVVM.Cef.Glue.Test
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
 
-        public Test_ConvertToJSO()
+        public Test_ConvertToJSO(WindowlessTestEnvironment testEnvironment): base(testEnvironment)
         {
         }
 
@@ -72,11 +71,11 @@ namespace MVVM.Cef.Glue.Test
                     res.Should().NotBeNull();
                     var res1 = res.GetValue("S1");
                     res1.Should().NotBeNull();
-                    res1.Convert().IsString.Should().BeTrue();
+                    res1.IsString.Should().BeTrue();
 
                     var res2 = res.GetValue("I1");
                     res2.Should().NotBeNull();
-                    res2.Convert().IsInt.Should().BeTrue();
+                    res2.IsNumber.Should().BeTrue();
                 });
         }
 
@@ -169,10 +168,9 @@ namespace MVVM.Cef.Glue.Test
                   var res = _ConverTOJSO.Map(date).JSValue;
                   res.Should().NotBeNull();
                   res.IsDate.Should().BeTrue();
-                  var convert = new CefV8_Converter();
-                  object ores = null;
 
-                  convert.GetSimpleValue(res, out ores);
+                  object ores = null;
+                  Converter.GetSimpleValue(res, out ores);
                   var resd = (DateTime)ores;
 
                   resd.Should().Be(date);

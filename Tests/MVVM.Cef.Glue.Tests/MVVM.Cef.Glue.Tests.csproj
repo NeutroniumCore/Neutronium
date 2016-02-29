@@ -84,7 +84,6 @@
   <ItemGroup>
     <Compile Include="Infra\CefGlueWindowlessJavascriptEngine.cs" />
     <Compile Include="Infra\CefTestHelper.cs" />
-    <Compile Include="Infra\CefV8Value_Extension.cs" />
     <Compile Include="Infra\CefWindowless\TestCefClient.cs" />
     <Compile Include="Infra\CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
     <Compile Include="Infra\CefWindowless\TestCefGlueWindow.cs" />
@@ -96,7 +95,7 @@
     <Compile Include="Infra\MVVMCefGlue_Test_Base.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integrated\Test_CefTask_Action.cs" />
-    <Compile Include="Integrated\Test_ConvertToJSO.cs" />
+    <Compile Include="Integrated\Test_ConvertToJSO_Cef.cs" />
     <Compile Include="Integrated\Test_DoubleNavigation_Animation_Cef.cs" />
     <Compile Include="Integrated\Test_DoubleNavigation_Cef.cs" />
     <Compile Include="Test_HTMLCefGlueApp.cs" />
