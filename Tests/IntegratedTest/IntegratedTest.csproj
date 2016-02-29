@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Windowless\Test_CefTask_Action.cs" />
     <Compile Include="Windowless\Test_ConvertToJSO.cs" />
+    <Compile Include="Windowless\Test_JavascriptToCSharpMapper_Simple.cs" />
     <Compile Include="WPF\Infra\WindowTestEnvironment.cs" />
     <Compile Include="TestData\ChangingCollectionViewModel.cs" />
     <Compile Include="Windowless\Infra\IJavascriptFrameworkExtractor.cs" />

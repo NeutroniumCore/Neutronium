@@ -21,8 +21,6 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-using MVVM.Cef.Glue.Test.Core;
-
 using IntegratedTest;
 using IntegratedTest.TestData;
 using IntegratedTest.Windowless;

@@ -92,7 +92,6 @@
     <Compile Include="Infra\CefWindowless\TestCefRenderHandler.cs" />
     <Compile Include="Infra\CefWindowless\TestDisplayHandler.cs" />
     <Compile Include="Infra\CefWindowless\TestIUIDispatcher.cs" />
-    <Compile Include="Infra\MVVMCefGlue_Test_Base.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integrated\Test_CefTask_Action_Cef.cs" />
     <Compile Include="Integrated\Test_ConvertToJSO_Cef.cs" />
@@ -101,7 +100,7 @@
     <Compile Include="Test_HTMLCefGlueApp.cs" />
     <Compile Include="Integrated\Test_HTMLBinding_Cef.cs" />
     <Compile Include="Integrated\Test_HTMLViewControl_Cef.cs" />
-    <Compile Include="Integrated\Test_JavascriptToCSharpMapper_Simple.cs" />
+    <Compile Include="Integrated\Test_JavascriptToCSharpMapper_Simple_Cef.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\almost_empty.html">

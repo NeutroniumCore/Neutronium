@@ -1,13 +1,17 @@
 ﻿using System;
 using FluentAssertions;
-using MVVM.Cef.Glue.Test.Core;
 using Xunit;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.Cef.Glue.Test
+namespace IntegratedTest.Windowless
 {
-    public class Test_JavascriptToCSharpMapper_Simple : MVVMCefGlue_Test_Base
-    {        
+    public abstract class Test_JavascriptToCSharpMapper_Simple : MVVMCefCore_Test_Base
+    {
+        public Test_JavascriptToCSharpMapper_Simple(WindowlessTestEnvironment testEnvironment)
+                        : base(testEnvironment)
+        {
+        }
+
         [Fact]
         public void Test_GetSimpleValue_String()
         {

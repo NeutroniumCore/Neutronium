@@ -2,7 +2,6 @@
 using NSubstitute;
 using Xunit;
 using FluentAssertions;
-using MVVM.Cef.Glue.Test.Core;
 using IntegratedTest.Windowless;
 using MVVM.Cef.Glue.Test.Infra;
 
