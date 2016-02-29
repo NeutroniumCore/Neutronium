@@ -1,20 +1,18 @@
 ﻿using IntegratedTest;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHelper;
-using MVVM.Awesomium;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MVVM.Awesomium.Tests;
 
-namespace MVVM.Cef.Glue.Test.Infra
+namespace MVVM.Awesomium.Tests.Infra
 {
     public static class AwesomiumTestHelper
     {
+        //private static AwesomiumWPFWebWindowFactory _AwesomiumWPFWebWindowFactory;
+        //static AwesomiumTestHelper()
+        //{
+        //    _AwesomiumWPFWebWindowFactory = new AwesomiumWPFWebWindowFactory();
+        //}
         public static IJavascriptUIFrameworkManager GetUIFrameworkManager()
         {
             return new KnockoutUiFrameworkManager();

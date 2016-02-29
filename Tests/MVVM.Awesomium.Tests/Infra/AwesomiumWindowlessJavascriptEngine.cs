@@ -4,10 +4,7 @@ using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,7 +28,8 @@ namespace MVVM.Awesomium.Tests
 
         private Task InitAsync(string ipath = "javascript\\index.html")
         {
-            TaskCompletionSource<SynchronizationContext> tcs = new TaskCompletionSource<SynchronizationContext>();
+            var taskLoaded = new TaskCompletionSource<object>();
+            var taskContextLoaded = new TaskCompletionSource<SynchronizationContext>();
             Task.Factory.StartNew(() =>
             {
                 WebCore.Initialize(new WebConfig());
@@ -41,28 +39,39 @@ namespace MVVM.Awesomium.Tests
                 ipath = ipath ?? "javascript\\index.html";
                 webView.Source = new Uri(string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), ipath));
 
+                WebCore.ShuttingDown += (o, e) => 
+                {
+                    if (e.Exception != null)
+                    {
+                        Console.WriteLine("Exception on main thread {0}",e.Exception);
+                        e.Cancel = true;
+                    }
+                };
+
                 WebCore.Started += (o, e) => 
                 {
+                    AwesomiumWPFWebWindowFactory.WebCoreThread = Thread.CurrentThread;
                     WebView = new AwesomiumWebView(webView);
                     var htmlWindowProvider = new AwesomiumTestHTMLWindowProvider(WebView, ipath);
                     ViewEngine = new HTMLViewEngine(
                         htmlWindowProvider,
                         _JavascriptUIFrameworkManager
                     );
-                    tcs.SetResult(SynchronizationContext.Current); 
+                    taskContextLoaded.SetResult(SynchronizationContext.Current); 
                 };
+
+                var viewReadyExecuter = new ViewReadyExecuter(webView, () => { taskLoaded.TrySetResult(null); });
+                viewReadyExecuter.Do();
 
                 while (webView.IsLoading)
                 {
                     WebCore.Run();
                 }
 
-                
-
                 _EndTaskCompletionSource.SetResult(null);
             } );
 
-            return tcs.Task;
+            return Task.WhenAll(taskLoaded.Task, taskContextLoaded.Task) ;
         }
 
         public HTMLViewEngine ViewEngine

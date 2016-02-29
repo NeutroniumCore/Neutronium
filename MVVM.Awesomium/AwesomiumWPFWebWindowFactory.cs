@@ -18,7 +18,7 @@ namespace MVVM.Awesomium
                 WebCore.Initialize(_WebConfig);
         }
 
-        public static Thread WebCoreThread { get; private set; }
+        public static Thread WebCoreThread { get; internal set; }
 
         public AwesomiumWPFWebWindowFactory(string iWebSessionPath=null)
         {

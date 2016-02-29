@@ -63,7 +63,7 @@ namespace IntegratedTest.Windowless
         }
 
         [Fact]
-        public async Task Test_GetElements_Should_Throw_Exception()
+        public async Task Test_GetElements_Should_Throw_ArgumentException()
         {
             var test = new TestInContext()
             {
@@ -118,9 +118,12 @@ namespace IntegratedTest.Windowless
                 var vm = new object();
                 MVVMCEFGlueException ex = null;
 
-                try
-                {
+                try {
                     await HTML_Binding.Bind(_ICefGlueWindow, new object(), JavascriptBindingMode.OneTime);
+                }
+                catch (AggregateException agregate)
+                {
+                    ex = agregate.Flatten().InnerException as MVVMCEFGlueException;
                 }
                 catch (MVVMCEFGlueException myex)
                 {

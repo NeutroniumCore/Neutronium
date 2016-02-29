@@ -24,7 +24,7 @@ namespace MVVM.Awesomium
 
             var jso = (JSObject)_JSValue;
 
-            if  (!jso.HasProperty("_MappedId"))
+            if (!jso.HasProperty("_MappedId"))
                 return false;
 
             return jso["_MappedId"].IsInteger;
@@ -77,7 +77,7 @@ namespace MVVM.Awesomium
 
         public bool IsDate
         {
-            get { return  false; }
+            get { return false; }
         }
 
         public bool IsBool
@@ -100,7 +100,7 @@ namespace MVVM.Awesomium
 
         public IJavascriptObject Invoke(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam)
         {
-            var res =((JSObject)_JSValue).Invoke(iFunctionName, iparam.Cast<IJavascriptObject>().Select(c => c.Convert()).ToArray());
+            var res = ((JSObject)_JSValue).Invoke(iFunctionName, iparam.Cast<IJavascriptObject>().Select(c => c.Convert()).ToArray());
             return res.Convert();
         }
 
@@ -158,7 +158,15 @@ namespace MVVM.Awesomium
 
         public IJavascriptObject[] GetArrayElements()
         {
-            var ar = (JSValue[])_JSValue;
+            JSValue[] ar;
+            try
+            {
+                ar = (JSValue[])_JSValue;
+            }
+            catch (InvalidCastException)
+            {
+                throw new ArgumentException();
+            }
             return ar.Cast<JSValue>().Select(el => el.Convert()).ToArray();
         }
 
