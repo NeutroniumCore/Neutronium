@@ -98,7 +98,7 @@ namespace MVVM.Awesomium
             return ((JSObject)_JSValue).HasProperty(attributename);
         }
 
-        public IJavascriptObject Invoke(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam)
+        public IJavascriptObject Invoke(string iFunctionName, IWebView context, params IJavascriptObject[] iparam)
         {
             var res = ((JSObject)_JSValue).Invoke(iFunctionName, iparam.Cast<IJavascriptObject>().Select(c => c.Convert()).ToArray());
             return res.Convert();
@@ -140,7 +140,7 @@ namespace MVVM.Awesomium
             return (int)_JSValue;
         }
 
-        public IJavascriptObject ExecuteFunction()
+        public IJavascriptObject ExecuteFunction(IWebView context)
         {
             throw new NotImplementedException();
         }

@@ -207,7 +207,7 @@ namespace IntegratedTest.Windowless
                     res4.Should().Be("Florianopolis");
 
                     string res5 = GetSafe(() =>
-                        js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue()
+                        js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue()
                         );
                     res5.Should().Be("Langage");
 
@@ -215,7 +215,7 @@ namespace IntegratedTest.Windowless
                     Thread.Sleep(200);
 
                     //onetime does not update javascript from  C# 
-                    res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                    res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
                     res5.Should().Be("Langage");
 
                     //onetime does not update C# from javascript
@@ -265,13 +265,13 @@ namespace IntegratedTest.Windowless
                     res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
                     ((string)res4).Should().Be("Paris");
 
-                    string res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                    string res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
                     res5.Should().Be("Langage");
 
                     _DataContext.Skills[0].Name = "Ling";
                     Thread.Sleep(200);
 
-                    res5 = GetSafe(() => GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue()));
+                    res5 = GetSafe(() => GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue()));
                     res5.Should().Be("Ling");
 
 
@@ -449,13 +449,13 @@ namespace IntegratedTest.Windowless
                       res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
                       ((string)res4).Should().Be("Paris");
 
-                      string res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                      string res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
                       res5.Should().Be("Langage");
 
                       _DataContext.Skills[0].Name = "Ling";
                       Thread.Sleep(50);
 
-                      res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction().GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                      res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
                       res5.Should().Be("Ling");
 
                       //Teste Two Way
@@ -573,7 +573,7 @@ namespace IntegratedTest.Windowless
                       dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                       dres.Should().Be("Single");
 
-                      var othervalue = GetSafe(() => js.Invoke("States", _WebView).ExecuteFunction());
+                      var othervalue = GetSafe(() => js.Invoke("States", _WebView).ExecuteFunction(_WebView));
                       //JSValue[] coll = (JSValue[])othervalue;
                       var di = othervalue.GetValue(2);
                       string name = GetSafe(() => di.GetValue("displayName").GetStringValue());
@@ -1352,7 +1352,7 @@ namespace IntegratedTest.Windowless
                     Thread.Sleep(100);
 
                     var res = GetSafe(() =>
-                        js.Invoke("Skills", this._WebView).ExecuteFunction());
+                        js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView));
 
                     res.Should().NotBeNull();
                     res.GetArrayLength().Should().Be(3);
@@ -1530,7 +1530,7 @@ namespace IntegratedTest.Windowless
 
         private IJavascriptObject UnWrapCollection(IJavascriptObject root, string att)
         {
-            return root.Invoke(att, this._WebView).ExecuteFunction();
+            return root.Invoke(att, this._WebView).ExecuteFunction(_WebView);
         }
 
         [Fact]

@@ -66,7 +66,7 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <summary>
         /// Execute synchronously the function in the coresponding IWebView context.
         /// </summary>
-        /// <param name="iContext">
+        /// <param name="context">
         /// function context
         /// </param>
         /// <param name="iFunctionName">
@@ -78,7 +78,7 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <returns>
         /// the result of the execution
         ///</returns>
-        IJavascriptObject Invoke(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam);
+        IJavascriptObject Invoke(string iFunctionName, IWebView context, params IJavascriptObject[] iparam);
 
         /// <summary>
         /// Execute asynchronously the function in the coresponding IWebView context.
@@ -86,7 +86,7 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <param name="iFunctionName">
         /// function name
         /// </param>
-        /// <param name="iContext">
+        /// <param name="context">
         /// function context
         /// </param>
         /// <param name="iparam">
@@ -95,7 +95,7 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <returns>
         /// task of the result of the execution
         ///</returns>
-        Task<IJavascriptObject> InvokeAsync(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam);
+        Task<IJavascriptObject> InvokeAsync(string iFunctionName, IWebView context, params IJavascriptObject[] iparam);
 
         /// <summary>
         /// Bind a function to a jaavscript object
@@ -103,14 +103,14 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <param name="iFunctionName">
         /// function name
         /// </param>
-        /// <param name="iContext">
+        /// <param name="context">
         /// function context
         /// </param>
         /// <param name="action">
         /// action to run when the function is called. Action agrument: 
         /// function name, this object, function parameters
         /// </param>
-        void Bind(string iFunctionName, IWebView iContext, Action<string, IJavascriptObject, IJavascriptObject[]> action);
+        void Bind(string iFunctionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action);
 
         /// <summary>
         /// Associates a value with the specified identifier.
@@ -144,7 +144,10 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <summary>
         /// Execute the function with no argument.
         /// </summary>
-        IJavascriptObject ExecuteFunction();
+        /// <param name="context">
+        /// function context
+        /// </param>
+        IJavascriptObject ExecuteFunction(IWebView context);
 
         /// <summary>
         /// Returns the value with the specified identifier on success. Returns NULL

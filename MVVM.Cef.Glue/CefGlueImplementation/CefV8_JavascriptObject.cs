@@ -98,9 +98,9 @@ namespace MVVM.Cef.Glue
             return _CefV8Value.HasValue(attributename);
         }
 
-        public IJavascriptObject Invoke(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam)
+        public IJavascriptObject Invoke(string iFunctionName, IWebView context, params IJavascriptObject[] iparam)
         {
-            return new CefV8_JavascriptObject(_CefV8Value.Invoke(iFunctionName, iContext, Convert(iparam)));
+            return new CefV8_JavascriptObject(_CefV8Value.Invoke(iFunctionName, context, Convert(iparam)));
         }
 
         public async Task<IJavascriptObject> InvokeAsync(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam)
@@ -154,7 +154,7 @@ namespace MVVM.Cef.Glue
             return Convert(_CefV8Value.GetArrayElements());
         }
 
-        public IJavascriptObject ExecuteFunction()
+        public IJavascriptObject ExecuteFunction(IWebView context)
         {
             return Convert(_CefV8Value.ExecuteFunction());
         }
