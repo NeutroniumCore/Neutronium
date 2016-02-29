@@ -10,7 +10,7 @@ namespace MVVM.HTML.Core.Binding
         private readonly IHTMLWindowProvider _HTMLWindowProvider;
         private readonly IJavascriptUIFrameworkManager _UIFrameworkManager;
 
-        internal HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptUIFrameworkManager uiFrameworkManager)
+        public HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptUIFrameworkManager uiFrameworkManager)
         {
             _HTMLWindowProvider = hTMLWindowProvider;
             _UIFrameworkManager = uiFrameworkManager;

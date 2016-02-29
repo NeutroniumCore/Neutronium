@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.JavascriptEngine;
+﻿using IntegratedTest.Windowless;
+using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Xilium.CefGlue;
@@ -11,10 +12,10 @@ namespace MVVM.Cef.Glue.Test.CefWindowless
         {
             HTMLWindow = new TestCefGlueWindow(iFrame);
         }
+
         public IHTMLWindow HTMLWindow
         {
-            get;
-            private set;
+            get; private set;
         }
 
         public IDispatcher UIDispatcher
