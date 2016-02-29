@@ -30,7 +30,7 @@ namespace MVVM.HTML.Core.Binding
         public HTMLViewContext Context { get { return _Context; } }
 
 
-        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, object iadd)
+        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, object addicionalObject)
         {        
             _BindingMode = iMode; 
             var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
@@ -47,7 +47,7 @@ namespace MVVM.HTML.Core.Binding
             var commandFactory = new CommandFactory(_Context, this);
             RegisterJavascriptHelper();
             _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, commandFactory) ;
-            _Root = _JSObjectBuilder.Map(iRoot, iadd); 
+            _Root = _JSObjectBuilder.Map(iRoot, addicionalObject); 
         }
 
         private void RegisterJavascriptHelper()
@@ -58,9 +58,9 @@ namespace MVVM.HTML.Core.Binding
         }
 
 
-        private async Task RunInJavascriptContext(Action Run)
+        private async Task RunInJavascriptContext(Action run)
         {
-            await _Context.WebView.RunAsync(Run);
+            await _Context.WebView.RunAsync(run);
         }
 
         internal async Task Init()
@@ -166,12 +166,12 @@ namespace MVVM.HTML.Core.Binding
                 var res = _SessionCache.GetGlobalCached(changes.Collection) as JSArray;
                 if (res == null) return;
 
-                CollectionChanges.CollectionChanges cc = res.GetChanger(changes, this);
+               var collectionChanges = res.GetChanger(changes, this);
 
                 using (ReListen()) 
                 using (_ListenerRegister.GetColllectionSilenter(res.CValue))
                 {
-                    res.UpdateEventArgsFromJavascript(cc);
+                    res.UpdateEventArgsFromJavascript(collectionChanges);
                 }
             }
             catch (Exception e)
