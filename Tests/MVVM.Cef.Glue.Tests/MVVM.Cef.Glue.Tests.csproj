@@ -94,7 +94,7 @@
     <Compile Include="Infra\CefWindowless\TestIUIDispatcher.cs" />
     <Compile Include="Infra\MVVMCefGlue_Test_Base.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Integrated\Test_CefTask_Action.cs" />
+    <Compile Include="Integrated\Test_CefTask_Action_Cef.cs" />
     <Compile Include="Integrated\Test_ConvertToJSO_Cef.cs" />
     <Compile Include="Integrated\Test_DoubleNavigation_Animation_Cef.cs" />
     <Compile Include="Integrated\Test_DoubleNavigation_Cef.cs" />

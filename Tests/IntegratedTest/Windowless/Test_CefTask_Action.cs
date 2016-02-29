@@ -2,12 +2,15 @@
 using NSubstitute;
 using Xunit;
 using FluentAssertions;
-using MVVM.Cef.Glue.Test.Core;
 
-namespace MVVM.Cef.Glue.Test
+namespace IntegratedTest.Windowless
 {
-    public class Test_CefTask_Action : MVVMCefGlue_Test_Base
+    public abstract class Test_CefTask_Action : MVVMCefCore_Test_Base
     {
+        public Test_CefTask_Action(WindowlessTestEnvironment testEnvironment): base(testEnvironment)
+        {
+        }
+
         [Fact]
         public void Test_CefTask_Action_Should_Call_Action()
         {
