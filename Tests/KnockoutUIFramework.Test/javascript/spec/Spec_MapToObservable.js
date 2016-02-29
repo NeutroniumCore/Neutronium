@@ -1,12 +1,6 @@
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/// <reference path="../../../../knockoutuiframework/scripts/infra.js" />
-/// <reference path="../../../../knockoutuiframework/scripts/knockout.js" />
-/// <reference path="../../../../knockoutuiframework/scripts/ko_extension.js" />
+/// <reference path="../src/Infra.js" />
+/// <reference path="../src/knockout.js" />
+/// <reference path="../src/Ko_Extension.js" />
 
 
 describe("Map To Observable", function () {

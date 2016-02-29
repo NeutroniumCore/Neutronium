@@ -135,6 +135,9 @@
     <Content Include="javascript\spec\Spec_MapToObservable.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="javascript\src\Infra.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="javascript\src\ko-view.js" />
     <EmbeddedResource Include="javascript\src\promise.min.js" />
     <EmbeddedResource Include="javascript\src\Ko_Extension.min.js">
