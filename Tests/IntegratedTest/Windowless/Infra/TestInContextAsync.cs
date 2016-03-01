@@ -12,7 +12,5 @@ namespace IntegratedTest
         public Func<HTMLViewEngine, Task<IHTMLBinding>> Bind { get; set; }
 
         public Func<IHTMLBinding, Task> Test { get; set; }
-
-        public Action<IHTMLBinding> Then { get; set; }
     }
 }

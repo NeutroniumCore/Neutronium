@@ -1460,10 +1460,10 @@ namespace IntegratedTest.Windowless {
 
                     await Task.Delay(100);
                     function.Received(1).Invoke(25);
-                },
-                Then = (mb) =>
-                   {
-                       var error = _WebView.GetGlobal().GetValue("err");
+
+                    await Task.Yield();
+
+                    var error = _WebView.GetGlobal().GetValue("err");
                        error.IsUndefined.Should().BeTrue();
 
                        var resvalue = _WebView.GetGlobal().GetValue("res");
@@ -1474,8 +1474,6 @@ namespace IntegratedTest.Windowless {
 
             await RunAsync(test);
         }
-
-
 
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
@@ -1504,9 +1502,9 @@ namespace IntegratedTest.Windowless {
                     var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
                     await Task.Delay(100);
                     function.Received(1).Invoke(25);
-                },
-                Then = (mb) =>
-                {
+
+                    await Task.Yield();
+
                     var error = _WebView.GetGlobal().GetValue("err").GetStringValue();
                     error.Should().Be(errormessage);
 
