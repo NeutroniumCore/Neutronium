@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine;
-using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
@@ -73,43 +68,21 @@ namespace IntegratedTest
             return _WebView.RunAsync(act);
         }
 
-        internal Task DispatchInContext(Action act)
-        {
-            return _WebView.DispatchAsync(act);
-        }
-
         protected async Task RunAsync(TestInContext test)
         {
             using (Tester(test.Path))
+            using (var mb = await test.Bind(_ICefGlueWindow))
             {
-                using (var mb = await test.Bind(_ICefGlueWindow))
-                {
-                    await RunInContext(() => test.Test(mb));
-
-                    //if (test.Then!=null)
-                    //{
-                    //    Thread.Sleep(200);
-                    //    await DispatchInContext(() => test.Then(mb));
-                    //}
-                }
+                await RunInContext(() => test.Test(mb));
             }
         }
 
         protected async Task RunAsync(TestInContextAsync test) 
         {
             using (Tester(test.Path))
+            using (var mb = await test.Bind(_ICefGlueWindow)) 
             {
-                using (var mb = await test.Bind(_ICefGlueWindow)) 
-                {
-
-                    await RunInContext(async () => await test.Test(mb));
-
-                    //if (test.Then != null) 
-                    //{
-                    //    Thread.Sleep(200);
-                    //    await DispatchInContext(() => test.Then(mb));
-                    //}
-                }
+                await RunInContext(async () => await test.Test(mb));
             }
         }
 

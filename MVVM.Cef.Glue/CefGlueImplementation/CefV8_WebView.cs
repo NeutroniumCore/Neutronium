@@ -49,18 +49,6 @@ namespace MVVM.Cef.Glue
             return Runner.RunAsync(InContext);
         }
 
-        public Task DispatchAsync(Action act)
-        {
-            Action InContext = () =>
-            {
-                using (Enter())
-                {
-                    act();
-                }
-            };
-            return Runner.DispatchAsync(InContext);
-        }
-
         public void Run(Action act)
         {
             RunAsync(act).Wait();

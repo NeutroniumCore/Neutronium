@@ -10,18 +10,6 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
     public interface IWebView : IDispatcher
     {
         /// <summary>
-        /// Dispatch on a safe thread. If the caller is already on the safe
-        /// thread the action is not excecute immediately
-        /// </summary>
-        /// <param name="act">
-        /// Action to be executed
-        /// </param>
-        /// <returns>
-        /// the corresponding task
-        ///</returns>
-        Task DispatchAsync(Action act);
-
-        /// <summary>
         /// Get the window object
         /// </summary>
         IJavascriptObject GetGlobal();

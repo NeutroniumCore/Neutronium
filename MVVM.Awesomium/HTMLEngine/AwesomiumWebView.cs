@@ -25,11 +25,6 @@ namespace MVVM.Awesomium
             _AwesomiumJavascriptObjectFactory = new AwesomiumJavascriptObjectFactory(_IWebView);
         }
 
-        public Task DispatchAsync(Action act)
-        {
-           return _Dispatcher.RunAsync(act);
-        }
-
         public IJavascriptObject GetGlobal()
         {
             return _IWebView.ExecuteJavascriptWithResult("window").Convert();
