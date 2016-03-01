@@ -19,12 +19,10 @@ using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using IntegratedTest;
 using IntegratedTest.TestData;
 using MVVM.Component;
 
-namespace IntegratedTest.Windowless
-{
+namespace IntegratedTest.Windowless {
     public abstract class Test_HTMLBinding : MVVMCefCore_Test_Base
     {
         private readonly Person _DataContext;
@@ -318,7 +316,7 @@ namespace IntegratedTest.Windowless
 
 
         [Fact]
-        public async Task Test_HTMLBinding_Basic_Regsiter_Additional_property()
+        public async Task Test_HTMLBinding_Basic_Register_Additional_property()
         {
             var test = new TestInContext()
             {
@@ -343,10 +341,10 @@ namespace IntegratedTest.Windowless
         {
             _DataContext.MainSkill.Should().BeNull();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  TestAsync = async (mb) =>
+                  Test = async (mb) =>
                   {
                       var js = mb.JSRootObject;
 
@@ -367,7 +365,7 @@ namespace IntegratedTest.Windowless
 
                       DoSafe(() =>
                       _DataContext.MainSkill = null);
-                      Thread.Sleep(100);
+                      await Task.Delay(100);
 
                       res = GetAttribute(js, "MainSkill");
                       res.IsNull.Should().BeTrue();
@@ -422,10 +420,10 @@ namespace IntegratedTest.Windowless
         {
             _DataContext.MainSkill.Should().BeNull();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
+                  Test = async (mb) =>
                   {
                       var js = mb.JSRootObject;
 
@@ -437,7 +435,8 @@ namespace IntegratedTest.Windowless
 
                       _DataContext.Name = "23";
 
-                      Thread.Sleep(50);
+                      await Task.Delay(50);
+
                       string res3 = GetStringAttribute(js, "Name");
                       res3.Should().Be("23");
 
@@ -445,7 +444,7 @@ namespace IntegratedTest.Windowless
                       res4.Should().Be("Florianopolis");
 
                       _DataContext.Local.City = "Paris";
-                      Thread.Sleep(50);
+                      await Task.Delay(50);
 
                       res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
                       ((string)res4).Should().Be("Paris");
@@ -454,7 +453,7 @@ namespace IntegratedTest.Windowless
                       res5.Should().Be("Langage");
 
                       _DataContext.Skills[0].Name = "Ling";
-                      Thread.Sleep(50);
+                      await Task.Delay(50);
 
                       res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
                       res5.Should().Be("Ling");
@@ -465,13 +464,13 @@ namespace IntegratedTest.Windowless
                       string resName = GetStringAttribute(js, "Name");
                       resName.Should().Be("resName");
 
-                      Thread.Sleep(500);
+                      await Task.Delay(500);
 
                       _DataContext.Name.Should().Be("resName");
 
                       _DataContext.Name = "nnnnvvvvvvv";
 
-                      Thread.Sleep(50);
+                      await Task.Delay(50);
                       res3 = GetStringAttribute(js, "Name");
                       ((string)res3).Should().Be("nnnnvvvvvvv");
                   }
@@ -485,10 +484,10 @@ namespace IntegratedTest.Windowless
         {
             _DataContext.MainSkill.Should().BeNull();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
+                  Test = async (mb) =>
                   {
                       var js = mb.JSRootObject;
 
@@ -504,14 +503,14 @@ namespace IntegratedTest.Windowless
 
                       _DataContext.Local.City = "Foz de Iguaçu";
 
-                      Thread.Sleep(100);
+                      await Task.Delay(100);
                       var local3 = GetAttribute(js, "Local");
                       string city3 = GetStringAttribute(local, "City");
                       city3.Should().Be("Foz de Iguaçu");
 
                       _DataContext.Local = new Local() { City = "Paris" };
 
-                      Thread.Sleep(50);
+                      await Task.Delay(100);
                       var local2 = GetAttribute(js, "Local");
                       string city2 = GetStringAttribute(local2, "City");
                       city2.Should().Be("Paris");
@@ -527,10 +526,10 @@ namespace IntegratedTest.Windowless
         {
             _DataContext.MainSkill.Should().BeNull();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
+                  Test = async (mb) =>
                   {
                       var js = mb.JSRootObject;
 
@@ -539,7 +538,7 @@ namespace IntegratedTest.Windowless
                       dres.Should().Be("Married");
 
                       _DataContext.PersonalState = PersonalState.Single;
-                      Thread.Sleep(50);
+                      await Task.Delay(50);
 
                       res = GetAttribute(js, "PersonalState");
                       dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
@@ -556,10 +555,10 @@ namespace IntegratedTest.Windowless
         {
             _DataContext.Name = "toto";
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
+                  Test = async (mb) =>
                   {
                       var js = mb.JSRootObject;
 
@@ -568,21 +567,20 @@ namespace IntegratedTest.Windowless
                       dres.Should().Be("Married");
 
                       _DataContext.PersonalState = PersonalState.Single;
-                      Thread.Sleep(50);
+                      await Task.Delay(50);
 
                       res = GetAttribute(js, "PersonalState");
                       dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                       dres.Should().Be("Single");
 
                       var othervalue = GetSafe(() => js.Invoke("States", _WebView).ExecuteFunction(_WebView));
-                      //JSValue[] coll = (JSValue[])othervalue;
+
                       var di = othervalue.GetValue(2);
                       string name = GetSafe(() => di.GetValue("displayName").GetStringValue());
                       name.Should().Be("Divorced");
 
-
                       this.DoSafe(() => js.Invoke("PersonalState", _WebView, di));
-                      Thread.Sleep(100);
+                      await Task.Delay(100);
 
                       _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
                   }
@@ -634,7 +632,7 @@ namespace IntegratedTest.Windowless
 
 
         [Fact]
-        public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascipt()
+        public async Task Test_HTMLBinding_TwoWay_Set_Object_From_Javascript()
         {
             var datacontext = new Couple();
             var p1 = new Person() { Name = "David" };
@@ -642,10 +640,10 @@ namespace IntegratedTest.Windowless
             var p2 = new Person() { Name = "Claudia" };
             datacontext.Two = p2;
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
+                  Test = async (mb) =>
                   {
                       var js = mb.JSRootObject;
 
@@ -659,23 +657,22 @@ namespace IntegratedTest.Windowless
                       n2.Should().Be("Claudia");
 
                       DoSafe(() => Call(js, "One", () => GetAttribute(js, "Two")));
-                      Thread.Sleep(100);
+                      await Task.Delay(100);
 
                       var res3 = GetAttribute(js, "One");
                       res3.Should().NotBeNull();
                       string n3 = GetStringAttribute(res3, "Name");
                       n3.Should().Be("Claudia");
 
-                      Thread.Sleep(100);
+                      await Task.Delay(100);
 
                       datacontext.One.Should().Be(p2);
 
                       var res4 = GetAttribute(res3, "ChildrenNumber");
                       res4.IsNull.Should().BeTrue();
 
-                      //CefV8Value five = get new JSValue(5);
                       DoSafe(() => Call(res3, "ChildrenNumber", _WebView.Factory.CreateInt(5)));
-                      Thread.Sleep(100);
+                      await Task.Delay(100);
 
                       datacontext.One.ChildrenNumber.Should().Be(5);
                   }
@@ -688,7 +685,7 @@ namespace IntegratedTest.Windowless
 
 
         [Fact]
-        public async Task Test_HTMLBinding_TwoWay_Set_Null_From_Javascipt()
+        public async Task Test_HTMLBinding_TwoWay_Set_Null_From_Javascript()
         {
             var datacontext = new Couple();
             var p1 = new Person() { Name = "David" };
@@ -696,10 +693,10 @@ namespace IntegratedTest.Windowless
             var p2 = new Person() { Name = "Claudia" };
             datacontext.Two = p2;
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
+                  Test = async (mb) =>
                   {
                       var js = mb.JSRootObject;
 
@@ -714,11 +711,11 @@ namespace IntegratedTest.Windowless
                       n2.Should().Be("Claudia");
 
                       DoSafe(() => Call(js, "One", _WebView.Factory.CreateNull()));
-
+                      await Task.Delay(100);
                       var res3 = GetAttribute(js, "One");
                       res3.IsNull.Should().BeTrue();
 
-                      Thread.Sleep(100);
+                      await Task.Delay(100);
 
                       datacontext.One.Should().BeNull();
                   }
@@ -900,16 +897,16 @@ namespace IntegratedTest.Windowless
             var command = Substitute.For<ICommand>();
             var datacontexttest = new ViewModelTest() { Command = command };
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
                     var mycommand = GetAttribute(js, "Command");
                     DoSafe(() => Call(mycommand, "Execute"));
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     command.Received().Execute(Arg.Any<object>());
                 }
             };
@@ -924,15 +921,15 @@ namespace IntegratedTest.Windowless
             var command = Substitute.For<ICommand>();
             var datacontexttest = new ViewModelTest() { Command = command };
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
                     var mycommand = GetAttribute(js, "Command");
                     DoSafe(() => Call(mycommand, "Execute", js));
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     command.Received().Execute(datacontexttest);
                 }
             };
@@ -995,10 +992,10 @@ namespace IntegratedTest.Windowless
             command.CanExecute(Arg.Any<object>()).Returns(true);
             var datacontexttest = new ViewModelTest();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -1006,11 +1003,11 @@ namespace IntegratedTest.Windowless
                     mycommand.IsNull.Should().BeTrue();
 
                     DoSafe(() => datacontexttest.Command = command);
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
 
                     mycommand = GetAttribute(js, "Command");
                     DoSafe(() => Call(mycommand, "Execute", js));
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     command.Received().Execute(datacontexttest);
                 }
             };
@@ -1032,15 +1029,15 @@ namespace IntegratedTest.Windowless
             var command = Substitute.For<ISimpleCommand>();
             var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
                     var mycommand = GetAttribute(js, "SimpleCommand");
                     DoSafe(() => Call(mycommand, "Execute"));
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     command.Received().Execute(null);
                 }
             };
@@ -1054,15 +1051,15 @@ namespace IntegratedTest.Windowless
             var command = Substitute.For<ISimpleCommand>();
             var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
                     var mycommand = GetAttribute(js, "SimpleCommand");
                     DoSafe(() => Call(mycommand, "Execute", js));
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     command.Received().Execute(datacontexttest);
                 }
             };
@@ -1133,7 +1130,6 @@ namespace IntegratedTest.Windowless
                     CheckIntValue(js, "uint32", 0);
                     CheckIntValue(js, "uint64", 0);
 
-                    //CheckIntValue(js, "Char", 0);
                     CheckIntValue(js, "Double", 0);
                     CheckIntValue(js, "Decimal", 0);
                     CheckIntValue(js, "Float", 0);
@@ -1147,7 +1143,6 @@ namespace IntegratedTest.Windowless
         private void SetValue(IJavascriptObject js, string pn, IJavascriptObject value)
         {
             this.Call(js, pn, value);
-            //DoSafe(() => js.Invoke(pn, value));
         }
 
 
@@ -1157,52 +1152,48 @@ namespace IntegratedTest.Windowless
             var command = Substitute.For<ISimpleCommand>();
             var datacontext = new ViewModelCLRTypes();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
                     js.Should().NotBeNull();
 
                     SetValue(js, "int64", _WebView.Factory.CreateInt(32));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.int64.Should().Be(32);
 
                     SetValue(js, "uint64",  _WebView.Factory.CreateInt(456));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.uint64.Should().Be(456);
 
                     SetValue(js, "int32",  _WebView.Factory.CreateInt(5));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.int32.Should().Be(5);
 
                     SetValue(js, "uint32",  _WebView.Factory.CreateInt(67));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.uint32.Should().Be(67);
 
                     SetValue(js, "int16",  _WebView.Factory.CreateInt(-23));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.int16.Should().Be(-23);
 
                     SetValue(js, "uint16",  _WebView.Factory.CreateInt(9));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.uint16.Should().Be(9);
 
                     SetValue(js, "Float",  _WebView.Factory.CreateDouble(888.78));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.Float.Should().Be(888.78f);
 
-                    //SetValue(js, "Char", 128);
-                    //Thread.Sleep(200);
-                    //datacontext.Char.Should().Be((char)128);
-
                     SetValue(js, "Double",  _WebView.Factory.CreateDouble(866.76));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.Double.Should().Be(866.76);
 
                     SetValue(js, "Decimal",  _WebView.Factory.CreateDouble(0.5));
-                    Thread.Sleep(200);
+                    await Task.Delay(200);
                     datacontext.Decimal.Should().Be(0.5m);
                 }
             };
@@ -1217,10 +1208,10 @@ namespace IntegratedTest.Windowless
             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
 
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
                     var mycommand = GetAttribute(js, "TestCommand");
@@ -1230,7 +1221,7 @@ namespace IntegratedTest.Windowless
                     canexecute = false;
                     _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
 
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
 
                     mycommand = GetAttribute(js, "TestCommand");
                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
@@ -1248,10 +1239,10 @@ namespace IntegratedTest.Windowless
             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
 
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -1266,7 +1257,7 @@ namespace IntegratedTest.Windowless
 
                     _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
 
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
 
                     _ICommand.Received().CanExecute(_DataContext);
 
@@ -1309,17 +1300,17 @@ namespace IntegratedTest.Windowless
         {
             _ICommand.CanExecute(Arg.Any<object>()).Returns(true);
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
                     var mycommand = GetAttribute(js, "TestCommand");
                     Call(mycommand, "Execute", _WebView.Factory.CreateString("titi"));
 
-                    Thread.Sleep(150);
+                     await Task.Delay(150);
                     _ICommand.Received().Execute("titi");
                 }
             };
@@ -1338,10 +1329,10 @@ namespace IntegratedTest.Windowless
                 });
             _DataContext.TestCommand = _ICommand;
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -1350,7 +1341,7 @@ namespace IntegratedTest.Windowless
                     DoSafe(() =>
                     _ICommand.Execute(null));
 
-                    Thread.Sleep(100);
+                    await Task.Delay(150);
 
                     var res = GetSafe(() =>
                         js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView));
@@ -1369,17 +1360,17 @@ namespace IntegratedTest.Windowless
             var command = Substitute.For<ICommand>();
             var test = new ViewModelTest() { Command = command };
 
-            var testR = new TestInContext()
+            var testR = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, test, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
                     var mycommand = GetAttribute(js, "Command");
                     Call(mycommand, "Execute", _WebView.Factory.CreateNull());
 
-                    Thread.Sleep(150);
+                    await Task.Delay(150);
                     command.Received().Execute(null);
                 }
             };
@@ -1414,17 +1405,17 @@ namespace IntegratedTest.Windowless
             var function = NSubstitute.Substitute.For<Func<int, int>>();
             var dc = new FakeFactory<int, int>(function);
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Path = @"javascript\index_promise.html",
                 Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
                     var mycommand = GetAttribute(js, "CreateObject");
                     Call(mycommand, "Execute", _WebView.Factory.CreateInt(25));
 
-                    Thread.Sleep(700);
+                    await Task.Delay(700);
                     function.Received(1).Invoke(25);
                 }
             };
@@ -1439,11 +1430,11 @@ namespace IntegratedTest.Windowless
             function.Invoke(Arg.Any<int>()).Returns(255);
             var dc = new FakeFactory<int, int>(function);
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Path = @"javascript\index_promise.html",
                 Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 { 
                   
                     {
@@ -1457,18 +1448,17 @@ namespace IntegratedTest.Windowless
                    
                     var js = mb.JSRootObject;
                     var mycommand = GetAttribute(js, "CreateObject");
-                    //CefV8Exception ex = null;
+
                     IJavascriptObject cb = null;
                     bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
 
                     res.Should().BeTrue();
-                    //ex.Should().BeNull();
                     cb.Should().NotBeNull();
                     cb.IsObject.Should().BeTrue();
 
                     var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     function.Received(1).Invoke(25);
                 },
                 Then = (mb) =>
@@ -1495,14 +1485,13 @@ namespace IntegratedTest.Windowless
             function.When(f => f.Invoke(Arg.Any<int>())).Do(_ => { throw new Exception(errormessage); });
             var dc = new FakeFactory<int, int>(function);
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Path = @"javascript\index_promise.html",
                 Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
-
 
                     var mycommand = GetAttribute(js, "CreateObject");
                     IJavascriptObject cb = null;
@@ -1513,7 +1502,7 @@ namespace IntegratedTest.Windowless
                     cb.IsObject.Should().BeTrue();
 
                     var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
-                    Thread.Sleep(200);
+                    await Task.Delay(100);
                     function.Received(1).Invoke(25);
                 },
                 Then = (mb) =>
@@ -1538,10 +1527,10 @@ namespace IntegratedTest.Windowless
         public async Task Test_HTMLBinding_Basic_TwoWay_Collection()
         {
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -1553,44 +1542,42 @@ namespace IntegratedTest.Windowless
 
                     _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
 
-                    Thread.Sleep(1000);
+                    await Task.Delay(1000);
                     col = UnWrapCollection(js, "Skills");
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
-
                     _DataContext.Skills.Insert(0, new Skill() { Name = "C#", Type = "Info" });
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills.RemoveAt(1);
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills[0] = new Skill() { Name = "HTML", Type = "Info" };
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
                     _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
 
                     _DataContext.Skills.Clear();
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
-
                 }
             };
 
@@ -1601,10 +1588,10 @@ namespace IntegratedTest.Windowless
         public async Task Test_HTMLBinding_Stress_TwoWay_Collection()
         {
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -1615,7 +1602,7 @@ namespace IntegratedTest.Windowless
 
                     _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
 
-                    Thread.Sleep(150);
+                    await Task.Delay(150);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
@@ -1632,7 +1619,7 @@ namespace IntegratedTest.Windowless
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
-                    Thread.Sleep(10);
+                    await Task.Delay(10);
 
                     while (notok)
                     {
@@ -1645,9 +1632,7 @@ namespace IntegratedTest.Windowless
                     Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, iis);
                     Check(col, _DataContext.Skills);
 
-                    //TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.5));
                     TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.7));
-
                 }
             };
 
@@ -1719,12 +1704,11 @@ namespace IntegratedTest.Windowless
             var datacontext = new TwoList();
             datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
-
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Path = "javascript/simple.html",
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -1735,25 +1719,21 @@ namespace IntegratedTest.Windowless
                     col2.GetArrayLength().Should().Be(0);
 
                     var l2c = GetAttribute(js, "L2");
-                    //(JSObject)GetSafe(() => js.Invoke("L2"));
                     l2c.Should().NotBeNull();
 
                     string javascript = "window.app = function(value,coll){var args = []; args.push(0);args.push(0);for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);};";
                     IJavascriptObject res = null;
                     bool ok = _WebView.Eval(javascript, out res);
                     ok.Should().BeTrue();
-                    //JSObject win = null;
-                    //win = GetSafe(() => (JSObject)_WebView.ExecuteJavascriptWithResult("window"));
 
                     bool notok = true;
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
                     DoSafe(() => Call(_WebView.GetGlobal(), "app", col1, l2c));
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     while (notok)
                     {
-                        //Thread.Sleep(30);
                         notok = datacontext.L2.Count != r;
                     }
                     stopWatch.Stop();
@@ -1777,13 +1757,11 @@ namespace IntegratedTest.Windowless
         [Fact]
         public async Task Test_HTMLBinding_Stress_TwoWay_Int()
         {
-
-
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Path = "javascript/simple.html",
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
                     int iis = 500;
@@ -1794,14 +1772,14 @@ namespace IntegratedTest.Windowless
 
                     bool notok = true;
                     var tg = _DataContext.Age;
-                    Thread.Sleep(700);
+                    await Task.Delay(700);
 
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
                     while (notok)
                     {
-                        Thread.Sleep(100);
+                        await Task.Delay(100);
                         int doublev = GetIntAttribute(js, "Age");
                         notok = doublev != tg;
                     }
@@ -1821,13 +1799,11 @@ namespace IntegratedTest.Windowless
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Collection_FromJSUpdate()
         {
-
-
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Path = "javascript/simple.html",
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
                     var js = mb.JSRootObject;
@@ -1840,7 +1816,7 @@ namespace IntegratedTest.Windowless
                     var coll = GetAttribute(js, "Skills");
                     Call(coll, "push", (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
 
-                    Thread.Sleep(5000);
+                    await Task.Delay(5000);
                     _DataContext.Skills.Should().HaveCount(3);
                     _DataContext.Skills[2].Should().Be(_DataContext.Skills[0]);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
@@ -1848,7 +1824,7 @@ namespace IntegratedTest.Windowless
 
                     Call(coll, "pop");
 
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     _DataContext.Skills.Should().HaveCount(2);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     col.Should().NotBeNull();
@@ -1856,7 +1832,7 @@ namespace IntegratedTest.Windowless
 
                     Call(coll, "shift");
 
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     _DataContext.Skills.Should().HaveCount(1);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     Check(col, _DataContext.Skills);
@@ -1865,13 +1841,13 @@ namespace IntegratedTest.Windowless
                     Call(coll, "unshift",
                           (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
 
-                    Thread.Sleep(150);
+                    await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(2);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills.Add(new Skill() { Type = "Langage", Name = "French" });
-                    Thread.Sleep(150);
+                    await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(3);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     col.Should().NotBeNull();
@@ -1879,7 +1855,7 @@ namespace IntegratedTest.Windowless
 
                     Call(coll, "reverse");
 
-                    Thread.Sleep(150);
+                    await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(3);
                     col = GetSafe(() => UnWrapCollection(js, "Skills"));
                     Check(col, _DataContext.Skills);
@@ -1892,11 +1868,11 @@ namespace IntegratedTest.Windowless
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
         {
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Path = "javascript/simple.html",
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
                     var js = mb.JSRootObject;
@@ -1909,7 +1885,7 @@ namespace IntegratedTest.Windowless
                     var coll = GetAttribute(js, "Skills");
                     Call(coll, "push", _WebView.Factory.CreateString("Whatever"));
 
-                    Thread.Sleep(150);
+                    await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(2);
                 }
             };
@@ -1975,10 +1951,10 @@ namespace IntegratedTest.Windowless
         {
             var datacontext = new VMwithdecimal();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -1986,7 +1962,7 @@ namespace IntegratedTest.Windowless
                     res.Should().Be(0);
 
                     Call(js, "decimalValue", _WebView.Factory.CreateDouble(0.5));
-
+                    await Task.Yield();
                     datacontext.decimalValue.Should().Be(0.5m);
 
                     double doublev = GetDoubleAttribute(js, "decimalValue");
@@ -2019,17 +1995,17 @@ namespace IntegratedTest.Windowless
         {
             var datacontext = new VMwithlong() { longValue = 45 };
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
                     var doublev = GetDoubleAttribute(js, "longValue");
                     doublev.Should().Be(45);
 
                     Call(js, "longValue",  _WebView.Factory.CreateInt(24524));
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
 
                     datacontext.longValue.Should().Be(24524);
 
@@ -2042,17 +2018,15 @@ namespace IntegratedTest.Windowless
             await RunAsync(test);
         }
 
-
-
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Collection_string()
         {
             var datacontext = new VMWithList<string>();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -2062,23 +2036,23 @@ namespace IntegratedTest.Windowless
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Add("titi");
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Add("kiki");
                     datacontext.List.Add("toto");
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Move(0, 2);
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Move(2, 1);
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
                     Checkstring(col, datacontext.List);
 
@@ -2089,7 +2063,7 @@ namespace IntegratedTest.Windowless
                     var chcol = GetAttribute(js, "List");
                     Call(chcol, "push", _WebView.Factory.CreateString("newvalue"));
 
-                    Thread.Sleep(350);
+                    await Task.Delay(350);
 
                     col = GetSafe(() => UnWrapCollection(js, "List"));
 
@@ -2097,7 +2071,7 @@ namespace IntegratedTest.Windowless
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Clear();
-                    Thread.Sleep(100);
+                    await Task.Delay(100);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
 
                     Checkstring(col, datacontext.List);
@@ -2112,10 +2086,10 @@ namespace IntegratedTest.Windowless
         {
             var datacontext = new ChangingCollectionViewModel();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -2127,7 +2101,7 @@ namespace IntegratedTest.Windowless
 
                     datacontext.Items.Should().BeEmpty();
 
-                    Thread.Sleep(300);
+                    await Task.Delay(300);
                     col = GetSafe(() => UnWrapCollection(js, "Items"));
                     col.GetArrayLength().Should().Be(0);
 
@@ -2144,10 +2118,10 @@ namespace IntegratedTest.Windowless
             var datacontext = new VMWithListNonGeneric();
             datacontext.List.Add(888);
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -2160,7 +2134,7 @@ namespace IntegratedTest.Windowless
                     col = GetSafe(() => UnWrapCollection(js, "List"));
                     col.GetArrayLength().Should().Be(2);
 
-                    Thread.Sleep(350);
+                    await Task.Delay(350);
 
                     datacontext.List.Should().HaveCount(2);
                     datacontext.List[1].Should().Be("newvalue");
@@ -2176,10 +2150,10 @@ namespace IntegratedTest.Windowless
         {
             var datacontext = new VMWithList<decimal>();
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -2190,7 +2164,7 @@ namespace IntegratedTest.Windowless
 
                     datacontext.List.Add(3);
 
-                    Thread.Sleep(150);
+                    await Task.Delay(150);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
 
                     Checkdecimal(col, datacontext.List);
@@ -2198,7 +2172,7 @@ namespace IntegratedTest.Windowless
                     datacontext.List.Add(10.5m);
                     datacontext.List.Add(126);
 
-                    Thread.Sleep(150);
+                    await Task.Delay(150);
                     col = GetSafe(() => UnWrapCollection(js, "List"));
 
                     Checkdecimal(col, datacontext.List);
@@ -2214,7 +2188,7 @@ namespace IntegratedTest.Windowless
                     var res = GetAttribute(js, "List");
                     Call(res, "push", _WebView.Factory.CreateDouble(0.55));
 
-                    Thread.Sleep(350);
+                    await Task.Delay(350);
 
                     col = GetSafe(() => UnWrapCollection(js, "List"));
 
@@ -2241,7 +2215,6 @@ namespace IntegratedTest.Windowless
                     mb.Root.Should().BeNull();
 
                     mb.Context.Should().NotBeNull();
-
 
                     string res = GetStringAttribute(js, "Name");
                     res.Should().Be("O Monstro");

@@ -5,13 +5,13 @@ using MVVM.HTML.Core.Binding;
 
 namespace IntegratedTest
 {
-    public class TestInContext
+    public class TestInContextAsync
     {
         public string Path { get; set; }
 
         public Func<HTMLViewEngine, Task<IHTMLBinding>> Bind { get; set; }
 
-        public Action<IHTMLBinding> Test { get; set; }
+        public Func<IHTMLBinding, Task> Test { get; set; }
 
         public Action<IHTMLBinding> Then { get; set; }
     }

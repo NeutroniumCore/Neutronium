@@ -14,8 +14,8 @@ using MVVM.HTML.Core;
 using HTML_WPF.Component;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Navigation;
-using IntegratedTest;
 using Integrated.WPFInfra;
+using IntegratedTest.WPF.Infra;
 
 namespace IntegratedTest.WPF
 {

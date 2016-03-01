@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Integrated.WPFInfra
+namespace IntegratedTest.WPF.Infra
 {
    
     /// <summary>

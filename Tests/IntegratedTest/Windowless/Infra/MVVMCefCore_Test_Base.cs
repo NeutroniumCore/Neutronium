@@ -84,13 +84,24 @@ namespace IntegratedTest
             {
                 using (var mb = await test.Bind(_ICefGlueWindow))
                 {
-                    if (test.Test!=null)
-                        await RunInContext(() => test.Test(mb));
-                    else
-                        await RunInContext(async () => await test.TestAsync(mb));
+                    await RunInContext(() => test.Test(mb));
 
                     if (test.Then!=null)
                     {
+                        Thread.Sleep(200);
+                        await DispatchInContext(() => test.Then(mb));
+                    }
+                }
+            }
+        }
+
+        protected async Task RunAsync(TestInContextAsync test) {
+            using (Tester(test.Path)) {
+                using (var mb = await test.Bind(_ICefGlueWindow)) {
+
+                    await RunInContext(async () => await test.Test(mb));
+
+                    if (test.Then != null) {
                         Thread.Sleep(200);
                         await DispatchInContext(() => test.Then(mb));
                     }

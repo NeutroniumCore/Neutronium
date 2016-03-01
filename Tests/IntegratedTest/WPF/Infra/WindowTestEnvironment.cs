@@ -1,14 +1,8 @@
-﻿using HTML_WPF.Component;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+﻿using System;
+using HTML_WPF.Component;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace IntegratedTest
+namespace IntegratedTest.WPF.Infra
 {
     public class WindowTestEnvironment : IDisposable
     {

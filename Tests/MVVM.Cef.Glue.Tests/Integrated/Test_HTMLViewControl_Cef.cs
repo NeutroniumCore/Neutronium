@@ -1,5 +1,6 @@
 ﻿using IntegratedTest;
 using IntegratedTest.WPF;
+using IntegratedTest.WPF.Infra;
 using MVVM.Cef.Glue.Tests.Infra;
 
 namespace MVVM.Cef.Glue.Tests.Integrated

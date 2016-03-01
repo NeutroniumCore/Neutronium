@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Integrated.WPFInfra
+namespace IntegratedTest.WPF.Infra
 {
     public class WPFWindowTestWrapper
     {

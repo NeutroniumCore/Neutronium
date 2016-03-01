@@ -1,4 +1,5 @@
 ﻿using IntegratedTest;
+using IntegratedTest.WPF.Infra;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHelper;
 using MVVM.HTML.Core.Infra;

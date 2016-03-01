@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
+using IntegratedTest.WPF.Infra;
 
 namespace Integrated.WPFInfra
 {

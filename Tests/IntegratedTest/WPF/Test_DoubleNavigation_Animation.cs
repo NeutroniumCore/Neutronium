@@ -6,10 +6,10 @@ using FluentAssertions;
 using Xunit;
 
 using MVVM.ViewModel;
-using MVVM.HTML.Core;
 using HTML_WPF.Component;
 using MVVM.HTML.Core.Navigation;
 using Integrated.WPFInfra;
+using IntegratedTest.WPF.Infra;
 
 namespace IntegratedTest.WPF
 {
