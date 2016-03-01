@@ -346,7 +346,7 @@ namespace IntegratedTest.Windowless
             var test = new TestInContext()
               {
                   Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
+                  TestAsync = async (mb) =>
                   {
                       var js = mb.JSRootObject;
 
@@ -355,7 +355,8 @@ namespace IntegratedTest.Windowless
 
                       DoSafe(() =>
                       _DataContext.MainSkill = new Skill() { Name = "C++", Type = "Info" });
-                      Thread.Sleep(100);
+
+                      await Task.Delay(100);
 
                       res = GetAttribute(js, "MainSkill");
                       res.IsNull.Should().BeFalse();

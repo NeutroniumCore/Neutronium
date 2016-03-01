@@ -84,7 +84,10 @@ namespace IntegratedTest
             {
                 using (var mb = await test.Bind(_ICefGlueWindow))
                 {
-                    await RunInContext(() => test.Test(mb));
+                    if (test.Test!=null)
+                        await RunInContext(() => test.Test(mb));
+                    else
+                        await RunInContext(async () => await test.TestAsync(mb));
 
                     if (test.Then!=null)
                     {

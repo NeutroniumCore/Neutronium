@@ -13,6 +13,8 @@ namespace IntegratedTest
 
         public Action<IHTMLBinding> Test { get; set; }
 
+        public Func<IHTMLBinding, Task> TestAsync { get; set; }
+
         public Action<IHTMLBinding> Then { get; set; }
     }
 }

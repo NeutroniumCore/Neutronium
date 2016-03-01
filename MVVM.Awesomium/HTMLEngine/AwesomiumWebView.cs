@@ -5,6 +5,7 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using AwesomiumIWebView = Awesomium.Core.IWebView;
 using MVVMIWebView = MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView;
+using Awesomium.Core;
 
 namespace MVVM.Awesomium
 {
@@ -14,6 +15,8 @@ namespace MVVM.Awesomium
         private readonly IDispatcher _Dispatcher;
         private readonly AwesomiumJavascriptObjectConverter _AwesomiumJavascriptObjectConverter;
         private readonly AwesomiumJavascriptObjectFactory _AwesomiumJavascriptObjectFactory;
+        private JSObject _Extracter;
+
         public AwesomiumWebView(AwesomiumIWebView iwebview)
         {
             _IWebView = iwebview;
@@ -71,6 +74,15 @@ namespace MVVM.Awesomium
         public T Evaluate<T>(Func<T> compute)
         {
             return _Dispatcher.Evaluate(compute);
+        }
+
+        internal JSValue ExecuteFunction(JSValue function)
+        {
+            if (_Extracter == null)
+            {
+                _Extracter = _IWebView.ExecuteJavascriptWithResult("(function() { return { Extract : function(fn) { return fn(); } }; })()");
+            }
+            return _Extracter.Invoke("Extract", function);
         }
     }
 }

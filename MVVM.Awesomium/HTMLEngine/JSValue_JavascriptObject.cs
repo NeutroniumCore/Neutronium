@@ -142,7 +142,11 @@ namespace MVVM.Awesomium
 
         public IJavascriptObject ExecuteFunction(IWebView context)
         {
-            throw new NotImplementedException();
+            var webView = context as AwesomiumWebView;
+            if (context == null)
+                return null;
+
+            return new JSValue_JavascriptObject(webView.ExecuteFunction(_JSValue));
         }
 
         public IJavascriptObject GetValue(string ivalue)
