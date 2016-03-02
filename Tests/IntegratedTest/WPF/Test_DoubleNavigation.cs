@@ -17,8 +17,6 @@ using MVVM.ViewModel;
 using HTML_WPF.Component;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Navigation;
-using IntegratedTest;
-using Integrated.WPFInfra;
 using IntegratedTest.WPF.Infra;
 
 namespace Integrated.WPF

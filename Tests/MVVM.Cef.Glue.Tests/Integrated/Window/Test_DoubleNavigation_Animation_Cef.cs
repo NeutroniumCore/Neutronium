@@ -1,5 +1,4 @@
-﻿using IntegratedTest;
-using IntegratedTest.WPF;
+﻿using IntegratedTest.WPF;
 using IntegratedTest.WPF.Infra;
 using MVVM.Cef.Glue.Tests.Infra;
 

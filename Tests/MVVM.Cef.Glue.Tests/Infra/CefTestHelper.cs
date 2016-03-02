@@ -19,7 +19,7 @@ namespace MVVM.Cef.Glue.Tests.Infra
             return new WindowTestEnvironment()
             {
                 FrameworkManager = GetUIFrameworkManager(),
-                WPFWebWindowFactory = new CefGlueWPFWebWindowFactory()
+                WPFWebWindowFactory = () => new CefGlueWPFWebWindowFactory()
             };
         }
 

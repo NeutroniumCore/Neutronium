@@ -1,4 +1,5 @@
 ﻿using IntegratedTest.Windowless;
+using IntegratedTest.Windowless.Infra;
 using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;

@@ -73,10 +73,11 @@
     <Compile Include="Infra\AwesomiumTestHTMLWindow.cs" />
     <Compile Include="Infra\AwesomiumTestHTMLWindowProvider.cs" />
     <Compile Include="Infra\AwesomiumWindowlessJavascriptEngine.cs" />
-    <Compile Include="Integrated\Test_CefTask_Action_Awesomium.cs" />
-    <Compile Include="Integrated\Test_ConvertToJSO_Awesomium.cs" />
-    <Compile Include="Integrated\Test_HTMLBinding_Awe.cs" />
-    <Compile Include="Integrated\Test_JavascriptToCSharpMapper_Simple_Awesomium.cs" />
+    <Compile Include="Integrated\Windowless\Test_CefTask_Action_Awesomium.cs" />
+    <Compile Include="Integrated\Windowless\Test_ConvertToJSO_Awesomium.cs" />
+    <Compile Include="Integrated\Windowless\Test_HTMLBinding_Awesomium.cs" />
+    <Compile Include="Integrated\Windowless\Test_JavascriptToCSharpMapper_Simple_Awesomium.cs" />
+    <Compile Include="Integrated\Window\Test_DoubleNavigation_Animation_Awesomium.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,27 @@
     <Content Include="javascript\src\promise.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Navigation data\css\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Navigation data\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Navigation data\js\animation.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Navigation data\js\knockout.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Navigation data\js\Ko_Extension.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Navigation data\js\Ko_Extension.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Navigation data\js\ref\jquery.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="javascript\src\ko-view.min.js.map">
       <DependentUpon>ko-view.min.js</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -153,6 +175,9 @@
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Navigation data\js\Ko_Extension.min.js.map">
+      <DependentUpon>Ko_Extension.min.js</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +205,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

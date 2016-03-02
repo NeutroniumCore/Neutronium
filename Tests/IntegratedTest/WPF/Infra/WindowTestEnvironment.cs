@@ -6,14 +6,14 @@ namespace IntegratedTest.WPF.Infra
 {
     public class WindowTestEnvironment : IDisposable
     {
-        public IWPFWebWindowFactory WPFWebWindowFactory { get; set; }
+        public Func<IWPFWebWindowFactory> WPFWebWindowFactory { get; set; }
 
         public IJavascriptUIFrameworkManager FrameworkManager { get; set; }
 
         public void Register()
         {
             var engine = HTMLEngineFactory.Engine;
-            engine.Register(WPFWebWindowFactory);
+            engine.Register(WPFWebWindowFactory());
             engine.Register(FrameworkManager);
         }
 

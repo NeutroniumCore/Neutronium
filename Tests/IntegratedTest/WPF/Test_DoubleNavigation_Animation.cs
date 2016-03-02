@@ -8,7 +8,6 @@ using Xunit;
 using MVVM.ViewModel;
 using HTML_WPF.Component;
 using MVVM.HTML.Core.Navigation;
-using Integrated.WPFInfra;
 using IntegratedTest.WPF.Infra;
 
 namespace IntegratedTest.WPF
@@ -39,14 +38,13 @@ namespace IntegratedTest.WPF
 
         internal void TestNavigation(Action<HTMLWindow, WindowTest> Test, bool Cef = true)
         {
-            var environment = GetEnvironment();
-            environment.Register();
-
             AssemblyHelper.SetEntryAssembly();
 
             HTMLWindow wc1 = null;
             Func<HTMLWindow> Build = () =>
             {
+                var environment = GetEnvironment();
+                environment.Register();
                 wc1 = new HTMLWindow(_INavigationBuilder);
                 return wc1;
             };

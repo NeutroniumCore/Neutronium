@@ -19,7 +19,7 @@ namespace MVVM.Awesomium.Tests.Infra
             return new WindowTestEnvironment()
             {
                 FrameworkManager = GetUIFrameworkManager(),
-                WPFWebWindowFactory = new AwesomiumWPFWebWindowFactory()
+                WPFWebWindowFactory = () => new AwesomiumWPFWebWindowFactory()
             };
         }
 

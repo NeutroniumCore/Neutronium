@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;

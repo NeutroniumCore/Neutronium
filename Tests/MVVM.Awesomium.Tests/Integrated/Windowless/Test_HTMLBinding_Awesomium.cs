@@ -4,10 +4,10 @@ using Xunit;
 
 namespace MVVM.Awesomium.Tests.Integrated
 {
-    public class Test_HTMLBinding_Awe : Test_HTMLBinding
+    public class Test_HTMLBinding_Awesomium : Test_HTMLBinding
     {
         
-        public Test_HTMLBinding_Awe() : base(AwesomiumTestHelper.GetWindowlessEnvironment())
+        public Test_HTMLBinding_Awesomium() : base(AwesomiumTestHelper.GetWindowlessEnvironment())
         {
         }
 
