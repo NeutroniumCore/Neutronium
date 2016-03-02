@@ -78,6 +78,7 @@
     <Compile Include="Integrated\Windowless\Test_HTMLBinding_Awesomium.cs" />
     <Compile Include="Integrated\Windowless\Test_JavascriptToCSharpMapper_Simple_Awesomium.cs" />
     <Compile Include="Integrated\Window\Test_DoubleNavigation_Animation_Awesomium.cs" />
+    <Compile Include="Integrated\Window\Test_DoubleNavigation_Awesomium.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -28,11 +28,12 @@ namespace Integrated.WPF
         private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, WindowTestEnvironment environment, 
                                         bool iManageLifeCycle)
         {
-            environment.Register();
+            
 
             return new WindowTest(
                 (w) =>
                 {
+                    environment.Register();
                     StackPanel stackPanel = new StackPanel();
                     w.Content = stackPanel;
                     var iWebControl = iWebControlFac();
