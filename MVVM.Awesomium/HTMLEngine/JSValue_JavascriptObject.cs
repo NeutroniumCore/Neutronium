@@ -75,11 +75,6 @@ namespace MVVM.Awesomium
             get { return _JSValue.IsNumber; }
         }
 
-        public bool IsDate
-        {
-            get { return false; }
-        }
-
         public bool IsBool
         {
             get { return _JSValue.IsBoolean; }

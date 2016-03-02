@@ -167,7 +167,6 @@ namespace IntegratedTest.Windowless
                   var date = new DateTime(1974, 02, 26, 01, 02, 03,DateTimeKind.Utc);
                   var res = _ConverTOJSO.Map(date).JSValue;
                   res.Should().NotBeNull();
-                  res.IsDate.Should().BeTrue();
 
                   object ores = null;
                   Converter.GetSimpleValue(res, out ores);

@@ -74,7 +74,9 @@
     <Compile Include="Infra\AwesomiumTestHTMLWindowProvider.cs" />
     <Compile Include="Infra\AwesomiumWindowlessJavascriptEngine.cs" />
     <Compile Include="Integrated\Test_CefTask_Action_Awesomium.cs" />
+    <Compile Include="Integrated\Test_ConvertToJSO_Awesomium.cs" />
     <Compile Include="Integrated\Test_HTMLBinding_Awe.cs" />
+    <Compile Include="Integrated\Test_JavascriptToCSharpMapper_Simple_Awesomium.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

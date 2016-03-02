@@ -43,11 +43,6 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         bool IsNumber { get; }
 
         /// <summary>
-        /// True if the value type is a date.
-        /// </summary>
-        bool IsDate { get; }
-
-        /// <summary>
         /// True if the value type is an boolean.
         /// </summary>
         bool IsBool { get; }

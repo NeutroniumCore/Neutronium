@@ -85,19 +85,6 @@ namespace IntegratedTest.Windowless
         }
 
         [Fact]
-        public void Test_GetSimpleValue_Null()
-        {
-            Test(() =>
-            {
-                object res = null;
-                bool ok = Converter.GetSimpleValue(Factory.CreateNull(), out res);
-                ok.Should().BeTrue();
-                res.Should().Be(null);
-            });
-        }
-
-
-        [Fact]
         public void Test_GetSimpleValue_Date()
         {
             Test(() =>
@@ -114,7 +101,7 @@ namespace IntegratedTest.Windowless
         }
 
         [Fact]
-        public void Test_GetSimpleValue_Object()
+        public void Test_GetSimpleValue_Null()
         {
             Test(() =>
             {
