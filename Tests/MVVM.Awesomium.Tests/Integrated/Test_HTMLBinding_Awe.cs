@@ -4,7 +4,6 @@ using Xunit;
 
 namespace MVVM.Awesomium.Tests.Integrated
 {
-    //[Fact]
     public class Test_HTMLBinding_Awe : Test_HTMLBinding
     {
         

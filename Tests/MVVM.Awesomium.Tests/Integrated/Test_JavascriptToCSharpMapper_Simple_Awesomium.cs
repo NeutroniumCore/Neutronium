@@ -1,10 +1,5 @@
 ﻿using IntegratedTest.Windowless;
 using MVVM.Awesomium.Tests.Infra;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVVM.Awesomium.Tests.Integrated
 {

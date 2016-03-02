@@ -112,18 +112,6 @@ namespace IntegratedTest.Windowless
             });
         }
 
-        //[Fact]
-        //public void Test_GetSimpleValue_Uint()
-        //{
-        //    Test(() =>
-        //    {
-        //        object res = null;
-        //        bool ok = _JavascriptToCSharpMapper.GetSimpleValue(CefV8Value.CreateUInt(uint.MaxValue), out res);
-        //        ok.Should().BeTrue();
-        //        res.Should().Be(uint.MaxValue);
-        //    });
-        //}
-
         [Fact]
         public void Test_GetSimpleValue_Uint_explicit()
         {

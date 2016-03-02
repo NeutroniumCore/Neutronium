@@ -158,7 +158,7 @@ namespace MVVM.Awesomium.HTMLEngine
 
          public IJavascriptObject CreateUndefined()
          {
-             return new Awesomium_Core.JSValue().Convert();
+             return Awesomium_Core.JSValue.Undefined.Convert();
          }
     }
 }
