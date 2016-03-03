@@ -8,7 +8,7 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 namespace MVVM.Awesomium.Tests.Infra
 {
     public static class AwesomiumTestHelper
-    {
+    { 
         public static IJavascriptUIFrameworkManager GetUIFrameworkManager()
         {
             return new KnockoutUiFrameworkManager();

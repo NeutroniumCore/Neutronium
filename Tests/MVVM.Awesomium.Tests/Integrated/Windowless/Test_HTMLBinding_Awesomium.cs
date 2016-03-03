@@ -4,10 +4,9 @@ using Xunit;
 
 namespace MVVM.Awesomium.Tests.Integrated
 {
-    public class Test_HTMLBinding_Awesomium : Test_HTMLBinding
-    {
+    public class Test_HTMLBinding_Awesomium : Test_HTMLBinding, IClassFixture<AwesomiumTestContext> {
         
-        public Test_HTMLBinding_Awesomium() : base(AwesomiumTestHelper.GetWindowlessEnvironment())
+        public Test_HTMLBinding_Awesomium(AwesomiumTestContext context) : base(context.GetWindowlessEnvironment())
         {
         }
 
