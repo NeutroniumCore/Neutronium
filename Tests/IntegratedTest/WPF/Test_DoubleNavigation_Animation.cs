@@ -8,6 +8,7 @@ using Xunit;
 using MVVM.ViewModel;
 using HTML_WPF.Component;
 using MVVM.HTML.Core.Navigation;
+using MVVM.HTML.Core.Infra;
 using IntegratedTest.WPF.Infra;
 
 namespace IntegratedTest.WPF
@@ -61,6 +62,8 @@ namespace IntegratedTest.WPF
 
         }
 
+
+
         [Fact]
 
         public void Test_WPFBrowserNavigator_Simple()
@@ -70,7 +73,8 @@ namespace IntegratedTest.WPF
                 =>
                 {
                     wpfnav.Should().NotBeNull();
-                    _INavigationBuilder.Register<VM>("Navigation data\\index.html");
+                    var path = string.Format("{0}\\{1}",GetType().Assembly.GetPath(), "Navigation data\\index.html");;
+                    _INavigationBuilder.RegisterAbsolute<VM>(path);
                     wpfnav.UseINavigable = true;
 
                     var mre = new ManualResetEvent(false);

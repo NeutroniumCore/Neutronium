@@ -40,12 +40,13 @@ namespace IntegratedTest.WPF
                             WindowTestEnvironment environment=null)
         {
             environment = environment ?? GetEnvironment();
-            environment.Register();
+            
 
             AssemblyHelper.SetEntryAssembly();
             HTMLViewControl wc1 = null;
             Func<HTMLViewControl> iWebControlFac = () =>
             {
+                environment.Register();
                 wc1 = new HTMLViewControl();
                 wc1.IsDebug = iDebug;
                 return wc1;
