@@ -7,37 +7,29 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.Awesomium.Tests.Infra 
 {
-    public class AwesomiumTestContext : IHTMLWindowProviderTestContext 
+    public class AwesomiumTestContext : IWindowLessHTMLEngineProvider 
     {
-        private AwesomiumWindowlessSharedJavascriptEngine _AwesomiumWindowlessSharedJavascriptEngine;
+        private AwesomiumWindowlessHTMLEngineFactory _AwesomiumWindowlessHTMLEngineFactory;
+
 
         public IJavascriptUIFrameworkManager GetUIFrameworkManager() 
         {
             return new KnockoutUiFrameworkManager();
         }
 
-        private AwesomiumWindowlessSharedJavascriptEngine GetWindowLessEngine(IJavascriptUIFrameworkManager javascriptUIFrameworkManager) 
+        private AwesomiumWindowlessHTMLEngineFactory GetWindowLessEngine(IJavascriptUIFrameworkManager javascriptUIFrameworkManager) 
         {
-            if (_AwesomiumWindowlessSharedJavascriptEngine != null)
-                return _AwesomiumWindowlessSharedJavascriptEngine;
+            if (_AwesomiumWindowlessHTMLEngineFactory != null)
+                return _AwesomiumWindowlessHTMLEngineFactory;
 
-            return _AwesomiumWindowlessSharedJavascriptEngine = new AwesomiumWindowlessSharedJavascriptEngine(javascriptUIFrameworkManager);
-        }
-
-        public WindowTestEnvironment GetWindowEnvironment() 
-        {
-            return new WindowTestEnvironment() 
-            {
-                FrameworkManager = GetUIFrameworkManager(),
-                WPFWebWindowFactory = () => new AwesomiumWPFWebWindowFactory()
-            };
+            return _AwesomiumWindowlessHTMLEngineFactory = new AwesomiumWindowlessHTMLEngineFactory(javascriptUIFrameworkManager);
         }
 
         public WindowlessTestEnvironment GetWindowlessEnvironment() 
         {
             return new WindowlessTestEnvironment()
             {
-                WindowlessJavascriptEngineBuilder = (frameWork) => GetWindowLessEngine(frameWork),
+                WindowlessJavascriptEngineBuilder = (frameWork) => GetWindowLessEngine(frameWork).CreateWindowlessJavascriptEngine(),
                 JavascriptFrameworkExtractorBuilder = (webView) => new KnockoutExtractor(webView),
                 FrameworkManager = GetUIFrameworkManager(),
                 TestUIDispacther = new NullUIDispatcher()
@@ -46,9 +38,9 @@ namespace MVVM.Awesomium.Tests.Infra
 
         public void Dispose() 
         {
-            if (_AwesomiumWindowlessSharedJavascriptEngine != null)
+            if (_AwesomiumWindowlessHTMLEngineFactory != null)
             {
-                _AwesomiumWindowlessSharedJavascriptEngine.Dispose();
+                _AwesomiumWindowlessHTMLEngineFactory.Dispose();
             }
         }
     }

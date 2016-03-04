@@ -4,11 +4,9 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace IntegratedTest 
 {
-    public interface IHTMLWindowProviderTestContext : IDisposable 
+    public interface IWindowLessHTMLEngineProvider : IDisposable 
     {
         IJavascriptUIFrameworkManager GetUIFrameworkManager();
-
-        WindowTestEnvironment GetWindowEnvironment();
 
         WindowlessTestEnvironment GetWindowlessEnvironment();
     }

@@ -90,7 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IHTMLWindowProviderTestContext.cs" />
+    <Compile Include="IWindowLessHTMLEngineProvider.cs" />
     <Compile Include="Windowless\Infra\TestInContextAsync.cs" />
     <Compile Include="Windowless\Infra\TestIUIDispatcher.cs" />
     <Compile Include="Windowless\Test_CefTask_Action.cs" />

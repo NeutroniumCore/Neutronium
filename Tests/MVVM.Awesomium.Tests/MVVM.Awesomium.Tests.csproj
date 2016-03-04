@@ -87,6 +87,7 @@
     <Compile Include="Infra\AwesomiumWindowlessSharedJavascriptEngine.cs" />
     <Compile Include="Infra\AwesomiumWindowlessJavascriptEngine.cs" />
     <Compile Include="Infra\AwesomiumTestContext.cs" />
+    <Compile Include="Infra\AwesomiumWindowlessSharedJavascriptEngineFactory.cs" />
     <Compile Include="Integrated\Windowless\Test_CefTask_Action_Awesomium.cs" />
     <Compile Include="Integrated\Windowless\Test_ConvertToJSO_Awesomium.cs" />
     <Compile Include="Integrated\Windowless\Test_HTMLBinding_Awesomium.cs" />
@@ -194,7 +195,9 @@
     <None Include="Navigation data\js\Ko_Extension.min.js.map">
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\src\Infra.js">

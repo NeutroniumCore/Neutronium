@@ -27,48 +27,48 @@ namespace MVVM.Awesomium.Tests
             InitAsync(path).Wait();
         }
 
-        private bool _Runing = false;
+        //private bool _Runing = false;
 
-        private Task Init() 
-        {
-            if (_Runing)
-                return TaskHelper.Ended();
+        //private Task Init() 
+        //{
+        //    if (_Runing)
+        //        return TaskHelper.Ended();
 
-            var running = new TaskCompletionSource<object>();
-            Task.Run(() => 
-            {
-                WebCore.Initialize(new WebConfig());
-                WebCore.CreateWebSession(WebPreferences.Default);
+        //    var running = new TaskCompletionSource<object>();
+        //    Task.Run(() => 
+        //    {
+        //        WebCore.Initialize(new WebConfig());
+        //        WebCore.CreateWebSession(WebPreferences.Default);
 
-                WebCore.ShuttingDown += (o, e) =>
-                {
-                    if (e.Exception != null) {
-                        Console.WriteLine("Exception on main thread {0}", e.Exception);
-                        e.Cancel = true;
-                    }
-                };
+        //        WebCore.ShuttingDown += (o, e) =>
+        //        {
+        //            if (e.Exception != null) {
+        //                Console.WriteLine("Exception on main thread {0}", e.Exception);
+        //                e.Cancel = true;
+        //            }
+        //        };
 
-                WebCore.Started += (o, e) =>
-                {
-                    AwesomiumWPFWebWindowFactory.WebCoreThread = Thread.CurrentThread;
-                    running.TrySetResult(null);
-                };
+        //        WebCore.Started += (o, e) =>
+        //        {
+        //            AwesomiumWPFWebWindowFactory.WebCoreThread = Thread.CurrentThread;
+        //            running.TrySetResult(null);
+        //        };
 
-                WebCore.Run();
+        //        WebCore.Run();
 
-                _EndTaskCompletionSource.SetResult(null);
-            });
+        //        _EndTaskCompletionSource.SetResult(null);
+        //    });
           
-            _Runing = true;
-            return running.Task;
-        }
+        //    _Runing = true;
+        //    return running.Task;
+        //}
 
         private async Task InitAsync(string ipath = "javascript\\index.html")
         {
             var taskLoaded = new TaskCompletionSource<object>();
-            var taskContextLoaded = new TaskCompletionSource<SynchronizationContext>();
+            //var taskContextLoaded = new TaskCompletionSource<SynchronizationContext>();
 
-            await Init();
+            //await Init();
 
             WebCore.QueueWork( () => 
             {
@@ -81,12 +81,13 @@ namespace MVVM.Awesomium.Tests
                     htmlWindowProvider,
                     _JavascriptUIFrameworkManager
                 );
-                taskContextLoaded.SetResult(SynchronizationContext.Current);
+                //taskContextLoaded.SetResult(SynchronizationContext.Current);
                 var viewReadyExecuter = new ViewReadyExecuter(_CurrentWebView, () => { taskLoaded.TrySetResult(null); });
                 viewReadyExecuter.Do();
             });
 
-            await Task.WhenAll(taskLoaded.Task, taskContextLoaded.Task) ;
+            //await Task.WhenAll(taskLoaded.Task, taskContextLoaded.Task) ;
+            await taskLoaded.Task;
         }
 
         public HTMLViewEngine ViewEngine
@@ -99,11 +100,11 @@ namespace MVVM.Awesomium.Tests
             WebCore.QueueWork(_CurrentWebView, () => _CurrentWebView.Dispose());      
         }
 
-        public void CloseAll() 
-        {
-            WebCore.Shutdown();
-            _EndTaskCompletionSource.Task.Wait();
-        }
+        //public void CloseAll() 
+        //{
+        //    WebCore.Shutdown();
+        //    _EndTaskCompletionSource.Task.Wait();
+        //}
 
         public HTML.Core.JavascriptEngine.JavascriptObject.IWebView WebView
         {
