@@ -87,7 +87,7 @@
     <Compile Include="Infra\AwesomiumWindowlessSharedJavascriptEngine.cs" />
     <Compile Include="Infra\AwesomiumWindowlessJavascriptEngine.cs" />
     <Compile Include="Infra\AwesomiumTestContext.cs" />
-    <Compile Include="Infra\AwesomiumWindowlessSharedJavascriptEngineFactory.cs" />
+    <Compile Include="Infra\AwesomiumWindowlessHTMLEngineFactory.cs" />
     <Compile Include="Integrated\Windowless\Test_CefTask_Action_Awesomium.cs" />
     <Compile Include="Integrated\Windowless\Test_ConvertToJSO_Awesomium.cs" />
     <Compile Include="Integrated\Windowless\Test_HTMLBinding_Awesomium.cs" />

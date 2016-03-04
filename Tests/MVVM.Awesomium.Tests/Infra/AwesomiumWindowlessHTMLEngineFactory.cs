@@ -3,9 +3,6 @@ using IntegratedTest;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

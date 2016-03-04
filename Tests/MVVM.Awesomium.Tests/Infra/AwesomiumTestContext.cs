@@ -1,5 +1,4 @@
 ﻿using IntegratedTest;
-using IntegratedTest.WPF.Infra;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHelper;
 using MVVM.HTML.Core.Infra;
@@ -41,6 +40,7 @@ namespace MVVM.Awesomium.Tests.Infra
             if (_AwesomiumWindowlessHTMLEngineFactory != null)
             {
                 _AwesomiumWindowlessHTMLEngineFactory.Dispose();
+                _AwesomiumWindowlessHTMLEngineFactory = null;
             }
         }
     }
