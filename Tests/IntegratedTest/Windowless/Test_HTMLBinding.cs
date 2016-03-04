@@ -1729,9 +1729,9 @@ namespace IntegratedTest.Windowless {
                     stopWatch.Start();
 
                     DoSafe(() => Call(_WebView.GetGlobal(), "app", col1, l2c));
-                    await Task.Delay(100);
                     while (notok)
                     {
+                        await Task.Delay(100);
                         notok = datacontext.L2.Count != r;
                     }
                     stopWatch.Stop();

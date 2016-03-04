@@ -1,6 +1,6 @@
 ﻿using IntegratedTest;
 using KnockoutUIFramework;
-using KnockoutUIFramework.Test.TestHelper;
+using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
@@ -29,8 +29,7 @@ namespace MVVM.Awesomium.Tests.Infra
             return new WindowlessTestEnvironment()
             {
                 WindowlessJavascriptEngineBuilder = (frameWork) => GetWindowLessEngine(frameWork).CreateWindowlessJavascriptEngine(),
-                JavascriptFrameworkExtractorBuilder = (webView) => new KnockoutExtractor(webView),
-                FrameworkManager = GetUIFrameworkManager(),
+                FrameworkTestContext = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext(),
                 TestUIDispacther = new NullUIDispatcher()
             };
         }

@@ -75,8 +75,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegratedInfra\KnockoutFrameworkTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelper\KnockoutExtractor.cs" />
+    <Compile Include="IntegratedInfra\KnockoutExtractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\KnockoutUIFramework\KnockoutUIFramework.csproj">

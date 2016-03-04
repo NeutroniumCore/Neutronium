@@ -1,7 +1,7 @@
 ﻿using IntegratedTest;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace KnockoutUIFramework.Test.TestHelper
+namespace KnockoutUIFramework.Test.IntegratedInfra
 {
     public class KnockoutExtractor : IJavascriptFrameworkExtractor
     {
