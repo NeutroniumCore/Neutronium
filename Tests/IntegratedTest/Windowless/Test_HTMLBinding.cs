@@ -86,7 +86,7 @@ namespace IntegratedTest.Windowless {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
                 Test = (binding) =>
                 {
-                    var jsbridge = (binding as HTML_Binding).JSBrideRootObject;
+                    var jsbridge = ((HTML_Binding) binding).JSBrideRootObject;
                     var js = binding.JSRootObject;
 
                     string JSON = JsonConvert.SerializeObject(_DataContext);

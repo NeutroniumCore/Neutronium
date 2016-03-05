@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using IntegratedTest;
+﻿using IntegratedTest;
 using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.Cef.Glue.CefSession;
 using MVVM.HTML.Core.Infra;
@@ -10,42 +9,31 @@ namespace MVVM.Cef.Glue.Tests.Infra
     public class CefGlueWindowlessSharedJavascriptEngineFactory : IWindowLessHTMLEngineProvider
     {
         private bool _Runing=false;
+        private readonly FakeUIThread _FakeUIThread;
 
-        private Task InitTask() 
+        public CefGlueWindowlessSharedJavascriptEngineFactory() 
+        {
+            _FakeUIThread = new FakeUIThread( () => CefCoreSessionSingleton.GetAndInitIfNeeded(), CefCoreSessionSingleton.Clean );
+        }
+
+        private void Init() 
         {
             if (_Runing)
-                return TaskHelper.Ended();
+                return;
 
-            TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
-            Task.Run(() =>
-            {
-                CefCoreSessionSingleton.GetAndInitIfNeeded();
-
-                ////CefWindowInfo cefWindowInfo = CefWindowInfo.Create();
-                ////cefWindowInfo.SetAsWindowless(IntPtr.Zero, true);
-
-                ////// Settings for the browser window itself (e.g. enable JavaScript?).
-                ////var cefBrowserSettings = new CefBrowserSettings();
-
-                //// Initialize some the cust interactions with the browser process.
-                //var cefClient = new TestCefClient();
-
-                tcs.TrySetResult(0);
-
-            });
             _Runing = true;
-
-            return tcs.Task;
+            _FakeUIThread.Start();
         }
 
         public void Dispose()
         {
-            CefCoreSessionSingleton.Clean();
+            _FakeUIThread.Stop();
         }
 
         public WindowlessTestEnvironment GetWindowlessEnvironment() 
         {
-            return new WindowlessTestEnvironment() {
+            return new WindowlessTestEnvironment() 
+            {
                 WindowlessJavascriptEngineBuilder = (frameWork) => CreateWindowlessJavascriptEngine(frameWork),
                 FrameworkTestContext = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext(),
                 TestUIDispacther = new NullUIDispatcher()
@@ -54,7 +42,7 @@ namespace MVVM.Cef.Glue.Tests.Infra
 
         private IWindowlessJavascriptEngine CreateWindowlessJavascriptEngine(IJavascriptUIFrameworkManager frameWork) 
         {
-            InitTask().Wait();
+            Init();
             return new CefGlueWindowlessSharedJavascriptEngine(frameWork);
         }
     }

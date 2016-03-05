@@ -108,6 +108,7 @@
     <Compile Include="Infra\CefWindowless\TestCefRenderHandler.cs" />
     <Compile Include="Infra\CefWindowless\TestDisplayHandler.cs" />
     <Compile Include="Infra\CefWindowless\TestIUIDispatcher.cs" />
+    <Compile Include="Infra\FakeUIThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integrated\Windowless\Test_CefTask_Action_Cef.cs" />
     <Compile Include="Integrated\Windowless\Test_ConvertToJSO_Cef.cs" />
