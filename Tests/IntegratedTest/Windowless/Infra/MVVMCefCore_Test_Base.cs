@@ -42,7 +42,7 @@ namespace IntegratedTest
             tester.Init(ihtlmpath);
             _ICefGlueWindow = tester.ViewEngine;
             _WebView = tester.WebView;
-            _JavascriptFrameworkExtractor = _TestEnvironment.JavascriptFrameworkExtractorBuilder(_WebView);
+            _JavascriptFrameworkExtractor = _TestEnvironment.GetExtractor(_WebView);
             return tester;
         }
 
