@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using System.Diagnostics;
 using MVVM.HTML.Core.Exceptions;
 
 namespace HTML_WPF.Component

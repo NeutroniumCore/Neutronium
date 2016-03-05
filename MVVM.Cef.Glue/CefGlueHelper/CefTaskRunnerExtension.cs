@@ -11,12 +11,12 @@ namespace MVVM.Cef.Glue.CefGlueHelper
         {
             if (@this.BelongsToCurrentThread)
             {
-                Trace.TraceInformation("CefTaskRunnerExtension.RunAsync: called from same Thread: no switch");
+                //Trace.TraceInformation("CefTaskRunnerExtension.RunAsync: called from same Thread: no switch");
                 actionToRun();
                 return Task.FromResult<object>(null);
             }
 
-            Trace.TraceInformation("CefTaskRunnerExtension.RunAsync: called from different Thread: switching");
+            //Trace.TraceInformation("CefTaskRunnerExtension.RunAsync: called from different Thread: switching");
             var actiontask = new CefTask_Action(actionToRun);
             @this.PostTask(actiontask);
             return actiontask.Task;
@@ -33,11 +33,11 @@ namespace MVVM.Cef.Glue.CefGlueHelper
         {
             if (@this.BelongsToCurrentThread)
             {
-                Trace.TraceInformation("CefTaskRunnerExtension.EvaluateAsync: called from same Thread: no switch");
+                //Trace.TraceInformation("CefTaskRunnerExtension.EvaluateAsync: called from same Thread: no switch");
                 return Task.FromResult(evaluate());
             }
 
-            Trace.TraceInformation("CefTaskRunnerExtension.EvaluateAsync: called from different Thread: switching");
+            //Trace.TraceInformation("CefTaskRunnerExtension.EvaluateAsync: called from different Thread: switching");
             var functionTask = new FunctionTask<T>(evaluate);
             @this.PostTask(functionTask);
             return functionTask.Task;

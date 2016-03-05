@@ -95,6 +95,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infra\CefGlueWindowLessHTMLEngineProvider.cs" />
+    <Compile Include="Infra\CefGlueWindowlessSharedJavascriptEngineFactory.cs" />
+    <Compile Include="Infra\CefGlueWindowlessSharedJavascriptEngine.cs" />
     <Compile Include="Infra\CefGlueWindowlessJavascriptEngine.cs" />
     <Compile Include="Infra\CefTestHelper.cs" />
     <Compile Include="Infra\CefWindowless\TestCefClient.cs" />

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
@@ -38,7 +36,6 @@ namespace IntegratedTest
                 DoSafe(act);
             }
         }
-
 
         public IDisposable Tester(string ihtlmpath = null)
         {
@@ -119,11 +116,6 @@ namespace IntegratedTest
         protected void Call(IJavascriptObject value, string functionname, params IJavascriptObject[] parameter)
         {
             _WebView.Run(() => value.Invoke(functionname,_WebView,parameter));
-        }
-
-        protected void Call(IJavascriptObject value, string functionname, Func<IEnumerable<IJavascriptObject>> parameter)
-        {
-            _WebView.Run(() => value.Invoke(functionname, _WebView, parameter().ToArray()));
         }
 
         protected void Call(IJavascriptObject value, string functionname, Func<IJavascriptObject> parameter)

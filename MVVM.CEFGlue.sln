@@ -72,6 +72,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Awesomium.TestInfra", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Awesomium.Windowless.Integrated.Tests", "Tests\Awesomium\MVVM.Awesomium.Windowless.Integrated.Tests\MVVM.Awesomium.Windowless.Integrated.Tests.csproj", "{05FE6E3C-50C9-4054-811B-86BDA5459F82}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CefGlue", "CefGlue", "{187DE0D6-9D6C-4721-9D9E-8E2948F462AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -443,6 +445,7 @@ Global
 		{9B6B0D48-C95C-43E5-9A6B-7C06F2B9B03A} = {32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}
 		{8955B9F6-B6E5-4FEF-A5AB-90C35AFB9CC6} = {32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}
 		{05FE6E3C-50C9-4054-811B-86BDA5459F82} = {32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}
+		{187DE0D6-9D6C-4721-9D9E-8E2948F462AE} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf
