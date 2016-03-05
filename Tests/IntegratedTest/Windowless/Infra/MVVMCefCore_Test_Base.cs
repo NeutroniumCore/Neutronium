@@ -8,11 +8,10 @@ using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace IntegratedTest
 {
-    public abstract class MVVMCefCore_Test_Base : IDisposable
+    public abstract class MVVMCefCore_Test_Base 
     {
         protected IWebView _WebView = null;
         protected HTMLViewEngine _ICefGlueWindow = null;
-        private IWindowlessJavascriptEngine _Tester;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private WindowlessTestEnvironment _TestEnvironment;
 
@@ -39,18 +38,14 @@ namespace IntegratedTest
             }
         }
 
-
         public IDisposable Tester(string ihtlmpath = null)
         {
-            if (_Tester != null)
-                _Tester.Dispose();
-
-            _Tester = _TestEnvironment.Build();
-            _Tester.Init(ihtlmpath);
-            _ICefGlueWindow = _Tester.ViewEngine;
-            _WebView = _Tester.WebView;
+            var tester = _TestEnvironment.Build();
+            tester.Init(ihtlmpath);
+            _ICefGlueWindow = tester.ViewEngine;
+            _WebView = tester.WebView;
             _JavascriptFrameworkExtractor = _TestEnvironment.JavascriptFrameworkExtractorBuilder(_WebView);
-            return _Tester;
+            return tester;
         }
 
         public IDispatcher  GetTestUIDispacther()
@@ -134,14 +129,6 @@ namespace IntegratedTest
         protected void DoSafe(Action Doact)
         {
             _WebView.Run(Doact);
-        }
-    
-        public void Dispose()
-        {
-            if (_Tester != null)
-                _Tester.Dispose();
-
-            _Tester = null;
         }
     }
 }
