@@ -37,7 +37,7 @@ namespace IntegratedTest.Windowless
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
 
-        public Test_ConvertToJSO(WindowlessTestEnvironment testEnvironment): base(testEnvironment)
+        public Test_ConvertToJSO(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
         {
         }
 

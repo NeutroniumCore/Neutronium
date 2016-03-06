@@ -95,29 +95,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infra\CefGlueWindowLessHTMLEngineProvider.cs" />
-    <Compile Include="Infra\CefGlueWindowlessSharedJavascriptEngineFactory.cs" />
-    <Compile Include="Infra\CefGlueWindowlessSharedJavascriptEngine.cs" />
-    <Compile Include="Infra\CefGlueWindowlessJavascriptEngine.cs" />
-    <Compile Include="Infra\CefTestHelper.cs" />
-    <Compile Include="Infra\CefWindowless\TestCefClient.cs" />
-    <Compile Include="Infra\CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
-    <Compile Include="Infra\CefWindowless\TestCefGlueWindow.cs" />
-    <Compile Include="Infra\CefWindowless\TestCefLifeSpanHandler.cs" />
-    <Compile Include="Infra\CefWindowless\TestCefLoadHandler.cs" />
-    <Compile Include="Infra\CefWindowless\TestCefRenderHandler.cs" />
-    <Compile Include="Infra\CefWindowless\TestDisplayHandler.cs" />
-    <Compile Include="Infra\CefWindowless\TestIUIDispatcher.cs" />
-    <Compile Include="Infra\FakeUIThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Integrated\Windowless\Test_CefTask_Action_Cef.cs" />
-    <Compile Include="Integrated\Windowless\Test_ConvertToJSO_Cef.cs" />
     <Compile Include="Integrated\Window\Test_DoubleNavigation_Animation_Cef.cs" />
     <Compile Include="Integrated\Window\Test_DoubleNavigation_Cef.cs" />
     <Compile Include="Test_HTMLCefGlueApp.cs" />
-    <Compile Include="Integrated\Windowless\Test_HTMLBinding_Cef.cs" />
     <Compile Include="Integrated\Window\Test_HTMLViewControl_Cef.cs" />
-    <Compile Include="Integrated\Windowless\Test_JavascriptToCSharpMapper_Simple_Cef.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\almost_empty.html">
@@ -246,6 +228,10 @@
       <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
       <Name>MVVM.ViewModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CefGlue\CefGlue.TestInfra\CefGlue.TestInfra.csproj">
+      <Project>{947cc0fa-7f1c-4cf9-a908-1a29ed232f19}</Project>
+      <Name>CefGlue.TestInfra</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IntegratedTest\IntegratedTest.csproj">
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
       <Name>IntegratedTest</Name>
@@ -254,6 +240,9 @@
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Infra\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />

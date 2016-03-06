@@ -8,7 +8,7 @@ namespace MVVM.Awesomium.Tests.Integrated
     public class Test_JavascriptToCSharpMapper_Simple_Awesomium : Test_JavascriptToCSharpMapper_Simple
     {
         public Test_JavascriptToCSharpMapper_Simple_Awesomium(AwesomiumTestContext context) 
-            : base(context.GetWindowlessEnvironment())
+            : base(context)
         {
         }
     }

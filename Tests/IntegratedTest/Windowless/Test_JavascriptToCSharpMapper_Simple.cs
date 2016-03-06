@@ -7,7 +7,7 @@ namespace IntegratedTest.Windowless
 {
     public abstract class Test_JavascriptToCSharpMapper_Simple : MVVMCefCore_Test_Base
     {
-        public Test_JavascriptToCSharpMapper_Simple(WindowlessTestEnvironment testEnvironment)
+        protected Test_JavascriptToCSharpMapper_Simple(IWindowLessHTMLEngineProvider testEnvironment)
                         : base(testEnvironment)
         {
         }

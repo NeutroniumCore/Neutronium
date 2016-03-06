@@ -7,7 +7,7 @@ namespace IntegratedTest.Windowless
 {
     public abstract class Test_CefTask_Action : MVVMCefCore_Test_Base
     {
-        public Test_CefTask_Action(WindowlessTestEnvironment testEnvironment): base(testEnvironment)
+        public Test_CefTask_Action(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
         {
         }
 

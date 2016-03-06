@@ -7,14 +7,12 @@ using FluentAssertions;
 
 using MVVM.Cef.Glue.CefSession;
 using System.Threading;
+using CefGlue.TestInfra;
 using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Window;
-using KnockoutUIFramework;
-using MVVM.Cef.Glue.Tests.Infra;
 
-namespace MVVM.Cef.Glue.Test
-{
+namespace MVVM.Cef.Glue.Test {
     public class Test_HTMLCefGlueApp
     {
         private class EnvironmentBuilder : IDisposable

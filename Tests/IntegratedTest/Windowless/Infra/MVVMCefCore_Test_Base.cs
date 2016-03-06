@@ -16,11 +16,10 @@ namespace IntegratedTest
         protected IJavascriptObjectConverter Converter { get { return _WebView.Converter; } }
 
         protected IJavascriptObjectFactory Factory { get { return _WebView.Factory; } }
-        
 
-        public MVVMCefCore_Test_Base(WindowlessTestEnvironment testEnvironment)
+        protected MVVMCefCore_Test_Base(IWindowLessHTMLEngineProvider testEnvironment)
         {
-            _TestEnvironment = testEnvironment;
+            _TestEnvironment = testEnvironment.GetWindowlessEnvironment();
         }
 
         protected virtual void Init()

@@ -28,7 +28,7 @@ namespace IntegratedTest.Windowless {
         private readonly Person _DataContext;
         private ICommand _ICommand;
 
-        public Test_HTMLBinding(WindowlessTestEnvironment testEnvironment): base(testEnvironment)
+        public Test_HTMLBinding(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
         {
             _ICommand = Substitute.For<ICommand>();
             _DataContext = new Person(_ICommand)
