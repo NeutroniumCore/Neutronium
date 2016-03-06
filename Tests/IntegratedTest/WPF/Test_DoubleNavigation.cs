@@ -28,8 +28,6 @@ namespace Integrated.WPF
         private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, WindowTestEnvironment environment, 
                                         bool iManageLifeCycle)
         {
-            
-
             return new WindowTest(
                 (w) =>
                 {
@@ -49,8 +47,9 @@ namespace Integrated.WPF
             HTMLWindow wc1 = null;
             Func<HTMLWindow> iWebControlFac = () =>
             {
-                wc1 = new HTMLWindow();
-                wc1.IsDebug = iDebug;
+                wc1 = new HTMLWindow {
+                    IsDebug = iDebug
+                };
                 return wc1;
             };
 

@@ -25,7 +25,7 @@ namespace IntegratedTest.WPF.Infra
             Window.BringIntoView();
         }
 
-        public void Close()
+        public void CloseWindow()
         {
             if (Window == null)
                 return;

@@ -29,19 +29,19 @@ namespace Integrated.WPFInfra
             _factory = ifactory ?? basic;
             _CTS = new CancellationTokenSource();
             _ARE = new AutoResetEvent(false);
-            var thread = new Thread(InitUIinSTA) {
+            _UIThread = new Thread(InitUIinSTA) {
                 Name = "Simulated UI Thread"
             };
-            thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-            thread.Start();
+            _UIThread.SetApartmentState(ApartmentState.STA);
+            _UIThread.Start();
 
             _ARE.WaitOne();
-            _UIThread = MainWindow.Dispatcher.Thread;
+            //_UIThread = MainWindow.Dispatcher.Thread;
         }
 
-        public void Close()
+        public void CloseWindow()
         {
-            _wpfWindowTestWrapper.Close();
+            _wpfWindowTestWrapper.CloseWindow();
         }
 
         public void Dispose()

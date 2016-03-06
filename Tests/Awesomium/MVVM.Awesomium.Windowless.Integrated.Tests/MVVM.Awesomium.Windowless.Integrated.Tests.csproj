@@ -85,7 +85,7 @@
   <ItemGroup>
     <Compile Include="AwesomiumWindowlessTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test_CefTask_Action_Awesomium.cs" />
+    <Compile Include="Test_WebView_Dispatcher_Awesomium.cs" />
     <Compile Include="Test_ConvertToJSO_Awesomium.cs" />
     <Compile Include="Test_HTMLBinding_Awesomium.cs" />
     <Compile Include="Test_JavascriptToCSharpMapper_Simple_Awesomium.cs" />

@@ -94,7 +94,7 @@
     <Compile Include="JavascriptUIFramework\FrameworkTestContext.cs" />
     <Compile Include="Windowless\Infra\TestInContextAsync.cs" />
     <Compile Include="Windowless\Infra\TestIUIDispatcher.cs" />
-    <Compile Include="Windowless\Test_CefTask_Action.cs" />
+    <Compile Include="Windowless\Test_WebView_Dispatcher.cs" />
     <Compile Include="Windowless\Test_ConvertToJSO.cs" />
     <Compile Include="Windowless\Test_JavascriptToCSharpMapper_Simple.cs" />
     <Compile Include="WPF\Infra\WindowTestEnvironment.cs" />

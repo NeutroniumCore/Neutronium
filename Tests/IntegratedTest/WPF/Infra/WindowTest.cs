@@ -32,7 +32,7 @@ namespace IntegratedTest.WPF.Infra
 
         public void Dispose()
         {   
-            Action End = () => { _WPFThreadingHelper.Close(); };
+            Action End = () => { _WPFThreadingHelper.CloseWindow(); };
             Dispatcher.Invoke(End);
             _WPFThreadingHelper.Dispose();
         }

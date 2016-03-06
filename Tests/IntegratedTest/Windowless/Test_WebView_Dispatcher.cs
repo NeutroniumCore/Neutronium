@@ -5,9 +5,9 @@ using FluentAssertions;
 
 namespace IntegratedTest.Windowless
 {
-    public abstract class Test_CefTask_Action : MVVMCefCore_Test_Base
+    public abstract class Test_WebView_Dispatcher : MVVMCefCore_Test_Base
     {
-        public Test_CefTask_Action(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
+        public Test_WebView_Dispatcher(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
         {
         }
 
