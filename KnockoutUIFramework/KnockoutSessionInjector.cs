@@ -18,6 +18,7 @@ namespace KnockoutUIFramework
         private IJavascriptObjectMapper _Current;
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
+        private IJavascriptObject _Ko;
 
         public KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener)
         {
@@ -60,10 +61,14 @@ namespace KnockoutUIFramework
 
         public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm)
         {
-            return _WebView.Evaluate(() => GetKo().Invoke("MapToObservable", _WebView, ihybridobject, GetMapper(ijvm), _Listener));
+            return _WebView.Evaluate(() => UnsafeInject(ihybridobject, ijvm));
         }
 
-        private IJavascriptObject _Ko;
+        public IJavascriptObject UnsafeInject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm) 
+        {
+            var res = GetKo().Invoke("MapToObservable", _WebView, ihybridobject, GetMapper(ijvm), _Listener);
+            return (res == null || res.IsUndefined) ? null : res;
+        }
 
         private IJavascriptObject GetKo()
         {

@@ -123,9 +123,7 @@ namespace MVVM.HTML.Core.Binding
             var jvm = _SessionCache.GetMapper(iroot as IJSObservableBridge);
             var res = _sessionInjector.Inject(iroot.JSValue, jvm);
 
-            var resbool = _Context.WebView.Evaluate(() => res.IsUndefined);
-
-            if ((iroot.CValue != null) && ((res==null) || (res.IsUndefined)))
+            if ((iroot.CValue != null) && (res==null))
             {
                 throw ExceptionHelper.GetUnexpected();
             }
