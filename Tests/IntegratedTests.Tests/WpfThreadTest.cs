@@ -6,24 +6,24 @@ using Xunit;
 
 namespace IntegratedTests.Tests
 {
-    public class WPFThreadHelperTest : IDisposable
+    public class WpfThreadTest : IDisposable
     {
-        private readonly WPFThreadHelper _WPFThreadHelper;
-        public WPFThreadHelperTest()
+        private readonly WpfThread _wpfThread;
+        public WpfThreadTest()
         {
-            _WPFThreadHelper = new WPFThreadHelper();
+            _wpfThread = new WpfThread();
         }
 
         [Fact]
         public void Constructor_Populate_Dispatcher()
         {
-            _WPFThreadHelper.Dispatcher.Should().NotBeNull();
+            _wpfThread.Dispatcher.Should().NotBeNull();
         }
 
         [Fact]
         public void Constructor_Populate_UIThread()
         {
-            _WPFThreadHelper.UIThread.Should().NotBeNull();
+            _wpfThread.UIThread.Should().NotBeNull();
         }
 
         [Fact]
@@ -31,13 +31,13 @@ namespace IntegratedTests.Tests
         {
             Thread thread = null;
             Action action = () => thread = Thread.CurrentThread;
-            _WPFThreadHelper.Dispatcher.Invoke(action);
-            thread.Should().Be(_WPFThreadHelper.UIThread);
+            _wpfThread.Dispatcher.Invoke(action);
+            thread.Should().Be(_wpfThread.UIThread);
         }
 
         public void Dispose()
         {
-            _WPFThreadHelper.Dispose();
+            _wpfThread.Dispose();
         }
     }
 }

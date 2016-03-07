@@ -1,14 +1,14 @@
 ﻿using CefGlue.TestInfra;
-using Integrated.WPF;
-using IntegratedTest.WPF.Infra;
+using IntegratedTest.WPF;
+using Xunit;
 
 namespace MVVM.Cef.Glue.Tests.Integrated
 {
-    public class Test_DoubleNavigation_Cef : Test_DoubleNavigation
+    public class Test_DoubleNavigation_Cef : Test_DoubleNavigation, IClassFixture<CefWindowTestEnvironment> 
     {
-        protected override WindowTestEnvironment GetEnvironment()
+        public Test_DoubleNavigation_Cef(CefWindowTestEnvironment context) : base(context) 
         {
-            return CefTestHelper.GetWindowEnvironment();
+
         }
     }
 }

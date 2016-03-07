@@ -6,18 +6,24 @@ namespace IntegratedTest.WPF.Infra
 {
     public class WindowTest : IDisposable
     {
-        private readonly WPFThreadingHelper _WPFThreadingHelper;
+        private readonly IWPFWindowWrapper _WPFThreadingHelper;
 
-        public WindowTest(Action<Window> Init)
+        public WindowTest(Action<Window> init) 
         {
-            _WPFThreadingHelper = new WPFThreadingHelper(
-                () =>
-                {
-                    var window = new Window();
-                    NameScope.SetNameScope(window, new NameScope());
-                    Init(window);
-                    return window;
-                } );
+            _WPFThreadingHelper = new WPFThreadingHelper(() => CreateNewWindow(init));
+        }
+
+        public WindowTest(IWindowTestEnvironment context, Action<Window> init) 
+        {
+            _WPFThreadingHelper = context.GetWindowWrapper(() => CreateNewWindow(init));
+        }
+
+        private Window CreateNewWindow(Action<Window> init) 
+        {
+            var window = new Window();
+            NameScope.SetNameScope(window, new NameScope());
+            init(window);
+            return window;
         }
 
         public Window Window { get { return _WPFThreadingHelper.MainWindow; } }
@@ -27,6 +33,11 @@ namespace IntegratedTest.WPF.Infra
         public void RunOnUIThread(Action Do)
         {
             Dispatcher.Invoke(Do);
+        }
+
+        public void CloseWindow() 
+        {
+            _WPFThreadingHelper.CloseWindow();
         }
 
         public void Dispose()

@@ -1,38 +1,40 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Reflection;
-using System.Windows.Input;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
-using Xunit;
 using FluentAssertions;
-using NSubstitute;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core;
-using MVVM.ViewModel.Infra;
-using MVVM.ViewModel;
 using HTML_WPF.Component;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Navigation;
 using IntegratedTest.WPF.Infra;
+using MVVM.HTML.Core;
+using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Navigation;
+using MVVM.ViewModel;
+using MVVM.ViewModel.Infra;
+using NSubstitute;
+using Xunit;
 
-namespace Integrated.WPF
+namespace IntegratedTest.WPF
 {
     public abstract class Test_DoubleNavigation
     {
-        protected abstract WindowTestEnvironment GetEnvironment();
-
-        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, WindowTestEnvironment environment, 
-                                        bool iManageLifeCycle)
+        private readonly IWindowTestEnvironment _WindowTestEnvironment;
+        protected Test_DoubleNavigation(IWindowTestEnvironment windowTestEnvironment) 
         {
-            return new WindowTest(
+            _WindowTestEnvironment = windowTestEnvironment;
+        }
+
+        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle)
+        {
+            return new WindowTest(_WindowTestEnvironment,
                 (w) =>
                 {
-                    environment.Register();
-                    StackPanel stackPanel = new StackPanel();
+                    var stackPanel = new StackPanel();
                     w.Content = stackPanel;
                     var iWebControl = iWebControlFac();
                     if (iManageLifeCycle)
@@ -53,7 +55,7 @@ namespace Integrated.WPF
                 return wc1;
             };
 
-            using (var wcontext = BuildWindow(iWebControlFac, GetEnvironment(), iManageLifeCycle))
+            using (var wcontext = BuildWindow(iWebControlFac, iManageLifeCycle))
             {
                 Test(wc1.NavigationBuilder, wc1, wcontext);
             }
@@ -95,7 +97,6 @@ namespace Integrated.WPF
             }
 
             public Exception Exception { get; private set; }
-
             public ICommand GoTo1 { get; private set; }
             public ICommand Change { get; private set; }
         }
@@ -158,7 +159,7 @@ namespace Integrated.WPF
         [Fact]
         public void Test_HTMLWindowRecovery_Capacity_Watcher()
         {
-            IWebSessionWatcher watch = Substitute.For<IWebSessionWatcher>();
+            var watch = Substitute.For<IWebSessionWatcher>();
             Test_HTMLWindowRecovery_Capacity_Base(watch);
             //watch.Received().LogCritical(Arg.Any<string>());
         }
@@ -501,7 +502,6 @@ namespace Integrated.WPF
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -521,7 +521,6 @@ namespace Integrated.WPF
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a2.Navigation.Should().NotBeNull();
                     a1.Navigation.Should().BeNull();
                 });
@@ -1089,16 +1088,15 @@ namespace Integrated.WPF
                 WindowTest.RunOnUIThread(() =>
                 {
                     wpfnav.IsDebug.Should().BeFalse();
-                    DispatcherTimer dt = new DispatcherTimer();
+                    var dt = new DispatcherTimer();
                     dt.Interval = TimeSpan.FromSeconds(10);
                     dt.Tick += (o, e) =>
                         {
                             dt.Stop();
-                            System.Windows.Application.Current.Shutdown();
+                            WindowTest.CloseWindow();
                         };
                     dt.Start();
                     wpfnav.OpenDebugBrowser();
-
                 });
             });
         }

@@ -4,29 +4,29 @@ using System.Windows;
 
 namespace IntegratedTest.WPF.Infra
 {
-    internal class WPFThreadingHelper : IDisposable
+    internal class WPFWindowWrapper : IWPFWindowWrapper
     {
         private readonly Func<Window> _factory;
         private WPFWindowTestWrapper _wpfWindowTestWrapper;
-        private readonly WPFThreadHelper _WPFThreadHelper;
+        private readonly WpfThread _wpfThread;
 
-        internal Thread UIThread
+        public Thread UIThread
         {
-            get { return _WPFThreadHelper.UIThread; }
+            get { return _wpfThread.UIThread; }
         }
 
-        internal Window MainWindow
+        public Window MainWindow
         {
             get { return _wpfWindowTestWrapper.Window; }
         }
 
-        public WPFThreadingHelper(Func<Window> ifactory = null, WPFThreadHelper wpfThreadHelper=null)
+        public WPFWindowWrapper(WpfThread wpfThread, Func<Window> ifactory = null) 
         {
-            _WPFThreadHelper = wpfThreadHelper ?? new WPFThreadHelper();
+            _wpfThread = wpfThread;
             Func<Window> basic =() => new Window();
             _factory = ifactory ?? basic;
 
-            _WPFThreadHelper.Dispatcher.Invoke(InitWindow);
+            _wpfThread.Dispatcher.Invoke(InitWindow);
         }
 
         private void InitWindow()
@@ -35,14 +35,14 @@ namespace IntegratedTest.WPF.Infra
             _wpfWindowTestWrapper.ShowWindow();
         }
 
-        public void CloseWindow()
+        public void CloseWindow() 
         {
             _wpfWindowTestWrapper.CloseWindow();
         }
 
         public void Dispose()
         {
-            _WPFThreadHelper.Dispose();
+            CloseWindow();
         }
     }
 }

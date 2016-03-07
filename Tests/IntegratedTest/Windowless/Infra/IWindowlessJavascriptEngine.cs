@@ -1,8 +1,8 @@
-﻿using MVVM.HTML.Core.Binding;
+﻿using System;
+using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using System;
 
-namespace IntegratedTest
+namespace IntegratedTest.Windowless.Infra
 {
     public interface IWindowlessJavascriptEngine : IDisposable
     {

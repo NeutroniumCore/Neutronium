@@ -2,6 +2,7 @@
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System;
 using IntegratedTest.JavascriptUIFramework;
+using IntegratedTest.Windowless.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace IntegratedTest 

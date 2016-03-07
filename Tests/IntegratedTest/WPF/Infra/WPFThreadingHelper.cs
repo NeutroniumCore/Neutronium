@@ -1,57 +1,48 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace IntegratedTest.WPF.Infra
 {
-    public class WPFThreadHelper : IDisposable
+    internal class WPFThreadingHelper : IWPFWindowWrapper
     {
-        private readonly Thread _UIThread;
-        private readonly AutoResetEvent _ARE;
-        private readonly CancellationTokenSource _CTS;
-        private Dispatcher _dispatcher;
+        private readonly Func<Window> _factory;
+        private WPFWindowTestWrapper _wpfWindowTestWrapper;
+        private readonly WpfThread _wpfThread;
 
         public Thread UIThread
         {
-            get { return _UIThread; }
+            get { return _wpfThread.UIThread; }
         }
 
-        public Dispatcher Dispatcher
+        public Window MainWindow
         {
-            get { return _dispatcher; }
+            get { return _wpfWindowTestWrapper.Window; }
         }
 
-        public WPFThreadHelper()
+        public WPFThreadingHelper(Func<Window> ifactory = null, WpfThread wpfThread=null)
         {
-            _CTS = new CancellationTokenSource();
-            _ARE = new AutoResetEvent(false);
-            _UIThread = new Thread(InitUIinSTA) {
-                Name = "Simulated UI Thread"
-            };
-            _UIThread.SetApartmentState(ApartmentState.STA);
-            _UIThread.Start();
+            _wpfThread = wpfThread ?? new WpfThread();
+            Func<Window> basic =() => new Window();
+            _factory = ifactory ?? basic;
 
-            _ARE.WaitOne();
+            _wpfThread.Dispatcher.Invoke(InitWindow);
+        }
+
+        private void InitWindow()
+        {
+            _wpfWindowTestWrapper = new WPFWindowTestWrapper(_factory());
+            _wpfWindowTestWrapper.ShowWindow();
+        }
+
+        public void CloseWindow()
+        {
+            _wpfWindowTestWrapper.CloseWindow();
         }
 
         public void Dispose()
         {
-            _CTS.Cancel();
-            _UIThread.Join();
-            _ARE.Dispose();
-            _CTS.Dispose();
-        }
-
-        private void InitUIinSTA()
-        {
-            var fmel = new FrameworkElement();
-            while (_CTS.IsCancellationRequested == false)
-            {
-                DispatcherHelper.DoEvents();
-                _dispatcher = fmel.Dispatcher;
-                _ARE.Set();
-            }
+            _wpfThread.Dispose();
         }
     }
 }

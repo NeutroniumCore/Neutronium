@@ -1,4 +1,5 @@
 ﻿using IntegratedTest;
+using IntegratedTest.Windowless.Infra;
 using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.Cef.Glue.CefSession;
 using MVVM.HTML.Core.Infra;
