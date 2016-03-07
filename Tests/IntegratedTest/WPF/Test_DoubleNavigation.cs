@@ -21,12 +21,12 @@ using Xunit;
 
 namespace IntegratedTest.WPF
 {
-    public abstract class Test_DoubleNavigation
-    {
+    public abstract class Test_DoubleNavigation : IClassFixture<WpfThread> {
         private readonly IWindowTestEnvironment _WindowTestEnvironment;
-        protected Test_DoubleNavigation(IWindowTestEnvironment windowTestEnvironment) 
+        protected Test_DoubleNavigation(IWindowTestEnvironment windowTestEnvironment, WpfThread wpfThread) 
         {
             _WindowTestEnvironment = windowTestEnvironment;
+            windowTestEnvironment.WpfThread = wpfThread;
         }
 
         private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle)

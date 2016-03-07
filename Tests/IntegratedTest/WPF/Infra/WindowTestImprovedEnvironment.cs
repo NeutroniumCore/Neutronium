@@ -7,14 +7,10 @@ namespace IntegratedTest.WPF.Infra
 {
     public abstract class WindowTestImprovedEnvironment : IWindowTestEnvironment 
     {
-        private readonly WpfThread _wpfThread;
         private bool _IsInit = false;
         private IWPFWebWindowFactory _WPFWebWindowFactory;
 
-        public WindowTestImprovedEnvironment() 
-        {
-            _wpfThread = WpfThread.GetWpfThread();
-        }
+        public WpfThread WpfThread { get; set; }
 
         public abstract IWPFWebWindowFactory GetWPFWebWindowFactory();
 
@@ -32,7 +28,7 @@ namespace IntegratedTest.WPF.Infra
         {
             if (!_IsInit) 
             {
-                _wpfThread.Dispatcher.Invoke(DoRegister);
+                WpfThread.Dispatcher.Invoke(DoRegister);
                 _IsInit = true;
             }
         }
@@ -40,13 +36,12 @@ namespace IntegratedTest.WPF.Infra
         public IWPFWindowWrapper GetWindowWrapper(Func<Window> ifactory = null) 
         {
             Register();
-            return new WPFWindowWrapper(_wpfThread, ifactory);   
+            return new WPFWindowWrapper(WpfThread, ifactory);   
         }
 
         public void Dispose() 
         {
-            _wpfThread.Dispatcher.Invoke(() => _WPFWebWindowFactory.Dispose());
-            _wpfThread.Dispose();
+            WpfThread.Dispatcher.Invoke(() => _WPFWebWindowFactory.Dispose());
         }
     }
 }

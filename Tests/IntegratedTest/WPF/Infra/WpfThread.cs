@@ -35,12 +35,6 @@ namespace IntegratedTest.WPF.Infra
             _ARE.WaitOne();
         }
 
-        private static readonly Lazy<WpfThread> _LazyWpfThread= new Lazy<WpfThread>(()=> new WpfThread());
-        public static WpfThread GetWpfThread() 
-        {
-            return _LazyWpfThread.Value;
-        }
-
         public void Dispose()
         {
             _CTS.Cancel();

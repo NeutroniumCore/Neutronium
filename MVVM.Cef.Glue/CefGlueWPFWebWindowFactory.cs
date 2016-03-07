@@ -7,7 +7,7 @@ namespace MVVM.Cef.Glue
 {
     public class CefGlueWPFWebWindowFactory : IWPFWebWindowFactory
     {
-        private ICefCoreSession _ICefCoreSession;
+        private readonly ICefCoreSession _ICefCoreSession;
         public CefGlueWPFWebWindowFactory( CefSettings iCefSettings = null)
         {
             _ICefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded(iCefSettings);
