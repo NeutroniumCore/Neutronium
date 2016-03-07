@@ -8,7 +8,7 @@ namespace IntegratedTest.WPF.Infra
     {
         private readonly Func<Window> _factory;
         private WPFWindowTestWrapper _wpfWindowTestWrapper;
-        private WPFThreadHelper _WPFThreadHelper;
+        private readonly WPFThreadHelper _WPFThreadHelper;
 
         internal Thread UIThread
         {
