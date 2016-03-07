@@ -1,32 +1,29 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
-using IntegratedTest.WPF.Infra;
+using System.Windows.Threading;
 
-namespace Integrated.WPFInfra
+namespace IntegratedTest.WPF.Infra
 {
-    internal class WPFThreadingHelper : IDisposable
+    public class WPFThreadHelper : IDisposable
     {
         private readonly Thread _UIThread;
-        private readonly Func<Window> _factory;
         private readonly AutoResetEvent _ARE;
-        private WPFWindowTestWrapper _wpfWindowTestWrapper;
-        private CancellationTokenSource _CTS;
+        private readonly CancellationTokenSource _CTS;
+        private Dispatcher _dispatcher;
 
-        internal Thread UIThread
+        public Thread UIThread
         {
             get { return _UIThread; }
         }
 
-        internal Window MainWindow
+        public Dispatcher Dispatcher
         {
-            get { return _wpfWindowTestWrapper.Window; }
+            get { return _dispatcher; }
         }
 
-        public WPFThreadingHelper(Func<Window> ifactory=null )
+        public WPFThreadHelper()
         {
-            Func<Window> basic =() => new Window();
-            _factory = ifactory ?? basic;
             _CTS = new CancellationTokenSource();
             _ARE = new AutoResetEvent(false);
             _UIThread = new Thread(InitUIinSTA) {
@@ -36,12 +33,6 @@ namespace Integrated.WPFInfra
             _UIThread.Start();
 
             _ARE.WaitOne();
-            //_UIThread = MainWindow.Dispatcher.Thread;
-        }
-
-        public void CloseWindow()
-        {
-            _wpfWindowTestWrapper.CloseWindow();
         }
 
         public void Dispose()
@@ -54,13 +45,12 @@ namespace Integrated.WPFInfra
 
         private void InitUIinSTA()
         {
-            _wpfWindowTestWrapper = new WPFWindowTestWrapper(_factory());        
-            _wpfWindowTestWrapper.ShowWindow();
-            _ARE.Set();
-
+            var fmel = new FrameworkElement();
             while (_CTS.IsCancellationRequested == false)
             {
                 DispatcherHelper.DoEvents();
+                _dispatcher = fmel.Dispatcher;
+                _ARE.Set();
             }
         }
     }

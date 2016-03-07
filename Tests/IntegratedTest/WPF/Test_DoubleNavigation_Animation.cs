@@ -59,13 +59,9 @@ namespace IntegratedTest.WPF
         public class VM : ViewModelBase, INavigable
         {
             public INavigationSolver Navigation { get; set; }
-
         }
 
-
-
         [Fact]
-
         public void Test_WPFBrowserNavigator_Simple()
         {
             var vm = new VM();

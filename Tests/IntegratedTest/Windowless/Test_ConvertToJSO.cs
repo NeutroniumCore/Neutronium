@@ -12,7 +12,7 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace IntegratedTest.Windowless
 {
-    public abstract class Test_ConvertToJSO : MVVMCefCore_Test_Base
+    public abstract class Test_ConvertToJSO : IntegratedWindowLess_TestBase
     {
         private class TestClass
         {

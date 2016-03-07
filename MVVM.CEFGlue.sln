@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationExamples", "ApplicationExamples", "{0F0F34BE-CD06-4C13-967D-BB0760617486}"
 EndProject
@@ -77,6 +77,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue.Windowless.Integrated.Tests", "Tests\CefGlue\CefGlue.Windowless.Integrated.Tests\CefGlue.Windowless.Integrated.Tests.csproj", "{9B5689B2-2774-45D1-A52C-4D6A46C93326}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue.TestInfra", "Tests\CefGlue\CefGlue.TestInfra\CefGlue.TestInfra.csproj", "{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegratedTests.Tests", "Tests\IntegratedTests.Tests\IntegratedTests.Tests.csproj", "{BFC27821-7224-4E5B-9263-4E942285567B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -423,8 +425,8 @@ Global
 		{05FE6E3C-50C9-4054-811B-86BDA5459F82}.Release|x86.Build.0 = Release|Any CPU
 		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Debug|x86.Build.0 = Debug|Any CPU
 		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -435,8 +437,8 @@ Global
 		{9B5689B2-2774-45D1-A52C-4D6A46C93326}.Release|x86.Build.0 = Release|Any CPU
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Debug|x86.Build.0 = Debug|Any CPU
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -445,6 +447,16 @@ Global
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Release|x86.ActiveCfg = Release|Any CPU
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}.Release|x86.Build.0 = Release|Any CPU
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BFC27821-7224-4E5B-9263-4E942285567B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -476,6 +488,7 @@ Global
 		{4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{9B5689B2-2774-45D1-A52C-4D6A46C93326} = {4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0}
 		{947CC0FA-7F1C-4CF9-A908-1A29ED232F19} = {4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0}
+		{BFC27821-7224-4E5B-9263-4E942285567B} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

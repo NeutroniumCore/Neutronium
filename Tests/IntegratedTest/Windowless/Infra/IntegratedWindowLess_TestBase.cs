@@ -6,7 +6,7 @@ using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace IntegratedTest
 {
-    public abstract class MVVMCefCore_Test_Base 
+    public abstract class IntegratedWindowLess_TestBase 
     {
         protected IWebView _WebView = null;
         protected HTMLViewEngine _ICefGlueWindow = null;
@@ -17,7 +17,7 @@ namespace IntegratedTest
 
         protected IJavascriptObjectFactory Factory { get { return _WebView.Factory; } }
 
-        protected MVVMCefCore_Test_Base(IWindowLessHTMLEngineProvider testEnvironment)
+        protected IntegratedWindowLess_TestBase(IWindowLessHTMLEngineProvider testEnvironment)
         {
             _TestEnvironment = testEnvironment.GetWindowlessEnvironment();
         }

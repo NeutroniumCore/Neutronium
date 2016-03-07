@@ -5,7 +5,7 @@ using FluentAssertions;
 
 namespace IntegratedTest.Windowless
 {
-    public abstract class Test_WebView_Dispatcher : MVVMCefCore_Test_Base
+    public abstract class Test_WebView_Dispatcher : IntegratedWindowLess_TestBase
     {
         public Test_WebView_Dispatcher(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
         {

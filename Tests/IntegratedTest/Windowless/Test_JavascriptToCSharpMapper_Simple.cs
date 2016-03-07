@@ -5,7 +5,7 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace IntegratedTest.Windowless
 {
-    public abstract class Test_JavascriptToCSharpMapper_Simple : MVVMCefCore_Test_Base
+    public abstract class Test_JavascriptToCSharpMapper_Simple : IntegratedWindowLess_TestBase
     {
         protected Test_JavascriptToCSharpMapper_Simple(IWindowLessHTMLEngineProvider testEnvironment)
                         : base(testEnvironment)

@@ -27,7 +27,7 @@ namespace IntegratedTest.WPF
             return new WindowTest(
                 (w) =>
                 {
-                    StackPanel stackPanel = new StackPanel();
+                    var stackPanel = new StackPanel();
                     w.Content = stackPanel;
                     var iWebControl = iWebControlFac();
                     w.RegisterName(iWebControl.Name, iWebControl);
@@ -47,8 +47,7 @@ namespace IntegratedTest.WPF
             Func<HTMLViewControl> iWebControlFac = () =>
             {
                 environment.Register();
-                wc1 = new HTMLViewControl();
-                wc1.IsDebug = iDebug;
+                wc1 = new HTMLViewControl {IsDebug = iDebug};
                 return wc1;
             };
 

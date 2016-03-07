@@ -23,7 +23,7 @@ using IntegratedTest.TestData;
 using MVVM.Component;
 
 namespace IntegratedTest.Windowless {
-    public abstract class Test_HTMLBinding : MVVMCefCore_Test_Base
+    public abstract class Test_HTMLBinding : IntegratedWindowLess_TestBase
     {
         private readonly Person _DataContext;
         private ICommand _ICommand;

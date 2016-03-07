@@ -101,7 +101,7 @@
     <Compile Include="TestData\ChangingCollectionViewModel.cs" />
     <Compile Include="Windowless\Infra\IJavascriptFrameworkExtractor.cs" />
     <Compile Include="Windowless\Infra\IWindowlessJavascriptEngine.cs" />
-    <Compile Include="Windowless\Infra\MVVMCefCore_Test_Base.cs" />
+    <Compile Include="Windowless\Infra\IntegratedWindowLess_TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Windowless\Infra\WindowlessTestEnvironment.cs" />
     <Compile Include="Windowless\Infra\TestInContext.cs" />
@@ -110,6 +110,7 @@
     <Compile Include="WPF\Infra\AssemblyHelper.cs" />
     <Compile Include="WPF\Infra\DispatcherHelper.cs" />
     <Compile Include="WPF\Infra\WindowTest.cs" />
+    <Compile Include="WPF\Infra\WPFThreadHelper.cs" />
     <Compile Include="WPF\Infra\WPFThreadingHelper.cs" />
     <Compile Include="WPF\Infra\WPFWindowTestWrapper.cs" />
     <Compile Include="WPF\Test_DoubleNavigation.cs" />

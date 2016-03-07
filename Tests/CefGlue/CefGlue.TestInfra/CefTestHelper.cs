@@ -1,9 +1,6 @@
-﻿using IntegratedTest;
-using IntegratedTest.WPF.Infra;
+﻿using IntegratedTest.WPF.Infra;
 using KnockoutUIFramework;
-using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.Cef.Glue;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace CefGlue.TestInfra
