@@ -1,16 +1,14 @@
 ﻿using IntegratedTest.WPF;
-using IntegratedTest.WPF.Infra;
 using MVVM.Awesomium.TestInfra;
 using Xunit;
 
 namespace MVVM.Awesomium.Tests.Integrated.Window 
 {
-    [CollectionDefinition("Awesomium Window Integrated")]
-    public class Test_DoubleNavigation_Awesomium : Test_DoubleNavigation, IClassFixture<AwesomiumWindowTestEnvironment>
+    [Collection("Awesomium Window Integrated")]
+    public class Test_DoubleNavigation_Awesomium : Test_DoubleNavigation
     {
-        public Test_DoubleNavigation_Awesomium(AwesomiumWindowTestEnvironment context, WpfThread wpfThread) : base(context, wpfThread) 
-        {
-            
+        public Test_DoubleNavigation_Awesomium(AwesomiumWindowTestEnvironment context) : base(context) 
+        {         
         }
     }
 }

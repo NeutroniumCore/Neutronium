@@ -22,8 +22,8 @@ namespace IntegratedTest.WPF
 {
     public abstract class Test_DoubleNavigation : Test_WpfComponent_Base<HTMLWindow>
     {
-        protected Test_DoubleNavigation(IWindowTestEnvironment windowTestEnvironment, WpfThread wpfThread):
-            base(windowTestEnvironment, wpfThread)
+        protected Test_DoubleNavigation(IWindowTestEnvironment windowTestEnvironment):
+            base(windowTestEnvironment)
         {
         }
 

@@ -11,6 +11,7 @@ namespace IntegratedTest.WPF.Infra
         private readonly AutoResetEvent _ARE;
         private readonly CancellationTokenSource _CTS;
         private Dispatcher _dispatcher;
+        private int _Count;
 
         public event EventHandler OnThreadEnded;
 
@@ -35,6 +36,23 @@ namespace IntegratedTest.WPF.Infra
             _UIThread.Start();
 
             _ARE.WaitOne();
+        }
+
+        private static readonly Lazy<WpfThread> _LazyWpfThread = new Lazy<WpfThread>(() => new WpfThread());		
+        public static WpfThread GetWpfThread()
+        {		
+            return _LazyWpfThread.Value;		
+        }
+
+        public void AddRef() 
+        {
+            _Count++;
+        }
+
+        public void Release() 
+        {
+            if (--_Count==0)
+                Dispose();            
         }
 
         public void Dispose()

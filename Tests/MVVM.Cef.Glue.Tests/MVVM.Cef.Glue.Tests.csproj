@@ -95,7 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infra\AwesomiumWindowTestContext..cs" />
+    <Compile Include="Infra\CefWindowTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integrated\Window\Test_DoubleNavigation_Animation_Cef.cs" />
     <Compile Include="Integrated\Window\Test_DoubleNavigation_Cef.cs" />

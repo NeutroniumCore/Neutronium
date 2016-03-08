@@ -10,7 +10,11 @@ namespace IntegratedTest.WPF.Infra
         private bool _IsInit = false;
         private IWPFWebWindowFactory _WPFWebWindowFactory;
 
-        public WpfThread WpfThread { get; set; }
+        protected WindowTestImprovedEnvironment() 
+        {
+        }
+
+        public WpfThread WpfThread { get; private set; }
 
         public abstract IWPFWebWindowFactory GetWPFWebWindowFactory();
 
@@ -18,6 +22,7 @@ namespace IntegratedTest.WPF.Infra
 
         private void DoRegister() 
         {
+
             var engine = HTMLEngineFactory.Engine;
             _WPFWebWindowFactory = GetWPFWebWindowFactory();
             engine.Register(_WPFWebWindowFactory);
@@ -28,6 +33,8 @@ namespace IntegratedTest.WPF.Infra
         {
             if (!_IsInit) 
             {
+                WpfThread = WpfThread.GetWpfThread();
+                WpfThread.AddRef();
                 WpfThread.Dispatcher.Invoke(DoRegister);
                 WpfThread.OnThreadEnded += OnThreadEnded;
                 _IsInit = true;
@@ -43,6 +50,11 @@ namespace IntegratedTest.WPF.Infra
         {
             Register();
             return new WPFWindowWrapper(WpfThread, ifactory);   
+        }
+
+        public void Dispose() 
+        {
+            WpfThread.Release();
         }
     }
 }

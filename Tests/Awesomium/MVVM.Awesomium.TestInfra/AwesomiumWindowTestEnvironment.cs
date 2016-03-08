@@ -7,6 +7,9 @@ namespace MVVM.Awesomium.TestInfra
 {
     public class AwesomiumWindowTestEnvironment : WindowTestImprovedEnvironment 
     {
+        public AwesomiumWindowTestEnvironment() 
+        {    
+        }
         public override IWPFWebWindowFactory GetWPFWebWindowFactory()
         {
             return new AwesomiumWPFWebWindowFactory();

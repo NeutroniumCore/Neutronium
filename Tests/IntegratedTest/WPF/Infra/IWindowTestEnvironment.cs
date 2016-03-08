@@ -4,9 +4,9 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace IntegratedTest.WPF.Infra 
 {
-    public interface IWindowTestEnvironment
+    public interface IWindowTestEnvironment : IDisposable
     {
-        WpfThread WpfThread { get; set; }
+        WpfThread WpfThread { get;}
         IJavascriptUIFrameworkManager FrameworkManager { get;}
         IWPFWindowWrapper GetWindowWrapper(Func<Window> ifactory = null);
     }

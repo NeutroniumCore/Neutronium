@@ -2,18 +2,15 @@
 using System.Windows.Controls;
 using HTML_WPF.Component;
 using IntegratedTest.WPF.Infra;
-using MVVM.HTML.Core.Navigation;
-using Xunit;
 
 namespace IntegratedTest.WPF
 {
-    public abstract class Test_WpfComponent_Base<T> : IClassFixture<WpfThread> where T : HTMLControlBase
+    public abstract class Test_WpfComponent_Base<T>  where T : HTMLControlBase
     {
         private readonly IWindowTestEnvironment _WindowTestEnvironment;
-        protected Test_WpfComponent_Base(IWindowTestEnvironment windowTestEnvironment, WpfThread wpfThread) 
+        protected Test_WpfComponent_Base(IWindowTestEnvironment windowTestEnvironment) 
         {
             _WindowTestEnvironment = windowTestEnvironment;
-            windowTestEnvironment.WpfThread = wpfThread;
         }
 
         private WindowTest BuildWindow(Func<T> iWebControlFac, bool iManageLifeCycle)
