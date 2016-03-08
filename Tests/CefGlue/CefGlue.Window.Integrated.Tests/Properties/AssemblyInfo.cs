@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MVVM.Cef.Glue.Tests")]
+[assembly: AssemblyTitle("CefGlue.Window.Integrated.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MVVM.Cef.Glue.Tests")]
+[assembly: AssemblyProduct("CefGlue.Window.Integrated.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("96a5c0fe-e76f-4d96-b70a-3480f4d68a6f")]
+[assembly: Guid("d0499d75-a2b5-4b0f-8280-c916cea84ef5")]
 
 // Version information for an assembly consists of the following four values:
 //

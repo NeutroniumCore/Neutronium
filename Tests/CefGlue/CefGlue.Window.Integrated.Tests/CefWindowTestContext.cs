@@ -1,7 +1,7 @@
 ﻿using CefGlue.TestInfra;
 using Xunit;
 
-namespace MVVM.Cef.Glue.Tests.Infra
+namespace CefGlue.Window.Integrated.Tests
 {
     [CollectionDefinition("Cef Window Integrated")]
     public class CefWindowTestContext : ICollectionFixture<CefWindowTestEnvironment>

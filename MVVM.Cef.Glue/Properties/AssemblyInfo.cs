@@ -17,6 +17,8 @@ using System.Windows;
 [assembly: AssemblyCulture("")]
 
 [assembly: InternalsVisibleTo("MVVM.Cef.Glue.Tests")]
+[assembly: InternalsVisibleTo("CefGlue.Window.Integrated.Tests")]
+
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

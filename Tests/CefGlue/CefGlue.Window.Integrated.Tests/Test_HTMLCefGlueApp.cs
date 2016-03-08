@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Threading.Tasks;
-
-using NSubstitute;
-using Xunit;
-using FluentAssertions;
-
-using MVVM.Cef.Glue.CefSession;
 using System.Threading;
+using System.Threading.Tasks;
+using FluentAssertions;
 using KnockoutUIFramework;
+using MVVM.Cef.Glue;
+using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using NSubstitute;
+using Xunit;
 
-namespace MVVM.Cef.Glue.Test {
+namespace CefGlue.Window.Integrated.Tests 
+{
     public class Test_HTMLCefGlueApp
     {
         private class EnvironmentBuilder : IDisposable
@@ -41,12 +41,8 @@ namespace MVVM.Cef.Glue.Test {
         {
             using (var ctx = new EnvironmentBuilder())
             {
-                HTMLCefGlueApp target = null;
-                IDispatcher disp = await Task.Run(() =>
-                {
-                    target = GetApplication();
-                    return new WPFUIDispatcher(target.Dispatcher);
-                });
+                var target = GetApplication();
+                var disp = new WPFUIDispatcher(target.Dispatcher);
 
                 Task.Run(() =>
                 {
@@ -55,7 +51,7 @@ namespace MVVM.Cef.Glue.Test {
                     disp.Run(() => target.Shutdown(0));
                 }).DoNotWait();
 
-                disp.Run(() => target.Run());
+                target.Run();
             }
         }
 
@@ -63,21 +59,17 @@ namespace MVVM.Cef.Glue.Test {
         [Fact]
         public async Task Test_HTMLApp_Start_Should_Create_Session()
         {
-            HTMLCefGlueApp target = null;
-            IDispatcher disp = await Task.Run(() =>
-            {
-                target = GetApplication();
-                return new WPFUIDispatcher(target.Dispatcher);
-            });
+            var target = GetApplication();
+            var disp = new WPFUIDispatcher(target.Dispatcher);
 
             Task.Run(() =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 CefCoreSessionSingleton.Session.Should().NotBeNull();
                 disp.Run(() => target.Shutdown(0));
             }).DoNotWait();
 
-            disp.Run(() => target.Run());
+            target.Run();
         }
     }
 }

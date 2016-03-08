@@ -2,7 +2,7 @@
 using IntegratedTest.WPF;
 using Xunit;
 
-namespace MVVM.Cef.Glue.Tests.Integrated
+namespace CefGlue.Window.Integrated.Tests
 {
     [Collection("Cef Window Integrated")]
     public class Test_HTMLViewControl_Cef : Test_HTMLViewControl
