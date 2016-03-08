@@ -29,19 +29,20 @@ namespace IntegratedTest.WPF.Infra
             if (!_IsInit) 
             {
                 WpfThread.Dispatcher.Invoke(DoRegister);
+                WpfThread.OnThreadEnded += OnThreadEnded;
                 _IsInit = true;
             }
+        }
+
+        private void OnThreadEnded(object sender, EventArgs e)
+        {
+            _WPFWebWindowFactory.Dispose();
         }
 
         public IWPFWindowWrapper GetWindowWrapper(Func<Window> ifactory = null) 
         {
             Register();
             return new WPFWindowWrapper(WpfThread, ifactory);   
-        }
-
-        public void Dispose() 
-        {
-            WpfThread.Dispatcher.Invoke(() => _WPFWebWindowFactory.Dispose());
         }
     }
 }

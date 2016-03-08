@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using FluentAssertions;
@@ -21,44 +20,24 @@ using Xunit;
 
 namespace IntegratedTest.WPF
 {
-    public abstract class Test_DoubleNavigation : IClassFixture<WpfThread> {
-        private readonly IWindowTestEnvironment _WindowTestEnvironment;
-        protected Test_DoubleNavigation(IWindowTestEnvironment windowTestEnvironment, WpfThread wpfThread) 
+    public abstract class Test_DoubleNavigation : Test_WpfComponent_Base<HTMLWindow>
+    {
+        protected Test_DoubleNavigation(IWindowTestEnvironment windowTestEnvironment, WpfThread wpfThread):
+            base(windowTestEnvironment, wpfThread)
         {
-            _WindowTestEnvironment = windowTestEnvironment;
-            windowTestEnvironment.WpfThread = wpfThread;
         }
 
-        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac, bool iManageLifeCycle)
+        protected override HTMLWindow GetNewHTMLControlBase(bool iDebug)
         {
-            return new WindowTest(_WindowTestEnvironment,
-                (w) =>
-                {
-                    var stackPanel = new StackPanel();
-                    w.Content = stackPanel;
-                    var iWebControl = iWebControlFac();
-                    if (iManageLifeCycle)
-                        w.Closed += (o, e) => { iWebControl.Dispose(); };
-                    stackPanel.Children.Add(iWebControl);
-                });
+            return new HTMLWindow { IsDebug = iDebug };
         }
 
         internal void TestNavigation(Action<INavigationBuilder, HTMLWindow, WindowTest> Test, bool iDebug = false, bool iManageLifeCycle = true)
         {
-            AssemblyHelper.SetEntryAssembly();
-            HTMLWindow wc1 = null;
-            Func<HTMLWindow> iWebControlFac = () =>
-            {
-                wc1 = new HTMLWindow {
-                    IsDebug = iDebug
-                };
-                return wc1;
-            };
+            Action<HTMLWindow, WindowTest> simpleTest =
+                (windowHtml, windowTest) => Test(windowHtml.NavigationBuilder, windowHtml, windowTest);
 
-            using (var wcontext = BuildWindow(iWebControlFac, iManageLifeCycle))
-            {
-                Test(wc1.NavigationBuilder, wc1, wcontext);
-            }
+            base.Test(simpleTest, iDebug, iManageLifeCycle);
         }
 
         private void SetUpRoute(INavigationBuilder builder)

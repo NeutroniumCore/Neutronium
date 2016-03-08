@@ -12,6 +12,8 @@ namespace IntegratedTest.WPF.Infra
         private readonly CancellationTokenSource _CTS;
         private Dispatcher _dispatcher;
 
+        public event EventHandler OnThreadEnded;
+
         public Thread UIThread
         {
             get { return _UIThread; }
@@ -43,6 +45,13 @@ namespace IntegratedTest.WPF.Infra
             _CTS.Dispose();
         }
 
+        private void FireEnded()
+        {
+            var threadEnded = OnThreadEnded;
+            if (threadEnded != null)
+                threadEnded(this, EventArgs.Empty);
+        }
+
         private void InitUIinSTA()
         {
             var fmel = new FrameworkElement();
@@ -53,6 +62,8 @@ namespace IntegratedTest.WPF.Infra
             {
                 DispatcherHelper.DoEvents();
             }
+
+            FireEnded();
         }
     }
 }

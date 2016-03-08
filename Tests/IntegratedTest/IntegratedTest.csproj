@@ -117,6 +117,7 @@
     <Compile Include="WPF\Infra\WPFThreadingHelper.cs" />
     <Compile Include="WPF\Infra\WpfThread.cs" />
     <Compile Include="WPF\Infra\WPFWindowTestWrapper.cs" />
+    <Compile Include="WPF\Test_WpfComponent_Base.cs" />
     <Compile Include="WPF\Test_DoubleNavigation.cs" />
     <Compile Include="WPF\Test_DoubleNavigation_Animation.cs" />
     <Compile Include="WPF\Test_HTMLViewControl.cs" />

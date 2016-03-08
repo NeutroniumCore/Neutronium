@@ -45,9 +45,8 @@ namespace HTML_WPF.Component
 
         public void Register(IWPFWebWindowFactory wpfWebWindowFactory)
         {
-            _Engines.Add(wpfWebWindowFactory.Name, wpfWebWindowFactory);
+            _Engines[wpfWebWindowFactory.Name] = wpfWebWindowFactory;
         }
-
 
         public IJavascriptUIFrameworkManager ResolveJavaScriptFramework(string frameworkName)
         {
@@ -66,7 +65,7 @@ namespace HTML_WPF.Component
 
         public void Register(IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
         {
-            _JavascriptFrameworks.Add(javascriptUiFrameworkManager.Name, javascriptUiFrameworkManager);
+            _JavascriptFrameworks[javascriptUiFrameworkManager.Name]= javascriptUiFrameworkManager;
         }
 
         public void Dispose()

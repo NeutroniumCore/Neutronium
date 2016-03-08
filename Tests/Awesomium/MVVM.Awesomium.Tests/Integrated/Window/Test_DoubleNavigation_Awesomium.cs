@@ -5,6 +5,7 @@ using Xunit;
 
 namespace MVVM.Awesomium.Tests.Integrated.Window 
 {
+    [CollectionDefinition("Awesomium Window Integrated")]
     public class Test_DoubleNavigation_Awesomium : Test_DoubleNavigation, IClassFixture<AwesomiumWindowTestEnvironment>
     {
         public Test_DoubleNavigation_Awesomium(AwesomiumWindowTestEnvironment context, WpfThread wpfThread) : base(context, wpfThread) 

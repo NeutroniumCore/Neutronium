@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Controls;
 using System.Threading;
 using System.Reflection;
 
@@ -18,43 +17,16 @@ using IntegratedTest.WPF.Infra;
 
 namespace IntegratedTest.WPF
 {
-    public abstract class Test_HTMLViewControl
+    public abstract class Test_HTMLViewControl : Test_WpfComponent_Base<HTMLViewControl>
     {
-        protected abstract WindowTestEnvironment GetEnvironment();
-
-        private WindowTest BuildWindow(Func<HTMLViewControl> iWebControlFac)
+        protected Test_HTMLViewControl(IWindowTestEnvironment windowTestEnvironment, WpfThread wpfThread) :
+            base(windowTestEnvironment, wpfThread)
         {
-            return new WindowTest(
-                (w) =>
-                {
-                    var stackPanel = new StackPanel();
-                    w.Content = stackPanel;
-                    var iWebControl = iWebControlFac();
-                    w.RegisterName(iWebControl.Name, iWebControl);
-                    w.Closed += (o, e) => { iWebControl.Dispose(); };
-                    stackPanel.Children.Add(iWebControl);
-                } );
         }
 
-        internal void Test(Action<HTMLViewControl, WindowTest> Test, bool iDebug = false, 
-                            WindowTestEnvironment environment=null)
+        protected override HTMLViewControl GetNewHTMLControlBase(bool iDebug)
         {
-            environment = environment ?? GetEnvironment();
-            
-
-            AssemblyHelper.SetEntryAssembly();
-            HTMLViewControl wc1 = null;
-            Func<HTMLViewControl> iWebControlFac = () =>
-            {
-                environment.Register();
-                wc1 = new HTMLViewControl {IsDebug = iDebug};
-                return wc1;
-            };
-
-            using (var wcontext = BuildWindow(iWebControlFac))
-            {
-                Test(wc1, wcontext);
-            }
+            return new HTMLViewControl { IsDebug = iDebug };
         }
 
         [Fact]
