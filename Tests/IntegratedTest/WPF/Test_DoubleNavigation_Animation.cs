@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Windows.Controls;
-
 using FluentAssertions;
 using Xunit;
 
@@ -13,47 +11,19 @@ using IntegratedTest.WPF.Infra;
 
 namespace IntegratedTest.WPF
 {
-    public abstract class Test_DoubleNavigation_Animation
+    public abstract class Test_DoubleNavigation_Animation : Test_WpfComponent_Base<HTMLWindow> 
     {
-        private NavigationBuilder _INavigationBuilder;
+        private readonly NavigationBuilder _INavigationBuilder;
 
-        protected abstract WindowTestEnvironment GetEnvironment();
-
-        public Test_DoubleNavigation_Animation()
+        protected Test_DoubleNavigation_Animation(IWindowTestEnvironment windowTestEnvironment):
+            base(windowTestEnvironment)
         {
             _INavigationBuilder = new NavigationBuilder();
         }
 
-        private WindowTest BuildWindow(Func<HTMLWindow> iWebControlFac)
+        protected override HTMLWindow GetNewHTMLControlBase(bool iDebug) 
         {
-            return new WindowTest(
-                (w) =>
-                {
-                    StackPanel stackPanel = new StackPanel();
-                    w.Content = stackPanel;
-                    var iWebControl = iWebControlFac();
-                    w.RegisterName(iWebControl.Name, iWebControl);
-                    stackPanel.Children.Add(iWebControl);
-                });
-        }
-
-        internal void TestNavigation(Action<HTMLWindow, WindowTest> Test, bool Cef = true)
-        {
-            AssemblyHelper.SetEntryAssembly();
-
-            HTMLWindow wc1 = null;
-            Func<HTMLWindow> Build = () =>
-            {
-                var environment = GetEnvironment();
-                environment.Register();
-                wc1 = new HTMLWindow(_INavigationBuilder);
-                return wc1;
-            };
-
-            using (var wcontext = BuildWindow(Build))
-            {
-                Test(wc1, wcontext);
-            }
+            return new HTMLWindow(_INavigationBuilder) { IsDebug = iDebug };
         }
 
         public class VM : ViewModelBase, INavigable
@@ -65,7 +35,7 @@ namespace IntegratedTest.WPF
         public void Test_WPFBrowserNavigator_Simple()
         {
             var vm = new VM();
-            TestNavigation((wpfnav, WindowTest)
+            Test((wpfnav, WindowTest)
                 =>
                 {
                     wpfnav.Should().NotBeNull();

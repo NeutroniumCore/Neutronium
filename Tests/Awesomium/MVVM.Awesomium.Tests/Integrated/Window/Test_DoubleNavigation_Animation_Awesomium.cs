@@ -1,14 +1,14 @@
 ﻿using IntegratedTest.WPF;
-using IntegratedTest.WPF.Infra;
 using MVVM.Awesomium.TestInfra;
+using Xunit;
 
 namespace MVVM.Awesomium.Tests.Integrated.Window 
 {
+    [Collection("Awesomium Window Integrated")]
     public class Test_DoubleNavigation_Animation_Awesomium : Test_DoubleNavigation_Animation
     {
-        protected override WindowTestEnvironment GetEnvironment() 
+        public Test_DoubleNavigation_Animation_Awesomium(AwesomiumWindowTestEnvironment context) : base(context) 
         {
-            return AwesomiumTestHelper.GetWindowEnvironment();
         }
     }
 }
