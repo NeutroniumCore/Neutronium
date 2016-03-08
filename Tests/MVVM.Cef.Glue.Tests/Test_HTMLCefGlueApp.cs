@@ -7,7 +7,7 @@ using FluentAssertions;
 
 using MVVM.Cef.Glue.CefSession;
 using System.Threading;
-using CefGlue.TestInfra;
+using KnockoutUIFramework;
 using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Window;
@@ -33,7 +33,7 @@ namespace MVVM.Cef.Glue.Test {
 
         private static HTMLCefGlueApp GetApplication()
         {
-            return new HTMLCefGlueApp() { JavascriptUiFrameworkManager = CefTestHelper.GetUIFrameworkManager() };
+            return new HTMLCefGlueApp() { JavascriptUiFrameworkManager = new KnockoutUiFrameworkManager() };
         }
 
         [Fact]

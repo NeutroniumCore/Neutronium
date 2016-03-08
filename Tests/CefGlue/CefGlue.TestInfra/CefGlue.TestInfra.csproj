@@ -67,7 +67,6 @@
   <ItemGroup>
     <Compile Include="CefGlueWindowlessSharedJavascriptEngine.cs" />
     <Compile Include="CefGlueWindowlessSharedJavascriptEngineFactory.cs" />
-    <Compile Include="CefTestHelper.cs" />
     <Compile Include="CefWindowless\TestCefClient.cs" />
     <Compile Include="CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
     <Compile Include="CefWindowless\TestCefGlueWindow.cs" />
