@@ -1,5 +1,6 @@
 ﻿using IntegratedTest;
 using IntegratedTest.Windowless.Infra;
+using IntegratedTest.WPF.Infra;
 using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.Cef.Glue.CefSession;
 using MVVM.HTML.Core.Infra;
@@ -10,11 +11,12 @@ namespace CefGlue.TestInfra
     public class CefGlueWindowlessSharedJavascriptEngineFactory : IWindowLessHTMLEngineProvider
     {
         private bool _Runing=false;
-        private readonly FakeUIThread _FakeUIThread;
+        private readonly WpfThread _WpfThread;
 
         public CefGlueWindowlessSharedJavascriptEngineFactory() 
         {
-            _FakeUIThread = new FakeUIThread( () => CefCoreSessionSingleton.GetAndInitIfNeeded(), CefCoreSessionSingleton.Clean );
+            _WpfThread = WpfThread.GetWpfThread();
+            _WpfThread.AddRef();
         }
 
         private void Init() 
@@ -23,12 +25,13 @@ namespace CefGlue.TestInfra
                 return;
 
             _Runing = true;
-            _FakeUIThread.Start();
+            _WpfThread.Dispatcher.Invoke(() => CefCoreSessionSingleton.GetAndInitIfNeeded());
+            _WpfThread.OnThreadEnded += (o,e) => CefCoreSessionSingleton.Clean();
         }
 
         public void Dispose()
         {
-            _FakeUIThread.Stop();
+            _WpfThread.Release();
         }
 
         public WindowlessTestEnvironment GetWindowlessEnvironment() 
