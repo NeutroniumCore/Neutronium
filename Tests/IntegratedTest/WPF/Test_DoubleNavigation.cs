@@ -271,7 +271,6 @@ namespace IntegratedTest.WPF
                 WindowTest.RunOnUIThread(() =>
                 {
                     wpfnav.IsHTMLLoaded.Should().BeTrue();
-                    //a1.Navigation.Should().Be(wpfnav);
                     a.Navigation.Should().NotBeNull();
                 });
 
@@ -540,7 +539,6 @@ namespace IntegratedTest.WPF
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -560,7 +558,6 @@ namespace IntegratedTest.WPF
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a2.Navigation.Should().NotBeNull();
                     a1.Navigation.Should().BeNull();
                 });
@@ -580,7 +577,6 @@ namespace IntegratedTest.WPF
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                     a2.Navigation.Should().BeNull();
                 });
@@ -619,7 +615,6 @@ namespace IntegratedTest.WPF
 
                 WindowTest.RunOnUIThread(() =>
                 {
-                    //a1.Navigation.Should().Be(wpfnav);
                     a1.Navigation.Should().NotBeNull();
                 });
 
@@ -648,15 +643,15 @@ namespace IntegratedTest.WPF
 
 
                 WindowTest.RunOnUIThread(
-            () =>
-            {
-                wpfnav.NavigateAsync(a1, "NewPath").ContinueWith (
-               t => {
-                   a1.Navigation.Should().NotBeNull();
-                   a2.Navigation.Should().BeNull();
-                   mre.Set();
-               });
-            });
+                () =>
+                {
+                    wpfnav.NavigateAsync(a1, "NewPath").ContinueWith (
+                   t => {
+                       a1.Navigation.Should().NotBeNull();
+                       a2.Navigation.Should().BeNull();
+                       mre.Set();
+                   });
+                });
                 mre.WaitOne();
 
                 Thread.Sleep(2000);
@@ -936,10 +931,10 @@ namespace IntegratedTest.WPF
                 mre = new ManualResetEvent(false);
 
                 WindowTest.RunOnUIThread(
-             () =>
-             {
-                 wpfnav.NavigateAsync(a1, "Special2").ContinueWith(t => mre.Set());
-             });
+                 () =>
+                 {
+                     wpfnav.NavigateAsync(a1, "Special2").ContinueWith(t => mre.Set());
+                 });
 
                 mre.WaitOne();
 
