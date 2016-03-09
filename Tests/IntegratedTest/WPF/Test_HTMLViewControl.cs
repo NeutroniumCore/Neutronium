@@ -48,7 +48,7 @@ namespace IntegratedTest.WPF
                 });
         }
 
-        [Fact]
+        [Fact(Skip = "Should be rethink")]
         public void Basic_Option_Find_Path()
         {
             Test((c, w) =>
@@ -71,37 +71,36 @@ namespace IntegratedTest.WPF
             });
         }
 
-        //[Fact]
-        //public void Basic_RelativeSource()
-        //{
-        //    string relp = "javascript\\navigation_1.html";
-        //    string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
-        //    if (File.Exists(path))
-        //        File.Delete(path);
+        [Fact(Skip = "Should be rethink")]
+        public void Basic_RelativeSource() 
+        {
+            string relp = "javascript\\navigation_1.html";
+            string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+            if (File.Exists(path))
+                File.Delete(path);
 
-        //    Test((c, w) =>
-        //    {
-        //        var mre = new ManualResetEvent(false);
+            Test((c, w) => 
+            {
+                var mre = new ManualResetEvent(false);
 
-        //        w.RunOnUIThread(() =>
-        //        {
-        //            c.SessionPath.Should().BeNull();
-        //            c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
-        //            c.Uri.Should().BeNull();
-                  
-        //            string nd = Path.GetDirectoryName(path);
-        //            Directory.CreateDirectory(nd);
-        //            File.Copy(@"javascript\navigation_1.html", path);
+                w.RunOnUIThread(() => {
+                    c.SessionPath.Should().BeNull();
+                    c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
+                    c.Uri.Should().BeNull();
 
-        //            c.RelativeSource = relp;
-                   
-        //            File.Delete(path);
-        //            mre.Set();
-        //        });
+                    string nd = Path.GetDirectoryName(path);
+                    Directory.CreateDirectory(nd);
+                    File.Copy(@"javascript\navigation_1.html", path);
 
-        //        mre.WaitOne();
-        //    });
-        //}
+                    c.RelativeSource = relp;
+
+                    File.Delete(path);
+                    mre.Set();
+                });
+
+                mre.WaitOne();
+            });
+        }
 
         [Fact]
         public void Basic_Option_Simple()
@@ -129,41 +128,41 @@ namespace IntegratedTest.WPF
             });
         }
 
-        //[Fact]
-        //public void Basic_Option_Simple_UsingRelativePath()
-        //{
-        //    Test((c, w) =>
-        //    {
-        //        var finalmre = new ManualResetEvent(false);
+        [Fact(Skip = "Should be rethink")]
+        public void Basic_Option_Simple_UsingRelativePath() 
+        {
+            Test((c, w) =>
+            {
+                var finalmre = new ManualResetEvent(false);
 
-        //        DisplayEvent de = null;
-        //        EventHandler<DisplayEvent> ea = null;
-        //        ea = (o, e) => { de = e; c.OnDisplay -= ea; finalmre.Set(); };
-        //        c.OnDisplay += ea;
-        //        var dc = new Person();
+                DisplayEvent de = null;
+                EventHandler<DisplayEvent> ea = null;
+                ea = (o, e) => { de = e; c.OnDisplay -= ea; finalmre.Set(); };
+                c.OnDisplay += ea;
+                var dc = new Person();
 
-        //        string relp = "javascript\\navigation_1.html";
-        //        string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
-        //        var jvs = PrepareFiles();
+                string relp = "javascript\\navigation_1.html";
+                string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+                var jvs = PrepareFiles();
 
-        //        w.RunOnUIThread(() =>
-        //        {
-        //            c.Mode = JavascriptBindingMode.OneWay;
-        //            c.RelativeSource = relp;
-        //            w.Window.DataContext = dc;
-        //        });
+                w.RunOnUIThread(() => 
+                {
+                    c.Mode = JavascriptBindingMode.OneWay;
+                    c.RelativeSource = relp;
+                    w.Window.DataContext = dc;
+                });
 
-        //        finalmre.WaitOne();
-        //        foreach (string jv in jvs)
-        //        {
-        //            string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
-        //            File.Delete(p);
-        //        }
-        //        File.Delete(path);
-        //        de.Should().NotBeNull();
-        //        de.DisplayedViewModel.Should().Be(dc);
-        //    });
-        //}
+                finalmre.WaitOne();
+                foreach (string jv in jvs) 
+                {
+                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                    File.Delete(p);
+                }
+                File.Delete(path);
+                de.Should().NotBeNull();
+                de.DisplayedViewModel.Should().Be(dc);
+            });
+        }
 
         private string[] PrepareFiles()
         {
