@@ -8,8 +8,8 @@
     <ProjectGuid>{9B6B0D48-C95C-43E5-9A6B-7C06F2B9B03A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVVM.Awesomium.Tests</RootNamespace>
-    <AssemblyName>MVVM.Awesomium.Tests</AssemblyName>
+    <RootNamespace>MVVM.Awesomium.Window.Integrated.Tests</RootNamespace>
+    <AssemblyName>MVVM.Awesomium.Window.Integrated.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>8ba60764</NuGetPackageImportStamp>
@@ -80,9 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AwesomiumWindowTestContext.cs" />
-    <Compile Include="Integrated\Window\Test_DoubleNavigation_Animation_Awesomium.cs" />
-    <Compile Include="Integrated\Window\Test_DoubleNavigation_Awesomium.cs" />
-    <Compile Include="Integrated\Window\Test_HTMLViewControl_Awesomium.cs" />
+    <Compile Include="Test_DoubleNavigation_Animation_Awesomium.cs" />
+    <Compile Include="Test_DoubleNavigation_Awesomium.cs" />
+    <Compile Include="Test_HTMLViewControl_Awesomium.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
