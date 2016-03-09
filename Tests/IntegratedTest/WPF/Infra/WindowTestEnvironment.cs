@@ -5,7 +5,7 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace IntegratedTest.WPF.Infra 
 {
-    public abstract class WindowTestImprovedEnvironment : IWindowTestEnvironment 
+    public abstract class WindowTestEnvironment : IWindowTestEnvironment 
     {
         private bool _IsInit = false;
         private IWPFWebWindowFactory _WPFWebWindowFactory;
@@ -18,23 +18,22 @@ namespace IntegratedTest.WPF.Infra
 
         private void DoRegister() 
         {
-
             var engine = HTMLEngineFactory.Engine;
             _WPFWebWindowFactory = GetWPFWebWindowFactory();
             engine.Register(_WPFWebWindowFactory);
             engine.Register(FrameworkManager);
         }
 
-        private void Register() 
+        private void Register()
         {
-            if (!_IsInit) 
-            {
-                WpfThread = WpfThread.GetWpfThread();
-                WpfThread.AddRef();
-                WpfThread.Dispatcher.Invoke(DoRegister);
-                WpfThread.OnThreadEnded += OnThreadEnded;
-                _IsInit = true;
-            }
+            if (_IsInit)
+                return;
+
+            WpfThread = WpfThread.GetWpfThread();
+            WpfThread.AddRef();
+            WpfThread.Dispatcher.Invoke(DoRegister);
+            WpfThread.OnThreadEnded += OnThreadEnded;
+            _IsInit = true;
         }
 
         private void OnThreadEnded(object sender, EventArgs e)

@@ -6,7 +6,7 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace CefGlue.TestInfra 
 {
-    public class CefWindowTestEnvironment : WindowTestImprovedEnvironment 
+    public class CefWindowTestEnvironment : WindowTestEnvironment 
     {
         public override IWPFWebWindowFactory GetWPFWebWindowFactory() 
         {

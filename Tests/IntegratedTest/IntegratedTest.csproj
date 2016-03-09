@@ -99,7 +99,6 @@
     <Compile Include="Windowless\Test_JavascriptToCSharpMapper_Simple.cs" />
     <Compile Include="WPF\Infra\IWindowTestEnvironment.cs" />
     <Compile Include="WPF\Infra\IWPFWindowWrapper.cs" />
-    <Compile Include="WPF\Infra\WindowTestImprovedEnvironment.cs" />
     <Compile Include="WPF\Infra\WindowTestEnvironment.cs" />
     <Compile Include="TestData\ChangingCollectionViewModel.cs" />
     <Compile Include="Windowless\Infra\IJavascriptFrameworkExtractor.cs" />
@@ -114,7 +113,6 @@
     <Compile Include="WPF\Infra\DispatcherHelper.cs" />
     <Compile Include="WPF\Infra\WindowTest.cs" />
     <Compile Include="WPF\Infra\WPFWindowWrapper.cs" />
-    <Compile Include="WPF\Infra\WPFThreadingHelper.cs" />
     <Compile Include="WPF\Infra\WpfThread.cs" />
     <Compile Include="WPF\Infra\WPFWindowTestWrapper.cs" />
     <Compile Include="WPF\Test_WpfComponent_Base.cs" />

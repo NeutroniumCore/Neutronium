@@ -5,7 +5,7 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.Awesomium.TestInfra 
 {
-    public class AwesomiumWindowTestEnvironment : WindowTestImprovedEnvironment 
+    public class AwesomiumWindowTestEnvironment : WindowTestEnvironment 
     {
         public AwesomiumWindowTestEnvironment() 
         {    
