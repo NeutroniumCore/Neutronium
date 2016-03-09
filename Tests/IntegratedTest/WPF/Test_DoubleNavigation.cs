@@ -32,12 +32,19 @@ namespace IntegratedTest.WPF
             return new HTMLWindow { IsDebug = iDebug };
         }
 
-        internal void TestNavigation(Action<INavigationBuilder, HTMLWindow, WindowTest> Test, bool iDebug = false, bool iManageLifeCycle = true)
+        internal void TestNavigation(Action<INavigationBuilder, HTMLWindow, WindowTest> test, bool iDebug = false, bool iManageLifeCycle = true)
         {
             Action<HTMLWindow, WindowTest> simpleTest =
-                (windowHtml, windowTest) => Test(windowHtml.NavigationBuilder, windowHtml, windowTest);
+                (windowHtml, windowTest) => test(windowHtml.NavigationBuilder, windowHtml, windowTest);
 
             base.Test(simpleTest, iDebug, iManageLifeCycle);
+        }
+
+        internal async Task TestNavigation(Func<INavigationBuilder, HTMLWindow, WindowTest, Task> test, bool iDebug = false, bool iManageLifeCycle = true) {
+            Func<HTMLWindow, WindowTest, Task> simpleTest =
+                (windowHtml, windowTest) => test(windowHtml.NavigationBuilder, windowHtml, windowTest);
+
+            await base.Test(simpleTest, iDebug, iManageLifeCycle);
         }
 
         private void SetUpRoute(INavigationBuilder builder)
