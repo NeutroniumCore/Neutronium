@@ -35,8 +35,8 @@ namespace CefGlue.Window.Integrated.Tests
             return new HTMLCefGlueApp() { JavascriptUiFrameworkManager = new KnockoutUiFrameworkManager() };
         }
 
-        [Fact]
-        public async Task Test_HTMLApp_Start_Should_not_Override_Session()
+        [Fact(Skip = "One at a time")]
+        public void Test_HTMLApp_Start_Should_not_Override_Session()
         {
             using (var ctx = new EnvironmentBuilder())
             {
@@ -48,15 +48,15 @@ namespace CefGlue.Window.Integrated.Tests
                     Thread.Sleep(1000);
                     CefCoreSessionSingleton.Session.Should().Be(ctx.Session);
                     disp.Run(() => target.Shutdown(0));
-                }).DoNotWait();
+                });
 
                 target.Run();
             }
         }
 
 
-        [Fact]
-        public async Task Test_HTMLApp_Start_Should_Create_Session()
+        [Fact(Skip = "One at a time")]
+        public void Test_HTMLApp_Start_Should_Create_Session()
         {
             var target = GetApplication();
             var disp = new WPFUIDispatcher(target.Dispatcher);
@@ -66,7 +66,7 @@ namespace CefGlue.Window.Integrated.Tests
                 Thread.Sleep(500);
                 CefCoreSessionSingleton.Session.Should().NotBeNull();
                 disp.Run(() => target.Shutdown(0));
-            }).DoNotWait();
+            });
 
             target.Run();
         }
