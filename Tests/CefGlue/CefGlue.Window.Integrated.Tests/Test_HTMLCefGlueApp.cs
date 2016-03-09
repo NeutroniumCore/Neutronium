@@ -6,7 +6,6 @@ using KnockoutUIFramework;
 using MVVM.Cef.Glue;
 using MVVM.Cef.Glue.CefSession;
 using MVVM.Cef.Glue.WPF;
-using MVVM.HTML.Core.Infra;
 using NSubstitute;
 using Xunit;
 

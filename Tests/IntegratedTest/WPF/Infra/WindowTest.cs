@@ -8,17 +8,12 @@ namespace IntegratedTest.WPF.Infra
     {
         private readonly IWPFWindowWrapper _WPFThreadingHelper;
 
-        public WindowTest(Action<Window> init) 
-        {
-            _WPFThreadingHelper = new WPFThreadingHelper(() => CreateNewWindow(init));
-        }
-
-        public WindowTest(IWindowTestEnvironment context, Action<Window> init) 
+        public WindowTest(IWindowTestEnvironment context, Action<Window> init)
         {
             _WPFThreadingHelper = context.GetWindowWrapper(() => CreateNewWindow(init));
         }
 
-        private Window CreateNewWindow(Action<Window> init) 
+        private Window CreateNewWindow(Action<Window> init)
         {
             var window = new Window();
             NameScope.SetNameScope(window, new NameScope());
@@ -35,13 +30,13 @@ namespace IntegratedTest.WPF.Infra
             Dispatcher.Invoke(Do);
         }
 
-        public void CloseWindow() 
+        public void CloseWindow()
         {
             _WPFThreadingHelper.CloseWindow();
         }
 
         public void Dispose()
-        {   
+        {
             Action End = () => { _WPFThreadingHelper.CloseWindow(); };
             Dispatcher.Invoke(End);
             _WPFThreadingHelper.Dispose();

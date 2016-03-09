@@ -6,7 +6,6 @@ namespace IntegratedTest.WPF.Infra
 {
     public interface IWindowTestEnvironment : IDisposable
     {
-        WpfThread WpfThread { get;}
         IJavascriptUIFrameworkManager FrameworkManager { get;}
         IWPFWindowWrapper GetWindowWrapper(Func<Window> ifactory = null);
     }

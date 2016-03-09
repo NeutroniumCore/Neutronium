@@ -10,10 +10,6 @@ namespace IntegratedTest.WPF.Infra
         private bool _IsInit = false;
         private IWPFWebWindowFactory _WPFWebWindowFactory;
 
-        protected WindowTestImprovedEnvironment() 
-        {
-        }
-
         public WpfThread WpfThread { get; private set; }
 
         public abstract IWPFWebWindowFactory GetWPFWebWindowFactory();
