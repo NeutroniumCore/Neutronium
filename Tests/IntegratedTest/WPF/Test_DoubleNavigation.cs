@@ -1087,9 +1087,9 @@ namespace IntegratedTest.WPF
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType_UsingName()
+        public async Task Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType_UsingName()
         {
-            TestNavigation((wpfbuild, wpfnav, WindowTest)
+           await TestNavigation(async (wpfbuild, wpfnav, WindowTest)
                 =>
             {
                 wpfnav.Should().NotBeNull();
@@ -1100,30 +1100,20 @@ namespace IntegratedTest.WPF
                 var a1 = new A1();
                 var mre = new ManualResetEvent(false);
 
-                WindowTest.RunOnUIThread(
-               () =>
-               {
-                   wpfnav.NavigateAsync(a1, "Special").ContinueWith(t => mre.Set());
-               });
+                await await WindowTest.EvaluateOnUIThread( () =>  wpfnav.NavigateAsync(a1, "Special"));
 
-                mre.WaitOne();
-
-                WindowTest.RunOnUIThread(() =>
+                await WindowTest.RunOnUIThread(() => 
                 {
                     a1.Navigation.Should().NotBeNull();
+                    wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html");
                 });
-
-                WindowTest.RunOnUIThread(
-                () =>
-                wpfnav.Source.Should().EndWith(@"javascript\navigation_2.html"));
-
             });
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType_ShoulFailed()
+        public async Task Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType_ShoulFailed()
         {
-            TestNavigation((wpfbuild, wpfnav, WindowTest)
+            await TestNavigation(async (wpfbuild, wpfnav, windowTest)
                 =>
             {
                 wpfnav.Should().NotBeNull();
@@ -1133,13 +1123,11 @@ namespace IntegratedTest.WPF
                 wpfnav.UseINavigable = true;
                 var a1 = new object();
 
-                WindowTest.RunOnUIThread(
-               () =>
-               {
-                   Action wf = () => wpfnav.NavigateAsync(a1).Wait();
-                   wf.ShouldThrow<MVVMCEFGlueException>();
-               });
-
+                await windowTest.RunOnUIThread(() => 
+                {
+                    Action wf = () => wpfnav.NavigateAsync(a1).Wait();
+                    wf.ShouldThrow<MVVMCEFGlueException>();
+                });
             });
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using HTML_WPF.Component;
@@ -29,9 +30,14 @@ namespace IntegratedTest.WPF.Infra
 
         public Dispatcher Dispatcher { get { return Window.Dispatcher; } }
 
-        public void RunOnUIThread(Action Do)
+        public async Task RunOnUIThread(Action Do) 
         {
-            Dispatcher.Invoke(Do);
+            await _Dispatcher.RunAsync(Do);
+        }
+
+        public async Task<T> EvaluateOnUIThread<T>(Func<T> Do) 
+        {
+            return await _Dispatcher.EvaluateAsync(Do);
         }
 
         public IDispatcher GetDispatcher() 
