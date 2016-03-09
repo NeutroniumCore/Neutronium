@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using HTML_WPF.Component;
 using IntegratedTest.WPF.Infra;
@@ -29,18 +30,37 @@ namespace IntegratedTest.WPF
 
         protected abstract T GetNewHTMLControlBase(bool iDebug);
 
-        internal void Test(Action<T, WindowTest> Test, bool iDebug = false, bool iManageLifeCycle = true)
+        private class HTMLControlBase_Handler<T> 
+        {
+            public T Handler { get; set; }
+        }
+
+        private WindowTest InitTest(HTMLControlBase_Handler<T> handler, bool iDebug = false, bool iManageLifeCycle = true) 
         {
             AssemblyHelper.SetEntryAssembly();
-            T wc1 = null;
-            Func<T> iWebControlFac = () =>
+            Func<T> iWebControlFac = () => 
             {
-                return wc1 = GetNewHTMLControlBase(iDebug);
+                return handler.Handler = GetNewHTMLControlBase(iDebug);
             };
 
-            using (var wcontext = BuildWindow(iWebControlFac, iManageLifeCycle))
+            return BuildWindow(iWebControlFac, iManageLifeCycle);
+        }
+
+        internal void Test(Action<T, WindowTest> test, bool iDebug = false, bool iManageLifeCycle = true) 
+        {
+            var handler = new HTMLControlBase_Handler<T>();
+            using (var wcontext = InitTest(handler, iDebug, iManageLifeCycle))
             {
-                Test(wc1, wcontext);
+                test(handler.Handler, wcontext);
+            }
+        }
+
+        internal async Task Test(Func<T, WindowTest, Task> test, bool iDebug = false, bool iManageLifeCycle = true) 
+        {
+            var handler = new HTMLControlBase_Handler<T>();
+            using (var wcontext = InitTest(handler, iDebug, iManageLifeCycle)) 
+            {
+                await test(handler.Handler, wcontext);
             }
         }
     }

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using HTML_WPF.Component;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace IntegratedTest.WPF.Infra
 {
     public class WindowTest : IDisposable
     {
         private readonly IWPFWindowWrapper _WPFThreadingHelper;
+        private IDispatcher _Dispatcher;
 
         public WindowTest(IWindowTestEnvironment context, Action<Window> init)
         {
@@ -18,6 +21,7 @@ namespace IntegratedTest.WPF.Infra
             var window = new Window();
             NameScope.SetNameScope(window, new NameScope());
             init(window);
+            _Dispatcher = new WPFUIDispatcher(window.Dispatcher);
             return window;
         }
 
@@ -28,6 +32,11 @@ namespace IntegratedTest.WPF.Infra
         public void RunOnUIThread(Action Do)
         {
             Dispatcher.Invoke(Do);
+        }
+
+        public IDispatcher GetDispatcher() 
+        {
+            return _Dispatcher;
         }
 
         public void CloseWindow()

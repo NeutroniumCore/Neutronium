@@ -127,7 +127,6 @@
     <Compile Include="WindowImplementation\WpfCefLifeSpanHandler.cs" />
     <Compile Include="WindowImplementation\WpfCefLoadHandler.cs" />
     <Compile Include="WindowImplementation\WpfCefRenderHandler.cs" />
-    <Compile Include="WindowImplementation\WPFUIDispatcher.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

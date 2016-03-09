@@ -2,10 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using HTML_WPF.Component;
 using KnockoutUIFramework;
 using MVVM.Cef.Glue;
 using MVVM.Cef.Glue.CefSession;
-using MVVM.Cef.Glue.WPF;
 using NSubstitute;
 using Xunit;
 
