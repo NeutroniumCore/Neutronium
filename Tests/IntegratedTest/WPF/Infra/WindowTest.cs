@@ -35,6 +35,11 @@ namespace IntegratedTest.WPF.Infra
             await _Dispatcher.RunAsync(Do);
         }
 
+        public async Task RunOnUIThread(Func<Task> Do)
+        {
+            await await EvaluateOnUIThread(Do);
+        }
+
         public async Task<T> EvaluateOnUIThread<T>(Func<T> Do) 
         {
             return await _Dispatcher.EvaluateAsync(Do);

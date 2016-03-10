@@ -60,7 +60,7 @@ namespace IntegratedTest.WPF
             var handler = new HTMLControlBase_Handler<T>();
             using (var wcontext = InitTest(handler, iDebug, iManageLifeCycle)) 
             {
-                await test(handler.Handler, wcontext);
+                await wcontext.RunOnUIThread(async () => await test(handler.Handler, wcontext));
             }
         }
     }
