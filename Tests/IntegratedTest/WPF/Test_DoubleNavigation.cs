@@ -807,10 +807,9 @@ namespace IntegratedTest.WPF
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType()
+        public async Task Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType()
         {
-            TestNavigation((wpfbuild, wpfnav, windowTest)
-                =>
+            await TestNavigation(async (wpfbuild, wpfnav, windowTest) =>
             {
                 wpfnav.Should().NotBeNull();
                 wpfbuild.Register<A>("javascript\\navigation_1.html");
@@ -818,26 +817,10 @@ namespace IntegratedTest.WPF
 
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
-                var mre = new ManualResetEvent(false);
+                await wpfnav.NavigateAsync(a1);
 
-
-                windowTest.RunOnUIThread(
-               () =>
-               {
-                   wpfnav.NavigateAsync(a1).ContinueWith(t => mre.Set());
-               });
-
-                mre.WaitOne();
-
-                windowTest.RunOnUIThread(() =>
-                {
-                    a1.Navigation.Should().NotBeNull();
-                });
-
-                windowTest.RunOnUIThread(
-                () =>
-                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html"));
-
+                a1.Navigation.Should().NotBeNull();
+                wpfnav.Source.Should().EndWith(@"javascript\navigation_1.html");
             });
         }
 
