@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -32,61 +32,30 @@ namespace IntegratedTest.WPF
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Simple()
-        {
-            var vm = new VM();
-            Test((wpfnav, WindowTest)
-                =>
-                {
-                    wpfnav.Should().NotBeNull();
-                    var path = string.Format("{0}\\{1}",GetType().Assembly.GetPath(), "Navigation data\\index.html");;
-                    _INavigationBuilder.RegisterAbsolute<VM>(path);
-                    wpfnav.UseINavigable = true;
+        public async Task Test_WPFBrowserNavigator_Simple()
+        {        
+            await Test(async (wpfnav, _) =>
+            {
+                var vm = new VM();
+                wpfnav.Should().NotBeNull();
+                var path = string.Format("{0}\\{1}",GetType().Assembly.GetPath(), "Navigation data\\index.html");;
+                _INavigationBuilder.RegisterAbsolute<VM>(path);
+                wpfnav.UseINavigable = true;
 
-                    var mre = new ManualResetEvent(false);
-                    DateTime? nav = null;
-                    DateTime? Opened = null;
-                    DisplayEvent de = null;
+                DateTime? opened = null;
+                DisplayEvent de = null;
+                wpfnav.OnDisplay += (o, e) => { opened = DateTime.Now; de = e; };
 
-                    wpfnav.OnDisplay += (o, e) => { Opened = DateTime.Now; de = e; };
+                await wpfnav.NavigateAsync(vm);
+                var nav = DateTime.Now;
 
-                    WindowTest.RunOnUIThread(
-                   () =>
-                   {
-                       wpfnav.NavigateAsync(vm).ContinueWith
-                      (
-                          t =>
-                          {
-                              nav = DateTime.Now;
-                              mre.Set();
-                          });
-                   });
+                await Task.Delay(3000);
 
-                    mre.WaitOne();
-                    mre = new ManualResetEvent(false);
-                    Thread.Sleep(3000);
-
-                    de.Should().NotBeNull();
-                    de.DisplayedViewModel.Should().Be(vm);
-                    Opened.HasValue.Should().BeTrue();
-                    Opened.Value.Subtract(nav.Value).Should().BeGreaterThan(TimeSpan.FromSeconds(1.9)).
-                        And.BeLessOrEqualTo(TimeSpan.FromSeconds(2.2));
-
-                    WindowTest.RunOnUIThread(
-                 () =>
-                 {
-                     wpfnav.NavigateAsync(vm).ContinueWith
-                    (
-                        t =>
-                        {
-
-                            mre.Set();
-                        });
-                 });
-
-                    mre.WaitOne();
-                    Thread.Sleep(500);
-                });
+                de.Should().NotBeNull();
+                de.DisplayedViewModel.Should().Be(vm);
+                opened.HasValue.Should().BeTrue();
+                opened.Value.Subtract(nav).Should().BeCloseTo(TimeSpan.FromSeconds(2), 100);
+            });
         }
     }
 }

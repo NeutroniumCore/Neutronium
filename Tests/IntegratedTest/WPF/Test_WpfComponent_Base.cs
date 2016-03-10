@@ -46,12 +46,12 @@ namespace IntegratedTest.WPF
             return BuildWindow(iWebControlFac, iManageLifeCycle);
         }
 
-        internal void Test(Action<T, WindowTest> test, bool iDebug = false, bool iManageLifeCycle = true) 
+        internal void Test(Action<T> test, bool iDebug = false, bool iManageLifeCycle = true) 
         {
             var handler = new HTMLControlBase_Handler<T>();
             using (var wcontext = InitTest(handler, iDebug, iManageLifeCycle))
             {
-                test(handler.Handler, wcontext);
+                wcontext.RunOnUIThread( () => test(handler.Handler)).Wait();
             }
         }
 

@@ -145,7 +145,7 @@ namespace MVVM.HTML.Core.Navigation
             Navigate(dest, vm, mode);
         }
 
-        private Task Navigate(string iUri, object iViewModel, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        private Task<IHTMLBinding> Navigate(string iUri, object iViewModel, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             if (iUri == null)
                 throw ExceptionHelper.GetArgument(string.Format("ViewModel not registered: {0}", iViewModel.GetType()));
@@ -217,16 +217,16 @@ namespace MVVM.HTML.Core.Navigation
             }          
         }
 
-        public async Task NavigateAsync(object iViewModel, string Id = null,JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        public async Task<IHTMLBinding> NavigateAsync(object iViewModel, string Id = null,JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             if ((iViewModel == null) || (_Navigating))
-                return;
+                return null;
 
             var viewPath = _UrlSolver.Solve(iViewModel, Id);
             if (viewPath == null)
                 throw ExceptionHelper.Get(string.Format("Unable to locate ViewModel {0}", iViewModel));
 
-            await Navigate(viewPath.LocalPath, iViewModel, iMode);
+            return await Navigate(viewPath.LocalPath, iViewModel, iMode);
         }
 
         public void Dispose()

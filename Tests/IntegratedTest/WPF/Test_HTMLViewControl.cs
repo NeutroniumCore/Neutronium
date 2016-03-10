@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Reflection;
 
 using Xunit;
@@ -30,82 +29,58 @@ namespace IntegratedTest.WPF
         }
 
         [Fact]
-        public void Basic_Option()
+        public void  Basic_Option()
         {
-            Test((c, w) =>
-                {
-                    var mre = new ManualResetEvent(false);
-
-                    w.RunOnUIThread(() =>
-                        {
-                            c.SessionPath.Should().BeNull();
-                            c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
-                            c.Uri.Should().BeNull();
-                            mre.Set();
-                        });
-
-                    mre.WaitOne();
-                });
+            Test((c) =>
+            {
+                c.SessionPath.Should().BeNull();
+                c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
+                c.Uri.Should().BeNull();
+            });
         }
 
         [Fact(Skip = "Should be rethink")]
         public void Basic_Option_Find_Path()
         {
-            Test((c, w) =>
+            Test((c) =>
             {
-                var mre = new ManualResetEvent(false);
+                c.SessionPath.Should().BeNull();
+                c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
+                c.Uri.Should().BeNull();
 
-                w.RunOnUIThread(() =>
-                {
-                    c.SessionPath.Should().BeNull();
-                    c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
-                    c.Uri.Should().BeNull();
-
-                    string relp = "javascript\\navigation_1.html";
-                    Action act = () => c.RelativeSource = relp;
-                    act.ShouldThrow<MVVMCEFGlueException>();
-                    mre.Set();
-                });
-
-                mre.WaitOne();
+                string relp = "javascript\\navigation_1.html";
+                Action act = () => c.RelativeSource = relp;
+                act.ShouldThrow<MVVMCEFGlueException>();
             });
         }
 
         [Fact(Skip = "Should be rethink")]
         public void Basic_RelativeSource() 
         {
-            string relp = "javascript\\navigation_1.html";
-            string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
-            if (File.Exists(path))
-                File.Delete(path);
-
-            Test((c, w) => 
+            Test((c) => 
             {
-                var mre = new ManualResetEvent(false);
-
-                w.RunOnUIThread(() => {
-                    c.SessionPath.Should().BeNull();
-                    c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
-                    c.Uri.Should().BeNull();
-
-                    string nd = Path.GetDirectoryName(path);
-                    Directory.CreateDirectory(nd);
-                    File.Copy(@"javascript\navigation_1.html", path);
-
-                    c.RelativeSource = relp;
-
+                string relp = "javascript\\navigation_1.html";
+                string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+                if (File.Exists(path))
                     File.Delete(path);
-                    mre.Set();
-                });
 
-                mre.WaitOne();
+                c.SessionPath.Should().BeNull();
+                c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
+                c.Uri.Should().BeNull();
+
+                string nd = Path.GetDirectoryName(path);
+                Directory.CreateDirectory(nd);
+                File.Copy(@"javascript\navigation_1.html", path);
+
+                c.RelativeSource = relp;
+                File.Delete(path);
             });
         }
 
         [Fact]
-        public void Basic_Option_Simple()
+        public async Task OnDisplay_ShouldBeFired_OnDataContextChanges()
         {
-            Test((c, w) =>
+            await Test(async (c, w) =>
             {
                 var tcs = new TaskCompletionSource<DisplayEvent>();
 
@@ -114,30 +89,25 @@ namespace IntegratedTest.WPF
                 c.OnDisplay += ea;
                 var dc = new Person();
 
-                w.RunOnUIThread(() =>
-                {
-                    c.Mode = JavascriptBindingMode.OneWay;
-                    string relp = "javascript\\navigation_1.html";
-                    c.Uri = new Uri(string.Format("{0}\\{1}", Assembly.GetAssembly(typeof(Test_HTMLViewControl)).GetPath(), relp));
-                    w.Window.DataContext = dc;
-                });
+                c.Mode = JavascriptBindingMode.OneWay;
+                string relp = "javascript\\navigation_1.html";
+                c.Uri = new Uri(string.Format("{0}\\{1}", Assembly.GetAssembly(typeof(Test_HTMLViewControl)).GetPath(), relp));
+                w.Window.DataContext = dc;
 
-                var de = tcs.Task.Result;
+                var de = await tcs.Task;
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
             });
         }
 
         [Fact(Skip = "Should be rethink")]
-        public void Basic_Option_Simple_UsingRelativePath() 
+        public async Task Basic_Option_Simple_UsingRelativePath() 
         {
-            Test((c, w) =>
+            await Test(async (c, w) =>
             {
-                var finalmre = new ManualResetEvent(false);
-
-                DisplayEvent de = null;
+                var tcs = new TaskCompletionSource<DisplayEvent>();
                 EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { de = e; c.OnDisplay -= ea; finalmre.Set(); };
+                ea = (o, e) => { c.OnDisplay -= ea; tcs.SetResult(e); };
                 c.OnDisplay += ea;
                 var dc = new Person();
 
@@ -145,14 +115,12 @@ namespace IntegratedTest.WPF
                 string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
                 var jvs = PrepareFiles();
 
-                w.RunOnUIThread(() => 
-                {
-                    c.Mode = JavascriptBindingMode.OneWay;
-                    c.RelativeSource = relp;
-                    w.Window.DataContext = dc;
-                });
+                c.Mode = JavascriptBindingMode.OneWay;
+                c.RelativeSource = relp;
+                w.Window.DataContext = dc;
 
-                finalmre.WaitOne();
+                var de = await tcs.Task;
+
                 foreach (string jv in jvs) 
                 {
                     string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
@@ -190,15 +158,13 @@ namespace IntegratedTest.WPF
         }
 
         [Fact]
-        public void Basic_Option_Simple_UsingRelativePath_AfterDataContext()
+        public async Task Basic_Option_Simple_UsingRelativePath_AfterDataContext()
         {
-            Test((c, w) =>
+            await Test(async (c, w) =>
             {
-                var mre = new ManualResetEvent(false);
-
-                DisplayEvent de = null;
+                var tcs = new TaskCompletionSource<DisplayEvent>();
                 EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { de = e; c.OnDisplay -= ea;   mre.Set();};
+                ea = (o, e) => { c.OnDisplay -= ea;  tcs.SetResult(e);};
                 c.OnDisplay += ea;
                 var dc = new Person();
 
@@ -206,15 +172,11 @@ namespace IntegratedTest.WPF
                 string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
                 var jvs = PrepareFiles();
 
-                w.RunOnUIThread(() =>
-                {
-                    c.Mode = JavascriptBindingMode.OneWay; 
-                    w.Window.DataContext = dc;
-                    c.RelativeSource = relp;
-                  
-                });
+                c.Mode = JavascriptBindingMode.OneWay; 
+                w.Window.DataContext = dc;
+                c.RelativeSource = relp;
 
-                mre.WaitOne();
+                var de = await tcs.Task;
 
                 foreach (string jv in jvs)
                 {
