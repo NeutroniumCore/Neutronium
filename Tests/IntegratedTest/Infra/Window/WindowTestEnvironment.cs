@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows;
 using HTML_WPF.Component;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace IntegratedTest.WPF.Infra 
+namespace IntegratedTest.Infra.Window 
 {
     public abstract class WindowTestEnvironment : IWindowTestEnvironment 
     {
@@ -41,7 +40,7 @@ namespace IntegratedTest.WPF.Infra
             _WPFWebWindowFactory.Dispose();
         }
 
-        public IWPFWindowWrapper GetWindowWrapper(Func<Window> ifactory = null) 
+        public IWPFWindowWrapper GetWindowWrapper(Func<System.Windows.Window> ifactory = null) 
         {
             Register();
             return new WPFWindowWrapper(WpfThread, ifactory);   

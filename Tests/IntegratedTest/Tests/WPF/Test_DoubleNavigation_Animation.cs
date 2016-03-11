@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using HTML_WPF.Component;
+using IntegratedTest.Infra.Window;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Navigation;
+using MVVM.ViewModel;
 using Xunit;
 
-using MVVM.ViewModel;
-using HTML_WPF.Component;
-using MVVM.HTML.Core.Navigation;
-using MVVM.HTML.Core.Infra;
-using IntegratedTest.WPF.Infra;
-
-namespace IntegratedTest.WPF
+namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_DoubleNavigation_Animation : Test_WpfComponent_Base<HTMLWindow> 
     {

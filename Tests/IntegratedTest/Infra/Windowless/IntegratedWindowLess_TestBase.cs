@@ -4,7 +4,7 @@ using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
-namespace IntegratedTest
+namespace IntegratedTest.Infra.Windowless
 {
     public abstract class IntegratedWindowLess_TestBase 
     {

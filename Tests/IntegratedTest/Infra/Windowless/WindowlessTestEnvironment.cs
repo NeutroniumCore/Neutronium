@@ -1,11 +1,10 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.Window;
-using MVVM.HTML.Core.JavascriptUIFramework;
-using System;
+﻿using System;
 using IntegratedTest.JavascriptUIFramework;
-using IntegratedTest.Windowless.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace IntegratedTest 
+namespace IntegratedTest.Infra.Windowless 
 {
     public class WindowlessTestEnvironment 
     {

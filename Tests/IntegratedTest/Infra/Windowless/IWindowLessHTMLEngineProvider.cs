@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntegratedTest 
+namespace IntegratedTest.Infra.Windowless 
 {
     public interface IWindowLessHTMLEngineProvider : IDisposable 
     {

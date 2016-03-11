@@ -1,5 +1,5 @@
 ﻿using HTML_WPF.Component;
-using IntegratedTest.WPF.Infra;
+using IntegratedTest.Infra.Window;
 using KnockoutUIFramework;
 using MVVM.Cef.Glue;
 using MVVM.HTML.Core.JavascriptUIFramework;

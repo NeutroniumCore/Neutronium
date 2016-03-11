@@ -1,4 +1,5 @@
 ﻿using IntegratedTest;
+using IntegratedTest.Infra.Windowless;
 using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;

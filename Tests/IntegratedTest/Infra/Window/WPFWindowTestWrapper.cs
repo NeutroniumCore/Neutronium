@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Threading;
 
-namespace IntegratedTest.WPF.Infra
+namespace IntegratedTest.Infra.Window
 {
     public class WPFWindowTestWrapper
     {
-        public Window Window { get; private set; }
+        public System.Windows.Window Window { get; private set; }
 
         public event EventHandler<DispatcherUnhandledExceptionEventArgs> OnException;
 
-        public WPFWindowTestWrapper(Window window)
+        public WPFWindowTestWrapper(System.Windows.Window window)
         {
             if (window == null)
                 throw new ArgumentNullException("window", "You must initialize WPFWindowTestWrapper before you can update the window layout.");

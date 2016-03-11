@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using HTML_WPF.Component;
-using IntegratedTest.WPF.Infra;
+using IntegratedTest.Infra.Window;
 
-namespace IntegratedTest.WPF
+namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_WpfComponent_Base<T>  where T : HTMLControlBase
     {

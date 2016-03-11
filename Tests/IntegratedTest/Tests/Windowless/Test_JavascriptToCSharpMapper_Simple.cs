@@ -1,9 +1,10 @@
 ﻿using System;
 using FluentAssertions;
-using Xunit;
+using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Xunit;
 
-namespace IntegratedTest.Windowless
+namespace IntegratedTest.Tests.Windowless
 {
     public abstract class Test_JavascriptToCSharpMapper_Simple : IntegratedWindowLess_TestBase
     {

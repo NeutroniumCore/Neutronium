@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
-namespace IntegratedTest.Windowless.Infra
+namespace IntegratedTest.Infra.Windowless
 {
     public class TestIUIDispatcher : IDispatcher
     {

@@ -1,4 +1,4 @@
-﻿using IntegratedTest.Windowless;
+﻿using IntegratedTest.Tests.Windowless;
 using MVVM.Awesomium.TestInfra;
 using Xunit;
 

@@ -5,28 +5,28 @@ using System.Windows.Threading;
 using HTML_WPF.Component;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
-namespace IntegratedTest.WPF.Infra
+namespace IntegratedTest.Infra.Window
 {
     public class WindowTest : IDisposable
     {
         private readonly IWPFWindowWrapper _WPFThreadingHelper;
         private IDispatcher _Dispatcher;
 
-        public WindowTest(IWindowTestEnvironment context, Action<Window> init)
+        public WindowTest(IWindowTestEnvironment context, Action<System.Windows.Window> init)
         {
             _WPFThreadingHelper = context.GetWindowWrapper(() => CreateNewWindow(init));
         }
 
-        private Window CreateNewWindow(Action<Window> init)
+        private System.Windows.Window CreateNewWindow(Action<System.Windows.Window> init)
         {
-            var window = new Window();
+            var window = new System.Windows.Window();
             NameScope.SetNameScope(window, new NameScope());
             init(window);
             _Dispatcher = new WPFUIDispatcher(window.Dispatcher);
             return window;
         }
 
-        public Window Window { get { return _WPFThreadingHelper.MainWindow; } }
+        public System.Windows.Window Window { get { return _WPFThreadingHelper.MainWindow; } }
 
         public Dispatcher Dispatcher { get { return Window.Dispatcher; } }
 

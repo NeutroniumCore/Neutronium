@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Windows;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace IntegratedTest.WPF.Infra 
+namespace IntegratedTest.Infra.Window 
 {
     public interface IWindowTestEnvironment : IDisposable
     {
         IJavascriptUIFrameworkManager FrameworkManager { get;}
-        IWPFWindowWrapper GetWindowWrapper(Func<Window> ifactory = null);
+        IWPFWindowWrapper GetWindowWrapper(Func<System.Windows.Window> ifactory = null);
     }
 }

@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Reflection;
-
-using Xunit;
-using FluentAssertions;
-
-using MVVM.HTML.Core.Infra;
-using MVVM.ViewModel.Example;
-using MVVM.HTML.Core.Exceptions;
 using System.IO;
-using MVVM.HTML.Core;
-using HTML_WPF.Component;
+using System.Reflection;
 using System.Threading.Tasks;
+using FluentAssertions;
+using HTML_WPF.Component;
+using IntegratedTest.Infra.Window;
+using MVVM.HTML.Core;
+using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
-using IntegratedTest.WPF.Infra;
+using MVVM.ViewModel.Example;
+using Xunit;
 
-namespace IntegratedTest.WPF
+namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_HTMLViewControl : Test_WpfComponent_Base<HTMLViewControl>
     {

@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using CefGlue.TestInfra.CefWindowless;
-using IntegratedTest.Windowless.Infra;
+using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Control;

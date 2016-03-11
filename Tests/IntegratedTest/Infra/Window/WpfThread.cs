@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace IntegratedTest.WPF.Infra
+namespace IntegratedTest.Infra.Window
 {
     public class WpfThread : IDisposable
     {

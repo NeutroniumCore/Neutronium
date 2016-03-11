@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using Xunit;
-
-using NSubstitute;
 using FluentAssertions;
-using Newtonsoft.Json;
-using MVVM.ViewModel.Example;
-using MVVM.ViewModel;
-using MVVM.ViewModel.Infra;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using IntegratedTest.Infra.Windowless;
 using IntegratedTest.TestData;
 using MVVM.Component;
+using MVVM.HTML.Core;
+using MVVM.HTML.Core.Binding.GlueObject;
+using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.ViewModel;
+using MVVM.ViewModel.Example;
+using MVVM.ViewModel.Infra;
+using Newtonsoft.Json;
+using NSubstitute;
+using Xunit;
 
-namespace IntegratedTest.Windowless {
+namespace IntegratedTest.Tests.Windowless 
+{
     public abstract class Test_HTMLBinding : IntegratedWindowLess_TestBase
     {
         private readonly Person _DataContext;

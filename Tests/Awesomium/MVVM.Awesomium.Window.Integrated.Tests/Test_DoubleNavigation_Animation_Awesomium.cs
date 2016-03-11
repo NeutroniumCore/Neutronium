@@ -1,4 +1,4 @@
-﻿using IntegratedTest.WPF;
+﻿using IntegratedTest.Tests.WPF;
 using MVVM.Awesomium.TestInfra;
 using Xunit;
 

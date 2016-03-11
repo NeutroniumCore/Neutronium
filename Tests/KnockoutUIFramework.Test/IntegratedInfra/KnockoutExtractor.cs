@@ -1,4 +1,5 @@
 ﻿using IntegratedTest;
+using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace KnockoutUIFramework.Test.IntegratedInfra

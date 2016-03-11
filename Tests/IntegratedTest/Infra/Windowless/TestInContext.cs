@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
 
-namespace IntegratedTest
+namespace IntegratedTest.Infra.Windowless
 {
     public class TestInContext
     {

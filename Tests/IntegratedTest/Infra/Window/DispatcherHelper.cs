@@ -1,7 +1,7 @@
 ﻿using System.Security.Permissions;
 using System.Windows.Threading;
 
-namespace IntegratedTest.WPF.Infra
+namespace IntegratedTest.Infra.Window
 {
     public static class DispatcherHelper
     {

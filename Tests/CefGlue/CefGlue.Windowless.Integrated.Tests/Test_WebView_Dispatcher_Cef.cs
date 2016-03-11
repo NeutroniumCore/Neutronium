@@ -1,5 +1,5 @@
 ﻿using CefGlue.TestInfra;
-using IntegratedTest.Windowless;
+using IntegratedTest.Tests.Windowless;
 using Xunit;
 
 namespace CefGlue.Windowless.Integrated.Tests

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading;
-using System.Windows;
 
-namespace IntegratedTest.WPF.Infra
+namespace IntegratedTest.Infra.Window
 {
     internal class WPFWindowWrapper : IWPFWindowWrapper
     {
-        private readonly Func<Window> _factory;
+        private readonly Func<System.Windows.Window> _factory;
         private WPFWindowTestWrapper _wpfWindowTestWrapper;
         private readonly WpfThread _wpfThread;
 
@@ -15,15 +14,15 @@ namespace IntegratedTest.WPF.Infra
             get { return _wpfThread.UIThread; }
         }
 
-        public Window MainWindow
+        public System.Windows.Window MainWindow
         {
             get { return _wpfWindowTestWrapper.Window; }
         }
 
-        public WPFWindowWrapper(WpfThread wpfThread, Func<Window> ifactory = null) 
+        public WPFWindowWrapper(WpfThread wpfThread, Func<System.Windows.Window> ifactory = null) 
         {
             _wpfThread = wpfThread;
-            Func<Window> basic =() => new Window();
+            Func<System.Windows.Window> basic =() => new System.Windows.Window();
             _factory = ifactory ?? basic;
 
             _wpfThread.Dispatcher.Invoke(InitWindow);

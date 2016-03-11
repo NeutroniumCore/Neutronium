@@ -1,4 +1,4 @@
-﻿using IntegratedTest.Windowless.Infra;
+﻿using IntegratedTest.Infra.Windowless;
 using MVVM.Awesomium.Tests;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;

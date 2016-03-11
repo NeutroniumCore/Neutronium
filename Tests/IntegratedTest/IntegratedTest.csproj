@@ -90,35 +90,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IWindowLessHTMLEngineProvider.cs" />
+    <Compile Include="Infra\Windowless\IWindowLessHTMLEngineProvider.cs" />
     <Compile Include="JavascriptUIFramework\FrameworkTestContext.cs" />
-    <Compile Include="Windowless\Infra\TestInContextAsync.cs" />
-    <Compile Include="Windowless\Infra\TestIUIDispatcher.cs" />
-    <Compile Include="Windowless\Test_WebView_Dispatcher.cs" />
-    <Compile Include="Windowless\Test_ConvertToJSO.cs" />
-    <Compile Include="Windowless\Test_JavascriptToCSharpMapper_Simple.cs" />
-    <Compile Include="WPF\Infra\IWindowTestEnvironment.cs" />
-    <Compile Include="WPF\Infra\IWPFWindowWrapper.cs" />
-    <Compile Include="WPF\Infra\WindowTestEnvironment.cs" />
+    <Compile Include="Infra\Windowless\TestInContextAsync.cs" />
+    <Compile Include="Infra\Windowless\TestIUIDispatcher.cs" />
+    <Compile Include="Tests\Windowless\Test_WebView_Dispatcher.cs" />
+    <Compile Include="Tests\Windowless\Test_ConvertToJSO.cs" />
+    <Compile Include="Tests\Windowless\Test_JavascriptToCSharpMapper_Simple.cs" />
+    <Compile Include="Infra\Window\IWindowTestEnvironment.cs" />
+    <Compile Include="Infra\Window\IWPFWindowWrapper.cs" />
+    <Compile Include="Infra\Window\WindowTestEnvironment.cs" />
     <Compile Include="TestData\ChangingCollectionViewModel.cs" />
-    <Compile Include="Windowless\Infra\IJavascriptFrameworkExtractor.cs" />
-    <Compile Include="Windowless\Infra\IWindowlessJavascriptEngine.cs" />
-    <Compile Include="Windowless\Infra\IntegratedWindowLess_TestBase.cs" />
+    <Compile Include="Infra\Windowless\IJavascriptFrameworkExtractor.cs" />
+    <Compile Include="Infra\Windowless\IWindowlessJavascriptEngine.cs" />
+    <Compile Include="Infra\Windowless\IntegratedWindowLess_TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Windowless\Infra\WindowlessTestEnvironment.cs" />
-    <Compile Include="Windowless\Infra\TestInContext.cs" />
+    <Compile Include="Infra\Windowless\WindowlessTestEnvironment.cs" />
+    <Compile Include="Infra\Windowless\TestInContext.cs" />
     <Compile Include="TestData\ViewModelCLRTypes.cs" />
-    <Compile Include="Windowless\Test_HTMLBinding.cs" />
-    <Compile Include="WPF\Infra\AssemblyHelper.cs" />
-    <Compile Include="WPF\Infra\DispatcherHelper.cs" />
-    <Compile Include="WPF\Infra\WindowTest.cs" />
-    <Compile Include="WPF\Infra\WPFWindowWrapper.cs" />
-    <Compile Include="WPF\Infra\WpfThread.cs" />
-    <Compile Include="WPF\Infra\WPFWindowTestWrapper.cs" />
-    <Compile Include="WPF\Test_WpfComponent_Base.cs" />
-    <Compile Include="WPF\Test_DoubleNavigation.cs" />
-    <Compile Include="WPF\Test_DoubleNavigation_Animation.cs" />
-    <Compile Include="WPF\Test_HTMLViewControl.cs" />
+    <Compile Include="Tests\Windowless\Test_HTMLBinding.cs" />
+    <Compile Include="Infra\Window\AssemblyHelper.cs" />
+    <Compile Include="Infra\Window\DispatcherHelper.cs" />
+    <Compile Include="Infra\Window\WindowTest.cs" />
+    <Compile Include="Infra\Window\WPFWindowWrapper.cs" />
+    <Compile Include="Infra\Window\WpfThread.cs" />
+    <Compile Include="Infra\Window\WPFWindowTestWrapper.cs" />
+    <Compile Include="Tests\WPF\Test_WpfComponent_Base.cs" />
+    <Compile Include="Tests\WPF\Test_DoubleNavigation.cs" />
+    <Compile Include="Tests\WPF\Test_DoubleNavigation_Animation.cs" />
+    <Compile Include="Tests\WPF\Test_HTMLViewControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">

@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using FluentAssertions;
 using HTML_WPF.Component;
-using IntegratedTest.WPF.Infra;
+using IntegratedTest.Infra.Window;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
@@ -15,7 +15,7 @@ using MVVM.ViewModel.Infra;
 using NSubstitute;
 using Xunit;
 
-namespace IntegratedTest.WPF
+namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_DoubleNavigation : Test_WpfComponent_Base<HTMLWindow>
     {

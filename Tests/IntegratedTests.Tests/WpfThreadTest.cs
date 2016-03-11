@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using FluentAssertions;
-using IntegratedTest.WPF.Infra;
+using IntegratedTest.Infra.Window;
 using Xunit;
 
 namespace IntegratedTests.Tests

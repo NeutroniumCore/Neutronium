@@ -1,9 +1,10 @@
 ﻿using System;
+using FluentAssertions;
+using IntegratedTest.Infra.Windowless;
 using NSubstitute;
 using Xunit;
-using FluentAssertions;
 
-namespace IntegratedTest.Windowless
+namespace IntegratedTest.Tests.Windowless
 {
     public abstract class Test_WebView_Dispatcher : IntegratedWindowLess_TestBase
     {
