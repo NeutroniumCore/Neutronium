@@ -33,15 +33,15 @@ namespace CefGlue.TestInfra.CefWindowless
         {
             get { return _CefFrame.GetMainContext(); }
         }
- 
-        public void NavigateTo(string path)
+
+        public void NavigateTo(Uri path)
         {
             throw new NotImplementedException();
         }
 
-        public string Url
+        public Uri Url
         {
-            get { return _CefFrame.Url; }
+            get { return new Uri(_CefFrame.Url); }
         }
 
         public event EventHandler<ConsoleMessageArgs> ConsoleMessage

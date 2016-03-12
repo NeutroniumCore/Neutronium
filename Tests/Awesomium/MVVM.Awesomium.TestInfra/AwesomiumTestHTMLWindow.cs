@@ -9,7 +9,7 @@ namespace MVVM.Awesomium.Tests
         internal AwesomiumTestHTMLWindow(IWebView webView, string path)
         {
             MainFrame = webView;
-            Url = path;
+            Url = new Uri(path);
         }
 
         public IWebView MainFrame
@@ -17,12 +17,12 @@ namespace MVVM.Awesomium.Tests
             get; private set;
         }
 
-        public void NavigateTo(string path)
+        public void NavigateTo(Uri path)
         {
             throw new NotImplementedException();
         }
 
-        public string Url
+        public Uri Url
         {
             get; private set;
         }

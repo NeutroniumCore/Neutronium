@@ -20,13 +20,13 @@ namespace MVVM.HTML.Core.Navigation
         private IHTMLWindowProvider _NextWebControl;
         private IHTMLBinding _HTMLBinding;
         private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
-        private string _Url;
+        private Uri _Url;
         private bool _Disposed = false;
         private bool _Navigating = false;
         private bool _UseINavigable = false;
         private HTMLLogicWindow _Window;
 
-        public string Url { get { return _Url; } }
+        public Uri Url { get { return _Url; } }
         public IHTMLWindowProvider WebControl { get { return _CurrentWebControl; } }
 
         public IWebSessionWatcher WebSessionWatcher
@@ -145,9 +145,9 @@ namespace MVVM.HTML.Core.Navigation
             Navigate(dest, vm, mode);
         }
 
-        private Task<IHTMLBinding> Navigate(string iUri, object iViewModel, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        private Task<IHTMLBinding> Navigate(Uri uri, object iViewModel, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
-            if (iUri == null)
+            if (uri == null)
                 throw ExceptionHelper.GetArgument(string.Format("ViewModel not registered: {0}", iViewModel.GetType()));
 
             _Navigating = true;
@@ -186,21 +186,21 @@ namespace MVVM.HTML.Core.Navigation
             EventHandler<LoadEndEventArgs> sourceupdate = null;
             sourceupdate = (o, e) =>
             {
-                var injectorFactory = GetInjectorFactory(iUri);
+                var injectorFactory = GetInjectorFactory(uri);
                 _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
                 var engine = new HTMLViewEngine(_NextWebControl, injectorFactory);
 
                 HTML_Binding.Bind(engine, iViewModel, iMode, wh).WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
 
-            _Url = iUri;
+            _Url = uri;
             _NextWebControl.HTMLWindow.LoadEnd += sourceupdate;
-            _NextWebControl.HTMLWindow.NavigateTo(iUri);
+            _NextWebControl.HTMLWindow.NavigateTo(uri);
 
             return tcs.Task;
         }
 
-        private IJavascriptUIFrameworkManager GetInjectorFactory(string iUri)
+        private IJavascriptUIFrameworkManager GetInjectorFactory(Uri iUri)
         {
             return _javascriptUiFrameworkManager;
         }
@@ -226,7 +226,7 @@ namespace MVVM.HTML.Core.Navigation
             if (viewPath == null)
                 throw ExceptionHelper.Get(string.Format("Unable to locate ViewModel {0}", iViewModel));
 
-            return await Navigate(viewPath.LocalPath, iViewModel, iMode);
+            return await Navigate(viewPath, iViewModel, iMode);
         }
 
         public void Dispose()

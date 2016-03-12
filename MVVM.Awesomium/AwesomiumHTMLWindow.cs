@@ -40,9 +40,9 @@ namespace MVVM.Awesomium
             get;  private set;
         }
 
-        public void NavigateTo(string path)
+        public void NavigateTo(Uri path)
         {
-            _WebControl.Source = new Uri(path);
+            _WebControl.Source = path;
         }
 
         public bool IsLoaded
@@ -67,9 +67,9 @@ namespace MVVM.Awesomium
             _WebControl.ConsoleMessage -= _WebControl_ConsoleMessage;
         }
 
-        public string Url
+        public Uri Url
         {
-            get { return _WebControl.Source.AbsolutePath; }
+            get { return _WebControl.Source; }
         }
     }
 }

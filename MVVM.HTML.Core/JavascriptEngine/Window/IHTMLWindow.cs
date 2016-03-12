@@ -17,14 +17,14 @@ namespace MVVM.HTML.Core.JavascriptEngine.Window
         /// Navigate to the specified path
         /// </summary>
         /// <param name="path">
-        /// Path to navigate to
+        /// Uri to navigate to
         /// </param>
-        void NavigateTo(string path);
+        void NavigateTo(Uri path);
 
         /// <summary>
         /// Url of the browser
         /// </summary>
-        string Url { get; }
+        Uri Url { get; }
 
         /// <summary>
         /// true if the content is loaded and ready

@@ -13,7 +13,6 @@ using Xilium.CefGlue;
 
 using MVVM.Cef.Glue.CefGlueHelper;
 using MVVM.Cef.Glue.Helpers.Log;
-using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.Cef.Glue.CefSession;
@@ -129,9 +128,9 @@ namespace MVVM.Cef.Glue.WPF
              get { return this._browser.GetMainFrame(); }
          }
 
-        public string Url
+        public Uri Url
         {
-            get { return (this._browser == null) ? null : this._browser.GetMainFrame().Url; }
+            get { return (this._browser == null) ? null : new Uri(this._browser.GetMainFrame().Url); }
         }
 
 
@@ -854,10 +853,10 @@ namespace MVVM.Cef.Glue.WPF
 
         #region Methods
 
-        public void NavigateTo(string url)
+        public void NavigateTo(Uri uri)
         {
             // Remove leading whitespace from the URL
-            url = url.TrimStart();
+            var url = uri.AbsoluteUri.TrimStart();
 
             if (_browser != null)
                 _browser.GetMainFrame().LoadUrl(url);

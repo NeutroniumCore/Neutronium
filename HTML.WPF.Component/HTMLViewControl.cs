@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 
 using MVVM.HTML.Core;
@@ -10,14 +11,15 @@ using MVVM.HTML.Core.Infra;
 
 namespace HTML_WPF.Component
 {
-    public class HTMLViewControl : HTMLControlBase, IWebViewLifeCycleManager, IDisposable
+    public class HTMLViewControl : HTMLControlBase
     {
-        public static readonly DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(Uri), typeof(HTMLViewControl));
+        public static readonly DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(Uri), 
+                                                    typeof(HTMLViewControl), new PropertyMetadata(OnUriChanged));
 
         public Uri Uri
         {
             get { return (Uri)GetValue(UriProperty); }
-            internal set { SetValue(UriProperty, value); }
+            set { SetValue(UriProperty, value); }
         }
 
         public string RelativeSource
@@ -27,10 +29,8 @@ namespace HTML_WPF.Component
                 var path = string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), value);
                 if (!File.Exists(path))
                     throw ExceptionHelper.Get(string.Format("Path not found {0}", path));
-                Uri = new Uri(path);
 
-                if (DataContext != null)
-                    NavigateAsyncBase(DataContext, null, Mode).DoNotWait();
+                Uri = new Uri(path);
             }
         }
 
@@ -57,8 +57,21 @@ namespace HTML_WPF.Component
 
         private async void HTMLViewControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (Uri != null)
-                await NavigateAsyncBase(DataContext, null, Mode);
+            await CheckNavigation();
+        }
+
+        private static async void OnUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var htmlViewControl = (HTMLViewControl)d;
+            await htmlViewControl.CheckNavigation();
+        }
+
+        private async Task CheckNavigation()
+        {
+            if ((Uri == null) || (DataContext == null))
+                return;
+
+            await NavigateAsyncBase(DataContext, null, Mode);
         }
 
         private class UrlSolver : IUrlSolver

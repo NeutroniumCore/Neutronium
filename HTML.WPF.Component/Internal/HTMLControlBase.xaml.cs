@@ -57,7 +57,7 @@ namespace HTML_WPF.Component
             DependencyProperty.Register("HTMLEngine", typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
 
 
-        public string Source
+        public Uri Source
         {
             get { return _WPFDoubleBrowserNavigator.Url; }
         }
