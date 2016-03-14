@@ -1,13 +1,20 @@
-﻿using MVVM.HTML.Core.JavascriptEngine;
-using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+﻿using MVVM.HTML.Core.JavascriptEngine.Window;
 
-namespace MVVM.HTML.Core.Navigation
+namespace MVVM.HTML.Core.JavascriptEngine.Control
 {
+    /// <summary>
+    /// HTMLWindow provider
+    /// </summary>
     public interface IWebViewLifeCycleManager
     {
+        /// <summary>
+        /// Create the HTMLWindowProvider
+        /// </summary>
         IHTMLWindowProvider Create();
 
+        /// <summary>
+        /// Return the corresponding UI dispatcher
+        /// </summary>
         IDispatcher GetDisplayDispatcher();
     }
 }

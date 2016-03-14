@@ -7,7 +7,6 @@ using System.Windows.Input;
 
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra.VM;
-using MVVM.HTML.Core.JavascriptEngine;
 using MVVM.HTML.Core.Navigation;
 using System.Diagnostics;
 using MVVM.HTML.Core.Exceptions;

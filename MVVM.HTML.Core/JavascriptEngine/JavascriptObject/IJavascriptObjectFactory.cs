@@ -46,7 +46,7 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// Create IJavascriptObject object
         /// </summary>   
         /// <param name="iLocal">
-        /// true if local object, only has meaning in a Awesomium context
+        /// true if local object, meaning browser context. 
         /// </param>
         /// <returns>
         /// corresponding IJavascriptObject

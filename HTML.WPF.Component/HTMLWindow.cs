@@ -5,7 +5,7 @@ using MVVM.HTML.Core.Navigation;
 
 namespace HTML_WPF.Component
 {
-    public class HTMLWindow : HTMLControlBase, INavigationSolver, IWebViewLifeCycleManager, IDisposable
+    public class HTMLWindow : HTMLControlBase, INavigationSolver
     {
         public HTMLWindow() : this(new NavigationBuilder())
         {
