@@ -1,14 +1,28 @@
 ﻿using System;
 using Chromium;
+using HTMEngine.ChromiumFX.Session;
 using HTML_WPF.Component;
 
 namespace HTMEngine.ChromiumFX
 {
-    public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory
-    {
-        public string EngineName { get { return "Chromium"+ CfxRuntime.GetChromeVersion(); } }
-        public string Name { get { return "ChromiumFX V.0.0.1"; } }
-       
+    public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory {
+        public string EngineName 
+        {
+            get { return "Chromium" + CfxRuntime.GetChromeVersion(); }
+        }
+
+        public string Name 
+        {
+            get { return "ChromiumFX V.0.0.1"; }
+        }
+
+        private ChromiumFXSession _Session;
+
+        public ChromiumFXWPFWebWindowFactory()
+        {
+            _Session = ChromiumFXSession.GetSession();
+        }
+
         public IWPFWebWindow Create()
         {
             throw new NotImplementedException();
@@ -21,7 +35,7 @@ namespace HTMEngine.ChromiumFX
 
         public void Dispose()
         {
-            CfxRuntime.Shutdown();
+            _Session.Dispose();
         }
     }
 }

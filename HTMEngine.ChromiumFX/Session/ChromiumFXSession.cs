@@ -9,7 +9,7 @@ using Chromium.WebBrowser.Event;
 
 namespace HTMEngine.ChromiumFX.Session
 {
-    internal class ChromiumFXSession
+    internal class ChromiumFXSession : IDisposable
     {
         private static ChromiumFXSession _Session = null;
 
@@ -34,7 +34,12 @@ namespace HTMEngine.ChromiumFX.Session
                 return _Session;
 
             _Session = new ChromiumFXSession();
-            return null;
+            return _Session;
+        }
+
+        public void Dispose() 
+        {
+            CfxRuntime.Shutdown();
         }
     }
 }
