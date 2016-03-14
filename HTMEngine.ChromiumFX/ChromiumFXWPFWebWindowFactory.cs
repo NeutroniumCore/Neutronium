@@ -1,0 +1,27 @@
+﻿using System;
+using Chromium;
+using HTML_WPF.Component;
+
+namespace HTMEngine.ChromiumFX
+{
+    public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory
+    {
+        public string EngineName { get { return "Chromium"+ CfxRuntime.GetChromeVersion(); } }
+        public string Name { get { return "ChromiumFX V.0.0.1"; } }
+       
+        public IWPFWebWindow Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int? GetRemoteDebuggingPort()
+        {
+            return null;
+        }
+
+        public void Dispose()
+        {
+            CfxRuntime.Shutdown();
+        }
+    }
+}
