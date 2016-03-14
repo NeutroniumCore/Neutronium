@@ -1,11 +1,12 @@
-﻿using System;
-using Chromium;
+﻿using Chromium;
+using HTMEngine.ChromiumFX.EngineBinding;
 using HTMEngine.ChromiumFX.Session;
 using HTML_WPF.Component;
 
 namespace HTMEngine.ChromiumFX
 {
-    public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory {
+    public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory 
+    {
         public string EngineName 
         {
             get { return "Chromium" + CfxRuntime.GetChromeVersion(); }
@@ -25,7 +26,7 @@ namespace HTMEngine.ChromiumFX
 
         public IWPFWebWindow Create()
         {
-            throw new NotImplementedException();
+            return new ChromiumFXWPFWindow();
         }
 
         public int? GetRemoteDebuggingPort()
