@@ -59,9 +59,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChromiumFXWPFWebWindowFactory.cs" />
+    <Compile Include="Convertion\CfrV8HandlerGHelper.cs" />
+    <Compile Include="Convertion\ChromiumFXWebViewExtension.cs" />
     <Compile Include="EngineBinding\ChromiumFXWPFWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\ChromiumFXSession.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptObject.cs" />
+    <Compile Include="Convertion\ChromiumFXJavascriptObjectExtension.cs" />
     <Compile Include="WPF\ChromiumFxControl.xaml.cs">
       <DependentUpon>ChromiumFxControl.xaml</DependentUpon>
     </Compile>
