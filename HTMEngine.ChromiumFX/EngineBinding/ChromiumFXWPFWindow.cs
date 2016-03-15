@@ -1,23 +1,49 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using Chromium.WebBrowser;
+using HTMEngine.ChromiumFX.WPF;
 using HTML_WPF.Component;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {
-    internal class ChromiumFXWPFWindow : IWPFWebWindow 
+    internal class ChromiumFXWPFWindow : IWPFWebWindow
     {
-        public void Dispose() 
+        private readonly ChromiumFxControl _ChromiumFxControl;
+        private readonly ChromiumWebBrowser _ChromiumWebBrowser;
+        private readonly ChromiumFxControlHTMLWindow _ChromiumFxControlHTMLWindow;
+
+        public ChromiumFXWPFWindow()
         {
-            throw new System.NotImplementedException();
+            _ChromiumFxControl = new ChromiumFxControl()
+            {
+                Visibility = Visibility.Hidden,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
+            };
+            _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
+            _ChromiumFxControlHTMLWindow = new ChromiumFxControlHTMLWindow(_ChromiumWebBrowser);
         }
 
-        public IHTMLWindow HTMLWindow { get; }
+        public IHTMLWindow HTMLWindow 
+        {
+            get { return _ChromiumFxControlHTMLWindow; }
+        }
+
         public void Inject(Key keyToInject) 
         {
-            throw new System.NotImplementedException();
         }
 
-        public UIElement UIElement { get; set; }
+        public UIElement UIElement
+        {
+            get { return _ChromiumFxControl; }
+        }
+
+        public void Dispose()
+        {
+            _ChromiumWebBrowser.Dispose();
+        }
     }
 }

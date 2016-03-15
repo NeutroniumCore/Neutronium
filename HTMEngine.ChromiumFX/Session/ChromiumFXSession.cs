@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Chromium;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
@@ -17,9 +13,8 @@ namespace HTMEngine.ChromiumFX.Session
         {
             CfxRuntime.LibCefDirPath = @"cef\Release";
 
-            Chromium.WebBrowser.ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
-            Chromium.WebBrowser.ChromiumWebBrowser.Initialize();
-
+            ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
+            ChromiumWebBrowser.Initialize();
         }
 
         private static void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
