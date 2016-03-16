@@ -1,4 +1,5 @@
 ﻿using System;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Xilium.CefGlue;
 
@@ -8,11 +9,6 @@ namespace MVVM.Cef.Glue
     {
         public CefV8_Converter()
         {
-        }
-
-        public static bool IsUnsigned(Type iTargetType)
-        {
-            return (iTargetType != null) && ((iTargetType == typeof(UInt16)) || (iTargetType == typeof(UInt32)) || (iTargetType == typeof(UInt64)));
         }
 
         public bool GetSimpleValue(IJavascriptObject ijsvalue, out object res, Type iTargetType = null)
@@ -37,7 +33,7 @@ namespace MVVM.Cef.Glue
                 return true;
             }
 
-            if (IsUnsigned(iTargetType))
+            if (iTargetType.IsUnsigned())
             {
                 if (value.IsUInt)
                     res = value.GetUIntValue();

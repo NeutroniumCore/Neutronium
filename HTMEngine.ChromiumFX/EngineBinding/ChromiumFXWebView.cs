@@ -10,13 +10,15 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     {
         private readonly CfrFrame _CfrFrame;
         private readonly ChromiumFXDispatcher _Dispatcher;
+
         public IJavascriptObjectConverter Converter { get; private set; }
         public IJavascriptObjectFactory Factory { get; private set; }
 
         public ChromiumFXWebView(CfrFrame cfrFrame)
         {
             _CfrFrame = cfrFrame;
-            _Dispatcher = new ChromiumFXDispatcher(_CfrFrame.V8Context.TaskRunner);
+            _Dispatcher = new ChromiumFXDispatcher(V8Context.TaskRunner);
+            Converter = new ChromiumFXConverter(V8Context);
         }
 
         private CfrV8Context V8Context

@@ -38,5 +38,10 @@ namespace MVVM.HTML.Core.Infra
 
             return itype.GetGenericTypeDefinition() == typeof (Nullable<>) ? itype.GetGenericArguments()[0] : null;
         }
+
+        public static bool IsUnsigned(this Type iTargetType) 
+        {
+            return (iTargetType != null) && ((iTargetType == typeof(UInt16)) || (iTargetType == typeof(UInt32)) || (iTargetType == typeof(UInt64)));
+        }
     }
 }
