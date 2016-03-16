@@ -10,6 +10,8 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     {
         private readonly CfrFrame _CfrFrame;
         private readonly ChromiumFXDispatcher _Dispatcher;
+        public IJavascriptObjectConverter Converter { get; private set; }
+        public IJavascriptObjectFactory Factory { get; private set; }
 
         public ChromiumFXWebView(CfrFrame cfrFrame)
         {
@@ -52,8 +54,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return V8Context.Global.Convert();
         }
 
-        public IJavascriptObjectConverter Converter { get; private set; }
-        public IJavascriptObjectFactory Factory { get; private set; }
         public bool Eval(string code, out IJavascriptObject res)
         {
             res = null;

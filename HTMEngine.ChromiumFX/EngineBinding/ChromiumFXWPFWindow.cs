@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Chromium;
 using Chromium.WebBrowser;
 using HTMEngine.ChromiumFX.WPF;
 using HTML_WPF.Component;
@@ -34,6 +35,12 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         public void Inject(Key keyToInject) 
         {
+            var cxKeyEvent = new CfxKeyEvent() 
+            {
+                WindowsKeyCode = (int) keyToInject
+            };
+
+            _ChromiumWebBrowser.Browser.Host.SendKeyEvent(cxKeyEvent);
         }
 
         public UIElement UIElement
