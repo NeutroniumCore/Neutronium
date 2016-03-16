@@ -1,17 +1,28 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Chromium;
+using Chromium.Remote;
+using HTMEngine.ChromiumFX.Convertion;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace HTMEngine.ChromiumFX.EngineBinding
 {
     internal class ChromiumFXWebView : IWebView
     {
-        private readonly CfxFrame _CfxFrame;
+        private readonly CfrFrame _CfxFrame;
 
-        public ChromiumFXWebView(CfxFrame cfxFrame)
+        public ChromiumFXWebView(CfrFrame cfxFrame)
         {
             _CfxFrame = cfxFrame;
+        }
+
+        private CfrV8Context V8Context
+        {
+            get { return _CfxFrame.V8Context; }
+        }
+
+        internal CfrFrame GetRaw()
+        {
+            return _CfxFrame;
         }
 
         public Task RunAsync(Action act)
@@ -36,19 +47,22 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         public IJavascriptObject GetGlobal()
         {
-            throw new NotImplementedException();
+            return V8Context.Global.Convert();
         }
 
         public IJavascriptObjectConverter Converter { get; private set; }
         public IJavascriptObjectFactory Factory { get; private set; }
         public bool Eval(string code, out IJavascriptObject res)
         {
-            throw new NotImplementedException();
+            res = null;
+            CfrV8Value v8Res;
+            CfrV8Exception exception;
+            return (V8Context.Eval(code, out v8Res, out exception);
         }
 
         public void ExecuteJavaScript(string code)
         {
-            throw new NotImplementedException();
+            _CfxFrame.ExecuteJavaScript(code, String.Empty, 0);
         }
     }
 }

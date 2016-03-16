@@ -2,7 +2,6 @@
 using Chromium.Event;
 using Chromium.Remote.Event;
 using Chromium.WebBrowser;
-using Chromium.WebBrowser.Event;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
@@ -30,16 +29,17 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             _ChromiumWebBrowser.LoadHandler.OnLoadEnd += OnLoadEnd;
             _ChromiumWebBrowser.DisplayHandler.OnConsoleMessage += OnConsoleMessage;
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
-            _ChromiumWebBrowser.BrowserCreated += OnBrowserCreated;
+            //_ChromiumWebBrowser.BrowserCreated += OnBrowserCreated;
         }
 
-        private void OnBrowserCreated(object sender, BrowserCreatedEventArgs e)
-        {
-            MainFrame = new ChromiumFXWebView(e.Browser.MainFrame);
-        }
+        //private void OnBrowserCreated(object sender, BrowserCreatedEventArgs e)
+        //{
+        //    MainFrame = new ChromiumFXWebView(e.Browser.MainFrame);
+        //}
 
         private void OnV8ContextCreated(object sender, CfrOnContextCreatedEventArgs e)
         {
+            MainFrame = new ChromiumFXWebView(e.Browser.MainFrame);
             var beforeJavascriptExecuted = BeforeJavascriptExecuted;
             if (beforeJavascriptExecuted == null) 
                 return;
@@ -59,7 +59,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             var loadEnd = LoadEnd;
             if (loadEnd != null)
-                loadEnd(this, new LoadEndEventArgs(new ChromiumFXWebView(e.Frame)));
+                loadEnd(this, new LoadEndEventArgs(MainFrame);
         }        
         
         public void NavigateTo(Uri path)
