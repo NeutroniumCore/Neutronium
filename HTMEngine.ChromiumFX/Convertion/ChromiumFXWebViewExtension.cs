@@ -4,7 +4,7 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace HTMEngine.ChromiumFX.Convertion
 {
-    public static class ChromiumFXSessionExtension
+    public static class ChromiumFXWebViewExtension
     {
         public static CfrFrame Convert(this IWebView context)
         {
