@@ -185,3 +185,6 @@ FakesAssemblies/
 /.nuget/packages.config
 *.ncrunchproject
 *.ncrunchsolution
+/HTMEngine.ChromiumFX/cef/Resources/*.*
+/HTMEngine.ChromiumFX/cef/Resources/*.*
+/HTMEngine.ChromiumFX/cef/Resources/locales/*.*

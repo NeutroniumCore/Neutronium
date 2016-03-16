@@ -8,41 +8,43 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 {
     internal class ChromiumFXWebView : IWebView
     {
-        private readonly CfrFrame _CfxFrame;
+        private readonly CfrFrame _CfrFrame;
+        private readonly ChromiumFXDispatcher _Dispatcher;
 
-        public ChromiumFXWebView(CfrFrame cfxFrame)
+        public ChromiumFXWebView(CfrFrame cfrFrame)
         {
-            _CfxFrame = cfxFrame;
+            _CfrFrame = cfrFrame;
+            _Dispatcher = new ChromiumFXDispatcher(_CfrFrame.V8Context.TaskRunner);
         }
 
         private CfrV8Context V8Context
         {
-            get { return _CfxFrame.V8Context; }
+            get { return _CfrFrame.V8Context; }
         }
 
         internal CfrFrame GetRaw()
         {
-            return _CfxFrame;
+            return _CfrFrame;
         }
 
         public Task RunAsync(Action act)
         {
-            throw new NotImplementedException();
+           return _Dispatcher.RunAsync(act);
         }
 
         public void Run(Action act)
         {
-            throw new NotImplementedException();
+            _Dispatcher.Run(act);
         }
 
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
-            throw new NotImplementedException();
+            return _Dispatcher.EvaluateAsync(compute);
         }
 
         public T Evaluate<T>(Func<T> compute)
         {
-            throw new NotImplementedException();
+            return _Dispatcher.Evaluate(compute);
         }
 
         public IJavascriptObject GetGlobal()
@@ -57,12 +59,12 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             res = null;
             CfrV8Value v8Res;
             CfrV8Exception exception;
-            return (V8Context.Eval(code, out v8Res, out exception);
+            return V8Context.Eval(code, out v8Res, out exception);
         }
 
         public void ExecuteJavaScript(string code)
         {
-            _CfxFrame.ExecuteJavaScript(code, String.Empty, 0);
+            _CfrFrame.ExecuteJavaScript(code, String.Empty, 0);
         }
     }
 }

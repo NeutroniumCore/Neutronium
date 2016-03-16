@@ -59,7 +59,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             var loadEnd = LoadEnd;
             if (loadEnd != null)
-                loadEnd(this, new LoadEndEventArgs(MainFrame);
+                loadEnd(this, new LoadEndEventArgs(MainFrame));
         }        
         
         public void NavigateTo(Uri path)
