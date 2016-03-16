@@ -59,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChromiumFXWPFWebWindowFactory.cs" />
+    <Compile Include="Convertion\CfrV8HandlerGHelper.cs" />
+    <Compile Include="Convertion\ChromiumFXSessionExtension.cs" />
     <Compile Include="EngineBinding\ChromiumFxControlHTMLWindow.cs" />
     <Compile Include="EngineBinding\ChromiumFXWebView.cs" />
     <Compile Include="EngineBinding\ChromiumFXWPFWindow.cs" />
