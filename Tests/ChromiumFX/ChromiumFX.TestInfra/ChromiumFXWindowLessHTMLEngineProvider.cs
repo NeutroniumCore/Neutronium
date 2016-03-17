@@ -1,4 +1,6 @@
-﻿using HTMEngine.ChromiumFX;
+﻿using System;
+using Chromium;
+using HTMEngine.ChromiumFX;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
 using KnockoutUIFramework.Test.IntegratedInfra;
@@ -27,11 +29,21 @@ namespace ChromiumFX.TestInfra
         private void Init() 
         {
             if (_Runing)
-                return;
+                return;        
 
             _Runing = true;
-            _WpfThread.Dispatcher.Invoke(() => _ChromiumFXWPFWebWindowFactory = new ChromiumFXWPFWebWindowFactory());
+            _WpfThread.Dispatcher.Invoke(Initialize);
             _WpfThread.OnThreadEnded += (o, e) => _ChromiumFXWPFWebWindowFactory.Dispose();
+        }
+
+        private void Initialize() 
+        {
+            Func<CfxSettings> settings = () => new CfxSettings {
+                SingleProcess = true,
+                WindowlessRenderingEnabled = true
+            };
+
+            _ChromiumFXWPFWebWindowFactory = new ChromiumFXWPFWebWindowFactory(settings);
         }
 
         public WindowlessTestEnvironment GetWindowlessEnvironment() 

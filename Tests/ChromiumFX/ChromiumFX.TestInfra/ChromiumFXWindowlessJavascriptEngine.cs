@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 using Chromium.Remote;
 using Chromium.WebBrowser;
@@ -28,7 +27,8 @@ namespace ChromiumFX.TestInfra
 
         public void Init(string path = "javascript\\index.html") 
         {
-            path = path ?? "javascript\\index.html";
+            path = path ?? "https://www.google.com.br/";
+            //"javascript\\index.html";
             InitAsync(path).Wait();
         }
 
@@ -43,6 +43,9 @@ namespace ChromiumFX.TestInfra
         {
             var tcs = new TaskCompletionSource<CfrFrame>();
             var tcsload = new TaskCompletionSource<int>();
+
+            //int retval = CfxRemoting.ExecuteProcess();
+
             var wb = new ChromiumWebBrowser();
 
             var f = new Form {
@@ -52,10 +55,13 @@ namespace ChromiumFX.TestInfra
             wb.Parent = f;
 
             wb.OnV8ContextCreated += (sender, args) => tcs.SetResult(args.Frame);
-            wb.LoadHandler.OnLoadEnd += (sender, args) => tcsload.SetResult(0);
+            wb.LoadHandler.OnLoadEnd += (sender, args) => tcsload.TrySetResult(0);
             f.Show();
             wb.LoadUrl(path);
+
             System.Windows.Forms.Application.Run(f);
+
+            //;
             await tcsload.Task;
             return await tcs.Task;
         }

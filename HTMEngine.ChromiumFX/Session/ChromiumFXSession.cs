@@ -8,27 +8,42 @@ namespace HTMEngine.ChromiumFX.Session
     internal class ChromiumFXSession : IDisposable
     {
         private static ChromiumFXSession _Session = null;
+        private readonly Func<CfxSettings> _SettingsBuilder;
+        private CfxSettings _Settings;
 
-        private ChromiumFXSession()
+        private ChromiumFXSession(Func<CfxSettings> settingsBuilder) 
         {
+            _SettingsBuilder = settingsBuilder;
             CfxRuntime.LibCefDirPath = @"cef\Release";
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.Initialize();
         }
 
-        private static void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
+        private void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
         {
             e.Settings.LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales");
             e.Settings.ResourcesDirPath = System.IO.Path.GetFullPath(@"cef\Resources");
+
+            if (_SettingsBuilder != null)
+                return;
+
+            _Settings = _SettingsBuilder();
+            var settings = e.Settings;
+            settings.SingleProcess = _Settings.SingleProcess;
+            settings.UserDataPath = _Settings.UserDataPath;
+            settings.RemoteDebuggingPort = _Settings.RemoteDebuggingPort;
+            settings.ResourcesDirPath = _Settings.ResourcesDirPath;
+            settings.WindowlessRenderingEnabled = _Settings.WindowlessRenderingEnabled;
+            settings.BrowserSubprocessPath = _Settings.BrowserSubprocessPath;
         }
 
-        internal static ChromiumFXSession GetSession()
+        internal static ChromiumFXSession GetSession(Func<CfxSettings> settingsBuilder)
         {
             if (_Session != null)
                 return _Session;
 
-            _Session = new ChromiumFXSession();
+            _Session = new ChromiumFXSession(settingsBuilder);
             return _Session;
         }
 
