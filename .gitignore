@@ -188,3 +188,6 @@ FakesAssemblies/
 /HTMEngine.ChromiumFX/cef/Resources/*.*
 /HTMEngine.ChromiumFX/cef/Resources/*.*
 /HTMEngine.ChromiumFX/cef/Resources/locales/*.*
+/Tests/ChromiumFX/ChromiumFX.TestInfra/cef/Resources/*.*
+/Tests/ChromiumFX/ChromiumFX.TestInfra/cef/Resources/*.*
+/Tests/ChromiumFX/ChromiumFX.TestInfra/cef/Resources/locales/*.*

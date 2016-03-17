@@ -30,9 +30,9 @@ namespace IntegratedTest.Tests.WPF
 
         protected abstract T GetNewHTMLControlBase(bool iDebug);
 
-        private class HTMLControlBase_Handler<T> 
+        private class HTMLControlBase_Handler<Thandler> 
         {
-            public T Handler { get; set; }
+            public Thandler Handler { get; set; }
         }
 
         private WindowTest InitTest(HTMLControlBase_Handler<T> handler, bool iDebug = false, bool iManageLifeCycle = true) 

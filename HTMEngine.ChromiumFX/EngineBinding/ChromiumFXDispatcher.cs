@@ -7,10 +7,16 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 {
     public class ChromiumFXDispatcher : IDispatcher 
     {
-        private readonly CfrTaskRunner _TaskRunner;
-        public ChromiumFXDispatcher(CfrTaskRunner taskRunner) 
+        private readonly CfrV8Context _Context;
+
+        private CfrTaskRunner TaskRunner 
         {
-            _TaskRunner = taskRunner;
+            get { return _Context.TaskRunner; }
+        }
+
+        public ChromiumFXDispatcher(CfrV8Context context) 
+        {
+            _Context = context;
         }
 
         public Task RunAsync(Action act) 
@@ -39,25 +45,47 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return EvaluateAsync(compute).Result;
         }
 
-        private static Action ToTaskAction(Action perform, TaskCompletionSource<int> taskCompletionSource) 
+        private Action ToTaskAction(Action perform, TaskCompletionSource<int> taskCompletionSource) 
         {
             return ToTaskAction( () => { perform(); return 0; } , taskCompletionSource);
         }
 
-        private static Action ToTaskAction<T>(Func<T> perform, TaskCompletionSource<T> taskCompletionSource) 
+        private Action ToTaskAction<T>(Func<T> perform, TaskCompletionSource<T> taskCompletionSource) 
         {
             Action result = () => 
             {
-                try 
+                using (GetContext())
                 {
-                    taskCompletionSource.TrySetResult(perform());
-                }
-                catch (Exception exception) 
-                {
-                    taskCompletionSource.TrySetException(exception);
+                    try 
+                    {
+                        taskCompletionSource.TrySetResult(perform());
+                    }
+                    catch (Exception exception) 
+                    {
+                        taskCompletionSource.TrySetException(exception);
+                    }
                 }
             };
             return result;
+        }
+
+        private IDisposable GetContext() 
+        {
+            return new ChromiumFXContext(_Context);
+        }
+
+        private class ChromiumFXContext : IDisposable 
+        {
+            private readonly CfrV8Context _Context;
+            public ChromiumFXContext(CfrV8Context context) 
+            {
+                _Context = context;
+                _Context.Enter();
+            }
+            public void Dispose() 
+            {
+                _Context.Exit();
+            }
         }
 
         private static CfrTask GetTask(Action perform) 
@@ -69,14 +97,14 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private void RunInContext(Action action) 
         {
-            if (_TaskRunner.BelongsToCurrentThread()) 
+            if (TaskRunner.BelongsToCurrentThread()) 
             {
                 action();
                 return;
             }
 
             var task = GetTask(action);
-            _TaskRunner.PostTask(task);
+            TaskRunner.PostTask(task);
         }
     }
 }

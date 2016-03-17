@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApplicationExamples", "ApplicationExamples", "{0F0F34BE-CD06-4C13-967D-BB0760617486}"
 EndProject
@@ -81,6 +81,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Awesomium.Window.Integrated.Tests", "Tests\Awesomium\MVVM.Awesomium.Window.Integrated.Tests\MVVM.Awesomium.Window.Integrated.Tests.csproj", "{9B6B0D48-C95C-43E5-9A6B-7C06F2B9B03A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMEngine.ChromiumFX", "HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj", "{2A59553C-8513-4839-90FC-51566DCF60DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChromiumFX", "ChromiumFX", "{3C1F3260-722C-4C57-93F6-DB044D7E73E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromiumFX.TestInfra", "Tests\ChromiumFX\ChromiumFX.TestInfra\ChromiumFX.TestInfra.csproj", "{A82D4195-0F75-48B3-8E43-5BE90D061C6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromiumFX.Windowless.Integrated.Tests", "Tests\ChromiumFX\ChromiumFX.Windowless.Integrated.Tests\ChromiumFX.Windowless.Integrated.Tests.csproj", "{072FFCC6-6840-4E6C-B314-07F3219409F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -473,6 +479,30 @@ Global
 		{2A59553C-8513-4839-90FC-51566DCF60DD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2A59553C-8513-4839-90FC-51566DCF60DD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2A59553C-8513-4839-90FC-51566DCF60DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Debug|x86.Build.0 = Debug|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Release|x86.ActiveCfg = Release|Any CPU
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C}.Release|x86.Build.0 = Release|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Debug|x86.Build.0 = Debug|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Release|x86.ActiveCfg = Release|Any CPU
+		{072FFCC6-6840-4E6C-B314-07F3219409F3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -505,6 +535,9 @@ Global
 		{BFC27821-7224-4E5B-9263-4E942285567B} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{D0499D75-A2B5-4B0F-8280-C916CEA84EF5} = {4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0}
 		{9B6B0D48-C95C-43E5-9A6B-7C06F2B9B03A} = {32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}
+		{3C1F3260-722C-4C57-93F6-DB044D7E73E4} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
+		{A82D4195-0F75-48B3-8E43-5BE90D061C6C} = {3C1F3260-722C-4C57-93F6-DB044D7E73E4}
+		{072FFCC6-6840-4E6C-B314-07F3219409F3} = {3C1F3260-722C-4C57-93F6-DB044D7E73E4}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

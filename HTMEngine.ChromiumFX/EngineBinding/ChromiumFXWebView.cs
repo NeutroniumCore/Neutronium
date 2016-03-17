@@ -17,8 +17,9 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         public ChromiumFXWebView(CfrFrame cfrFrame)
         {
             _CfrFrame = cfrFrame;
-            _Dispatcher = new ChromiumFXDispatcher(V8Context.TaskRunner);
+            _Dispatcher = new ChromiumFXDispatcher(V8Context);
             Converter = new ChromiumFXConverter(V8Context);
+            Factory = new ChromiumFXFactory(V8Context);
         }
 
         private CfrV8Context V8Context

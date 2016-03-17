@@ -14,11 +14,6 @@ namespace CefGlue.TestInfra.CefWindowless
             _CefFrame = iFrame;
         }
 
-        public CefFrame MainFrame
-        {
-            get { return _CefFrame; }
-        }
-
         public bool IsLoaded
         {
             get { return true; }
@@ -48,7 +43,6 @@ namespace CefGlue.TestInfra.CefWindowless
         {
             add { } remove { }
         }
-
 
         public event EventHandler<BrowserCrashedArgs> Crashed
         {

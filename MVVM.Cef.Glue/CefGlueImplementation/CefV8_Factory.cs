@@ -27,12 +27,11 @@ namespace MVVM.Cef.Glue
             Register<Int32>(CefV8Value.CreateInt);
             Register<Int16>((source) => CefV8Value.CreateInt((int)source));
 
-            Register<UInt32>((source) => CefV8Value.CreateUInt(source));
+            Register<UInt32>(CefV8Value.CreateUInt);
             Register<UInt16>((source) => CefV8Value.CreateUInt((UInt32)source));
 
             //check two way and convertion back
             Register<char>((source) => CefV8Value.CreateString(new StringBuilder().Append(source).ToString()));
-
             Register<double>(CefV8Value.CreateDouble);
             Register<decimal>((source) => CefV8Value.CreateDouble((double)source));
             Register<bool>(CefV8Value.CreateBool);
@@ -52,7 +51,7 @@ namespace MVVM.Cef.Glue
 
         public bool CreateBasic(object ifrom, out IJavascriptObject res)
         {
-            Func<object, CefV8Value> conv = null;
+            Func<object, CefV8Value> conv;
             if (!_Converters.TryGetValue(ifrom.GetType(), out conv))
             {
                 res = null;
@@ -109,8 +108,8 @@ namespace MVVM.Cef.Glue
         public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCollection)
         {
             var col = iCollection.ToList();
-            var res = CefV8Value.CreateArray(col.Count());
-            ((IEnumerable<IJavascriptObject>)col).ForEach((el, i) => res.SetValue(i, el.Convert()));
+            var res = CefV8Value.CreateArray(col.Count);
+            col.ForEach((el, i) => res.SetValue(i, el.Convert()));
             return UpdateObject(res);
         }
 
@@ -137,10 +136,9 @@ namespace MVVM.Cef.Glue
 
         public IJavascriptObject CreateObject(string iCreationCode)
         {
-
             return _CefV8_WebView.Evaluate(() =>
             {
-                IJavascriptObject res = null;
+                IJavascriptObject res;
 
                 _CefV8_WebView.Eval(iCreationCode, out res);
 
