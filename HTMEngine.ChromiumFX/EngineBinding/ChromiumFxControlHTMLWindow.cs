@@ -1,5 +1,6 @@
 ﻿using System;
 using Chromium.Event;
+using Chromium.Remote;
 using Chromium.Remote.Event;
 using Chromium.WebBrowser;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
@@ -10,6 +11,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     public class ChromiumFxControlHTMLWindow : IHTMLModernWindow
     {
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
+        private CfrBrowser _WebBrowser;
 
         public IWebView MainFrame { get; private set; }
 
@@ -29,7 +31,13 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             _ChromiumWebBrowser.LoadHandler.OnLoadEnd += OnLoadEnd;
             _ChromiumWebBrowser.DisplayHandler.OnConsoleMessage += OnConsoleMessage;
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
+            _ChromiumWebBrowser.RemoteBrowserCreated += OnChromiumWebBrowser_RemoteBrowserCreated;
             //_ChromiumWebBrowser.BrowserCreated += OnBrowserCreated;
+        }
+
+        private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, Chromium.WebBrowser.Event.RemoteBrowserCreatedEventArgs e) 
+        {
+            _WebBrowser = e.Browser;
         }
 
         //private void OnBrowserCreated(object sender, BrowserCreatedEventArgs e)
