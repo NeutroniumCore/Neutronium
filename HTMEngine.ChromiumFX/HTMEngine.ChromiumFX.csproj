@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,24 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChromiumFX, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
@@ -61,6 +80,9 @@
     <Compile Include="ChromiumFXWPFWebWindowFactory.cs" />
     <Compile Include="Convertion\CfrV8HandlerGHelper.cs" />
     <Compile Include="Convertion\ChromiumFXWebViewExtension.cs" />
+    <Compile Include="EngineBinding\ChromiumFXFactory.cs" />
+    <Compile Include="EngineBinding\ChromiumFXConverter.cs" />
+    <Compile Include="EngineBinding\ChromiumFXDispatcher.cs" />
     <Compile Include="EngineBinding\ChromiumFxControlHTMLWindow.cs" />
     <Compile Include="EngineBinding\ChromiumFXWebView.cs" />
     <Compile Include="EngineBinding\ChromiumFXWPFWindow.cs" />
@@ -81,6 +103,12 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="WPF\ChromiumFxControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="cef\Release\cef_sandbox.lib">
@@ -116,165 +144,59 @@
     <None Include="cef\Resources\icudtl.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="cef\Resources\locales\am.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ar.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\bg.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\bn.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ca.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\cs.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\da.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\de.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\el.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\en-GB.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\en-US.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\es-419.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\es.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\et.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\fa.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\fi.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\fil.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\fr.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\gu.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\he.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\hi.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\hr.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\hu.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\id.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\it.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ja.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\kn.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ko.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\lt.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\lv.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ml.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\mr.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ms.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\nb.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\nl.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\pl.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\pt-BR.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\pt-PT.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ro.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ru.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\sk.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\sl.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\sr.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\sv.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\sw.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\ta.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\te.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\th.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\tr.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\uk.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\vi.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\zh-CN.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="cef\Resources\locales\zh-TW.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="cef\Resources\locales\am.pak" />
+    <None Include="cef\Resources\locales\ar.pak" />
+    <None Include="cef\Resources\locales\bg.pak" />
+    <None Include="cef\Resources\locales\bn.pak" />
+    <None Include="cef\Resources\locales\ca.pak" />
+    <None Include="cef\Resources\locales\cs.pak" />
+    <None Include="cef\Resources\locales\da.pak" />
+    <None Include="cef\Resources\locales\de.pak" />
+    <None Include="cef\Resources\locales\el.pak" />
+    <None Include="cef\Resources\locales\en-GB.pak" />
+    <None Include="cef\Resources\locales\en-US.pak" />
+    <None Include="cef\Resources\locales\es-419.pak" />
+    <None Include="cef\Resources\locales\es.pak" />
+    <None Include="cef\Resources\locales\et.pak" />
+    <None Include="cef\Resources\locales\fa.pak" />
+    <None Include="cef\Resources\locales\fi.pak" />
+    <None Include="cef\Resources\locales\fil.pak" />
+    <None Include="cef\Resources\locales\fr.pak" />
+    <None Include="cef\Resources\locales\gu.pak" />
+    <None Include="cef\Resources\locales\he.pak" />
+    <None Include="cef\Resources\locales\hi.pak" />
+    <None Include="cef\Resources\locales\hr.pak" />
+    <None Include="cef\Resources\locales\hu.pak" />
+    <None Include="cef\Resources\locales\id.pak" />
+    <None Include="cef\Resources\locales\it.pak" />
+    <None Include="cef\Resources\locales\ja.pak" />
+    <None Include="cef\Resources\locales\kn.pak" />
+    <None Include="cef\Resources\locales\ko.pak" />
+    <None Include="cef\Resources\locales\lt.pak" />
+    <None Include="cef\Resources\locales\lv.pak" />
+    <None Include="cef\Resources\locales\ml.pak" />
+    <None Include="cef\Resources\locales\mr.pak" />
+    <None Include="cef\Resources\locales\ms.pak" />
+    <None Include="cef\Resources\locales\nb.pak" />
+    <None Include="cef\Resources\locales\nl.pak" />
+    <None Include="cef\Resources\locales\pl.pak" />
+    <None Include="cef\Resources\locales\pt-BR.pak" />
+    <None Include="cef\Resources\locales\pt-PT.pak" />
+    <None Include="cef\Resources\locales\ro.pak" />
+    <None Include="cef\Resources\locales\ru.pak" />
+    <None Include="cef\Resources\locales\sk.pak" />
+    <None Include="cef\Resources\locales\sl.pak" />
+    <None Include="cef\Resources\locales\sr.pak" />
+    <None Include="cef\Resources\locales\sv.pak" />
+    <None Include="cef\Resources\locales\sw.pak" />
+    <None Include="cef\Resources\locales\ta.pak" />
+    <None Include="cef\Resources\locales\te.pak" />
+    <None Include="cef\Resources\locales\th.pak" />
+    <None Include="cef\Resources\locales\tr.pak" />
+    <None Include="cef\Resources\locales\uk.pak" />
+    <None Include="cef\Resources\locales\vi.pak" />
+    <None Include="cef\Resources\locales\zh-CN.pak" />
+    <None Include="cef\Resources\locales\zh-TW.pak" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -299,12 +221,6 @@
     <Content Include="cef\Release\wow_helper.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="WPF\ChromiumFxControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" />

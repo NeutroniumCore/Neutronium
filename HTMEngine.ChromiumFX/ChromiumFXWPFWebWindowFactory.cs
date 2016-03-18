@@ -1,4 +1,5 @@
-﻿using Chromium;
+﻿using System;
+using Chromium;
 using HTMEngine.ChromiumFX.EngineBinding;
 using HTMEngine.ChromiumFX.Session;
 using HTML_WPF.Component;
@@ -18,10 +19,11 @@ namespace HTMEngine.ChromiumFX
         }
 
         private ChromiumFXSession _Session;
+        private CfxSettings _Settings;
 
-        public ChromiumFXWPFWebWindowFactory()
+        public ChromiumFXWPFWebWindowFactory(Func<CfxSettings> settingsBuilder = null)
         {
-            _Session = ChromiumFXSession.GetSession();
+            _Session = ChromiumFXSession.GetSession(settingsBuilder);
         }
 
         public IWPFWebWindow Create()
@@ -31,7 +33,7 @@ namespace HTMEngine.ChromiumFX
 
         public int? GetRemoteDebuggingPort()
         {
-            return null;
+            return _Settings.RemoteDebuggingPort;
         }
 
         public void Dispose()

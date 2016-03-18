@@ -11,7 +11,7 @@
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
         <WindowsFormsHost VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <ChromiumFXWebBrowser:ChromiumWebBrowser Dock="Fill" />
+            <ChromiumFXWebBrowser:ChromiumWebBrowser x:Name="ChromiumWebBrowser" Dock="Fill" />
         </WindowsFormsHost>
     </Grid>
 </UserControl>
