@@ -32,7 +32,13 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             _ChromiumWebBrowser.DisplayHandler.OnConsoleMessage += OnConsoleMessage;
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
             _ChromiumWebBrowser.RemoteBrowserCreated += OnChromiumWebBrowser_RemoteBrowserCreated;
+            _ChromiumWebBrowser.ContextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
             //_ChromiumWebBrowser.BrowserCreated += OnBrowserCreated;
+        }
+
+        private void OnBeforeContextMenu(object sender, CfxOnBeforeContextMenuEventArgs e) 
+        {
+            e.Model.Clear();
         }
 
         private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, Chromium.WebBrowser.Event.RemoteBrowserCreatedEventArgs e) 
