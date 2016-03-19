@@ -20,17 +20,14 @@ namespace ChromiumFX.TestInfra
         private readonly WpfThread _WpfThread;
         private CfxClient _CfxClient;
         private CfrFrame _CfrFrame;
-        private readonly Task<RenderProcessHandler> _RenderProcessHandler;
+        private readonly Task<Tuple<RenderProcessHandler, CfrApp>> _RenderProcessHandler;
         private CfrBrowser _CfrBrowser;
-        private CfxWindowInfo _CfxWindowInfo;
-
-        private CfxFrame _CfxFrame;
-        private CfxBrowser _CfxBrowser;
+        private CfrApp _CfrApp;
 
         public HTMLViewEngine ViewEngine { get; private set;  }
         public IWebView WebView { get; private set; }
 
-        public ChromiumFXWindowlessJavascriptEngine(WpfThread wpfThread, Task<RenderProcessHandler> renderProcessHandler, IJavascriptUIFrameworkManager frameWork) 
+        public ChromiumFXWindowlessJavascriptEngine(WpfThread wpfThread, Task<Tuple<RenderProcessHandler, CfrApp>> renderProcessHandler, IJavascriptUIFrameworkManager frameWork) 
         {
             _FrameWork = frameWork;
             _RenderProcessHandler = renderProcessHandler;
@@ -48,7 +45,8 @@ namespace ChromiumFX.TestInfra
         {
             var taskload = _WpfThread.Dispatcher.Invoke(() => RawInit(path));
             var processehandler = await _RenderProcessHandler;
-            WebView = await GetFrame(processehandler);
+            WebView = await GetFrame(processehandler.Item1);
+            _CfrApp = processehandler.Item2;
             await taskload;
 
             ViewEngine = new HTMLViewEngine(new ChromiumFXHTMLWindowProvider(WebView, new Uri(path)), _FrameWork);
@@ -74,16 +72,16 @@ namespace ChromiumFX.TestInfra
         private Task RawInit(string path) 
         {  
             var loadTaskCompletionSource = new TaskCompletionSource<int>();
-            _CfxWindowInfo = new CfxWindowInfo();
-            _CfxWindowInfo.SetAsWindowless(true);
+            var cfxWindowInfo = new CfxWindowInfo();
+            cfxWindowInfo.SetAsWindowless(true);
 
             _CfxClient = new CfxClient();
 
             var loadHandler = new CfxLoadHandler();
             loadHandler.OnLoadEnd += (sender, args) => 
             {
-                _CfxFrame = args.Frame;
-                _CfxBrowser = args.Browser;
+                //_CfxFrame = args.Frame;
+                //_CfxBrowser = args.Browser;
                 loadTaskCompletionSource.TrySetResult(0);
             };
             _CfxClient.GetLoadHandler += (o, e) => e.SetReturnValue(loadHandler); 
@@ -94,9 +92,7 @@ namespace ChromiumFX.TestInfra
             var renderHandler = new CfxRenderHandler();
             _CfxClient.GetRenderHandler += (sender, e) => e.SetReturnValue(renderHandler);
 
-            //var cfxRequestContext = CfxRequestContext.GetGlobalContext();
-
-            if (!CfxBrowserHost.CreateBrowser(_CfxWindowInfo, _CfxClient, path, GetSettings(), null))
+            if (!CfxBrowserHost.CreateBrowser(cfxWindowInfo, _CfxClient, path, GetSettings(), null))
                 throw new Exception("Problem initializing CEF");
 
             return loadTaskCompletionSource.Task;
@@ -105,12 +101,8 @@ namespace ChromiumFX.TestInfra
         public void Dispose() 
         {
             _CfrFrame.Dispose();
-            _CfxClient.Dispose();
             _CfrBrowser.Dispose();
-            _CfxWindowInfo.Dispose();
-
-            _CfxFrame.Dispose();
-            _CfxBrowser.Dispose();
+            _CfrApp.Dispose();
         }
     }
 }
