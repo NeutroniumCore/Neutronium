@@ -62,7 +62,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
             if (value.IsDate) 
             {
-                res = value.DateValue;
+                res = value.DateValue.ToUniversalTime(value.DateValue);
                 return true;
             }
 

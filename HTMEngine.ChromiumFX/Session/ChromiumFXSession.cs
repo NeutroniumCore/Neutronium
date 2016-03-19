@@ -35,9 +35,10 @@ namespace HTMEngine.ChromiumFX.Session
                 return;
             
             settings.SingleProcess = _Settings.SingleProcess;
+            //settings.MultiThreadedMessageLoop = _Settings.MultiThreadedMessageLoop;
             settings.UserDataPath = _Settings.UserDataPath;
             settings.RemoteDebuggingPort = _Settings.RemoteDebuggingPort;
-            settings.ResourcesDirPath = _Settings.ResourcesDirPath;
+            //settings.ResourcesDirPath = _Settings.ResourcesDirPath?? settings.ResourcesDirPath;
             settings.WindowlessRenderingEnabled = _Settings.WindowlessRenderingEnabled;
             settings.BrowserSubprocessPath = _Settings.BrowserSubprocessPath;
         }

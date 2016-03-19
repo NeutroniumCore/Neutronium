@@ -8,23 +8,26 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 {
     internal class ChromiumFXWebView : IWebView
     {
+        private readonly CfrBrowser _Browser;
         private readonly CfrFrame _CfrFrame;
-        private readonly ChromiumFXDispatcher _Dispatcher;
+        private readonly ChromiumFXDispatcher _Dispatcher;    
 
         public IJavascriptObjectConverter Converter { get; private set; }
         public IJavascriptObjectFactory Factory { get; private set; }
 
-        public ChromiumFXWebView(CfrFrame cfrFrame)
+        public ChromiumFXWebView(CfrBrowser cfrbrowser) 
         {
-            _CfrFrame = cfrFrame;
-            _Dispatcher = new ChromiumFXDispatcher(V8Context);
+            _Browser = cfrbrowser;
+            _CfrFrame = _Browser.MainFrame;
+            V8Context = _CfrFrame.V8Context;
+            _Dispatcher = new ChromiumFXDispatcher(_Browser, V8Context);
             Converter = new ChromiumFXConverter(V8Context);
             Factory = new ChromiumFXFactory(V8Context);
         }
 
         private CfrV8Context V8Context
         {
-            get { return _CfrFrame.V8Context; }
+            set; get;
         }
 
         internal CfrFrame GetRaw()

@@ -1,5 +1,6 @@
 ﻿using System;
 using Chromium;
+using Chromium.WebBrowser;
 using HTMEngine.ChromiumFX.EngineBinding;
 using HTMEngine.ChromiumFX.Session;
 using HTML_WPF.Component;
@@ -24,6 +25,11 @@ namespace HTMEngine.ChromiumFX
         public ChromiumFXWPFWebWindowFactory(Func<CfxSettings> settingsBuilder = null)
         {
             _Session = ChromiumFXSession.GetSession(settingsBuilder);
+        }
+
+        public CfxBrowserSettings BrtowserSettings 
+        {
+            get { return ChromiumWebBrowser.DefaultBrowserSettings; }
         }
 
         public IWPFWebWindow Create()

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using Chromium;
-using HTMEngine.ChromiumFX;
+using Chromium.Remote;
+using ChromiumFX.TestInfra.Helper;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
 using KnockoutUIFramework.Test.IntegratedInfra;
@@ -13,7 +16,8 @@ namespace ChromiumFX.TestInfra
     {
         private bool _Runing = false;
         private readonly WpfThread _WpfThread;
-        private ChromiumFXWPFWebWindowFactory _ChromiumFXWPFWebWindowFactory;
+        private RenderProcessHandler _RenderProcessHandler;
+        private TaskCompletionSource<RenderProcessHandler>  _TaskRenderProcessHandler;
 
         public ChromiumFXWindowLessHTMLEngineProvider() 
         {
@@ -33,22 +37,49 @@ namespace ChromiumFX.TestInfra
 
             _Runing = true;
             _WpfThread.Dispatcher.Invoke(Initialize);
-            _WpfThread.OnThreadEnded += (o, e) => _ChromiumFXWPFWebWindowFactory.Dispose();
+            _WpfThread.OnThreadEnded += (o, e) => CfxRuntime.Shutdown();
         }
 
         private void Initialize() 
         {
-            Func<CfxSettings> settings = () => new CfxSettings {
-                SingleProcess = true,
+            CfxRuntime.LibCefDirPath = @"cef\Release";
+            int retval = CfxRuntime.ExecuteProcess();
+
+            var app = new CfxApp();
+            var processHandler = new CfxBrowserProcessHandler();
+            app.GetBrowserProcessHandler += (sender, e) => e.SetReturnValue(processHandler);
+
+            var path = Path.Combine(GetType().Assembly.GetPath(), "ChromiumFXRenderProcess.exe");
+
+            var settings = new CfxSettings {
+                SingleProcess = false,
+                BrowserSubprocessPath = path,
                 WindowlessRenderingEnabled = true,
-                RemoteDebuggingPort = 9090
+                RemoteDebuggingPort = 9090,
+                MultiThreadedMessageLoop = true,
+                NoSandbox = true,
+                LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales"),
+                ResourcesDirPath = System.IO.Path.GetFullPath(@"cef\Resources")
             };
 
-            _ChromiumFXWPFWebWindowFactory = new ChromiumFXWPFWebWindowFactory(settings);
+            if (!CfxRuntime.Initialize(settings, app, RenderProcessStartup))
+                throw new Exception("Failed to initialize CEF library.");
+
+        }
+
+        internal int RenderProcessStartup() 
+        {
+            var remoteProcessId = CfxRemoteCallContext.CurrentContext.ProcessId;
+            var app = new CfrApp();
+            _RenderProcessHandler = new RenderProcessHandler();
+            app.GetRenderProcessHandler += (s, e) => e.SetReturnValue(_RenderProcessHandler);
+            _TaskRenderProcessHandler.TrySetResult(_RenderProcessHandler);
+            return CfrRuntime.ExecuteProcess(app);
         }
 
         public WindowlessTestEnvironment GetWindowlessEnvironment() 
         {
+
             return new WindowlessTestEnvironment() 
             {
                 WindowlessJavascriptEngineBuilder = (frameWork) => CreateWindowlessJavascriptEngine(frameWork),
@@ -60,7 +91,8 @@ namespace ChromiumFX.TestInfra
         private IWindowlessJavascriptEngine CreateWindowlessJavascriptEngine(IJavascriptUIFrameworkManager frameWork) 
         {
             Init();
-            return new ChromiumFXWindowlessJavascriptEngine(_WpfThread, frameWork);
+            _TaskRenderProcessHandler = new TaskCompletionSource<RenderProcessHandler>();
+            return new ChromiumFXWindowlessJavascriptEngine(_WpfThread, _TaskRenderProcessHandler.Task, frameWork);
         }
     }
 }

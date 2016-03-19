@@ -18,9 +18,9 @@ namespace CefGlue.TestInfra.CefWindowless
             _TestDisplayHandler = new TestDisplayHandler();
         }
 
-        internal Task<CefBrowser> GetLoadedBroserAsync()
+        internal Task<CefBrowser> GetLoadedBrowserAsync()
         {
-            return _TestCefLoadHandler.GetLoadedBroserAsync();
+            return _TestCefLoadHandler.GetLoadedBrowserAsync();
         }
         
         protected override CefLoadHandler GetLoadHandler()

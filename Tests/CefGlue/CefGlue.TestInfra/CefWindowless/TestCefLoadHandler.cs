@@ -12,7 +12,7 @@ namespace CefGlue.TestInfra.CefWindowless
             _LoadEnded.TrySetResult(browser);
         }
 
-        internal Task<CefBrowser> GetLoadedBroserAsync()
+        internal Task<CefBrowser> GetLoadedBrowserAsync()
         {
             return _LoadEnded.Task;
         }

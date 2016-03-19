@@ -194,3 +194,6 @@ FakesAssemblies/
 /Tests/ChromiumFX/ChromiumFX.Windowless.Integrated.Tests/cef/Resources/*.*
 /Tests/ChromiumFX/ChromiumFX.Windowless.Integrated.Tests/cef/Resources/*.*
 /Tests/ChromiumFX/ChromiumFX.Windowless.Integrated.Tests/cef/Resources/locales/*.*
+/Tests/ChromiumFX/ChromiumFXRenderProcess/cef/Resources/*.*
+/Tests/ChromiumFX/ChromiumFXRenderProcess/cef/Resources/*.*
+/Tests/ChromiumFX/ChromiumFXRenderProcess/cef/Resources/locales/*.*

@@ -53,7 +53,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private void OnV8ContextCreated(object sender, CfrOnContextCreatedEventArgs e)
         {
-            MainFrame = new ChromiumFXWebView(e.Browser.MainFrame);
+            MainFrame = new ChromiumFXWebView(e.Browser);
             var beforeJavascriptExecuted = BeforeJavascriptExecuted;
             if (beforeJavascriptExecuted == null) 
                 return;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Chromium;
 using Chromium.Remote;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
@@ -8,15 +9,15 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     public class ChromiumFXDispatcher : IDispatcher 
     {
         private readonly CfrV8Context _Context;
+        private readonly CfrBrowser _Browser;
 
-        private CfrTaskRunner TaskRunner 
-        {
-            get { return _Context.TaskRunner; }
-        }
+        private CfrTaskRunner TaskRunner { get; set; }
 
-        public ChromiumFXDispatcher(CfrV8Context context) 
+        public ChromiumFXDispatcher(CfrBrowser browser, CfrV8Context context) 
         {
+            _Browser = browser;
             _Context = context;
+            TaskRunner = _Context.TaskRunner;
         }
 
         public Task RunAsync(Action act) 
@@ -88,6 +89,29 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             }
         }
 
+        private IDisposable GetRemoteContext() 
+        {
+            return new ChromiumFXCRemoteContext(_Browser);
+        }
+
+        private class ChromiumFXCRemoteContext : IDisposable 
+        {
+            private readonly CfxRemoteCallContext _CfxRemoteCallContext;
+            public ChromiumFXCRemoteContext(CfrBrowser browser) 
+            {
+                if (CfxRemoteCallContext.IsInContext)
+                    return;
+
+                _CfxRemoteCallContext = browser.CreateRemoteCallContext();
+                _CfxRemoteCallContext.Enter();
+            }
+            public void Dispose() 
+            {
+                if (_CfxRemoteCallContext!=null)
+                    _CfxRemoteCallContext.Exit();
+            }
+        }
+
         private static CfrTask GetTask(Action perform) 
         {
             var task = new CfrTask();
@@ -97,14 +121,16 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private void RunInContext(Action action) 
         {
-            if (TaskRunner.BelongsToCurrentThread()) 
+            using (GetRemoteContext()) 
             {
-                action();
-                return;
-            }
+                if (TaskRunner.BelongsToCurrentThread()) {
+                    action();
+                    return;
+                }
 
-            var task = GetTask(action);
-            TaskRunner.PostTask(task);
+                var task = GetTask(action);
+                TaskRunner.PostTask(task);
+            }
         }
     }
 }

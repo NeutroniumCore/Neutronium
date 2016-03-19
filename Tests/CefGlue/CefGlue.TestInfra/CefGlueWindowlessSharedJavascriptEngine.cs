@@ -54,7 +54,7 @@ namespace CefGlue.TestInfra
                 // Start up the browser instance.
                 CefBrowserHost.CreateBrowser(cefWindowInfo, cefClient, cefBrowserSettings, fullpath);
 
-                _CefBrowser = await cefClient.GetLoadedBroserAsync();
+                _CefBrowser = await cefClient.GetLoadedBrowserAsync();
 
                 _CefFrame = _CefBrowser.GetMainFrame();
                 var htmlWindowProvider = new TestCefGlueHTMLWindowProvider(_CefFrame);
