@@ -8,10 +8,10 @@ namespace HTMEngine.ChromiumFX.Session
     internal class ChromiumFXSession : IDisposable
     {
         private static ChromiumFXSession _Session = null;
-        private readonly Func<CfxSettings> _SettingsBuilder;
+        private readonly Action<CfxSettings> _SettingsBuilder;
         private CfxSettings _Settings;
 
-        private ChromiumFXSession(Func<CfxSettings> settingsBuilder) 
+        private ChromiumFXSession(Action<CfxSettings> settingsBuilder) 
         {
             _SettingsBuilder = settingsBuilder;
             CfxRuntime.LibCefDirPath = @"cef\Release";
@@ -23,27 +23,19 @@ namespace HTMEngine.ChromiumFX.Session
         private void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
         {
             var settings = e.Settings;
+         
+            if (_SettingsBuilder != null) 
+            {
+                _SettingsBuilder(settings);
+            }
+
             settings.LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales");
             settings.ResourcesDirPath = System.IO.Path.GetFullPath(@"cef\Resources");
-
-            if (_SettingsBuilder == null)
-                return;
-
-            _Settings = _SettingsBuilder();
-            
-            if (_Settings == null)
-                return;
-            
-            settings.SingleProcess = _Settings.SingleProcess;
-            //settings.MultiThreadedMessageLoop = _Settings.MultiThreadedMessageLoop;
-            settings.UserDataPath = _Settings.UserDataPath;
-            settings.RemoteDebuggingPort = _Settings.RemoteDebuggingPort;
-            //settings.ResourcesDirPath = _Settings.ResourcesDirPath?? settings.ResourcesDirPath;
-            settings.WindowlessRenderingEnabled = _Settings.WindowlessRenderingEnabled;
-            settings.BrowserSubprocessPath = _Settings.BrowserSubprocessPath;
+            settings.BrowserSubprocessPath = System.IO.Path.GetFullPath("ChromiumFXRenderProcess.exe");
+            settings.SingleProcess = false;
         }
 
-        internal static ChromiumFXSession GetSession(Func<CfxSettings> settingsBuilder)
+        internal static ChromiumFXSession GetSession(Action<CfxSettings> settingsBuilder)
         {
             if (_Session != null)
                 return _Session;

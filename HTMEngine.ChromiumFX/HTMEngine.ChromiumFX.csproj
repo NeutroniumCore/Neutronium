@@ -55,6 +55,9 @@
       <HintPath>..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumFX.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ChromiumFXRenderProcess">
+      <HintPath>..\ChromiumFXRenderProcess\bin\Debug\ChromiumFXRenderProcess.exe</HintPath>
+    </Reference>
     <Reference Include="ChromiumWebBrowser, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumWebBrowser.dll</HintPath>
       <Private>True</Private>

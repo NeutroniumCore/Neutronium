@@ -22,7 +22,7 @@ namespace HTMEngine.ChromiumFX
         private ChromiumFXSession _Session;
         private CfxSettings _Settings;
 
-        public ChromiumFXWPFWebWindowFactory(Func<CfxSettings> settingsBuilder = null)
+        public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsBuilder = null)
         {
             _Session = ChromiumFXSession.GetSession(settingsBuilder);
         }
