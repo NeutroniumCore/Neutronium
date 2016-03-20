@@ -35,7 +35,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             Register<double>(CfrV8Value.CreateDouble);
             Register<decimal>((source) => CfrV8Value.CreateDouble((double) source));
             Register<bool>(CfrV8Value.CreateBool);
-            Register<DateTime>((source) => CfrV8Value.CreateDate(CfrTime.FromUniversalTime(source)));
+            Register<DateTime>((source) => CfrV8Value.CreateDate(CfrTime.FromUniversalTime(source.ToUniversalTime())));
         }
 
         private static void Register<T>(Func<T, CfrV8Value> Factory) 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Chromium;
 using Chromium.Remote;
@@ -17,7 +18,7 @@ namespace ChromiumFX.TestInfra
         private bool _Runing = false;
         private readonly WpfThread _WpfThread;
         private RenderProcessHandler _RenderProcessHandler;
-        private TaskCompletionSource<Tuple<RenderProcessHandler,CfrApp>>  _TaskRenderProcessHandler;
+        private TaskCompletionSource<RenderProcessHandler>  _TaskRenderProcessHandler;
         private CfrApp _CfrApp;
 
         public ChromiumFXWindowLessHTMLEngineProvider() 
@@ -72,15 +73,20 @@ namespace ChromiumFX.TestInfra
         {
             var remoteProcessId = CfxRemoteCallContext.CurrentContext.ProcessId;
             _CfrApp = new CfrApp();
-            _RenderProcessHandler = new RenderProcessHandler();
+            _RenderProcessHandler = new RenderProcessHandler(_CfrApp, remoteProcessId);
             _CfrApp.GetRenderProcessHandler += (s, e) => e.SetReturnValue(_RenderProcessHandler);
-            _TaskRenderProcessHandler.TrySetResult(new Tuple<RenderProcessHandler, CfrApp>(_RenderProcessHandler, _CfrApp));
+
+            Task.Run(() => 
+            {
+                Thread.Sleep(20);
+                _TaskRenderProcessHandler.TrySetResult(_RenderProcessHandler);
+            });
+
             return CfrRuntime.ExecuteProcess(_CfrApp);
         }
 
         public WindowlessTestEnvironment GetWindowlessEnvironment() 
         {
-
             return new WindowlessTestEnvironment() 
             {
                 WindowlessJavascriptEngineBuilder = (frameWork) => CreateWindowlessJavascriptEngine(frameWork),
@@ -92,7 +98,7 @@ namespace ChromiumFX.TestInfra
         private IWindowlessJavascriptEngine CreateWindowlessJavascriptEngine(IJavascriptUIFrameworkManager frameWork) 
         {
             Init();
-            _TaskRenderProcessHandler = new TaskCompletionSource<Tuple<RenderProcessHandler, CfrApp>>();
+            _TaskRenderProcessHandler = new TaskCompletionSource<RenderProcessHandler>();
             return new ChromiumFXWindowlessJavascriptEngine(_WpfThread, _TaskRenderProcessHandler.Task, frameWork);
         }
     }

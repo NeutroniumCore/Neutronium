@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="ChromiumFXWindowlessTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test_HTMLBinding_ChromiumFX.cs" />
     <Compile Include="Test_ConvertToJSO_ChromiumFX.cs" />
   </ItemGroup>
   <ItemGroup>

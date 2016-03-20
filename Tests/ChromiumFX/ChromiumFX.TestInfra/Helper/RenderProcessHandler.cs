@@ -6,8 +6,13 @@ namespace ChromiumFX.TestInfra.Helper
 {
     public class RenderProcessHandler : CfrRenderProcessHandler 
     {
-        internal RenderProcessHandler()
+        public CfrApp App { get; private set; }
+        public int ProcessId { get; private set; }
+
+        internal RenderProcessHandler(CfrApp app, int processId) 
         {
+            App = app;
+            ProcessId = processId;
             this.OnContextCreated += RenderProcessHandler_OnContextCreated;
             this.OnBrowserCreated += RenderProcessHandler_OnBrowserCreated;
         }

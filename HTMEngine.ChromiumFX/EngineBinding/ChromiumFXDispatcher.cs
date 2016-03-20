@@ -55,7 +55,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             Action result = () => 
             {
-                using (GetContext())
+                using (var ctx = GetContext())
                 {
                     try 
                     {
@@ -121,7 +121,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private void RunInContext(Action action) 
         {
-            using (GetRemoteContext()) 
+            using (var ctx = GetRemoteContext()) 
             {
                 if (TaskRunner.BelongsToCurrentThread()) {
                     action();

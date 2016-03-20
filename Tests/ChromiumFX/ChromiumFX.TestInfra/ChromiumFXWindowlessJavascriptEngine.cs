@@ -20,14 +20,14 @@ namespace ChromiumFX.TestInfra
         private readonly WpfThread _WpfThread;
         private CfxClient _CfxClient;
         private CfrFrame _CfrFrame;
-        private readonly Task<Tuple<RenderProcessHandler, CfrApp>> _RenderProcessHandler;
+        private readonly Task<RenderProcessHandler> _RenderProcessHandler;
         private CfrBrowser _CfrBrowser;
         private CfrApp _CfrApp;
 
         public HTMLViewEngine ViewEngine { get; private set;  }
         public IWebView WebView { get; private set; }
 
-        public ChromiumFXWindowlessJavascriptEngine(WpfThread wpfThread, Task<Tuple<RenderProcessHandler, CfrApp>> renderProcessHandler, IJavascriptUIFrameworkManager frameWork) 
+        public ChromiumFXWindowlessJavascriptEngine(WpfThread wpfThread, Task<RenderProcessHandler> renderProcessHandler, IJavascriptUIFrameworkManager frameWork) 
         {
             _FrameWork = frameWork;
             _RenderProcessHandler = renderProcessHandler;
@@ -45,8 +45,8 @@ namespace ChromiumFX.TestInfra
         {
             var taskload = _WpfThread.Dispatcher.Invoke(() => RawInit(path));
             var processehandler = await _RenderProcessHandler;
-            WebView = await GetFrame(processehandler.Item1);
-            _CfrApp = processehandler.Item2;
+            WebView = await GetFrame(processehandler);
+            _CfrApp = processehandler.App;
             await taskload;
 
             ViewEngine = new HTMLViewEngine(new ChromiumFXHTMLWindowProvider(WebView, new Uri(path)), _FrameWork);

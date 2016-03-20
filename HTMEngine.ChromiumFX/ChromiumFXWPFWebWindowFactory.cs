@@ -19,7 +19,7 @@ namespace HTMEngine.ChromiumFX
             get { return "ChromiumFX V.0.0.1"; }
         }
 
-        private ChromiumFXSession _Session;
+        private readonly ChromiumFXSession _Session;
         private CfxSettings _Settings;
 
         public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsBuilder = null)

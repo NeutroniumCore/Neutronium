@@ -13,7 +13,7 @@ namespace HTMEngine.ChromiumFX.V8Object
         private readonly CfrV8Value _CfrV8Value;
         public ChromiumFXJavascriptObject(CfrV8Value cfrV8Value) 
         {
-            _CfrV8Value = cfrV8Value;
+            _CfrV8Value = cfrV8Value?? CfrV8Value.CreateUndefined();
         }
 
         internal CfrV8Value GetRaw() 
@@ -77,6 +77,8 @@ namespace HTMEngine.ChromiumFX.V8Object
         public IJavascriptObject Invoke(string functionName, IWebView context, params IJavascriptObject[] parameters) 
         {
             var function = _CfrV8Value.GetValue(functionName);
+            if (function.IsUndefined)
+                return CfrV8Value.CreateUndefined().Convert();
             return function.ExecuteFunctionWithContext(context.Convert().V8Context, _CfrV8Value, parameters.Convert()).Convert();
         }
 
@@ -139,7 +141,7 @@ namespace HTMEngine.ChromiumFX.V8Object
         public IJavascriptObject[] GetArrayElements() 
         {
             if (!_CfrV8Value.IsArray)
-                return null;
+                throw new ArgumentException();
 
             var length = _CfrV8Value.ArrayLength;
             return Enumerable.Range(0, length).Select(_CfrV8Value.GetValue).Convert();
