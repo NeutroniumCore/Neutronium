@@ -6,10 +6,10 @@ namespace MVVM.Awesomium.Tests
 {
     internal class AwesomiumTestHTMLWindow : IHTMLWindow
     {
-        internal AwesomiumTestHTMLWindow(IWebView webView, string path)
+        internal AwesomiumTestHTMLWindow(IWebView webView, Uri path)
         {
             MainFrame = webView;
-            Url = new Uri(path);
+            Url = path;
         }
 
         public IWebView MainFrame

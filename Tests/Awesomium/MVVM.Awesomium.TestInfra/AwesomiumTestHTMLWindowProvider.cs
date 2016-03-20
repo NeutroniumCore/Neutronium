@@ -1,4 +1,5 @@
-﻿using IntegratedTest.Infra.Windowless;
+﻿using System;
+using IntegratedTest.Infra.Windowless;
 using MVVM.Awesomium.Tests;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
@@ -8,7 +9,7 @@ namespace MVVM.Awesomium.TestInfra
 {
     internal class AwesomiumTestHTMLWindowProvider : IHTMLWindowProvider
     {
-        internal AwesomiumTestHTMLWindowProvider(IWebView webView, string path)
+        internal AwesomiumTestHTMLWindowProvider(IWebView webView, Uri path)
         {
             HTMLWindow = new AwesomiumTestHTMLWindow(webView, path);
         }
