@@ -66,28 +66,33 @@ namespace IntegratedTest.Infra.Windowless
 
         protected async Task RunAsync(TestInContext test)
         {
-            using (Tester(test.Path))
-            _Output.WriteLine("Begin Binding");
-            using (var mb = await test.Bind(_ICefGlueWindow))
+            using (Tester(test.Path)) 
             {
-                _Output.WriteLine("End Binding");
-                _Output.WriteLine("Begin Test");
-                await RunInContext(() => test.Test(mb));
-                _Output.WriteLine("End Test");
+                _Output.WriteLine("Begin Binding");
+                using (var mb = await test.Bind(_ICefGlueWindow))
+                {
+                    _Output.WriteLine("End Binding");
+                    _Output.WriteLine("Begin Test");
+                    await RunInContext(() => test.Test(mb));
+                    _Output.WriteLine("End Test");
+                }
             }
+         
         }
 
         protected async Task RunAsync(TestInContextAsync test) 
-        {
-            _Output.WriteLine("Begin Binding");
-            using (Tester(test.Path))          
-            using (var mb = await test.Bind(_ICefGlueWindow)) 
+        {            
+            using (Tester(test.Path)) 
             {
-                _Output.WriteLine("End Binding");
-                _Output.WriteLine("Begin Test");
-                await RunInContext(async () => await test.Test(mb));
-                _Output.WriteLine("Ending test");
-            }
+                _Output.WriteLine("Begin Binding");
+                using (var mb = await test.Bind(_ICefGlueWindow)) 
+                {
+                    _Output.WriteLine("End Binding");
+                    _Output.WriteLine("Begin Test");
+                    await RunInContext(async () => await test.Test(mb));
+                    _Output.WriteLine("Ending test");
+                }
+            }            
         }
 
         protected IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
