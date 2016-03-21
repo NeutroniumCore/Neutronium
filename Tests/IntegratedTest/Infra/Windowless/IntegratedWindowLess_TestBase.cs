@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using Xunit.Abstractions;
 
 namespace IntegratedTest.Infra.Windowless
 {
@@ -12,13 +14,15 @@ namespace IntegratedTest.Infra.Windowless
         protected HTMLViewEngine _ICefGlueWindow = null;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private WindowlessTestEnvironment _TestEnvironment;
+        private readonly ITestOutputHelper _Output;
 
         protected IJavascriptObjectConverter Converter { get { return _WebView.Converter; } }
 
         protected IJavascriptObjectFactory Factory { get { return _WebView.Factory; } }
 
-        protected IntegratedWindowLess_TestBase(IWindowLessHTMLEngineProvider testEnvironment)
-        {
+        protected IntegratedWindowLess_TestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+        { 
+            _Output = output;
             _TestEnvironment = testEnvironment.GetWindowlessEnvironment();
         }
 
@@ -63,18 +67,26 @@ namespace IntegratedTest.Infra.Windowless
         protected async Task RunAsync(TestInContext test)
         {
             using (Tester(test.Path))
+            _Output.WriteLine("Begin Binding");
             using (var mb = await test.Bind(_ICefGlueWindow))
             {
+                _Output.WriteLine("End Binding");
+                _Output.WriteLine("Begin Test");
                 await RunInContext(() => test.Test(mb));
+                _Output.WriteLine("End Test");
             }
         }
 
         protected async Task RunAsync(TestInContextAsync test) 
         {
-            using (Tester(test.Path))
+            _Output.WriteLine("Begin Binding");
+            using (Tester(test.Path))          
             using (var mb = await test.Bind(_ICefGlueWindow)) 
             {
+                _Output.WriteLine("End Binding");
+                _Output.WriteLine("Begin Test");
                 await RunInContext(async () => await test.Test(mb));
+                _Output.WriteLine("Ending test");
             }
         }
 

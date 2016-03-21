@@ -3,12 +3,14 @@ using FluentAssertions;
 using IntegratedTest.Infra.Windowless;
 using NSubstitute;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IntegratedTest.Tests.Windowless
 {
     public abstract class Test_WebView_Dispatcher : IntegratedWindowLess_TestBase
     {
-        public Test_WebView_Dispatcher(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
+        public Test_WebView_Dispatcher(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+            : base(testEnvironment, output)
         {
         }
 

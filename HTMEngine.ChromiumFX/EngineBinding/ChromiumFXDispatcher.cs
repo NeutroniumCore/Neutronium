@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Chromium;
 using Chromium.Remote;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using DispatcherSynchronizationContext = MVVM.HTML.Core.Infra.DispatcherSynchronizationContext;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {
@@ -55,6 +57,9 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             Action result = () => 
             {
+                if (SynchronizationContext.Current == null)
+                    SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(this));
+
                 using (var ctx = GetContext())
                 {
                     try 

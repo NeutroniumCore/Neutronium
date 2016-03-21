@@ -24,9 +24,10 @@ namespace CefGlue.TestInfra.CefWindowless
             add { } remove { } 
         }
 
+        private IWebView _IWebView;
         IWebView IHTMLWindow.MainFrame
         {
-            get { return _CefFrame.GetMainContext(); }
+            get { return _IWebView ?? (_IWebView = _CefFrame.GetMainContext()); }
         }
 
         public void NavigateTo(Uri path)

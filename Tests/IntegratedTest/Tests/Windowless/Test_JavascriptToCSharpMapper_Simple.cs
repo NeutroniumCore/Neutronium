@@ -3,13 +3,14 @@ using FluentAssertions;
 using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IntegratedTest.Tests.Windowless
 {
     public abstract class Test_JavascriptToCSharpMapper_Simple : IntegratedWindowLess_TestBase
     {
-        protected Test_JavascriptToCSharpMapper_Simple(IWindowLessHTMLEngineProvider testEnvironment)
-                        : base(testEnvironment)
+        protected Test_JavascriptToCSharpMapper_Simple(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+                        : base(testEnvironment, output)
         {
         }
 

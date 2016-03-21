@@ -9,6 +9,7 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using NSubstitute;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IntegratedTest.Tests.Windowless
 {
@@ -37,7 +38,8 @@ namespace IntegratedTest.Tests.Windowless
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
 
-        public Test_ConvertToJSO(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
+        public Test_ConvertToJSO(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+            : base(testEnvironment, output)
         {
         }
 

@@ -20,6 +20,7 @@ using MVVM.ViewModel.Infra;
 using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IntegratedTest.Tests.Windowless 
 {
@@ -28,7 +29,9 @@ namespace IntegratedTest.Tests.Windowless
         private readonly Person _DataContext;
         private ICommand _ICommand;
 
-        public Test_HTMLBinding(IWindowLessHTMLEngineProvider testEnvironment): base(testEnvironment)
+
+        public Test_HTMLBinding(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+            : base(testEnvironment, output)
         {
             _ICommand = Substitute.For<ICommand>();
             _DataContext = new Person(_ICommand)

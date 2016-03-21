@@ -3,10 +3,10 @@ using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace MVVM.HTML.Core.Infra
 {
-    internal class DispatcherSynchronizationContext: SynchronizationContext
+    public class DispatcherSynchronizationContext: SynchronizationContext
     {
         private readonly IDispatcher _Dispatcher;
-        internal DispatcherSynchronizationContext(IDispatcher dispatcher) 
+        public DispatcherSynchronizationContext(IDispatcher dispatcher) 
         {
             _Dispatcher = dispatcher;
             SetWaitNotificationRequired();
