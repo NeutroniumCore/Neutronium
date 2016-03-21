@@ -23,6 +23,7 @@ namespace ChromiumFX.TestInfra
         private readonly Task<RenderProcessHandler> _RenderProcessHandler;
         private CfrBrowser _CfrBrowser;
         private CfrApp _CfrApp;
+        private CfxBrowser _CfxBrowser;
 
         public HTMLViewEngine ViewEngine { get; private set;  }
         public IWebView WebView { get; private set; }
@@ -81,7 +82,7 @@ namespace ChromiumFX.TestInfra
             loadHandler.OnLoadEnd += (sender, args) => 
             {
                 //_CfxFrame = args.Frame;
-                //_CfxBrowser = args.Browser;
+                _CfxBrowser = args.Browser;
                 loadTaskCompletionSource.TrySetResult(0);
             };
             _CfxClient.GetLoadHandler += (o, e) => e.SetReturnValue(loadHandler); 
@@ -100,6 +101,8 @@ namespace ChromiumFX.TestInfra
 
         public void Dispose() 
         {
+            var browserhost = _CfxBrowser.Host;
+            browserhost.CloseBrowser(true);
             _CfrFrame.Dispose();
             _CfrBrowser.Dispose();
             _CfrApp.Dispose();
