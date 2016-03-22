@@ -1,5 +1,6 @@
 ﻿using System;
-using IntegratedTest.Infra.Windowless;
+using HTML_WPF.Component;
+using IntegratedTest.Infra.Window;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
@@ -22,7 +23,7 @@ namespace ChromiumFX.TestInfra
 
         public IDispatcher UIDispatcher 
         {
-            get { return new TestIUIDispatcher(); }
+            get { return new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher); }
         }
 
         public void Show() 

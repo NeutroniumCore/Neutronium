@@ -66,11 +66,12 @@ namespace IntegratedTest.Infra.Windowless
             return _WebView.RunAsync(act);
         }
 
-        internal async Task RunInContext(Func<Task> act) {
-            await _WebView.RunAsync(() => {
-                if (SynchronizationContext.Current == null)
-                    SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(_WebView));
-            });
+        internal async Task RunInContext(Func<Task> act) 
+        {
+            //await _WebView.RunAsync(() => {
+            //    if (SynchronizationContext.Current == null)
+            //        SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(_WebView));
+            //});
 
             await await _WebView.EvaluateAsync(act);
         }
@@ -100,8 +101,11 @@ namespace IntegratedTest.Infra.Windowless
                 {
                     _Output.WriteLine("End Binding");
                     _Output.WriteLine("Begin Test");
-                    var taskRun =  RunInContext( () => test.Test(mb));
-                    await taskRun;
+                    await  RunInContext(async () => {
+                        //if (SynchronizationContext.Current == null)
+                        //    SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(_WebView));
+                        await test.Test(mb);
+                    });
                     _Output.WriteLine("Ending test");
                 }
             }            

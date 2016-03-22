@@ -2037,7 +2037,7 @@ namespace IntegratedTest.Tests.Windowless
 
                     var col = GetSafe(() => UnWrapCollection(js, "List"));
                     col.GetArrayLength().Should().Be(0);
-
+                    await Task.Delay(200);
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Add("titi");

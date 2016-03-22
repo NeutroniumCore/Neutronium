@@ -1,4 +1,5 @@
-﻿using IntegratedTest;
+﻿using HTML_WPF.Component;
+using IntegratedTest;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
 using KnockoutUIFramework.Test.IntegratedInfra;
@@ -40,7 +41,7 @@ namespace CefGlue.TestInfra
             {
                 WindowlessJavascriptEngineBuilder = (frameWork) => CreateWindowlessJavascriptEngine(frameWork),
                 FrameworkTestContext = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext(),
-                TestUIDispacther = new NullUIDispatcher()
+                TestUIDispacther = new WPFUIDispatcher(_WpfThread.Dispatcher)
             };
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using HTML_WPF.Component;
+using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
 using MVVM.Awesomium.Tests;
 using MVVM.HTML.Core.JavascriptEngine.Control;
@@ -20,7 +22,7 @@ namespace MVVM.Awesomium.TestInfra
 
         public IDispatcher UIDispatcher
         {
-            get { return new TestIUIDispatcher(); }
+            get { return new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher); }
         }
 
         public void Show()

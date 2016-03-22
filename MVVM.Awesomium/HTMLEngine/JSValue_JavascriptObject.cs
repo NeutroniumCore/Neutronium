@@ -82,7 +82,7 @@ namespace MVVM.Awesomium.HTMLEngine
 
         public IJavascriptObject Invoke(string iFunctionName, IWebView context, params IJavascriptObject[] iparam)
         {
-            var res = ((JSObject)_JSValue).Invoke(iFunctionName, iparam.Cast<IJavascriptObject>().Select(c => c.Convert()).ToArray());
+            var res = ((JSObject)_JSValue).Invoke(iFunctionName, iparam.Select(c => c.Convert()).ToArray());
             return res.Convert();
         }
 

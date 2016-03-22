@@ -2,13 +2,12 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Awesomium.Core;
-using IntegratedTest;
 using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.Awesomium.TestInfra
+namespace MVVM.Awesomium.TestInfra 
 {
     internal class AwesomiumWindowlessSharedJavascriptEngine : IWindowlessJavascriptEngine
     {
