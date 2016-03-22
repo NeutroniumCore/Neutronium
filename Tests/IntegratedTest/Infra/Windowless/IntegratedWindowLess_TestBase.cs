@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Xunit.Abstractions;
@@ -64,6 +66,15 @@ namespace IntegratedTest.Infra.Windowless
             return _WebView.RunAsync(act);
         }
 
+        internal async Task RunInContext(Func<Task> act) {
+            await _WebView.RunAsync(() => {
+                if (SynchronizationContext.Current == null)
+                    SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(_WebView));
+            });
+
+            await await _WebView.EvaluateAsync(act);
+        }
+
         protected async Task RunAsync(TestInContext test)
         {
             using (Tester(test.Path)) 
@@ -89,7 +100,8 @@ namespace IntegratedTest.Infra.Windowless
                 {
                     _Output.WriteLine("End Binding");
                     _Output.WriteLine("Begin Test");
-                    await RunInContext(async () => await test.Test(mb));
+                    var taskRun =  RunInContext( () => test.Test(mb));
+                    await taskRun;
                     _Output.WriteLine("Ending test");
                 }
             }            

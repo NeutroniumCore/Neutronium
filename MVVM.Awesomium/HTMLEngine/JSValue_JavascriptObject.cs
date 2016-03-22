@@ -5,7 +5,7 @@ using Awesomium.Core;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using IWebView = MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView;
 
-namespace MVVM.Awesomium
+namespace MVVM.Awesomium.HTMLEngine
 {
     internal class JSValue_JavascriptObject : IJavascriptObject
     {
@@ -23,26 +23,13 @@ namespace MVVM.Awesomium
                 return false;
 
             var jso = (JSObject)_JSValue;
-
-            if (!jso.HasProperty("_MappedId"))
-                return false;
-
-            return jso["_MappedId"].IsInteger;
+            return (jso.RemoteId != 0);
         }
 
         public uint GetID()
         {
-            if (!_JSValue.IsObject)
-                return 0;
-
             JSObject jso = _JSValue;
-
-            if (!jso.HasProperty("_MappedId"))
-                return 0;
-
-            var v = jso["_MappedId"];
-
-            return v.IsInteger ? (uint)v : 0;
+            return jso.RemoteId;
         }
 
         public bool IsUndefined

@@ -1,4 +1,5 @@
 ﻿using Awesomium.Core;
+using MVVM.Awesomium.HTMLEngine;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Awesomium
