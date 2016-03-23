@@ -19,12 +19,12 @@ namespace MVVM.HTML.Core.Infra
 
         public override void Post(SendOrPostCallback d, object state)
         {
-            _Dispatcher.Run(()=>d(state));
+            _Dispatcher.RunAsync(()=>d(state));
         }
 
         public override void Send(SendOrPostCallback d, object state)
         {
-            _Dispatcher.RunAsync(() => d(state));
+            _Dispatcher.Run(() => d(state));
         }
     }
 }

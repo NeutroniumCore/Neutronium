@@ -1625,10 +1625,11 @@ namespace IntegratedTest.Tests.Windowless
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
-                    await Task.Delay(10);
+                   
 
                     while (notok)
                     {
+                        await Task.Delay(10);
                         col = GetSafe(() => UnWrapCollection(js, "Skills"));
                         notok = col.GetArrayLength() != tcount;
                     }

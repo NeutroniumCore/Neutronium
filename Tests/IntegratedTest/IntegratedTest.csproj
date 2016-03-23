@@ -90,6 +90,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infra\Threading\DispatcherContextTaskScheduler.cs" />
+    <Compile Include="Infra\Threading\DispatcherTaskFactory.cs" />
     <Compile Include="Infra\Windowless\IWindowLessHTMLEngineProvider.cs" />
     <Compile Include="JavascriptUIFramework\FrameworkTestContext.cs" />
     <Compile Include="Infra\Windowless\TestInContextAsync.cs" />
