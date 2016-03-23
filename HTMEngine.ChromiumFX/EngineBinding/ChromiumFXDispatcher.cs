@@ -55,7 +55,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             Action result = () => 
             {
-                using (var ctx = GetContext())
+                using (GetContext())
                 {
                     try 
                     {
@@ -92,24 +92,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private IDisposable GetRemoteContext() 
         {
             return new ChromiumFXCRemoteContext(_Browser);
-        }
-
-        private class ChromiumFXCRemoteContext : IDisposable 
-        {
-            private readonly CfxRemoteCallContext _CfxRemoteCallContext;
-            public ChromiumFXCRemoteContext(CfrBrowser browser) 
-            {
-                if (CfxRemoteCallContext.IsInContext)
-                    return;
-
-                _CfxRemoteCallContext = browser.CreateRemoteCallContext();
-                _CfxRemoteCallContext.Enter();
-            }
-            public void Dispose() 
-            {
-                if (_CfxRemoteCallContext!=null)
-                    _CfxRemoteCallContext.Exit();
-            }
         }
 
         private static CfrTask GetTask(Action perform) 

@@ -428,6 +428,60 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
+        public async Task Test_HTMLBinding_TwoWay_UpdateJSFromCSharp() 
+        {
+            _DataContext.MainSkill.Should().BeNull();
+
+            var test = new TestInContextAsync() 
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    var js = mb.JSRootObject;
+
+                    string res = GetStringAttribute(js, "Name");
+                    res.Should().Be("O Monstro");
+
+                    _DataContext.Name = "23";
+
+                    await Task.Delay(50);
+
+                    string res3 = GetStringAttribute(js, "Name");
+                    res3.Should().Be("23");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task Test_HTMLBinding_TwoWay_UpdateCSharpFromJS() 
+        {
+            _DataContext.MainSkill.Should().BeNull();
+
+            var test = new TestInContextAsync() 
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    var js = mb.JSRootObject;
+
+                    string res = GetStringAttribute(js, "Name");
+                    res.Should().Be("O Monstro");
+
+                    this.Call(js, "Name", () => _WebView.Factory.CreateString("23"));
+
+                    await Task.Delay(50);
+
+                    _DataContext.Name.Should().Be("23");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay()
         {
             _DataContext.MainSkill.Should().BeNull();
@@ -477,7 +531,7 @@ namespace IntegratedTest.Tests.Windowless
                       string resName = GetStringAttribute(js, "Name");
                       resName.Should().Be("resName");
 
-                      await Task.Delay(500);
+                      await Task.Delay(150);
 
                       _DataContext.Name.Should().Be("resName");
 

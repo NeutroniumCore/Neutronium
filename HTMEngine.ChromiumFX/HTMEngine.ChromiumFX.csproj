@@ -83,6 +83,7 @@
     <Compile Include="ChromiumFXWPFWebWindowFactory.cs" />
     <Compile Include="Convertion\CfrV8HandlerGHelper.cs" />
     <Compile Include="Convertion\ChromiumFXWebViewExtension.cs" />
+    <Compile Include="EngineBinding\ChromiumFXCRemoteContext.cs" />
     <Compile Include="EngineBinding\ChromiumFXFactory.cs" />
     <Compile Include="EngineBinding\ChromiumFXConverter.cs" />
     <Compile Include="EngineBinding\ChromiumFXDispatcher.cs" />
