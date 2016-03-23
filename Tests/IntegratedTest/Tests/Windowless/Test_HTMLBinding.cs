@@ -357,7 +357,7 @@ namespace IntegratedTest.Tests.Windowless
                           Type = "Info"
                       });
 
-                      await Task.Delay(100);
+                      await Task.Delay(200);
 
                       res = GetAttribute(js, "MainSkill");
                       DoSafe(() => {
@@ -473,6 +473,7 @@ namespace IntegratedTest.Tests.Windowless
                       //Teste Two Way
                       this.Call(js, "Name", () => _WebView.Factory.CreateString("resName"));
 
+                      await Task.Delay(150);
                       string resName = GetStringAttribute(js, "Name");
                       resName.Should().Be("resName");
 
@@ -1015,7 +1016,7 @@ namespace IntegratedTest.Tests.Windowless
 
                     mycommand = GetAttribute(js, "Command");
                     DoSafe(() => Call(mycommand, "Execute", js));
-                    await Task.Delay(100);
+                    await Task.Delay(200);
                     command.Received().Execute(datacontexttest);
                 }
             };

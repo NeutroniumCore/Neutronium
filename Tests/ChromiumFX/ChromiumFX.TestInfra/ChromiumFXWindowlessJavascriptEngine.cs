@@ -2,8 +2,6 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Chromium;
-using Chromium.Remote;
-using ChromiumFX.TestInfra.Helper;
 using HTMEngine.ChromiumFX.EngineBinding;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
@@ -19,19 +17,16 @@ namespace ChromiumFX.TestInfra
         private readonly IJavascriptUIFrameworkManager _FrameWork;
         private readonly WpfThread _WpfThread;
         private CfxClient _CfxClient;
-        private CfrFrame _CfrFrame;
-        private readonly Task<RenderProcessHandler> _RenderProcessHandler;
-        private CfrBrowser _CfrBrowser;
-        private CfrApp _CfrApp;
+        private readonly Task<ChromiumFXWebView> _ChromiumFXWebViewTask;
         private CfxBrowser _CfxBrowser;
 
         public HTMLViewEngine ViewEngine { get; private set;  }
         public IWebView WebView { get; private set; }
 
-        public ChromiumFXWindowlessJavascriptEngine(WpfThread wpfThread, Task<RenderProcessHandler> renderProcessHandler, IJavascriptUIFrameworkManager frameWork) 
+        internal ChromiumFXWindowlessJavascriptEngine(WpfThread wpfThread, Task<ChromiumFXWebView> chromiumFxWebViewTask, IJavascriptUIFrameworkManager frameWork) 
         {
             _FrameWork = frameWork;
-            _RenderProcessHandler = renderProcessHandler;
+            _ChromiumFXWebViewTask = chromiumFxWebViewTask;
             _WpfThread = wpfThread;
         }
 
@@ -44,10 +39,8 @@ namespace ChromiumFX.TestInfra
 
         private async Task InitAsync(string path) 
         {
-            var taskload = _WpfThread.Dispatcher.Invoke(() => RawInit(path));
-            var processehandler = await _RenderProcessHandler;
-            WebView = await GetFrame(processehandler);
-            _CfrApp = processehandler.App;
+            var taskload = _WpfThread.Dispatcher.Invoke(() => RawInit(path));      
+            WebView = await _ChromiumFXWebViewTask;
             await taskload;
 
             ViewEngine = new HTMLViewEngine(new ChromiumFXHTMLWindowProvider(WebView, new Uri(path)), _FrameWork);
@@ -56,18 +49,6 @@ namespace ChromiumFX.TestInfra
         private CfxBrowserSettings GetSettings()
         {
             return new CfxBrowserSettings();
-        }
-
-        private Task<ChromiumFXWebView> GetFrame(RenderProcessHandler renderProcessHandler)
-        {
-            var tcs = new TaskCompletionSource<ChromiumFXWebView>();
-            renderProcessHandler.OnNewFrame += (e) => 
-            {
-                _CfrFrame = e.Frame;
-                _CfrBrowser = e.Browser;
-                tcs.SetResult(new ChromiumFXWebView(_CfrBrowser));
-            };
-            return tcs.Task;
         }
 
         private Task RawInit(string path) 
@@ -81,7 +62,6 @@ namespace ChromiumFX.TestInfra
             var loadHandler = new CfxLoadHandler();
             loadHandler.OnLoadEnd += (sender, args) => 
             {
-                //_CfxFrame = args.Frame;
                 _CfxBrowser = args.Browser;
                 loadTaskCompletionSource.TrySetResult(0);
             };
@@ -103,9 +83,6 @@ namespace ChromiumFX.TestInfra
         {
             var browserhost = _CfxBrowser.Host;
             browserhost.CloseBrowser(true);
-            _CfrFrame.Dispose();
-            _CfrBrowser.Dispose();
-            _CfrApp.Dispose();
         }
     }
 }
