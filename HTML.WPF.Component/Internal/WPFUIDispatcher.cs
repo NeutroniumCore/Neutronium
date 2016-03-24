@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using MVVM.HTML.Core.JavascriptEngine.Window;
@@ -47,6 +48,11 @@ namespace HTML_WPF.Component
             Action Compute = () => res = compute();
             _Dispatcher.Invoke(Compute);
             return res;
+        }
+
+        public bool IsInContext() 
+        {
+            return _Dispatcher.Thread == Thread.CurrentThread;
         }
     }
 }

@@ -50,6 +50,11 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return _Dispatcher.EvaluateAsync(compute);
         }
 
+        public bool IsInContext() 
+        {
+            return _Dispatcher.IsInContext();
+        }
+
         public T Evaluate<T>(Func<T> compute)
         {
             return _Dispatcher.Evaluate(compute);

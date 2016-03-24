@@ -72,6 +72,11 @@ namespace MVVM.Cef.Glue
             return EvaluateAsync(compute).Result;
         }
 
+        public bool IsInContext()
+        {
+            return Runner.BelongsToCurrentThread;
+        }
+
         private class ContextOpener : IDisposable
         {
             private readonly CefV8Context _CefV8Context;

@@ -23,7 +23,7 @@ namespace IntegratedTest.Infra.Threading
         [SecurityCritical]
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued) 
         {
-            return false;
+            return (_Dispatcher.IsInContext() && TryExecuteTask(task));
         }
 
         [SecurityCritical]
@@ -35,11 +35,6 @@ namespace IntegratedTest.Infra.Threading
         public override Int32 MaximumConcurrencyLevel 
         {
             get { return 1; }
-        }
-
-        private void PostCallback(object obj) 
-        {
-            base.TryExecuteTask((Task) obj);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace IntegratedTest.Infra.Windowless
         protected HTMLViewEngine _ICefGlueWindow = null;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private WindowlessTestEnvironment _TestEnvironment;
-        private readonly ITestOutputHelper _Output;
+        protected readonly ITestOutputHelper _Output;
 
         protected IJavascriptObjectConverter Converter { get { return _WebView.Converter; } }
 

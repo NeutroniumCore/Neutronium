@@ -63,5 +63,10 @@ namespace MVVM.Awesomium
         {
             return EvaluateAsync(compute).Result;
         }
+
+        public bool IsInContext() 
+        {
+            return Thread.CurrentThread == AwesomiumWPFWebWindowFactory.WebCoreThread;
+        }
     }
 }

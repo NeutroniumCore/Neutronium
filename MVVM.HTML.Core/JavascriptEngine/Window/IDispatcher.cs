@@ -46,5 +46,10 @@ namespace MVVM.HTML.Core.JavascriptEngine.Window
         /// Function to be executed
         /// </param>
         T Evaluate<T>(Func<T> compute);
+
+        /// <summary>
+        /// True if current thread is the dispacther thread
+        /// </summary>
+        bool IsInContext();
     }
 }

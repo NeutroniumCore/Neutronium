@@ -430,8 +430,6 @@ namespace IntegratedTest.Tests.Windowless
         [Fact]
         public async Task Test_HTMLBinding_TwoWay_UpdateJSFromCSharp() 
         {
-            _DataContext.MainSkill.Should().BeNull();
-
             var test = new TestInContextAsync() 
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
@@ -444,7 +442,7 @@ namespace IntegratedTest.Tests.Windowless
 
                     _DataContext.Name = "23";
 
-                    await Task.Delay(50);
+                    await Task.Delay(350);
 
                     string res3 = GetStringAttribute(js, "Name");
                     res3.Should().Be("23");
@@ -458,23 +456,24 @@ namespace IntegratedTest.Tests.Windowless
         [Fact]
         public async Task Test_HTMLBinding_TwoWay_UpdateCSharpFromJS() 
         {
-            _DataContext.MainSkill.Should().BeNull();
+            var datacontext = new SimpleViewModel() {Name = "teste0"};
 
             var test = new TestInContextAsync() 
             {
-                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
                     var js = mb.JSRootObject;
 
                     string res = GetStringAttribute(js, "Name");
-                    res.Should().Be("O Monstro");
+                    res.Should().Be("teste0");
 
-                    this.Call(js, "Name", () => _WebView.Factory.CreateString("23"));
+                    this.Call(js, "Name", () => _WebView.Factory.CreateString("teste1"));
 
                     await Task.Delay(50);
 
-                    _DataContext.Name.Should().Be("23");
+                    datacontext.Name.Should().Be("teste1");
+                    _Output.WriteLine("Test ended sucessfully");
                 }
             };
 

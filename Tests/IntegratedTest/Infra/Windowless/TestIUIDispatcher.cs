@@ -26,5 +26,10 @@ namespace IntegratedTest.Infra.Windowless
         {
             return compute();
         }
+
+        public bool IsInContext() 
+        {
+            return true;
+        }
     }
 }

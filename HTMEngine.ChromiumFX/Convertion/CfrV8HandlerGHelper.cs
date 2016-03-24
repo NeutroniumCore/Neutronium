@@ -4,7 +4,8 @@ using Chromium.Remote.Event;
 using HTMEngine.ChromiumFX.EngineBinding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace HTMEngine.ChromiumFX.Convertion {
+namespace HTMEngine.ChromiumFX.Convertion 
+{
     public static class CfrV8HandlerGHelper 
     {
         public static CfrV8Handler Convert(this Action<string, IJavascriptObject, IJavascriptObject[]> function, string name, CfrFrame frame) {

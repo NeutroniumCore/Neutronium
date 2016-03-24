@@ -71,6 +71,11 @@ namespace MVVM.Awesomium
             return _Dispatcher.Evaluate(compute);
         }
 
+        public bool IsInContext() 
+        {
+            return _Dispatcher.IsInContext();
+        }
+
         internal JSValue ExecuteFunction(JSValue function)
         {
             if (_Extracter == null)

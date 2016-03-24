@@ -46,6 +46,11 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return EvaluateAsync(compute).Result;
         }
 
+        public bool IsInContext() 
+        {
+            return TaskRunner.BelongsToCurrentThread();
+        }
+
         private Action ToTaskAction(Action perform, TaskCompletionSource<int> taskCompletionSource) 
         {
             return ToTaskAction( () => { perform(); return 0; } , taskCompletionSource);
@@ -55,6 +60,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             Action result = () => 
             {
+                using (GetRemoteContext())
                 using (GetContext())
                 {
                     try 

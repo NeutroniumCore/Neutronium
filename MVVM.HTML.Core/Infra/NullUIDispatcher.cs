@@ -26,5 +26,10 @@ namespace MVVM.HTML.Core.Infra
         {
             return compute();
         }
+
+        public bool IsInContext() 
+        {
+            return true;
+        }
     }
 }
