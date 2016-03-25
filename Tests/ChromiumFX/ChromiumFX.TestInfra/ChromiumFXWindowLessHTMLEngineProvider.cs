@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Chromium;
 using Chromium.Remote;
-using Chromium.Remote.Event;
 using ChromiumFX.TestInfra.Helper;
 using HTMEngine.ChromiumFX.EngineBinding;
 using IntegratedTest.Infra.Window;
@@ -55,11 +54,11 @@ namespace ChromiumFX.TestInfra
 
             var path = Path.Combine(GetType().Assembly.GetPath(), "ChromiumFXRenderProcess.exe");
 
-            var settings = new CfxSettings {
+            var settings = new CfxSettings 
+            {
                 SingleProcess = false,
                 BrowserSubprocessPath = path,
                 WindowlessRenderingEnabled = true,
-                RemoteDebuggingPort = 9090,
                 MultiThreadedMessageLoop = true,
                 NoSandbox = true,
                 LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales"),

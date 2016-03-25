@@ -11,6 +11,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     public class ChromiumFxControlHTMLWindow : IHTMLModernWindow
     {
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
+        private readonly IDispatcher _dispatcher ;
         private CfrBrowser _WebBrowser;
 
         public IWebView MainFrame { get; private set; }
@@ -25,8 +26,9 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             get { return !_ChromiumWebBrowser.IsLoading; }
         }
 
-        public ChromiumFxControlHTMLWindow(ChromiumWebBrowser chromiumWebBrowser)
+        public ChromiumFxControlHTMLWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher) 
         {
+            _dispatcher = dispatcher;
             _ChromiumWebBrowser = chromiumWebBrowser;
             _ChromiumWebBrowser.LoadHandler.OnLoadEnd += OnLoadEnd;
             _ChromiumWebBrowser.DisplayHandler.OnConsoleMessage += OnConsoleMessage;
@@ -54,6 +56,12 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private void OnV8ContextCreated(object sender, CfrOnContextCreatedEventArgs e)
         {
             MainFrame = new ChromiumFXWebView(e.Browser);
+            if (_Loaded) {
+                var loadEnd = LoadEnd;
+                if (loadEnd != null)
+                    _dispatcher.RunAsync(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
+            }
+
             var beforeJavascriptExecuted = BeforeJavascriptExecuted;
             if (beforeJavascriptExecuted == null) 
                 return;
@@ -69,17 +77,20 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                 consoleMessage(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
         }
 
+        private bool _Loaded = false;
         private void OnLoadEnd(object sender, CfxOnLoadEndEventArgs e)
         {
             var loadEnd = LoadEnd;
-            if (loadEnd != null)
-                loadEnd(this, new LoadEndEventArgs(MainFrame));
+            _Loaded = true;
+            if ((loadEnd != null) && (MainFrame!=null))
+                _dispatcher.RunAsync(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
         }        
         
-        public void NavigateTo(Uri path)
+        public void NavigateTo(Uri path) 
         {
+            _Loaded = false;
             _ChromiumWebBrowser.LoadUrl(path.AbsolutePath);
-        }
+        } 
 
         public event EventHandler<LoadEndEventArgs> LoadEnd;
 

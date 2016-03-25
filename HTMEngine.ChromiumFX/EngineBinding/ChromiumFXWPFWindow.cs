@@ -25,7 +25,8 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                 ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
-            _ChromiumFxControlHTMLWindow = new ChromiumFxControlHTMLWindow(_ChromiumWebBrowser);
+            var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
+            _ChromiumFxControlHTMLWindow = new ChromiumFxControlHTMLWindow(_ChromiumWebBrowser, dispatcher);
         }
 
         public IHTMLWindow HTMLWindow 

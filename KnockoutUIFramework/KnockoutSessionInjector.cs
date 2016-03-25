@@ -79,6 +79,8 @@ namespace KnockoutUIFramework
             if ((_Ko == null) || (!_Ko.IsObject))
                 throw ExceptionHelper.Get("ko object not found! You should add a link to knockout.js script to the HML document!");
 
+            _Ko.Bind("log", _WebView, (e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
+
             return _Ko;
         }
 
@@ -140,7 +142,6 @@ namespace KnockoutUIFramework
             return _WebView.RunAsync(() =>
                 {  
                     var ko = GetKo();
-                    ko.Bind("log", _WebView, (e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
                     ko.Invoke("register", _WebView, jsObject);
                     ko.Invoke("applyBindings", _WebView, jsObject);
                 });
