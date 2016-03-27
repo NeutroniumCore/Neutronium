@@ -195,3 +195,5 @@ FakesAssemblies/
 /ChromiumFXRenderProcess/cef/Resources/locales/*.*
 /MVVM_Awesonium_UI/cef/Resources/*.*
 /MVVM_Awesonium_UI/cef/Resources/locales/*.*
+/ApplicationExamples/MVVM.ChromiumFX/cef/Resources/*.*
+/ApplicationExamples/MVVM.ChromiumFX/cef/Resources/locales/*.*
