@@ -90,7 +90,7 @@ namespace HTMEngine.ChromiumFX.V8Object
         public void Bind(string functionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action) 
         {
             var func = CfrV8Value.CreateFunction(functionName, action.Convert(functionName, context.Convert()));
-            _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.None);
+            _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.ReadOnly | CfxV8PropertyAttribute.DontDelete);
         }
 
         public IJavascriptObject ExecuteFunction(IWebView context) 

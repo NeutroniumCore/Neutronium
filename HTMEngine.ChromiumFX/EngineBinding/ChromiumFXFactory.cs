@@ -69,9 +69,15 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return CfrV8Value.CreateNull().Convert();
         }
 
+        private int _GlobalCount = 0;
         public IJavascriptObject CreateObject(bool iLocal) 
         {
-            return UpdateConvert(CfrV8Value.CreateObject(null));
+            var rawResult = CfrV8Value.CreateObject(null);
+            if (iLocal)
+                return UpdateConvert(rawResult);
+
+            _CfrV8Context.Global.SetValue(string.Format("__ChromiumFX_Object_{0}__", _GlobalCount++), rawResult, CfxV8PropertyAttribute.DontDelete | CfxV8PropertyAttribute.ReadOnly);
+            return UpdateConvert(rawResult);
         }
 
         public IJavascriptObject CreateObject(string iCreationCode) 

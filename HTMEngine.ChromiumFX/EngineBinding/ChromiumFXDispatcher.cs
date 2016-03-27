@@ -60,7 +60,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             Action result = () => 
             {
-                using (GetRemoteContext())
+                //using (GetRemoteContext())
                 using (GetContext())
                 {
                     try 
@@ -97,6 +97,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private IDisposable GetRemoteContext() 
         {
+            //return null;
             return new ChromiumFXCRemoteContext(_Browser);
         }
 
