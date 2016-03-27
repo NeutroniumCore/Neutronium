@@ -22,14 +22,16 @@ namespace HTMEngine.ChromiumFX
         private readonly ChromiumFXSession _Session;
         private CfxSettings _Settings;
 
-        public ChromiumFXWPFWebWindowFactory()
+        public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsUpdater=null)
         {
             _Session = ChromiumFXSession.GetSession((settings) => 
             {
+                if (settingsUpdater != null)
+                    settingsUpdater(settings);
+
                 settings.LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales");
                 settings.ResourcesDirPath = System.IO.Path.GetFullPath(@"cef\Resources");
                 settings.BrowserSubprocessPath = System.IO.Path.GetFullPath("ChromiumFXRenderProcess.exe");
-                settings.RemoteDebuggingPort = 9090;
                 settings.MultiThreadedMessageLoop = true;
                 settings.SingleProcess = false;
             });
