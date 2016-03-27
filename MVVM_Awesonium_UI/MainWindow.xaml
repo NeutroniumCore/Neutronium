@@ -8,14 +8,13 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Background="Gray" FontWeight="Bold" Grid.Row="0" HorizontalAlignment="Stretch" Text="WPF" Margin="-413,-88,412,88"/>
+        <TextBlock Background="Gray" FontWeight="Bold" Grid.Row="0" HorizontalAlignment="Stretch" Text="WPF" Grid.Column="1"/>
 
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -43,10 +42,6 @@
 
         <TextBlock Background="Gray" FontWeight="Bold"  Grid.Column="2" Grid.Row="0" HorizontalAlignment="Stretch" Text="Awesomium"/>
         <HTMLComponent:HTMLViewControl HTMLEngine="Awesomium" Grid.Column="2" Grid.Row="1"   IsDebug="True"  x:Name="wcBrowser" RelativeSource="src\index_awe.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
-
-        <TextBlock Background="Gray" FontWeight="Bold"  Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" Text="ChromiumFx"/>
-        <HTMLComponent:HTMLViewControl HTMLEngine="ChromiumFX" Grid.Column="3" Grid.Row="1"   IsDebug="True"  x:Name="cfxBrowser" RelativeSource="src\index_awe.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
     </Grid>
 </Window>

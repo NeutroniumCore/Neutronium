@@ -34,6 +34,8 @@ namespace HTMEngine.ChromiumFX
                 settings.BrowserSubprocessPath = System.IO.Path.GetFullPath("ChromiumFXRenderProcess.exe");
                 settings.MultiThreadedMessageLoop = true;
                 settings.SingleProcess = false;
+
+                _Settings = settings;
             });
         }
 
