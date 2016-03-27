@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Chromium;
@@ -11,6 +12,7 @@ namespace HTMEngine.ChromiumFX.V8Object
     internal class ChromiumFXJavascriptObject : IJavascriptObject 
     {
         private readonly CfrV8Value _CfrV8Value;
+        private readonly Lazy<HashSet<CfrV8Handler>> _Functions = new Lazy<HashSet<CfrV8Handler>>();
         public ChromiumFXJavascriptObject(CfrV8Value cfrV8Value) 
         {
             _CfrV8Value = cfrV8Value?? CfrV8Value.CreateUndefined();
@@ -24,6 +26,8 @@ namespace HTMEngine.ChromiumFX.V8Object
         public void Dispose() 
         {
             _CfrV8Value.Dispose();
+            if (_Functions.IsValueCreated)
+                _Functions.Value.Clear();
         }
 
         public bool IsUndefined 
@@ -89,7 +93,9 @@ namespace HTMEngine.ChromiumFX.V8Object
 
         public void Bind(string functionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action) 
         {
-            var func = CfrV8Value.CreateFunction(functionName, action.Convert(functionName, context.Convert()));
+            var cfrV8Handler = action.Convert(functionName, context.Convert());
+            _Functions.Value.Add(cfrV8Handler);
+            var func = CfrV8Value.CreateFunction(functionName, cfrV8Handler);
             _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.ReadOnly | CfxV8PropertyAttribute.DontDelete);
         }
 

@@ -53,15 +53,14 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private Action ToTaskAction(Action perform, TaskCompletionSource<int> taskCompletionSource) 
         {
-            return ToTaskAction( () => { perform(); return 0; } , taskCompletionSource);
+            return ToTaskAction(() => { perform(); return 0; }, taskCompletionSource);
         }
 
         private Action ToTaskAction<T>(Func<T> perform, TaskCompletionSource<T> taskCompletionSource) 
         {
             Action result = () => 
             {
-                //using (GetRemoteContext())
-                using (GetContext())
+                using (GetContext()) 
                 {
                     try 
                     {
@@ -97,7 +96,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private IDisposable GetRemoteContext() 
         {
-            //return null;
             return new ChromiumFXCRemoteContext(_Browser);
         }
 
