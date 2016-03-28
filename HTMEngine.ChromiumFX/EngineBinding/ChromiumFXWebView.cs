@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Eventing.Reader;
 using System.Threading.Tasks;
 using Chromium.Remote;
 using HTMEngine.ChromiumFX.Convertion;
@@ -67,10 +68,11 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         public bool Eval(string code, out IJavascriptObject res)
         {
-            res = null;
             CfrV8Value v8Res;
             CfrV8Exception exception;
-            return V8Context.Eval(code, out v8Res, out exception);
+            bool resValue = V8Context.Eval(code, out v8Res, out exception);
+            res = (v8Res != null) ? v8Res.Convert() : null;
+            return resValue;
         }
 
         public void ExecuteJavaScript(string code)
