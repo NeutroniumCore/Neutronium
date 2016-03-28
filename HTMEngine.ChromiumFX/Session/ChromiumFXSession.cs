@@ -9,7 +9,6 @@ namespace HTMEngine.ChromiumFX.Session
     {
         private static ChromiumFXSession _Session = null;
         private readonly Action<CfxSettings> _SettingsBuilder;
-        private CfxSettings _Settings;
 
         private ChromiumFXSession(Action<CfxSettings> settingsBuilder) 
         {
