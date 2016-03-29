@@ -90,13 +90,13 @@
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>HTML_WPF.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\HTMLEngine\Awesomium\HTMLEngine.Awesomium\HTMLEngine.Awesomium.csproj">
+      <Project>{92b20870-ad65-4ae8-bb1e-4d11b922a135}</Project>
+      <Name>HTMLEngine.Awesomium</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\KnockoutUIFramework\KnockoutUIFramework.csproj">
       <Project>{587c57a8-510c-4ddf-ba5d-c45bd6050bb3}</Project>
       <Name>KnockoutUIFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\MVVM.Awesomium\MVVM.Awesomium.csproj">
-      <Project>{52fb8303-7251-4f31-a491-cc30347274d7}</Project>
-      <Name>MVVM.Awesomium</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>

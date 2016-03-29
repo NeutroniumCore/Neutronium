@@ -91,6 +91,10 @@
     <Compile Include="Test_JavascriptToCSharpMapper_Simple_Awesomium.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\HTMLEngine\Awesomium\HTMLEngine.Awesomium\HTMLEngine.Awesomium.csproj">
+      <Project>{92b20870-ad65-4ae8-bb1e-4d11b922a135}</Project>
+      <Name>HTMLEngine.Awesomium</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
       <Name>IntegratedTest</Name>
