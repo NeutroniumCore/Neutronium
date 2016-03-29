@@ -35,7 +35,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
             _ChromiumWebBrowser.RemoteBrowserCreated += OnChromiumWebBrowser_RemoteBrowserCreated;
             _ChromiumWebBrowser.ContextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
-            //_ChromiumWebBrowser.BrowserCreated += OnBrowserCreated;
         }
 
         private void OnBeforeContextMenu(object sender, CfxOnBeforeContextMenuEventArgs e) 
@@ -47,11 +46,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             _WebBrowser = e.Browser;
         }
-
-        //private void OnBrowserCreated(object sender, BrowserCreatedEventArgs e)
-        //{
-        //    MainFrame = new ChromiumFXWebView(e.Browser.MainFrame);
-        //}
 
         private void OnV8ContextCreated(object sender, CfrOnContextCreatedEventArgs e)
         {

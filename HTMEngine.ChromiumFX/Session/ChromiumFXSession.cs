@@ -1,5 +1,6 @@
 ﻿using System;
 using Chromium;
+using Chromium.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
 
@@ -20,7 +21,7 @@ namespace HTMEngine.ChromiumFX.Session
             ChromiumWebBrowser.Initialize();
         }
 
-        private void ChromiumWebBrowser_OnBeforeCommandLineProcessing(Chromium.Event.CfxOnBeforeCommandLineProcessingEventArgs e)
+        private void ChromiumWebBrowser_OnBeforeCommandLineProcessing(CfxOnBeforeCommandLineProcessingEventArgs e)
         {
         }
 
