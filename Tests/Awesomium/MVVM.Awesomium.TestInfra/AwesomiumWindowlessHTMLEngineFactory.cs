@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Awesomium.Core;
+using HTMLEngine.Awesomium;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.JavascriptUIFramework;

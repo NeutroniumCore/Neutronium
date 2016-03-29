@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Windows.Markup;
+using HTMLEngine.Awesomium.Internal;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Awesomium_Core = Awesomium.Core;
 
-namespace MVVM.Awesomium.HTMLEngine
+namespace HTMLEngine.Awesomium.HTMLEngine
 {
     internal class AwesomiumJavascriptObjectConverter : IJavascriptObjectConverter
     {

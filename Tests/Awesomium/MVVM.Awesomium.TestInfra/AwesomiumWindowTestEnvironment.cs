@@ -1,4 +1,5 @@
-﻿using HTML_WPF.Component;
+﻿using HTMLEngine.Awesomium;
+using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
 using KnockoutUIFramework;
 using MVVM.HTML.Core.JavascriptUIFramework;

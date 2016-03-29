@@ -1,10 +1,10 @@
-﻿using Awesomium.Core;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Awesomium.Core;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
-namespace MVVM.Awesomium
+namespace HTMLEngine.Awesomium.Internal
 {
     internal class AwesomiumDispatcher : IDispatcher
     {

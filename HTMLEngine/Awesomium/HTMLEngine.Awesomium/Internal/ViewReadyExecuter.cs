@@ -1,7 +1,7 @@
-﻿using Awesomium.Core;
-using System;
+﻿using System;
+using Awesomium.Core;
 
-namespace MVVM.Awesomium
+namespace HTMLEngine.Awesomium.Internal
 {
     internal class ViewReadyExecuter
     {

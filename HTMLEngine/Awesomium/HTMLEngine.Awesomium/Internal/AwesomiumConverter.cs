@@ -1,8 +1,8 @@
 ﻿using Awesomium.Core;
-using MVVM.Awesomium.HTMLEngine;
+using HTMLEngine.Awesomium.HTMLEngine;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.Awesomium
+namespace HTMLEngine.Awesomium.Internal
 {
     internal static class AwesomiumConverter
     {

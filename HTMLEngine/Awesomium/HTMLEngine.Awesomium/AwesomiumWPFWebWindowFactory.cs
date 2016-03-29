@@ -1,8 +1,8 @@
-﻿using Awesomium.Core;
+﻿using System.Threading;
+using Awesomium.Core;
 using HTML_WPF.Component;
-using System.Threading;
 
-namespace MVVM.Awesomium
+namespace HTMLEngine.Awesomium
 {
     public  class AwesomiumWPFWebWindowFactory : IWPFWebWindowFactory
     {

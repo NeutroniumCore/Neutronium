@@ -1,9 +1,11 @@
 ﻿using System;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
+using HTMLEngine.Awesomium.HTMLEngine;
+using HTMLEngine.Awesomium.Internal;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
-namespace MVVM.Awesomium
+namespace HTMLEngine.Awesomium
 {
     internal class AwesomiumHTMLWindow : IHTMLWindow, IDisposable
     {
@@ -35,7 +37,7 @@ namespace MVVM.Awesomium
                 ConsoleMessage(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
         }
 
-        public HTML.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame
+        public MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame
         {
             get;  private set;
         }

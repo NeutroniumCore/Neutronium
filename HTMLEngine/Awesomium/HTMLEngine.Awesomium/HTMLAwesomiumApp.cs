@@ -1,6 +1,6 @@
 ﻿using HTML_WPF.Component;
 
-namespace MVVM.Awesomium
+namespace HTMLEngine.Awesomium
 {
     public class HTMLAwesomiumApp : HTMLApp
     {

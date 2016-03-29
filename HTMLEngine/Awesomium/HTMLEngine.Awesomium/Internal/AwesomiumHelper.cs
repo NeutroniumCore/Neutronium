@@ -1,8 +1,8 @@
-﻿using Awesomium.Core;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Awesomium.Core;
 
-namespace MVVM.Awesomium
+namespace HTMLEngine.Awesomium.Internal
 {
     public static class AwesomiumHelper
     {

@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Awesomium.Core;
+using HTMLEngine.Awesomium.Internal;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using IWebView = MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView;
 
-namespace MVVM.Awesomium.HTMLEngine
+namespace HTMLEngine.Awesomium.HTMLEngine
 {
     internal class JSValue_JavascriptObject : IJavascriptObject
     {

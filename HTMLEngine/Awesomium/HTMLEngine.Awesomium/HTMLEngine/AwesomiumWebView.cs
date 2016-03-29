@@ -1,13 +1,13 @@
-﻿using MVVM.Awesomium.HTMLEngine;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Awesomium.Core;
+using HTMLEngine.Awesomium.Internal;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using AwesomiumIWebView = Awesomium.Core.IWebView;
 using MVVMIWebView = MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView;
-using Awesomium.Core;
 
-namespace MVVM.Awesomium
+namespace HTMLEngine.Awesomium.HTMLEngine
 {
     internal class AwesomiumWebView : MVVMIWebView
     {
