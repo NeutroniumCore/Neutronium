@@ -1,8 +1,8 @@
-﻿<MVVM_CEFGlue:HTMLCefGlueApp x:Class="KnockoutCefMVVMApp.App"
+﻿<cefGlue:HTMLCefGlueApp x:Class="KnockoutCefMVVMApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:MVVM_CEFGlue="clr-namespace:MVVM.Cef.Glue;assembly=MVVM.Cef.Glue">
-    <MVVM_CEFGlue:HTMLCefGlueApp.Resources>
+             xmlns:cefGlue="clr-namespace:HTMLEngine.CefGlue;assembly=HTMLEngine.CefGlue">
+    <cefGlue:HTMLCefGlueApp.Resources>
          
-    </MVVM_CEFGlue:HTMLCefGlueApp.Resources>
-</MVVM_CEFGlue:HTMLCefGlueApp>
+    </cefGlue:HTMLCefGlueApp.Resources>
+</cefGlue:HTMLCefGlueApp>

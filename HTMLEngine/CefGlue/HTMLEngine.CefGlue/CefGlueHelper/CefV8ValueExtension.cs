@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.CefGlueHelper
+namespace HTMLEngine.CefGlue.CefGlueHelper
 {
     public static class CefV8ValueExtension
     {

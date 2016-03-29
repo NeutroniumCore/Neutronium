@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using Xilium.CefGlue;
+using System.Threading.Tasks;
+using HTMLEngine.CefGlue.CefGlueImplementation;
+using HTMLEngine.CefGlue.WindowImplementation;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using System.Threading.Tasks;
-using MVVM.Cef.Glue.WPF;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.CefSession
+namespace HTMLEngine.CefGlue.CefSession
 {
     public class MVVMCefApp : CefApp
     {

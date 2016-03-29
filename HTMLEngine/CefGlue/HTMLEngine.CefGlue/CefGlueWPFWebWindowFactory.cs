@@ -1,9 +1,9 @@
-﻿using HTML_WPF.Component;
-using MVVM.Cef.Glue.CefSession;
-using System;
+﻿using System;
+using HTMLEngine.CefGlue.CefSession;
+using HTML_WPF.Component;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue
+namespace HTMLEngine.CefGlue
 {
     public class CefGlueWPFWebWindowFactory : IWPFWebWindowFactory
     {

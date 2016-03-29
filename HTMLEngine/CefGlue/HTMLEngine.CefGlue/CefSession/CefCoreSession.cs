@@ -1,9 +1,8 @@
 ﻿using System;
+using MVVM.HTML.Core.Exceptions;
 using Xilium.CefGlue;
 
-using MVVM.HTML.Core.Exceptions;
-
-namespace MVVM.Cef.Glue.CefSession
+namespace HTMLEngine.CefGlue.CefSession
 {
     public class CefCoreSession : ICefCoreSession, IDisposable
     {

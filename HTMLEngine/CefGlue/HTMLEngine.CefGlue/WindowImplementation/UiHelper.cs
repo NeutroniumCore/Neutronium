@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
-using MVVM.Cef.Glue.Helpers.Log;
+using HTMLEngine.CefGlue.Helpers.Log;
+using HTMLEngine.CefGlue.WindowImplementation;
 
 namespace MVVM.Cef.Glue.WPF
 {

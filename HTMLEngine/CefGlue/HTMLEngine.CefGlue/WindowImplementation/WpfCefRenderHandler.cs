@@ -1,11 +1,11 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System;
+﻿using System;
 using System.Windows.Input;
 using System.Windows.Interop;
-using MVVM.Cef.Glue.Helpers.Log;
+using HTMLEngine.CefGlue.Helpers.Log;
+using Microsoft.Win32.SafeHandles;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.WPF
+namespace HTMLEngine.CefGlue.WindowImplementation
 {
     internal sealed class WpfCefRenderHandler : CefRenderHandler
     {

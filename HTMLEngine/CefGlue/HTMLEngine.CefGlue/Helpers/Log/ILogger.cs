@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.Cef.Glue.Helpers.Log
+namespace HTMLEngine.CefGlue.Helpers.Log
 {
     public interface ILogger
     {

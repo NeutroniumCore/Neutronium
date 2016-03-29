@@ -1,7 +1,7 @@
 ﻿using System;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.CefGlueHelper
+namespace HTMLEngine.CefGlue.CefGlueHelper
 {
     internal class CefV8Handler_Action : CefV8Handler
     {

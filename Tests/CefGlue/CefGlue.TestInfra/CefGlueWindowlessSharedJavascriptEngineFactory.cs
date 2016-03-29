@@ -1,9 +1,9 @@
-﻿using HTML_WPF.Component;
+﻿using HTMLEngine.CefGlue.CefSession;
+using HTML_WPF.Component;
 using IntegratedTest;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
 using KnockoutUIFramework.Test.IntegratedInfra;
-using MVVM.Cef.Glue.CefSession;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
 

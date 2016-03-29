@@ -8,16 +8,15 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-
-using Xilium.CefGlue;
-
-using MVVM.Cef.Glue.CefGlueHelper;
-using MVVM.Cef.Glue.Helpers.Log;
+using HTMLEngine.CefGlue.CefGlueHelper;
+using HTMLEngine.CefGlue.CefSession;
+using HTMLEngine.CefGlue.Helpers.Log;
+using MVVM.Cef.Glue.WPF;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
-using MVVM.Cef.Glue.CefSession;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.WPF
+namespace HTMLEngine.CefGlue.WindowImplementation
 {
     public class WpfCefBrowser : ContentControl, IDisposable, IHTMLModernWindow
     {

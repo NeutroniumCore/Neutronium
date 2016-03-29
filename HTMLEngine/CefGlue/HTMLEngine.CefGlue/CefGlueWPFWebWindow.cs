@@ -1,13 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using HTMLEngine.CefGlue.CefSession;
+using HTMLEngine.CefGlue.WindowImplementation;
 using HTML_WPF.Component;
-using MVVM.Cef.Glue.WPF;
-using MVVM.Cef.Glue.CefSession;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
-namespace MVVM.Cef.Glue
+namespace HTMLEngine.CefGlue
 {
     internal class CefGlueWPFWebWindow : IWPFWebWindow
     {

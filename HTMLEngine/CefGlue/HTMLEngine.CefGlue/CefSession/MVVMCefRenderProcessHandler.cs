@@ -1,6 +1,6 @@
 ﻿using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.CefSession
+namespace HTMLEngine.CefGlue.CefSession
 {
     internal class MVVMCefRenderProcessHandler : CefRenderProcessHandler
     {

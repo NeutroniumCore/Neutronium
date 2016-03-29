@@ -1,7 +1,7 @@
-﻿using Xilium.CefGlue;
-using HTML_WPF.Component;
+﻿using HTML_WPF.Component;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue
+namespace HTMLEngine.CefGlue
 {
     public class HTMLCefGlueApp : HTMLApp
     {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using Xilium.CefGlue;
+using MVVM.Cef.Glue;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue
+namespace HTMLEngine.CefGlue.CefGlueImplementation
 {
     internal class CefV8_Factory : IJavascriptObjectFactory
     {

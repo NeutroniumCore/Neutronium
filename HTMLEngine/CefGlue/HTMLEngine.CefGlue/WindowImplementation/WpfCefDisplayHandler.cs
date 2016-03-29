@@ -1,7 +1,7 @@
 ﻿using System;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.WPF
+namespace HTMLEngine.CefGlue.WindowImplementation
 {
     internal sealed class WpfCefDisplayHandler : CefDisplayHandler
     {

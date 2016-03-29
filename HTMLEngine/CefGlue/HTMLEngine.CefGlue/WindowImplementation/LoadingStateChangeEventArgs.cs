@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.Cef.Glue.WPF
+namespace HTMLEngine.CefGlue.WindowImplementation
 {
     public class LoadingStateChangeEventArgs : EventArgs
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.CefSession
+namespace HTMLEngine.CefGlue.CefSession
 {
     public interface ICefCoreSession : IDisposable
     {

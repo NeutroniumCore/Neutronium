@@ -1,8 +1,9 @@
 ﻿using System;
-using MVVM.Cef.Glue.Helpers.Log;
+using HTMLEngine.CefGlue.Helpers.Log;
+using MVVM.Cef.Glue.WPF;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.WPF
+namespace HTMLEngine.CefGlue.WindowImplementation
 {
     internal sealed class WpfCefClient : CefClient
     {

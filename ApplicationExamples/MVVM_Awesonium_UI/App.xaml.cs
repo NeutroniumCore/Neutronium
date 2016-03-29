@@ -2,6 +2,7 @@
 using MVVM.Cef.Glue;
 using System.Windows;
 using HTMLEngine.Awesomium;
+using HTMLEngine.CefGlue;
 using KnockoutUIFramework;
 
 namespace MVVM_Awesonium_UI

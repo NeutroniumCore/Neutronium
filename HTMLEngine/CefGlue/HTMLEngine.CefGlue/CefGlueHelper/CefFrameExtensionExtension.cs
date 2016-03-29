@@ -1,8 +1,8 @@
-﻿using Xilium.CefGlue;
-using MVVM.Cef.Glue.CefSession;
+﻿using HTMLEngine.CefGlue.CefSession;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.CefGlueHelper
+namespace HTMLEngine.CefGlue.CefGlueHelper
 {
     public static class CefFrameExtensionExtension
     {

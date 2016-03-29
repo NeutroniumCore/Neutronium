@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Xilium.CefGlue;
-using MVVM.Cef.Glue.CefGlueHelper;
+using HTMLEngine.CefGlue.CefGlueHelper;
+using MVVM.Cef.Glue;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue
+namespace HTMLEngine.CefGlue.CefGlueImplementation
 {
     public class CefV8_WebView : IWebView 
     {

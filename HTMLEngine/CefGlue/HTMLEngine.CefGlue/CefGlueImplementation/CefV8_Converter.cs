@@ -1,9 +1,10 @@
 ﻿using System;
+using MVVM.Cef.Glue;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue
+namespace HTMLEngine.CefGlue.CefGlueImplementation
 {
     internal class CefV8_Converter : IJavascriptObjectConverter
     {
