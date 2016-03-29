@@ -84,17 +84,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
-      <Project>{e8f0db35-833b-4493-b517-60b2f6059e4f}</Project>
-      <Name>ChromiumFXRenderProcess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
-      <Project>{2a59553c-8513-4839-90fc-51566dcf60dd}</Project>
-      <Name>HTMEngine.ChromiumFX</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>HTML_WPF.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\HTMLEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
+      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
+      <Name>ChromiumFXRenderProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
+      <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
+      <Name>HTMEngine.ChromiumFX</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\KnockoutUIFramework\KnockoutUIFramework.csproj">
       <Project>{587c57a8-510c-4ddf-ba5d-c45bd6050bb3}</Project>
