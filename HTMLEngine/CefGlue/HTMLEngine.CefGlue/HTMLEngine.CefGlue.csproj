@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{447C6790-E36E-4A54-BFAC-06C92FFF4AA3}</ProjectGuid>
+    <ProjectGuid>{CE4F4133-789F-420D-941D-18DA08B140FF}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MVVM.Cef.Glue</RootNamespace>
@@ -140,22 +140,22 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\HTML.WPF.Component\HTML_WPF.Component.csproj">
+    <ProjectReference Include="..\..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>HTML_WPF.Component</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
+    <ProjectReference Include="..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />
+  <Import Project="..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

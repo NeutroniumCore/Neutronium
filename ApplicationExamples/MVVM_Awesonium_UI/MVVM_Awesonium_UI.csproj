@@ -134,6 +134,10 @@
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>HTML_WPF.Component</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\HTMLEngine\CefGlue\HTMLEngine.CefGlue\HTMLEngine.CefGlue.csproj">
+      <Project>{ce4f4133-789f-420d-941d-18da08b140ff}</Project>
+      <Name>HTMLEngine.CefGlue</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\KnockoutUIFramework\KnockoutUIFramework.csproj">
       <Project>{587c57a8-510c-4ddf-ba5d-c45bd6050bb3}</Project>
       <Name>KnockoutUIFramework</Name>
@@ -141,10 +145,6 @@
     <ProjectReference Include="..\..\MVVM.Awesomium\MVVM.Awesomium.csproj">
       <Project>{52fb8303-7251-4f31-a491-cc30347274d7}</Project>
       <Name>MVVM.Awesomium</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MVVM.Cef.Glue\MVVM.Cef.Glue.csproj">
-      <Project>{447c6790-e36e-4a54-bfac-06c92fff4aa3}</Project>
-      <Name>MVVM.Cef.Glue</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
