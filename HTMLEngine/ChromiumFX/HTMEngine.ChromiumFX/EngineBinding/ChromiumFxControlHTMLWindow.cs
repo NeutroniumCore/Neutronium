@@ -36,6 +36,14 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
             _ChromiumWebBrowser.RemoteBrowserCreated += OnChromiumWebBrowser_RemoteBrowserCreated;
             _ChromiumWebBrowser.ContextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
+            _ChromiumWebBrowser.RequestHandler.OnRenderProcessTerminated += RequestHandler_OnRenderProcessTerminated;
+        }
+
+        private void RequestHandler_OnRenderProcessTerminated(object sender, CfxOnRenderProcessTerminatedEventArgs e) 
+        {
+            var crashed = Crashed;
+            if (crashed != null)
+                _dispatcher.RunAsync(() => crashed(this, new BrowserCrashedArgs()));
         }
 
         private void OnBeforeContextMenu(object sender, CfxOnBeforeContextMenuEventArgs e) 
@@ -91,10 +99,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         
         public event EventHandler<BeforeJavascriptExcecutionArgs> BeforeJavascriptExecuted;
 
-        public event EventHandler<BrowserCrashedArgs> Crashed
-        {
-            add { }
-            remove { }
-        }
+        public event EventHandler<BrowserCrashedArgs> Crashed;
     }
 }

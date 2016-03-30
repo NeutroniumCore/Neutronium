@@ -49,14 +49,11 @@ namespace KnockoutUIFramework
 
         public void Dispose()
         {
-            _WebView.Run(() =>
-            {
-                if (_Listener == null)
-                    return;
+            if (_Listener == null)
+                return;
 
-                _Listener.Dispose();
-                _Listener = null;
-            });
+            _Listener.Dispose();
+            _Listener = null;
         }
 
         public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm)
