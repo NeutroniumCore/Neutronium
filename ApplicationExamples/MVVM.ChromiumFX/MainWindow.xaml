@@ -41,7 +41,7 @@
         </StackPanel>
 
         <TextBlock Background="Gray" FontWeight="Bold"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Text="ChromiumFx"/>
-        <component:HTMLViewControl HTMLEngine="ChromiumFX" Grid.Column="0" Grid.Row="1"   IsDebug="True"  x:Name="cfxBrowser" RelativeSource="src\index_awe.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <component:HTMLViewControl HTMLEngine="ChromiumFX" Grid.Column="0" Grid.Row="1"   IsDebug="True"  x:Name="cfxBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
     </Grid>
 </Window>

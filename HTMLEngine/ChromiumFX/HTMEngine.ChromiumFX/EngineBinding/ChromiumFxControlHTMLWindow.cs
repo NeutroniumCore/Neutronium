@@ -13,6 +13,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
         private readonly IDispatcher _dispatcher ;
         private CfrBrowser _WebBrowser;
+        private bool _FirstLoad = true;
 
         public IWebView MainFrame { get; private set; }
 
@@ -50,11 +51,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private void OnV8ContextCreated(object sender, CfrOnContextCreatedEventArgs e)
         {
             MainFrame = new ChromiumFXWebView(e.Browser);
-            if (_Loaded) {
-                var loadEnd = LoadEnd;
-                if (loadEnd != null)
-                    _dispatcher.RunAsync(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
-            }
 
             var beforeJavascriptExecuted = BeforeJavascriptExecuted;
             if (beforeJavascriptExecuted == null) 
@@ -71,18 +67,21 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                 consoleMessage(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
         }
 
-        private bool _Loaded = false;
         private void OnLoadEnd(object sender, CfxOnLoadEndEventArgs e)
         {
+            if (_FirstLoad) 
+            {
+                _FirstLoad = false;
+                return;
+            }
+
             var loadEnd = LoadEnd;
-            _Loaded = true;
             if ((loadEnd != null) && (MainFrame!=null))
                 _dispatcher.RunAsync(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
         }        
         
         public void NavigateTo(Uri path) 
         {
-            _Loaded = false;
             _ChromiumWebBrowser.LoadUrl(path.AbsolutePath);
         } 
 
