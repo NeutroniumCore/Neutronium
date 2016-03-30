@@ -79,6 +79,7 @@
     <Compile Include="ChromiumFXHTMLWindowProvider.cs" />
     <Compile Include="ChromiumFXWindowLessHTMLEngineProvider.cs" />
     <Compile Include="ChromiumFXWindowlessJavascriptEngine.cs" />
+    <Compile Include="ChromiumFXWindowTestEnvironment.cs" />
     <Compile Include="FakeHTMLWindow.cs" />
     <Compile Include="Helper\RenderProcessHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

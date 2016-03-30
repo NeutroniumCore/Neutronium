@@ -201,3 +201,5 @@ FakesAssemblies/
 /HTMLEngine/ChromiumFX/ChromiumFXRenderProcess/cef/Resources/locales/*.*
 /HTMLEngine/ChromiumFX/HTMEngine.ChromiumFX/cef/Resources/*.*
 /HTMLEngine/ChromiumFX/HTMEngine.ChromiumFX/cef/Resources/locales/*.*
+/Tests/ChromiumFX/ChromiumFX.Window.Integrated.Tests/cef/Resources/*.*
+/Tests/ChromiumFX/ChromiumFX.Window.Integrated.Tests/cef/Resources/locales/*.*
