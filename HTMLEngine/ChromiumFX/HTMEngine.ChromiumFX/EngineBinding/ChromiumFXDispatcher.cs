@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Chromium;
 using Chromium.Remote;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 

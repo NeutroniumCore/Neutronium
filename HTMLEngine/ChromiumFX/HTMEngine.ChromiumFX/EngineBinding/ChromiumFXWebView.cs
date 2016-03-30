@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Eventing.Reader;
 using System.Threading.Tasks;
 using Chromium.Remote;
 using HTMEngine.ChromiumFX.Convertion;
