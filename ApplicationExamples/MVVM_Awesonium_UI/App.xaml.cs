@@ -1,5 +1,4 @@
 ﻿using HTML_WPF.Component;
-using MVVM.Cef.Glue;
 using System.Windows;
 using HTMLEngine.Awesomium;
 using HTMLEngine.CefGlue;

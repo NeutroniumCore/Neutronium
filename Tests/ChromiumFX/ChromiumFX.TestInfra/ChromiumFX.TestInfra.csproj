@@ -97,8 +97,8 @@
       <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
       <Name>HTMEngine.ChromiumFX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\KnockoutUIFramework\KnockoutUIFramework.csproj">
-      <Project>{587c57a8-510c-4ddf-ba5d-c45bd6050bb3}</Project>
+    <ProjectReference Include="..\..\..\JavascriptEngine\KnockoutUIFramework\KnockoutUIFramework.csproj">
+      <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
       <Name>KnockoutUIFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">

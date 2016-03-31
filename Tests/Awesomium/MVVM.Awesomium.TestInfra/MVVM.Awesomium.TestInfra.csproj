@@ -85,8 +85,8 @@
       <Project>{92b20870-ad65-4ae8-bb1e-4d11b922a135}</Project>
       <Name>HTMLEngine.Awesomium</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\KnockoutUIFramework\KnockoutUIFramework.csproj">
-      <Project>{587c57a8-510c-4ddf-ba5d-c45bd6050bb3}</Project>
+    <ProjectReference Include="..\..\..\JavascriptEngine\KnockoutUIFramework\KnockoutUIFramework.csproj">
+      <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
       <Name>KnockoutUIFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\MVVM.Component\MVVM.Component.csproj">
