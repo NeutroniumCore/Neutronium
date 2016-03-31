@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
@@ -19,9 +20,13 @@ namespace IntegratedTest.Tests.WPF
             return new WindowTest(_WindowTestEnvironment,
                 (w) =>
                 {
-                    var stackPanel = new StackPanel();
+                    var stackPanel = new StackPanel() 
+                    {
+                        Height = 400
+                    };
                     w.Content = stackPanel;
                     var iWebControl = iWebControlFac();
+                    iWebControl.Height = 400;
                     if (iManageLifeCycle)
                         w.Closed += (o, e) => { iWebControl.Dispose(); };
                     stackPanel.Children.Add(iWebControl);
