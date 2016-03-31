@@ -1,5 +1,4 @@
-﻿using MVVM.HTML.Core.JavascriptEngine;
-using System.Windows;
+﻿using System.Windows;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
@@ -42,6 +41,16 @@ namespace HTML_WPF.Component
         {
             _UIElement.Visibility = Visibility.Hidden;
         }
+
+        public bool OnDebugToolsRequest() 
+        {
+            return _IWPFWebWindow.OnDebugToolsRequest();
+        }
+
+        //public bool OnDebugToolsRequest() 
+        //{
+        //    return _IWPFWebWindow.OnDebugToolsRequest();
+        //}
 
         public void Dispose()
         {

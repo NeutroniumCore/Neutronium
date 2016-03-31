@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Chromium;
@@ -52,6 +53,23 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         public bool IsUIElementAlwaysTopMost 
         {
             get { return true; }
+        }
+
+
+        public bool OnDebugToolsRequest() 
+        {
+            CfxWindowInfo windowInfo = new CfxWindowInfo();
+
+            windowInfo.Style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN | Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE;
+            windowInfo.ParentWindow = IntPtr.Zero;
+            windowInfo.WindowName = "Dev Tools";
+            windowInfo.X = 200;
+            windowInfo.Y = 200;
+            windowInfo.Width = 800;
+            windowInfo.Height = 600;
+
+            _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, new CfxClient(), new CfxBrowserSettings(), null);
+            return true;
         }
 
         public void Dispose()

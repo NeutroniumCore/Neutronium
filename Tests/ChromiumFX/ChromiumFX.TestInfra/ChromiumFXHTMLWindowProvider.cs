@@ -37,5 +37,10 @@ namespace ChromiumFX.TestInfra
         public void Dispose() 
         {
         }
+
+        public bool OnDebugToolsRequest() 
+        {
+            return false;
+        }
     }
 }

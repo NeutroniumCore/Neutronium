@@ -49,11 +49,6 @@ namespace HTMEngine.ChromiumFX
             return new ChromiumFXWPFWindow();
         }
 
-        public int? GetRemoteDebuggingPort()
-        {
-            return _Settings.RemoteDebuggingPort;
-        }
-
         public void Dispose()
         {
             _Session.Dispose();

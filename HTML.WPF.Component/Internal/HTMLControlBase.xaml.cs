@@ -8,7 +8,6 @@ using System.Windows.Input;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra.VM;
 using MVVM.HTML.Core.Navigation;
-using System.Diagnostics;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;
@@ -18,9 +17,9 @@ namespace HTML_WPF.Component
 {
     public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
-        private IWPFWebWindowFactory _IWPFWebWindowFactory;
-        private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
-        private IUrlSolver _IUrlSolver;
+        private IWPFWebWindowFactory _WPFWebWindowFactory;
+        private IWebSessionWatcher _WebSessionWatcher = new NullWatcher();
+        private IUrlSolver _UrlSolver;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private string _JavascriptDebugScript = null;
         private readonly IJavascriptUIFrameworkManager _Injector;
@@ -67,9 +66,9 @@ namespace HTML_WPF.Component
             set { _WPFDoubleBrowserNavigator.UseINavigable = value; }
         }
 
-        protected HTMLControlBase(IUrlSolver iIUrlSolver)
+        protected HTMLControlBase(IUrlSolver urlSolver)
         {
-            _IUrlSolver = iIUrlSolver;
+            _UrlSolver = urlSolver;
 
             DebugWindow = new BasicRelayCommand(ShowDebugWindow);
             DebugBrowser = new BasicRelayCommand(OpenDebugBrowser);
@@ -77,17 +76,17 @@ namespace HTML_WPF.Component
             InitializeComponent();
 
             var engine = HTMLEngineFactory.Engine;
-            _IWPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
+            _WPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
             _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);
 
-            _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _IUrlSolver, _Injector);
+            _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _UrlSolver, _Injector);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
         }
 
         public IWebSessionWatcher WebSessionWatcher
         {
-            get { return _IWebSessionWatcher; }
-            set { _IWebSessionWatcher = value; _WPFDoubleBrowserNavigator.WebSessionWatcher = value; }
+            get { return _WebSessionWatcher; }
+            set { _WebSessionWatcher = value; _WPFDoubleBrowserNavigator.WebSessionWatcher = value; }
         }
 
         private void FirstLoad(object sender, EventArgs e)
@@ -111,13 +110,17 @@ namespace HTML_WPF.Component
             _WPFDoubleBrowserNavigator.ExcecuteJavascript("ko.dodebug();");
         }
 
-        public void OpenDebugBrowser()
+        public void OpenDebugBrowser() 
         {
-            var remoteDebuggingPort = _IWPFWebWindowFactory.GetRemoteDebuggingPort();
-            if (remoteDebuggingPort!=null)
-                Process.Start(string.Format("http://localhost:{0}/", remoteDebuggingPort));
-            else
-                MessageBox.Show("EnableBrowserDebug should be set to true to enable debugging in a Webrowser!");
+            var currentWebControl = _WPFDoubleBrowserNavigator.WebControl;
+            if (currentWebControl == null) 
+            {
+                return;
+            }
+
+            var result = currentWebControl.OnDebugToolsRequest();
+            if (!result)
+                MessageBox.Show("Debug tools not available!");
         }
 
         protected async Task<IHTMLBinding> NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
@@ -167,15 +170,15 @@ namespace HTML_WPF.Component
 
         IHTMLWindowProvider IWebViewLifeCycleManager.Create()
         {
-            if (_IWPFWebWindowFactory == null)
+            if (_WPFWebWindowFactory == null)
             {
-                _IWPFWebWindowFactory = HTMLEngineFactory.Engine.ResolveJavaScriptEngine(HTMLEngine);
+                _WPFWebWindowFactory = HTMLEngineFactory.Engine.ResolveJavaScriptEngine(HTMLEngine);
 
-                if (_IWPFWebWindowFactory==null)
+                if (_WPFWebWindowFactory==null)
                     throw ExceptionHelper.Get(string.Format("Not able to find WebEngine {0}", HTMLEngine));
             }
 
-            var webwindow = _IWPFWebWindowFactory.Create();           
+            var webwindow = _WPFWebWindowFactory.Create();           
             var ui = webwindow.UIElement;
             Panel.SetZIndex(ui, 0);
             Grid.SetColumnSpan(ui, 2);
@@ -202,44 +205,5 @@ namespace HTML_WPF.Component
             if (wpfweb!=null)
                 wpfweb.Inject(keyToInject);
         }
-
-        //private void WebCore_ShuttingDown(object sender, CoreShutdownEventArgs e)
-        //{
-        //    //It is possible that webcore is shutting because the window is closing
-        //    //In this case I don't have to raise a session error
-        //    if (Application.Current == null)
-        //    {
-        //        e.Cancel = true;
-        //        return;
-        //    }
-
-        //    _IWebSessionWatcher.LogCritical("Critical: WebCore ShuttingDown!!");
-
-        //    Trace.WriteLine(string.Format("MVVM for awesomium: WebCoreShutting Down exception: {0}", e.Exception));
-
-        //    _IWebSessionWatcher.OnSessionError(e.Exception, () => e.Cancel = true);
-        //}
-
-        //void IWebViewLifeCycleManager.Display(WpfCefBrowser webview)
-        //{
-        //    webview.Visibility = Visibility.Visible;
-        //}
-
-        //void IWebViewLifeCycleManager.Dispose(WpfCefBrowser ioldwebview)
-        //{
-        //    //var wb = (ioldwebview as WebControl);
-        //    ioldwebview.Visibility = Visibility.Hidden;
-
-        //    //if (!ioldwebview.IsCrashed)
-        //    //{
-        //    //    ioldwebview.Source = new Uri("about:blank");
-        //    //}
-
-        //    //WebCore.ShuttingDown -= WebCore_ShuttingDown;
-        //    this.MainGrid.Children.Remove(ioldwebview);
-
-        //    ioldwebview.Dispose();
-
-        //}
     }
 }

@@ -29,6 +29,11 @@ namespace HTMLEngine.CefGlue.CefSession
             return Session;
         }
 
+        public static ICefCoreSession Get() 
+        {
+            return Session;
+        }
+
         public static void Clean()
         {
             if (Session == null)

@@ -33,5 +33,11 @@ namespace HTML_WPF.Component
         /// case when it is an embedded WindowsForm Element 
         /// </summary>
         bool IsUIElementAlwaysTopMost { get; }
+
+        ///// <summary>
+        ///// Called when user request debug tools
+        ///// returns false if this options is not handled, true otherwise
+        ///// </summary>
+        bool OnDebugToolsRequest();
     }
 }

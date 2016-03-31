@@ -4,6 +4,7 @@ using System.Windows.Input;
 using HTMLEngine.CefGlue.CefSession;
 using HTMLEngine.CefGlue.WindowImplementation;
 using HTML_WPF.Component;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace HTMLEngine.CefGlue
@@ -40,6 +41,16 @@ namespace HTMLEngine.CefGlue
         public bool IsUIElementAlwaysTopMost 
         {
             get { return false; }
+        }
+
+        public bool OnDebugToolsRequest() 
+        {
+            var port = CefCoreSessionSingleton.Get().CefSettings.RemoteDebuggingPort;
+            if (port == 0)
+                return false;
+
+            ProcessHelper.OpenLocalUrlInBrowser(port);
+            return true;
         }
 
         public void Dispose()

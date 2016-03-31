@@ -89,6 +89,7 @@
     <Compile Include="Binding\Listeners\ReListener.cs" />
     <Compile Include="Binding\CommandFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
+    <Compile Include="Infra\ProcessHelper.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptUIFrameworkManager.cs" />
     <Compile Include="JavascriptUIFramework\CollectionChangeType.cs" />
     <Compile Include="Binding\CollectionChanges\CollectionChanges.cs" />

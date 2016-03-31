@@ -11,9 +11,9 @@ namespace HTML_WPF.Component
         {
         }
 
-        public HTMLWindow(IUrlSolver iIUrlSolver) : base(iIUrlSolver)
+        public HTMLWindow(IUrlSolver urlSolver) : base(urlSolver)
         {
-            NavigationBuilder = iIUrlSolver as INavigationBuilder;
+            NavigationBuilder = urlSolver as INavigationBuilder;
         }
       
         public INavigationBuilder NavigationBuilder { get; private set; }

@@ -24,13 +24,5 @@ namespace HTML_WPF.Component
         /// a new IWPFWebWindow
         ///</returns>
         IWPFWebWindow Create();
-
-        /// <summary>
-        /// Get the localhost port allowing HTML debugging
-        /// </summary>
-        /// <returns>
-        /// Debugging port, null if not alloed
-        ///</returns>
-        Nullable<int> GetRemoteDebuggingPort();
     }
 }

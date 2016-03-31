@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using HTML_WPF.Component;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace HTMLEngine.Awesomium
@@ -11,12 +12,14 @@ namespace HTMLEngine.Awesomium
     internal class AwesomiumWPFWebWindow : IWPFWebWindow
     {
         private readonly WebSession _Session;
+        private readonly WebConfig _WebConfig;
         private readonly WebControl _WebControl;
         private readonly AwesomiumHTMLWindow _AwesomiumHTMLWindow;
 
-        public AwesomiumWPFWebWindow(WebSession iSession)
+        public AwesomiumWPFWebWindow(WebSession iSession, WebConfig webConfig)
         {
             _Session = iSession;
+            _WebConfig = webConfig;
 
             _WebControl = new WebControl()
             {
@@ -49,6 +52,17 @@ namespace HTMLEngine.Awesomium
         public bool IsUIElementAlwaysTopMost
         {
             get { return false; }
+        }
+
+
+        public bool OnDebugToolsRequest() 
+        {
+            var port = _WebConfig.RemoteDebuggingPort;
+            if (port == 0)
+                return false;
+
+            ProcessHelper.OpenLocalUrlInBrowser(port);
+            return true;
         }
 
         public void Dispose()

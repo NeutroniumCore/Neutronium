@@ -48,9 +48,9 @@ namespace HTML_WPF.Component
         {
         }
 
-        private HTMLViewControl(UrlSolver iIUrlSolver): base(iIUrlSolver)
+        private HTMLViewControl(UrlSolver urlSolver): base(urlSolver)
         {
-            _UrlSolver = iIUrlSolver;
+            _UrlSolver = urlSolver;
             _UrlSolver.Solver = this;
             DataContextChanged += HTMLViewControl_DataContextChanged;
         }

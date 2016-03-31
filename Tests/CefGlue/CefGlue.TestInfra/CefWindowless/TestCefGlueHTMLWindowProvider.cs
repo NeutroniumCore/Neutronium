@@ -30,6 +30,11 @@ namespace CefGlue.TestInfra.CefWindowless
         {
         }
 
+        public bool OnDebugToolsRequest() 
+        {
+            return false;
+        }
+
         public void Dispose()
         {
         }

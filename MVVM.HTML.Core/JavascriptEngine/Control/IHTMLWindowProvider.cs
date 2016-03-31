@@ -27,5 +27,11 @@ namespace MVVM.HTML.Core.JavascriptEngine.Control
         /// Hide the control
         /// </summary>
         void Hide();
+
+        /// <summary>
+        /// Called when user request debug tools
+        /// returns false if this options is not handled, true otherwise
+        /// </summary>
+        bool OnDebugToolsRequest();
     }
 }

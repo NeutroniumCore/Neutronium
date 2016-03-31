@@ -1,7 +1,6 @@
 ﻿using System;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
-using IntegratedTest.Infra.Windowless;
 using MVVM.Awesomium.Tests;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
@@ -31,6 +30,11 @@ namespace MVVM.Awesomium.TestInfra
 
         public void Hide()
         {
+        }
+
+        public bool OnDebugToolsRequest() 
+        {
+            return false;
         }
 
         public void Dispose()

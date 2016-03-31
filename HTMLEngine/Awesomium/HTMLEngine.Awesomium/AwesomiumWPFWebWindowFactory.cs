@@ -40,14 +40,9 @@ namespace HTMLEngine.Awesomium
             get { return "Awesomium"; }
         }
 
-        public IWPFWebWindow Create()
+        public IWPFWebWindow Create() 
         {
-            return new AwesomiumWPFWebWindow(_Session);
-        }
-
-        public int? GetRemoteDebuggingPort()
-        {
-            return _WebConfig.RemoteDebuggingPort;
+            return new AwesomiumWPFWebWindow(_Session, _WebConfig);
         }
 
         public void Dispose()

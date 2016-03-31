@@ -1,5 +1,4 @@
-﻿using System;
-using HTMLEngine.CefGlue.CefSession;
+﻿using HTMLEngine.CefGlue.CefSession;
 using HTML_WPF.Component;
 using Xilium.CefGlue;
 
@@ -26,11 +25,6 @@ namespace HTMLEngine.CefGlue
         public IWPFWebWindow Create()
         {
             return new CefGlueWPFWebWindow(_ICefCoreSession.CefApp);
-        }
-
-        public Nullable<int> GetRemoteDebuggingPort()
-        {
-            return _ICefCoreSession.CefSettings.RemoteDebuggingPort;
         }
 
         public void Dispose()
