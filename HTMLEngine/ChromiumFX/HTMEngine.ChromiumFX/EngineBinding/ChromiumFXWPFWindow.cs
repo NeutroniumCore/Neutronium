@@ -49,6 +49,11 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             get { return _ChromiumFxControl; }
         }
 
+        public bool IsUIElementAlwaysTopMost 
+        {
+            get { return true; }
+        }
+
         public void Dispose()
         {
             _ChromiumWebBrowser.Dispose();

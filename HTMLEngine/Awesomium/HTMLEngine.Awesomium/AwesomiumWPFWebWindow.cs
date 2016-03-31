@@ -46,6 +46,11 @@ namespace HTMLEngine.Awesomium
             wv.InjectKeyboardEvent(kev.GetKeyboardEvent(WebKeyboardEventType.KeyDown));
         }
 
+        public bool IsUIElementAlwaysTopMost
+        {
+            get { return false; }
+        }
+
         public void Dispose()
         {
             _WebControl.Dispose();

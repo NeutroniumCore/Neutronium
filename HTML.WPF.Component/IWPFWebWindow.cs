@@ -27,5 +27,11 @@ namespace HTML_WPF.Component
         /// Get the UIElement representing the browser
         /// </summary>
         UIElement UIElement { get; }
+
+        /// <summary>
+        /// True if UIElement is always topmost as it is the
+        /// case when it is an embedded WindowsForm Element 
+        /// </summary>
+        bool IsUIElementAlwaysTopMost { get; }
     }
 }

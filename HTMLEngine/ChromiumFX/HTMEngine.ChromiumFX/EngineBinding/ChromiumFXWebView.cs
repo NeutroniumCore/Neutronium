@@ -74,9 +74,9 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return resValue;
         }
 
-        public void ExecuteJavaScript(string code)
+        public void ExecuteJavaScript(string code) 
         {
-            _CfrFrame.ExecuteJavaScript(code, String.Empty, 0);
+            RunAsync(() => _CfrFrame.ExecuteJavaScript(code, String.Empty, 0));
         }
     }
 }

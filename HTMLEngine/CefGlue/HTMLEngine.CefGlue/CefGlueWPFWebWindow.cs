@@ -37,6 +37,11 @@ namespace HTMLEngine.CefGlue
             get { return _WpfCefBrowser; }
         }
 
+        public bool IsUIElementAlwaysTopMost 
+        {
+            get { return false; }
+        }
+
         public void Dispose()
         {
             _WpfCefBrowser.Dispose();

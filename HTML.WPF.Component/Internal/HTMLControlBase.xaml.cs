@@ -177,9 +177,12 @@ namespace HTML_WPF.Component
 
             var webwindow = _IWPFWebWindowFactory.Create();           
             var ui = webwindow.UIElement;
-            Grid.SetColumnSpan(ui, 2);
-            Grid.SetRowSpan(ui, 2);
             Panel.SetZIndex(ui, 0);
+            Grid.SetColumnSpan(ui, 2);
+
+            if (!webwindow.IsUIElementAlwaysTopMost)
+                Grid.SetRowSpan(ui, 2);
+            
             this.MainGrid.Children.Add(ui);
             return new WPFHTMLWindowProvider(webwindow, this );
         }
