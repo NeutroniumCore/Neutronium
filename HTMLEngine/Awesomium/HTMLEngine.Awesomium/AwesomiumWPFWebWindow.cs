@@ -65,6 +65,10 @@ namespace HTMLEngine.Awesomium
             return true;
         }
 
+        public void CloseDebugTools() 
+        {
+        }
+
         public void Dispose()
         {
             _WebControl.Dispose();

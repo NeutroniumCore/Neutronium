@@ -661,6 +661,8 @@ namespace IntegratedTest.Tests.WPF
 
                 wpfnav.RaiseEvent( new System.Windows.Input.KeyEventArgs(Keyboard.PrimaryDevice,
                          PresentationSource.FromVisual(wpfnav), 0,Key.F5) { RoutedEvent = Keyboard.PreviewKeyDownEvent }   );
+
+                wpfnav.CloseDebugBrowser();
             }, true);
         }
 

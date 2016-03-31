@@ -53,6 +53,10 @@ namespace HTMLEngine.CefGlue
             return true;
         }
 
+        public void CloseDebugTools() 
+        {
+        }
+
         public void Dispose()
         {
             _WpfCefBrowser.Dispose();

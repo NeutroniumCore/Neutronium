@@ -114,13 +114,20 @@ namespace HTML_WPF.Component
         {
             var currentWebControl = _WPFDoubleBrowserNavigator.WebControl;
             if (currentWebControl == null) 
-            {
                 return;
-            }
 
             var result = currentWebControl.OnDebugToolsRequest();
             if (!result)
                 MessageBox.Show("Debug tools not available!");
+        }
+
+        public void CloseDebugBrowser() 
+        {
+            var currentWebControl = _WPFDoubleBrowserNavigator.WebControl;
+            if (currentWebControl == null)
+                return;
+
+            currentWebControl.CloseDebugTools();
         }
 
         protected async Task<IHTMLBinding> NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)

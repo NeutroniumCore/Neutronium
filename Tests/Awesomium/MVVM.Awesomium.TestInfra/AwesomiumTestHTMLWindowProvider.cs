@@ -37,6 +37,10 @@ namespace MVVM.Awesomium.TestInfra
             return false;
         }
 
+        public void CloseDebugTools() 
+        {
+        }
+
         public void Dispose()
         {
         }

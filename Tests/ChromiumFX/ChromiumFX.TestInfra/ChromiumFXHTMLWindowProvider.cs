@@ -42,5 +42,9 @@ namespace ChromiumFX.TestInfra
         {
             return false;
         }
+
+        public void CloseDebugTools() 
+        {
+        }
     }
 }

@@ -33,5 +33,10 @@ namespace MVVM.HTML.Core.JavascriptEngine.Control
         /// returns false if this options is not handled, true otherwise
         /// </summary>
         bool OnDebugToolsRequest();
+
+        /// <summary>
+        /// Close debug tools window if possible
+        /// </summary>
+        void CloseDebugTools();
     }
 }

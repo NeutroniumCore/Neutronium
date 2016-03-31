@@ -47,10 +47,10 @@ namespace HTML_WPF.Component
             return _IWPFWebWindow.OnDebugToolsRequest();
         }
 
-        //public bool OnDebugToolsRequest() 
-        //{
-        //    return _IWPFWebWindow.OnDebugToolsRequest();
-        //}
+        public void CloseDebugTools() 
+        {
+            _IWPFWebWindow.CloseDebugTools();
+        }
 
         public void Dispose()
         {

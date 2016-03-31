@@ -72,6 +72,11 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return true;
         }
 
+        public void CloseDebugTools() 
+        {
+            _ChromiumWebBrowser.BrowserHost.CloseDevTools();
+        }
+
         public void Dispose()
         {
             _ChromiumWebBrowser.Dispose();
