@@ -1,10 +1,11 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using Awesomium.Core;
 using HTML_WPF.Component;
 
 namespace HTMLEngine.Awesomium
 {
-    public  class AwesomiumWPFWebWindowFactory : IWPFWebWindowFactory
+    public class AwesomiumWPFWebWindowFactory : IWPFWebWindowFactory
     {
         private static WebConfig _WebConfig = new WebConfig() { RemoteDebuggingPort = 8001, RemoteDebuggingHost = "127.0.0.1" };
 
@@ -14,8 +15,19 @@ namespace HTMLEngine.Awesomium
         {
             WebCore.Started += (o, e) => { WebCoreThread = Thread.CurrentThread; };
 
-            if (!WebCore.IsInitialized)
+            if (!WebCore.IsInitialized) 
+            {
                 WebCore.Initialize(_WebConfig);
+                WebCore.ShuttingDown += WebCore_ShuttingDown;
+            }
+        }
+
+        private static void WebCore_ShuttingDown(object sender, CoreShutdownEventArgs e) 
+        {
+            if (e.Exception == null)
+                return; 
+
+            Trace.WriteLine(string.Format("HTMLEngine.Awesomium : WebCoreShutting Down, due to exception: {0}", e.Exception));
         }
 
         public static Thread WebCoreThread { get; internal set; }
