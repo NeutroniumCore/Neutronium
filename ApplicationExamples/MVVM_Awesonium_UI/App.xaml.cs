@@ -14,9 +14,9 @@ namespace MVVM_Awesonium_UI
         protected override void OnStartup(StartupEventArgs e)
         {
             var engine = HTMLEngineFactory.Engine;
-            engine.Register(new AwesomiumWPFWebWindowFactory() );
-            engine.Register(new CefGlueWPFWebWindowFactory());
-            engine.Register(new KnockoutUiFrameworkManager());
+            engine.RegisterHTMLEngine(new AwesomiumWPFWebWindowFactory() );
+            engine.RegisterHTMLEngine(new CefGlueWPFWebWindowFactory());
+            engine.RegisterJavaScriptFramework(new KnockoutUiFrameworkManager());
             base.OnStartup(e);
         }
 

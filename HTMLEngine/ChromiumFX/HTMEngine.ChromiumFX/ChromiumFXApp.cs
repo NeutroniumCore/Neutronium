@@ -3,7 +3,7 @@ using HTML_WPF.Component;
 
 namespace HTMEngine.ChromiumFX 
 {
-    public class ChromiumFXApp : HTMLApp
+    public abstract class ChromiumFXApp : HTMLApp
     {
         protected override IWPFWebWindowFactory GetWindowFactory() 
         {

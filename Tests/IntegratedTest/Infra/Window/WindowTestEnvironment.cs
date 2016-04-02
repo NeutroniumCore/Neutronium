@@ -19,8 +19,8 @@ namespace IntegratedTest.Infra.Window
         {
             var engine = HTMLEngineFactory.Engine;
             _WPFWebWindowFactory = GetWPFWebWindowFactory();
-            engine.Register(_WPFWebWindowFactory);
-            engine.Register(FrameworkManager);
+            engine.RegisterHTMLEngine(_WPFWebWindowFactory);
+            engine.RegisterJavaScriptFramework(FrameworkManager);
         }
 
         private void Register()

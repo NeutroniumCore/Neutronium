@@ -27,7 +27,7 @@ namespace HTML_WPF.Component
         /// <param name="wpfWebWindowFactory">
         /// IWPFWebWindowFactory to be registered
         /// </param>
-        void Register(IWPFWebWindowFactory wpfWebWindowFactory);
+        void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory);
 
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace HTML_WPF.Component
         /// <param name="javascriptUiFrameworkManager">
         /// IJavascriptUIFrameworkManager to be registered
         /// </param>
-        void Register(IJavascriptUIFrameworkManager javascriptUiFrameworkManager);
+        void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager);
 
     }
 }

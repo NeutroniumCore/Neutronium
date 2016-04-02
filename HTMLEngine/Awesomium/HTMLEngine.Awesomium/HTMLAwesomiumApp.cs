@@ -2,7 +2,7 @@
 
 namespace HTMLEngine.Awesomium
 {
-    public class HTMLAwesomiumApp : HTMLApp
+    public abstract class HTMLAwesomiumApp : HTMLApp
     {
         protected override IWPFWebWindowFactory GetWindowFactory()
         {

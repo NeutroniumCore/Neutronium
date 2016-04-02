@@ -3,7 +3,7 @@ using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue
 {
-    public class HTMLCefGlueApp : HTMLApp
+    public abstract class HTMLCefGlueApp : HTMLApp
     {
         protected override IWPFWebWindowFactory GetWindowFactory()
         {

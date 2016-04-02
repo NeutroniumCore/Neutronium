@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using HTMLEngine.CefGlue;
+﻿using HTMLEngine.CefGlue;
+using KnockoutUIFramework;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.Cef.Glue.UI.Navigation
 {
@@ -14,5 +9,9 @@ namespace MVVM.Cef.Glue.UI.Navigation
     /// </summary>
     public partial class CefGlueApp : HTMLCefGlueApp
     {
+        protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
+        {
+            return new KnockoutUiFrameworkManager();
+        }
     }
 }

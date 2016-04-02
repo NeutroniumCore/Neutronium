@@ -7,6 +7,7 @@ using HTMLEngine.CefGlue.CefSession;
 using HTML_WPF.Component;
 using KnockoutUIFramework;
 using MVVM.Cef.Glue;
+using MVVM.HTML.Core.JavascriptUIFramework;
 using NSubstitute;
 using Xunit;
 
@@ -30,9 +31,17 @@ namespace CefGlue.Window.Integrated.Tests
             }
         }
 
+        private class HTMLCefGlueKnockOutApp : HTMLCefGlueApp 
+        {
+            protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
+            {
+                return new KnockoutUiFrameworkManager();
+            }
+        }
+
         private static HTMLCefGlueApp GetApplication()
         {
-            return new HTMLCefGlueApp() { JavascriptUiFrameworkManager = new KnockoutUiFrameworkManager() };
+            return new HTMLCefGlueKnockOutApp();
         }
 
         [Fact(Skip = "One at a time")]

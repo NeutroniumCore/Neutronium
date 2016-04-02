@@ -43,7 +43,7 @@ namespace HTML_WPF.Component
             return _Engines.GetOrDefault(EngineName);
         }
 
-        public void Register(IWPFWebWindowFactory wpfWebWindowFactory)
+        public void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory)
         {
             _Engines[wpfWebWindowFactory.Name] = wpfWebWindowFactory;
         }
@@ -63,7 +63,7 @@ namespace HTML_WPF.Component
             return _JavascriptFrameworks.GetOrDefault(frameworkName);
         }
 
-        public void Register(IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
+        public void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
         {
             _JavascriptFrameworks[javascriptUiFrameworkManager.Name]= javascriptUiFrameworkManager;
         }

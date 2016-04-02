@@ -1,6 +1,7 @@
 ﻿using Chromium;
 using Chromium.Remote.Event;
 using KnockoutUIFramework;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.ChromiumFX 
 {
@@ -9,9 +10,9 @@ namespace MVVM.ChromiumFX
     /// </summary>
     public partial class App  
     {
-        public App() 
+        protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
         {
-            JavascriptUiFrameworkManager = new KnockoutUiFrameworkManager();
+            return new KnockoutUiFrameworkManager();
         }
 
         protected override void UpdateChromiumSettings(CfxSettings settings)

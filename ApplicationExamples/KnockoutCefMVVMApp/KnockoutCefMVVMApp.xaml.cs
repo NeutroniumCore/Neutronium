@@ -1,4 +1,5 @@
 ﻿using KnockoutUIFramework;
+using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace KnockoutCefMVVMApp
 {
@@ -7,9 +8,9 @@ namespace KnockoutCefMVVMApp
     /// </summary>
     public partial class App
     {
-        public App()
+        protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
         {
-            JavascriptUiFrameworkManager = new KnockoutUiFrameworkManager();
+            return new KnockoutUiFrameworkManager();
         }
     }
 }
