@@ -49,6 +49,5 @@ namespace HTML_WPF.Component
         /// IJavascriptUIFrameworkManager to be registered
         /// </param>
         void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager);
-
     }
 }

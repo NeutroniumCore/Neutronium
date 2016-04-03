@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
 
