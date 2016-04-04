@@ -1,19 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using MVVM.HTML.Core.Navigation;
 
 namespace HTML_WPF.Component
 {
     /// <summary>
     /// IHTMLEngineFactory implementation
     /// </summary>
-    public class HTMLEngineFactory : IHTMLEngineFactory
+    public class HTMLEngineFactory : IHTMLEngineFactory 
     {
-        private IDictionary<string, IWPFWebWindowFactory> _Engines = new Dictionary<string, IWPFWebWindowFactory>();
-        private IDictionary<string, IJavascriptUIFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptUIFrameworkManager>();
+        private IWebSessionWatcher _WebSessionWatcher;
+        private readonly IDictionary<string, IWPFWebWindowFactory> _Engines = new Dictionary<string, IWPFWebWindowFactory>();
+        private readonly IDictionary<string, IJavascriptUIFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptUIFrameworkManager>();
 
         /// <summary>
         /// Access the singleton IHTMLEngineFactory
@@ -28,24 +31,31 @@ namespace HTML_WPF.Component
             Engine = new HTMLEngineFactory();
         }
 
-        public IWPFWebWindowFactory ResolveJavaScriptEngine(string EngineName)
+        public HTMLEngineFactory() 
+        {
+            _WebSessionWatcher = new NullWatcher();
+        }
+
+        public IWPFWebWindowFactory ResolveJavaScriptEngine(string engineName)
         {
             if (_Engines.Count == 1)
             {
                 var res = _Engines.First().Value;
-                if (!string.IsNullOrEmpty(EngineName) && (res.Name != EngineName))
+                if (!string.IsNullOrEmpty(engineName) && (res.Name != engineName))
                 {
-                    Trace.WriteLine(string.Format("Name mismatch in IWPFWebWindowFactory resolution {0} vs {1}", EngineName, res.Name));
+                    Trace.WriteLine(string.Format("Name mismatch in IWPFWebWindowFactory resolution {0} vs {1}", engineName, res.Name));
                 }
                 return res;
             }
 
-            return _Engines.GetOrDefault(EngineName);
+            return _Engines.GetOrDefault(engineName);
         }
 
         public void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory)
         {
             _Engines[wpfWebWindowFactory.Name] = wpfWebWindowFactory;
+            if (_WebSessionWatcher != null)
+                wpfWebWindowFactory.WebSessionWatcher = _WebSessionWatcher;
         }
 
         public IJavascriptUIFrameworkManager ResolveJavaScriptFramework(string frameworkName)
@@ -68,9 +78,24 @@ namespace HTML_WPF.Component
             _JavascriptFrameworks[javascriptUiFrameworkManager.Name]= javascriptUiFrameworkManager;
         }
 
+        public IWebSessionWatcher WebSessionWatcher 
+        {
+            get { return _WebSessionWatcher; } 
+            set
+            {
+                _WebSessionWatcher = value;
+                OnEngines(fact => fact.WebSessionWatcher = _WebSessionWatcher);
+            }
+        }
+
+        private void OnEngines(Action<IWPFWebWindowFactory> action) 
+        {
+            _Engines.Values.ForEach(action);
+        }
+
         public void Dispose()
         {
-            _Engines.Values.ForEach(fact => fact.Dispose());
+            OnEngines(fact => fact.Dispose());
             _Engines.Clear();
         }
     }

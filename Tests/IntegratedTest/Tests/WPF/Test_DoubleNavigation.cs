@@ -7,6 +7,7 @@ using System.Windows.Input;
 using FluentAssertions;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;

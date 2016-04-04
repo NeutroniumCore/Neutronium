@@ -217,12 +217,12 @@ namespace MVVM.HTML.Core.Navigation
             }          
         }
 
-        public async Task<IHTMLBinding> NavigateAsync(object iViewModel, string Id = null,JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        public async Task<IHTMLBinding> NavigateAsync(object iViewModel, string id = null,JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             if ((iViewModel == null) || (_Navigating))
                 return null;
 
-            var viewPath = _UrlSolver.Solve(iViewModel, Id);
+            var viewPath = _UrlSolver.Solve(iViewModel, id);
             if (viewPath == null)
                 throw ExceptionHelper.Get(string.Format("Unable to locate ViewModel {0}", iViewModel));
 

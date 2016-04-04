@@ -151,7 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Navigation\IUrlSolver.cs" />
-    <Compile Include="Navigation\IWebSessionWatcher.cs" />
+    <Compile Include="IWebSessionWatcher.cs" />
     <Compile Include="Navigation\NullWatcher.cs" />
     <Compile Include="JavascriptEngine\Control\IWebViewLifeCycleManager.cs" />
     <Compile Include="Navigation\NavigationEvent.cs" />

@@ -18,7 +18,7 @@ namespace HTML_WPF.Component
     public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
         private IWPFWebWindowFactory _WPFWebWindowFactory;
-        private IWebSessionWatcher _WebSessionWatcher = new NullWatcher();
+        private IWebSessionWatcher _WebSessionWatcher;
         private IUrlSolver _UrlSolver;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private string _JavascriptDebugScript = null;
@@ -78,6 +78,7 @@ namespace HTML_WPF.Component
             var engine = HTMLEngineFactory.Engine;
             _WPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
             _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);
+            WebSessionWatcher = engine.WebSessionWatcher;
 
             _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _UrlSolver, _Injector);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;

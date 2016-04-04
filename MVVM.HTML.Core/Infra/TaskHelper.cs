@@ -14,7 +14,7 @@ namespace MVVM.HTML.Core.Infra
 
         public static Task WaitWith<T>(this Task<T> @this, Task other, Action<Task<T>> ithen, TaskScheduler tsc)
         {
-            var tasks = new Task[2] { @this, other };
+            var tasks = new[] { @this, other };
             return Task.Factory.ContinueWhenAll(tasks, (ts) => ithen(ts[0] as Task<T>), CancellationToken.None, TaskContinuationOptions.None, tsc);
         }
 

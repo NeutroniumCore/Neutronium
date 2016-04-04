@@ -4,6 +4,7 @@ using Chromium.WebBrowser;
 using HTMEngine.ChromiumFX.EngineBinding;
 using HTMEngine.ChromiumFX.Session;
 using HTML_WPF.Component;
+using MVVM.HTML.Core;
 
 namespace HTMEngine.ChromiumFX
 {
@@ -48,6 +49,8 @@ namespace HTMEngine.ChromiumFX
         {
             return new ChromiumFXWPFWindow();
         }
+
+        public IWebSessionWatcher WebSessionWatcher { get; set; }
 
         public void Dispose()
         {

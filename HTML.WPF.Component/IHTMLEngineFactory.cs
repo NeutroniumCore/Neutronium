@@ -1,4 +1,5 @@
 ﻿using System;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace HTML_WPF.Component
@@ -29,7 +30,6 @@ namespace HTML_WPF.Component
         /// </param>
         void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory);
 
-
         /// <summary>
         /// Find a IJavascriptUIFrameworkManager by name.
         /// This method is called internally by HTLM_WPF.Component controls
@@ -49,5 +49,10 @@ namespace HTML_WPF.Component
         /// IJavascriptUIFrameworkManager to be registered
         /// </param>
         void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager);
+
+        /// <summary>
+        /// get or set WebSessionWatcher
+        /// </summary>
+        IWebSessionWatcher WebSessionWatcher { get; set; }
     }
 }

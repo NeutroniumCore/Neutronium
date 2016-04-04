@@ -1,4 +1,5 @@
 ﻿using System;
+using MVVM.HTML.Core;
 
 namespace HTML_WPF.Component
 {
@@ -24,5 +25,10 @@ namespace HTML_WPF.Component
         /// a new IWPFWebWindow
         ///</returns>
         IWPFWebWindow Create();
+
+        /// <summary>
+        /// get or set WebSessionWatcher
+        /// </summary>
+        IWebSessionWatcher WebSessionWatcher { get; set; }
     }
 }

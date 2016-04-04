@@ -1,5 +1,6 @@
 ﻿using HTMLEngine.CefGlue.CefSession;
 using HTML_WPF.Component;
+using MVVM.HTML.Core;
 using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue
@@ -26,6 +27,8 @@ namespace HTMLEngine.CefGlue
         {
             return new CefGlueWPFWebWindow(_ICefCoreSession.CefApp);
         }
+
+        public IWebSessionWatcher WebSessionWatcher { get; set; }
 
         public void Dispose()
         {
