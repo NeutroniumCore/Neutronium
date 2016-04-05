@@ -9,7 +9,7 @@ namespace HTML_WPF.Component.Test
     public class HTMLEngineFactoryTest 
     {
         private readonly IWPFWebWindowFactory _WPFWebWindowFactory;
-        private HTMLEngineFactory _HTMLEngineFactory = new HTMLEngineFactory();
+        private readonly HTMLEngineFactory _HTMLEngineFactory = new HTMLEngineFactory();
         private readonly IWebSessionWatcher _IWebSessionWatcher;
 
         public HTMLEngineFactoryTest() 

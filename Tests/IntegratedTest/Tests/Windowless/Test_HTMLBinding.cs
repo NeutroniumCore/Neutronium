@@ -2293,24 +2293,6 @@ namespace IntegratedTest.Tests.Windowless
             await RunAsync(test);
         }
 
-
-        //[Fact]
-        //public async Task Test_HTMLBinding_BasicAlreadyLoaded_OneWay()
-        //{
-        //    var datacontext = new VMWithList<decimal>();
-
-        //    var test = new TestInContext()
-        //    {
-        //        Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
-        //        Test = (mb) =>
-        //        {
-        //            mb.Should().NotBeNull();
-        //        }
-        //    };
-
-        //    await RunAsync(test);
-        //}
-
         [Fact]
         public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()
         {

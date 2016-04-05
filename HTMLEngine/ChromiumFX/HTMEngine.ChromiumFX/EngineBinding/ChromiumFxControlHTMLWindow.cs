@@ -3,6 +3,7 @@ using Chromium.Event;
 using Chromium.Remote;
 using Chromium.Remote.Event;
 using Chromium.WebBrowser;
+using Chromium.WebBrowser.Event;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
@@ -51,7 +52,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             e.Model.Clear();
         }
 
-        private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, Chromium.WebBrowser.Event.RemoteBrowserCreatedEventArgs e) 
+        private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e) 
         {
             _WebBrowser = e.Browser;
         }

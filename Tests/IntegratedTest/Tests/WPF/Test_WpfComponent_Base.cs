@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
