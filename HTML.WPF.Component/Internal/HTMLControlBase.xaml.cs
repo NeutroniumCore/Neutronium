@@ -77,11 +77,12 @@ namespace HTML_WPF.Component
 
             var engine = HTMLEngineFactory.Engine;
             _WPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
-            _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);
-            WebSessionWatcher = engine.WebSessionWatcher;
+            _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);       
 
             _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _UrlSolver, _Injector);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
+
+            WebSessionWatcher = engine.WebSessionWatcher;
         }
 
         public IWebSessionWatcher WebSessionWatcher
