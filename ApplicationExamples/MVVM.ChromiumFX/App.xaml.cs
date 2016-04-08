@@ -1,5 +1,4 @@
 ﻿using Chromium;
-using Chromium.Remote.Event;
 using KnockoutUIFramework;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
