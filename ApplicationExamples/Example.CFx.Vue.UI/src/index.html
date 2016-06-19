@@ -2,9 +2,6 @@
 <html>
 	<head>
         <title></title>
-        <!--<script src="js/init.js" type="text/javascript"></script>-->
-        <!--<script src="js/init.js" type="text/javascript"></script>-->
-
         <style>
             .button{
                 height:50px;
@@ -48,13 +45,13 @@
         </div>
         <div v-for="state in States">
             <label>
-                <input type="radio" v-model="PersonalState" value="state" /><span>{{state.displayName}}</span>
+                <input type="radio" v-model="PersonalState" :value="state" /><span>{{state.displayName}}</span>
             </label>
         </div>
 
         <div v-for="sex in Sexes">
             <label>
-                <input type="radio" v-model="Sex" value="sex" />
+                <input type="radio" v-model="Sex" :value="sex" />
                 <span>{{sex.displayName}}</span>
                 <!--<img height="50" width="50" data-bind="enumimage:$data">-->
             </label>
