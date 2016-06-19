@@ -128,8 +128,6 @@ function executeAsPromise(vm,fnname,argument) {
         if (Mapper.Register){
             if (context===null) 
                 Mapper.Register(res);
-            else if (context.index === undefined)
-                Mapper.Register(res, context.object, context.attribute);
             else
                 Mapper.Register(res, context.object, context.attribute, context.index);
         }

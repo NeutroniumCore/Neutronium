@@ -45,9 +45,7 @@ namespace KnockoutUIFramework
                 return _MainScript;
 
             var resourceLoader = GetResourceReader();
-            var builder = new StringBuilder();
-            JavascriptSource.Select(resourceLoader.Load).ForEach(s => builder.Append(s));
-            return (_MainScript = builder.ToString());
+            return resourceLoader.Load(JavascriptSource);
         }
 
         private static IEnumerable<string> JavascriptSource

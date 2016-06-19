@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
@@ -149,6 +150,11 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// if this method is called incorrectly or an exception is thrown.
         /// </summary>
         IJavascriptObject GetValue(string ivalue);
+
+        /// <summary>
+        /// Get the values of the attributes if the javascript object is an object
+        /// </summary>
+        IEnumerable<string> GetAttributeKeys();
 
         /// <summary>
         /// Only available on arrays.

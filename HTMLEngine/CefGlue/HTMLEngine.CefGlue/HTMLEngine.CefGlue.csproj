@@ -68,8 +68,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Xaml" Condition="$(TargetFrameworkVersion)!='v3.5'" />
-    <Reference Include="Xilium.CefGlue">
-      <HintPath>..\packages\Unofficial.CefGlue.Core.3.2272.2035\lib\Xilium.CefGlue.dll</HintPath>
+    <Reference Include="Xilium.CefGlue, Version=3.2272.2035.0, Culture=neutral, PublicKeyToken=6235298024de30d5, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Unofficial.CefGlue.Core.3.2272.2035\lib\Xilium.CefGlue.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

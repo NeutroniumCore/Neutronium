@@ -203,3 +203,6 @@ FakesAssemblies/
 /HTMLEngine/ChromiumFX/HTMEngine.ChromiumFX/cef/Resources/locales/*.*
 /Tests/ChromiumFX/ChromiumFX.Window.Integrated.Tests/cef/Resources/*.*
 /Tests/ChromiumFX/ChromiumFX.Window.Integrated.Tests/cef/Resources/locales/*.*
+/ApplicationExamples/Example.CFx.Vue.UI/cef/Resources/*.pak
+/ApplicationExamples/Example.CFx.Vue.UI/cef/Resources/*.dat
+/ApplicationExamples/Example.CFx.Vue.UI/cef/Resources/locales/*.pak

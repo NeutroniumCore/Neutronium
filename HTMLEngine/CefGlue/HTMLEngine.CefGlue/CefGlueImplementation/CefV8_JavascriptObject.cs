@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HTMLEngine.CefGlue.CefGlueHelper;
 using Xilium.CefGlue;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using System.Collections.Generic;
 
 namespace MVVM.Cef.Glue
 {
@@ -170,6 +171,11 @@ namespace MVVM.Cef.Glue
         public uint GetID()
         {
             return (_CefV8Value.HasValue("_MappedId")) ? _CefV8Value.GetValue("_MappedId").GetUIntValue() : 0;
+        }
+
+        public IEnumerable<string> GetAttributeKeys()
+        {
+            return _CefV8Value.GetKeys();
         }
     }
 }

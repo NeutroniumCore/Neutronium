@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Awesomium.Core;
@@ -159,6 +160,11 @@ namespace HTMLEngine.Awesomium.HTMLEngine
 
         public void Dispose()
         {
+        }
+
+        public IEnumerable<string> GetAttributeKeys()
+        {
+            return ((JSObject)_JSValue).GetPropertyNames();
         }
     }
 }

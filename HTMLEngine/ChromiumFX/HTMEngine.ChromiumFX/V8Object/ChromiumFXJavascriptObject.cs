@@ -152,5 +152,12 @@ namespace HTMEngine.ChromiumFX.V8Object
             var length = _CfrV8Value.ArrayLength;
             return Enumerable.Range(0, length).Select(_CfrV8Value.GetValue).Convert();
         }
+
+        public IEnumerable<string> GetAttributeKeys()
+        {
+            var list = new List<string>();
+            _CfrV8Value.GetKeys(list);
+            return list;
+        }
     }
 }

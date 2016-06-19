@@ -15,6 +15,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private readonly IDispatcher _dispatcher ;
         private CfrBrowser _WebBrowser;
         private bool _FirstLoad = true;
+        private bool _SendLoadOnContextCreated = false;
 
         public IWebView MainFrame { get; private set; }
 
@@ -67,6 +68,9 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
             Action<string> excecute = (code) => e.Frame.ExecuteJavaScript(code, String.Empty, 0);
             beforeJavascriptExecuted(this, new BeforeJavascriptExcecutionArgs(excecute));
+
+            if (_SendLoadOnContextCreated)
+                SendLoad();
         }
 
         private void OnConsoleMessage(object sender, CfxOnConsoleMessageEventArgs e)
@@ -84,10 +88,25 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                 return;
             }
 
-            var loadEnd = LoadEnd;
-            if ((loadEnd != null) && (MainFrame!=null))
-                _dispatcher.RunAsync(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
+            SendLoad();
         }        
+
+        private void SendLoad()
+        {
+            var loadEnd = LoadEnd;
+            if (loadEnd == null)
+                return;
+
+            if (MainFrame == null)
+            {
+                _ChromiumWebBrowser.ExecuteJavascript("(function(){})()");
+                _SendLoadOnContextCreated = true;
+                return;
+            }
+
+            _SendLoadOnContextCreated = false;
+            _dispatcher.RunAsync(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
+        }
         
         public void NavigateTo(Uri path) 
         {

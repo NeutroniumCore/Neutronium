@@ -161,6 +161,7 @@ namespace HTMLEngine.CefGlue.WindowImplementation
                 this.Dispatcher.BeginInvoke(act);
             }
         }
+
         internal void OnLoadingStateChange(bool isLoading, bool canGoBack, bool canGoForward)
         {
             if (this.LoadingStateChange != null)
