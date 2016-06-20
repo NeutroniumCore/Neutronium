@@ -18,10 +18,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <UniformGrid Rows="1" Grid.Row="1" >
-            <Button Height="30" x:Name="Button_DebugWindow" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}"  Content="VM Debug" HorizontalAlignment="Right"  Width="74" Margin="0,0,10,5" Command="{Binding ElementName=Root,Path=DebugWindow}" Panel.ZIndex="1"/>
-            <Button Height="30" x:Name="Button_DebugBrowser" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}" Content="Debug Tools" Grid.Column="1" HorizontalAlignment="Left" Width="85"  Margin="10,0,0,5" Command="{Binding ElementName=Root,Path=DebugBrowser}" Panel.ZIndex="1"/>
-
+        <UniformGrid Rows="1" Grid.Row="1" HorizontalAlignment="Center" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}">
+            <Button Height="30" x:Name="Button_DebugWindow" Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="VM Debug" HorizontalAlignment="Right"  Width="74" Margin="0,0,10,5" Command="{Binding ElementName=Root,Path=DebugWindow}" Panel.ZIndex="1"/>
+            <Button Height="30" x:Name="Button_DebugBrowser"  Content="Debug Tools" Grid.Column="1" HorizontalAlignment="Left" Width="85"  Margin="10,0,0,5" Command="{Binding ElementName=Root,Path=DebugBrowser}" Panel.ZIndex="1"/>
         </UniformGrid>
    
     </Grid>

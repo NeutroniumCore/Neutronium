@@ -1,7 +1,6 @@
 ﻿using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Exceptions;
 
 namespace VueUiFramework

@@ -33,8 +33,15 @@ namespace HTML_WPF.Component
             set { SetValue(IsDebugProperty, value); }
         }
 
-        public static readonly DependencyProperty IsDebugProperty =
-            DependencyProperty.Register("IsDebug", typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsDebugProperty = DependencyProperty.Register("IsDebug", typeof (bool), typeof (HTMLControlBase), new PropertyMetadata(false));
+
+        public bool VmDebug
+        {
+            get { return (bool) GetValue(VmDebugProperty); }
+            private set { SetValue(VmDebugProperty, value); }
+        }
+
+        public static readonly DependencyProperty VmDebugProperty = DependencyProperty.Register("VmDebug", typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
 
         public bool IsHTMLLoaded
         {
@@ -79,7 +86,9 @@ namespace HTML_WPF.Component
             _WPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
             _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);
 
-            DebugWindow.Executable = _Injector.HasDebugScript();
+            var debugableVm =_Injector.HasDebugScript();
+            DebugWindow.Executable = debugableVm;
+            VmDebug = debugableVm;
 
             _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _UrlSolver, _Injector);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
