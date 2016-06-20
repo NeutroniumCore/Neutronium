@@ -35,6 +35,7 @@ namespace VueUiFramework
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
         {
+            father.SetValue(propertyName, value);
         }
     }
 }

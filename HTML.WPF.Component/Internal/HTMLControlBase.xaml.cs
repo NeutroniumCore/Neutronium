@@ -24,8 +24,8 @@ namespace HTML_WPF.Component
         private string _JavascriptDebugScript = null;
         private readonly IJavascriptUIFrameworkManager _Injector;
 
-        public ICommand DebugWindow { get; private set; }
-        public ICommand DebugBrowser { get; private set; }
+        public BasicRelayCommand DebugWindow { get; private set; }
+        public BasicRelayCommand DebugBrowser { get; private set; }
 
         public bool IsDebug
         {
@@ -77,7 +77,9 @@ namespace HTML_WPF.Component
 
             var engine = HTMLEngineFactory.Engine;
             _WPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
-            _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);       
+            _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);
+
+            DebugWindow.Executable = _Injector.HasDebugScript();
 
             _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _UrlSolver, _Injector);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
@@ -97,7 +99,7 @@ namespace HTML_WPF.Component
             _WPFDoubleBrowserNavigator.OnFirstLoad -= FirstLoad;
         }
        
-        private void RunKoView()
+        private void RunDebugscript()
         {
             if (_JavascriptDebugScript == null)
             {
@@ -108,7 +110,7 @@ namespace HTML_WPF.Component
 
         public void ShowDebugWindow()
         {
-            RunKoView();
+            RunDebugscript();
             _WPFDoubleBrowserNavigator.ExcecuteJavascript("ko.dodebug();");
         }
 
@@ -190,7 +192,7 @@ namespace HTML_WPF.Component
             var webwindow = _WPFWebWindowFactory.Create();           
             var ui = webwindow.UIElement;
             Panel.SetZIndex(ui, 0);
-            Grid.SetColumnSpan(ui, 2);
+            //Grid.SetColumnSpan(ui, 2);
 
             if (!webwindow.IsUIElementAlwaysTopMost)
                 Grid.SetRowSpan(ui, 2);

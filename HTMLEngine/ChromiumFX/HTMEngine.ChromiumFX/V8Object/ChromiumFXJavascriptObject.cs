@@ -156,7 +156,7 @@ namespace HTMEngine.ChromiumFX.V8Object
         public IEnumerable<string> GetAttributeKeys()
         {
             var list = new List<string>();
-            _CfrV8Value.GetKeys(list);
+            var res = _CfrV8Value.GetKeys(list);
             return list;
         }
     }

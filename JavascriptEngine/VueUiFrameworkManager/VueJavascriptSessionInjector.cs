@@ -20,8 +20,10 @@ namespace VueUiFramework
 
         public IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper mapper)
         {
-            var visiter = new JavascriptTreeVisiter(rawObject, mapper);
-            visiter.Visit();
+            var visiter = new JavascriptTreeVisiter(_WebView, rawObject, mapper);
+
+            _WebView.Run(()=> visiter.Visit());
+            
             return rawObject;
         }
 
@@ -32,7 +34,7 @@ namespace VueUiFramework
 
             _VueHelper = _WebView.GetGlobal().GetValue("glueHelper");
             if ((_VueHelper == null) || (!_VueHelper.IsObject))
-                throw ExceptionHelper.Get("ko object not found! You should add a link to knockout.js script to the HML document!");
+                throw ExceptionHelper.Get("glueHelper not found!");
 
             return _VueHelper;
         }

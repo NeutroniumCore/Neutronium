@@ -6,24 +6,35 @@ namespace MVVM.HTML.Core.Infra.VM
 {
     public class BasicRelayCommand : ICommand
     {
-        readonly Action _execute;
+        private readonly Action _Execute;
+        private bool _Canexecute = true;
 
         public BasicRelayCommand(Action execute)
         {
-            _execute = execute;
+            _Execute = execute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return _Canexecute;
+        }
+
+        public bool Executable
+        {
+            get { return _Canexecute; }
+            set
+            {
+                _Canexecute =value;
+                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         [DebuggerStepThrough]
         public void Execute(object parameter)
         {
-            _execute();
+            _Execute();
         }
 
-        event EventHandler ICommand.CanExecuteChanged { add { } remove { } }
+        public event EventHandler CanExecuteChanged;
     }
 }

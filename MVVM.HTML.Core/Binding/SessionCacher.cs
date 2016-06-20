@@ -98,7 +98,11 @@ namespace MVVM.HTML.Core.Binding
 
         private void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
         {
-            var jso = (JSGenericObject) GetGlobalCached(iFather);
+            var global = GetGlobalCached(iFather);
+            if (global is JSCommand)
+                return;
+
+            var jso = (JSGenericObject)global;
             Update(jso.Attributes[att] as IJSObservableBridge, iChild);
         }
 
