@@ -1,10 +1,10 @@
-﻿using HTML_WPF.Component;
-using System.Windows;
+﻿using System.Windows;
 using HTMLEngine.Awesomium;
 using HTMLEngine.CefGlue;
+using HTML_WPF.Component;
 using KnockoutUIFramework;
 
-namespace MVVM_Awesonium_UI
+namespace Example.Awesomium.CefGlue.Ko.SimpleUI
 {
     /// <summary>
     /// Interaction logic for App.xaml

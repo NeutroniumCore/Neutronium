@@ -1,4 +1,4 @@
-﻿<Application x:Class="MVVM_Awesonium_UI.App"
+﻿<Application x:Class="Example.Awesomium.CefGlue.Ko.SimpleUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">

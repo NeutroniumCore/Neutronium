@@ -1,8 +1,8 @@
-﻿using MVVM.ViewModel.Example;
-using System;
+﻿using System;
 using System.Windows;
+using MVVM.ViewModel.Example;
 
-namespace MVVM_Awesonium_UI
+namespace Example.Awesomium.CefGlue.Ko.SimpleUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
