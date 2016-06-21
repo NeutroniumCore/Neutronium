@@ -6,12 +6,13 @@
              mc:Ignorable="d" 
               x:Name="Root"
             PreviewKeyDown="Root_PreviewKeyDown"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style TargetType="Button">
-            <Setter Property="Width" Value="85"/>
+            <Setter Property="Width" Value="90"/>
             <Setter Property="Height" Value="30"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="10,5"/>
             <Setter Property="Panel.ZIndex" Value="1"/>
         </Style>
@@ -25,9 +26,9 @@
         </Grid.RowDefinitions>
 
         <UniformGrid Rows="1" Grid.Row="1" HorizontalAlignment="Center" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}">
-            <Button x:Name="Button_DebugWindow" Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="VM Debug" Command="{Binding ElementName=Root,Path=DebugWindow}"/>
-            <Button x:Name="Button_DebugBrowser" Content="Debug Tools" Command="{Binding ElementName=Root,Path=DebugBrowser}"/>
-            <Button x:Name="Button_DebugInfo" Content="Information" Command="{Binding ElementName=Root,Path=ShowInfo}"/>
+            <Button Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="VM Debug" Command="{Binding ElementName=Root,Path=DebugWindow}"/>
+            <Button Content="Debug Tools" Command="{Binding ElementName=Root,Path=DebugBrowser}"/>
+            <Button Width="50" Content="About" Command="{Binding ElementName=Root,Path=ShowInfo}"/>
         </UniformGrid>
    
     </Grid>
