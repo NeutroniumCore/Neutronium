@@ -1,0 +1,46 @@
+﻿<Window x:Class="Example.ChromiumFX.Ko.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:component="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Background="Gray" FontWeight="Bold" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Text="WPF" />
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding LastName}"/>
+            <TextBlock Text="{Binding PersonalState}"/>
+            <TextBox Text="{Binding Local.City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ListBox ItemsSource="{Binding Skills}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Type}"/>
+                            <TextBlock Text="{Binding Name}"/>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Content="Button" Height="23" Command="{Binding Command}" Width="75" />
+
+        </StackPanel>
+
+        <TextBlock Background="Gray" FontWeight="Bold"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Text="ChromiumFx"/>
+        <component:HTMLViewControl HTMLEngine="ChromiumFX" Grid.Column="0" Grid.Row="1"   IsDebug="True"  x:Name="cfxBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+    </Grid>
+</Window>

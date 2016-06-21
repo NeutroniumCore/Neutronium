@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+        <title></title>
+        <style>
+            .button{
+                height:50px;
+                width:150px;
+                text-align:center;
+                -webkit-user-select:none;
+            }
+            .on {
+                background-color:lightgreen;
+            }
+            .off {
+                background-color:red;
+            }
+        </style>
+
+	</head>
+<body>
+    <div id="main">
+        <input type="text" v-model="Name" placeholder="First name">
+        <ul v-for="skill in Skills">
+            <li>
+                <span>{{skill.Type}}</span>:<span>{{skill.Name}}</span>
+                <!--<button data-bind="execute: $root.RemoveSkill, executeoption: { callback : function(){alert('removing');} }">-->
+                <button @click="RemoveSkill.Execute(skill)">
+                    Remove skill
+                </button>
+            </li>
+        </ul>
+        <div>
+            <h2><span>{{Name}}</span></h2>
+            <h2><span>{{LastName}}</span></h2>
+            <h2><span>{{PersonalState.displayName}}</span></h2>
+            <h2><span>{{Local.City}}</span></h2>
+            
+            <input type="range" min="0" max="130" v-model="Age">
+        </div>
+        <div id="Local">
+            <h2><span data-bind="text: Local().City"></span></h2>
+
+            <input type="text" v-if="MainSkill!==null" v-model="MainSkill.Type" placeholder="Main Skill Type">
+            <input type="text" v-if="MainSkill!==null" v-model="MainSkill.Name" placeholder="Main Skill">
+
+        </div>
+        <div v-for="state in States">
+            <label>
+                <input type="radio" v-model="PersonalState" :value="state" /><span>{{state.displayName}}</span>
+            </label>
+        </div>
+
+        <div v-for="sex in Sexes">
+            <label>
+                <input type="radio" v-model="Sex" :value="sex" />
+                <span>{{sex.displayName}}</span>
+                <!--<img height="50" width="50" data-bind="enumimage:$data">-->
+            </label>
+        </div>
+        <!--<img height="200" width="200" data-bind="enumimage:$root.Sex">-->
+        <!--<button data-bind="command: $data.ChangeSkill">Change skill</button>-->
+        <button @click="ChangeSkill.Execute">Change skill</button>
+        <!--<div class="button" data-bind="command: $data.Command, commandoption: { event:'dblclick', cssOn:'on', ccsOff:'off', callback : function(){alert('add skill');}}">Add skill</div>-->
+        <div class="button" @dblclick="Command.Execute">Add skill</div>
+    </div>
+
+</body>
+
+</html>
