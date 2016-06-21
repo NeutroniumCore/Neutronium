@@ -1,7 +1,7 @@
-﻿using MVVM.CEFGlue.UI.CollectionTest.ViewModel;
-using System.Windows;
+﻿using System.Windows;
+using Example.CefGlue.Ko.CollectionTest.ViewModel;
 
-namespace MVVM.Cef.Glue.UI.CollectionTest
+namespace Example.CefGlue.Ko.CollectionTest
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

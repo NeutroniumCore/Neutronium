@@ -1,4 +1,4 @@
-﻿namespace MVVM.Cef.Glue.UI.Calendar
+﻿namespace Example.CefGlue.Ko.Calendar
 {
     /// <summary>
     /// Interaction logic for CefGlueApp.xaml

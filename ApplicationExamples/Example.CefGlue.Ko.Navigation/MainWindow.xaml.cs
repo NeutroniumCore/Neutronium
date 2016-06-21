@@ -5,13 +5,13 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel.Infra;
 
-namespace MVVM.Cef.Glue.AnimatedNavigation
+namespace Example.CefGlue.Ko.Navigation
 {
     public class Nav:  INavigable
     {
         public Nav()
         {
-            DoNav = new RelayCommand(() => { if (Navigation != null) Navigation.NavigateAsync(this); });
+            DoNav = new RelayCommand(() => { Navigation?.NavigateAsync(this); });
         }
 
         public ICommand DoNav { get; private set;}

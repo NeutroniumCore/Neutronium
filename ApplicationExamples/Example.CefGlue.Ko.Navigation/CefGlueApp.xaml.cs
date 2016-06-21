@@ -1,4 +1,4 @@
-﻿namespace MVVM.Cef.Glue.AnimatedNavigation
+﻿namespace Example.CefGlue.Ko.Navigation
 {
     /// <summary>
     /// Interaction logic for CefGlueApp.xaml

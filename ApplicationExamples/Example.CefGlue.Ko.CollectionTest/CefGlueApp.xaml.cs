@@ -1,4 +1,4 @@
-﻿namespace MVVM.Cef.Glue.UI.CollectionTest
+﻿namespace Example.CefGlue.Ko.CollectionTest
 {
     /// <summary>
     /// Interaction logic for CefGlueApp.xaml

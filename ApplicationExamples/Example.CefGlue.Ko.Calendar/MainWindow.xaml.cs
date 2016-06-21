@@ -1,13 +1,13 @@
-﻿using MVVM.ViewModel.Example;
-using System;
+﻿using System;
 using System.Windows;
+using MVVM.ViewModel.Example;
 
-namespace MVVM.Cef.Glue.UI.Calendar
+namespace Example.CefGlue.Ko.Calendar
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -22,7 +22,7 @@ namespace MVVM.Cef.Glue.UI.Calendar
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            this.WebControl.Dispose();
+            WebControl.Dispose();
         } 
     }
 }
