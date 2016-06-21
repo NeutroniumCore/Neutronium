@@ -1,6 +1,5 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,7 +41,6 @@ namespace VueUiFramework
         {
             foreach(var childkey in GetObjectKeys(parent))
             {
-                Console.WriteLine(childkey);
                 var child = parent.GetValue(childkey);
 
                 if (!IsMapable(child))
