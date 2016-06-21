@@ -12,7 +12,7 @@ namespace HTMEngine.ChromiumFX
     {
         public string EngineName 
         {
-            get { return "Chromium" + CfxRuntime.GetChromeVersion(); }
+            get { return "Chromium " + CfxRuntime.GetChromeVersion(); }
         }
 
         public string Name 

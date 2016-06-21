@@ -12,6 +12,7 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using System.Text;
 
 namespace HTML_WPF.Component
 {
@@ -19,13 +20,14 @@ namespace HTML_WPF.Component
     {
         private IWPFWebWindowFactory _WPFWebWindowFactory;
         private IWebSessionWatcher _WebSessionWatcher;
-        private IUrlSolver _UrlSolver;
-        private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private string _JavascriptDebugScript = null;
+        private readonly IUrlSolver _UrlSolver;
+        private readonly DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private readonly IJavascriptUIFrameworkManager _Injector;
 
         public BasicRelayCommand DebugWindow { get; private set; }
         public BasicRelayCommand DebugBrowser { get; private set; }
+        public BasicRelayCommand ShowInfo { get; private set; }
 
         public bool IsDebug
         {
@@ -79,6 +81,7 @@ namespace HTML_WPF.Component
 
             DebugWindow = new BasicRelayCommand(ShowDebugWindow);
             DebugBrowser = new BasicRelayCommand(OpenDebugBrowser);
+            ShowInfo = new BasicRelayCommand(DoShowInfo);
 
             InitializeComponent();
 
@@ -94,6 +97,16 @@ namespace HTML_WPF.Component
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
 
             WebSessionWatcher = engine.WebSessionWatcher;
+        }
+
+        private void DoShowInfo()
+        {
+            var builder = new StringBuilder();
+            builder.AppendLine($"WebBrowser: {_WPFWebWindowFactory.EngineName}")
+                   .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
+                   .AppendLine($"MVVM Binding: {_Injector.Name}")
+                   .AppendLine($"Javascript Framework: {_Injector.FrameworkName}");
+            MessageBox.Show(builder.ToString(), "Electron configuration");
         }
 
         public IWebSessionWatcher WebSessionWatcher
@@ -201,7 +214,6 @@ namespace HTML_WPF.Component
             var webwindow = _WPFWebWindowFactory.Create();           
             var ui = webwindow.UIElement;
             Panel.SetZIndex(ui, 0);
-            //Grid.SetColumnSpan(ui, 2);
 
             if (!webwindow.IsUIElementAlwaysTopMost)
                 Grid.SetRowSpan(ui, 2);

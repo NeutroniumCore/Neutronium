@@ -9,6 +9,12 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="85"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="10,5"/>
+            <Setter Property="Panel.ZIndex" Value="1"/>
+        </Style>
 
     </UserControl.Resources>
     <Grid x:Name="MainGrid">
@@ -19,8 +25,9 @@
         </Grid.RowDefinitions>
 
         <UniformGrid Rows="1" Grid.Row="1" HorizontalAlignment="Center" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}">
-            <Button Height="30" x:Name="Button_DebugWindow" Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="VM Debug" HorizontalAlignment="Right"  Width="74" Margin="0,0,10,5" Command="{Binding ElementName=Root,Path=DebugWindow}" Panel.ZIndex="1"/>
-            <Button Height="30" x:Name="Button_DebugBrowser"  Content="Debug Tools" Grid.Column="1" HorizontalAlignment="Left" Width="85"  Margin="10,0,0,5" Command="{Binding ElementName=Root,Path=DebugBrowser}" Panel.ZIndex="1"/>
+            <Button x:Name="Button_DebugWindow" Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="VM Debug" Command="{Binding ElementName=Root,Path=DebugWindow}"/>
+            <Button x:Name="Button_DebugBrowser" Content="Debug Tools" Command="{Binding ElementName=Root,Path=DebugBrowser}"/>
+            <Button x:Name="Button_DebugInfo" Content="Information" Command="{Binding ElementName=Root,Path=ShowInfo}"/>
         </UniformGrid>
    
     </Grid>
