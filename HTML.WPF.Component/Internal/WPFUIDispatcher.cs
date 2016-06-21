@@ -45,8 +45,8 @@ namespace HTML_WPF.Component
         public T Evaluate<T>(Func<T> compute)
         {
             var res = default(T);
-            Action Compute = () => res = compute();
-            _Dispatcher.Invoke(Compute);
+            Action action = () => res = compute();
+            _Dispatcher.Invoke(action);
             return res;
         }
 

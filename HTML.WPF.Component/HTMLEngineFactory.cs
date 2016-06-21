@@ -38,17 +38,15 @@ namespace HTML_WPF.Component
 
         public IWPFWebWindowFactory ResolveJavaScriptEngine(string engineName)
         {
-            if (_Engines.Count == 1)
+            if (_Engines.Count != 1) 
+                return _Engines.GetOrDefault(engineName);
+            
+            var res = _Engines.First().Value;
+            if (!string.IsNullOrEmpty(engineName) && (res.Name != engineName))
             {
-                var res = _Engines.First().Value;
-                if (!string.IsNullOrEmpty(engineName) && (res.Name != engineName))
-                {
-                    Trace.WriteLine(string.Format("Name mismatch in IWPFWebWindowFactory resolution {0} vs {1}", engineName, res.Name));
-                }
-                return res;
+                Trace.WriteLine($"Name mismatch in IWPFWebWindowFactory resolution {engineName} vs {res.Name}");
             }
-
-            return _Engines.GetOrDefault(engineName);
+            return res;
         }
 
         public void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory)
@@ -65,7 +63,7 @@ namespace HTML_WPF.Component
                 var res = _JavascriptFrameworks.First().Value;
                 if (!string.IsNullOrEmpty(frameworkName) && (res.Name != frameworkName))
                 {
-                    Trace.WriteLine(string.Format("Name mismatch in IJavascriptUIFrameworkManager resolution {0} vs {1}", frameworkName, res.Name));
+                    Trace.WriteLine($"Name mismatch in IJavascriptUIFrameworkManager resolution {frameworkName} vs {res.Name}");
                 }
                 return res;
             }

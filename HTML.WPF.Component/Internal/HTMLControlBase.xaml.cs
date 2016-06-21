@@ -13,6 +13,7 @@ using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Text;
+using System.Windows.Media;
 
 namespace HTML_WPF.Component
 {
@@ -104,9 +105,19 @@ namespace HTML_WPF.Component
             var builder = new StringBuilder();
             builder.AppendLine($"WebBrowser: {_WPFWebWindowFactory.EngineName}")
                    .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
-                   .AppendLine($"MVVM Binding: {_Injector.Name}")
-                   .AppendLine($"Javascript Framework: {_Injector.FrameworkName}");
-            MessageBox.Show(builder.ToString(), "Electron configuration");
+                   .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")
+                   .AppendLine($"MVVM Binding: {_Injector.Name}");
+            MessageBox.Show(GetParentWindow(), builder.ToString(), "Electron configuration");
+        }
+
+        private Window GetParentWindow() 
+        {
+            var parent = VisualTreeHelper.GetParent(this);
+            while (!(parent is Window)) 
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            return parent as Window;
         }
 
         public IWebSessionWatcher WebSessionWatcher

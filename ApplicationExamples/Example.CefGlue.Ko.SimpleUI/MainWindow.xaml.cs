@@ -2,16 +2,16 @@
 using System.Windows;
 using MVVM.ViewModel.Example;
 
-namespace MVVM.Cef.Glue.UI
+namespace Example.CefGlue.Ko.SimpleUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private Skill _FirstSkill;
@@ -42,6 +42,5 @@ namespace MVVM.Cef.Glue.UI
             this.wcBrowser.Dispose();
             base.OnClosed(e);
         }
-
     }
 }

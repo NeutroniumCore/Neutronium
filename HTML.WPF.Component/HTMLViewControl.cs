@@ -26,9 +26,9 @@ namespace HTML_WPF.Component
         {
             set
             {
-                var path = string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), value);
+                var path = $"{Assembly.GetExecutingAssembly().GetPath()}\\{value}";
                 if (!File.Exists(path))
-                    throw ExceptionHelper.Get(string.Format("Path not found {0}", path));
+                    throw ExceptionHelper.Get($"Path not found {path}");
 
                 Uri = new Uri(path);
             }

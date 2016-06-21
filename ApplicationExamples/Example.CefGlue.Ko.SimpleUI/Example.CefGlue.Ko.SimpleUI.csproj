@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{83FD4663-5C46-4885-83DB-D65C99A1C9F0}</ProjectGuid>
+    <ProjectGuid>{C872C8E9-D0B9-47AA-9AEA-6556A01BA1F0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVVM.CefGlue.UI</RootNamespace>
-    <AssemblyName>MVVM.CefGlue.UI</AssemblyName>
+    <RootNamespace>Example.CefGlue.Ko.SimpleUI</RootNamespace>
+    <AssemblyName>Example.CefGlue.Ko.SimpleUI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

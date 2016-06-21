@@ -1,4 +1,4 @@
-﻿namespace MVVM.CEFGlue.UI
+﻿namespace Example.CefGlue.Ko.SimpleUI
 {
     /// <summary>
     /// Interaction logic for CefGlueApp.xaml
