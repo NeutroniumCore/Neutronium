@@ -159,9 +159,7 @@
     <None Include="cef\Resources\locales\de.pak" />
     <None Include="cef\Resources\locales\el.pak" />
     <None Include="cef\Resources\locales\en-GB.pak" />
-    <None Include="cef\Resources\locales\en-US.pak">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="cef\Resources\locales\en-US.pak" />
     <None Include="cef\Resources\locales\es-419.pak" />
     <None Include="cef\Resources\locales\es.pak" />
     <None Include="cef\Resources\locales\et.pak" />

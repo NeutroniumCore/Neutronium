@@ -38,7 +38,6 @@ namespace MVVM.HTML.Core.Binding
 
         public IJSCSGlue GetGlobalCached(IJavascriptObject globalkey)
         {
-            Console.WriteLine(globalkey.GetID());
             if (!globalkey.HasRelevantId())
                 return null;
 

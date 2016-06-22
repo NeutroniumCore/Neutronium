@@ -9,6 +9,7 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using System.Diagnostics;
 
 namespace MVVM.HTML.Core.Binding
 {
@@ -280,6 +281,7 @@ namespace MVVM.HTML.Core.Binding
         }
 
         private ReListener _ReListen = null;
+
         private IDisposable ReListen()
         {
             return (_ReListen != null) ? _ReListen.AddRef() :
@@ -291,19 +293,20 @@ namespace MVVM.HTML.Core.Binding
             return _Context.WebView.Evaluate(() => GetCachedOrCreateBasicUnsafe(globalkey, iTargetType));
         }
 
-        private IJSCSGlue GetCachedOrCreateBasicUnsafe(IJavascriptObject globalkey, Type targetType) {
+        private IJSCSGlue GetCachedOrCreateBasicUnsafe(IJavascriptObject globalkey, Type targetType)
+        {
             if (globalkey == null)
                 return null;
 
             //Use local cache for objet not created in javascript session such as enum
             var res = _SessionCache.GetGlobalCached(globalkey) ?? _SessionCache.GetCachedLocal(globalkey);
-            if (res!=null)
+            if (res != null)
                 return res;
 
-            object targetvalue;
+            object targetvalue = null;
             bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, targetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
-                throw ExceptionHelper.Get(string.Format("Unable to convert javascript object: {0}", globalkey));
+                Trace.WriteLine($"Unable to convert javascript object: { globalkey} to C# session. Value will be default to null. Please check javascript bindings.");
 
             return new JSBasicObject(globalkey, targetvalue);
         }
