@@ -1,7 +1,7 @@
-﻿using MVVM.ViewModel.Example;
-using System.Windows;
+﻿using System.Windows;
+using MVVM.ViewModel.Example;
 
-namespace ParentEventBindingExample
+namespace Example.CefGlue.Ko.ParentEventBinding
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
