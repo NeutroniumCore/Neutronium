@@ -1,13 +1,12 @@
-﻿using HTMLEngine.CefGlue;
-using KnockoutUIFramework;
+﻿using KnockoutUIFramework;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace MVVM.Cef.Glue.UI.Navigation
+namespace Example.CefGlue.Ko.BasicNavigation
 {
     /// <summary>
     /// Interaction logic for CefGlueApp.xaml
     /// </summary>
-    public partial class CefGlueApp : HTMLCefGlueApp
+    public partial class CefGlueApp
     {
         protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
         {

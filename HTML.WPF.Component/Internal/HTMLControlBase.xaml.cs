@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -76,8 +77,11 @@ namespace HTML_WPF.Component
             set { _WPFDoubleBrowserNavigator.UseINavigable = value; }
         }
 
-        protected HTMLControlBase(IUrlSolver urlSolver)
+        protected HTMLControlBase(IUrlSolver urlSolver) 
         {
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
+
             _UrlSolver = urlSolver;
 
             DebugWindow = new BasicRelayCommand(ShowDebugWindow);
