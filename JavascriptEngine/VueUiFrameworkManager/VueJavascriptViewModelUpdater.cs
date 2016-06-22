@@ -1,5 +1,4 @@
 ﻿using MVVM.HTML.Core.JavascriptUIFramework;
-using System;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace VueUiFramework

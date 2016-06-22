@@ -34,6 +34,11 @@ namespace KnockoutUIFramework
             return _JavascriptDebugScript ;
         }
 
+        public string GetDebugToogleScript()
+        {
+            return "ko.dodebug();";
+        }
+
         public bool HasDebugScript()
         {
             return true;

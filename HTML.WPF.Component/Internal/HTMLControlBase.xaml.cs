@@ -144,7 +144,7 @@ namespace HTML_WPF.Component
         public void ShowDebugWindow()
         {
             RunDebugscript();
-            _WPFDoubleBrowserNavigator.ExcecuteJavascript("ko.dodebug();");
+            _WPFDoubleBrowserNavigator.ExcecuteJavascript(_Injector.GetDebugToogleScript());
         }
 
         public void OpenDebugBrowser() 

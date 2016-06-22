@@ -10,10 +10,6 @@ namespace VueUiFramework
 
         public string Name { get { return "VueInjector"; } }
 
-        public VueSessionInjector()
-        {
-        }
-
         public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {
             return new VueJavascriptSessionInjector(webView, javascriptObserver);
@@ -25,6 +21,11 @@ namespace VueUiFramework
         }
 
         public string GetDebugScript()
+        {
+            return null;
+        }
+
+        public string GetDebugToogleScript() 
         {
             return null;
         }

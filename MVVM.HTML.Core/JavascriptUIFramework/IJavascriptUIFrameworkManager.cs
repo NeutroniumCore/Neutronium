@@ -47,6 +47,11 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         string GetDebugScript();
 
         /// <summary>
+        /// return javascript script that toogle the display of debug tool
+        /// </summary>
+        string GetDebugToogleScript();
+
+        /// <summary>
         /// return main javascript debug including framework code
         /// </summary>
         string GetMainScript();
