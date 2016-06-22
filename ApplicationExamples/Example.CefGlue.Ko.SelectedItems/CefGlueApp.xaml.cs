@@ -1,4 +1,4 @@
-﻿namespace MVVM.Cef.Glue.UI.SelectedItems
+﻿namespace Example.CefGlue.Ko.SelectedItems
 {
     /// <summary>
     /// Interaction logic for CefGlueApp.xaml

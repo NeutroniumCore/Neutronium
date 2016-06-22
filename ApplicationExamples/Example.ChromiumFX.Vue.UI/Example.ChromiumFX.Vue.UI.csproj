@@ -273,9 +273,9 @@
       <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
       <Name>MVVM.ViewModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChromiumFXVueMVVMApp\ChromiumFXVueMVVMApp.csproj">
+    <ProjectReference Include="..\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj">
       <Project>{c769e3ad-e82e-4e2f-bc4c-c92ca572c2ed}</Project>
-      <Name>ChromiumFXVueMVVMApp</Name>
+      <Name>Example.ChromiumFX.Vue.Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

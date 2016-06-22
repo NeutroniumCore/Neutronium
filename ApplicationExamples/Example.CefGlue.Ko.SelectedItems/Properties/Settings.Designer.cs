@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KnockoutCefMVVMApp.Properties {
+namespace Example.CefGlue.Ko.SelectedItems.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

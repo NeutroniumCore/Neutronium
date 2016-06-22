@@ -1,6 +1,6 @@
 ﻿using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace ChromiumFXVueMVVMApp
+namespace Example.ChromiumFX.Vue.Infra
 {
     /// <summary>
     /// Interaction logic for App.xaml

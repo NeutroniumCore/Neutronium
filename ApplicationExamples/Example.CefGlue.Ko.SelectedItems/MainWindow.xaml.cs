@@ -2,12 +2,12 @@
 using System.Windows;
 using MVVM.ViewModel.Example;
 
-namespace MVVM.Cef.Glue.UI.SelectedItems
+namespace Example.CefGlue.Ko.SelectedItems
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {

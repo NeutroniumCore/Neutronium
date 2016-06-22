@@ -1,9 +1,9 @@
-﻿<chromiumFXVueMVVMApp:App x:Class="Example.ChromiumFX.Vue.UI.App"
+﻿<chromiumFxVueINfra:App x:Class="Example.ChromiumFX.Vue.UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:chromiumFXVueMVVMApp="clr-namespace:ChromiumFXVueMVVMApp;assembly=ChromiumFXVueMVVMApp" 
+             xmlns:chromiumFxVueINfra="clr-namespace:Example.ChromiumFX.Vue.Infra;assembly=Example.ChromiumFX.Vue.Infra" 
              StartupUri="MainWindow.xaml">
-    <chromiumFXVueMVVMApp:App.Resources>
+    <chromiumFxVueINfra:App.Resources>
          
-    </chromiumFXVueMVVMApp:App.Resources>
-</chromiumFXVueMVVMApp:App>
+    </chromiumFxVueINfra:App.Resources>
+</chromiumFxVueINfra:App>
