@@ -37,7 +37,7 @@ namespace HTML_WPF.Component
             set { SetValue(IsDebugProperty, value); }
         }
 
-        public static readonly DependencyProperty IsDebugProperty = DependencyProperty.Register("IsDebug", typeof (bool), typeof (HTMLControlBase), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsDebugProperty = DependencyProperty.Register(nameof(IsDebug), typeof (bool), typeof (HTMLControlBase), new PropertyMetadata(false));
 
         public bool VmDebug
         {
@@ -45,7 +45,7 @@ namespace HTML_WPF.Component
             private set { SetValue(VmDebugProperty, value); }
         }
 
-        public static readonly DependencyProperty VmDebugProperty = DependencyProperty.Register("VmDebug", typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
+        public static readonly DependencyProperty VmDebugProperty = DependencyProperty.Register(nameof(VmDebug), typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
 
         public bool IsHTMLLoaded
         {
@@ -54,7 +54,7 @@ namespace HTML_WPF.Component
         }
 
         public static readonly DependencyProperty IsHTMLLoadedProperty =
-            DependencyProperty.Register("IsHTMLLoaded", typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsHTMLLoaded), typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
 
         public string HTMLEngine
         {
@@ -65,11 +65,7 @@ namespace HTML_WPF.Component
         public static readonly DependencyProperty HTMLEngineProperty =
             DependencyProperty.Register("HTMLEngine", typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
 
-
-        public Uri Source
-        {
-            get { return _WPFDoubleBrowserNavigator.Url; }
-        }
+        public Uri Source => _WPFDoubleBrowserNavigator.Url;
 
         public bool UseINavigable
         {
@@ -165,10 +161,7 @@ namespace HTML_WPF.Component
         public void CloseDebugBrowser() 
         {
             var currentWebControl = _WPFDoubleBrowserNavigator.WebControl;
-            if (currentWebControl == null)
-                return;
-
-            currentWebControl.CloseDebugTools();
+            currentWebControl?.CloseDebugTools();
         }
 
         protected async Task<IHTMLBinding> NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
@@ -223,15 +216,12 @@ namespace HTML_WPF.Component
                 _WPFWebWindowFactory = HTMLEngineFactory.Engine.ResolveJavaScriptEngine(HTMLEngine);
 
                 if (_WPFWebWindowFactory==null)
-                    throw ExceptionHelper.Get(string.Format("Not able to find WebEngine {0}", HTMLEngine));
+                    throw ExceptionHelper.Get($"Not able to find WebEngine {HTMLEngine}");
             }
 
             var webwindow = _WPFWebWindowFactory.Create();           
             var ui = webwindow.UIElement;
             Panel.SetZIndex(ui, 0);
-
-            if (!webwindow.IsUIElementAlwaysTopMost)
-                Grid.SetRowSpan(ui, 2);
             
             this.MainGrid.Children.Add(ui);
             return new WPFHTMLWindowProvider(webwindow, this );
@@ -248,9 +238,8 @@ namespace HTML_WPF.Component
             if (wpfacess == null)
                 return;
 
-            var wpfweb = wpfacess.IWPFWebWindow;            
-            if (wpfweb!=null)
-                wpfweb.Inject(keyToInject);
+            var wpfweb = wpfacess.IWPFWebWindow;
+            wpfweb?.Inject(keyToInject);
         }
     }
 }
