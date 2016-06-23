@@ -52,13 +52,10 @@ namespace MVVM.HTML.Core.Binding
             return _FromJavascript_Local.GetOrDefault(localkey.GetID());
         }
 
-        public IJavascriptObjectMapper GetMapper(IJSObservableBridge root)
+        public IJavascriptObjectInternalMapper GetMapper(IJSObservableBridge root)
         {
             return new JavascriptMapper(root, Update, RegisterMapping, RegisterCollectionMapping);
         }
-        //_LiveMapper.Update(_Root, iRoot);
-        //_LiveMapper.RegisterMapping(iFather, att, iChild);
-        //_LiveMapper.RegisterCollectionMapping(iFather, att, index, iChild);
 
         internal void Update(IJSObservableBridge ibo, IJavascriptObject jsobject)
         {

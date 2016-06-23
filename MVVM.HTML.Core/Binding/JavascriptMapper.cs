@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.Binding
 {
-    internal class JavascriptMapper : IJavascriptObjectMapper
+    internal class JavascriptMapper : IJavascriptObjectInternalMapper
     {
         private readonly IJSObservableBridge _Root;
         private readonly TaskCompletionSource<object> _TCS = new TaskCompletionSource<object>();

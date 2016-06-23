@@ -52,10 +52,5 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// root observable object
         /// </param>
         void EndMapping(IJavascriptObject rootObject);
-
-        /// <summary>
-        /// Task that complete when mapping is done (after EndMapping is called).
-        /// </summary>
-        Task UpdateTask { get; }
     }
 }
