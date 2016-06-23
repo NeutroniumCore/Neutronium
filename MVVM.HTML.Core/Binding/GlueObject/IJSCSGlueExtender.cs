@@ -34,6 +34,11 @@ namespace MVVM.HTML.Core.Binding.GlueObject
             return (inj!=null) ?  inj.MappedJSValue : @this.JSValue;    
         }
 
+        internal static void AutoMap(this IJSObservableBridge @this) 
+        {
+            @this.SetMappedJSValue(@this.JSValue);
+        }
+
         public static void ApplyOnListenable(this IJSCSGlue @this, IListenableObjectVisitor ivisitor)
         {
             foreach (var child in @this.GetAllChildren(true))

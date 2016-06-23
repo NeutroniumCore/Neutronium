@@ -6,9 +6,9 @@ namespace VueUiFramework
 {
     public class VueSessionInjector : IJavascriptUIFrameworkManager
     {
-        public string FrameworkName { get { return "vue.js 1.0.25"; } }
+        public string FrameworkName => "vue.js 1.0.25";
 
-        public string Name { get { return "VueInjector"; } }
+        public string Name => "VueInjector";
 
         public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {

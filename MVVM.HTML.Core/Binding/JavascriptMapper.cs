@@ -2,6 +2,7 @@
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MVVM.HTML.Core.Binding
@@ -13,28 +14,51 @@ namespace MVVM.HTML.Core.Binding
         private readonly Action<IJSObservableBridge, IJavascriptObject> _Update;
         private readonly Action<IJavascriptObject, string, IJavascriptObject> _RegisterMapping;
         private readonly Action<IJavascriptObject, string, int, IJavascriptObject> _RegisterCollectionMapping;
+        private bool? _AutoMapMode;
+
 
         public JavascriptMapper(IJSObservableBridge root, Action<IJSObservableBridge, IJavascriptObject> update,
-            Action<IJavascriptObject, string, IJavascriptObject> registerMapping, Action<IJavascriptObject, string, int, IJavascriptObject> registerCollectionMapping)
-        {
+            Action<IJavascriptObject, string, IJavascriptObject> registerMapping, Action<IJavascriptObject, string, int, IJavascriptObject> registerCollectionMapping) {
             _Root = root;
             _Update = update;
             _RegisterMapping = registerMapping;
             _RegisterCollectionMapping = registerCollectionMapping;
         }
 
+        private void CheckMode(bool mode)
+        {
+            if (_AutoMapMode == null) 
+            {
+                _AutoMapMode = mode;
+                return;
+            }
+
+            if (mode!= _AutoMapMode.Value)
+                throw new ArgumentException("When autoMap is called, any other methods can be called");
+        }
+
+        public void AutoMap()
+        {
+            CheckMode(true);
+            _Root.GetAllChildren(true).OfType<IJSObservableBridge>().ToList().ForEach(ch => ch.AutoMap());
+            _TCS.TrySetResult(null);
+        }
+
         public void MapFirst(IJavascriptObject iRoot)
-        {         
+        {
+            CheckMode(false);
             _Update(_Root, iRoot);
         }
 
         public void Map(IJavascriptObject father, string att, IJavascriptObject child)
-        { 
+        {
+            CheckMode(false);
             _RegisterMapping(father, att, child);
         }
 
         public void MapCollection(IJavascriptObject father, string att, int index, IJavascriptObject child)
         {
+            CheckMode(false);
             _RegisterCollectionMapping(father, att, index, child);
         }
 
@@ -42,6 +66,7 @@ namespace MVVM.HTML.Core.Binding
 
         public void EndMapping(IJavascriptObject iRoot)
         {
+            CheckMode(false);
             _TCS.TrySetResult(null);
         }
     }

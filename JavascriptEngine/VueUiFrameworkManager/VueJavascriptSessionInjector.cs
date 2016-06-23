@@ -19,10 +19,7 @@ namespace VueUiFramework
 
         public IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper mapper)
         {
-            var visiter = new JavascriptTreeVisiter(_WebView, rawObject, mapper);
-
-            _WebView.Run(()=> visiter.Visit());
-            
+            _WebView.RunAsync(mapper.AutoMap);   
             return rawObject;
         }
 

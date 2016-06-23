@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavascriptTreeVisiter.cs" />
     <Compile Include="VueJavascriptSessionInjector.cs" />
     <Compile Include="VueJavascriptViewModelUpdater.cs" />
     <Compile Include="VueSessionInjector.cs" />

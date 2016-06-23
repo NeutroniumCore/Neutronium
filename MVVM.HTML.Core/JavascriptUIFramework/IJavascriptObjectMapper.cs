@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.JavascriptUIFramework
 {
@@ -7,8 +6,18 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
     /// Mapper used to create corresponde beetween simple javascript object
     /// and corresponding observable javascript object
     /// </summary>
-    public interface IJavascriptObjectMapper
+    public interface IJavascriptObjectMapper 
     {
+        /// <summary>
+        /// Should be called when injector does not need to create new VM javascrit object
+        /// and will reuse the objects provided by HTML core.
+        /// Important: This method should be called in the WebView Context (RunAsync...).
+        /// Important: this method should be called once. Calling any other methods after 
+        /// calling AutoMap will throw an exception. Calling AutoMap after calling another 
+        /// mapper method will also raise an exception.
+        /// </summary>
+        void AutoMap();
+
         /// <summary>
         /// Map the root object
         /// </summary>

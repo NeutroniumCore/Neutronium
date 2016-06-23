@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -12,8 +10,8 @@ namespace KnockoutUIFramework
         private string _JavascriptDebugScript;
         private string _MainScript;
 
-        public string FrameworkName { get { return "knockout.js 3.3.0"; } }
-        public string Name { get { return "KnockoutInjector"; } }
+        public string FrameworkName => "knockout.js 3.3.0";
+        public string Name => "KnockoutInjector";
 
         public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {
