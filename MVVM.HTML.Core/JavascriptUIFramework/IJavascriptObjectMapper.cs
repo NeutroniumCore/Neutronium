@@ -11,10 +11,10 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// <summary>
         /// Should be called when injector does not need to create new VM javascrit object
         /// and will reuse the objects provided by HTML core.
-        /// Important: This method should be called in the WebView Context (RunAsync...).
-        /// Important: this method should be called once. Calling any other methods after 
-        /// calling AutoMap will throw an exception. Calling AutoMap after calling another 
-        /// mapper method will also raise an exception.
+        /// Important: This method should be called in the WebView Context (WebView.RunAsync...).
+        /// Important: Calling any other methods after calling AutoMap will throw an exception. 
+        /// Reciprocally Calling AutoMap after calling another mapper method will also raise an 
+        /// exception.
         /// </summary>
         void AutoMap();
 
