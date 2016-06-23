@@ -25,7 +25,7 @@ namespace MVVM.HTML.Core.Infra
 
         public string Load(string fileName)
         {
-            using (var stream = _Assembly.GetManifestResourceStream(string.Format("{0}.{1}", _Directory, fileName)))
+            using (var stream = _Assembly.GetManifestResourceStream($"{_Directory}.{fileName}"))
             using (var reader = new StreamReader(stream))
                 return reader.ReadToEnd();
         }

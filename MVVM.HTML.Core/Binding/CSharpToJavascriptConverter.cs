@@ -5,8 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
 using MVVM.Component;
-using MVVM.HTML.Core.Binding.Extension;
 using MVVM.HTML.Core.Binding.GlueObject;
+using MVVM.HTML.Core.Extension;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.HTML.Core.Binding
@@ -93,7 +93,7 @@ namespace MVVM.HTML.Core.Binding
                 }
                 catch(Exception e)
                 {
-                    Trace.WriteLine(string.Format("MVVM for HTML: Unable to convert property {0} from {1} exception {2}", propertyName, from, e));
+                    Trace.WriteLine($"MVVM for HTML: Unable to convert property {propertyName} from {@from} exception {e}");
                     continue;
                 }
 

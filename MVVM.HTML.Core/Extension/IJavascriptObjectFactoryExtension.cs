@@ -3,7 +3,7 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.Extension
+namespace MVVM.HTML.Core.Extension
 {
     public static class IJavascriptObjectFactoryExtension
     {
@@ -11,8 +11,7 @@ namespace MVVM.HTML.Core.Binding.Extension
         {
             try
             {
-                var res = @this.CreateObject(string.Format("new Enum('{0}',{1},'{2}','{3}')",
-                    ienum.GetType().Name, Convert.ToInt32(ienum), ienum.ToString(), ienum.GetDescription()));
+                var res = @this.CreateObject($"new Enum('{ienum.GetType().Name}',{Convert.ToInt32(ienum)},'{ienum.ToString()}','{ienum.GetDescription()}')");
 
                 if ((res == null) || (!res.IsObject))
                     throw ExceptionHelper.GetUnexpected();

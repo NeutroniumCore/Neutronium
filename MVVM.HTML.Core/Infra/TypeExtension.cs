@@ -4,44 +4,48 @@ using System.Linq;
 
 namespace MVVM.HTML.Core.Infra
 {
-    public static class TypeExtender {
-        public static IEnumerable<Type> GetBaseTypes(this Type itype) {
-            if (itype == null) throw new ArgumentNullException();
-            yield return itype;
+    public static class TypeExtender
+    {
+        public static IEnumerable<Type> GetBaseTypes(this Type type) 
+        {
+            if (type == null) throw new ArgumentNullException();
+            yield return type;
 
-            while ((itype = itype.BaseType) != null) {
-                yield return itype;
+            while ((type = type.BaseType) != null)
+            {
+                yield return type;
             }
         }
 
-        public static Type GetEnumerableBase(this Type itype) {
-            if (itype == null)
+        public static Type GetEnumerableBase(this Type type) {
+            if (type == null)
                 return null;
 
-            if (!itype.IsGenericType)
+            if (!type.IsGenericType)
                 return null;
 
-            if (itype.GetGenericTypeDefinition() == typeof (IEnumerable<>))
-                return itype.GetGenericArguments()[0];
+            if (type.GetGenericTypeDefinition() == typeof (IEnumerable<>))
+                return type.GetGenericArguments()[0];
 
-            var types = itype.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (IEnumerable<>)).ToArray();
+            var types = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (IEnumerable<>)).ToArray();
             // Only support collections that implement IEnumerable<T> once.
             return types.Length == 1 ? types[0].GetGenericArguments()[0] : null;
         }
 
-        public static Type GetUnderlyingNullableType(this Type itype) {
-            if (itype == null)
+        public static Type GetUnderlyingNullableType(this Type type)
+        {
+            if (type == null)
                 return null;
 
-            if (!itype.IsGenericType)
+            if (!type.IsGenericType)
                 return null;
 
-            return itype.GetGenericTypeDefinition() == typeof (Nullable<>) ? itype.GetGenericArguments()[0] : null;
+            return type.GetGenericTypeDefinition() == typeof (Nullable<>) ? type.GetGenericArguments()[0] : null;
         }
 
-        public static bool IsUnsigned(this Type iTargetType) 
+        public static bool IsUnsigned(this Type targetType) 
         {
-            return (iTargetType != null) && ((iTargetType == typeof(UInt16)) || (iTargetType == typeof(UInt32)) || (iTargetType == typeof(UInt64)));
+            return (targetType != null) && ((targetType == typeof(UInt16)) || (targetType == typeof(UInt32)) || (targetType == typeof(UInt64)));
         }
     }
 }

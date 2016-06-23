@@ -11,7 +11,7 @@ namespace MVVM.HTML.Core.Infra
 
         public static void OpenLocalUrlInBrowser(int port) 
         {
-            OpenFileWinstalledApplication(string.Format("http://localhost:{0}/", port));
+            OpenFileWinstalledApplication($"http://localhost:{port}/");
         }
     }
 }

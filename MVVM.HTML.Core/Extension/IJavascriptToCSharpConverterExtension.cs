@@ -1,6 +1,7 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.Extension
+namespace MVVM.HTML.Core.Extension
 {
     public static class IJavascriptToCSharpConverterExtension
     {
@@ -8,16 +9,13 @@ namespace MVVM.HTML.Core.Binding.Extension
         public static object GetArgument(this IJavascriptToCSharpConverter converter, IJavascriptObject javascriptObject)
         {
             var found = converter.GetCachedOrCreateBasic(javascriptObject, null);
-            return (found != null) ? found.CValue : null;
+            return found?.CValue;
         }
 
 
-        public static object GetFirstArgumentOrNull(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
+        public static object GetFirstArgumentOrNull(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects) 
         {
-            if (javascriptObjects.Length == 0)
-                return null;
-
-            return converter.GetArgument(javascriptObjects[0]);
+            return javascriptObjects.Length == 0 ? null : converter.GetArgument(javascriptObjects[0]);
         }
     }
 }

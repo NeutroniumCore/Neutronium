@@ -22,30 +22,21 @@ namespace MVVM.HTML.Core
         {
             Context.RunAsync(() =>
             {
-                if (_JavascriptSessionInjector != null)
-                {
-                    _JavascriptSessionInjector.Dispose();
-                    _JavascriptSessionInjector = null;
-                }
+                if (_JavascriptSessionInjector == null) 
+                    return;
+                
+                _JavascriptSessionInjector.Dispose();
+                _JavascriptSessionInjector = null;
             });
         }
 
-        public JavascriptBindingMode Mode { get { return JavascriptBindingMode.OneTime; } }
+        public JavascriptBindingMode Mode => JavascriptBindingMode.OneTime;
 
-        public IJavascriptObject JSRootObject
-        {
-            get { return _Root; }
-        }
+        public IJavascriptObject JSRootObject => _Root;
 
-        public object Root
-        {
-            get { return null; }
-        }
+        public object Root => null;
 
-        public IJavascriptSessionInjector JavascriptUIFramework
-        {
-            get { return _Context.JavascriptSessionInjector; }
-        }
+        public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
 
         public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel)
         {
@@ -65,9 +56,6 @@ namespace MVVM.HTML.Core
             return new StringBinding(context, mappedroot, injector);
         }
 
-        public IWebView Context
-        {
-            get { return _Context.WebView; }
-        }
+        public IWebView Context => _Context.WebView;
     }
 }

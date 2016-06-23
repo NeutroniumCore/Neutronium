@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace MVVM.HTML.Core.Infra
 {
     public static class EnumExtender
     {
-        public static string GetDescription(this System.Enum o)
+        public static string GetDescription(this Enum o)
         {
             if (o == null) return string.Empty;
 
@@ -17,7 +16,7 @@ namespace MVVM.HTML.Core.Infra
                 return valuename;
             
             var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-            return (attributes != null && attributes.Length > 0) ? attributes[0].Description : valuename;
+            return (attributes.Length > 0) ? attributes[0].Description : valuename;
         }
 
         public static T[] GetEnums<T>() where T : struct

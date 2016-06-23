@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using System;
 
 namespace MVVM.HTML.Core.Binding
 {
@@ -36,20 +34,14 @@ namespace MVVM.HTML.Core.Binding
             return _FromCSharp.GetOrDefault(key);
         }
 
-        public IJSCSGlue GetGlobalCached(IJavascriptObject globalkey)
+        public IJSCSGlue GetGlobalCached(IJavascriptObject globalkey) 
         {
-            if (!globalkey.HasRelevantId())
-                return null;
-
-            return _FromJavascript_Global.GetOrDefault(globalkey.GetID());
+            return !globalkey.HasRelevantId() ? null : _FromJavascript_Global.GetOrDefault(globalkey.GetID());
         }
 
-        public IJSCSGlue GetCachedLocal(IJavascriptObject localkey)
+        public IJSCSGlue GetCachedLocal(IJavascriptObject localkey) 
         {
-            if (!localkey.HasRelevantId())
-                return null;
-
-            return _FromJavascript_Local.GetOrDefault(localkey.GetID());
+            return !localkey.HasRelevantId() ? null : _FromJavascript_Local.GetOrDefault(localkey.GetID());
         }
 
         public IJavascriptObjectInternalMapper GetMapper(IJSObservableBridge root)
@@ -57,28 +49,28 @@ namespace MVVM.HTML.Core.Binding
             return new JavascriptMapper(root, Update, RegisterMapping, RegisterCollectionMapping);
         }
 
-        internal void Update(IJSObservableBridge ibo, IJavascriptObject jsobject)
+        internal void Update(IJSObservableBridge observableBridge, IJavascriptObject jsobject)
         {
-            ibo.SetMappedJSValue(jsobject);
-            CacheGlobal(jsobject, ibo);
+            observableBridge.SetMappedJSValue(jsobject);
+            CacheGlobal(jsobject, observableBridge);
         }
 
-        internal void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
+        internal void RegisterMapping(IJavascriptObject father, string att, IJavascriptObject child)
         {
-            var global = GetGlobalCached(iFather);
+            var global = GetGlobalCached(father);
             if (global is JSCommand)
                 return;
 
             var jso = (JSGenericObject)global;
-            Update(jso.Attributes[att] as IJSObservableBridge, iChild);
+            Update(jso.Attributes[att] as IJSObservableBridge, child);
         }
 
-        internal void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
+        internal void RegisterCollectionMapping(IJavascriptObject jsFather, string att, int index, IJavascriptObject child)
         {
-            var father = GetGlobalCached(iFather);
+            var father = GetGlobalCached(jsFather);
             var jsos = (att == null) ? father : ((JSGenericObject)father).Attributes[att];
 
-            Update(((JSArray)jsos).Items[index] as IJSObservableBridge, iChild);
+            Update(((JSArray)jsos).Items[index] as IJSObservableBridge, child);
         }
     }
 }

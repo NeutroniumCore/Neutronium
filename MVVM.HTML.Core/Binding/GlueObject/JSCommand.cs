@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
-using MVVM.HTML.Core.Binding.Extension;
+using MVVM.HTML.Core.Extension;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -18,13 +18,13 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         private IJavascriptObject _MappedJSValue;
         private int _Count = 1;
 
-        public IJavascriptObject JSValue { get; private set; }
-        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
-        public object CValue { get { return _Command; } }
-        public JSCSGlueType Type { get { return JSCSGlueType.Command; } }
-        private IWebView WebView { get { return _HTMLViewContext.WebView; } }
-        private IDispatcher UIDispatcher { get { return _HTMLViewContext.UIDispatcher; } }
-        private IJavascriptViewModelUpdater ViewModelUpdater { get { return _HTMLViewContext.ViewModelUpdater; } }
+        public IJavascriptObject JSValue { get; }
+        public IJavascriptObject MappedJSValue => _MappedJSValue;
+        public object CValue => _Command;
+        public JSCSGlueType Type => JSCSGlueType.Command;
+        private IWebView WebView => _HTMLViewContext.WebView;
+        private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
+        private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
 
         public JSCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command)
         {

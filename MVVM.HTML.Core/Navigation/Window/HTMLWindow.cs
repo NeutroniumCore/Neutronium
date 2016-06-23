@@ -18,7 +18,7 @@ namespace MVVM.HTML.Core.Navigation.Window
             _State = WindowLogicalState.Loading;
             _IsLiteningClose = false;
             CloseReady = new BasicRelayCommand(() => State = WindowLogicalState.Closed);
-            EndOpen = new BasicRelayCommand(() => {if (_OpenTask!=null) _OpenTask.TrySetResult(null);} );
+            EndOpen = new BasicRelayCommand(() => {  _OpenTask?.TrySetResult(null); });
         }
 
         private WindowLogicalState _State;
@@ -79,8 +79,8 @@ namespace MVVM.HTML.Core.Navigation.Window
             return tcs.Task;
         }
 
-        public ICommand CloseReady { get; private set; }
+        public ICommand CloseReady { get; }
 
-        public ICommand EndOpen { get; private set; }
+        public ICommand EndOpen { get; }
     }
 }

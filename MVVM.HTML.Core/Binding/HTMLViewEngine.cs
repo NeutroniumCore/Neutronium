@@ -16,10 +16,7 @@ namespace MVVM.HTML.Core.Binding
             _UIFrameworkManager = uiFrameworkManager;
         }
 
-        private IWebView MainView
-        {
-            get { return _HTMLWindowProvider.HTMLWindow.MainFrame; }
-        }
+        private IWebView MainView => _HTMLWindowProvider.HTMLWindow.MainFrame;
 
         public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {

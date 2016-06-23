@@ -36,7 +36,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
 
         public static void ApplyOnListenable(this IJSCSGlue @this, IListenableObjectVisitor ivisitor)
         {
-            foreach (var child in @this.GetAllChildren(true).Distinct())
+            foreach (var child in @this.GetAllChildren(true))
             {
                 var childvalue = child.CValue;
                 var notifyCollectionChanged = childvalue as INotifyCollectionChanged;

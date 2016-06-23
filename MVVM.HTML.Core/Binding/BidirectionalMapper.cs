@@ -156,7 +156,7 @@ namespace MVVM.HTML.Core.Binding
             }
             catch (Exception e)
             {
-                ExceptionHelper.Log(string.Format("Unable to update ViewModel from View, exception raised: {0}", e));
+                ExceptionHelper.Log($"Unable to update ViewModel from View, exception raised: {e}");
             }
         }
 
@@ -177,7 +177,7 @@ namespace MVVM.HTML.Core.Binding
             }
             catch (Exception e)
             {
-                ExceptionHelper.Log(string.Format("Unable to update ViewModel from View, exception raised: {0}", e));
+                ExceptionHelper.Log($"Unable to update ViewModel from View, exception raised: {e}");
             }
         }
 

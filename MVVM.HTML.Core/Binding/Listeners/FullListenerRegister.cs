@@ -8,20 +8,20 @@ namespace MVVM.HTML.Core.Binding.Listeners
     internal class FullListenerRegister
     {
 
-        public FullListenerRegister(Action<INotifyPropertyChanged> PropertyOn, Action<INotifyPropertyChanged> PropertyOff,
-                        Action<INotifyCollectionChanged> CollectionOn, Action<INotifyCollectionChanged> CollectionOff,
-                        Action<JSCommand> JSCommandOn, Action<JSCommand> JSCommandOff)
+        public FullListenerRegister(Action<INotifyPropertyChanged> propertyOn, Action<INotifyPropertyChanged> propertyOff,
+                        Action<INotifyCollectionChanged> collectionOn, Action<INotifyCollectionChanged> collectionOff,
+                        Action<JSCommand> jsCommandOn, Action<JSCommand> jsCommandOff)
         {
-            Property = new ListenerRegister<INotifyPropertyChanged>(PropertyOn, PropertyOff);
-            Collection = new ListenerRegister<INotifyCollectionChanged>(CollectionOn, CollectionOff);
-            Command = new ListenerRegister<JSCommand>(JSCommandOn, JSCommandOff);
+            Property = new ListenerRegister<INotifyPropertyChanged>(propertyOn, propertyOff);
+            Collection = new ListenerRegister<INotifyCollectionChanged>(collectionOn, collectionOff);
+            Command = new ListenerRegister<JSCommand>(jsCommandOn, jsCommandOff);
         }
 
-        public ListenerRegister<INotifyPropertyChanged> Property { get; private set; }
+        public ListenerRegister<INotifyPropertyChanged> Property { get; }
 
-        public ListenerRegister<INotifyCollectionChanged> Collection { get; private set; }
+        public ListenerRegister<INotifyCollectionChanged> Collection { get; }
 
-        public ListenerRegister<JSCommand> Command { get; private set; }
+        public ListenerRegister<JSCommand> Command { get; }
 
         public ListenableVisitor GetOn()
         {

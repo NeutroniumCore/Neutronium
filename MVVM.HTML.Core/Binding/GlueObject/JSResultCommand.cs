@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MVVM.Component;
-using MVVM.HTML.Core.Binding.Extension;
+using MVVM.HTML.Core.Extension;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
@@ -17,10 +17,10 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
-        public IJavascriptObject JSValue { get; private set; }
-        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
-        public object CValue { get { return _JSResultCommand; } }
-        public JSCSGlueType Type { get { return JSCSGlueType.ResultCommand; } }
+        public IJavascriptObject JSValue { get; }
+        public IJavascriptObject MappedJSValue => _MappedJSValue;
+        public object CValue => _JSResultCommand;
+        public JSCSGlueType Type => JSCSGlueType.ResultCommand;
 
         public JSResultCommand(IWebView webView, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
         {

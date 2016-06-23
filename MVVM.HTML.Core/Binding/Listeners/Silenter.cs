@@ -4,8 +4,8 @@ namespace MVVM.HTML.Core.Binding.Listeners
 {
     internal class Silenter<T> : IDisposable where T: class
     {
-        private ListenerRegister<T> _ListenerRegister;
-        private T _Target;
+        private readonly ListenerRegister<T> _ListenerRegister;
+        private readonly T _Target;
         public Silenter(ListenerRegister<T> listenerRegister, object target)
         {
             _ListenerRegister = listenerRegister;

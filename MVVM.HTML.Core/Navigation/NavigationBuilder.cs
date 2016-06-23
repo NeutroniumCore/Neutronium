@@ -36,20 +36,20 @@ namespace MVVM.HTML.Core.Navigation
             return new Uri(iPath);
         }
 
-        public void Register<T>(string iPath, string Id = null)
+        public void Register<T>(string iPath, string id = null)
         {
-            Register(typeof(T), CreateUri(string.Format("{0}\\{1}", Assembly.GetCallingAssembly().GetPath(), iPath)), Id);
+            Register(typeof(T), CreateUri(string.Format("{0}\\{1}", Assembly.GetCallingAssembly().GetPath(), iPath)), id);
         }
 
-        public void RegisterAbsolute<T>(string iPath, string Id = null)
+        public void RegisterAbsolute<T>(string iPath, string id = null)
         {
-            Register(typeof(T), CreateUri(iPath), Id);
+            Register(typeof(T), CreateUri(iPath), id);
         }
 
-        public void Register<T>(Uri iPath, string Id = null)
+        public void Register<T>(Uri iPath, string id = null)
         {
             CheckPath(iPath.LocalPath);
-            Register(typeof(T), iPath, Id);
+            Register(typeof(T), iPath, id);
         }
 
         private Uri SolveType(Type iType, string id)

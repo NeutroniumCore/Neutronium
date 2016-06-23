@@ -10,8 +10,8 @@ namespace MVVM.HTML.Core.Binding.Listeners
             Off = off;
         }
 
-        public Action<T> On { get; private set; }
+        public Action<T> On { get; }
 
-        public Action<T> Off { get; private set; }
+        public Action<T> Off { get;}
     }
 }

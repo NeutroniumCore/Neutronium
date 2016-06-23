@@ -18,18 +18,18 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         {
             if (CValue is string)
             {
-                return string.Format(@"""{0}""", ((string)CValue).Replace(@"""", @"\"""));
+                return $@"""{((string) CValue).Replace(@"""", @"\""")}""";
             }
 
             if (CValue is DateTime)
             {
                 var dt = (DateTime)CValue;
-                return string.Format(@"""{0:0000}-{1:00}-{2:00}T{3:00}:{4:00}:{5:00}.{6:000}Z""", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond);
+                return $@"""{dt.Year:0000}-{dt.Month:00}-{dt.Day:00}T{dt.Hour:00}:{dt.Minute:00}:{dt.Second:00}.{dt.Millisecond:000}Z""";
             }
 
             if (CValue is Enum)
             {
-                return string.Format(@"""{0}""", CValue.ToString());
+                return $@"""{CValue.ToString()}""";
             }
 
             return CValue.ToString();
@@ -40,11 +40,11 @@ namespace MVVM.HTML.Core.Binding.GlueObject
             sb.Append(this);
         }
 
-        public IJavascriptObject JSValue { get; private set; }
+        public IJavascriptObject JSValue { get; }
 
-        public object CValue { get; private set; }
+        public object CValue { get; }
 
-        public JSCSGlueType Type { get { return JSCSGlueType.Basic; } }
+        public JSCSGlueType Type => JSCSGlueType.Basic;
 
         public IEnumerable<IJSCSGlue> GetChildren()
         {

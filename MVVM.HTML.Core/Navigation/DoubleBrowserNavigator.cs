@@ -26,8 +26,8 @@ namespace MVVM.HTML.Core.Navigation
         private bool _UseINavigable = false;
         private HTMLLogicWindow _Window;
 
-        public Uri Url { get { return _Url; } }
-        public IHTMLWindowProvider WebControl { get { return _CurrentWebControl; } }
+        public Uri Url => _Url;
+        public IHTMLWindowProvider WebControl => _CurrentWebControl;
 
         public IWebSessionWatcher WebSessionWatcher
         {
@@ -46,7 +46,7 @@ namespace MVVM.HTML.Core.Navigation
         { 
             try
             {
-                LogBrowser(string.Format("{0}, source {1}, line number {2}, page {3}", e.Message, e.Source, e.Line, _Url));
+                LogBrowser($"{e.Message}, source {e.Source}, line number {e.Line}, page {_Url}");
             }
             catch { }
         }
@@ -56,8 +56,7 @@ namespace MVVM.HTML.Core.Navigation
             get { return _HTMLBinding; }
             set
             {
-                if (_HTMLBinding != null)
-                    _HTMLBinding.Dispose();
+                _HTMLBinding?.Dispose();
 
                 _HTMLBinding = value;
 
@@ -68,19 +67,17 @@ namespace MVVM.HTML.Core.Navigation
 
         private void FireNavigate(object inewvm, object ioldvm=null) 
         {
-            if (OnNavigate != null)
-                OnNavigate(this, new NavigationEvent(inewvm, ioldvm));
+            OnNavigate?.Invoke(this, new NavigationEvent(inewvm, ioldvm));
         }
 
         private void FireLoaded(object iloadedvm)
         {
-            if (OnDisplay != null)
-                OnDisplay(this, new DisplayEvent(iloadedvm));
+            OnDisplay?.Invoke(this, new DisplayEvent(iloadedvm));
         }
 
         private void Switch(Task<IHTMLBinding> iBinding, HTMLLogicWindow iwindow, TaskCompletionSource<IHTMLBinding> tcs)
         {
-            object oldvm = (Binding != null) ? Binding.Root : null;
+            object oldvm = Binding?.Root;
             Binding = iBinding.Result;
           
             if (_CurrentWebControl!=null)
@@ -88,8 +85,10 @@ namespace MVVM.HTML.Core.Navigation
                 _CurrentWebControl.HTMLWindow.ConsoleMessage -= ConsoleMessage;
                 _CurrentWebControl.Dispose();
             }
-            else if (OnFirstLoad != null)
-                OnFirstLoad(this, EventArgs.Empty);
+            else 
+            {
+                OnFirstLoad?.Invoke(this, EventArgs.Empty);
+            }
 
             _CurrentWebControl = _NextWebControl;     
             _NextWebControl = null;
@@ -109,8 +108,8 @@ namespace MVVM.HTML.Core.Navigation
             _Navigating = false;
            
             FireNavigate(Binding.Root, oldvm);
-            
-            if (tcs != null) tcs.SetResult(Binding);
+
+            tcs?.SetResult(Binding);
         }    
 
         private void EndAnimation(object inavgable)
@@ -122,13 +121,13 @@ namespace MVVM.HTML.Core.Navigation
         private void LogCritical(string iMessage)
         {
             _IWebSessionWatcher.LogCritical(iMessage);
-            Trace.WriteLine(string.Format("MVVM for CEFGlue: Critical: {0}", iMessage));
+            Trace.WriteLine($"MVVM for CEFGlue: Critical: {iMessage}");
         }
 
         private void LogBrowser(string iMessage)
         {
             _IWebSessionWatcher.LogBrowser(iMessage);
-            Trace.WriteLine(string.Format("MVVM for CEFGlue: WebSession log message: {0}", iMessage));
+            Trace.WriteLine($"MVVM for CEFGlue: WebSession log message: {iMessage}");
         }
 
         private void Crashed(object sender, BrowserCrashedArgs e)
@@ -148,11 +147,11 @@ namespace MVVM.HTML.Core.Navigation
         private Task<IHTMLBinding> Navigate(Uri uri, object iViewModel, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             if (uri == null)
-                throw ExceptionHelper.GetArgument(string.Format("ViewModel not registered: {0}", iViewModel.GetType()));
+                throw ExceptionHelper.GetArgument($"ViewModel not registered: {iViewModel.GetType()}");
 
             _Navigating = true;
 
-            var oldvm = (Binding != null) ? Binding.Root as INavigable : null;
+            var oldvm = Binding?.Root as INavigable;
 
             if (_UseINavigable && (oldvm!=null))
             {
@@ -213,7 +212,7 @@ namespace MVVM.HTML.Core.Navigation
             }
             catch(Exception e)
             {
-                LogBrowser(string.Format("Can not execute javascript: {0}, reason: {1}",icode,e));
+                LogBrowser($"Can not execute javascript: {icode}, reason: {e}");
             }          
         }
 
@@ -224,7 +223,7 @@ namespace MVVM.HTML.Core.Navigation
 
             var viewPath = _UrlSolver.Solve(iViewModel, id);
             if (viewPath == null)
-                throw ExceptionHelper.Get(string.Format("Unable to locate ViewModel {0}", iViewModel));
+                throw ExceptionHelper.Get($"Unable to locate ViewModel {iViewModel}");
 
             return await Navigate(viewPath, iViewModel, iMode);
         }

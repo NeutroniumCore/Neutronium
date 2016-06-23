@@ -19,20 +19,11 @@ namespace MVVM.HTML.Core.Infra
             return originalType.GetUnderlyingNullableType() ?? originalType;
         }
 
-        public bool IsValid
-        {
-            get { return _PropertyInfo != null; }
-        }
+        public bool IsValid => _PropertyInfo != null;
 
-        public bool IsSettable
-        {
-            get { return IsValid && _PropertyInfo.CanWrite; }
-        }
+        public bool IsSettable => IsValid && _PropertyInfo.CanWrite;
 
-        public bool IsGettable
-        {
-            get { return IsValid && _PropertyInfo.CanRead; }
-        }
+        public bool IsGettable => IsValid && _PropertyInfo.CanRead;
 
         public bool Set(object value)
         {

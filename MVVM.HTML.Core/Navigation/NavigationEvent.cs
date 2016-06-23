@@ -8,10 +8,10 @@ namespace MVVM.HTML.Core.Navigation
 
         public object OldViewModel { get; private set; }
 
-        public NavigationEvent(object iNewViewModel, object iOldViewModel)
+        public NavigationEvent(object newViewModel, object oldViewModel)
         {
-            NewViewModel = iNewViewModel;
-            OldViewModel = iOldViewModel;
+            NewViewModel = newViewModel;
+            OldViewModel = oldViewModel;
         }
     }
 }

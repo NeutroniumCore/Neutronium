@@ -7,7 +7,7 @@ namespace MVVM.HTML.Core.Infra
     {
         public static TValue FindOrCreateEntity<TKey, TValue>(this IDictionary<TKey, TValue> dic, TKey key, Func<TKey, TValue> Fac)
         {
-            TValue res = default(TValue);
+            TValue res;
             if (dic.TryGetValue(key, out res))
                 return res;
 

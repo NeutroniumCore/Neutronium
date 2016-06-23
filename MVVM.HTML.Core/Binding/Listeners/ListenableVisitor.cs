@@ -10,27 +10,27 @@ namespace MVVM.HTML.Core.Binding.Listeners
         private readonly Action<INotifyPropertyChanged> _OnObject;
         private readonly Action<INotifyCollectionChanged> _OnCollection;
         private readonly Action<JSCommand> _OnCommand;
-        public ListenableVisitor(Action<INotifyPropertyChanged> iOnObject,
-                            Action<INotifyCollectionChanged> iOnCollection, Action<JSCommand> iOnCommand)
+        public ListenableVisitor(Action<INotifyPropertyChanged> onObject,
+                            Action<INotifyCollectionChanged> onCollection, Action<JSCommand> onCommand)
         {
-            _OnObject = iOnObject;
-            _OnCollection = iOnCollection;
-            _OnCommand = iOnCommand;
+            _OnObject = onObject;
+            _OnCollection = onCollection;
+            _OnCommand = onCommand;
         }
 
-        public void OnObject(INotifyPropertyChanged iobject)
+        public void OnObject(INotifyPropertyChanged listenedObject)
         {
-            _OnObject(iobject);
+            _OnObject(listenedObject);
         }
 
-        public void OnCollection(INotifyCollectionChanged icollection)
+        public void OnCollection(INotifyCollectionChanged collection)
         {
-            _OnCollection(icollection);
+            _OnCollection(collection);
         }
 
-        public void OnCommand(JSCommand icommand)
+        public void OnCommand(JSCommand command)
         {
-            _OnCommand(icommand);
+            _OnCommand(command);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace MVVM.HTML.Core.Infra
 
         public static void DoNotWait(this Task task)
         {
-            task.ContinueWith( t => Trace.WriteLine(string.Format("Exception during task execution: {0}", t.Exception))
+            task.ContinueWith( t => Trace.WriteLine($"Exception during task execution: {t.Exception}")
                 , TaskContinuationOptions.OnlyOnFaulted);
         }
     }

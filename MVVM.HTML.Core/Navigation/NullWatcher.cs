@@ -12,7 +12,7 @@ namespace MVVM.HTML.Core.Navigation
         {
         }
 
-        void IWebSessionWatcher.OnSessionError(Exception iexception, Action Cancel)
+        void IWebSessionWatcher.OnSessionError(Exception exception, Action cancel)
         {
         }
     }

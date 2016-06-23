@@ -7,10 +7,10 @@ namespace MVVM.HTML.Core.Binding
 {
     public class HTMLViewContext : IDisposable
     {
-        public IWebView WebView { get; private set; }
+        public IWebView WebView { get; }
         public IDispatcher UIDispatcher { get; private set; }
-        public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
-        public IJavascriptViewModelUpdater ViewModelUpdater { get; private set; }
+        public IJavascriptSessionInjector JavascriptSessionInjector { get; }
+        public IJavascriptViewModelUpdater ViewModelUpdater { get; }
 
         public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptUIFrameworkManager javascriptUiFrameworkManager,
                                 IJavascriptChangesObserver javascriptChangesObserver)

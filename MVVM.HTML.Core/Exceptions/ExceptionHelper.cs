@@ -9,7 +9,7 @@ namespace MVVM.HTML.Core.Exceptions
 
         public static void Log(string iMessageLog)
         {
-            Trace.WriteLine(string.Format("{0} - {1}", _Header,iMessageLog));
+            Trace.WriteLine($"{_Header} - {iMessageLog}");
         }
     
         public static Exception Get(string iMessage)

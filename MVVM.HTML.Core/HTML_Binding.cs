@@ -17,29 +17,17 @@ namespace MVVM.HTML.Core
             _BirectionalMapper = iConvertToJSO;
         }
 
-        public IJavascriptSessionInjector JavascriptUIFramework
-        {
-            get { return _Context.JavascriptSessionInjector; }
-        }
+        public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
 
-        public IJavascriptObject JSRootObject
-        {
-            get { return _BirectionalMapper.JSValueRoot.GetJSSessionValue(); }
-        }
+        public IJavascriptObject JSRootObject => _BirectionalMapper.JSValueRoot.GetJSSessionValue();
 
-        public JavascriptBindingMode Mode { get { return _BirectionalMapper.Mode; } }
+        public JavascriptBindingMode Mode => _BirectionalMapper.Mode;
 
-        public IWebView Context { get { return _Context.WebView; } }
+        public IWebView Context => _Context.WebView;
 
-        public object Root
-        {
-            get { return _BirectionalMapper.JSValueRoot.CValue; }
-        }
+        public object Root => _BirectionalMapper.JSValueRoot.CValue;
 
-        public IJSCSGlue JSBrideRootObject
-        {
-            get { return _BirectionalMapper.JSValueRoot; }
-        }
+        public IJSCSGlue JSBrideRootObject => _BirectionalMapper.JSValueRoot;
 
         public override string ToString()
         {

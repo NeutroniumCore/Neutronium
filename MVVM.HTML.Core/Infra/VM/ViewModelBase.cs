@@ -17,10 +17,7 @@ namespace MVVM.HTML.Core.Infra.VM
 
         protected virtual void OnPropertyChanged(string pn)
         {
-            if (PropertyChanged == null)
-                return;
-
-            PropertyChanged(this, new PropertyChangedEventArgs(pn));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pn));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -8,7 +8,7 @@ namespace MVVM.HTML.Core.Infra
     {
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> @this, Action<T> ToDo)
         {
-            foreach (T el in @this)
+            foreach (var el in @this)
             {
                 ToDo(el);
             }
@@ -19,7 +19,7 @@ namespace MVVM.HTML.Core.Infra
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> @this, Action<T,int> ToDo)
         {
             int i=0;
-            foreach (T el in @this)
+            foreach (var el in @this)
             {
                 ToDo(el,i++);
             }
@@ -59,13 +59,13 @@ namespace MVVM.HTML.Core.Infra
                                Func<TSource1, TSource2, TSource3, TResult> Agregate)
         {
             if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+                throw new ArgumentNullException(nameof(enumerable));
 
             if (enumerable2 == null)
-                throw new ArgumentNullException("enumerable2");
+                throw new ArgumentNullException(nameof(enumerable2));
 
             if (enumerable3 == null)
-                throw new ArgumentNullException("enumerable3");
+                throw new ArgumentNullException(nameof(enumerable3));
 
             return ZipInternal(enumerable, enumerable2, enumerable3, Agregate);
         }

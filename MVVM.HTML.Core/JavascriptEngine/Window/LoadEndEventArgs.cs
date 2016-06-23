@@ -10,6 +10,6 @@ namespace MVVM.HTML.Core.JavascriptEngine.Window
 			Frame = frame;
 		}
 
-        public IWebView Frame { get; private set; }
+        public IWebView Frame { get; }
 	}
 }

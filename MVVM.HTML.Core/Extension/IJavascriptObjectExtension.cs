@@ -1,7 +1,7 @@
 ﻿using System;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.Extension
+namespace MVVM.HTML.Core.Extension
 {
     public static class IJavascriptObjectExtension
     {

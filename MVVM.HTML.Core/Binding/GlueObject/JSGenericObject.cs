@@ -11,15 +11,13 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         private readonly HTMLViewContext _HTMLViewContext;     
         private IJavascriptObject _MappedJSValue;
         private readonly Dictionary<string, IJSCSGlue> _Attributes = new Dictionary<string, IJSCSGlue>();
-        private readonly IDictionary<string, IJavascriptObject> _Silenters = new Dictionary<string, IJavascriptObject>();
 
-        public IReadOnlyDictionary<string, IJSCSGlue> Attributes { get { return _Attributes; } }
-        public IJavascriptObject JSValue { get; private set; }
-        public IJavascriptObject MappedJSValue { get { return _MappedJSValue; } }
-        public object CValue { get; private set; }
-        public JSCSGlueType Type { get { return JSCSGlueType.Object; } } 
-        private IWebView WebView { get { return _HTMLViewContext.WebView; } }
-        private IJavascriptViewModelUpdater ViewModelUpdater { get { return _HTMLViewContext.ViewModelUpdater; } }
+        public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
+        public IJavascriptObject JSValue { get; }
+        public IJavascriptObject MappedJSValue => _MappedJSValue;
+        public object CValue { get; }
+        public JSCSGlueType Type => JSCSGlueType.Object;
+        private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
 
         public JSGenericObject(HTMLViewContext context, IJavascriptObject value, object icValue)
         {
@@ -45,15 +43,15 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         {
             sb.Append("{");
 
-            bool f = true;
+            var first = true;
             foreach (var it in _Attributes.Where(kvp => kvp.Value.Type != JSCSGlueType.Command))
             {
-                if (!f)
+                if (!first)
                     sb.Append(",");
 
-                sb.Append(string.Format(@"""{0}"":", it.Key));
+                sb.Append($@"""{it.Key}"":");
 
-                f = false;
+                first = false;
                 it.Value.BuilString(sb, alreadyComputed);
             }
 
