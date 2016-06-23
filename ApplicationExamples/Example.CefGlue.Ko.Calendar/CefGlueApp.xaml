@@ -1,9 +1,9 @@
-﻿<KnockoutCefMVVMApp:App x:Class="Example.CefGlue.Ko.Calendar.CefGlueApp"
+﻿<infra:App x:Class="Example.CefGlue.Ko.Calendar.CefGlueApp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:KnockoutCefMVVMApp="clr-namespace:KnockoutCefMVVMApp;assembly=KnockoutCefMVVMApp"  
+             xmlns:infra="clr-namespace:Example.CefGlue.Ko.Infra;assembly=Example.CefGlue.Ko.Infra"
              StartupUri="MainWindow.xaml">
-    <KnockoutCefMVVMApp:App.Resources>
+    <infra:App.Resources>
          
-    </KnockoutCefMVVMApp:App.Resources>
-</KnockoutCefMVVMApp:App>
+    </infra:App.Resources>
+</infra:App>

@@ -1,4 +1,4 @@
-﻿<infra:App x:Class="Example.CefGlue.Ko.CollectionTest.CefGlueApp"
+﻿<infra:App x:Class="Example.CefGlue.Ko.PromiseDemo.CefGlueApp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:infra="clr-namespace:Example.CefGlue.Ko.Infra;assembly=Example.CefGlue.Ko.Infra"

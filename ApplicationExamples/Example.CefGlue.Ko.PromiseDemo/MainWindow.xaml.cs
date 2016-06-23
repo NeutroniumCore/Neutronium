@@ -1,7 +1,7 @@
-﻿using MVVM.ViewModel.Example;
-using System.Windows;
+﻿using System.Windows;
+using MVVM.ViewModel.Example;
 
-namespace ASyncPromiseUIDemo
+namespace Example.CefGlue.Ko.PromiseDemo
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

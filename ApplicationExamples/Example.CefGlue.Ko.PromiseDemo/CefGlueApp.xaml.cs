@@ -1,6 +1,4 @@
-﻿using MVVM.Cef.Glue;
-
-namespace Navigation_HTMLWindow
+﻿namespace Example.CefGlue.Ko.PromiseDemo
 {
     /// <summary>
     /// Interaction logic for CefGlueApp.xaml
