@@ -54,50 +54,19 @@ namespace MVVM.HTML.Core.Binding
 
         public IJavascriptObjectMapper GetMapper(IJSObservableBridge root)
         {
-            return new JavascriptMapper(root, this);
+            return new JavascriptMapper(root, Update, RegisterMapping, RegisterCollectionMapping);
         }
+        //_LiveMapper.Update(_Root, iRoot);
+        //_LiveMapper.RegisterMapping(iFather, att, iChild);
+        //_LiveMapper.RegisterCollectionMapping(iFather, att, index, iChild);
 
-        private class JavascriptMapper : IJavascriptObjectMapper
-        {
-            private readonly IJSObservableBridge _Root;
-            private readonly SessionCacher _LiveMapper;
-            private readonly TaskCompletionSource<object> _TCS = new TaskCompletionSource<object>();
-            public JavascriptMapper(IJSObservableBridge root, SessionCacher father)
-            {
-                _LiveMapper = father;
-                _Root = root;
-            }
-
-            public void MapFirst(IJavascriptObject iRoot)
-            {
-                _LiveMapper.Update(_Root, iRoot);
-            }
-
-            public void Map(IJavascriptObject iFather, string att, IJavascriptObject iChild)
-            {
-                _LiveMapper.RegisterMapping(iFather, att, iChild);
-            }
-
-            public void MapCollection(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
-            {
-                _LiveMapper.RegisterCollectionMapping(iFather, att, index, iChild);
-            }
-
-            public Task UpdateTask { get { return _TCS.Task; } }
-
-            public void EndMapping(IJavascriptObject iRoot)
-            {
-                _TCS.TrySetResult(null);
-            }
-        }
-
-        private void Update(IJSObservableBridge ibo, IJavascriptObject jsobject)
+        internal void Update(IJSObservableBridge ibo, IJavascriptObject jsobject)
         {
             ibo.SetMappedJSValue(jsobject);
             CacheGlobal(jsobject, ibo);
         }
 
-        private void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
+        internal void RegisterMapping(IJavascriptObject iFather, string att, IJavascriptObject iChild)
         {
             var global = GetGlobalCached(iFather);
             if (global is JSCommand)
@@ -107,7 +76,7 @@ namespace MVVM.HTML.Core.Binding
             Update(jso.Attributes[att] as IJSObservableBridge, iChild);
         }
 
-        private void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
+        internal void RegisterCollectionMapping(IJavascriptObject iFather, string att, int index, IJavascriptObject iChild)
         {
             var father = GetGlobalCached(iFather);
             var jsos = (att == null) ? father : ((JSGenericObject)father).Attributes[att];
