@@ -1,11 +1,12 @@
 ﻿using MVVM.Component;
 using System;
+using MVVM.Component.Relay;
 
 namespace MVVM.ViewModel.Example
 {
-    public class FakeFactory<Tin,Tout> : ViewModelBase
+    public class FakeFactory<TIn,TOut> : ViewModelBase
     {
-        public FakeFactory(Func<Tin, Tout> iFact)
+        public FakeFactory(Func<TIn, TOut> iFact)
         {
             CreateObject = RelayResultCommand.Create(iFact);
         }

@@ -10,30 +10,27 @@ namespace MVVM.HTML.Core.Binding.GlueObject
 {
     public static class IJSCSGlueExtender
     {
-        private static void GetAllChildren(this IJSCSGlue @this, bool IncludeMySelf, HashSet<IJSCSGlue> res)
+        private static void GetAllChildren(this IJSCSGlue @this, bool includeMySelf, ISet<IJSCSGlue> res) 
         {
-            if (IncludeMySelf)
+            if (includeMySelf)
                 res.Add(@this);
 
-            foreach (IJSCSGlue direct in @this.GetChildren())
+            foreach (var direct in @this.GetChildren().Where(res.Add)) 
             {
-                if (res.Add(direct))
-                {
-                    direct.GetAllChildren(false, res);
-                }
+                direct.GetAllChildren(false, res);
             }
         }
 
-        public static IEnumerable<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool IncludeMySelf=false)
+        public static IEnumerable<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf=false)
         {
-            HashSet<IJSCSGlue> res = new HashSet<IJSCSGlue>();
-            @this.GetAllChildren(IncludeMySelf,res);
+            var res = new HashSet<IJSCSGlue>();
+            @this.GetAllChildren(includeMySelf,res);
             return res;
         }
 
         public static IJavascriptObject GetJSSessionValue(this IJSCSGlue @this)
         {
-            IJSObservableBridge inj = @this as IJSObservableBridge;
+            var inj = @this as IJSObservableBridge;
             return (inj!=null) ?  inj.MappedJSValue : @this.JSValue;    
         }
 
@@ -41,17 +38,17 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         {
             foreach (var child in @this.GetAllChildren(true).Distinct())
             {
-                var c_childvalue = child.CValue;
-                var NotifyCollectionChanged = c_childvalue as INotifyCollectionChanged;
-                if (NotifyCollectionChanged != null)
+                var childvalue = child.CValue;
+                var notifyCollectionChanged = childvalue as INotifyCollectionChanged;
+                if (notifyCollectionChanged != null)
                 {
-                    ivisitor.OnCollection(NotifyCollectionChanged);
+                    ivisitor.OnCollection(notifyCollectionChanged);
                     continue;
                 }
 
-                var NotifyPropertyChanged = c_childvalue as INotifyPropertyChanged;
-                if ((NotifyPropertyChanged != null) && !(child is IEnumerable))
-                    ivisitor.OnObject(NotifyPropertyChanged);
+                var notifyPropertyChanged = childvalue as INotifyPropertyChanged;
+                if ((notifyPropertyChanged != null) && !(child is IEnumerable))
+                    ivisitor.OnObject(notifyPropertyChanged);
 
                 if (child.Type==JSCSGlueType.Command)
                     ivisitor.OnCommand(child as JSCommand);

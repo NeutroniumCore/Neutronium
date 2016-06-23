@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.Component
+namespace MVVM.Component.Relay
 {
     public class RelaySimpleCommand<T> : ISimpleCommand where T:class
     {

@@ -4,9 +4,6 @@ namespace MVVM.ViewModel.Example
 {
     public class DateInformation : ViewModelBase
     {
-        public DateInformation()
-        {
-        }
         private DateTime _Date;
         public DateTime Date
         {

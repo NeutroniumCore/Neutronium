@@ -10,11 +10,11 @@ namespace MVVM.ViewModel.Example
 {
     public class Person : ViewModelBase
     {
-        public Person(ICommand ForTest=null)
+        public Person(ICommand forTest=null)
         {
             Skills = new ObservableCollection<Skill>();
 
-            TestCommand = ForTest;
+            TestCommand = forTest;
             Command = new ToogleRelayCommand(DoCommand);
             RemoveSkill = new RelayCommand<Skill>(s=> this.Skills.Remove(s));
             ChangeSkill = new RelayCommand<Skill>(s => MainSkill = (this.Skills.Count>0)?this.Skills[0] : null);
@@ -90,19 +90,13 @@ namespace MVVM.ViewModel.Example
             set { Set(ref _MainSkill, value, "MainSkill"); }
         }
 
-        public IEnumerable<PersonalState> States
-        {
-            get { return EnumExtender.GetEnums<PersonalState>(); }
-        }
+        public IEnumerable<PersonalState> States => EnumExtender.GetEnums<PersonalState>();
 
-        public IEnumerable<Sex> Sexes
-        {
-            get { return EnumExtender.GetEnums<Sex>(); }
-        }
+        public IEnumerable<Sex> Sexes => EnumExtender.GetEnums<Sex>();
 
-        public IList<Skill> Skills { get; private set; }
+        public IList<Skill> Skills { get; }
 
-        public ToogleRelayCommand Command { get; private set; }
+        public ToogleRelayCommand Command { get; }
 
         public ICommand RemoveSkill { get; private set; }
 

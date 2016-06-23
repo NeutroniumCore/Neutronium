@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace MVVM.Component
+namespace MVVM.Component.Relay
 {
     public static class RelayResultCommand
     {
-        public static IResultCommand Create<Tin, TResult>(Func<Tin, TResult> iFunction)
+        public static IResultCommand Create<TIn, TResult>(Func<TIn, TResult> iFunction)
         {
-            return new RelayResultCommand<Tin, TResult>(iFunction);
+            return new RelayResultCommand<TIn, TResult>(iFunction);
         }
 
         public static IResultCommand Create<TResult>(Func<TResult> iFunction)

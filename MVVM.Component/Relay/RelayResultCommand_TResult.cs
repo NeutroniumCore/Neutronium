@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MVVM.Component
+namespace MVVM.Component.Relay
 {
     public class RelayResultCommand<TResult> : IResultCommand
     {

@@ -9,15 +9,13 @@ namespace MVVM.ViewModel.Example
         public Couple()
         {
             MakeSelf = new RelayCommand(_ => DoMakeSelf());
-            Duplicate = new RelayCommand(_ => DoDuplicate());
-            
+            Duplicate = new RelayCommand(_ => DoDuplicate());   
         }
 
         private void DoMakeSelf()
         {
             var t = new MVVM.ViewModel.Example.ForNavigation.Person(){Couple=this};
-            Two = t;
-            
+            Two = t;         
         }
 
         private void DoDuplicate()
@@ -45,9 +43,7 @@ namespace MVVM.ViewModel.Example
             }
         }
 
-        public ICommand MakeSelf { get; private set; }
-        public ICommand Duplicate { get; private set; }
-
-        
+        public ICommand MakeSelf { get; }
+        public ICommand Duplicate { get; }
     }
 }

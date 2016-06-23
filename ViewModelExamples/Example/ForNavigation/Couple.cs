@@ -1,7 +1,6 @@
 ﻿using System.Windows.Input;
 
 using MVVM.ViewModel.Infra;
-using MVVM.HTML.Core;
 using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.ViewModel.Example.ForNavigation
@@ -14,16 +13,15 @@ namespace MVVM.ViewModel.Example.ForNavigation
             GoTwo = new RelayCommand(() => Goto(Two));
         }
 
-        private void Goto(MVVM.ViewModel.Example.Person person)
+        private void Goto(MVVM.ViewModel.Example.Person person) 
         {
-            if (Navigation != null)
-                Navigation.NavigateAsync(person);
+            Navigation?.NavigateAsync(person);
         }
 
         public INavigationSolver Navigation { get; set; }
 
-        public ICommand GoOne { get; private set; }
+        public ICommand GoOne { get; }
 
-        public ICommand GoTwo { get; private set; }
+        public ICommand GoTwo { get; }
     }
 }

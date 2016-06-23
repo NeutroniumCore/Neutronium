@@ -2,6 +2,7 @@
 using Xunit;
 using FluentAssertions;
 using System.Threading.Tasks;
+using MVVM.Component.Relay;
 using NSubstitute;
 
 namespace MVVM.Component.Test
@@ -12,7 +13,7 @@ namespace MVVM.Component.Test
         public void RelaySimpleCommandShouldCallActionGeneric()
         {
             var action = Substitute.For<Action<object>>();
-            var target = new MVVM.Component.RelaySimpleCommand<object>(action);
+            var target = new RelaySimpleCommand<object>(action);
             var arg = new object();
 
             target.Execute(arg);
@@ -24,7 +25,7 @@ namespace MVVM.Component.Test
         public void RelaySimpleCommandShouldCallAction()
         {
             var action = Substitute.For<Action>();
-            var target = new MVVM.Component.RelaySimpleCommand(action);
+            var target = new RelaySimpleCommand(action);
             var arg = new object();
 
             target.Execute(arg);
@@ -38,7 +39,7 @@ namespace MVVM.Component.Test
             var function = Substitute.For<Func<object,int>>();
             var arg = new object();
             function.Invoke(arg).Returns(122);
-            var target = new MVVM.Component.RelayResultCommand<object,int>(function);
+            var target = new RelayResultCommand<object,int>(function);
       
             var res = target.Execute(arg).Result;
 
@@ -67,7 +68,7 @@ namespace MVVM.Component.Test
             var function = Substitute.For<Func<object, int>>();
             var arg = new object();
             function.When(f => f.Invoke(arg)).Do(_ => { throw exception; });
-            var target = new MVVM.Component.RelayResultCommand<object, int>(function);
+            var target = new RelayResultCommand<object, int>(function);
 
             var res = target.Execute(arg);
 
@@ -84,7 +85,7 @@ namespace MVVM.Component.Test
             tcs.SetResult(35);
             var arg = new object();
             function.Invoke(arg).Returns(tcs.Task);
-            var target = new MVVM.Component.RelayResultCommand<object, int>(function);
+            var target = new RelayResultCommand<object, int>(function);
 
             var res = target.Execute(arg).Result;
 
@@ -97,7 +98,7 @@ namespace MVVM.Component.Test
         {
             var function = Substitute.For<Func<int>>();
             function.Invoke().Returns(12);
-            var target = MVVM.Component.RelayResultCommand.Create(function);
+            var target = RelayResultCommand.Create(function);
             var arg = new object();
 
             var res = target.Execute(arg).Result;

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MVVM.Component
+namespace MVVM.Component.Relay
 {
-    public class RelayResultCommand<Tin, TResult> : IResultCommand
+    public class RelayResultCommand<TIn, TResult> : IResultCommand
     {
-        private Func<Tin, Task<TResult>> _ResultBuilder;
-        public RelayResultCommand(Func<Tin, TResult> iFunction)
+        private readonly Func<TIn, Task<TResult>> _ResultBuilder;
+        public RelayResultCommand(Func<TIn, TResult> iFunction)
         {
             _ResultBuilder = (iargument) =>
                 {
@@ -23,14 +23,14 @@ namespace MVVM.Component
                 };
         }
 
-        public RelayResultCommand(Func<Tin, Task<TResult>> iResultBuilder)
+        public RelayResultCommand(Func<TIn, Task<TResult>> iResultBuilder)
         {
             _ResultBuilder = iResultBuilder;
         }
 
         public async Task<object> Execute(object iargument)
         {
-            return await _ResultBuilder((Tin)iargument);
+            return await _ResultBuilder((TIn)iargument);
         }
     }
 }

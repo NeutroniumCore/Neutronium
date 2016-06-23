@@ -27,7 +27,7 @@ namespace MVVM.ViewModel.Example
             }
         }
 
-        public IList<Skill> Skills { get; private set; }
+        public IList<Skill> Skills { get; }
 
         public IList<Skill> SelectedSkills { get; private set; }
 

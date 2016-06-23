@@ -1,5 +1,6 @@
 ﻿using MVVM.Component;
 using System.Collections.ObjectModel;
+using MVVM.Component.Relay;
 
 namespace MVVM.ViewModel.Example
 {
