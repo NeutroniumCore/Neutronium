@@ -46,7 +46,7 @@ namespace MVVM.HTML.Core.Binding
 
         public IJavascriptObjectInternalMapper GetMapper(IJSObservableBridge root)
         {
-            return new JavascriptMapper(root, Update, RegisterMapping, RegisterCollectionMapping);
+            return new JavascriptMapper(root, CacheGlobal, Update, RegisterMapping, RegisterCollectionMapping);
         }
 
         internal void Update(IJSObservableBridge observableBridge, IJavascriptObject jsobject)

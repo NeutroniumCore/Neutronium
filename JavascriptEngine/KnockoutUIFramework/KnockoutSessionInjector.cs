@@ -6,6 +6,7 @@ using MVVM.HTML.Core.Extension;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using UIFramework.Uttils;
 
 namespace KnockoutUIFramework
 {
@@ -20,31 +21,13 @@ namespace KnockoutUIFramework
         private bool _PullNextMapper = true;
         private IJavascriptObject _Ko;
 
-        public KnockoutSessionInjector(IWebView iWebView, IJavascriptChangesObserver iJavascriptListener)
+        public KnockoutSessionInjector(IWebView webView, IJavascriptChangesObserver iJavascriptListener)
         {
-            _WebView = iWebView;
+            _WebView = webView;
             _JavascriptListener = iJavascriptListener;
 
-            _WebView.Run(() =>
-            {
-                _Listener = _WebView.Factory.CreateObject(false);
-
-                if (_JavascriptListener == null)
-                    return;
-
-                _Listener.Bind("TrackChanges", _WebView, (e) => _JavascriptListener.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
-                _Listener.Bind("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
-            });
-        }
-
-        private void JavascriptColectionChanged(IJavascriptObject[] arguments)
-        {
-            var values = arguments[1].GetArrayElements();
-            var types = arguments[2].GetArrayElements();
-            var indexes = arguments[3].GetArrayElements();
-            var collectionChange = new JavascriptCollectionChanges(arguments[0], values.Zip(types, indexes, (v, t, i) => new IndividualJavascriptCollectionChange(t.GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove, i.GetIntValue(), v)));
-
-            _JavascriptListener.OnJavaScriptCollectionChanges(collectionChange);
+            var builder = new BinderBuilder(_WebView, _JavascriptListener);
+            _Listener = builder.BuildListener();
         }
 
         public void Dispose()

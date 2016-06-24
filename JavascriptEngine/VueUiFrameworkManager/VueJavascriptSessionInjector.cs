@@ -2,6 +2,9 @@
 using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.Exceptions;
+using MVVM.HTML.Core.Infra;
+using MVVM.HTML.Core.Extension;
+using UIFramework.Uttils;
 
 namespace VueUiFramework
 {
@@ -10,17 +13,32 @@ namespace VueUiFramework
         private IWebView _WebView;
         private IJavascriptChangesObserver _JavascriptObserver;
         private IJavascriptObject _VueHelper;
+        private IJavascriptObject _Listener;
 
         public VueJavascriptSessionInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {
             _WebView = webView;
             _JavascriptObserver = javascriptObserver;
+
+            var builder = new BinderBuilder(webView, javascriptObserver);
+            _Listener = builder.BuildListener();
         }
 
         public IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper mapper)
         {
             _WebView.RunAsync(mapper.AutoMap);   
             return rawObject;
+        }
+
+        public Task RegisterMainViewModel(IJavascriptObject jsObject)
+        {
+             return _WebView.RunAsync(() => UnsafeRegister(jsObject));
+        }
+
+        private IJavascriptObject UnsafeRegister(IJavascriptObject ijvm)
+        {
+            var res = GetVueHelper().Invoke("register", _WebView, ijvm, _Listener);
+            return (res == null || res.IsUndefined) ? null : res;
         }
 
         private IJavascriptObject GetVueHelper()
@@ -33,17 +51,6 @@ namespace VueUiFramework
                 throw ExceptionHelper.Get("glueHelper not found!");
 
             return _VueHelper;
-        }
-
-        public Task RegisterMainViewModel(IJavascriptObject jsObject)
-        {
-             return _WebView.RunAsync(() => UnsafeInject(jsObject));
-        }
-
-        public IJavascriptObject UnsafeInject(IJavascriptObject ijvm)
-        {
-            var res = GetVueHelper().Invoke("register", _WebView, ijvm);
-            return (res == null || res.IsUndefined) ? null : res;
         }
 
         public void Dispose()

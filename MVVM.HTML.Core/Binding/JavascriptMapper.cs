@@ -14,12 +14,15 @@ namespace MVVM.HTML.Core.Binding
         private readonly Action<IJSObservableBridge, IJavascriptObject> _Update;
         private readonly Action<IJavascriptObject, string, IJavascriptObject> _RegisterMapping;
         private readonly Action<IJavascriptObject, string, int, IJavascriptObject> _RegisterCollectionMapping;
+        private readonly Action<IJavascriptObject, IJSObservableBridge> _Register;
         private bool? _AutoMapMode;
 
 
-        public JavascriptMapper(IJSObservableBridge root, Action<IJSObservableBridge, IJavascriptObject> update,
-            Action<IJavascriptObject, string, IJavascriptObject> registerMapping, Action<IJavascriptObject, string, int, IJavascriptObject> registerCollectionMapping) {
+        public JavascriptMapper(IJSObservableBridge root, Action<IJavascriptObject, IJSObservableBridge> register, Action<IJSObservableBridge, IJavascriptObject> update,
+            Action<IJavascriptObject, string, IJavascriptObject> registerMapping, Action<IJavascriptObject, string, int, IJavascriptObject> registerCollectionMapping)
+        {
             _Root = root;
+            _Register = register;
             _Update = update;
             _RegisterMapping = registerMapping;
             _RegisterCollectionMapping = registerCollectionMapping;
@@ -40,7 +43,11 @@ namespace MVVM.HTML.Core.Binding
         public void AutoMap()
         {
             CheckMode(true);
-            _Root.GetAllChildren(true).OfType<IJSObservableBridge>().ToList().ForEach(ch => ch.AutoMap());
+            _Root.GetAllChildren(true).OfType<IJSObservableBridge>().ToList().ForEach(ch =>
+            {
+                ch.AutoMap();
+                _Register(ch.MappedJSValue, ch);
+            });
             _TCS.TrySetResult(null);
         }
 

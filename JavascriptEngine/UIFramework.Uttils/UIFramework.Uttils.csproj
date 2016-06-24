@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}</ProjectGuid>
+    <ProjectGuid>{20D23D38-573B-4F6B-B8D5-10EF822400E6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VueUiFramework</RootNamespace>
-    <AssemblyName>VueUiFramework</AssemblyName>
+    <RootNamespace>UIFramework.Uttils</RootNamespace>
+    <AssemblyName>UIFramework.Uttils</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -41,9 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VueJavascriptSessionInjector.cs" />
-    <Compile Include="VueJavascriptViewModelUpdater.cs" />
-    <Compile Include="VueSessionInjector.cs" />
+    <Compile Include="BinderBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,17 +49,6 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UIFramework.Uttils\UIFramework.Uttils.csproj">
-      <Project>{20d23d38-573b-4f6b-b8d5-10ef822400e6}</Project>
-      <Name>UIFramework.Uttils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="scripts\vueGlue.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="scripts\vue.js" />
-    <EmbeddedResource Include="scripts\vue.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,21 +1,26 @@
 ﻿(function () {
-    function onlyMethod(vm){
-        var method = {};
-
+    function visitOnlyMethod(vm, visit){
         for (var property in vm) {
-            if (vm.hasOwnProperty(property) && typeof vm[property] === "function") {
-                method[property] = vm[property];
+            var value = vm[property]
+            if (vm.hasOwnProperty(property) && typeof value !== "function") {
+                visit(property, value)
             }
         }
-        return method;
     }
 
     var helper = {
-        register: function (vm) {
-            new Vue({
+        register: function (vm, observer) {
+            var vueVm = new Vue({
                 el: '#main',
-                data: vm,
-                methods: onlyMethod(vm)
+                data: vm
+            });
+
+            visitOnlyMethod(vm, (prop, _) => {
+                console.log(prop)
+                vueVm.$watch(prop, function (newVal, oldVal) {
+                    console.log(prop, newVal, oldVal)
+                    observer.TrackChanges(vm, prop, newVal);
+                })
             });
 
             return vm;
