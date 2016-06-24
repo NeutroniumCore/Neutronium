@@ -13,7 +13,6 @@ namespace KnockoutUIFramework
     internal class KnockoutSessionInjector : IJavascriptSessionInjector
     {
         private readonly IWebView _WebView;
-        private readonly IJavascriptChangesObserver _JavascriptListener;
         private readonly Queue<IJavascriptObjectMapper> _JavascriptMapper = new Queue<IJavascriptObjectMapper>();
         private IJavascriptObject _Listener;
         private IJavascriptObjectMapper _Current;
@@ -21,12 +20,11 @@ namespace KnockoutUIFramework
         private bool _PullNextMapper = true;
         private IJavascriptObject _Ko;
 
-        public KnockoutSessionInjector(IWebView webView, IJavascriptChangesObserver iJavascriptListener)
+        public KnockoutSessionInjector(IWebView webView, IJavascriptChangesObserver javascriptListener)
         {
             _WebView = webView;
-            _JavascriptListener = iJavascriptListener;
 
-            var builder = new BinderBuilder(_WebView, _JavascriptListener);
+            var builder = new BinderBuilder(_WebView, javascriptListener);
             _Listener = builder.BuildListener();
         }
 

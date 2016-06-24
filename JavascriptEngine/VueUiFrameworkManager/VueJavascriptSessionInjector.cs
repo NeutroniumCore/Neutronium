@@ -11,14 +11,12 @@ namespace VueUiFramework
     internal class VueJavascriptSessionInjector : IJavascriptSessionInjector
     {
         private IWebView _WebView;
-        private IJavascriptChangesObserver _JavascriptObserver;
         private IJavascriptObject _VueHelper;
         private IJavascriptObject _Listener;
 
         public VueJavascriptSessionInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {
             _WebView = webView;
-            _JavascriptObserver = javascriptObserver;
 
             var builder = new BinderBuilder(webView, javascriptObserver);
             _Listener = builder.BuildListener();
