@@ -26,10 +26,12 @@ namespace VueUiFramework
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)
         {
+            array.InvokeAsync("splice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
         }
 
-        public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject item)
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added)
         {
+            array.InvokeAsync("splice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), added);
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
