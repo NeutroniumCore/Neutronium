@@ -26,8 +26,14 @@ namespace VueUiFramework
 
         public IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper mapper)
         {
+            _WebView.Run(()=> UnsafeInject(rawObject));
             _WebView.RunAsync(mapper.AutoMap);   
             return rawObject;
+        }
+
+        private IJavascriptObject UnsafeInject(IJavascriptObject rawObject) 
+        {
+            return GetVueHelper().Invoke("inject", _WebView, rawObject, _Listener);
         }
 
         public Task RegisterMainViewModel(IJavascriptObject jsObject)

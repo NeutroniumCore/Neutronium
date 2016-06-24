@@ -1,29 +1,58 @@
 ﻿(function () {
-    function visitOnlyMethod(vm, visit){
+
+    var visited = {};
+
+    function visitOnlyMethod(vm, visit) {
+        "use strict";
+        if (!vm || !!visited[vm._MappedId])
+            return;
+
+        visited[vm._MappedId] = vm;
+
         for (var property in vm) {
-            var value = vm[property]
-            if (vm.hasOwnProperty(property) && typeof value !== "function") {
-                visit(property, value)
+            if (!vm.hasOwnProperty(property))
+                continue;
+
+            var value = vm[property], type = typeof value;
+            if (type === "function")
+                continue;
+
+            visit(vm, property);
+            if (Array.isArray(value)) {
+                for (let i = 0; i < value.length; i++) {
+                    visitOnlyMethod(value[i], visit);
+                }
+            }
+
+            if (type === "object") {
+                visitOnlyMethod(value, visit);
             }
         }
     }
 
+    var vueVm = null;
+
+    var inject = function (vm, observer) {
+        if (!vueVm)
+            return vm;
+
+        visitOnlyMethod(vm, (father, prop) => {
+            vueVm.$watch(() => father[prop], function (newVal, oldVal) {
+                observer.TrackChanges(father, prop, newVal);
+            });
+        });
+        return vm;
+    };
+
     var helper = {
+        inject: inject,
         register: function (vm, observer) {
-            var vueVm = new Vue({
-                el: '#main',
+            vueVm = new Vue({
+                el: "#main",
                 data: vm
             });
 
-            visitOnlyMethod(vm, (prop, _) => {
-                console.log(prop)
-                vueVm.$watch(prop, function (newVal, oldVal) {
-                    console.log(prop, newVal, oldVal)
-                    observer.TrackChanges(vm, prop, newVal);
-                })
-            });
-
-            return vm;
+            return inject(vm, observer);
         }
     };
 
