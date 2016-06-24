@@ -37,7 +37,7 @@
             return vm;
 
         visitOnlyMethod(vm, (father, prop) => {
-            vueVm.$watch(() => father[prop], function (newVal, oldVal) {
+            vueVm.$watch(() => father[prop], function (newVal) {
                 observer.TrackChanges(father, prop, newVal);
             });
         });
