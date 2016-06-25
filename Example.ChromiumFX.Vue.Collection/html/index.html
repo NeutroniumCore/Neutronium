@@ -5,9 +5,11 @@
 	</head>
 <body>
     <div id="main">
-        <div v-for="person in Persons">
-            {{person.Name}}
-        </div>
+        <template  v-for="person in Persons">
+            <a>{{person.Name}}</a>
+            <input v-model="person.LastName"/>
+            <br />
+        </template>
         <button @click="Add.Execute()">Add Person</button>
     </div>
 

@@ -42,15 +42,17 @@
         <div id="Local">
             <h2><span data-bind="text: Local().City"></span></h2>
 
-            <input type="text" v-if="MainSkill!==null" v-model="MainSkill.Type" placeholder="Main Skill Type">
-            <input type="text" v-if="MainSkill!==null" v-model="MainSkill.Name" placeholder="Main Skill">
+            <template  v-if="MainSkill!==null">
+                <input type="text" v-model="MainSkill.Type" placeholder="Main Skill Type">
+                <input type="text" v-model="MainSkill.Name" placeholder="Main Skill">
+            </template>
 
         </div>
-        <div v-for="state in States">
+        <template v-for="state in States">
             <label>
                 <input type="radio" v-model="PersonalState" :value="state" /><span>{{state.displayName}}</span>
             </label>
-        </div>
+        </template>
 
         <div v-for="sex in Sexes">
             <label>
