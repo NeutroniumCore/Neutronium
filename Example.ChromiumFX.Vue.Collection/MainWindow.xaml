@@ -1,0 +1,18 @@
+﻿<Window x:Class="Example.ChromiumFX.Vue.Collection.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:component="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Example.ChromiumFX.Vue.Collection"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <component:HTMLViewControl HTMLEngine="ChromiumFX" Grid.Column="0" Grid.Row="0"   IsDebug="True"  x:Name="cfxBrowser" RelativeSource="html\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+    </Grid>
+</Window>

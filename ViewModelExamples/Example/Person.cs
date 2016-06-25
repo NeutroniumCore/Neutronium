@@ -18,6 +18,7 @@ namespace MVVM.ViewModel.Example
             Command = new ToogleRelayCommand(DoCommand);
             RemoveSkill = new RelayCommand<Skill>(s=> this.Skills.Remove(s));
             ChangeSkill = new RelayCommand<Skill>(s => MainSkill = (this.Skills.Count>0)?this.Skills[0] : null);
+            RemoveSkills = new RelayCommand<Skill>(s => Skills.Clear());
         }
 
         private void DoCommand()
@@ -101,6 +102,8 @@ namespace MVVM.ViewModel.Example
         public ICommand RemoveSkill { get; private set; }
 
         public ICommand ChangeSkill { get; private set; }
+
+        public ICommand RemoveSkills { get; private set; }
 
         public ICommand TestCommand { get; set; }
 

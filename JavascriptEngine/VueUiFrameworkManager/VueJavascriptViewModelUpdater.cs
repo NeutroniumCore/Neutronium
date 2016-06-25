@@ -14,6 +14,11 @@ namespace VueUiFramework
 
         public void ClearAllCollection(IJavascriptObject array)
         {
+            _WebView.RunAsync(() =>
+            {
+                var length = array.GetArrayLength();
+                array.Invoke("splice", _WebView, _WebView.Factory.CreateInt(0), _WebView.Factory.CreateInt(length));
+            });
         }
 
         public void Dispose()
@@ -22,6 +27,8 @@ namespace VueUiFramework
 
         public void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex)
         {
+            SpliceCollection(array, oldIndex, 1);
+            SpliceCollection(array, newIndex, 0, item);
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)

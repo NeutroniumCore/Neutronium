@@ -110,6 +110,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.Infra", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIFramework.Uttils", "JavascriptEngine\UIFramework.Uttils\UIFramework.Uttils.csproj", "{20D23D38-573B-4F6B-B8D5-10EF822400E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.Collection", "Example.ChromiumFX.Vue.Collection\Example.ChromiumFX.Vue.Collection.csproj", "{C163196F-9587-4349-8955-D2B81C621263}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -761,6 +763,22 @@ Global
 		{20D23D38-573B-4F6B-B8D5-10EF822400E6}.Release|x64.Build.0 = Release|Any CPU
 		{20D23D38-573B-4F6B-B8D5-10EF822400E6}.Release|x86.ActiveCfg = Release|Any CPU
 		{20D23D38-573B-4F6B-B8D5-10EF822400E6}.Release|x86.Build.0 = Release|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Debug|x64.Build.0 = Debug|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Debug|x86.Build.0 = Debug|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Release|x64.ActiveCfg = Release|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Release|x64.Build.0 = Release|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Release|x86.ActiveCfg = Release|Any CPU
+		{C163196F-9587-4349-8955-D2B81C621263}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -809,6 +827,7 @@ Global
 		{E63BD567-AEFC-4859-9F17-ED646D0D7044} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{AABC737D-3FEE-4066-A90D-D00002404FEB} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{20D23D38-573B-4F6B-B8D5-10EF822400E6} = {45DFFB49-44B9-49C6-8C5B-1B928366A462}
+		{C163196F-9587-4349-8955-D2B81C621263} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

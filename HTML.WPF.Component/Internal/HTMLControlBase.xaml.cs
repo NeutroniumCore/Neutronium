@@ -63,7 +63,17 @@ namespace HTML_WPF.Component
         }
 
         public static readonly DependencyProperty HTMLEngineProperty =
-            DependencyProperty.Register("HTMLEngine", typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(HTMLEngine), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
+
+        public string JavascriptUIEngine
+        {
+            get { return (string)GetValue(JavascriptUIEngineProperty); }
+            set { SetValue(JavascriptUIEngineProperty, value); }
+        }
+
+        public static readonly DependencyProperty JavascriptUIEngineProperty =
+            DependencyProperty.Register(nameof(JavascriptUIEngine), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
+
 
         public Uri Source => _WPFDoubleBrowserNavigator.Url;
 
@@ -88,7 +98,10 @@ namespace HTML_WPF.Component
 
             var engine = HTMLEngineFactory.Engine;
             _WPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
-            _Injector = engine.ResolveJavaScriptFramework(HTMLEngine);
+            _Injector = engine.ResolveJavaScriptFramework(JavascriptUIEngine);
+
+            if (_Injector==null)
+                throw ExceptionHelper.Get($"Not able to find JavascriptUIEngine {JavascriptUIEngine}. Please register the correspoding Javascript UIEngine.");
 
             var debugableVm =_Injector.HasDebugScript();
             DebugWindow.Executable = debugableVm;
