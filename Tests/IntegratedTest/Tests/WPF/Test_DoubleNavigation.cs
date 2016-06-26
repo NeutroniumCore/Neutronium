@@ -78,9 +78,9 @@ namespace IntegratedTest.Tests.WPF
                 GoTo1 = new RelayCommand(() => Navigation.NavigateAsync(new A2()));
             }
 
-            public Exception Exception { get; private set; }
-            public ICommand GoTo1 { get; private set; }
-            public ICommand Change { get; private set; }
+            public Exception Exception { get; }
+            public ICommand GoTo1 { get; }
+            public ICommand Change { get; }
         }
 
         private class A2 : A

@@ -16,14 +16,14 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         private readonly HTMLViewContext _HTMLViewContext;   
         private readonly Type _IndividualType;
 
-        public IJavascriptObject JSValue { get; private set; }
-        public object CValue { get; private set; }
-        public IList<IJSCSGlue> Items { get; private set; }     
-        public JSCSGlueType Type { get { return JSCSGlueType.Array; } }
-        public IJavascriptObject MappedJSValue { get; private set; }
-        private IWebView WebView { get { return _HTMLViewContext.WebView; } }
-        private IJavascriptViewModelUpdater ViewModelUpdater { get { return _HTMLViewContext.ViewModelUpdater; } }
-        private IDispatcher UIDispatcher { get { return _HTMLViewContext.UIDispatcher; } }
+        public IJavascriptObject JSValue { get; }
+        public object CValue { get; }
+        public IList<IJSCSGlue> Items { get; }     
+        public JSCSGlueType Type => JSCSGlueType.Array;
+        public IJavascriptObject MappedJSValue { get; private set;  }
+        private IWebView WebView => _HTMLViewContext.WebView;
+        private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
+        private IDispatcher UIDispatcher=> _HTMLViewContext.UIDispatcher;
 
         public JSArray(HTMLViewContext context, IEnumerable<IJSCSGlue> values, IEnumerable collection)
         {

@@ -13,10 +13,10 @@ namespace MVVM.HTML.Core.Binding.CollectionChanges
              Object = converter.GetCachedOrCreateBasic(change.Object, targetType);
         } 
 
-        public CollectionChangeType  CollectionChangeType {get;private set;}
+        public CollectionChangeType  CollectionChangeType { get; }
 
-        public int Index { get; private set; }
+        public int Index { get; }
 
-        public IJSCSGlue Object { get; private set; }
+        public IJSCSGlue Object { get; }
     }
 }

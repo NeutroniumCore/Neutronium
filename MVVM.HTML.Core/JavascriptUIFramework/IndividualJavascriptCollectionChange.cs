@@ -17,16 +17,16 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// <summary>
         /// Type of modification
         /// </summary>
-        public CollectionChangeType  CollectionChangeType {get;private set;}
+        public CollectionChangeType  CollectionChangeType { get; }
 
         /// <summary>
         /// Index of modification
         /// </summary>
-        public int Index { get; private set; }
+        public int Index { get; }
 
         /// <summary>
         /// Item of collection subject to modification
         /// </summary>
-        public IJavascriptObject Object { get; private set; }
+        public IJavascriptObject Object { get; }
     }
 }

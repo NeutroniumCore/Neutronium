@@ -2,7 +2,7 @@
 {
     public class WindowHelper
     {
-        public HTMLLogicWindow __window__ { get;private set;}
+        public HTMLLogicWindow __window__ { get; }
 
         public WindowHelper(HTMLLogicWindow iwindow)
         {

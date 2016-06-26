@@ -15,7 +15,7 @@ namespace HTML_WPF.Component
             NavigationBuilder = urlSolver as INavigationBuilder;
         }
       
-        public INavigationBuilder NavigationBuilder { get; private set; }
+        public INavigationBuilder NavigationBuilder { get; }
 
         public async Task<IHTMLBinding> NavigateAsync(object iViewModel, string id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {

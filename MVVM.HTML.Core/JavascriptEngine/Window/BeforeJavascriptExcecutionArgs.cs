@@ -9,6 +9,6 @@ namespace MVVM.HTML.Core.JavascriptEngine.Window
             JavascriptExecutor = javascriptExecutor;
         }
 
-        public Action<string> JavascriptExecutor { get; private set; }
+        public Action<string> JavascriptExecutor { get; }
     }
 }

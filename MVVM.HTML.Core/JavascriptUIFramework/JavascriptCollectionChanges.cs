@@ -19,11 +19,11 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// <summary>
         /// Modified collection
         /// </summary>
-        public IJavascriptObject Collection {get; private set;}
+        public IJavascriptObject Collection { get; }
 
         /// <summary>
         /// Atomic changes related to the collectuions
         /// </summary>
-        public IndividualJavascriptCollectionChange[] Changes {get; private set;}       
+        public IndividualJavascriptCollectionChange[] Changes { get; }       
     }
 }

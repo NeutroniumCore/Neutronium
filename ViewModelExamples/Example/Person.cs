@@ -99,11 +99,11 @@ namespace MVVM.ViewModel.Example
 
         public ToogleRelayCommand Command { get; }
 
-        public ICommand RemoveSkill { get; private set; }
+        public ICommand RemoveSkill { get; }
 
-        public ICommand ChangeSkill { get; private set; }
+        public ICommand ChangeSkill { get; }
 
-        public ICommand RemoveSkills { get; private set; }
+        public ICommand RemoveSkills { get; }
 
         public ICommand TestCommand { get; set; }
 

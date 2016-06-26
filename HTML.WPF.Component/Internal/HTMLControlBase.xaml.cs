@@ -27,9 +27,9 @@ namespace HTML_WPF.Component
         private readonly DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private readonly IJavascriptUIFrameworkManager _Injector;
 
-        public BasicRelayCommand DebugWindow { get; private set; }
-        public BasicRelayCommand DebugBrowser { get; private set; }
-        public BasicRelayCommand ShowInfo { get; private set; }
+        public BasicRelayCommand DebugWindow { get; }
+        public BasicRelayCommand DebugBrowser { get; }
+        public BasicRelayCommand ShowInfo { get; }
 
         public bool IsDebug
         {

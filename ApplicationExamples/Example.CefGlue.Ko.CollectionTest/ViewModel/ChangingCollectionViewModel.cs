@@ -27,9 +27,9 @@ namespace Example.CefGlue.Ko.CollectionTest.ViewModel
             Items.Add(89);
         }
 
-        public ICommand Replace { get; private set; }
+        public ICommand Replace { get; }
 
-        public ICommand Add { get; private set; }
+        public ICommand Add { get; }
 
         private ObservableCollection<int> _Items;
         public ObservableCollection<int> Items

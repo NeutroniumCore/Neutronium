@@ -20,8 +20,8 @@ namespace MVVM.ViewModel.Example
             get { return _Items; }
         }
 
-        public ISimpleCommand Insert { private set; get; }
+        public ISimpleCommand Insert { get; }
 
-        public ISimpleCommand Remove { private set; get; }
+        public ISimpleCommand Remove { get; }
     }
 }
