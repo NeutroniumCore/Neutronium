@@ -35,8 +35,7 @@ namespace KnockoutUIFramework
 
         private IJavascriptObject GetSilenter(IJavascriptObject father, string propertyName)
         {
-            var dic = _Silenters.GetOrDefault(father);
-            return (dic == null) ? null : dic.GetOrDefault(propertyName);
+            return _Silenters.GetOrDefault(father)?.GetOrDefault(propertyName);
         }
 
         private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father, string propertyName)

@@ -2,17 +2,15 @@
 using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Extension;
 using UIFramework.Uttils;
 
 namespace VueUiFramework
 {
     internal class VueJavascriptSessionInjector : IJavascriptSessionInjector
     {
-        private IWebView _WebView;
+        private readonly IWebView _WebView;
         private IJavascriptObject _VueHelper;
-        private IJavascriptObject _Listener;
+        private readonly IJavascriptObject _Listener;
 
         public VueJavascriptSessionInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {

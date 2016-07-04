@@ -32,14 +32,30 @@
 
     var vueVm = null;
 
+    function Listener(listener, change){
+        this.listen = function(){
+            this.subscriber = listener();
+        }
+
+        this.silence = function(value){
+            this.subscriber();
+            change(value);
+            this.listen();
+        }
+    }
+
     var inject = function (vm, observer) {
         if (!vueVm)
             return vm;
 
         visitOnlyMethod(vm, (father, prop) => {
-            vueVm.$watch(() => father[prop], function (newVal) {
-                observer.TrackChanges(father, prop, newVal);
-            });
+            father.__silenter = father.__silenter || {};
+            var silenter = father.__silenter;
+            newListener = new Listener(() => vueVm.$watch(() => father[prop], function (newVal) {
+                            observer.TrackChanges(father, prop, newVal);
+                        }), (value)=> father[prop] =value);               
+            newListener.listen();
+            silenter[prop] = newListener;
         });
         return vm;
     };
@@ -51,6 +67,8 @@
                 el: "#main",
                 data: vm
             });
+
+            window.vm = vueVm;
 
             return inject(vm, observer);
         }

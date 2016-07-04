@@ -1,11 +1,15 @@
 ﻿using MVVM.HTML.Core.JavascriptUIFramework;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using System.Collections.Generic;
+using MVVM.HTML.Core.Infra;
 
 namespace VueUiFramework
 {
     internal class VueJavascriptViewModelUpdater : IJavascriptViewModelUpdater
     {
-        private IWebView _WebView;
+        private readonly IWebView _WebView;
+        private readonly IDictionary<IJavascriptObject, IJavascriptObject> _Silenters =
+              new Dictionary<IJavascriptObject, IJavascriptObject>();
 
         public VueJavascriptViewModelUpdater(IWebView webView)
         {
@@ -43,7 +47,18 @@ namespace VueUiFramework
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
         {
-            father.SetValue(propertyName, value);
+            //father.SetValue(propertyName, value);
+            _WebView.RunAsync(() =>
+            {
+                var silenter = GetOrCreateSilenter(father);
+                var forProperty = silenter.GetValue(propertyName);
+                forProperty.Invoke("silence", _WebView, value);
+            });
+        }
+
+        private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father)
+        {
+            return _Silenters.FindOrCreateEntity(father, _ => father.GetValue("__silenter"));
         }
     }
 }
