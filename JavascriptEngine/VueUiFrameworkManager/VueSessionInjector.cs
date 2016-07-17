@@ -7,8 +7,9 @@ namespace VueUiFramework
     public class VueSessionInjector : IJavascriptUIFrameworkManager
     {
         public string FrameworkName => "vue.js 1.0.25";
-
         public string Name => "VueInjector";
+
+
 
         public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
         {
@@ -33,7 +34,7 @@ namespace VueUiFramework
         public string GetMainScript()
         {
             var loader = GetResourceReader();           
-            return loader.Load("vue.js", "vueGlue.js");
+            return loader.Load("vue.js", "subscribeArray.min.js", "vueGlue.js");
         }
 
         public bool HasDebugScript()

@@ -21,12 +21,13 @@ namespace VueUiFramework
             _WebView.RunAsync(() =>
             {
                 var length = array.GetArrayLength();
-                array.Invoke("splice", _WebView, _WebView.Factory.CreateInt(0), _WebView.Factory.CreateInt(length));
+                array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(0), _WebView.Factory.CreateInt(length));
             });
         }
 
         public void Dispose()
         {
+            _Silenters.Clear();
         }
 
         public void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex)
@@ -37,17 +38,16 @@ namespace VueUiFramework
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)
         {
-            array.InvokeAsync("splice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
+            array.InvokeAsync("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added)
         {
-            array.InvokeAsync("splice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), added);
+            array.InvokeAsync("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), added);
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
         {
-            //father.SetValue(propertyName, value);
             _WebView.RunAsync(() =>
             {
                 var silenter = GetOrCreateSilenter(father);

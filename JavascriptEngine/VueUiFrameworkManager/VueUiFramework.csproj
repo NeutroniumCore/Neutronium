@@ -64,8 +64,8 @@
     <EmbeddedResource Include="scripts\vue.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scripts\subscribeArray.js" />
-    <Content Include="scripts\subscribeArray.min.js" />
+    <EmbeddedResource Include="scripts\subscribeArray.js" />
+    <EmbeddedResource Include="scripts\subscribeArray.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
