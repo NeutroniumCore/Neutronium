@@ -88,6 +88,18 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="javascript\src\subscribeArray.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\subscribeArray.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\vue.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="javascript\src\vueGlue.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -124,18 +136,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\JavascriptEngine\VueUiFrameworkManager\scripts\subscribeArray.js">
-      <Link>javascript\src\subscribeArray.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\JavascriptEngine\VueUiFrameworkManager\scripts\subscribeArray.min.js">
-      <Link>javascript\src\subscribeArray.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vueGlue.js">
-      <Link>javascript\src\vueGlue.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="javascript\spec\subscribeArray.spec.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
