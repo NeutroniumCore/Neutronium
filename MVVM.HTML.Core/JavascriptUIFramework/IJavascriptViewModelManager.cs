@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MVVM.HTML.Core.JavascriptUIFramework {
-    public interface IJavascriptViewModelManager {
+namespace MVVM.HTML.Core.JavascriptUIFramework 
+{
+    public interface IJavascriptViewModelManager: IDisposable 
+    {
 
         /// <summary>
         /// Returns an IJavascriptSessionInjector 

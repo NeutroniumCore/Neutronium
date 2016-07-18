@@ -7,7 +7,7 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
     /// Interface responsible for updating javascript ViewModel to reflect
     /// C# ViewModel updates
     /// </summary>
-    public interface IJavascriptViewModelUpdater : IDisposable
+    public interface IJavascriptViewModelUpdater
     {
         /// <summary>
         /// Update javascript viewmodel without raising listeners events

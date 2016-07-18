@@ -7,13 +7,11 @@ namespace MVVM.HTML.Core
 {
     public class StringBinding :  IHTMLBinding
     {
-        private IJavascriptSessionInjector _JavascriptSessionInjector;
         private readonly IJavascriptObject _Root;
         private readonly HTMLViewContext _Context;
 
-        internal StringBinding(HTMLViewContext context, IJavascriptObject root, IJavascriptSessionInjector iKnockoutSessionInjector)
+        internal StringBinding(HTMLViewContext context, IJavascriptObject root)
         {
-            _JavascriptSessionInjector = iKnockoutSessionInjector;
             _Context = context;
             _Root = root;
         }
@@ -22,11 +20,7 @@ namespace MVVM.HTML.Core
         {
             Context.RunAsync(() =>
             {
-                if (_JavascriptSessionInjector == null) 
-                    return;
-                
-                _JavascriptSessionInjector.Dispose();
-                _JavascriptSessionInjector = null;
+                _Context.Dispose();
             });
         }
 
@@ -53,7 +47,7 @@ namespace MVVM.HTML.Core
             var mappedroot = injector.Inject(root, null);
             await injector.RegisterMainViewModel(mappedroot);
 
-            return new StringBinding(context, mappedroot, injector);
+            return new StringBinding(context, mappedroot);
         }
 
         public IWebView Context => _Context.WebView;

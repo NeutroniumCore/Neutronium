@@ -8,7 +8,7 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
     /// Abstraction of the javascript framework responsible for databind
     /// and change tracking
     /// </summary>
-    public interface IJavascriptSessionInjector : IDisposable
+    public interface IJavascriptSessionInjector
     {
         /// <summary>
         /// Maps a simple javascript object to an observable javascript object
