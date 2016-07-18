@@ -209,3 +209,6 @@ FakesAssemblies/
 /Example.ChromiumFX.Vue.Collection/cef/Resources/*.pak
 /Example.ChromiumFX.Vue.Collection/cef/Resources/*.dat
 /Example.ChromiumFX.Vue.Collection/cef/Resources/locales/*.pak
+/ApplicationExamples/Example.ChromiumFX.Vue.Collection/cef/Resources/locales/*.pak
+/ApplicationExamples/Example.ChromiumFX.Vue.Collection/cef/Resources/*.pak
+/ApplicationExamples/Example.ChromiumFX.Vue.Collection/cef/Resources/*.dat

@@ -1,24 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C163196F-9587-4349-8955-D2B81C621263}</ProjectGuid>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Example.ChromiumFX.Vue.Collection</RootNamespace>
     <AssemblyName>Example.ChromiumFX.Vue.Collection</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,23 +28,45 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChromiumFX, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumFX.dll</HintPath>
+      <HintPath>..\..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumFX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ChromiumWebBrowser, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumWebBrowser.dll</HintPath>
+      <HintPath>..\..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumWebBrowser.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -52,7 +76,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -61,25 +84,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="VM\ListVM.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -97,6 +107,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="cef\Release\cef_sandbox.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -191,41 +202,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ApplicationExamples\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj">
-      <Project>{c769e3ad-e82e-4e2f-bc4c-c92ca572c2ed}</Project>
-      <Name>Example.ChromiumFX.Vue.Infra</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HTML.WPF.Component\HTML_WPF.Component.csproj">
-      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>HTML_WPF.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HTMLEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
-      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
-      <Name>ChromiumFXRenderProcess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
-      <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
-      <Name>HTMEngine.ChromiumFX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JavascriptEngine\VueUiFrameworkManager\VueUiFramework.csproj">
-      <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
-      <Name>VueUiFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MVVM.Component\MVVM.Component.csproj">
-      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
-      <Name>MVVM.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
-      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>MVVM.HTML.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ViewModelExamples\MVVM.ViewModel.csproj">
-      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
-      <Name>MVVM.ViewModel</Name>
-    </ProjectReference>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Content Include="cef\Release\d3dcompiler_43.dll">
@@ -249,17 +233,58 @@
     <Content Include="cef\Release\wow_helper.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="html\index.html">
+    <Content Include="src\images\male.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\images\Sem título.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="src\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\js\init.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
+      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
+      <Name>HTML_WPF.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\HTMLEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
+      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
+      <Name>ChromiumFXRenderProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
+      <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
+      <Name>HTMEngine.ChromiumFX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\JavascriptEngine\VueUiFrameworkManager\VueUiFramework.csproj">
+      <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
+      <Name>VueUiFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
+      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
+      <Name>MVVM.HTML.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ViewModelExamples\MVVM.ViewModel.csproj">
+      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
+      <Name>MVVM.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj">
+      <Project>{c769e3ad-e82e-4e2f-bc4c-c92ca572c2ed}</Project>
+      <Name>Example.ChromiumFX.Vue.Infra</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" />
+  <Import Project="..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

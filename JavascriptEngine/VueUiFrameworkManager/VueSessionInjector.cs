@@ -9,16 +9,14 @@ namespace VueUiFramework
         public string FrameworkName => "vue.js 1.0.25";
         public string Name => "VueInjector";
 
-
-
-        public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
+        public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptObject listener)
         {
-            return new VueJavascriptSessionInjector(webView, javascriptObserver);
+            return new VueJavascriptSessionInjector(webView, listener);
         }
 
-        public IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView)
+        public IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView, IJavascriptObject listener)
         {
-            return new VueJavascriptViewModelUpdater(webView);
+            return new VueJavascriptViewModelUpdater(webView, listener);
         }
 
         public string GetDebugScript()

@@ -69,10 +69,6 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UIFramework.Uttils\UIFramework.Uttils.csproj">
-      <Project>{20d23d38-573b-4f6b-b8d5-10ef822400e6}</Project>
-      <Name>UIFramework.Uttils</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="scripts\knockout-delegatedEvents.min.js" />

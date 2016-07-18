@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.Exceptions;
-using UIFramework.Uttils;
 
 namespace VueUiFramework
 {
@@ -12,12 +11,10 @@ namespace VueUiFramework
         private IJavascriptObject _VueHelper;
         private readonly IJavascriptObject _Listener;
 
-        public VueJavascriptSessionInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
+        public VueJavascriptSessionInjector(IWebView webView, IJavascriptObject listener)
         {
             _WebView = webView;
-
-            var builder = new BinderBuilder(webView, javascriptObserver);
-            _Listener = builder.BuildListener();
+            _Listener = listener;
         }
 
         public IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper mapper)
@@ -29,7 +26,7 @@ namespace VueUiFramework
 
         private IJavascriptObject UnsafeInject(IJavascriptObject rawObject) 
         {
-            return GetVueHelper().Invoke("inject", _WebView, rawObject, _Listener);
+            return rawObject;
         }
 
         public Task RegisterMainViewModel(IJavascriptObject jsObject)

@@ -29,7 +29,7 @@ namespace MVVM.ViewModel.Example
 
         public IList<Skill> Skills { get; }
 
-        public IList<Skill> SelectedSkills { get; }
+        public IList<Skill> SelectedSkills { get;}
 
         public ICommand RemoveSkill { get; }
 

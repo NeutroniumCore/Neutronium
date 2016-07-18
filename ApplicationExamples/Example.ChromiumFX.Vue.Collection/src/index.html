@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="main">
+
+        <select multiple="multiple" v-model="SelectedSkills">
+            <option v-for="item in Skills" :value="item">
+                {{item.Type}} {{item.Name}}
+            </option>
+        </select>
+
+        <button @click="AddSkill.Execute()">Add Skill</button>
+
+        <template v-if="MainSkill">
+            <input v-model="MainSkill.Type" placeholder="Type" />
+            <input v-model="MainSkill.Name" placeholder="Name" />
+        </template>
+
+    </div>
+ 
+</body>
+
+
+</html>

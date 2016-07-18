@@ -24,21 +24,24 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// <param name="webView">
         /// IWebView
         /// </param>
-        /// <param name="javascriptObserver">
-        /// IJavascriptChangesObserver 
+        /// <param name="listener">
+        /// listener to call on changes 
         /// </param>
         /// <returns>
         /// the newly created IJavascriptSessionInjector
         ///</returns>
-        IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver);
+        IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptObject listener);
 
         /// <summary>
         /// Create  ViewModel updater from webview
         /// </summary>
         /// <param name="webView">
         /// IWebView
+        /// <param name="listener">
+        /// listener to call on changes 
         /// </param>
-        IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView);
+        /// </param>
+        IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView, IJavascriptObject listener);
 
         /// <summary>
         /// return javascript debug script to allow interactive debug

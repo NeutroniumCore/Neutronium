@@ -91,6 +91,7 @@
     <Compile Include="Binding\CommandFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
+    <Compile Include="JavascriptUIFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptObjectInternalMapper.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptUIFrameworkManager.cs" />
     <Compile Include="JavascriptUIFramework\CollectionChangeType.cs" />

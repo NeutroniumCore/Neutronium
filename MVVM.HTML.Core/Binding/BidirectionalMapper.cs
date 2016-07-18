@@ -143,7 +143,11 @@ namespace MVVM.HTML.Core.Binding
 
                 var propertyAccessor = new PropertyAccessor(res.CValue, propertyName);
                 if (!propertyAccessor.IsSettable)
+                {
+                    Trace.WriteLine($"Unable to set C# from javascript object: property: {propertyName} is readonly.");
                     return;
+                }
+               
 
                 var targetType = propertyAccessor.GetTargetType();
                 var glue = GetCachedOrCreateBasic(newValue, targetType);

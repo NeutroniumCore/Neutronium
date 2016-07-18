@@ -3,10 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Extension;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using UIFramework.Uttils;
 
 namespace KnockoutUIFramework
 {
@@ -20,12 +18,10 @@ namespace KnockoutUIFramework
         private bool _PullNextMapper = true;
         private IJavascriptObject _Ko;
 
-        public KnockoutSessionInjector(IWebView webView, IJavascriptChangesObserver javascriptListener)
+        public KnockoutSessionInjector(IWebView webView, IJavascriptObject listener)
         {
             _WebView = webView;
-
-            var builder = new BinderBuilder(_WebView, javascriptListener);
-            _Listener = builder.BuildListener();
+            _Listener = listener;
         }
 
         public void Dispose()

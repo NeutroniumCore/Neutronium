@@ -11,14 +11,17 @@ namespace MVVM.HTML.Core.Binding
         public IDispatcher UIDispatcher { get; }
         public IJavascriptSessionInjector JavascriptSessionInjector { get; }
         public IJavascriptViewModelUpdater ViewModelUpdater { get; }
+        private readonly IJavascriptObject _Listener;
 
         public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptUIFrameworkManager javascriptUiFrameworkManager,
                                 IJavascriptChangesObserver javascriptChangesObserver)
         {
             WebView = webView;
             UIDispatcher = uiDispatcher;
-            ViewModelUpdater = javascriptUiFrameworkManager.CreateViewModelUpdater(WebView);
-            JavascriptSessionInjector = javascriptUiFrameworkManager.CreateInjector(WebView, javascriptChangesObserver);
+            var builder = new BinderBuilder(webView, javascriptChangesObserver);
+            _Listener = builder.BuildListener();
+            ViewModelUpdater = javascriptUiFrameworkManager.CreateViewModelUpdater(WebView, _Listener);
+            JavascriptSessionInjector = javascriptUiFrameworkManager.CreateInjector(WebView, _Listener);
         }
 
         public void Dispose()

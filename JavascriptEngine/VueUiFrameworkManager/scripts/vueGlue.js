@@ -61,15 +61,40 @@
     }
 
     function updateArray(array, observer) {
-        //var listener = array.subscribe(change => console.log(change));
-        var listener = array.subscribe(change => collectionListener(array, observer));
+        var changelistener = collectionListener(array, observer);
+        var listener = array.subscribe(changelistener);
         array.silentSplice = function () {
             listener();
             var res = array.splice.apply(array, arguments);
-            listener = array.subscribe(change => collectionListener(array, observer));
+            listener = array.subscribe(changelistener);
             return res;
         };
     }
+
+    function onPropertyChange(observer, prop, father) {
+        var blocked = false;
+
+        return function (newVal, oldVal) {
+            if (blocked){
+                blocked = false;
+                return;
+            }
+
+            if (newVal === oldVal)
+                return;
+
+            if (Array.isArray(newVal)) {
+                var args = [0, oldVal.length].concat(newVal);
+                oldVal.splice.apply(oldVal, args);
+                blocked = true;
+                father[prop] = oldVal;
+                return;
+            }
+
+            observer.TrackChanges(father, prop, newVal);
+        };
+    }
+
 
     var inject = function (vm, observer) {
         if (!vueVm)
@@ -78,9 +103,8 @@
         visitObject(vm, (father, prop) => {
             father.__silenter = father.__silenter || {};
             var silenter = father.__silenter;
-            newListener = new Listener(() => vueVm.$watch(() => father[prop], function (newVal) {
-                            observer.TrackChanges(father, prop, newVal);
-                        }), (value)=> father[prop] =value);               
+            var listenerfunction =  onPropertyChange(observer, prop, father);
+            newListener = new Listener(() => vueVm.$watch(() => father[prop], listenerfunction), (value) => father[prop] = value);
             newListener.listen();
             silenter[prop] = newListener;
         }, array => updateArray(array, observer));

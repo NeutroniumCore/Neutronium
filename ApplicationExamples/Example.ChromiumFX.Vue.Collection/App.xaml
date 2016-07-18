@@ -1,7 +1,6 @@
 ﻿<chromiumFxVueINfra:App x:Class="Example.ChromiumFX.Vue.Collection.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Example.ChromiumFX.Vue.Collection"
              xmlns:chromiumFxVueINfra="clr-namespace:Example.ChromiumFX.Vue.Infra;assembly=Example.ChromiumFX.Vue.Infra" 
              StartupUri="MainWindow.xaml">
     <chromiumFxVueINfra:App.Resources>

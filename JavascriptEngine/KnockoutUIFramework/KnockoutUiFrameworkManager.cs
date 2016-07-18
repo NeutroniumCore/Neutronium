@@ -13,12 +13,12 @@ namespace KnockoutUIFramework
         public string FrameworkName => "knockout.js 3.3.0";
         public string Name => "KnockoutInjector";
 
-        public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptChangesObserver javascriptObserver)
+        public IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptObject listener)
         {
-            return new KnockoutSessionInjector(webView, javascriptObserver);
+            return new KnockoutSessionInjector(webView, listener);
         }
 
-        public IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView)
+        public IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView, IJavascriptObject listener)
         {
             return new KnockoutViewModelUpdater(webView);
         }
