@@ -19,7 +19,7 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         string Name { get; }
 
         /// <summary>
-        /// Create an IJavascriptSessionInjector from webview and IJavascriptChangesObserver
+        /// Create an IJavascriptViewModelManager from webview and IJavascriptObserver listner object
         /// </summary>
         /// <param name="webView">
         /// IWebView
@@ -28,20 +28,9 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// listener to call on changes 
         /// </param>
         /// <returns>
-        /// the newly created IJavascriptSessionInjector
+        /// the newly created IJavascriptViewModelManager
         ///</returns>
-        IJavascriptSessionInjector CreateInjector(IWebView webView, IJavascriptObject listener);
-
-        /// <summary>
-        /// Create  ViewModel updater from webview
-        /// </summary>
-        /// <param name="webView">
-        /// IWebView
-        /// <param name="listener">
-        /// listener to call on changes 
-        /// </param>
-        /// </param>
-        IJavascriptViewModelUpdater CreateViewModelUpdater(IWebView webView, IJavascriptObject listener);
+        IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener);
 
         /// <summary>
         /// return javascript debug script to allow interactive debug

@@ -45,6 +45,7 @@
     <Compile Include="VueJavascriptViewModelUpdater.cs" />
     <Compile Include="VueSessionInjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VueVmManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">

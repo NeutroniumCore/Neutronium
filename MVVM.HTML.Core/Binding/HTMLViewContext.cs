@@ -20,8 +20,9 @@ namespace MVVM.HTML.Core.Binding
             UIDispatcher = uiDispatcher;
             var builder = new BinderBuilder(webView, javascriptChangesObserver);
             _Listener = builder.BuildListener();
-            ViewModelUpdater = javascriptUiFrameworkManager.CreateViewModelUpdater(WebView, _Listener);
-            JavascriptSessionInjector = javascriptUiFrameworkManager.CreateInjector(WebView, _Listener);
+            var manager = javascriptUiFrameworkManager.CreateManager(WebView, _Listener);
+            ViewModelUpdater = manager.ViewModelUpdater;
+            JavascriptSessionInjector = manager.Injector;
         }
 
         public void Dispose()
