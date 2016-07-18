@@ -36,8 +36,11 @@ namespace VueUiFramework
 
         public void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex)
         {
-            SpliceCollection(array, oldIndex, 1);
-            SpliceCollection(array, newIndex, 0, item);
+            _WebView.RunAsync(() => 
+            {
+                array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(oldIndex), _WebView.Factory.CreateInt(1));
+                AddUnsafe(array, newIndex, 0, item);
+            });
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)
@@ -45,9 +48,12 @@ namespace VueUiFramework
             array.InvokeAsync("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
         }
 
-        public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added)
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added) 
         {
-            array.InvokeAsync("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), added);
+            _WebView.RunAsync(() => 
+            {
+                AddUnsafe(array, index, number, added);
+            });
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
@@ -57,8 +63,19 @@ namespace VueUiFramework
                 var silenter = GetOrCreateSilenter(father);
                 var forProperty = silenter.GetValue(propertyName);
                 forProperty.Invoke("silence", _WebView, value);
-                _VueHelper.Value.Invoke("inject", _WebView, value, _Listener);
+                InjectUnsafe(value);
             });
+        }
+
+        private void AddUnsafe(IJavascriptObject array, int index, int number, IJavascriptObject value) 
+        {
+            array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), value);
+            InjectUnsafe(value);
+        }
+
+        private void InjectUnsafe(IJavascriptObject value) 
+        {
+            _VueHelper.Value.Invoke("inject", _WebView, value, _Listener);
         }
 
         private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father)
