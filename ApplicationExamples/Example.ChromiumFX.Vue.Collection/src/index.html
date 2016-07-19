@@ -7,7 +7,7 @@
     <div id="main">
 
         <select multiple="multiple" v-model="SelectedSkills">
-            <option v-for="item in Skills" :value="item">
+            <option v-for="item in Skills" value="item">
                 {{item.Type}} {{item.Name}}
             </option>
         </select>
@@ -18,6 +18,10 @@
             <input v-model="MainSkill.Type" placeholder="Type" />
             <input v-model="MainSkill.Name" placeholder="Name" />
         </template>
+
+        <div>
+            {{count}}
+        </div>
 
     </div>
     <script src="js/init.js"></script>
