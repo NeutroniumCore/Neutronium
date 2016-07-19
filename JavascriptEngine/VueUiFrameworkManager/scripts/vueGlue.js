@@ -114,8 +114,13 @@
     var helper = {
         inject: inject,
         register: function (vm, observer) {
+            var mixin = Vue._vmMixin;
+            if (!!mixin && !Array.isArray(mixin))
+                mixin = [mixin]; 
+
             vueVm = new Vue({
                 el: "#main",
+                mixins: mixin,
                 data: vm
             });
 
