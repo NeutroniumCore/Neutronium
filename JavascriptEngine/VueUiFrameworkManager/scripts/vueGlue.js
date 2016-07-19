@@ -111,24 +111,35 @@
         return vm;
     };
 
+    var fufillOnReady;
+    var ready = new Promise(function (fullfill) {
+        fufillOnReady = fullfill;
+    });
+
     var helper = {
         inject: inject,
         register: function (vm, observer) {
             var mixin = Vue._vmMixin;
             if (!!mixin && !Array.isArray(mixin))
-                mixin = [mixin]; 
+                mixin = [mixin];
 
             vueVm = new Vue({
                 el: "#main",
                 mixins: mixin,
-                data: vm
+                data: vm,
+                ready: function() {
+                    fufillOnReady(null);
+                }
             });
 
             window.vm = vueVm;
 
             return inject(vm, observer);
-        }
+        },
+        ready: ready
     };
+
+    helper.ready.then(() => console.log("ready"));
 
     window.glueHelper = helper;
 }())
