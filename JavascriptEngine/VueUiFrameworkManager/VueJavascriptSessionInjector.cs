@@ -40,9 +40,5 @@ namespace VueUiFramework
             var res = _VueHelper.Value.Invoke("register", _WebView, ijvm, _Listener);
             return (res == null || res.IsUndefined) ? null : res;
         }
-
-        public void Dispose()
-        {
-        }
     }
 }
