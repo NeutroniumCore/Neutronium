@@ -1,4 +1,4 @@
-﻿namespace Example.ChromiumFX.Collection.UI
+﻿namespace Example.ChromiumFX.Vue.Collection.App
 {
     /// <summary>
     /// Interaction logic for CefGlueApp.xaml
