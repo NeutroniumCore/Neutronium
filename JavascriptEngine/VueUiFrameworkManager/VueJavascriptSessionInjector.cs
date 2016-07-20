@@ -30,15 +30,21 @@ namespace VueUiFramework
             return rawObject;
         }
 
-        public Task RegisterMainViewModel(IJavascriptObject jsObject)
+        public async Task RegisterMainViewModel(IJavascriptObject jsObject)
         {
-             return _WebView.RunAsync(() => UnsafeRegister(jsObject));
+             await await _WebView.EvaluateAsync(() => UnsafeRegister(jsObject));
         }
 
-        private IJavascriptObject UnsafeRegister(IJavascriptObject ijvm)
+        private Task UnsafeRegister(IJavascriptObject ijvm)
         {
-            var res = _VueHelper.Value.Invoke("register", _WebView, ijvm, _Listener);
-            return (res == null || res.IsUndefined) ? null : res;
+            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            var readylistener = _WebView.Factory.CreateObject(false);
+            readylistener.Bind("fulfill", _WebView, (_, __, ___) => tcs.TrySetResult(null));
+
+            var vueHelper = _VueHelper.Value;
+            vueHelper.GetValue("ready").Invoke("then", _WebView, readylistener.GetValue("fulfill"));
+            var res = vueHelper.Invoke("register", _WebView, ijvm, _Listener);
+            return tcs.Task;
         }
     }
 }
