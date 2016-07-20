@@ -139,7 +139,5 @@
         ready: ready
     };
 
-    helper.ready.then(() => console.log("ready"));
-
     window.glueHelper = helper;
 }())
