@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Chromium.Remote;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using System.Collections.Generic;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {
@@ -98,12 +99,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return new ChromiumFXCRemoteContext(_Browser);
         }
 
-        private static CfrTask GetTask(Action perform) 
-        {
-            var task = new CfrTask();
-            task.Execute += (sender, args) => perform();
-            return task;
-        }
+        private HashSet<ChromiumFXTask> _Tasks = new HashSet<ChromiumFXTask>();
 
         private void RunInContext(Action action) 
         {
@@ -114,8 +110,10 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                     return;
                 }
 
-                var task = GetTask(action);
-                TaskRunner.PostTask(task);
+                var task = new ChromiumFXTask(action);
+                _Tasks.Add(task);
+                task.Clean = () => _Tasks.Remove(task);
+                TaskRunner.PostTask(task.Task);
             }
         }
     }
