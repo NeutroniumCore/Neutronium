@@ -12,7 +12,7 @@
             </option>
         </select>
 
-        <button @click="AddSkill.Execute()">Add Skill</button>
+        <button id="add" @click="AddSkill.Execute()">Add Skill</button>
 
         <template v-if="MainSkill">
             <input v-model="MainSkill.Type" placeholder="Type" />
