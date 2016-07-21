@@ -24,12 +24,12 @@ namespace MVVM.HTML.Core.Binding
             _Cacher = icacher;
         }
 
-        internal IJSCSGlue Map(object ifrom, object iadditional = null)
+        public IJSCSGlue Map(object ifrom, object iadditional = null)
         {
-            return _Context.WebView.Evaluate(() => InternalMap(ifrom, iadditional));
+            return _Context.WebView.Evaluate(() => UnsafelMap(ifrom, iadditional));
         }
 
-        private IJSCSGlue InternalMap(object from, object iadditional=null)
+        public IJSCSGlue UnsafelMap(object from, object iadditional=null)
         {
             if (from == null)
                 return JSGenericObject.CreateNull(_Context);
@@ -97,7 +97,7 @@ namespace MVVM.HTML.Core.Binding
                     continue;
                 }
 
-                var childres = InternalMap(childvalue);          
+                var childres = UnsafelMap(childvalue);          
                 _Context.WebView.Run(() => resobject.SetValue(propertyName, childres.JSValue));
                 gres.UpdateCSharpProperty(propertyName, childres);
             }
@@ -105,7 +105,7 @@ namespace MVVM.HTML.Core.Binding
 
         private IJSCSGlue Convert(IEnumerable source)
         {
-            var res = new JSArray(_Context, source.Cast<object>().Select(s => Map(s)), source);
+            var res = new JSArray(_Context, source.Cast<object>().Select(s => UnsafelMap(s)), source);
             _Cacher.Cache(source, res);
             return res;
         }

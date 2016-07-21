@@ -95,7 +95,6 @@
         };
     }
 
-
     var inject = function (vm, observer) {
         if (!vueVm)
             return vm;

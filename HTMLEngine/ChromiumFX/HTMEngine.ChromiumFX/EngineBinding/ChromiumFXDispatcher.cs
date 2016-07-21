@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Chromium.Remote;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using System.Collections.Generic;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {
@@ -9,6 +10,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     {
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
+        private readonly object _Locker = new object();
 
         private CfrTaskRunner TaskRunner { get; set; }
 
@@ -98,12 +100,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             return new ChromiumFXCRemoteContext(_Browser);
         }
 
-        private static CfrTask GetTask(Action perform) 
-        {
-            var task = new CfrTask();
-            task.Execute += (sender, args) => perform();
-            return task;
-        }
+        private HashSet<ChromiumFXTask> _Tasks = new HashSet<ChromiumFXTask>();
 
         private void RunInContext(Action action) 
         {
@@ -114,9 +111,27 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                     return;
                 }
 
-                var task = GetTask(action);
-                TaskRunner.PostTask(task);
+                var task = AddTask(action);
+                task.Clean = () => RemoveTask(task);
+
+                TaskRunner.PostTask(task.Task);
             }
+        }
+
+        private ChromiumFXTask AddTask(Action action)
+        {
+            lock(_Locker)
+            {
+                var task = new ChromiumFXTask(action);
+                _Tasks.Add(task);
+                return task;
+            }         
+        }
+
+        private void RemoveTask(ChromiumFXTask task)
+        {
+            lock (_Locker)
+                _Tasks.Remove(task);
         }
     }
 }
