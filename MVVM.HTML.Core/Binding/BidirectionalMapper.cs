@@ -10,7 +10,6 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Diagnostics;
-using System.Threading;
 
 namespace MVVM.HTML.Core.Binding
 {
@@ -220,11 +219,11 @@ namespace MVVM.HTML.Core.Binding
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    await RegisterAndDo(() => _JSObjectBuilder.Map(e.NewItems[0]), (addvalue) => arr.Add(addvalue, e.NewStartingIndex));
+                    await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(e.NewItems[0]), (addvalue) => arr.Add(addvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    await RegisterAndDo(() => _JSObjectBuilder.Map(e.NewItems[0]), (newvalue) => arr.Replace(newvalue, e.NewStartingIndex));
+                    await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(e.NewItems[0]), (newvalue) => arr.Replace(newvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
@@ -243,7 +242,7 @@ namespace MVVM.HTML.Core.Binding
 
         public async Task<IJSCSGlue> RegisterInSession(object nv)
         {
-            return await RegisterAndDo(() => _JSObjectBuilder.Map(nv), (newbridgedchild) => { _UnrootedEntities.Add(newbridgedchild); });
+            return await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(nv), (newbridgedchild) => { _UnrootedEntities.Add(newbridgedchild); });
         }
 
         private async Task RegisterAndDo(Action Do)
@@ -261,8 +260,10 @@ namespace MVVM.HTML.Core.Binding
         {
             var idisp = ReListen();
             IJSCSGlue value=null;
-            await _Context.WebView.Evaluate(() => {
+            await _Context.WebView.Evaluate<Task>(() => {
                 value = valueBuilder();
+                if (value==null)
+                    return Task.FromResult(0);
                 return InjectInHTLMSession(value);
             });
             if (value == null)
