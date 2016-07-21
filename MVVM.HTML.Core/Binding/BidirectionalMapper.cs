@@ -10,6 +10,7 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Diagnostics;
+using System.Threading;
 
 namespace MVVM.HTML.Core.Binding
 {
@@ -62,6 +63,11 @@ namespace MVVM.HTML.Core.Binding
         private async Task RunInJavascriptContext(Action run)
         {
             await _Context.WebView.RunAsync(run);
+        }
+
+        private async Task RunInJavascriptContext(Func<Task> run)
+        {
+           await await _Context.WebView.EvaluateAsync(run);
         }
 
         internal async Task Init()

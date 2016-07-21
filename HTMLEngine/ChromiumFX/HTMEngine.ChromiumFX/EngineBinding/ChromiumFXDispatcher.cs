@@ -10,6 +10,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     {
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
+        private readonly object _Locker = new object();
 
         private CfrTaskRunner TaskRunner { get; set; }
 
@@ -110,11 +111,27 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                     return;
                 }
 
-                var task = new ChromiumFXTask(action);
-                _Tasks.Add(task);
-                task.Clean = () => _Tasks.Remove(task);
+                var task = AddTask(action);
+                task.Clean = () => RemoveTask(task);
+
                 TaskRunner.PostTask(task.Task);
             }
+        }
+
+        private ChromiumFXTask AddTask(Action action)
+        {
+            lock(_Locker)
+            {
+                var task = new ChromiumFXTask(action);
+                _Tasks.Add(task);
+                return task;
+            }         
+        }
+
+        private void RemoveTask(ChromiumFXTask task)
+        {
+            lock (_Locker)
+                _Tasks.Remove(task);
         }
     }
 }
