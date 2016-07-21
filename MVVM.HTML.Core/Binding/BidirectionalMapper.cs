@@ -214,10 +214,7 @@ namespace MVVM.HTML.Core.Binding
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await RunInJavascriptContext(async () =>
-            {
-                await UnsafeCSharpCollectionChanged(sender, e);
-            });
+            await UnsafeCSharpCollectionChanged(sender, e);
         }
 
         private async Task UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
