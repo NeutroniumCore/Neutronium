@@ -95,7 +95,6 @@
         };
     }
 
-
     var inject = function (vm, observer) {
         if (!vueVm)
             return vm;
@@ -138,8 +137,6 @@
         },
         ready: ready
     };
-
-    helper.ready.then(() => console.log("ready"));
 
     window.glueHelper = helper;
 }())
