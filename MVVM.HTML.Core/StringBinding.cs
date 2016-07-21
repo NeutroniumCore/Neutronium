@@ -44,11 +44,13 @@ namespace MVVM.HTML.Core
                 });
 
             var injector = context.JavascriptSessionInjector;
-            var mappedroot = injector.Inject(root, null);
+            //TODO improve context management or remove this functionality
+            var mappedroot = await mainView.EvaluateAsync( () => injector.Inject(root, null));
             await injector.RegisterMainViewModel(mappedroot);
 
             return new StringBinding(context, mappedroot);
         }
+
 
         public IWebView Context => _Context.WebView;
     }

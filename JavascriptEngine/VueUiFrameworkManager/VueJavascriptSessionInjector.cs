@@ -20,13 +20,7 @@ namespace VueUiFramework
 
         public IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper mapper)
         {
-            _WebView.Run(()=> UnsafeInject(rawObject));
-            _WebView.RunAsync(mapper.AutoMap);   
-            return rawObject;
-        }
-
-        private IJavascriptObject UnsafeInject(IJavascriptObject rawObject) 
-        {
+            mapper.AutoMap();   
             return rawObject;
         }
 
@@ -37,7 +31,7 @@ namespace VueUiFramework
 
         private Task UnsafeRegister(IJavascriptObject ijvm)
         {
-            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<object>();
             var readylistener = _WebView.Factory.CreateObject(false);
             readylistener.Bind("fulfill", _WebView, (_, __, ___) => tcs.TrySetResult(null));
 

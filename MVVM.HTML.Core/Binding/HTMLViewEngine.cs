@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -23,11 +24,18 @@ namespace MVVM.HTML.Core.Binding
             return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _UIFrameworkManager, javascriptChangesObserver);
         }
 
-        internal async Task<BidirectionalMapper> GetMapper(object viewModel, JavascriptBindingMode iMode, object additional)
+        internal async Task<BidirectionalMapper> GetMapper(object viewModel, JavascriptBindingMode mode, object additional)
         {
-            var mapper = await MainView.EvaluateAsync(() => new BidirectionalMapper(viewModel, this, iMode, additional));
-            await mapper.Init();
-            return mapper;
+            var mapper = await MainView.EvaluateAsync(() => Init(viewModel, mode, additional));
+            await mapper.Item2;
+            return mapper.Item1;
+        }
+
+        private Tuple<BidirectionalMapper,Task> Init(object viewModel, JavascriptBindingMode mode, object additional) 
+        {
+            var res = new BidirectionalMapper(viewModel, this, mode, additional);
+            var task = res.Init();
+            return new Tuple<BidirectionalMapper, Task>(res, task);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace KnockoutUIFramework
 
         public IJavascriptObject Inject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm)
         {
-            return _WebView.Evaluate(() => UnsafeInject(ihybridobject, ijvm));
+            return UnsafeInject(ihybridobject, ijvm);
         }
 
         public IJavascriptObject UnsafeInject(IJavascriptObject ihybridobject, IJavascriptObjectMapper ijvm) 
