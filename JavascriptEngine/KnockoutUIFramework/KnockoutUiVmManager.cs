@@ -6,7 +6,7 @@ namespace KnockoutUIFramework
     internal class KnockoutUiVmManager : IJavascriptViewModelManager 
     {
         public IJavascriptSessionInjector Injector => _KnockoutSessionInjector;
-        public IJavascriptViewModelUpdater ViewModelUpdater { get; }
+        public IJavascriptViewModelUpdater ViewModelUpdater => _KnockoutViewModelUpdater;
 
         private readonly KnockoutSessionInjector _KnockoutSessionInjector;
         private readonly KnockoutViewModelUpdater _KnockoutViewModelUpdater;

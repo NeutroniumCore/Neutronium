@@ -25,11 +25,10 @@ namespace MVVM.HTML.Core.Binding
         private readonly List<IJSCSGlue> _UnrootedEntities= new List<IJSCSGlue>();
         private bool _IsListening = false;
 
-        public IJSCSGlue JSValueRoot { get { return _Root; } }
-        public bool ListenToCSharp { get { return (_BindingMode != JavascriptBindingMode.OneTime); } }
-        public JavascriptBindingMode Mode { get { return _BindingMode; } }
-        public HTMLViewContext Context { get { return _Context; } }
-
+        public IJSCSGlue JSValueRoot => _Root;
+        public bool ListenToCSharp => (_BindingMode != JavascriptBindingMode.OneTime);
+        public JavascriptBindingMode Mode => _BindingMode;
+        public HTMLViewContext Context => _Context;
 
         internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, object addicionalObject)
         {        
