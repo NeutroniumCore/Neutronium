@@ -1,29 +1,21 @@
-﻿//(function () {
-//    console.log('init');
-//    ko.Enumimages = { Sex: { Male: 'images/male.png', Female: 'images/sem%20t%c3%adtulo.png' } };
-//}());
-
-(function () {
-    var images = {
-         Sex: { Male: 'images/male.png', Female: 'images/sem%20t%c3%adtulo.png' } 
-    };
-
-    Vue._vmMixin = {
-        methods:{
-            enumImage: function(value){
-                if (!value instanceof Enum)
-                    return null;
-
-                var ec = images[value.type];
-                return ec ? ec[value.name] : null;
+﻿(function () {
+    var localMixin = {
+        data: {
+            enumImages: {
+                Sex: {
+                    Male: "images/male.png",
+                    Female: "images/sem%20t%c3%adtulo.png"
+                }
             }
         },
         computed: {
-            count: function () {
+            count: function() {
                 return this.Skills.length;
             }
         }
-    }
+    };
+
+    Vue._vmMixin = [localMixin, glueHelper.enumMixin];
 }());
 
 

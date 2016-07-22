@@ -14,7 +14,7 @@
 
         if (Array.isArray(vm)) {
             visitArray(vm);
-            vm.forEach(value =>  visitObject(value, visit, visitArray));
+            vm.forEach((value) =>  visitObject(value, visit, visitArray));
             return;
         }
 
@@ -116,6 +116,21 @@
     });
 
     var helper = {
+        enumMixin: {
+            methods: {
+                enumImage: function (value, enumImages) {
+                    if (!value instanceof Enum)
+                        return null;
+
+                    var images = enumImages || this.enumImages;
+                    if (!images)
+                        return null;
+
+                    var ec = images[value.type];
+                    return ec ? ec[value.name] : null;
+                }
+            }
+        },
         inject: inject,
         register: function (vm, observer) {
             var mixin = Vue._vmMixin;
