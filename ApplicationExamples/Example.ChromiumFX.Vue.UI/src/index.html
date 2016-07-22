@@ -24,7 +24,6 @@
         <ul v-for="skill in Skills">
             <li>
                 <span>{{skill.Type}}</span>:<span>{{skill.Name}}</span>
-                <!--<button data-bind="execute: $root.RemoveSkill, executeoption: { callback : function(){alert('removing');} }">-->
                 <button @click="RemoveSkill.Execute(skill)">
                     Remove skill
                 </button>
@@ -58,17 +57,17 @@
             <label>
                 <input type="radio" v-model="Sex" :value="sex" />
                 <span>{{sex.displayName}}</span>
-                <!--<img height="50" width="50" data-bind="enumimage:$data">-->
+                <img height="50" width="50" :src="enumImage(sex)">
             </label>
         </div>
-        <!--<img height="200" width="200" data-bind="enumimage:$root.Sex">-->
-        <!--<button data-bind="command: $data.ChangeSkill">Change skill</button>-->
+        <img height="200" width="200":src="enumImage(Sex)">
+
         <button @click="ChangeSkill.Execute($data)">Change skill</button>
         <button @click="RemoveSkills.Execute">Remove skills</button>
         <!--<div class="button" data-bind="command: $data.Command, commandoption: { event:'dblclick', cssOn:'on', ccsOff:'off', callback : function(){alert('add skill');}}">Add skill</div>-->
         <div class="button" @dblclick="Command.Execute($data)">Add skill</div>
     </div>
-
+    <script src="js/init.js"></script>
 </body>
 
 </html>
