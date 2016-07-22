@@ -64,7 +64,7 @@
 
         <button @click="ChangeSkill.Execute($data)">Change skill</button>
         <button @click="RemoveSkills.Execute">Remove skills</button>
-        <!--<div class="button" data-bind="command: $data.Command, commandoption: { event:'dblclick', cssOn:'on', ccsOff:'off', callback : function(){alert('add skill');}}">Add skill</div>-->
+
         <div class="button" @dblclick="Command.Execute($data)">Add skill</div>
     </div>
     <script src="js/init.js"></script>
