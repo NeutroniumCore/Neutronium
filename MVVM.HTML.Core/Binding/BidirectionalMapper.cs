@@ -64,6 +64,11 @@ namespace MVVM.HTML.Core.Binding
             await _Context.WebView.RunAsync(run);
         }
 
+        private Task RunInJavascriptContext(Func<Task> run)
+        {
+            return _Context.WebView.Evaluate(run);
+        }
+
         internal async Task Init()
         {
             var res = await InjectInHTLMSession(_Root);
@@ -202,7 +207,7 @@ namespace MVVM.HTML.Core.Binding
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            await RegisterAndDo(() => _JSObjectBuilder.Map(nv), (child) => currentfather.ReRoot(pn, child) );
+            await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(nv), (child) => currentfather.ReRoot(pn, child) );
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -258,24 +263,25 @@ namespace MVVM.HTML.Core.Binding
 
         private async Task<IJSCSGlue> RegisterAndDo(Func<IJSCSGlue> valueBuilder, Action<IJSCSGlue> Do)
         {
-            var idisp = ReListen();
             IJSCSGlue value=null;
-            await _Context.WebView.Evaluate<Task>(() => {
+
+            await RunInJavascriptContext(async () =>
+            {
                 value = valueBuilder();
-                if (value==null)
-                    return Task.FromResult(0);
-                return InjectInHTLMSession(value);
+                if (value!=null)
+                    await InjectInHTLMSession(value);
             });
+
             if (value == null)
                 return null;
+
             await RunInJavascriptContext(() =>
-                    {
-                        using (idisp)
-                        {
-                            Do(value);
-                        }
-                    }
-               );
+            {
+                using (ReListen())
+                {
+                    Do(value);
+                }
+            });
 
             return value;
         }
