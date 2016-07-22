@@ -47,20 +47,19 @@
             </template>
 
         </div>
-        <template v-for="state in States">
-            <label>
+        <div>
+            <label v-for="state in States">
                 <input type="radio" v-model="PersonalState" :value="state" /><span>{{state.displayName}}</span>
             </label>
-        </template>
-
-        <div v-for="sex in Sexes">
-            <label>
+        </div>
+        <div>
+            <label v-for="sex in Sexes">
                 <input type="radio" v-model="Sex" :value="sex" />
                 <span>{{sex.displayName}}</span>
                 <img height="50" width="50" :src="enumImage(sex)">
             </label>
         </div>
-        <img height="200" width="200":src="enumImage(Sex)">
+        <img height="200" width="200" :src="enumImage(Sex)">
 
         <button @click="ChangeSkill.Execute($data)">Change skill</button>
         <button @click="RemoveSkills.Execute">Remove skills</button>

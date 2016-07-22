@@ -6,11 +6,11 @@ namespace MVVM.HTML.Core.Infra
     internal class PropertyAccessor
     {
         private PropertyInfo _PropertyInfo;
-        private object _target;
-        public PropertyAccessor(object target, string PropertyName )
+        private readonly object _Target;
+        public PropertyAccessor(object target, string propertyName )
         {
-            _PropertyInfo = target.GetType().GetProperty(PropertyName, BindingFlags.Public | BindingFlags.Instance);
-            _target = target;
+            _PropertyInfo = target.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+            _Target = target;
         }
 
         public Type GetTargetType()
@@ -30,13 +30,13 @@ namespace MVVM.HTML.Core.Infra
             if (!IsSettable)
                 return false;
 
-            _PropertyInfo.SetValue(_target, value, null);
+            _PropertyInfo.SetValue(_Target, value, null);
             return true;
         }
 
         public object Get()
         {
-            return (!IsGettable) ? null : _PropertyInfo.GetValue(_target, null);
+            return (!IsGettable) ? null : _PropertyInfo.GetValue(_Target, null);
         }
     }
 }
