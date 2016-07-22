@@ -50,7 +50,7 @@ namespace HTMLEngine.Awesomium
                 return;
 
             WebSessionWatcher.LogCritical("Critical: WebCore ShuttingDown!!");
-            Trace.WriteLine(string.Format("HTMLEngine.Awesomium : WebCoreShutting Down, due to exception: {0}", e.Exception));
+            Trace.WriteLine($"MVVM for CEFGlue: HTMLEngine.Awesomium : WebCoreShutting Down, due to exception: {e.Exception}");
             WebSessionWatcher.OnSessionError(e.Exception, () => e.Cancel = true);
         }
 

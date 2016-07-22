@@ -63,7 +63,7 @@ namespace HTML_WPF.Component
                 var res = _JavascriptFrameworks.First().Value;
                 if (!string.IsNullOrEmpty(frameworkName) && (res.Name != frameworkName))
                 {
-                    Trace.WriteLine($"Name mismatch in IJavascriptUIFrameworkManager resolution {frameworkName} vs {res.Name}");
+                    Trace.WriteLine($"MVVM for CEFGlue: Name mismatch in IJavascriptUIFrameworkManager resolution {frameworkName} vs {res.Name}");
                 }
                 return res;
             }

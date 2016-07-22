@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace MVVM.HTML.Core.Infra
@@ -25,13 +26,20 @@ namespace MVVM.HTML.Core.Infra
 
         public bool IsGettable => IsValid && _PropertyInfo.CanRead;
 
-        public bool Set(object value)
-        {
+        public bool Set(object value) {
             if (!IsSettable)
                 return false;
 
-            _PropertyInfo.SetValue(_Target, value, null);
-            return true;
+            try 
+            {
+                _PropertyInfo.SetValue(_Target, value, null);
+                return true;
+            }
+            catch (Exception e) 
+            {
+                Trace.WriteLine($"MVVM for CEFGlue: Unable to set C# from javascript object: property: {_PropertyInfo.Name} of {_Target}, javascript value {value}. Exception {e} was thrown.");
+                return false;
+            }
         }
 
         public object Get()

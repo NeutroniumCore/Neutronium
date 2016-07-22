@@ -148,7 +148,7 @@ namespace MVVM.HTML.Core.Binding
                 var propertyAccessor = new PropertyAccessor(res.CValue, propertyName);
                 if (!propertyAccessor.IsSettable)
                 {
-                    Trace.WriteLine($"Unable to set C# from javascript object: property: {propertyName} is readonly.");
+                    Trace.WriteLine($"MVVM for CEFGlue: Unable to set C# from javascript object: property: {propertyName} is readonly.");
                     return;
                 }
                
@@ -311,7 +311,7 @@ namespace MVVM.HTML.Core.Binding
             object targetvalue = null;
             bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, targetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
-                Trace.WriteLine($"Unable to convert javascript object: { globalkey} to C# session. Value will be default to null. Please check javascript bindings.");
+                Trace.WriteLine($"MVVM for CEFGlue: Unable to convert javascript object: { globalkey} to C# session. Value will be default to null. Please check javascript bindings.");
 
             return new JSBasicObject(globalkey, targetvalue);
         }

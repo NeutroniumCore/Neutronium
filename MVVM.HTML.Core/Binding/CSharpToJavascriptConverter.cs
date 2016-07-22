@@ -93,7 +93,7 @@ namespace MVVM.HTML.Core.Binding
                 }
                 catch(Exception e)
                 {
-                    Trace.WriteLine($"MVVM for HTML: Unable to convert property {propertyName} from {@from} exception {e}");
+                    Trace.WriteLine($"MVVM for CEFGlue: Unable to convert property {propertyName} from {@from} exception {e}");
                     continue;
                 }
 
