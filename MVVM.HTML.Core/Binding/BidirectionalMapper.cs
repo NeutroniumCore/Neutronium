@@ -10,7 +10,6 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Diagnostics;
-using System.Threading;
 
 namespace MVVM.HTML.Core.Binding
 {
@@ -65,9 +64,9 @@ namespace MVVM.HTML.Core.Binding
             await _Context.WebView.RunAsync(run);
         }
 
-        private async Task RunInJavascriptContext(Func<Task> run)
+        private Task RunInJavascriptContext(Func<Task> run)
         {
-           await await _Context.WebView.EvaluateAsync(run);
+            return _Context.WebView.Evaluate(run);
         }
 
         internal async Task Init()
@@ -208,8 +207,7 @@ namespace MVVM.HTML.Core.Binding
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            var newbridgedchild = _JSObjectBuilder.Map(nv);
-            await RegisterAndDo(newbridgedchild, () => currentfather.ReRoot(pn, newbridgedchild) );
+            await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(nv), (child) => currentfather.ReRoot(pn, child) );
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -226,19 +224,11 @@ namespace MVVM.HTML.Core.Binding
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    var addvalue = _JSObjectBuilder.Map(e.NewItems[0]);
-
-                    if (addvalue == null) return;
-
-                    await RegisterAndDo(addvalue, () => arr.Add(addvalue, e.NewStartingIndex));
+                    await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(e.NewItems[0]), (addvalue) => arr.Add(addvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    var newvalue = _JSObjectBuilder.Map(e.NewItems[0]);
-
-                    if (newvalue == null) return;
-
-                    await RegisterAndDo(newvalue, () => arr.Replace(newvalue, e.NewStartingIndex));
+                    await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(e.NewItems[0]), (newvalue) => arr.Replace(newvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
@@ -257,9 +247,7 @@ namespace MVVM.HTML.Core.Binding
 
         public async Task<IJSCSGlue> RegisterInSession(object nv)
         {
-            var newbridgedchild = _JSObjectBuilder.Map(nv);
-            await RegisterAndDo(newbridgedchild, () => { _UnrootedEntities.Add(newbridgedchild); });
-            return newbridgedchild;
+            return await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(nv), (newbridgedchild) => { _UnrootedEntities.Add(newbridgedchild); });
         }
 
         private async Task RegisterAndDo(Action Do)
@@ -273,18 +261,29 @@ namespace MVVM.HTML.Core.Binding
             } );
         }
 
-        private async Task RegisterAndDo(IJSCSGlue ivalue, Action Do)
+        private async Task<IJSCSGlue> RegisterAndDo(Func<IJSCSGlue> valueBuilder, Action<IJSCSGlue> Do)
         {
-            var idisp = ReListen();
-            await InjectInHTLMSession(ivalue);
+            IJSCSGlue value=null;
+
+            await RunInJavascriptContext(async () =>
+            {
+                value = valueBuilder();
+                if (value!=null)
+                    await InjectInHTLMSession(value);
+            });
+
+            if (value == null)
+                return null;
+
             await RunInJavascriptContext(() =>
-                    {
-                        using (idisp)
-                        {
-                            Do();
-                        }
-                    }
-               );
+            {
+                using (ReListen())
+                {
+                    Do(value);
+                }
+            });
+
+            return value;
         }
 
         private ReListener _ReListen = null;

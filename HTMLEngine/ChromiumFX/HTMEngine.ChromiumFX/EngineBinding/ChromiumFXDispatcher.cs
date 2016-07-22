@@ -11,6 +11,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
         private readonly object _Locker = new object();
+        private readonly HashSet<ChromiumFXTask> _Tasks = new HashSet<ChromiumFXTask>();
 
         private CfrTaskRunner TaskRunner { get; set; }
 
@@ -99,8 +100,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         {
             return new ChromiumFXCRemoteContext(_Browser);
         }
-
-        private HashSet<ChromiumFXTask> _Tasks = new HashSet<ChromiumFXTask>();
 
         private void RunInContext(Action action) 
         {
