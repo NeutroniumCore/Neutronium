@@ -62,7 +62,7 @@
         <img height="200" width="200" :src="enumImage(Sex)">
 
         <button @click="ChangeSkill.Execute($data)">Change skill</button>
-        <button @click="RemoveSkills.Execute">Remove skills</button>
+        <button @click="RemoveSkills.Execute()">Remove skills</button>
 
         <div class="button" @dblclick="Command.Execute($data)">Add skill</div>
     </div>

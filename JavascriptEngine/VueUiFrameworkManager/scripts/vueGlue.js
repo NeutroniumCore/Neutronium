@@ -1,24 +1,22 @@
 ﻿(function () {
 
-    var visited = {};
+    var visited = new Map();
 
     function visitObject(vm, visit, visitArray) {
         "use strict";
-        if (!vm || !!visited[vm._MappedId])
+        if (!vm || !!visited.has(vm._MappedId))
             return;
 
         if (typeof vm !== "object")
             return;
 
-        visited[vm._MappedId] = vm;
+        visited.set(vm._MappedId, vm);
 
         if (Array.isArray(vm)) {
             visitArray(vm);
             vm.forEach((value) =>  visitObject(value, visit, visitArray));
             return;
         }
-
-        visited[vm._MappedId] = vm;
 
         for (var property in vm) {
             if (!vm.hasOwnProperty(property))
