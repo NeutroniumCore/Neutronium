@@ -28,11 +28,8 @@ namespace HTMEngine.ChromiumFX.Session
         private void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
         {
             var settings = e.Settings;
-         
-            if (_SettingsBuilder != null) 
-            {
-                _SettingsBuilder(settings);
-            }
+
+            _SettingsBuilder?.Invoke(settings);
 
             settings.NoSandbox = true;
             settings.LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales");

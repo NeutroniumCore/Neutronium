@@ -17,7 +17,6 @@ namespace MVVM.HTML.Core.Binding
         private readonly Action<IJavascriptObject, IJSObservableBridge> _Register;
         private bool? _AutoMapMode;
 
-
         public JavascriptMapper(IJSObservableBridge root, Action<IJavascriptObject, IJSObservableBridge> register, Action<IJSObservableBridge, IJavascriptObject> update,
             Action<IJavascriptObject, string, IJavascriptObject> registerMapping, Action<IJavascriptObject, string, int, IJavascriptObject> registerCollectionMapping)
         {

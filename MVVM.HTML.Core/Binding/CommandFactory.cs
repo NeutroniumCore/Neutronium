@@ -8,6 +8,7 @@ namespace MVVM.HTML.Core.Binding
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly HTMLViewContext _HTMLViewContext;
+
         public CommandFactory(HTMLViewContext context, IJavascriptToCSharpConverter converter)
         {
             _HTMLViewContext = context;

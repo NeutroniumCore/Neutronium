@@ -16,6 +16,10 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
         private readonly ChromiumFxControlHTMLWindow _ChromiumFxControlHTMLWindow;
 
+        public UIElement UIElement => _ChromiumFxControl;
+        public bool IsUIElementAlwaysTopMost => true;
+        public IHTMLWindow HTMLWindow => _ChromiumFxControlHTMLWindow;
+
         public ChromiumFXWPFWindow()
         {
             _ChromiumFxControl = new ChromiumFxControl()
@@ -30,11 +34,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             _ChromiumFxControlHTMLWindow = new ChromiumFxControlHTMLWindow(_ChromiumWebBrowser, dispatcher);
         }
 
-        public IHTMLWindow HTMLWindow 
-        {
-            get { return _ChromiumFxControlHTMLWindow; }
-        }
-
         public void Inject(Key keyToInject) 
         {
             var cxKeyEvent = new CfxKeyEvent() 
@@ -44,17 +43,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
             _ChromiumWebBrowser.Browser.Host.SendKeyEvent(cxKeyEvent);
         }
-
-        public UIElement UIElement
-        {
-            get { return _ChromiumFxControl; }
-        }
-
-        public bool IsUIElementAlwaysTopMost 
-        {
-            get { return true; }
-        }
-
 
         public bool OnDebugToolsRequest() 
         {

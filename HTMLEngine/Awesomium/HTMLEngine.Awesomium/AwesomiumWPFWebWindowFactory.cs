@@ -9,18 +9,12 @@ namespace HTMLEngine.Awesomium
     public class AwesomiumWPFWebWindowFactory : IWPFWebWindowFactory
     {
         private static WebConfig _WebConfig = new WebConfig() { RemoteDebuggingPort = 8001, RemoteDebuggingHost = "127.0.0.1" };
-
         private static WebSession _Session = null;
+        public static Thread WebCoreThread { get; internal set; }
 
-        public string EngineName 
-        {
-            get { return "Chromium 19"; }
-        }
-
-        public string Name 
-        {
-            get { return "Awesomium"; }
-        }
+        public string EngineName  => "Chromium 19"; 
+        public string Name => "Awesomium";
+        public IWebSessionWatcher WebSessionWatcher { get; set; }
 
         static AwesomiumWPFWebWindowFactory()
         {
@@ -29,8 +23,6 @@ namespace HTMLEngine.Awesomium
             if (!WebCore.IsInitialized) 
                 WebCore.Initialize(_WebConfig);
         }
-
-        public static Thread WebCoreThread { get; internal set; }
 
         public AwesomiumWPFWebWindowFactory(string webSessionPath=null) 
         {
@@ -58,8 +50,6 @@ namespace HTMLEngine.Awesomium
         {
             return new AwesomiumWPFWebWindow(_Session, _WebConfig);
         }
-
-        public IWebSessionWatcher WebSessionWatcher { get; set; }
 
         public void Dispose()
         {

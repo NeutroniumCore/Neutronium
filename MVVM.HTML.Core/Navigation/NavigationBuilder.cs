@@ -11,53 +11,53 @@ namespace MVVM.HTML.Core.Navigation
     {
         private IDictionary<Type, IDictionary<string, Uri>> _Mapper = new Dictionary<Type, IDictionary<string, Uri>>();
 
-        private void Register(Type itype, Uri uri, string id)
+        private void Register(Type type, Uri uri, string id)
         {
             try
             {
-                IDictionary<string, Uri> res = _Mapper.FindOrCreateEntity(itype, t => new Dictionary<string, Uri>());
+                IDictionary<string, Uri> res = _Mapper.FindOrCreateEntity(type, t => new Dictionary<string, Uri>());
                 res.Add(id ?? string.Empty, uri);
             }
             catch (ArgumentException)
             {
-                throw ExceptionHelper.GetArgument(string.Format("A same ViewModel type can not be registered twice {0}", itype));
+                throw ExceptionHelper.GetArgument(string.Format("A same ViewModel type can not be registered twice {0}", type));
             }
         }
 
-        private void CheckPath(string iPath)
+        private void CheckPath(string path)
         {
-            if (!File.Exists(iPath))
-                throw ExceptionHelper.GetArgument(string.Format("Registered path does not exist: {0}", iPath));
+            if (!File.Exists(path))
+                throw ExceptionHelper.GetArgument(string.Format("Registered path does not exist: {0}", path));
         }
 
-        private Uri CreateUri(string iPath)
+        private Uri CreateUri(string path)
         {
-            CheckPath(iPath);
-            return new Uri(iPath);
+            CheckPath(path);
+            return new Uri(path);
         }
 
-        public void Register<T>(string iPath, string id = null)
+        public void Register<T>(string path, string id = null)
         {
-            Register(typeof(T), CreateUri(string.Format("{0}\\{1}", Assembly.GetCallingAssembly().GetPath(), iPath)), id);
+            Register(typeof(T), CreateUri(string.Format("{0}\\{1}", Assembly.GetCallingAssembly().GetPath(), path)), id);
         }
 
-        public void RegisterAbsolute<T>(string iPath, string id = null)
+        public void RegisterAbsolute<T>(string path, string id = null)
         {
-            Register(typeof(T), CreateUri(iPath), id);
+            Register(typeof(T), CreateUri(path), id);
         }
 
-        public void Register<T>(Uri iPath, string id = null)
+        public void Register<T>(Uri path, string id = null)
         {
-            CheckPath(iPath.LocalPath);
-            Register(typeof(T), iPath, id);
+            CheckPath(path.LocalPath);
+            Register(typeof(T), path, id);
         }
 
-        private Uri SolveType(Type iType, string id)
+        private Uri SolveType(Type type, string id)
         {
             IDictionary<string, Uri> dicres = null;
             Uri res = null;
 
-            foreach (Type InType in iType.GetBaseTypes())
+            foreach (Type InType in type.GetBaseTypes())
             {
                 if (_Mapper.TryGetValue(InType, out dicres))
                 {
@@ -68,15 +68,15 @@ namespace MVVM.HTML.Core.Navigation
             return null;
         }
 
-        public Uri Solve(object iViewModel, string Id = null)
+        public Uri Solve(object viewModel, string iId = null)
         {
-            string id = Id??string.Empty;
-            Uri res = SolveType(iViewModel.GetType(), id);
+            string id = iId ?? string.Empty;
+            Uri res = SolveType(viewModel.GetType(), id);
             if (res != null)
                 return res;
 
             if (id!=string.Empty)
-                return SolveType(iViewModel.GetType(), string.Empty);
+                return SolveType(viewModel.GetType(), string.Empty);
 
             return null;
         }

@@ -12,8 +12,8 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private readonly CfrFrame _CfrFrame;
         private readonly ChromiumFXDispatcher _Dispatcher;    
 
-        public IJavascriptObjectConverter Converter { get; private set; }
-        public IJavascriptObjectFactory Factory { get; private set; }
+        public IJavascriptObjectConverter Converter { get; }
+        public IJavascriptObjectFactory Factory { get; }
 
         public ChromiumFXWebView(CfrBrowser cfrbrowser) 
         {

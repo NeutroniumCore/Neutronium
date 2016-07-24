@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Infra.VM;
 

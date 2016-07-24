@@ -17,7 +17,8 @@ namespace MVVM.HTML.Core.Infra
             }
         }
 
-        public static Type GetEnumerableBase(this Type type) {
+        public static Type GetEnumerableBase(this Type type)
+        {
             if (type == null)
                 return null;
 

@@ -10,6 +10,7 @@ namespace MVVM.Component.Relay
         {
             _Function = iFunction;
         }
+
         public Task<object> Execute(object iargument)
         {
             var tcs = new TaskCompletionSource<object>();

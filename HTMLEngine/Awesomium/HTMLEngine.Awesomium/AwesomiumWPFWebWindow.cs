@@ -16,6 +16,10 @@ namespace HTMLEngine.Awesomium
         private readonly WebControl _WebControl;
         private readonly AwesomiumHTMLWindow _AwesomiumHTMLWindow;
 
+        public IHTMLWindow HTMLWindow => _AwesomiumHTMLWindow;
+        public UIElement UIElement => _WebControl;
+        public bool IsUIElementAlwaysTopMost => false;
+
         public AwesomiumWPFWebWindow(WebSession iSession, WebConfig webConfig)
         {
             _Session = iSession;
@@ -33,27 +37,12 @@ namespace HTMLEngine.Awesomium
             _AwesomiumHTMLWindow = new AwesomiumHTMLWindow(_WebControl);     
         }
 
-        public IHTMLWindow HTMLWindow
-        {
-            get { return _AwesomiumHTMLWindow; }
-        }
-        public UIElement UIElement
-        {
-            get { return _WebControl; }
-        }
-
         public void Inject(Key KeyToInject)
         {
             IWebView wv = _WebControl;
             KeyEventArgs kev = new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, KeyToInject);
             wv.InjectKeyboardEvent(kev.GetKeyboardEvent(WebKeyboardEventType.KeyDown));
         }
-
-        public bool IsUIElementAlwaysTopMost
-        {
-            get { return false; }
-        }
-
 
         public bool OnDebugToolsRequest() 
         {

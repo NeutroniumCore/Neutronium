@@ -10,18 +10,12 @@ namespace HTMEngine.ChromiumFX
 {
     public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory 
     {
-        public string EngineName 
-        {
-            get { return "Chromium " + CfxRuntime.GetChromeVersion(); }
-        }
-
-        public string Name 
-        {
-            get { return "ChromiumFX"; }
-        }
-
         private readonly ChromiumFXSession _Session;
         private CfxSettings _Settings;
+
+        public string EngineName => "Chromium " + CfxRuntime.GetChromeVersion();
+        public string Name => "ChromiumFX";
+        public CfxBrowserSettings BrtowserSettings => ChromiumWebBrowser.DefaultBrowserSettings;
 
         public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsUpdater=null)
         {
@@ -38,11 +32,6 @@ namespace HTMEngine.ChromiumFX
 
                 _Settings = settings;
             });
-        }
-
-        public CfxBrowserSettings BrtowserSettings 
-        {
-            get { return ChromiumWebBrowser.DefaultBrowserSettings; }
         }
 
         public IWPFWebWindow Create()

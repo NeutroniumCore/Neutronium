@@ -4,6 +4,6 @@ namespace MVVM.HTML.Core.Navigation
 {
     public interface IUrlSolver
     {
-        Uri Solve(object iViewModel, string Id = null);
+        Uri Solve(object viewModel, string Id = null);
     }
 }

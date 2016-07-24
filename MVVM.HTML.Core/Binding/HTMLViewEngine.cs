@@ -11,13 +11,13 @@ namespace MVVM.HTML.Core.Binding
         private readonly IHTMLWindowProvider _HTMLWindowProvider;
         private readonly IJavascriptUIFrameworkManager _UIFrameworkManager;
 
+        private IWebView MainView => _HTMLWindowProvider.HTMLWindow.MainFrame;
+
         public HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptUIFrameworkManager uiFrameworkManager)
         {
             _HTMLWindowProvider = hTMLWindowProvider;
             _UIFrameworkManager = uiFrameworkManager;
         }
-
-        private IWebView MainView => _HTMLWindowProvider.HTMLWindow.MainFrame;
 
         public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {

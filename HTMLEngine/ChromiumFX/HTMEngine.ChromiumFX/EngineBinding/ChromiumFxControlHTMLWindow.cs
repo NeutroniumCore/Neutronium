@@ -18,16 +18,8 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private bool _SendLoadOnContextCreated = false;
 
         public IWebView MainFrame { get; private set; }
-
-        public Uri Url
-        {
-            get { return _ChromiumWebBrowser.Url; }
-        }
-
-        public bool IsLoaded 
-        {
-            get { return !_ChromiumWebBrowser.IsLoading; }
-        }
+        public Uri Url => _ChromiumWebBrowser.Url;
+        public bool IsLoaded  => !_ChromiumWebBrowser.IsLoading;
 
         public ChromiumFxControlHTMLWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher) 
         {

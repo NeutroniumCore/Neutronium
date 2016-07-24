@@ -10,6 +10,12 @@ namespace MVVM.HTML.Core
         private readonly IJavascriptObject _Root;
         private readonly HTMLViewContext _Context;
 
+        public JavascriptBindingMode Mode => JavascriptBindingMode.OneTime;
+        public IJavascriptObject JSRootObject => _Root;
+        public object Root => null;
+        public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
+        public IWebView Context => _Context.WebView;
+
         internal StringBinding(HTMLViewContext context, IJavascriptObject root)
         {
             _Context = context;
@@ -23,14 +29,6 @@ namespace MVVM.HTML.Core
                 _Context.Dispose();
             });
         }
-
-        public JavascriptBindingMode Mode => JavascriptBindingMode.OneTime;
-
-        public IJavascriptObject JSRootObject => _Root;
-
-        public object Root => null;
-
-        public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
 
         public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel)
         {
@@ -50,8 +48,5 @@ namespace MVVM.HTML.Core
 
             return new StringBinding(context, mappedroot);
         }
-
-
-        public IWebView Context => _Context.WebView;
     }
 }

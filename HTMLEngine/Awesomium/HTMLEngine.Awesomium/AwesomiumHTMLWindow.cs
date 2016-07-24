@@ -11,6 +11,9 @@ namespace HTMLEngine.Awesomium
     {
         private readonly IWebView _WebControl;
 
+        public bool IsLoaded => _WebControl.IsDocumentReady;
+        public Uri Url => _WebControl.Source;
+
         public AwesomiumHTMLWindow(WebControl iWebControl)
         {
             _WebControl = iWebControl;
@@ -47,11 +50,6 @@ namespace HTMLEngine.Awesomium
             _WebControl.Source = path;
         }
 
-        public bool IsLoaded
-        {
-            get { return _WebControl.IsDocumentReady; }
-        }
-
         private void FireLoaded()
         {
             if (LoadEnd != null)
@@ -67,11 +65,6 @@ namespace HTMLEngine.Awesomium
         public void Dispose()
         {
             _WebControl.ConsoleMessage -= _WebControl_ConsoleMessage;
-        }
-
-        public Uri Url
-        {
-            get { return _WebControl.Source; }
         }
     }
 }

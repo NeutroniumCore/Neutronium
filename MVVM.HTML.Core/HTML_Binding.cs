@@ -11,23 +11,18 @@ namespace MVVM.HTML.Core
         private readonly BidirectionalMapper _BirectionalMapper;
         private readonly HTMLViewContext _Context;
 
+        public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
+        public IJavascriptObject JSRootObject => _BirectionalMapper.JSValueRoot.GetJSSessionValue();
+        public JavascriptBindingMode Mode => _BirectionalMapper.Mode;
+        public IWebView Context => _Context.WebView;
+        public object Root => _BirectionalMapper.JSValueRoot.CValue;
+        public IJSCSGlue JSBrideRootObject => _BirectionalMapper.JSValueRoot;
+
         private HTML_Binding(BidirectionalMapper iConvertToJSO)
         {
             _Context = iConvertToJSO.Context;
             _BirectionalMapper = iConvertToJSO;
         }
-
-        public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
-
-        public IJavascriptObject JSRootObject => _BirectionalMapper.JSValueRoot.GetJSSessionValue();
-
-        public JavascriptBindingMode Mode => _BirectionalMapper.Mode;
-
-        public IWebView Context => _Context.WebView;
-
-        public object Root => _BirectionalMapper.JSValueRoot.CValue;
-
-        public IJSCSGlue JSBrideRootObject => _BirectionalMapper.JSValueRoot;
 
         public override string ToString()
         {
