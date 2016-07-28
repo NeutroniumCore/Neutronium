@@ -4,7 +4,7 @@ using Xunit;
 namespace ChromiumFX.Window.Integrated.Tests
 {
     [CollectionDefinition("ChromiumFX Window Integrated")]
-    public class ChromiumFXWindowTestContext : ICollectionFixture<ChromiumFXWindowTestEnvironment> 
+    public class ChromiumFXWindowTestContext : ICollectionFixture<ChromiumFXWindowKoTestEnvironment> 
     {
     }
 }

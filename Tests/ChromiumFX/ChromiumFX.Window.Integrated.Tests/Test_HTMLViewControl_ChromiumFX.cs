@@ -7,7 +7,7 @@ namespace MVVM.Awesomium.Window.Integrated.Tests
     [Collection("ChromiumFX Window Integrated")]
     public class Test_HTMLViewControl_ChromiumFX : Test_HTMLViewControl
     {
-        public Test_HTMLViewControl_ChromiumFX(ChromiumFXWindowTestEnvironment context): base(context) 
+        public Test_HTMLViewControl_ChromiumFX(ChromiumFXWindowKoTestEnvironment context): base(context) 
         {
         }
     }

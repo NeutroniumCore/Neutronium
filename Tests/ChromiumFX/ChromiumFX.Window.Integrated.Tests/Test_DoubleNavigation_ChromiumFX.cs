@@ -7,7 +7,7 @@ namespace MVVM.Awesomium.Window.Integrated.Tests
     [Collection("ChromiumFX Window Integrated")]
     public class Test_DoubleNavigation_ChromiumFX : Test_DoubleNavigation
     {
-        public Test_DoubleNavigation_ChromiumFX(ChromiumFXWindowTestEnvironment context) : base(context) 
+        public Test_DoubleNavigation_ChromiumFX(ChromiumFXWindowKoTestEnvironment context) : base(context) 
         {         
         }
     }
