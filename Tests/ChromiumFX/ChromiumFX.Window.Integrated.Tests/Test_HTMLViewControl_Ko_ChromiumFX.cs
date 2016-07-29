@@ -5,10 +5,10 @@ using Xunit;
 namespace MVVM.Awesomium.Window.Integrated.Tests 
 {
     [Collection("ChromiumFX Window Ko Integrated")]
-    public class Test_DoubleNavigation_ChromiumFX : Test_DoubleNavigation
+    public class Test_HTMLViewControl_Ko_ChromiumFX : Test_HTMLViewControl
     {
-        public Test_DoubleNavigation_ChromiumFX(ChromiumFXWindowKoTestEnvironment context) : base(context) 
-        {         
+        public Test_HTMLViewControl_Ko_ChromiumFX(ChromiumFXWindowKoTestEnvironment context): base(context) 
+        {
         }
     }
 }
