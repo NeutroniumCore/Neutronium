@@ -15,6 +15,7 @@ using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Text;
 using System.Windows.Media;
+using MVVM.HTML.Core.Infra;
 
 namespace HTML_WPF.Component
 {
@@ -22,7 +23,7 @@ namespace HTML_WPF.Component
     {
         private IWPFWebWindowFactory _WPFWebWindowFactory;
         private IWebSessionWatcher _WebSessionWatcher;
-        private string _JavascriptDebugScript = null;
+        private string[] _JavascriptDebugScript = null;
         private readonly IUrlSolver _UrlSolver;
         private readonly DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private readonly IJavascriptUIFrameworkManager _Injector;
@@ -151,7 +152,7 @@ namespace HTML_WPF.Component
             {
                 _JavascriptDebugScript = _Injector.GetDebugScript();
             }
-            _WPFDoubleBrowserNavigator.ExcecuteJavascript(_JavascriptDebugScript);
+            _JavascriptDebugScript.ForEach(script => _WPFDoubleBrowserNavigator.ExcecuteJavascript(script));
         }
 
         public void ShowDebugWindow()
