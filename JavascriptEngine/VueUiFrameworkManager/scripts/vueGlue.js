@@ -1,4 +1,4 @@
-﻿(function () {
+﻿(function() {
 
     var visited = new Map();
 
@@ -14,7 +14,7 @@
 
         if (Array.isArray(vm)) {
             visitArray(vm);
-            vm.forEach((value) =>  visitObject(value, visit, visitArray));
+            vm.forEach((value) => visitObject(value, visit, visitArray));
             return;
         }
 
@@ -33,12 +33,12 @@
 
     var vueVm = null;
 
-    function Listener(listener, change){
-        this.listen = function(){
+    function Listener(listener, change) {
+        this.listen = function() {
             this.subscriber = listener();
         }
 
-        this.silence = function(value){
+        this.silence = function(value) {
             this.subscriber();
             change(value);
             this.listen();
@@ -46,7 +46,7 @@
     }
 
     function collectionListener(object, observer) {
-        return function (changes) {
+        return function(changes) {
             var arg_value = [], arg_status = [], arg_index = [];
             var length = changes.length;
             for (var i = 0; i < length; i++) {
@@ -61,7 +61,7 @@
     function updateArray(array, observer) {
         var changelistener = collectionListener(array, observer);
         var listener = array.subscribe(changelistener);
-        array.silentSplice = function () {
+        array.silentSplice = function() {
             listener();
             var res = array.splice.apply(array, arguments);
             listener = array.subscribe(changelistener);
@@ -72,8 +72,8 @@
     function onPropertyChange(observer, prop, father) {
         var blocked = false;
 
-        return function (newVal, oldVal) {
-            if (blocked){
+        return function(newVal, oldVal) {
+            if (blocked) {
                 blocked = false;
                 return;
             }
@@ -93,14 +93,14 @@
         };
     }
 
-    var inject = function (vm, observer) {
+    var inject = function(vm, observer) {
         if (!vueVm)
             return vm;
 
         visitObject(vm, (father, prop) => {
             father.__silenter = father.__silenter || {};
             var silenter = father.__silenter;
-            var listenerfunction =  onPropertyChange(observer, prop, father);
+            var listenerfunction = onPropertyChange(observer, prop, father);
             var newListener = new Listener(() => vueVm.$watch(() => father[prop], listenerfunction), (value) => father[prop] = value);
             newListener.listen();
             silenter[prop] = newListener;
@@ -109,14 +109,14 @@
     };
 
     var fufillOnReady;
-    var ready = new Promise(function (fullfill) {
+    var ready = new Promise(function(fullfill) {
         fufillOnReady = fullfill;
     });
 
     var helper = {
         enumMixin: {
             methods: {
-                enumImage: function (value, enumImages) {
+                enumImage: function(value, enumImages) {
                     if (!value instanceof Enum)
                         return null;
 
@@ -130,7 +130,7 @@
             }
         },
         inject: inject,
-        register: function (vm, observer) {
+        register: function(vm, observer) {
             var mixin = Vue._vmMixin;
             if (!!mixin && !Array.isArray(mixin))
                 mixin = [mixin];
@@ -152,4 +152,4 @@
     };
 
     window.glueHelper = helper;
-}())
+}());

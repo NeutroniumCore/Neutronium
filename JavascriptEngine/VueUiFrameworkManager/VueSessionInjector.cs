@@ -25,12 +25,13 @@ namespace VueUiFramework
                 return _DebugScript;
 
             var loader = GetResourceReader();
-            var hook = loader.Load("hook.js");
+            //var hook = loader.Load("hook.js");
             var almost = loader.Load("vuedebug.js");
             var updated = almost.Replace(@"build/devtools.js", GetFilePath("scripts/devtools.js"));
             var builder = new StringBuilder(updated);
             builder.AppendLine(_ToogleDebug);
-            _DebugScript = new[] { builder.ToString(), hook };
+            _DebugScript = new[] { builder.ToString()};
+            //, hook };
             return _DebugScript;
         }
 
@@ -49,12 +50,12 @@ namespace VueUiFramework
         public string GetMainScript()
         {
             var loader = GetResourceReader();           
-            return loader.Load("vue.js", "subscribeArray.min.js", "vueGlue.js");
+            return loader.Load ("hook.js", "vue.js","subscribeArray.min.js", "vueGlue.js");
         }
 
         public bool HasDebugScript()
         {
-            return false;
+            return true;
         }
 
         private ResourceReader GetResourceReader()
