@@ -18,13 +18,13 @@ namespace KnockoutUIFramework
             return new KnockoutUiVmManager(webView, listener);
         }
 
-        public string[] GetDebugScript()
+        public string GetDebugScript()
         {
             if (_JavascriptDebugScript != null)
-                return new[] { _JavascriptDebugScript };
+                return  _JavascriptDebugScript ;
 
             _JavascriptDebugScript = GetResourceReader().Load("ko-view.min.js");
-            return new[] { _JavascriptDebugScript };
+            return _JavascriptDebugScript ;
         }
 
         public string GetDebugToogleScript()

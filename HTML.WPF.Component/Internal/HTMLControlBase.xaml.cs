@@ -23,7 +23,7 @@ namespace HTML_WPF.Component
     {
         private IWPFWebWindowFactory _WPFWebWindowFactory;
         private IWebSessionWatcher _WebSessionWatcher;
-        private string[] _JavascriptDebugScript = null;
+        private string _JavascriptDebugScript = null;
         private readonly IUrlSolver _UrlSolver;
         private readonly DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private readonly IJavascriptUIFrameworkManager _Injector;
@@ -152,7 +152,7 @@ namespace HTML_WPF.Component
             {
                 _JavascriptDebugScript = _Injector.GetDebugScript();
             }
-            _JavascriptDebugScript.ForEach(script => _WPFDoubleBrowserNavigator.ExcecuteJavascript(script));
+            _WPFDoubleBrowserNavigator.ExcecuteJavascript(_JavascriptDebugScript);
         }
 
         public void ShowDebugWindow()

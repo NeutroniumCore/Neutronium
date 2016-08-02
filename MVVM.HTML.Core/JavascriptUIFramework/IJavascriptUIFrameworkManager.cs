@@ -36,7 +36,7 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// return javascript debug script to allow interactive debug
         /// of view model bound to the view
         /// </summary>
-        string[] GetDebugScript();
+        string GetDebugScript();
 
         /// <summary>
         /// return javascript script that toogle the display of debug tool

@@ -11,7 +11,7 @@ namespace VueUiFramework
     {
         public string FrameworkName => "vue.js 1.0.25";
         public string Name => "VueInjector";
-        private string[] _DebugScript;
+        private string _DebugScript;
         private const string _ToogleDebug = "window.vueDebug();";
 
         public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener) 
@@ -19,19 +19,18 @@ namespace VueUiFramework
             return new VueVmManager(webView, listener);
         }
 
-        public string[] GetDebugScript()
+        public string GetDebugScript()
         {
             if (_DebugScript != null)
                 return _DebugScript;
 
             var loader = GetResourceReader();
-            //var hook = loader.Load("hook.js");
             var almost = loader.Load("vuedebug.js");
             var updated = almost.Replace(@"build/devtools.js", GetFilePath("scripts/devtools.js"));
             var builder = new StringBuilder(updated);
             builder.AppendLine(_ToogleDebug);
-            _DebugScript = new[] { builder.ToString()};
-            //, hook };
+            _DebugScript = builder.ToString();
+
             return _DebugScript;
         }
 
