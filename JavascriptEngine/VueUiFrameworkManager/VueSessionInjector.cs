@@ -46,10 +46,12 @@ namespace VueUiFramework
             return _ToogleDebug;
         }
 
-        public string GetMainScript()
+        public string GetMainScript(bool debugContext)
         {
-            var loader = GetResourceReader();           
-            return loader.Load ("hook.js", "vue.js","subscribeArray.min.js", "vueGlue.js");
+            var loader = GetResourceReader();     
+                
+            return (debugContext)? loader.Load("hook.js", "vue.js","subscribeArray.min.js", "vueGlue.js"):
+                    loader.Load( "vue.js", "subscribeArray.min.js", "vueGlue.js");
         }
 
         public bool HasDebugScript()

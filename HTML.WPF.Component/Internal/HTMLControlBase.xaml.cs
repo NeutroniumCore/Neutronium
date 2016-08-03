@@ -15,7 +15,6 @@ using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Text;
 using System.Windows.Media;
-using MVVM.HTML.Core.Infra;
 
 namespace HTML_WPF.Component
 {
@@ -31,6 +30,9 @@ namespace HTML_WPF.Component
         public BasicRelayCommand DebugWindow { get; }
         public BasicRelayCommand DebugBrowser { get; }
         public BasicRelayCommand ShowInfo { get; }
+
+        public bool DebugContext => IsDebug;
+        public Uri Source => _WPFDoubleBrowserNavigator.Url;
 
         public bool IsDebug
         {
@@ -74,9 +76,6 @@ namespace HTML_WPF.Component
 
         public static readonly DependencyProperty JavascriptUIEngineProperty =
             DependencyProperty.Register(nameof(JavascriptUIEngine), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
-
-
-        public Uri Source => _WPFDoubleBrowserNavigator.Url;
 
         public bool UseINavigable
         {

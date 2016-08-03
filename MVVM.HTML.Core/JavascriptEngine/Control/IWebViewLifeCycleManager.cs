@@ -16,5 +16,10 @@ namespace MVVM.HTML.Core.JavascriptEngine.Control
         /// Return the corresponding UI dispatcher
         /// </summary>
         IDispatcher GetDisplayDispatcher();
+
+        /// <summary>
+        /// True if the window is under debug 
+        /// </summary>
+        bool DebugContext { get; }
     }
 }

@@ -37,7 +37,7 @@ namespace KnockoutUIFramework
             return true;
         }
 
-        public string GetMainScript()
+        public string GetMainScript(bool debugMode)
         {
             if (_MainScript != null)
                 return _MainScript;

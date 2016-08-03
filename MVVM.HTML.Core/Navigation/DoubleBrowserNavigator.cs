@@ -19,7 +19,7 @@ namespace MVVM.HTML.Core.Navigation
         private IHTMLWindowProvider _CurrentWebControl;
         private IHTMLWindowProvider _NextWebControl;
         private IHTMLBinding _HTMLBinding;
-        private IWebSessionWatcher _IWebSessionWatcher = new NullWatcher();
+        private IWebSessionWatcher _WebSessionWatcher = new NullWatcher();
         private Uri _Url;
         private bool _Disposed = false;
         private bool _Navigating = false;
@@ -31,7 +31,7 @@ namespace MVVM.HTML.Core.Navigation
 
         public IWebSessionWatcher WebSessionWatcher
         {
-            set { _IWebSessionWatcher = value; }
+            set { _WebSessionWatcher = value; }
         }
 
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, 
@@ -120,13 +120,13 @@ namespace MVVM.HTML.Core.Navigation
 
         private void LogCritical(string iMessage)
         {
-            _IWebSessionWatcher.LogCritical(iMessage);
+            _WebSessionWatcher.LogCritical(iMessage);
             Trace.WriteLine($"MVVM for CEFGlue: Critical: {iMessage}");
         }
 
         private void LogBrowser(string iMessage)
         {
-            _IWebSessionWatcher.LogBrowser(iMessage);
+            _WebSessionWatcher.LogBrowser(iMessage);
             Trace.WriteLine($"MVVM for CEFGlue: WebSession log message: {iMessage}");
         }
 
@@ -175,7 +175,7 @@ namespace MVVM.HTML.Core.Navigation
                 before = (o,e) =>
                 {
                     moderWindow.BeforeJavascriptExecuted -= before;
-                    e.JavascriptExecutor(_javascriptUiFrameworkManager.GetMainScript());
+                    e.JavascriptExecutor(_javascriptUiFrameworkManager.GetMainScript(_WebViewLifeCycleManager.DebugContext));
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }

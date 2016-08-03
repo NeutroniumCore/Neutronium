@@ -46,7 +46,10 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// <summary>
         /// return main javascript debug including framework code
         /// </summary>
-        string GetMainScript();
+        /// <param name="debugContext">
+        /// True if debug mode is activated
+        /// </param>
+        string GetMainScript(bool debugContext);
 
         /// <summary>
         /// true if the injector returns a valid debug script
