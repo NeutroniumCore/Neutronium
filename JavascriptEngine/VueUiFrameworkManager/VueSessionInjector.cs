@@ -4,6 +4,7 @@ using MVVM.HTML.Core.Infra;
 using System.IO;
 using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace VueUiFramework
 {
@@ -48,10 +49,17 @@ namespace VueUiFramework
 
         public string GetMainScript(bool debugContext)
         {
-            var loader = GetResourceReader();     
-                
-            return (debugContext)? loader.Load("hook.js", "vue.js","subscribeArray.min.js", "vueGlue.js"):
-                    loader.Load( "vue.js", "subscribeArray.min.js", "vueGlue.js");
+            var loader = GetResourceReader();
+            return loader.Load(GetJavascriptSource(debugContext));
+        }
+
+        private static IEnumerable<string> GetJavascriptSource(bool debugMode)
+        {
+            if (debugMode)
+                yield return "hook.js";
+            yield return "vue.js";
+            yield return "subscribeArray.min.js";
+            yield return "vueGlue.js";
         }
 
         public bool HasDebugScript()
