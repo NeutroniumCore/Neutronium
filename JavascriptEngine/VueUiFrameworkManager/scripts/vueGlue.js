@@ -101,7 +101,6 @@
             if (!father.__silenter)
                 Object.defineProperty(father, '__silenter', {value: {}});
             var silenter = father.__silenter;
-            console.log(silenter);
             var listenerfunction = onPropertyChange(observer, prop, father);
             var newListener = new Listener(() => vueVm.$watch(() => father[prop], listenerfunction), (value) => father[prop] = value);
             newListener.listen();

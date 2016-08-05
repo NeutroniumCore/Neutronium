@@ -57,8 +57,8 @@
 	// 2. init devtools
 	(0, _devtools.initDevTools)({
 	  connect: function connect(cb) {
-	    // 3. called by devtools: inject backend
-	    inject('build/backend.js', function () {
+	      // 3. called by devtools: inject backend
+	      inject(parent.__vue__backend__path__, function () {
 	      // 4. send back bridge
 	      cb(new _bridge2.default({
 	        listen: function listen(fn) {
@@ -10417,7 +10417,7 @@
 	  return _h('img', {
 	    staticClass: "logo",
 	    staticAttrs: {
-	      "src": "../assets/logo.png"
+	      "src": "/assets/logo.png"
 	    }
 	  })
 	}},function(){with(this) {

@@ -29,10 +29,14 @@ namespace VueUiFramework
             var almost = loader.Load("vuedebug.js");
             var updated = almost.Replace(@"build/devtools.js", GetFilePath("scripts/devtools.js"));
             var builder = new StringBuilder(updated);
-            builder.AppendLine(_ToogleDebug);
-            _DebugScript = builder.ToString();
+            builder.Append(GetPathInjectorscript());
 
-            return _DebugScript;
+            return _DebugScript = builder.ToString();
+        }
+
+        private string GetPathInjectorscript()
+        {
+            return $"(function(){{window.__vue__backend__path__='{GetFilePath("scripts/backend.js")}';}})();";
         }
 
         private static string GetFilePath(string scriptPath)
