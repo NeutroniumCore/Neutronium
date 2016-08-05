@@ -10417,7 +10417,7 @@
 	  return _h('img', {
 	    staticClass: "logo",
 	    staticAttrs: {
-	      "src": "/assets/logo.png"
+	        "src": parent.__vue__logo__path__
 	    }
 	  })
 	}},function(){with(this) {

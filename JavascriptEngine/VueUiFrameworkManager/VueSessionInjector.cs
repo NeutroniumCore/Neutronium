@@ -27,7 +27,7 @@ namespace VueUiFramework
 
             var loader = GetResourceReader();
             var almost = loader.Load("vuedebug.js");
-            var updated = almost.Replace(@"build/devtools.js", GetFilePath("scripts/devtools.js"));
+            var updated = almost.Replace(@"build/devtools.js", GetFilePath("scripts/devtools.js"));        
             var builder = new StringBuilder(updated);
             builder.Append(GetPathInjectorscript());
 
@@ -36,7 +36,7 @@ namespace VueUiFramework
 
         private string GetPathInjectorscript()
         {
-            return $"(function(){{window.__vue__backend__path__='{GetFilePath("scripts/backend.js")}';}})();";
+            return $"(function(){{window.__vue__backend__path__='{GetFilePath("scripts/backend.js")}';window.__vue__logo__path__='{GetFilePath("resource/logo.png")}';}})();";
         }
 
         private static string GetFilePath(string scriptPath)
