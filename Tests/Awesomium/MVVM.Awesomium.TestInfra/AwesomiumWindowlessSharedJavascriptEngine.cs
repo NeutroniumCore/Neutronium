@@ -36,7 +36,7 @@ namespace MVVM.Awesomium.TestInfra
             {
                 _CurrentWebView = WebCore.CreateWebView(500, 500);
                 ipath = ipath ?? "javascript\\index.html";
-                var uri = new Uri(string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), ipath));
+                var uri = new Uri($"{Assembly.GetExecutingAssembly().GetPath()}\\{ipath}");
                 _CurrentWebView.Source = uri;
                 WebView = new AwesomiumWebView(_CurrentWebView);
                 var htmlWindowProvider = new AwesomiumTestHTMLWindowProvider(WebView, uri);

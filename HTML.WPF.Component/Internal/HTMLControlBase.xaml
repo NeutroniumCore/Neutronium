@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style TargetType="Button">
-            <Setter Property="Width" Value="90"/>
+            <Setter Property="Width" Value="70"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="10,5"/>
@@ -26,8 +26,8 @@
         </Grid.RowDefinitions>
 
         <UniformGrid Rows="1" Grid.Row="1" HorizontalAlignment="Center" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}">
-            <Button Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="VM Debug" Command="{Binding ElementName=Root,Path=DebugWindow}"/>
-            <Button Content="Debug Tools" Command="{Binding ElementName=Root,Path=DebugBrowser}"/>
+            <Button Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="Inspect Vm" Command="{Binding ElementName=Root,Path=DebugWindow}"/>
+            <Button Content="Inspect" Command="{Binding ElementName=Root,Path=DebugBrowser}"/>
             <Button Width="50" Content="About" Command="{Binding ElementName=Root,Path=ShowInfo}"/>
         </UniformGrid>
    

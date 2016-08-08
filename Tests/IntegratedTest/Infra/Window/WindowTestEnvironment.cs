@@ -1,5 +1,6 @@
 ﻿using System;
 using HTML_WPF.Component;
+using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace IntegratedTest.Infra.Window 
@@ -14,6 +15,8 @@ namespace IntegratedTest.Infra.Window
         public abstract IWPFWebWindowFactory GetWPFWebWindowFactory();
 
         public abstract IJavascriptUIFrameworkManager FrameworkManager { get; }
+
+        public abstract ITestHtmlProvider HtmlProvider { get; }
 
         private void DoRegister() 
         {

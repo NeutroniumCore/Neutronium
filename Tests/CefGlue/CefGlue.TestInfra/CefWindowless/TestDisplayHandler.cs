@@ -7,7 +7,7 @@ namespace CefGlue.TestInfra.CefWindowless
     {
         protected override bool OnConsoleMessage(CefBrowser browser, string message, string source, int line)
         {
-            Console.WriteLine("Cef console message: {0} src: {1} line: {2}", message, source, line);
+            Console.WriteLine($"Cef console message: {message} src: {source} line: {line}");
             return false;
         }
     }

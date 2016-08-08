@@ -28,6 +28,7 @@ namespace MVVM.HTML.Core.Navigation
 
         public Uri Url => _Url;
         public IHTMLWindowProvider WebControl => _CurrentWebControl;
+        public IHTMLWindow HTMLWindow => _CurrentWebControl?.HTMLWindow;
 
         public IWebSessionWatcher WebSessionWatcher
         {
@@ -163,7 +164,7 @@ namespace MVVM.HTML.Core.Navigation
             if (_CurrentWebControl != null)
                 _CurrentWebControl.HTMLWindow.Crashed -= Crashed;
 
-            Task closetask = ( _CurrentWebControl!=null) ? _Window.CloseAsync() : TaskHelper.Ended();
+            var closetask = ( _CurrentWebControl!=null) ? _Window.CloseAsync() : TaskHelper.Ended();
 
             _NextWebControl = _WebViewLifeCycleManager.Create();
             _NextWebControl.HTMLWindow.ConsoleMessage += ConsoleMessage;

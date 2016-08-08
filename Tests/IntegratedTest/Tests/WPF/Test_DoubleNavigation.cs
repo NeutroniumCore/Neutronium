@@ -7,6 +7,7 @@ using System.Windows.Input;
 using FluentAssertions;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
+using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
@@ -43,11 +44,14 @@ namespace IntegratedTest.Tests.WPF
             await base.Test(simpleTest, iDebug, iManageLifeCycle);
         }
 
-        private void SetUpRoute(INavigationBuilder builder)
+        private void SetUpRoute(INavigationBuilder builder, HTMLWindow wpfnav)
         {
-            builder.Register<A1>("javascript\\navigation_1.html");
-            builder.Register<AA1>("javascript\\navigation_1.html");
-            builder.Register<A2>("javascript\\navigation_2.html");
+            builder.Register<A1>(GetPath(TestContext.Navigation1, wpfnav));
+            builder.Register<AA1>(GetPath(TestContext.Navigation1, wpfnav));
+            builder.Register<A2>(GetPath(TestContext.Navigation2, wpfnav));
+            //builder.Register<A1>("javascript\\navigation_1.html");
+            //builder.Register<AA1>("javascript\\navigation_1.html");
+            //builder.Register<A2>("javascript\\navigation_2.html");
         }
 
         #region ViewModel
@@ -105,7 +109,7 @@ namespace IntegratedTest.Tests.WPF
                 ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 wpfnav.OnFirstLoad += ea;
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
                 var a = new A1();
                    
@@ -155,7 +159,7 @@ namespace IntegratedTest.Tests.WPF
                 ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 wpfnav.OnFirstLoad += ea;
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
                 wpfnav.IsHTMLLoaded.Should().BeFalse();
 
@@ -186,7 +190,7 @@ namespace IntegratedTest.Tests.WPF
                 ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 wpfnav.OnFirstLoad += ea;
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
 
                 wpfnav.IsHTMLLoaded.Should().BeFalse();
@@ -214,7 +218,7 @@ namespace IntegratedTest.Tests.WPF
                 ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 wpfnav.OnFirstLoad += ea;
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
 
                 wpfnav.IsHTMLLoaded.Should().BeFalse();
@@ -267,7 +271,7 @@ namespace IntegratedTest.Tests.WPF
                 //ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 //wpfnav.OnFirstLoad += ea;
                 //wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
 
                 wpfnav.IsHTMLLoaded.Should().BeFalse();
@@ -304,7 +308,7 @@ namespace IntegratedTest.Tests.WPF
                 wpfnav.WebSessionWatcher.Should().NotBeNull();
                 if (iWatcher != null)
                     wpfnav.WebSessionWatcher = iWatcher;
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
 
                 wpfnav.IsHTMLLoaded.Should().BeFalse();
@@ -344,7 +348,7 @@ namespace IntegratedTest.Tests.WPF
                 wpfnav.WebSessionWatcher.Should().NotBeNull();
                 if (iWatcher != null)
                     wpfnav.WebSessionWatcher = iWatcher;
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
 
                 wpfnav.IsHTMLLoaded.Should().BeFalse();
@@ -380,7 +384,7 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
                 var a2 = new A2();
@@ -388,13 +392,17 @@ namespace IntegratedTest.Tests.WPF
                 await wpfnav.NavigateAsync(a1);
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                var expected = Path.GetFileName(GetPath(TestContext.Navigation1, wpfnav));
+                wpfnav.Source.AbsolutePath.Should().EndWith(expected);
+                //wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
 
                 await wpfnav.NavigateAsync(a2);
 
                 a2.Navigation.Should().NotBeNull();
                 a1.Navigation.Should().BeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                var expected2 = Path.GetFileName(GetPath(TestContext.Navigation2, wpfnav));
+                wpfnav.Source.AbsolutePath.Should().EndWith(expected2);
+                //wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
             });
         }
 
@@ -404,7 +412,7 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
                 var a2 = new A2();
@@ -435,7 +443,7 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfbuild.Register<A1>("javascript\\navigation_3.html", "NewPath");
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
@@ -467,7 +475,7 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav)  =>
             {
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
 
@@ -488,7 +496,7 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
 
@@ -511,7 +519,7 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav)  =>
             {
                 wpfnav.Should().NotBeNull();
-                SetUpRoute(wpfbuild);
+                SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
                 await wpfnav.NavigateAsync(a1);

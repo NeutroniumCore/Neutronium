@@ -9,15 +9,9 @@ namespace IntegratedTest.Infra.Window
         private WPFWindowTestWrapper _wpfWindowTestWrapper;
         private readonly WpfThread _wpfThread;
 
-        public Thread UIThread
-        {
-            get { return _wpfThread.UIThread; }
-        }
+        public Thread UIThread => _wpfThread.UIThread;
 
-        public System.Windows.Window MainWindow
-        {
-            get { return _wpfWindowTestWrapper.Window; }
-        }
+        public System.Windows.Window MainWindow => _wpfWindowTestWrapper.Window;
 
         public WPFWindowWrapper(WpfThread wpfThread, Func<System.Windows.Window> ifactory = null) 
         {

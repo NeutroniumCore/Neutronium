@@ -1,7 +1,9 @@
 ﻿using HTMEngine.ChromiumFX;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
+using IntegratedTest.JavascriptUIFramework;
 using KnockoutUIFramework;
+using KnockoutUIFramework.Test.TestHtml;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace ChromiumFX.TestInfra 
@@ -13,9 +15,7 @@ namespace ChromiumFX.TestInfra
             return new ChromiumFXWPFWebWindowFactory();
         }
 
-        public override IJavascriptUIFrameworkManager FrameworkManager 
-        {
-            get { return new KnockoutUiFrameworkManager(); }
-        }
+        public override IJavascriptUIFrameworkManager FrameworkManager => new KnockoutUiFrameworkManager();
+        public override ITestHtmlProvider HtmlProvider => new KnockoutUiHtmlProvider();
     }
 }

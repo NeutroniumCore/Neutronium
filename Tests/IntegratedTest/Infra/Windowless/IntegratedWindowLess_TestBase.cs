@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using IntegratedTest.Infra.Threading;
+using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
@@ -16,9 +17,9 @@ namespace IntegratedTest.Infra.Windowless
         private WindowlessTestEnvironment _TestEnvironment;
         protected readonly ITestOutputHelper _Output;
 
-        protected IJavascriptObjectConverter Converter { get { return _WebView.Converter; } }
+        protected IJavascriptObjectConverter Converter => _WebView.Converter;
 
-        protected IJavascriptObjectFactory Factory { get { return _WebView.Factory; } }
+        protected IJavascriptObjectFactory Factory => _WebView.Factory;
 
         protected IntegratedWindowLess_TestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
         { 

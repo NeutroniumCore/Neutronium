@@ -15,15 +15,9 @@ namespace IntegratedTest.Infra.Window
 
         public event EventHandler OnThreadEnded;
 
-        public Thread UIThread
-        {
-            get { return _UIThread; }
-        }
+        public Thread UIThread => _UIThread;
 
-        public Dispatcher Dispatcher
-        {
-            get { return _dispatcher; }
-        }
+        public Dispatcher Dispatcher => _dispatcher;
 
         public WpfThread()
         {
@@ -66,8 +60,7 @@ namespace IntegratedTest.Infra.Window
         private void FireEnded()
         {
             var threadEnded = OnThreadEnded;
-            if (threadEnded != null)
-                threadEnded(this, EventArgs.Empty);
+            threadEnded?.Invoke(this, EventArgs.Empty);
         }
 
         private void InitUIinSTA()

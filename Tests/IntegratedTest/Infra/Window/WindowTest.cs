@@ -26,9 +26,9 @@ namespace IntegratedTest.Infra.Window
             return window;
         }
 
-        public System.Windows.Window Window { get { return _WPFThreadingHelper.MainWindow; } }
+        public System.Windows.Window Window => _WPFThreadingHelper.MainWindow;
 
-        public Dispatcher Dispatcher { get { return Window.Dispatcher; } }
+        public Dispatcher Dispatcher => Window.Dispatcher;
 
         public async Task RunOnUIThread(Action Do) 
         {
@@ -57,8 +57,8 @@ namespace IntegratedTest.Infra.Window
 
         public void Dispose()
         {
-            Action End = () => { _WPFThreadingHelper.CloseWindow(); };
-            Dispatcher.Invoke(End);
+            Action end = () => { _WPFThreadingHelper.CloseWindow(); };
+            Dispatcher.Invoke(end);
             _WPFThreadingHelper.Dispose();
         }
     }

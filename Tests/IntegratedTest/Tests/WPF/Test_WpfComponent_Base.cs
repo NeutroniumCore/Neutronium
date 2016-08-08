@@ -3,16 +3,24 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
+using IntegratedTest.JavascriptUIFramework;
 
 namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_WpfComponent_Base<T>  where T : HTMLControlBase
     {
-        private readonly IWindowTestEnvironment _WindowTestEnvironment;
+        protected readonly IWindowTestEnvironment _WindowTestEnvironment;
         protected Test_WpfComponent_Base(IWindowTestEnvironment windowTestEnvironment) 
         {
             _WindowTestEnvironment = windowTestEnvironment;
         }
+
+
+        protected string GetPath(TestContext context, HTMLControlBase control ) 
+        {
+             return _WindowTestEnvironment.HtmlProvider.GetHtlmPath(context, control.IsLoadInjectionSuported);
+        }
+
 
         private WindowTest BuildWindow(Func<T> iWebControlFac, bool iManageLifeCycle)
         {

@@ -11202,17 +11202,8 @@
 	
 	var mutations = {
 	  FLUSH: function FLUSH(state, payload) {
-	    var start = void 0;
-	    if (process.env.NODE_ENV !== 'production') {
-	      start = window.performance.now();
-	    }
 	    state.instances = (0, _freeze2.default)(payload.instances);
 	    state.inspectedInstance = (0, _freeze2.default)(payload.inspectedInstance);
-	    if (process.env.NODE_ENV !== 'production') {
-	      (0, _vue.nextTick)(function () {
-	        console.log('devtools render took ' + (window.performance.now() - start) + 'ms.');
-	      });
-	    }
 	  },
 	  RECEIVE_INSTANCE_DETAILS: function RECEIVE_INSTANCE_DETAILS(state, instance) {
 	    state.inspectedInstance = (0, _freeze2.default)(instance);

@@ -120,6 +120,10 @@
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\VueUiFramework.Test\VueUiFramework.Test.csproj">
+      <Project>{80d4f5ca-1065-4487-8fde-9fee9821716c}</Project>
+      <Name>VueUiFramework.Test</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="cef\Release\cef_sandbox.lib">

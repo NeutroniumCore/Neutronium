@@ -99,6 +99,8 @@
     <Compile Include="JavascriptUIFramework\FrameworkTestContext.cs" />
     <Compile Include="Infra\Windowless\TestInContextAsync.cs" />
     <Compile Include="Infra\Windowless\TestIUIDispatcher.cs" />
+    <Compile Include="JavascriptUIFramework\ITestHtmlProvider.cs" />
+    <Compile Include="JavascriptUIFramework\TestContext.cs" />
     <Compile Include="TestData\SimpleViewModel.cs" />
     <Compile Include="Tests\Windowless\Test_WebView_Dispatcher.cs" />
     <Compile Include="Tests\Windowless\Test_ConvertToJSO.cs" />
@@ -107,7 +109,7 @@
     <Compile Include="Infra\Window\IWPFWindowWrapper.cs" />
     <Compile Include="Infra\Window\WindowTestEnvironment.cs" />
     <Compile Include="TestData\ChangingCollectionViewModel.cs" />
-    <Compile Include="Infra\Windowless\IJavascriptFrameworkExtractor.cs" />
+    <Compile Include="JavascriptUIFramework\IJavascriptFrameworkExtractor.cs" />
     <Compile Include="Infra\Windowless\IWindowlessJavascriptEngine.cs" />
     <Compile Include="Infra\Windowless\IntegratedWindowLess_TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

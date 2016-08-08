@@ -1,4 +1,5 @@
 ﻿using System;
+using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace IntegratedTest.Infra.Window 
@@ -7,5 +8,6 @@ namespace IntegratedTest.Infra.Window
     {
         IJavascriptUIFrameworkManager FrameworkManager { get;}
         IWPFWindowWrapper GetWindowWrapper(Func<System.Windows.Window> ifactory = null);
+        ITestHtmlProvider HtmlProvider { get; }
     }
 }

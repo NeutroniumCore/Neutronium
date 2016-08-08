@@ -81,6 +81,7 @@
     <Compile Include="IntegratedInfra\KnockoutFrameworkTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntegratedInfra\KnockoutExtractor.cs" />
+    <Compile Include="TestHtml\KnockoutUiHtmlProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\JavascriptEngine\KnockoutUIFramework\KnockoutUIFramework.csproj">
@@ -155,6 +156,89 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="javascript\src\ko-view.js" />
+    <Content Include="TestHtml\javascript\almost_empty.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\empty.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\empty_with_js.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\index_promise.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\navigation_1.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\navigation_2.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\navigation_3.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\simple.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\Infra.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\knockout-delegatedEvents.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\knockout.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\ko-view.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\Koaddon.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\Ko_Extension.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\Ko_register.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\Ko_register_promise.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\promise.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\Navigation data\css\style.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\Navigation data\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\Navigation data\js\animation.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\Navigation data\js\knockout.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\Navigation data\js\Ko_Extension.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\Navigation data\js\Ko_Extension.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\Navigation data\js\ref\jquery.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="TestHtml\javascript\src\Ko_Extension.min.js">
+      <DependentUpon>Ko_Extension.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestHtml\javascript\src\ko-view.min.js">
+      <DependentUpon>ko-view.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="javascript\src\promise.min.js" />
     <EmbeddedResource Include="javascript\src\Ko_Extension.min.js">
       <DependentUpon>Ko_Extension.js</DependentUpon>
@@ -186,6 +270,17 @@
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
     </Content>
     <None Include="packages.config" />
+    <None Include="TestHtml\javascript\src\ko-view.min.js.map">
+      <DependentUpon>ko-view.min.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="TestHtml\javascript\src\Ko_Extension.min.js.map">
+      <DependentUpon>Ko_Extension.min.js</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="TestHtml\Navigation data\js\Ko_Extension.min.js.map">
+      <DependentUpon>Ko_Extension.min.js</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

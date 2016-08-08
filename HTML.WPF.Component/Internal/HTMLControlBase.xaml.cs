@@ -33,6 +33,7 @@ namespace HTML_WPF.Component
 
         public bool DebugContext => IsDebug;
         public Uri Source => _WPFDoubleBrowserNavigator.Url;
+        public bool IsLoadInjectionSuported => _WPFDoubleBrowserNavigator.HTMLWindow is IHTMLModernWindow;
 
         public bool IsDebug
         {

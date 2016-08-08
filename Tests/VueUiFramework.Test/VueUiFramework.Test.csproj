@@ -93,6 +93,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TestHtml\VueUiHtmlProvider.cs" />
     <Content Include="javascript\src\subscribeArray.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

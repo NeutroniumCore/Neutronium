@@ -35,10 +35,9 @@ namespace IntegratedTest.Infra.Window
             GC.Collect();
         }
 
-        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) 
         {
-            if (OnException != null)
-                OnException(this, e);
+            OnException?.Invoke(this, e);
         }
     }   
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
-using MVVM.HTML.Core.Infra;
+using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel;
 using Xunit;
@@ -12,17 +12,17 @@ namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_DoubleNavigation_Animation : Test_WpfComponent_Base<HTMLWindow> 
     {
-        private readonly NavigationBuilder _INavigationBuilder;
+        private readonly NavigationBuilder _NavigationBuilder;
 
         protected Test_DoubleNavigation_Animation(IWindowTestEnvironment windowTestEnvironment):
             base(windowTestEnvironment)
         {
-            _INavigationBuilder = new NavigationBuilder();
+            _NavigationBuilder = new NavigationBuilder();
         }
 
         protected override HTMLWindow GetNewHTMLControlBase(bool iDebug) 
         {
-            return new HTMLWindow(_INavigationBuilder) { IsDebug = iDebug };
+            return new HTMLWindow(_NavigationBuilder) { IsDebug = iDebug };
         }
 
         public class VM : ViewModelBase, INavigable
@@ -37,8 +37,10 @@ namespace IntegratedTest.Tests.WPF
             {
                 var vm = new VM();
                 wpfnav.Should().NotBeNull();
-                var path = string.Format("{0}\\{1}",GetType().Assembly.GetPath(), "Navigation data\\index.html");;
-                _INavigationBuilder.RegisterAbsolute<VM>(path);
+                var path = GetPath(TestContext.SimpleNavigation, wpfnav);
+
+                //$"{GetType().Assembly.GetPath()}\\{"Navigation data\\index.html"}";;
+                _NavigationBuilder.RegisterAbsolute<VM>(path);
                 wpfnav.UseINavigable = true;
 
                 DateTime? opened = null;

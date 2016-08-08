@@ -1,6 +1,6 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace IntegratedTest.Infra.Windowless
+namespace IntegratedTest.JavascriptUIFramework
 {
     public interface IJavascriptFrameworkExtractor
     {

@@ -1,7 +1,9 @@
 ﻿using HTMLEngine.Awesomium;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
+using IntegratedTest.JavascriptUIFramework;
 using KnockoutUIFramework;
+using KnockoutUIFramework.Test.TestHtml;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace MVVM.Awesomium.TestInfra 
@@ -13,9 +15,7 @@ namespace MVVM.Awesomium.TestInfra
             return new AwesomiumWPFWebWindowFactory();
         }
 
-        public override IJavascriptUIFrameworkManager FrameworkManager 
-        {
-            get { return new KnockoutUiFrameworkManager();}
-        }
+        public override IJavascriptUIFrameworkManager FrameworkManager => new KnockoutUiFrameworkManager();
+        public override ITestHtmlProvider HtmlProvider => new KnockoutUiHtmlProvider();
     }
 }

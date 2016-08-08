@@ -1,5 +1,4 @@
 ﻿using System;
-using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
@@ -10,5 +9,7 @@ namespace IntegratedTest.JavascriptUIFramework
         public IJavascriptUIFrameworkManager FrameworkManager { get; set; }
 
         public Func<IWebView, IJavascriptFrameworkExtractor> JavascriptFrameworkExtractorBuilder { get; set; }
+
+        public ITestHtmlProvider HtmlProvider { get; set; }
     }
 }
