@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
-using IntegratedTest.JavascriptUIFramework;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel;
 using Xunit;
@@ -37,9 +37,8 @@ namespace IntegratedTest.Tests.WPF
             {
                 var vm = new VM();
                 wpfnav.Should().NotBeNull();
-                var path = GetPath(TestContext.SimpleNavigation, wpfnav);
+                var path = $"{GetType().Assembly.GetPath()}\\{"Navigation data\\index.html"}";
 
-                //$"{GetType().Assembly.GetPath()}\\{"Navigation data\\index.html"}";;
                 _NavigationBuilder.RegisterAbsolute<VM>(path);
                 wpfnav.UseINavigable = true;
 

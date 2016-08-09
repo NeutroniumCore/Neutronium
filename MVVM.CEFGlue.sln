@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0F0F34BE-CD06-4C13-967D-BB0760617486}"
 EndProject
@@ -111,6 +111,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VueUiFramework.Test", "Tests\VueUiFramework.Test\VueUiFramework.Test.csproj", "{80D4F5CA-1065-4487-8FDE-9FEE9821716C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.Collection", "ApplicationExamples\Example.ChromiumFX.Vue.Collection\Example.ChromiumFX.Vue.Collection.csproj", "{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIFrameworkTesterHelper", "Tests\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj", "{D6F39E8C-BF8F-454E-8512-B46BE149C339}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -779,6 +781,22 @@ Global
 		{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F}.Release|x64.Build.0 = Release|Any CPU
 		{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F}.Release|x86.ActiveCfg = Release|x86
 		{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F}.Release|x86.Build.0 = Release|x86
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Debug|x64.Build.0 = Debug|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Debug|x86.Build.0 = Debug|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|x64.ActiveCfg = Release|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|x64.Build.0 = Release|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|x86.ActiveCfg = Release|Any CPU
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -828,6 +846,7 @@ Global
 		{AABC737D-3FEE-4066-A90D-D00002404FEB} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{80D4F5CA-1065-4487-8FDE-9FEE9821716C} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
+		{D6F39E8C-BF8F-454E-8512-B46BE149C339} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

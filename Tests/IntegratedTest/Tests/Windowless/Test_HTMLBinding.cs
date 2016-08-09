@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using FluentAssertions;
 using IntegratedTest.Infra.Windowless;
+using IntegratedTest.JavascriptUIFramework;
 using IntegratedTest.TestData;
 using MVVM.Component;
 using MVVM.HTML.Core;
@@ -28,7 +29,6 @@ namespace IntegratedTest.Tests.Windowless
     {
         private readonly Person _DataContext;
         private ICommand _ICommand;
-
 
         public Test_HTMLBinding(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
@@ -94,7 +94,7 @@ namespace IntegratedTest.Tests.Windowless
                     string JSON = JsonConvert.SerializeObject(_DataContext);
                     string alm = jsbridge.ToString();
 
-                    JSArray arr = (JSArray)jsbridge.GetAllChildren().Where(c => c is JSArray).First();
+                    JSArray arr = (JSArray)jsbridge.GetAllChildren().First(c => c is JSArray);
 
                     string stringarr = arr.ToString();
 
@@ -113,20 +113,18 @@ namespace IntegratedTest.Tests.Windowless
         [Fact]
         public async Task Test_HTMLBinding_Basic_HTML_Withoutko_ShouldThrowException()
         {
-            using (Tester("javascript\\empty_with_js.html"))
+            using (Tester(TestContext.EmptyWithJs))
             {
                 var vm = new object();
                 MVVMCEFGlueException ex = null;
 
                 try {
-                    await HTML_Binding.Bind(_ICefGlueWindow, new object(), JavascriptBindingMode.OneTime);
+                    await HTML_Binding.Bind(_ViewEngine, new object(), JavascriptBindingMode.OneTime);
                 }
-                catch (AggregateException agregate)
-                {
+                catch (AggregateException agregate) {
                     ex = agregate.Flatten().InnerException as MVVMCEFGlueException;
                 }
-                catch (MVVMCEFGlueException myex)
-                {
+                catch (MVVMCEFGlueException myex) {
                     ex = myex;
                 }
 
@@ -137,14 +135,14 @@ namespace IntegratedTest.Tests.Windowless
         [Fact]
         public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException()
         {
-            using (Tester("javascript\\almost_empty.html"))
+            using (Tester(TestContext.AlmostEmpty))
             {
                 var vm = new object();
                 MVVMCEFGlueException ex = null;
 
                 try
                 {
-                    await HTML_Binding.Bind(_ICefGlueWindow, _DataContext, JavascriptBindingMode.OneTime);
+                    await HTML_Binding.Bind(_ViewEngine, _DataContext, JavascriptBindingMode.OneTime);
                 }
                 catch (MVVMCEFGlueException myex)
                 {
@@ -1449,7 +1447,7 @@ namespace IntegratedTest.Tests.Windowless
 
             var testR = new TestInContext()
             {
-                Path = @"javascript\index_promise.html",
+                Path = TestContext.IndexPromise,
                 Bind = (win) => HTML_Binding.Bind(win, test, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
@@ -1469,7 +1467,7 @@ namespace IntegratedTest.Tests.Windowless
 
             var test = new TestInContextAsync()
             {
-                Path = @"javascript\index_promise.html",
+                Path = TestContext.IndexPromise,
                 Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
@@ -1494,7 +1492,7 @@ namespace IntegratedTest.Tests.Windowless
 
             var test = new TestInContextAsync()
             {
-                Path = @"javascript\index_promise.html",
+                Path = TestContext.IndexPromise,
                 Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 { 
@@ -1547,7 +1545,7 @@ namespace IntegratedTest.Tests.Windowless
 
             var test = new TestInContextAsync()
             {
-                Path = @"javascript\index_promise.html",
+                Path = TestContext.IndexPromise,
                 Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
@@ -1679,8 +1677,6 @@ namespace IntegratedTest.Tests.Windowless
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
-                   
-
                     while (notok)
                     {
                         await Task.Delay(10);
@@ -1690,7 +1686,7 @@ namespace IntegratedTest.Tests.Windowless
                     stopWatch.Stop();
                     var ts = stopWatch.ElapsedMilliseconds;
 
-                    Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, iis);
+                    Console.WriteLine($"Perf: {((double)(ts)) / 1000} sec for {iis} items");
                     Check(col, _DataContext.Skills);
 
                     TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.7));
@@ -1700,9 +1696,6 @@ namespace IntegratedTest.Tests.Windowless
             await RunAsync(test);
         }
 
-
-
-
         private class TwoList
         {
             public TwoList()
@@ -1710,22 +1703,22 @@ namespace IntegratedTest.Tests.Windowless
                 L1 = new List<Skill>();
                 L2 = new List<Skill>();
             }
-            public List<Skill> L1 { get; private set; }
-            public List<Skill> L2 { get; private set; }
+            public List<Skill> L1 { get; }
+            public List<Skill> L2 { get; }
         }
 
         [Fact]
         public Task Test_HTMLBinding_Stress_TwoWay_Collection_CreateBinding()
         {
-            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, 1.5, "javascript/simple.html");
+            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, 1.5, TestContext.Simple);
         }
 
         [Fact]
         public Task Test_HTMLBinding_Stress_OneWay_Collection_CreateBinding()
         {
-            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, "javascript/simple.html");
+            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, TestContext.Simple);
         }
-        public Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, string ipath = null)
+        public Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, TestContext ipath = TestContext.Index)
         {
             int r = 100;
             var datacontext = new TwoList();
@@ -1767,7 +1760,7 @@ namespace IntegratedTest.Tests.Windowless
 
             var test = new TestInContextAsync()
             {
-                Path = "javascript/simple.html",
+                Path = TestContext.Simple,
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
@@ -1800,7 +1793,7 @@ namespace IntegratedTest.Tests.Windowless
                     stopWatch.Stop();
                     long ts = stopWatch.ElapsedMilliseconds;
 
-                    Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, r);
+                    Console.WriteLine($"Perf: {((double)(ts))/ 1000} sec for {r} items");
                 }
             };
 
@@ -1812,7 +1805,7 @@ namespace IntegratedTest.Tests.Windowless
         [Fact]
         public Task Test_HTMLBinding_Stress_OneTime_Collection_CreateBinding()
         {
-            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, 1.5, "javascript/simple.html");
+            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, 1.5, TestContext.Simple);
         }
 
         [Fact]
@@ -1820,7 +1813,7 @@ namespace IntegratedTest.Tests.Windowless
         {
             var test = new TestInContextAsync()
             {
-                Path = "javascript/simple.html",
+                Path = TestContext.Simple,
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
@@ -1862,7 +1855,7 @@ namespace IntegratedTest.Tests.Windowless
         {
             var test = new TestInContextAsync()
             {
-                Path = "javascript/simple.html",
+                Path = TestContext.Simple,
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
@@ -1931,7 +1924,7 @@ namespace IntegratedTest.Tests.Windowless
         {
             var test = new TestInContextAsync()
             {
-                Path = "javascript/simple.html",
+                Path = TestContext.Simple,
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
@@ -2296,14 +2289,14 @@ namespace IntegratedTest.Tests.Windowless
         [Fact]
         public async Task Test_HTMLBinding_Basic_HTML_Without_Correct_js_ShouldThrowException_2()
         {
-            using (Tester("javascript/almost_empty.html"))
+            using (Tester(TestContext.AlmostEmpty))
             {
                 var vm = new object();
                 MVVMCEFGlueException ex = null;
 
                 try
                 {
-                    await HTML_Binding.Bind(_ICefGlueWindow, vm, JavascriptBindingMode.OneTime);
+                    await HTML_Binding.Bind(_ViewEngine, vm, JavascriptBindingMode.OneTime);
                 }
                 catch (MVVMCEFGlueException myex)
                 {

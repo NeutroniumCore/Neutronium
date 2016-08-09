@@ -22,6 +22,7 @@ namespace ChromiumFX.TestInfra
 
         public HTMLViewEngine ViewEngine { get; private set;  }
         public IWebView WebView { get; private set; }
+        public bool AllowEarlyScriptInjection => true;
 
         internal ChromiumFXWindowlessJavascriptEngine(WpfThread wpfThread, Task<ChromiumFXWebView> chromiumFxWebViewTask, IJavascriptUIFrameworkManager frameWork) 
         {
@@ -30,10 +31,10 @@ namespace ChromiumFX.TestInfra
             _WpfThread = wpfThread;
         }
 
-        public void Init(string path = "javascript\\index.html") 
+        public void Init(string path) 
         {
-            path = path ?? "javascript\\index.html";
-            path = String.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), path);
+            //path = path ?? "javascript\\index.html";
+            path = $"{Assembly.GetExecutingAssembly().GetPath()}\\{path}";
             InitAsync(path).Wait();
         }
 

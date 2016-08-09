@@ -46,7 +46,7 @@ namespace IntegratedTest.Tests.WPF
                 c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
                 c.Uri.Should().BeNull();
 
-                string relp = "javascript\\navigation_1.html";
+                var relp = "javascript\\navigation_1.html";
                 Action act = () => c.RelativeSource = relp;
                 act.ShouldThrow<MVVMCEFGlueException>();
             });
@@ -58,7 +58,7 @@ namespace IntegratedTest.Tests.WPF
             Test((c) => 
             {
                 string relp = "javascript\\navigation_1.html";
-                string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+                string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
                 if (File.Exists(path))
                     File.Delete(path);
 
@@ -89,7 +89,7 @@ namespace IntegratedTest.Tests.WPF
 
                 c.Mode = JavascriptBindingMode.OneWay;
                 string relp = "javascript\\navigation_1.html";
-                c.Uri = new Uri(string.Format("{0}\\{1}", Assembly.GetAssembly(typeof(Test_HTMLViewControl)).GetPath(), relp));
+                c.Uri = new Uri($"{Assembly.GetAssembly(typeof (Test_HTMLViewControl)).GetPath()}\\{relp}");
                 w.Window.DataContext = dc;
 
                 var de = await tcs.Task;
@@ -110,7 +110,7 @@ namespace IntegratedTest.Tests.WPF
                 var dc = new Person();
 
                 string relp = "javascript\\navigation_1.html";
-                string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+                string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
                 var jvs = PrepareFiles();
 
                 c.Mode = JavascriptBindingMode.OneWay;
@@ -121,7 +121,7 @@ namespace IntegratedTest.Tests.WPF
 
                 foreach (string jv in jvs) 
                 {
-                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                    string p = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript\\src\\{jv}";
                     File.Delete(p);
                 }
                 File.Delete(path);
@@ -133,23 +133,23 @@ namespace IntegratedTest.Tests.WPF
         private string[] PrepareFiles()
         {
             string relp = "javascript\\navigation_1.html";
-            string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+            string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
             string nd = Path.GetDirectoryName(path);
             Directory.CreateDirectory(nd);
 
             if (!File.Exists(path))
                 File.Copy("javascript\\navigation_1.html", path);
 
-            string[] jvs = new string[] { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
+            string[] jvs = { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
 
-            string src = string.Format("{0}\\javascript\\src", typeof(HTMLViewControl).Assembly.GetPath());
+            string src = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript\\src";
             Directory.CreateDirectory(src);
 
             foreach (string jv in jvs)
             {
-                string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                string p = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript\\src\\{jv}";
                 if (!File.Exists(p))
-                    File.Copy(string.Format("javascript\\src\\{0}", jv), p);
+                    File.Copy($"javascript\\src\\{jv}", p);
             }
 
             return jvs;
@@ -167,7 +167,7 @@ namespace IntegratedTest.Tests.WPF
                 var dc = new Person();
 
                 string relp = "javascript\\navigation_1.html";
-                string path = string.Format("{0}\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), relp);
+                string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
                 var jvs = PrepareFiles();
 
                 c.Mode = JavascriptBindingMode.OneWay; 
@@ -176,9 +176,9 @@ namespace IntegratedTest.Tests.WPF
 
                 var de = await tcs.Task;
 
-                foreach (string jv in jvs)
+                foreach (var jv in jvs)
                 {
-                    string p = string.Format("{0}\\javascript\\src\\{1}", typeof(HTMLViewControl).Assembly.GetPath(), jv);
+                    string p = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript\\src\\{jv}";
                     File.Delete(p);
                 }
                 File.Delete(path);

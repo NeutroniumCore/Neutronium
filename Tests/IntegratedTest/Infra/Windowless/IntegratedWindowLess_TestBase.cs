@@ -12,7 +12,7 @@ namespace IntegratedTest.Infra.Windowless
     public abstract class IntegratedWindowLess_TestBase 
     {
         protected IWebView _WebView = null;
-        protected HTMLViewEngine _ICefGlueWindow = null;
+        protected HTMLViewEngine _ViewEngine = null;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private WindowlessTestEnvironment _TestEnvironment;
         protected readonly ITestOutputHelper _Output;
@@ -31,33 +31,34 @@ namespace IntegratedTest.Infra.Windowless
         {
         }
 
-        protected void Test(Action act, string ipath=null)
+        protected void Test(Action act, TestContext ipath= TestContext.Index)
         {
-            using (var disp = Tester(ipath))
+            using (Tester(ipath))
             {
                 Init();
                 DoSafe(act);
             }
         }
 
-        public IDisposable Tester(string ihtlmpath = null)
+        public IDisposable Tester(TestContext context = TestContext.Index)
         {
             var tester = _TestEnvironment.Build();
-            tester.Init(ihtlmpath);
-            _ICefGlueWindow = tester.ViewEngine;
+            var path = _TestEnvironment.HtmlProvider.GetHtlmPath(context, tester.AllowEarlyScriptInjection);
+            tester.Init(path);
+            _ViewEngine = tester.ViewEngine;
             _WebView = tester.WebView;
             _JavascriptFrameworkExtractor = _TestEnvironment.GetExtractor(_WebView);
             return tester;
         }
 
-        public IDispatcher  GetTestUIDispacther()
+        public IDispatcher GetTestUIDispacther()
         {
             return _TestEnvironment.TestUIDispacther;
         }
 
-        protected T GetSafe<T>(Func<T> UnsafeGet)
+        protected T GetSafe<T>(Func<T> unsafeGet)
         {
-            return _WebView.EvaluateAsync(UnsafeGet).Result;
+            return _WebView.EvaluateAsync(unsafeGet).Result;
         }
 
         internal Task RunInContext(Action act)
@@ -76,7 +77,7 @@ namespace IntegratedTest.Infra.Windowless
             using (Tester(test.Path)) 
             {
                 _Output.WriteLine("Begin Binding");
-                using (var mb = await test.Bind(_ICefGlueWindow))
+                using (var mb = await test.Bind(_ViewEngine))
                 {
                     _Output.WriteLine("End Binding");
                     _Output.WriteLine("Begin Test");
@@ -92,7 +93,7 @@ namespace IntegratedTest.Infra.Windowless
             using (Tester(test.Path)) 
             {
                 _Output.WriteLine("Begin Binding");
-                using (var mb = await test.Bind(_ICefGlueWindow)) 
+                using (var mb = await test.Bind(_ViewEngine)) 
                 {
                     _Output.WriteLine("End Binding");
                     _Output.WriteLine("Begin Test");

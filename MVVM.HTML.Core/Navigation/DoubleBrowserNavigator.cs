@@ -20,15 +20,19 @@ namespace MVVM.HTML.Core.Navigation
         private IHTMLWindowProvider _NextWebControl;
         private IHTMLBinding _HTMLBinding;
         private IWebSessionWatcher _WebSessionWatcher = new NullWatcher();
-        private Uri _Url;
         private bool _Disposed = false;
         private bool _Navigating = false;
         private bool _UseINavigable = false;
         private HTMLLogicWindow _Window;
 
-        public Uri Url => _Url;
+        public Uri Url { get; private set; }
         public IHTMLWindowProvider WebControl => _CurrentWebControl;
         public IHTMLWindow HTMLWindow => _CurrentWebControl?.HTMLWindow;
+        public bool UseINavigable 
+        {
+            get { return _UseINavigable; }
+            set { _UseINavigable = value; }
+        }
 
         public IWebSessionWatcher WebSessionWatcher
         {
@@ -47,7 +51,7 @@ namespace MVVM.HTML.Core.Navigation
         { 
             try
             {
-                LogBrowser($"{e.Message}, source {e.Source}, line number {e.Line}, page {_Url}");
+                LogBrowser($"{e.Message}, source {e.Source}, line number {e.Line}, page {Url}");
             }
             catch { }
         }
@@ -78,7 +82,7 @@ namespace MVVM.HTML.Core.Navigation
 
         private void Switch(Task<IHTMLBinding> iBinding, HTMLLogicWindow iwindow, TaskCompletionSource<IHTMLBinding> tcs)
         {
-            object oldvm = Binding?.Root;
+            var oldvm = Binding?.Root;
             Binding = iBinding.Result;
           
             if (_CurrentWebControl!=null)
@@ -193,7 +197,7 @@ namespace MVVM.HTML.Core.Navigation
                 HTML_Binding.Bind(engine, iViewModel, iMode, wh).WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
 
-            _Url = uri;
+            Url = uri;
             _NextWebControl.HTMLWindow.LoadEnd += sourceupdate;
             _NextWebControl.HTMLWindow.NavigateTo(uri);
 
@@ -248,12 +252,6 @@ namespace MVVM.HTML.Core.Navigation
             iWebControl.HTMLWindow.ConsoleMessage -= ConsoleMessage;
             iWebControl.Dispose();
             iWebControl = null;
-        }
-
-        public bool UseINavigable
-        {
-            get { return _UseINavigable; }
-            set { _UseINavigable = value; }
         }
 
         public event EventHandler<NavigationEvent> OnNavigate;

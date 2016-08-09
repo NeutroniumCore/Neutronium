@@ -15,19 +15,19 @@ namespace MVVM.HTML.Core.Navigation
         {
             try
             {
-                IDictionary<string, Uri> res = _Mapper.FindOrCreateEntity(type, t => new Dictionary<string, Uri>());
+                var res = _Mapper.FindOrCreateEntity(type, t => new Dictionary<string, Uri>());
                 res.Add(id ?? string.Empty, uri);
             }
             catch (ArgumentException)
             {
-                throw ExceptionHelper.GetArgument(string.Format("A same ViewModel type can not be registered twice {0}", type));
+                throw ExceptionHelper.GetArgument($"A same ViewModel type can not be registered twice {type}");
             }
         }
 
         private void CheckPath(string path)
         {
             if (!File.Exists(path))
-                throw ExceptionHelper.GetArgument(string.Format("Registered path does not exist: {0}", path));
+                throw ExceptionHelper.GetArgument($"Registered path does not exist: {path}");
         }
 
         private Uri CreateUri(string path)
@@ -38,7 +38,7 @@ namespace MVVM.HTML.Core.Navigation
 
         public void Register<T>(string path, string id = null)
         {
-            Register(typeof(T), CreateUri(string.Format("{0}\\{1}", Assembly.GetCallingAssembly().GetPath(), path)), id);
+            Register(typeof(T), CreateUri($"{Assembly.GetCallingAssembly().GetPath()}\\{path}"), id);
         }
 
         public void RegisterAbsolute<T>(string path, string id = null)
@@ -54,31 +54,26 @@ namespace MVVM.HTML.Core.Navigation
 
         private Uri SolveType(Type type, string id)
         {
-            IDictionary<string, Uri> dicres = null;
-            Uri res = null;
-
-            foreach (Type InType in type.GetBaseTypes())
-            {
-                if (_Mapper.TryGetValue(InType, out dicres))
-                {
-                    if (dicres.TryGetValue(id, out res))
-                        return res;
+            foreach (var inType in type.GetBaseTypes()) {
+                IDictionary<string, Uri> dicres;
+                if (!_Mapper.TryGetValue(inType, out dicres)) {
+                    continue;
                 }
+                Uri res;
+                if (dicres.TryGetValue(id, out res))
+                    return res;
             }
             return null;
         }
 
         public Uri Solve(object viewModel, string iId = null)
         {
-            string id = iId ?? string.Empty;
-            Uri res = SolveType(viewModel.GetType(), id);
+            var id = iId ?? string.Empty;
+            var res = SolveType(viewModel.GetType(), id);
             if (res != null)
                 return res;
 
-            if (id!=string.Empty)
-                return SolveType(viewModel.GetType(), string.Empty);
-
-            return null;
+            return (id!=string.Empty) ? SolveType(viewModel.GetType(), string.Empty) : null;
         }
     }
 }

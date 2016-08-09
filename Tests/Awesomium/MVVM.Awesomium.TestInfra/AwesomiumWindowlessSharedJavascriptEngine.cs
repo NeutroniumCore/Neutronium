@@ -16,6 +16,7 @@ namespace MVVM.Awesomium.TestInfra
         private readonly IJavascriptUIFrameworkManager _JavascriptUIFrameworkManager;
         private readonly TaskCompletionSource<object> _EndTaskCompletionSource;
         private IWebView _CurrentWebView;
+        public bool AllowEarlyScriptInjection => false;
 
         public AwesomiumWindowlessSharedJavascriptEngine(IJavascriptUIFrameworkManager javascriptUIFrameworkManager)
         {
@@ -23,12 +24,12 @@ namespace MVVM.Awesomium.TestInfra
             _EndTaskCompletionSource = new TaskCompletionSource<object>();
         }
 
-        public void Init(string path = "javascript\\index.html")
+        public void Init(string path)
         {
             InitAsync(path).Wait();
         }
 
-        private async Task InitAsync(string ipath = "javascript\\index.html")
+        private async Task InitAsync(string ipath)
         {
             var taskLoaded = new TaskCompletionSource<object>();
 

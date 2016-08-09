@@ -96,6 +96,10 @@
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
       <Name>IntegratedTest</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
+      <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>
+      <Name>UIFrameworkTesterHelper</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\almost_empty.html">
@@ -163,6 +167,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestHtml\javascript\empty_with_js.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\index_with_include.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestHtml\javascript\index.html">

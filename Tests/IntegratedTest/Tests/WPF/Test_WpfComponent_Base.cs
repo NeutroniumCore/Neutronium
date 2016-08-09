@@ -15,12 +15,10 @@ namespace IntegratedTest.Tests.WPF
             _WindowTestEnvironment = windowTestEnvironment;
         }
 
-
         protected string GetPath(TestContext context, HTMLControlBase control ) 
         {
              return _WindowTestEnvironment.HtmlProvider.GetHtlmPath(context, control.IsLoadInjectionSuported);
         }
-
 
         private WindowTest BuildWindow(Func<T> iWebControlFac, bool iManageLifeCycle)
         {

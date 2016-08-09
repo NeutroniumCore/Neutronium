@@ -12,6 +12,8 @@ namespace IntegratedTest.Infra.Windowless
 
         public FrameworkTestContext FrameworkTestContext  {  get; set; }
 
+        public ITestHtmlProvider HtmlProvider => FrameworkTestContext?.HtmlProvider;
+
         public IDispatcher TestUIDispacther { get; set; }
 
         public IWindowlessJavascriptEngine Build()

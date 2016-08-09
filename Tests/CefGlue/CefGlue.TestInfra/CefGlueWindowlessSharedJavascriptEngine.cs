@@ -23,7 +23,9 @@ namespace CefGlue.TestInfra
             _JavascriptUIFrameworkManager = javascriptUIFrameworkManager;
         }
 
-        public void Init(string path = "javascript\\index.html")
+        public bool AllowEarlyScriptInjection => true;
+
+        public void Init(string path)
         {
             var cc = InitTask(path).Result;
             WebView = cc.HTMLWindow.MainFrame;
@@ -49,7 +51,7 @@ namespace CefGlue.TestInfra
                 var cefClient = new TestCefClient();
 
                 ipath = ipath ?? "javascript\\index.html";
-                string fullpath = string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), ipath);
+                string fullpath = $"{Assembly.GetExecutingAssembly().GetPath()}\\{ipath}";
 
                 // Start up the browser instance.
                 CefBrowserHost.CreateBrowser(cefWindowInfo, cefClient, cefBrowserSettings, fullpath);

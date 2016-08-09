@@ -6,10 +6,33 @@ using MVVM.HTML.Core.Infra.VM;
 
 namespace MVVM.HTML.Core.Navigation.Window
 {
-    public class HTMLLogicWindow : NotifyPropertyChangedBase, INotifyPropertyChanged
+    public class HTMLLogicWindow : NotifyPropertyChangedBase
     {
         private static int _GId = 0;
         private readonly int _Id;
+
+        private WindowLogicalState _State;
+        public WindowLogicalState State
+        {
+            get { return _State; }
+            set { Set(ref _State, value, nameof(State)); }
+        }
+
+        private bool _IsLiteningOpen;
+        public bool IsLiteningOpen
+        {
+            get { return _IsLiteningOpen; }
+            set { Set(ref _IsLiteningOpen, value, nameof(IsLiteningOpen)); }
+        }
+
+        private bool _IsLiteningClose;
+        public bool IsListeningClose 
+        {
+            get { return _IsLiteningClose; }
+            set { Set(ref _IsLiteningClose, value, nameof(IsListeningClose)); }
+        }
+
+        private TaskCompletionSource<object> _OpenTask;
 
         internal HTMLLogicWindow()
         {
@@ -17,25 +40,9 @@ namespace MVVM.HTML.Core.Navigation.Window
             _State = WindowLogicalState.Loading;
             _IsLiteningClose = false;
             CloseReady = new BasicRelayCommand(() => State = WindowLogicalState.Closed);
-            EndOpen = new BasicRelayCommand(() => {  _OpenTask?.TrySetResult(null); });
+            EndOpen = new BasicRelayCommand(() => { _OpenTask?.TrySetResult(null); });
         }
 
-        private WindowLogicalState _State;
-        public WindowLogicalState State
-        {
-            get { return _State; }
-            set { Set(ref _State, value, "State"); }
-        }
-
-
-        private bool _IsLiteningOpen;
-        public bool IsLiteningOpen
-        {
-            get { return _IsLiteningOpen; }
-            set { Set(ref _IsLiteningOpen, value, "IsLiteningOpen"); }
-        }
-
-        private TaskCompletionSource<object> _OpenTask;
         public Task OpenAsync()
         {
             if (!IsListeningClose)
@@ -47,19 +54,12 @@ namespace MVVM.HTML.Core.Navigation.Window
             return _OpenTask.Task;
         }
 
-        private bool _IsLiteningClose;
-        public bool IsListeningClose
-        {
-            get { return _IsLiteningClose; }
-            set { Set(ref _IsLiteningClose, value, "IsListeningClose"); }
-        }
-
         public Task CloseAsync()
         {
             if (!IsListeningClose)
                 return TaskHelper.Ended();
 
-            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<object>();
 
             PropertyChangedEventHandler echa = null;
 

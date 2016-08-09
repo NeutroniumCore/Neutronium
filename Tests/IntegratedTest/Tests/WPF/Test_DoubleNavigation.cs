@@ -46,12 +46,12 @@ namespace IntegratedTest.Tests.WPF
 
         private void SetUpRoute(INavigationBuilder builder, HTMLWindow wpfnav)
         {
-            builder.Register<A1>(GetPath(TestContext.Navigation1, wpfnav));
-            builder.Register<AA1>(GetPath(TestContext.Navigation1, wpfnav));
-            builder.Register<A2>(GetPath(TestContext.Navigation2, wpfnav));
-            //builder.Register<A1>("javascript\\navigation_1.html");
-            //builder.Register<AA1>("javascript\\navigation_1.html");
-            //builder.Register<A2>("javascript\\navigation_2.html");
+            //builder.Register<A1>(GetPath(TestContext.Navigation1, wpfnav));
+            //builder.Register<AA1>(GetPath(TestContext.Navigation1, wpfnav));
+            //builder.Register<A2>(GetPath(TestContext.Navigation2, wpfnav));
+            builder.Register<A1>("javascript\\navigation_1.html");
+            builder.Register<AA1>("javascript\\navigation_1.html");
+            builder.Register<A2>("javascript\\navigation_2.html");
         }
 
         #region ViewModel
@@ -69,8 +69,8 @@ namespace IntegratedTest.Tests.WPF
                 GoTo1 = new RelayCommand(() => Navigation.NavigateAsync(new A2()));
             }
 
-            public ICommand GoTo1 { get; private set; }
-            public ICommand Change { get; private set; }
+            public ICommand GoTo1 { get; }
+            public ICommand Change { get; }
         }
 
         private class AA1 : A
@@ -392,17 +392,13 @@ namespace IntegratedTest.Tests.WPF
                 await wpfnav.NavigateAsync(a1);
 
                 a1.Navigation.Should().NotBeNull();
-                var expected = Path.GetFileName(GetPath(TestContext.Navigation1, wpfnav));
-                wpfnav.Source.AbsolutePath.Should().EndWith(expected);
-                //wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
 
                 await wpfnav.NavigateAsync(a2);
 
                 a2.Navigation.Should().NotBeNull();
                 a1.Navigation.Should().BeNull();
-                var expected2 = Path.GetFileName(GetPath(TestContext.Navigation2, wpfnav));
-                wpfnav.Source.AbsolutePath.Should().EndWith(expected2);
-                //wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
             });
         }
 
