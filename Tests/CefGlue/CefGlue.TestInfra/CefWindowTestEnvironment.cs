@@ -1,7 +1,7 @@
 ﻿using HTMLEngine.CefGlue;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
-using IntegratedTest.JavascriptUIFramework;
+using UIFrameworkTesterHelper;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHtml;
 using MVVM.HTML.Core.JavascriptUIFramework;

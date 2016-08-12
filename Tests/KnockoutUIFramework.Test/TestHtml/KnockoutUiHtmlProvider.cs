@@ -2,7 +2,7 @@
 
 namespace KnockoutUIFramework.Test.TestHtml 
 {
-    public class KnockoutUiHtmlProvider : ConventionalTestHtmlProvider 
+    public class KnockoutUiHtmlProvider : ConventionalTestHtmlProvider
     {  
     }
 }

@@ -1,17 +1,20 @@
 ﻿using System;
-using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.Infra;
 
 namespace UIFrameworkTesterHelper
 {
     public class ConventionalTestHtmlProvider : ITestHtmlProvider 
     {
-        public string GetHtlmPath(TestContext context, bool allowInitialScriptInjection) 
+        public ConventionalTestHtmlProvider()
+        {
+        }
+
+        public string GetHtlmPath(TestContext context) 
         {
             switch (context) 
             {
                 case TestContext.Index:
-                    return BuildPath(allowInitialScriptInjection ? "Navigation data\\index.html" : "Navigation data\\index_with_include.html");
+                    return BuildPath("javascript\\index.html");
 
                 case TestContext.Simple:
                     return BuildPath("javascript\\simple.html");
@@ -36,7 +39,6 @@ namespace UIFrameworkTesterHelper
 
                 case TestContext.Navigation3:
                     return BuildPath("javascript\\navigation_3.html");
-
             }
             throw new NotImplementedException();
         }

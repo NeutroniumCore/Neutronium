@@ -41,6 +41,24 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.dll</HintPath>
@@ -141,9 +159,17 @@
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
       <Name>IntegratedTest</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj">
+      <Project>{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}</Project>
+      <Name>KnockoutUIFramework.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVVM.HTML.Core.Test\MVVM.HTML.Core.Test.csproj">
       <Project>{a766ac1e-10fd-4d77-a95f-f1974fb0fefc}</Project>
       <Name>MVVM.HTML.Core.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
+      <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>
+      <Name>UIFrameworkTesterHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

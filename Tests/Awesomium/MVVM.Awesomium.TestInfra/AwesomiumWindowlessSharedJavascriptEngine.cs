@@ -16,7 +16,6 @@ namespace MVVM.Awesomium.TestInfra
         private readonly IJavascriptUIFrameworkManager _JavascriptUIFrameworkManager;
         private readonly TaskCompletionSource<object> _EndTaskCompletionSource;
         private IWebView _CurrentWebView;
-        public bool AllowEarlyScriptInjection => false;
 
         public AwesomiumWindowlessSharedJavascriptEngine(IJavascriptUIFrameworkManager javascriptUIFrameworkManager)
         {
@@ -36,8 +35,7 @@ namespace MVVM.Awesomium.TestInfra
             WebCore.QueueWork( () => 
             {
                 _CurrentWebView = WebCore.CreateWebView(500, 500);
-                ipath = ipath ?? "javascript\\index.html";
-                var uri = new Uri($"{Assembly.GetExecutingAssembly().GetPath()}\\{ipath}");
+                var uri = new Uri(ipath);
                 _CurrentWebView.Source = uri;
                 WebView = new AwesomiumWebView(_CurrentWebView);
                 var htmlWindowProvider = new AwesomiumTestHTMLWindowProvider(WebView, uri);

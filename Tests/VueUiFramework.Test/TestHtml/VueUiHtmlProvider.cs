@@ -1,11 +1,11 @@
 ﻿using System;
-using IntegratedTest.JavascriptUIFramework;
+using UIFrameworkTesterHelper;
 
 namespace VueUiFramework.Test.TestHtml 
 {
-    public class VueUiHtmlProvider : ITestHtmlProvider 
+    public class VueUiHtmlProvider : ITestHtmlProvider
     {
-        public string GetHtlmPath(TestContext context, bool allowInitialScriptInjection) 
+        public string GetHtlmPath(TestContext context) 
         {
             throw new NotImplementedException();
         }

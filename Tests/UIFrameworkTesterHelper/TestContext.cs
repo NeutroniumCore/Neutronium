@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace IntegratedTest.JavascriptUIFramework 
+namespace UIFrameworkTesterHelper
 {
     public enum TestContext 
     {

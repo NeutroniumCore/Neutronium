@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
+using UIFrameworkTesterHelper;
 
 namespace IntegratedTest.Infra.Windowless
 {

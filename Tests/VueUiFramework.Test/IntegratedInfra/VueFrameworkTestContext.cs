@@ -1,4 +1,5 @@
 ﻿using IntegratedTest.JavascriptUIFramework;
+using KnockoutUIFramework.Test.TestHtml;
 
 namespace VueUiFramework.Test.IntegratedInfra
 {
@@ -9,7 +10,8 @@ namespace VueUiFramework.Test.IntegratedInfra
             return new FrameworkTestContext
             {
                 JavascriptFrameworkExtractorBuilder = (webView) => new VueExtractor(webView),
-                FrameworkManager = new VueSessionInjector()
+                FrameworkManager = new VueSessionInjector(),
+                HtmlProvider = new KnockoutUiHtmlProvider()
             };
         }
     }

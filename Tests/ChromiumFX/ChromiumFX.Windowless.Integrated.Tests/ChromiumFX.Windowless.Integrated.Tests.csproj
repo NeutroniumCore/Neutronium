@@ -313,6 +313,10 @@
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
+      <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>
+      <Name>UIFrameworkTesterHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ChromiumFX.TestInfra\ChromiumFX.TestInfra.csproj">
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
       <Name>ChromiumFX.TestInfra</Name>

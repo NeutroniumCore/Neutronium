@@ -1,4 +1,5 @@
 ﻿using IntegratedTest.JavascriptUIFramework;
+using KnockoutUIFramework.Test.TestHtml;
 
 namespace KnockoutUIFramework.Test.IntegratedInfra 
 {
@@ -9,7 +10,8 @@ namespace KnockoutUIFramework.Test.IntegratedInfra
             return new FrameworkTestContext 
             {
                 JavascriptFrameworkExtractorBuilder = (webView) => new KnockoutExtractor(webView),
-                FrameworkManager = new KnockoutUiFrameworkManager()
+                FrameworkManager = new KnockoutUiFrameworkManager(),
+                HtmlProvider = new KnockoutUiHtmlProvider()
             };
         }
     }

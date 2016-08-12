@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using IntegratedTest.JavascriptUIFramework;
+using UIFrameworkTesterHelper;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
 

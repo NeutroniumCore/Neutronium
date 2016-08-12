@@ -6,6 +6,7 @@ using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Xunit.Abstractions;
+using UIFrameworkTesterHelper;
 
 namespace IntegratedTest.Infra.Windowless
 {
@@ -43,7 +44,7 @@ namespace IntegratedTest.Infra.Windowless
         public IDisposable Tester(TestContext context = TestContext.Index)
         {
             var tester = _TestEnvironment.Build();
-            var path = _TestEnvironment.HtmlProvider.GetHtlmPath(context, tester.AllowEarlyScriptInjection);
+            var path = _TestEnvironment.HtmlProvider.GetHtlmPath(context);
             tester.Init(path);
             _ViewEngine = tester.ViewEngine;
             _WebView = tester.WebView;

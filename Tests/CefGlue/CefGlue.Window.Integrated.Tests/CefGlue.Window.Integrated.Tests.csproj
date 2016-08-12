@@ -126,6 +126,11 @@
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
+      <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>
+      <Name>UIFrameworkTesterHelper</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\CefGlue.TestInfra\CefGlue.TestInfra.csproj">
       <Project>{947cc0fa-7f1c-4cf9-a908-1a29ed232f19}</Project>
       <Name>CefGlue.TestInfra</Name>

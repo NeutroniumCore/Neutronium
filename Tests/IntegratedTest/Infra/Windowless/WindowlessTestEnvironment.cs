@@ -3,6 +3,7 @@ using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using UIFrameworkTesterHelper;
 
 namespace IntegratedTest.Infra.Windowless 
 {

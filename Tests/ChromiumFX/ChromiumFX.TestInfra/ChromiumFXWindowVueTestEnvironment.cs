@@ -1,7 +1,7 @@
 ﻿using HTMEngine.ChromiumFX;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
-using IntegratedTest.JavascriptUIFramework;
+using UIFrameworkTesterHelper;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using VueUiFramework;
 using VueUiFramework.Test.TestHtml;

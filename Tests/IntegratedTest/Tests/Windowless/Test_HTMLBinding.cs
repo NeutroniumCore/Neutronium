@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using FluentAssertions;
 using IntegratedTest.Infra.Windowless;
-using IntegratedTest.JavascriptUIFramework;
 using IntegratedTest.TestData;
 using MVVM.Component;
 using MVVM.HTML.Core;
@@ -22,8 +21,9 @@ using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 using Xunit.Abstractions;
+using UIFrameworkTesterHelper;
 
-namespace IntegratedTest.Tests.Windowless 
+namespace IntegratedTest.Tests.Windowless
 {
     public abstract class Test_HTMLBinding : IntegratedWindowLess_TestBase
     {

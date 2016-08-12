@@ -23,8 +23,6 @@ namespace CefGlue.TestInfra
             _JavascriptUIFrameworkManager = javascriptUIFrameworkManager;
         }
 
-        public bool AllowEarlyScriptInjection => true;
-
         public void Init(string path)
         {
             var cc = InitTask(path).Result;
@@ -35,7 +33,7 @@ namespace CefGlue.TestInfra
 
         public HTMLViewEngine ViewEngine { get; private set; }
 
-        private Task<IHTMLWindowProvider> InitTask(string ipath)
+        private Task<IHTMLWindowProvider> InitTask(string fullpath)
         {
             TaskCompletionSource<IHTMLWindowProvider> tcs = new TaskCompletionSource<IHTMLWindowProvider>();
             Task.Run(async () =>
@@ -50,8 +48,8 @@ namespace CefGlue.TestInfra
                 // Initialize some the cust interactions with the browser process.
                 var cefClient = new TestCefClient();
 
-                ipath = ipath ?? "javascript\\index.html";
-                string fullpath = $"{Assembly.GetExecutingAssembly().GetPath()}\\{ipath}";
+                //ipath = ipath ?? "javascript\\index.html";
+                //string fullpath = $"{Assembly.GetExecutingAssembly().GetPath()}\\{ipath}";
 
                 // Start up the browser instance.
                 CefBrowserHost.CreateBrowser(cefWindowInfo, cefClient, cefBrowserSettings, fullpath);

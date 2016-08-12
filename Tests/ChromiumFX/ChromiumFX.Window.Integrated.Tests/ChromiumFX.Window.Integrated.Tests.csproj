@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ChromiumFX.Window.Integrated.Tests</RootNamespace>
     <AssemblyName>ChromiumFX.Window.Integrated.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,24 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChromiumFX, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
@@ -95,6 +114,10 @@
     <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
       <Name>IntegratedTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
+      <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>
+      <Name>UIFrameworkTesterHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\ChromiumFX.TestInfra\ChromiumFX.TestInfra.csproj">
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
