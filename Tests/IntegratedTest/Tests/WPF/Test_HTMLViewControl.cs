@@ -78,18 +78,18 @@ namespace IntegratedTest.Tests.WPF
         [Fact]
         public async Task OnDisplay_ShouldBeFired_OnDataContextChanges()
         {
-            await Test(async (c, w) =>
+            await Test(async (viewControl, w) =>
             {
                 var tcs = new TaskCompletionSource<DisplayEvent>();
 
                 EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { tcs.TrySetResult(e); c.OnDisplay -= ea; };
-                c.OnDisplay += ea;
+                ea = (o, e) => { tcs.TrySetResult(e); viewControl.OnDisplay -= ea; };
+                viewControl.OnDisplay += ea;
                 var dc = new Person();
 
-                c.Mode = JavascriptBindingMode.OneWay;
+                viewControl.Mode = JavascriptBindingMode.OneWay;
                 string relp = "javascript\\navigation_1.html";
-                c.Uri = new Uri($"{Assembly.GetAssembly(typeof (Test_HTMLViewControl)).GetPath()}\\{relp}");
+                viewControl.Uri = new Uri($"{Assembly.GetAssembly(typeof (Test_HTMLViewControl)).GetPath()}\\{relp}");
                 w.Window.DataContext = dc;
 
                 var de = await tcs.Task;

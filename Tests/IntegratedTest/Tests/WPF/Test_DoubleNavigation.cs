@@ -7,7 +7,6 @@ using System.Windows.Input;
 using FluentAssertions;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
-using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
@@ -46,9 +45,6 @@ namespace IntegratedTest.Tests.WPF
 
         private void SetUpRoute(INavigationBuilder builder, HTMLWindow wpfnav)
         {
-            //builder.Register<A1>(GetPath(TestContext.Navigation1, wpfnav));
-            //builder.Register<AA1>(GetPath(TestContext.Navigation1, wpfnav));
-            //builder.Register<A2>(GetPath(TestContext.Navigation2, wpfnav));
             builder.Register<A1>("javascript\\navigation_1.html");
             builder.Register<AA1>("javascript\\navigation_1.html");
             builder.Register<A2>("javascript\\navigation_2.html");
