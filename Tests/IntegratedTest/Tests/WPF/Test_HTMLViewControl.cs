@@ -132,7 +132,7 @@ namespace IntegratedTest.Tests.WPF
 
         private string[] PrepareFiles()
         {
-            string relp = "javascript\\navigation_1.html";
+            string relp = "javascript2\\navigation_1.html";
             string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
             string nd = Path.GetDirectoryName(path);
             Directory.CreateDirectory(nd);
@@ -142,12 +142,12 @@ namespace IntegratedTest.Tests.WPF
 
             string[] jvs = { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
 
-            string src = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript\\src";
+            string src = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript2\\src";
             Directory.CreateDirectory(src);
 
             foreach (string jv in jvs)
             {
-                string p = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript\\src\\{jv}";
+                string p = $"{src}\\{jv}";
                 if (!File.Exists(p))
                     File.Copy($"javascript\\src\\{jv}", p);
             }
@@ -166,7 +166,7 @@ namespace IntegratedTest.Tests.WPF
                 c.OnDisplay += ea;
                 var dc = new Person();
 
-                string relp = "javascript\\navigation_1.html";
+                string relp = "javascript2\\navigation_1.html";
                 string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
                 var jvs = PrepareFiles();
 
@@ -178,7 +178,7 @@ namespace IntegratedTest.Tests.WPF
 
                 foreach (var jv in jvs)
                 {
-                    string p = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript\\src\\{jv}";
+                    string p = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript2\\src\\{jv}";
                     File.Delete(p);
                 }
                 File.Delete(path);
