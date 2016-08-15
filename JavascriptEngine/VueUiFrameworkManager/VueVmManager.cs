@@ -26,7 +26,7 @@ namespace VueUiFramework
         private IJavascriptObject GetVueHelper() 
         {
             var vueHelper = _WebView.GetGlobal().GetValue("glueHelper");
-            if ((vueHelper == null) || (!vueHelper.IsObject))
+            if ((vueHelper == null) || (vueHelper.IsUndefined))
                 throw ExceptionHelper.Get("glueHelper not found!");
 
             return vueHelper;

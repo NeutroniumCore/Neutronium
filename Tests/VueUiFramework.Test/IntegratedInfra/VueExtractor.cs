@@ -1,4 +1,5 @@
-﻿using IntegratedTest.Infra.Windowless;
+﻿using System;
+using IntegratedTest.Infra.Windowless;
 using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
@@ -22,6 +23,11 @@ namespace VueUiFramework.Test.IntegratedInfra
             return _WebView.Evaluate(() => value.GetValue(attibutename).GetBoolValue());
         }
 
+        public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename)
+        {
+            return GetAttribute(value, attibutename);
+        }
+
         public double GetDoubleAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.GetValue(attibutename).GetDoubleValue());
@@ -35,6 +41,11 @@ namespace VueUiFramework.Test.IntegratedInfra
         public string GetStringAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.GetValue(attibutename).GetStringValue());
+        }
+
+        public void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        {
+            _WebView.Run(() => father.SetValue(attibutename, value));
         }
     }
 }

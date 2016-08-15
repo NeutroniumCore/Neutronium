@@ -8,13 +8,13 @@ using ChromiumFX.TestInfra.Helper;
 using HTMEngine.ChromiumFX.EngineBinding;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
-using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using IntegratedTest.JavascriptUIFramework;
 
-namespace ChromiumFX.TestInfra 
+namespace ChromiumFX.TestInfra
 {
-    public class ChromiumFXWindowLessHTMLEngineProvider: IWindowLessHTMLEngineProvider 
+    public abstract class ChromiumFXWindowLessHTMLEngineProvider: IWindowLessHTMLEngineProvider 
     {
         private bool _Runing = false;
         private readonly WpfThread _WpfThread;
@@ -91,10 +91,12 @@ namespace ChromiumFX.TestInfra
             return new WindowlessTestEnvironment() 
             {
                 WindowlessJavascriptEngineBuilder = (frameWork) => CreateWindowlessJavascriptEngine(frameWork),
-                FrameworkTestContext = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext(),
+                FrameworkTestContext = FrameworkTestContext,
                 TestUIDispacther = new NullUIDispatcher()
             };
         }
+
+        protected abstract FrameworkTestContext FrameworkTestContext { get; }
 
         private IWindowlessJavascriptEngine CreateWindowlessJavascriptEngine(IJavascriptUIFrameworkManager frameWork) 
         {

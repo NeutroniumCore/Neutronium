@@ -86,12 +86,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChromiumFXWindowVueTestContext.cs" />
     <Compile Include="ChromiumFXWindowKoTestContext.cs" />
+    <Compile Include="ChromiumFXWindowKoTestEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test_DoubleNavigation_Animation_ChromiumFX.cs" />
     <Compile Include="Test_DoubleNavigation_ChromiumFX.cs" />
-    <Compile Include="Test_HTMLViewControl_Vue_ChromiumFX.cs" />
     <Compile Include="Test_HTMLViewControl_Ko_ChromiumFX.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +106,10 @@
       <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
       <Name>HTMEngine.ChromiumFX</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\JavascriptEngine\KnockoutUIFramework\KnockoutUIFramework.csproj">
+      <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
+      <Name>KnockoutUIFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
@@ -114,6 +117,10 @@
     <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
       <Name>IntegratedTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj">
+      <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
+      <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
       <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>

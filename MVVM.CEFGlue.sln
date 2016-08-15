@@ -117,6 +117,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.Coll
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIFrameworkTesterHelper", "Tests\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj", "{D6F39E8C-BF8F-454E-8512-B46BE149C339}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromiumFx.Windowless.Vue.Integrated.Tests", "Tests\ChromiumFX\ChromiumFx.Windowless.Vue.Integrated.Tests\ChromiumFx.Windowless.Vue.Integrated.Tests.csproj", "{EC705868-6EC1-4338-82F7-6663E0BE002C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -801,6 +803,22 @@ Global
 		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|x64.Build.0 = Release|Any CPU
 		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|x86.ActiveCfg = Release|x86
 		{D6F39E8C-BF8F-454E-8512-B46BE149C339}.Release|x86.Build.0 = Release|x86
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Debug|x64.Build.0 = Debug|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Release|x64.Build.0 = Release|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC705868-6EC1-4338-82F7-6663E0BE002C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -851,6 +869,7 @@ Global
 		{80D4F5CA-1065-4487-8FDE-9FEE9821716C} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{D6F39E8C-BF8F-454E-8512-B46BE149C339} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
+		{EC705868-6EC1-4338-82F7-6663E0BE002C} = {3C1F3260-722C-4C57-93F6-DB044D7E73E4}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

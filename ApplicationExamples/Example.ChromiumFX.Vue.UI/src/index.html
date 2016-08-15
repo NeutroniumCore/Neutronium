@@ -21,8 +21,8 @@
 <body>
     <div id="main">
         <input type="text" v-model="Name" placeholder="First name">
-        <ul v-for="skill in Skills">
-            <li>
+        <ul>
+            <li v-for="skill in Skills">
                 <span>{{skill.Type}}</span>:<span>{{skill.Name}}</span>
                 <button @click="RemoveSkill.Execute(skill)">
                     Remove skill
