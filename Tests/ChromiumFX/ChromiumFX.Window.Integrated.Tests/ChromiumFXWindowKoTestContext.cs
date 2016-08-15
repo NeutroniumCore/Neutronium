@@ -1,5 +1,4 @@
-﻿using ChromiumFX.TestInfra;
-using Xunit;
+﻿using Xunit;
 
 namespace ChromiumFX.Window.Integrated.Tests
 {

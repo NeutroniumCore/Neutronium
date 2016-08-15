@@ -146,7 +146,6 @@
     <ProjectReference Include="..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
       <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>
       <Name>UIFrameworkTesterHelper</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -32,7 +32,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
             _HTMLViewContext = context;
             _Command = command;
        
-            bool canexecute = true;
+            var canexecute = true;
             try
             {
                 canexecute = _Command.CanExecute(null);
@@ -74,7 +74,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
 
         private void CanExecuteCommand(IJavascriptObject[] e)
         {
-            bool res = _Command.CanExecute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
+            var res = _Command.CanExecute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
             UpdateProperty("CanExecuteValue", (f) => f.CreateBool(res));
         }
 

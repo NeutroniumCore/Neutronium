@@ -30,7 +30,7 @@ namespace IntegratedTest.Tests.Windowless
         private readonly Person _DataContext;
         private ICommand _ICommand;
 
-        public Test_HTMLBinding(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+        protected Test_HTMLBinding(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
             _ICommand = Substitute.For<ICommand>();

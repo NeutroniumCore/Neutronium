@@ -1,5 +1,4 @@
-﻿using ChromiumFX.TestInfra;
-using IntegratedTest.Tests.WPF;
+﻿using IntegratedTest.Tests.WPF;
 using Xunit;
 
 namespace ChromiumFX.Window.Integrated.Tests

@@ -6,7 +6,7 @@ using KnockoutUIFramework.Test.TestHtml;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using UIFrameworkTesterHelper;
 
-namespace ChromiumFX.TestInfra
+namespace ChromiumFX.Window.Integrated.Tests
 {
     public class ChromiumFXWindowKoTestEnvironment : WindowTestEnvironment 
     {
