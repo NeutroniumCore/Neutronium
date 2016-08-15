@@ -5,7 +5,7 @@ namespace VueUiFramework.Test.IntegratedInfra
 {
     public class VueFrameworkTestContext
     {
-        public static FrameworkTestContext GetKnockoutFrameworkTestContext()
+        public static FrameworkTestContext GetVueFrameworkTestContext()
         {
             return new FrameworkTestContext
             {

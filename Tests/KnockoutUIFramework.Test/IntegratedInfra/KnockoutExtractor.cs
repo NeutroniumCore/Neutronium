@@ -1,4 +1,4 @@
-﻿using IntegratedTest.Infra.Windowless;
+﻿using System;
 using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
@@ -15,6 +15,12 @@ namespace KnockoutUIFramework.Test.IntegratedInfra
         public IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView));
+        }
+
+        public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename)
+        {
+            var almost = GetAttribute(value, attibutename);
+            return almost.ExecuteFunction(_WebView);
         }
 
         public string GetStringAttribute(IJavascriptObject value, string attibutename)
@@ -35,6 +41,11 @@ namespace KnockoutUIFramework.Test.IntegratedInfra
         public bool GetBoolAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetBoolValue());
+        }
+
+        public void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        {
+            _WebView.Evaluate(() => father.Invoke(attibutename, _WebView, value));
         }
     }
 }

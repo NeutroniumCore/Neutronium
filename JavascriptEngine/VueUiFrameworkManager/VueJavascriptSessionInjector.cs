@@ -20,7 +20,7 @@ namespace VueUiFramework
 
         public IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper mapper)
         {
-            mapper.AutoMap();   
+            mapper?.AutoMap();   
             return rawObject;
         }
 

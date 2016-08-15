@@ -104,9 +104,19 @@ namespace IntegratedTest.Infra.Windowless
             }            
         }
 
+        protected void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        {
+            _JavascriptFrameworkExtractor.SetAttribute(father, attibutename, value);
+        }
+
         protected IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
         {
             return _JavascriptFrameworkExtractor.GetAttribute(value, attibutename);
+        }
+
+        protected IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename)
+        {
+            return _JavascriptFrameworkExtractor.GetCollectionAttribute(value, attibutename);
         }
 
         protected string GetStringAttribute(IJavascriptObject value, string attibutename)
@@ -142,6 +152,11 @@ namespace IntegratedTest.Infra.Windowless
         protected void Call(IJavascriptObject value, string functionname, Func<IJavascriptObject> parameter)
         {
             _WebView.Run(() => value.Invoke(functionname, _WebView, parameter()));
+        }
+
+        protected IJavascriptObject Create(Func<IJavascriptObject> factory)
+        {
+            return _WebView.Evaluate(() => factory());
         }
 
         protected void DoSafe(Action Doact)

@@ -4,8 +4,8 @@ using Xunit;
 namespace ChromiumFX.Windowless.Integrated.Tests 
 {
 
-    [CollectionDefinition("ChromiumFX Windowless Integrated")]
-    public class ChromiumFXWindowlessTestContext : ICollectionFixture<ChromiumFXWindowLessHTMLEngineProvider> 
+    [CollectionDefinition("ChromiumFX Ko Windowless Integrated")]
+    public class ChromiumFXWindowlessTestContext : ICollectionFixture<ChromiumFXWindowLessHTMLEngineProviderKo> 
     {
     }
 }

@@ -51,7 +51,7 @@ namespace IntegratedTest.Infra.Window
 
         public void Dispose() 
         {
-            WpfThread.Release();
+            WpfThread?.Release();
         }
     }
 }

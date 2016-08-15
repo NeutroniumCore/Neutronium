@@ -1,13 +1,8 @@
-﻿using System;
-using UIFrameworkTesterHelper;
+﻿using UIFrameworkTesterHelper;
 
-namespace VueUiFramework.Test.TestHtml 
+namespace VueUiFramework.Test.TestHtml
 {
-    public class VueUiHtmlProvider : ITestHtmlProvider
+    public class VueUiHtmlProvider : ConventionalTestHtmlProvider
     {
-        public string GetHtlmPath(TestContext context) 
-        {
-            throw new NotImplementedException();
-        }
     }
 }

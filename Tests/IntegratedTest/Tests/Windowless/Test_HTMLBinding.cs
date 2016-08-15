@@ -194,30 +194,29 @@ namespace IntegratedTest.Tests.Windowless
                     string res3 = GetStringAttribute(js, "Name");
                     res3.Should().Be("O Monstro");
 
-                    string res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                    string res4 = GetLocalCity(js);
                     res4.Should().Be("Florianopolis");
 
                     _DataContext.Local.City = "Paris";
                     await Task.Delay(200);
 
                     //onetime does not update javascript from  C# 
-                    res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                    res4 = GetLocalCity(js);
                     res4.Should().Be("Florianopolis");
 
-                    string res5 = GetSafe(() =>
-                        js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue()
-                        );
+                    string res5 = GetFirstSkillName(js);
                     res5.Should().Be("Langage");
 
                     _DataContext.Skills[0].Name = "Ling";
                     await Task.Delay(200);
 
                     //onetime does not update javascript from  C# 
-                    res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                    res5 = GetFirstSkillName(js);
                     res5.Should().Be("Langage");
 
                     //onetime does not update C# from javascript
-                    this.Call(js, "Name", () => _WebView.Factory.CreateString("resName"));
+                    var stringName = Create(() => _WebView.Factory.CreateString("resName"));
+                    SetAttribute(js, "Name", stringName);
                     await Task.Delay(200);
                     _DataContext.Name.Should().Be("23");
                 }
@@ -241,7 +240,6 @@ namespace IntegratedTest.Tests.Windowless
                     string JSON = JsonConvert.SerializeObject(_DataContext);
                     string alm = jsbridge.ToString();
 
-
                     string res = GetStringAttribute(js, "Name");
                     res.Should().Be("O Monstro");
 
@@ -254,32 +252,43 @@ namespace IntegratedTest.Tests.Windowless
                     string res3 = GetStringAttribute(js, "Name");
                     res3.Should().Be("23");
 
-                    string res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                    string res4 = GetLocalCity( js);
                     res4.Should().Be("Florianopolis");
 
                     _DataContext.Local.City = "Paris";
                     await Task.Delay(200);
 
-                    res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                    res4 = GetLocalCity(js);
                     ((string)res4).Should().Be("Paris");
 
-                    string res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                    string res5 = GetFirstSkillName(js);
                     res5.Should().Be("Langage");
 
                     _DataContext.Skills[0].Name = "Ling";
                     await Task.Delay(200);
 
-                    res5 = GetSafe(() => GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue()));
+                    res5 = GetFirstSkillName(js);
                     res5.Should().Be("Ling");
 
-
-                    this.Call(js, "Name", () => _WebView.Factory.CreateString("resName"));
+                    var stringName = Create(() => _WebView.Factory.CreateString("resName"));
+                    SetAttribute(js, "Name", stringName);
                     await Task.Delay(200);
                     _DataContext.Name.Should().Be("23");
                 }
             };
 
             await RunAsync(test);
+        }
+
+        private string GetLocalCity(IJavascriptObject js)
+        {
+            return GetStringAttribute(GetAttribute(js, "Local"), "City"); ;
+        }
+
+        private string GetFirstSkillName(IJavascriptObject javascriptObject)
+        {
+            var firstSkill = GetCollectionAttribute(javascriptObject, "Skills").GetValue(0);
+            return GetStringAttribute(firstSkill, "Name");
         }
 
         private class Dummy
@@ -333,7 +342,6 @@ namespace IntegratedTest.Tests.Windowless
 
             await RunAsync(test);
         }
-
 
 
         [Fact]
@@ -466,11 +474,13 @@ namespace IntegratedTest.Tests.Windowless
                     string res = GetStringAttribute(js, "Name");
                     res.Should().Be("teste0");
 
-                    this.Call(js, "Name", () => _WebView.Factory.CreateString("teste1"));
+                    var expected = "teste1";
+                    var stringValue = Create(() => _WebView.Factory.CreateString(expected));
+                    SetAttribute(js, "Name", stringValue);
 
                     await Task.Delay(50);
 
-                    datacontext.Name.Should().Be("teste1");
+                    datacontext.Name.Should().Be(expected);
                     _Output.WriteLine("Test ended sucessfully");
                 }
             };
@@ -503,26 +513,27 @@ namespace IntegratedTest.Tests.Windowless
                       string res3 = GetStringAttribute(js, "Name");
                       res3.Should().Be("23");
 
-                      string res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                      string res4 = GetLocalCity(js);
                       res4.Should().Be("Florianopolis");
 
                       _DataContext.Local.City = "Paris";
                       await Task.Delay(50);
 
-                      res4 = GetSafe(() => js.Invoke("Local", this._WebView).Invoke("City", this._WebView).GetStringValue());
+                       res4 = GetLocalCity(js);
                       ((string)res4).Should().Be("Paris");
 
-                      string res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                      string res5 = GetFirstSkillName(js);
                       res5.Should().Be("Langage");
 
                       _DataContext.Skills[0].Name = "Ling";
                       await Task.Delay(50);
 
-                      res5 = GetSafe(() => js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView).GetValue(0).Invoke("Name", this._WebView).GetStringValue());
+                      res5 = GetFirstSkillName(js);
                       res5.Should().Be("Ling");
 
                       //Teste Two Way
-                      this.Call(js, "Name", () => _WebView.Factory.CreateString("resName"));
+                      var stringName = Create(() => _WebView.Factory.CreateString("resName"));
+                      SetAttribute(js, "Name", stringName);
 
                       await Task.Delay(150);
                       string resName = GetStringAttribute(js, "Name");
@@ -637,13 +648,13 @@ namespace IntegratedTest.Tests.Windowless
                       dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                       dres.Should().Be("Single");
 
-                      var othervalue = GetSafe(() => js.Invoke("States", _WebView).ExecuteFunction(_WebView));
+                      var othervalue = GetCollectionAttribute(js, "States");
 
                       var di = othervalue.GetValue(2);
-                      string name = GetSafe(() => di.GetValue("displayName").GetStringValue());
+                      string name = GetStringAttribute(di, "displayName");
                       name.Should().Be("Divorced");
 
-                      this.DoSafe(() => js.Invoke("PersonalState", _WebView, di));
+                      SetAttribute(js, "PersonalState", di);
                       await Task.Delay(100);
 
                       _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
@@ -720,7 +731,9 @@ namespace IntegratedTest.Tests.Windowless
                       var n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      DoSafe(() => Call(js, "One", () => GetAttribute(js, "Two")));
+                      var jsValue = GetAttribute(js, "Two");
+                      SetAttribute(js, "One", jsValue);
+
                       await Task.Delay(100);
 
                       var res3 = GetAttribute(js, "One");
@@ -735,7 +748,8 @@ namespace IntegratedTest.Tests.Windowless
                       var res4 = GetAttribute(res3, "ChildrenNumber");
                       res4.IsNull.Should().BeTrue();
 
-                      DoSafe(() => Call(res3, "ChildrenNumber", _WebView.Factory.CreateInt(5)));
+                      var five = Create(()=> _WebView.Factory.CreateInt(5));
+                      SetAttribute(res3, "ChildrenNumber", five);
                       await Task.Delay(100);
 
                       datacontext.One.ChildrenNumber.Should().Be(5);
@@ -771,7 +785,9 @@ namespace IntegratedTest.Tests.Windowless
                       string n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      DoSafe(() => Call(js, "One", _WebView.Factory.CreateNull()));
+                      var nullSO = Create(() => _WebView.Factory.CreateNull());
+                      SetAttribute(js, "One", nullSO);
+
                       await Task.Delay(100);
                       var res3 = GetAttribute(js, "One");
                       //GetSafe(() => res3.IsNull).Should().BeTrue();
@@ -1199,13 +1215,6 @@ namespace IntegratedTest.Tests.Windowless
             await RunAsync(test);
         }
 
-
-        private void SetValue(IJavascriptObject js, string pn, IJavascriptObject value)
-        {
-            this.Call(js, pn, value);
-        }
-
-
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_CLR_Type_FromjavascripttoCto()
         {
@@ -1220,39 +1229,39 @@ namespace IntegratedTest.Tests.Windowless
                     var js = mb.JSRootObject;
                     js.Should().NotBeNull();
 
-                    SetValue(js, "int64", _WebView.Factory.CreateInt(32));
+                    SetAttribute(js, "int64", _WebView.Factory.CreateInt(32));
                     await Task.Delay(200);
                     datacontext.int64.Should().Be(32);
 
-                    SetValue(js, "uint64",  _WebView.Factory.CreateInt(456));
+                    SetAttribute(js, "uint64",  _WebView.Factory.CreateInt(456));
                     await Task.Delay(200);
                     datacontext.uint64.Should().Be(456);
 
-                    SetValue(js, "int32",  _WebView.Factory.CreateInt(5));
+                    SetAttribute(js, "int32",  _WebView.Factory.CreateInt(5));
                     await Task.Delay(200);
                     datacontext.int32.Should().Be(5);
 
-                    SetValue(js, "uint32",  _WebView.Factory.CreateInt(67));
+                    SetAttribute(js, "uint32",  _WebView.Factory.CreateInt(67));
                     await Task.Delay(200);
                     datacontext.uint32.Should().Be(67);
 
-                    SetValue(js, "int16",  _WebView.Factory.CreateInt(-23));
+                    SetAttribute(js, "int16",  _WebView.Factory.CreateInt(-23));
                     await Task.Delay(200);
                     datacontext.int16.Should().Be(-23);
 
-                    SetValue(js, "uint16",  _WebView.Factory.CreateInt(9));
+                    SetAttribute(js, "uint16",  _WebView.Factory.CreateInt(9));
                     await Task.Delay(200);
                     datacontext.uint16.Should().Be(9);
 
-                    SetValue(js, "Float",  _WebView.Factory.CreateDouble(888.78));
+                    SetAttribute(js, "Float",  _WebView.Factory.CreateDouble(888.78));
                     await Task.Delay(200);
                     datacontext.Float.Should().Be(888.78f);
 
-                    SetValue(js, "Double",  _WebView.Factory.CreateDouble(866.76));
+                    SetAttribute(js, "Double",  _WebView.Factory.CreateDouble(866.76));
                     await Task.Delay(200);
                     datacontext.Double.Should().Be(866.76);
 
-                    SetValue(js, "Decimal",  _WebView.Factory.CreateDouble(0.5));
+                    SetAttribute(js, "Decimal",  _WebView.Factory.CreateDouble(0.5));
                     await Task.Delay(200);
                     datacontext.Decimal.Should().Be(0.5m);
                 }
@@ -1403,8 +1412,7 @@ namespace IntegratedTest.Tests.Windowless
 
                     await Task.Delay(150);
 
-                    var res = GetSafe(() =>
-                        js.Invoke("Skills", this._WebView).ExecuteFunction(_WebView));
+                    var res = GetCollectionAttribute(js , "Skills");
 
                     res.Should().NotBeNull();
                     res.GetArrayLength().Should().Be(3);
@@ -1576,10 +1584,11 @@ namespace IntegratedTest.Tests.Windowless
             await RunAsync(test);
         }
 
-        private IJavascriptObject UnWrapCollection(IJavascriptObject root, string att)
-        {
-            return root.Invoke(att, this._WebView).ExecuteFunction(_WebView);
-        }
+        //private IJavascriptObject UnWrapCollection(IJavascriptObject root, string att)
+        //{
+        //    return root.Invoke(att, this._WebView).ExecuteFunction(_WebView);
+        //    return 
+        //}
 
         [Fact]
         public async Task Test_HTMLBinding_Basic_TwoWay_Collection()
@@ -1592,7 +1601,7 @@ namespace IntegratedTest.Tests.Windowless
                 {
                     var js = mb.JSRootObject;
 
-                    var col = UnWrapCollection(js, "Skills");
+                    var col = GetCollectionAttribute(js, "Skills");
                     col.Should().NotBeNull();
                     col.GetArrayLength().Should().Be(2);
 
@@ -1601,39 +1610,39 @@ namespace IntegratedTest.Tests.Windowless
                     _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
 
                     await Task.Delay(1000);
-                    col = UnWrapCollection(js, "Skills");
+                    col = GetCollectionAttribute(js, "Skills");
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills.Insert(0, new Skill() { Name = "C#", Type = "Info" });
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills.RemoveAt(1);
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills[0] = new Skill() { Name = "HTML", Type = "Info" };
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
                     _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
 
                     _DataContext.Skills.Clear();
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
                 }
@@ -1653,7 +1662,7 @@ namespace IntegratedTest.Tests.Windowless
                 {
                     var js = mb.JSRootObject;
 
-                    var col = GetSafe(() => UnWrapCollection(js, "Skills")); ;
+                    var col = GetSafe(() => GetCollectionAttribute(js, "Skills")); ;
                     col.GetArrayLength().Should().Be(2);
 
                     Check(col, _DataContext.Skills);
@@ -1661,7 +1670,7 @@ namespace IntegratedTest.Tests.Windowless
                     _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
 
                     await Task.Delay(150);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
@@ -1680,7 +1689,7 @@ namespace IntegratedTest.Tests.Windowless
                     while (notok)
                     {
                         await Task.Delay(10);
-                        col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                        col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                         notok = col.GetArrayLength() != tcount;
                     }
                     stopWatch.Stop();
@@ -1740,7 +1749,7 @@ namespace IntegratedTest.Tests.Windowless
 
                     var js = mb.JSRootObject;
 
-                    var col = GetSafe(() => UnWrapCollection(js, "L1"));
+                    var col = GetSafe(() => GetCollectionAttribute(js, "L1"));
                     col.GetArrayLength().Should().Be(r);
 
                     TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(excpected));
@@ -1766,10 +1775,10 @@ namespace IntegratedTest.Tests.Windowless
                 {
                     var js = mb.JSRootObject;
 
-                    var col1 = GetSafe(() => UnWrapCollection(js, "L1"));
+                    var col1 = GetSafe(() => GetCollectionAttribute(js, "L1"));
                     col1.GetArrayLength().Should().Be(r);
 
-                    var col2 = GetSafe(() => UnWrapCollection(js, "L2"));
+                    var col2 = GetSafe(() => GetCollectionAttribute(js, "L2"));
                     col2.GetArrayLength().Should().Be(0);
 
                     var l2c = GetAttribute(js, "L2");
@@ -1862,7 +1871,7 @@ namespace IntegratedTest.Tests.Windowless
                     var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
                     var js = mb.JSRootObject;
 
-                    var col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    var col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.GetArrayLength().Should().Be(2);
 
                     Check(col, _DataContext.Skills);
@@ -1873,14 +1882,14 @@ namespace IntegratedTest.Tests.Windowless
                     await Task.Delay(5000);
                     _DataContext.Skills.Should().HaveCount(3);
                     _DataContext.Skills[2].Should().Be(_DataContext.Skills[0]);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
                     Call(coll, "pop");
 
                     await Task.Delay(100);
                     _DataContext.Skills.Should().HaveCount(2);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
@@ -1888,7 +1897,7 @@ namespace IntegratedTest.Tests.Windowless
 
                     await Task.Delay(100);
                     _DataContext.Skills.Should().HaveCount(1);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
 
@@ -1897,13 +1906,13 @@ namespace IntegratedTest.Tests.Windowless
 
                     await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(2);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills.Add(new Skill() { Type = "Langage", Name = "French" });
                     await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(3);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
 
@@ -1911,7 +1920,7 @@ namespace IntegratedTest.Tests.Windowless
 
                     await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(3);
-                    col = GetSafe(() => UnWrapCollection(js, "Skills"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
                 }
             };
@@ -1931,7 +1940,7 @@ namespace IntegratedTest.Tests.Windowless
                     var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
                     var js = mb.JSRootObject;
 
-                    var col = UnWrapCollection(js, "Skills");
+                    var col = GetCollectionAttribute(js, "Skills");
                     col.GetArrayLength().Should().Be(2);
 
                     Check(col, _DataContext.Skills);
@@ -2015,8 +2024,11 @@ namespace IntegratedTest.Tests.Windowless
                     int res = GetIntAttribute(js, "decimalValue");
                     res.Should().Be(0);
 
-                    Call(js, "decimalValue", _WebView.Factory.CreateDouble(0.5));
-                    await Task.Yield();
+                    //Call(js, "decimalValue", _WebView.Factory.CreateDouble(0.5));
+                    var halfJavascript = Create(() => _WebView.Factory.CreateDouble(0.5));
+                    SetAttribute(js, "decimalValue", halfJavascript);
+                    await Task.Delay(200);
+                   
                     datacontext.decimalValue.Should().Be(0.5m);
 
                     double doublev = GetDoubleAttribute(js, "decimalValue");
@@ -2057,7 +2069,9 @@ namespace IntegratedTest.Tests.Windowless
                     var doublev = GetDoubleAttribute(js, "longValue");
                     doublev.Should().Be(45);
 
-                    Call(js, "longValue",  _WebView.Factory.CreateInt(24524));
+                    var intValue = 24524;
+                    var jsInt = Create(() => _WebView.Factory.CreateInt(intValue));
+                    SetAttribute(js, "longValue", jsInt);
                     await Task.Delay(100);
 
                     datacontext.longValue.Should().Be(24524);
@@ -2083,49 +2097,49 @@ namespace IntegratedTest.Tests.Windowless
                 {
                     var js = mb.JSRootObject;
 
-                    var col = GetSafe(() => UnWrapCollection(js, "List"));
+                    var col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     col.GetArrayLength().Should().Be(0);
                     await Task.Delay(200);
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Add("titi");
                     await Task.Delay(200);
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Add("kiki");
                     datacontext.List.Add("toto");
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Move(0, 2);
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Move(2, 1);
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     Checkstring(col, datacontext.List);
 
                     var comp = new List<string>(datacontext.List);
                     comp.Add("newvalue");
 
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     var chcol = GetAttribute(js, "List");
                     Call(chcol, "push", _WebView.Factory.CreateString("newvalue"));
 
                     await Task.Delay(350);
 
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
                     datacontext.List.Should().Equal(comp);
                     Checkstring(col, datacontext.List);
 
                     datacontext.List.Clear();
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
                     Checkstring(col, datacontext.List);
                 }
@@ -2146,7 +2160,7 @@ namespace IntegratedTest.Tests.Windowless
                 {
                     var js = mb.JSRootObject;
 
-                    var col = GetSafe(() => UnWrapCollection(js, "Items"));
+                    var col = GetSafe(() => GetCollectionAttribute(js, "Items"));
                     col.GetArrayLength().Should().NotBe(0);
 
 
@@ -2155,7 +2169,7 @@ namespace IntegratedTest.Tests.Windowless
                     datacontext.Items.Should().BeEmpty();
 
                     await Task.Delay(300);
-                    col = GetSafe(() => UnWrapCollection(js, "Items"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "Items"));
                     col.GetArrayLength().Should().Be(0);
                 }
             };
@@ -2177,13 +2191,13 @@ namespace IntegratedTest.Tests.Windowless
                 {
                     var js = mb.JSRootObject;
 
-                    var col = GetSafe(() => UnWrapCollection(js, "List"));
+                    var col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     col.GetArrayLength().Should().Be(1);
 
                     var res = GetAttribute(js, "List");
                     Call(res, "push", _WebView.Factory.CreateString("newvalue"));
 
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     col.GetArrayLength().Should().Be(2);
 
                     await Task.Delay(350);
@@ -2209,7 +2223,7 @@ namespace IntegratedTest.Tests.Windowless
                 {
                     var js = mb.JSRootObject;
 
-                    var col = GetSafe(() => UnWrapCollection(js, "List"));
+                    var col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     col.GetArrayLength().Should().Be(0);
 
                     Checkdecimal(col, datacontext.List);
@@ -2217,7 +2231,7 @@ namespace IntegratedTest.Tests.Windowless
                     datacontext.List.Add(3);
 
                     await Task.Delay(150);
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
                     Checkdecimal(col, datacontext.List);
 
@@ -2225,12 +2239,12 @@ namespace IntegratedTest.Tests.Windowless
                     datacontext.List.Add(126);
 
                     await Task.Delay(150);
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
                     Checkdecimal(col, datacontext.List);
 
                     await Task.Delay(100);
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
                     Checkdecimal(col, datacontext.List);
 
@@ -2242,7 +2256,7 @@ namespace IntegratedTest.Tests.Windowless
 
                     await Task.Delay(500);
 
-                    col = GetSafe(() => UnWrapCollection(js, "List"));
+                    col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
                     comp.Should().Equal(datacontext.List);
                     Checkdecimal(col, datacontext.List);
@@ -2274,12 +2288,10 @@ namespace IntegratedTest.Tests.Windowless
                     string res2 = GetStringAttribute(js, "LastName");
                     res2.Should().Be("Desmaisons");
 
-
-                    string res4 = CallWithRes(GetAttribute(js, "Local"), "City").GetStringValue();
+                    string res4 = GetLocalCity(js);
                     res4.Should().Be("Florianopolis");
 
-                    var res45 = UnWrapCollection(js, "Skills");
-                    string res5 = CallWithRes(res45.GetValue(0), "Name").GetStringValue();
+                    var res5 = GetFirstSkillName(js);
                     res5.Should().Be("Langage");
                 }
             };
