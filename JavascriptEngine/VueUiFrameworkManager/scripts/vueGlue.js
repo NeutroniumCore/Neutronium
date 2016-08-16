@@ -1,4 +1,5 @@
-﻿(function() {
+﻿(function () {
+    console.log("VueGlue loaded");
 
     var visited = new Map();
 

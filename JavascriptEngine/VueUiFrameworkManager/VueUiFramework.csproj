@@ -92,6 +92,7 @@
     <Content Include="scripts\devtools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="scripts\vueComandDirective.js" />
     <EmbeddedResource Include="scripts\hook.js" />
     <EmbeddedResource Include="scripts\vuedebug.js" />
   </ItemGroup>

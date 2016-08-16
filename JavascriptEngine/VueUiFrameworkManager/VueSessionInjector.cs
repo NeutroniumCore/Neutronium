@@ -63,6 +63,7 @@ namespace VueUiFramework
                 yield return "hook.js";
             yield return "vue.js";
             yield return "subscribeArray.min.js";
+            yield return "vueComandDirective.js";
             yield return "vueGlue.js";
         }
 

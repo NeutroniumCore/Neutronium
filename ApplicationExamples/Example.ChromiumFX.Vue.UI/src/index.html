@@ -65,6 +65,8 @@
         <button @click="RemoveSkills.Execute()">Remove skills</button>
 
         <div class="button" @dblclick="Command.Execute($data)">Add skill</div>
+
+        <div class="button" v-comand:dblclick="Command" :comandarg="$data">Add skill New Way</div>
     </div>
     <script src="js/init.js"></script>
 </body>
