@@ -651,7 +651,7 @@ namespace IntegratedTest.Tests.Windowless
                       var othervalue = GetCollectionAttribute(js, "States");
 
                       var di = othervalue.GetValue(2);
-                      string name = GetStringAttribute(di, "displayName");
+                      string name = di.GetValue("displayName").GetStringValue();
                       name.Should().Be("Divorced");
 
                       SetAttribute(js, "PersonalState", di);
