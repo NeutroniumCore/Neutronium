@@ -75,13 +75,11 @@ namespace MVVM.ViewModel.Infra
             set { if (_ShouldExecute != value) { _ShouldExecute = value; FireCanExecuteChanged(); } }
         }
 
-        [DebuggerStepThrough]
         public bool CanExecute(object parameter)
         {
             return _ShouldExecute;
         }
 
-        [DebuggerStepThrough]
         public void Execute(object parameter)
         {
             _execute();
@@ -89,8 +87,7 @@ namespace MVVM.ViewModel.Infra
 
         private void FireCanExecuteChanged()
         {
-            if (CanExecuteChanged != null)
-                CanExecuteChanged(this, EventArgs.Empty);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
          public event EventHandler CanExecuteChanged;

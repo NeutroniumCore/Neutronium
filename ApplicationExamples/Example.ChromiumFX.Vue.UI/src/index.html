@@ -19,6 +19,12 @@
 
 	</head>
 <body>
+    <template id="commandbuttontemplate">
+        <div class="button" :class="{ 'on': canExecute, 'off' :!canExecute }" @dblclick="execute">
+            {{msg}}
+        </div>
+    </template>
+
     <div id="main">
         <input type="text" v-model="Name" placeholder="First name">
         <ul>
@@ -62,11 +68,11 @@
         <img height="200" width="200" :src="enumImage(Sex)">
 
         <button @click="ChangeSkill.Execute($data)">Change skill</button>
-        <button @click="RemoveSkills.Execute()">Remove skills</button>
+        <button v-command="RemoveSkills">Remove skills</button>
 
-        <div class="button" @dblclick="Command.Execute($data)">Add skill</div>
+        <!--<div class="button" v-command:dblclick="Command" :commandarg="$data">Add skill</div>-->
 
-        <div class="button" v-comand:dblclick="Command" :comandarg="$data">Add skill New Way</div>
+        <commandbutton msg="Add skill" :command="Command"></commandbutton>
     </div>
     <script src="js/init.js"></script>
 </body>
