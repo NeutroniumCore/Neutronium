@@ -14,6 +14,14 @@ namespace HTMEngine.ChromiumFX.V8Object
         private readonly CfrV8Value _CfrV8Value;
         private readonly Lazy<HashSet<CfrV8Handler>> _Functions = new Lazy<HashSet<CfrV8Handler>>();
 
+        public bool IsUndefined => _CfrV8Value.IsUndefined;
+        public bool IsNull => _CfrV8Value.IsNull;
+        public bool IsObject => _CfrV8Value.IsObject;
+        public bool IsArray => _CfrV8Value.IsArray;
+        public bool IsString => _CfrV8Value.IsString;
+        public bool IsNumber => _CfrV8Value.IsDouble || _CfrV8Value.IsUint || _CfrV8Value.IsInt;
+        public bool IsBool => _CfrV8Value.IsBool;
+
         public ChromiumFXJavascriptObject(CfrV8Value cfrV8Value) 
         {
             _CfrV8Value = cfrV8Value?? CfrV8Value.CreateUndefined();
@@ -30,14 +38,6 @@ namespace HTMEngine.ChromiumFX.V8Object
             if (_Functions.IsValueCreated)
                 _Functions.Value.Clear();
         }
-
-        public bool IsUndefined => _CfrV8Value.IsUndefined;
-        public bool IsNull => _CfrV8Value.IsNull;
-        public bool IsObject => _CfrV8Value.IsObject; 
-        public bool IsArray => _CfrV8Value.IsArray;
-        public bool IsString => _CfrV8Value.IsString;
-        public bool IsNumber => _CfrV8Value.IsDouble || _CfrV8Value.IsUint || _CfrV8Value.IsInt;
-        public bool IsBool => _CfrV8Value.IsBool; 
 
         public int GetArrayLength() 
         {

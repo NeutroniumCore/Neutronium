@@ -1311,8 +1311,10 @@ namespace IntegratedTest.Tests.Windowless
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
+                    await Task.Yield();
+
                     var js = mb.JSRootObject;
 
                     var mycommand = GetAttribute(js, "TestCommand");

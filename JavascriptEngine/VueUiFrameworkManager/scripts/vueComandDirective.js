@@ -26,12 +26,11 @@
 
     var comand = Object.assign({
         execute: function (newValue, arg) {
-            if (newValue.CanExecute(arg) == undefined && newValue.CanExecuteValue)
+            newValue.CanExecute(arg);
+            if (newValue.CanExecuteValue)
                 newValue.Execute(arg);
         }
     }, base);
-
-    Vue.directive("command", comand);
 
     var simpleComand = Object.assign({
         execute: function (newValue, arg) {
@@ -39,6 +38,7 @@
         }
     }, base);
 
+    Vue.directive("command", comand);
     Vue.directive("simpleCommand", simpleComand);
 
     var commandMixin = {
@@ -55,18 +55,24 @@
             }
         },
         watch: {
-            'command.CanExecuteCount': function() {
-                this.command.CanExecute(this.arg);
+            'command.CanExecuteCount': function () {
+                this.computeCanExecute();
+            },
+            arg: function () {
+                this.computeCanExecute();
             }
         },
         ready: function () {
-            Vue.nextTick(function () {
+            setTimeout(() => {
                 if (!!this.arg)
-                    this.command.CanExecute(this.arg);
-            })
+                    this.computeCanExecute();
+            });
         },
-        methods:{
-            execute: function(){
+        methods: {
+            computeCanExecute: function () {
+                this.command.CanExecute(this.arg);
+            },
+            execute: function () {
                 if (this.canExecute) {
                     var beforeCb = this.beforeCommand;
                     if (!!beforeCb)

@@ -67,7 +67,6 @@
     <Compile Include="ChromiumFXWindowLessHTMLEngineProviderVue.cs" />
     <Compile Include="ChromiumFXWindowlessTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test_ConvertToJSO_ChromiumFX_Vue.cs" />
     <Compile Include="Test_HTMLBinding_ChromiumFX._Vue.cs" />
   </ItemGroup>
   <ItemGroup>

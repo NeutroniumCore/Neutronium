@@ -61,6 +61,12 @@ namespace VueUiFramework
             _WebView.RunAsync(() =>
             {
                 var silenter = GetOrCreateSilenter(father);
+                if (silenter.IsUndefined) {
+                    //may happen if code being call between register and inject
+                    //in this case just set attribute value. The value will be register after
+                    father.SetValue(propertyName, value);
+                    return;
+                }
                 var forProperty = silenter.GetValue(propertyName);
                 forProperty.Invoke("silence", _WebView, value);
                 InjectUnsafe(value);
@@ -80,7 +86,11 @@ namespace VueUiFramework
 
         private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father)
         {
-            return _Silenters.FindOrCreateEntity(father, _ => father.GetValue("__silenter"));
+            var candidate = _Silenters.FindOrCreateEntity(father, _ => father.GetValue("__silenter"));
+            if (candidate.IsUndefined) {
+                _Silenters.Remove(father);
+            }
+            return candidate;
         }
     }
 }
