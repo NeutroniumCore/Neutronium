@@ -59,6 +59,12 @@
                 this.command.CanExecute(this.arg);
             }
         },
+        ready: function () {
+            Vue.nextTick(function () {
+                if (!!this.arg)
+                    this.command.CanExecute(this.arg);
+            })
+        },
         methods:{
             execute: function(){
                 if (this.canExecute) {

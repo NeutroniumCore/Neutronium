@@ -26,7 +26,6 @@
             msg: String
         },
         template: "#commandbuttontemplate"
-        //template: '<div class="button" :class="{ ''on'': canExecute, "off": !canExecute }" @dblclick="execute">{{msg}}</div>'
     })
 
     Vue._vmMixin = [localMixin, glueHelper.enumMixin];

@@ -121,6 +121,10 @@
       <Link>TestHtml\javascript\src\vue.min.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vueComandDirective.js">
+      <Link>TestHtml\javascript\src\vueComandDirective.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vueGlue.js">
       <Link>TestHtml\javascript\src\vueGlue.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
