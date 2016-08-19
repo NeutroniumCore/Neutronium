@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -10,12 +11,13 @@ namespace KnockoutUIFramework
         private string _JavascriptDebugScript;
         private string _MainScript;
 
+        public IWebSessionLogger WebSessionLogger { get; set; }
         public string FrameworkName => "knockout.js 3.3.0";
         public string Name => "KnockoutInjector";
 
         public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener) 
         {
-            return new KnockoutUiVmManager(webView, listener);
+            return new KnockoutUiVmManager(webView, listener, WebSessionLogger);
         }
 
         public string GetDebugScript()

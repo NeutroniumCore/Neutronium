@@ -134,6 +134,7 @@
     <Compile Include="JavascriptEngine\Window\IHTMLModernWindow.cs" />
     <Compile Include="JavascriptEngine\Window\IHTMLWindow.cs" />
     <Compile Include="JavascriptEngine\Window\LoadEndEventArgs.cs" />
+    <Compile Include="Infra\NullLogger.cs" />
     <Compile Include="Navigation\DisplayEvent.cs" />
     <Compile Include="Navigation\INavigable.cs" />
     <Compile Include="Navigation\INavigationBuilder.cs" />
@@ -155,8 +156,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Navigation\IUrlSolver.cs" />
-    <Compile Include="IWebSessionWatcher.cs" />
-    <Compile Include="Navigation\NullWatcher.cs" />
+    <Compile Include="IWebSessionLogger.cs" />
+    <Compile Include="Infra\BasicLogger.cs" />
     <Compile Include="JavascriptEngine\Control\IWebViewLifeCycleManager.cs" />
     <Compile Include="Navigation\NavigationEvent.cs" />
     <Compile Include="Navigation\NavigationBuilder.cs" />

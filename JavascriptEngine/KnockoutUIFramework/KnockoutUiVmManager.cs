@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using MVVM.HTML.Core;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
 namespace KnockoutUIFramework 
@@ -10,10 +11,12 @@ namespace KnockoutUIFramework
 
         private readonly KnockoutSessionInjector _KnockoutSessionInjector;
         private readonly KnockoutViewModelUpdater _KnockoutViewModelUpdater;
+        private readonly IWebSessionLogger _Logger;
 
-        public KnockoutUiVmManager(IWebView webView, IJavascriptObject listener)
+        public KnockoutUiVmManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger)
         {
-            _KnockoutSessionInjector = new KnockoutSessionInjector(webView, listener);
+            _Logger = logger;
+            _KnockoutSessionInjector = new KnockoutSessionInjector(webView, listener, _Logger);
             _KnockoutViewModelUpdater = new KnockoutViewModelUpdater(webView);
         }
 

@@ -45,7 +45,8 @@ namespace IntegratedTest.Infra.Windowless
         {
             var tester = _TestEnvironment.Build();
             var path = _TestEnvironment.HtmlProvider.GetHtlmPath(context);
-            tester.Init(path);
+            var testLogger = new TestLogger(_Output);
+            tester.Init(path, testLogger);
             _ViewEngine = tester.ViewEngine;
             _WebView = tester.WebView;
             _JavascriptFrameworkExtractor = _TestEnvironment.GetExtractor(_WebView);

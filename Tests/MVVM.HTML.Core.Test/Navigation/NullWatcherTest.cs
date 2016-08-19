@@ -1,4 +1,5 @@
 ﻿using System;
+using MVVM.HTML.Core.Infra;
 using Xunit;
 using MVVM.HTML.Core.Navigation;
 
@@ -6,25 +7,25 @@ namespace MVVM.HTML.Core.Test
 {
     public class NullWatcherTest
     {
-        private readonly IWebSessionWatcher _NullWatcher = new NullWatcher();
+        private readonly IWebSessionLogger _nullLogger = new BasicLogger();
        
         [Fact]
         public void Test_LogCritical()
         {
-            _NullWatcher.LogCritical(string.Empty);
+            _nullLogger.Error(string.Empty);
         }
 
         [Fact]
         public void Test_LogBrowser()
         {
-            _NullWatcher.LogBrowser(string.Empty);
+            _nullLogger.LogBrowser(null, null);
         }
 
 
         [Fact]
         public void Test_OnSessionError()
         {
-            _NullWatcher.OnSessionError(new Exception(), () => { });
+            _nullLogger.WebBrowserError(new Exception(), () => { });
         }
     }
 }

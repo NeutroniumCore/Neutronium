@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using Awesomium.Core;
 using HTMLEngine.Awesomium.HTMLEngine;
 using HTMLEngine.Awesomium.Internal;
 using IntegratedTest.Infra.Windowless;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using Xunit.Abstractions;
 
 namespace MVVM.Awesomium.TestInfra 
 {
@@ -23,12 +23,12 @@ namespace MVVM.Awesomium.TestInfra
             _EndTaskCompletionSource = new TaskCompletionSource<object>();
         }
 
-        public void Init(string path)
+        public void Init(string path, IWebSessionLogger logger)
         {
-            InitAsync(path).Wait();
+            InitAsync(path, logger).Wait();
         }
 
-        private async Task InitAsync(string ipath)
+        private async Task InitAsync(string ipath, IWebSessionLogger logger)
         {
             var taskLoaded = new TaskCompletionSource<object>();
 
@@ -39,10 +39,7 @@ namespace MVVM.Awesomium.TestInfra
                 _CurrentWebView.Source = uri;
                 WebView = new AwesomiumWebView(_CurrentWebView);
                 var htmlWindowProvider = new AwesomiumTestHTMLWindowProvider(WebView, uri);
-                ViewEngine = new HTMLViewEngine(
-                    htmlWindowProvider,
-                    _JavascriptUIFrameworkManager
-                );
+                ViewEngine = new HTMLViewEngine(  htmlWindowProvider,  _JavascriptUIFrameworkManager, logger );
                 var viewReadyExecuter = new ViewReadyExecuter(_CurrentWebView, () => { taskLoaded.TrySetResult(null); });
                 viewReadyExecuter.Do();
             });

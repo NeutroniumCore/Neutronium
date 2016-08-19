@@ -9,13 +9,13 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using System.Diagnostics;
 
 namespace MVVM.HTML.Core.Binding
 {
     public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, IJavascriptChangesObserver   
     {
-        private readonly HTMLViewContext _Context;        
+        private readonly HTMLViewContext _Context;
+        private readonly IWebSessionLogger _Logger;
         private readonly JavascriptBindingMode _BindingMode;
         private readonly CSharpToJavascriptConverter _JSObjectBuilder;
         private readonly IJavascriptSessionInjector _sessionInjector;
@@ -30,9 +30,10 @@ namespace MVVM.HTML.Core.Binding
         public JavascriptBindingMode Mode => _BindingMode;
         public HTMLViewContext Context => _Context;
 
-        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, object addicionalObject)
+        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, object addicionalObject, IWebSessionLogger logger)
         {        
-            _BindingMode = iMode; 
+            _BindingMode = iMode;
+            _Logger = logger;
             var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
             _Context = contextBuilder.GetMainContext(javascriptObjecChanges);
             _sessionInjector = _Context.JavascriptSessionInjector;  
@@ -46,7 +47,7 @@ namespace MVVM.HTML.Core.Binding
                                         (c) => c.UnListenChanges());
             var commandFactory = new CommandFactory(_Context, this);
             RegisterJavascriptHelper();
-            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, commandFactory) ;
+            _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, commandFactory, _Logger) ;
             _Root = _JSObjectBuilder.Map(iRoot, addicionalObject); 
         }
 
@@ -144,10 +145,10 @@ namespace MVVM.HTML.Core.Binding
                 if (res == null)
                     return;
 
-                var propertyAccessor = new PropertyAccessor(res.CValue, propertyName);
+                var propertyAccessor = new PropertyAccessor(res.CValue, propertyName, _Logger);
                 if (!propertyAccessor.IsSettable)
                 {
-                    Trace.WriteLine($"MVVM for CEFGlue: Unable to set C# from javascript object: property: {propertyName} is readonly.");
+                    _Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
                     return;
                 }
                
@@ -163,7 +164,7 @@ namespace MVVM.HTML.Core.Binding
             }
             catch (Exception e)
             {
-                ExceptionHelper.Log($"Unable to update ViewModel from View, exception raised: {e}");
+                _Logger.Error(() =>$"Unable to update ViewModel from View, exception raised: {e.Message}");
             }
         }
 
@@ -184,14 +185,14 @@ namespace MVVM.HTML.Core.Binding
             }
             catch (Exception e)
             {
-                ExceptionHelper.Log($"Unable to update ViewModel from View, exception raised: {e}");
+                _Logger.Error(() =>$"Unable to update ViewModel from View, exception raised: {e.Message}");
             }
         }
 
         private async void CSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         { 
             var pn = e.PropertyName;
-            var propertyAccessor = new PropertyAccessor(sender, pn);
+            var propertyAccessor = new PropertyAccessor(sender, pn, _Logger);
             if (!propertyAccessor.IsGettable)
                 return;
 
@@ -310,7 +311,7 @@ namespace MVVM.HTML.Core.Binding
             object targetvalue = null;
             bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, targetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
-                Trace.WriteLine($"MVVM for CEFGlue: Unable to convert javascript object: { globalkey} to C# session. Value will be default to null. Please check javascript bindings.");
+                _Logger.Info(() => $"Unable to convert javascript object: { globalkey} to C# session. Value will be default to null. Please check javascript bindings.");
 
             return new JSBasicObject(globalkey, targetvalue);
         }

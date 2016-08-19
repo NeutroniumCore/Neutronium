@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
@@ -15,11 +14,13 @@ namespace MVVM.HTML.Core.Binding
     {
         private readonly IJavascriptSessionCache _Cacher;
         private readonly IJSCommandFactory _CommandFactory;
+        private readonly IWebSessionLogger _Logger;
         private readonly HTMLViewContext _Context;
 
-        public CSharpToJavascriptConverter(HTMLViewContext context, IJavascriptSessionCache icacher, IJSCommandFactory commandFactory)
+        public CSharpToJavascriptConverter(HTMLViewContext context, IJavascriptSessionCache icacher, IJSCommandFactory commandFactory, IWebSessionLogger logger)
         {
             _CommandFactory = commandFactory;
+            _Logger = logger;
             _Context = context;
             _Cacher = icacher;
         }
@@ -93,7 +94,7 @@ namespace MVVM.HTML.Core.Binding
                 }
                 catch(Exception e)
                 {
-                    Trace.WriteLine($"MVVM for CEFGlue: Unable to convert property {propertyName} from {@from} exception {e}");
+                    _Logger.Info(()=> $"Unable to convert property {propertyName} from {@from} exception {e}");
                     continue;
                 }
 

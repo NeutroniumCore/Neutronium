@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Extension;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
@@ -11,6 +12,7 @@ namespace KnockoutUIFramework
     internal class KnockoutSessionInjector : IJavascriptSessionInjector
     {
         private readonly IWebView _WebView;
+        private readonly IWebSessionLogger _logger;
         private readonly Queue<IJavascriptObjectMapper> _JavascriptMapper = new Queue<IJavascriptObjectMapper>();
         private IJavascriptObject _Listener;
         private IJavascriptObjectMapper _Current;
@@ -18,10 +20,11 @@ namespace KnockoutUIFramework
         private bool _PullNextMapper = true;
         private IJavascriptObject _Ko;
 
-        public KnockoutSessionInjector(IWebView webView, IJavascriptObject listener)
+        public KnockoutSessionInjector(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger)
         {
             _WebView = webView;
             _Listener = listener;
+            _logger = logger;
         }
 
         public void Dispose()
@@ -53,7 +56,7 @@ namespace KnockoutUIFramework
             if ((_Ko == null) || (!_Ko.IsObject))
                 throw ExceptionHelper.Get("ko object not found! You should add a link to knockout.js script to the HML document!");
 
-            _Ko.Bind("log", _WebView, (e) => ExceptionHelper.Log(string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
+            _Ko.Bind("log", _WebView, (e) => _logger.Info(() => string.Join(" - ", e.Select(s => (s.GetStringValue().Replace("\n", " "))))));
 
             return _Ko;
         }
@@ -102,8 +105,7 @@ namespace KnockoutUIFramework
                 if (_PullNextMapper)
                     _Current = _JavascriptMapper.Dequeue();
 
-                if (_Current != null)
-                    _Current.EndMapping(e[0]);
+                _Current?.EndMapping(e[0]);
                 _Current = null;
                 _PullNextMapper = true;
             });

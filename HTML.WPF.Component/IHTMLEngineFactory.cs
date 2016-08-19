@@ -51,8 +51,8 @@ namespace HTML_WPF.Component
         void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager);
 
         /// <summary>
-        /// get or set WebSessionWatcher
+        /// get or set WebSessionLogger
         /// </summary>
-        IWebSessionWatcher WebSessionWatcher { get; set; }
+        IWebSessionLogger WebSessionLogger { get; set; }
     }
 }

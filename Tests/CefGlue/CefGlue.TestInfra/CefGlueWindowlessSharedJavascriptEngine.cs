@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading.Tasks;
 using CefGlue.TestInfra.CefWindowless;
 using IntegratedTest.Infra.Windowless;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -23,9 +22,9 @@ namespace CefGlue.TestInfra
             _JavascriptUIFrameworkManager = javascriptUIFrameworkManager;
         }
 
-        public void Init(string path)
+        public void Init(string path, IWebSessionLogger logger)
         {
-            var cc = InitTask(path).Result;
+            var cc = InitTask(path, logger).Result;
             WebView = cc.HTMLWindow.MainFrame;
         }
 
@@ -33,7 +32,7 @@ namespace CefGlue.TestInfra
 
         public HTMLViewEngine ViewEngine { get; private set; }
 
-        private Task<IHTMLWindowProvider> InitTask(string fullpath)
+        private Task<IHTMLWindowProvider> InitTask(string fullpath, IWebSessionLogger logger)
         {
             TaskCompletionSource<IHTMLWindowProvider> tcs = new TaskCompletionSource<IHTMLWindowProvider>();
             Task.Run(async () =>
@@ -58,9 +57,7 @@ namespace CefGlue.TestInfra
 
                 _CefFrame = _CefBrowser.GetMainFrame();
                 var htmlWindowProvider = new TestCefGlueHTMLWindowProvider(_CefFrame);
-                ViewEngine = new HTMLViewEngine(
-                    htmlWindowProvider,
-                    _JavascriptUIFrameworkManager);
+                ViewEngine = new HTMLViewEngine( htmlWindowProvider,  _JavascriptUIFrameworkManager, logger);
                 tcs.SetResult(htmlWindowProvider);
             });
 

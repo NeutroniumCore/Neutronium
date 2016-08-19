@@ -11,18 +11,18 @@ namespace HTMEngine.ChromiumFX
     public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory 
     {
         private readonly ChromiumFXSession _Session;
-        private CfxSettings _Settings;
 
+        public CfxSettings Settings { get; private set; }
         public string EngineName => "Chromium " + CfxRuntime.GetChromeVersion();
         public string Name => "ChromiumFX";
         public CfxBrowserSettings BrtowserSettings => ChromiumWebBrowser.DefaultBrowserSettings;
+        public IWebSessionLogger WebSessionLogger { get; set; }
 
         public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsUpdater=null)
         {
             _Session = ChromiumFXSession.GetSession((settings) => 
             {
-                if (settingsUpdater != null)
-                    settingsUpdater(settings);
+                settingsUpdater?.Invoke(settings);
 
                 settings.LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales");
                 settings.ResourcesDirPath = System.IO.Path.GetFullPath(@"cef\Resources");
@@ -30,7 +30,7 @@ namespace HTMEngine.ChromiumFX
                 settings.MultiThreadedMessageLoop = true;
                 settings.SingleProcess = false;
 
-                _Settings = settings;
+                Settings = settings;
             });
         }
 
@@ -38,8 +38,6 @@ namespace HTMEngine.ChromiumFX
         {
             return new ChromiumFXWPFWindow();
         }
-
-        public IWebSessionWatcher WebSessionWatcher { get; set; }
 
         public void Dispose()
         {

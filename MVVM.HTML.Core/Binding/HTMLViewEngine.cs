@@ -10,13 +10,15 @@ namespace MVVM.HTML.Core.Binding
     {
         private readonly IHTMLWindowProvider _HTMLWindowProvider;
         private readonly IJavascriptUIFrameworkManager _UIFrameworkManager;
+        private readonly IWebSessionLogger _Logger;
 
         private IWebView MainView => _HTMLWindowProvider.HTMLWindow.MainFrame;
 
-        public HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptUIFrameworkManager uiFrameworkManager)
+        public HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptUIFrameworkManager uiFrameworkManager, IWebSessionLogger logger)
         {
             _HTMLWindowProvider = hTMLWindowProvider;
             _UIFrameworkManager = uiFrameworkManager;
+            _Logger = logger;
         }
 
         public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
@@ -33,7 +35,7 @@ namespace MVVM.HTML.Core.Binding
 
         private Tuple<BidirectionalMapper,Task> Init(object viewModel, JavascriptBindingMode mode, object additional) 
         {
-            var res = new BidirectionalMapper(viewModel, this, mode, additional);
+            var res = new BidirectionalMapper(viewModel, this, mode, additional, _Logger);
             var task = res.Init();
             return new Tuple<BidirectionalMapper, Task>(res, task);
         }

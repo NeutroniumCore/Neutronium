@@ -11,7 +11,7 @@ using MVVM.HTML.Core.Navigation.Window;
 
 namespace MVVM.HTML.Core.Navigation
 {
-    public class DoubleBrowserNavigator : INavigationSolver
+    public class DoubleBrowserNavigator : INavigationSolver 
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
         private readonly IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
@@ -19,7 +19,7 @@ namespace MVVM.HTML.Core.Navigation
         private IHTMLWindowProvider _CurrentWebControl;
         private IHTMLWindowProvider _NextWebControl;
         private IHTMLBinding _HTMLBinding;
-        private IWebSessionWatcher _WebSessionWatcher = new NullWatcher();
+        private IWebSessionLogger _webSessionLogger = new BasicLogger();
         private bool _Disposed = false;
         private bool _Navigating = false;
         private bool _UseINavigable = false;
@@ -34,14 +34,15 @@ namespace MVVM.HTML.Core.Navigation
             set { _UseINavigable = value; }
         }
 
-        public IWebSessionWatcher WebSessionWatcher
+        public IWebSessionLogger WebSessionLogger
         {
-            set { _WebSessionWatcher = value; }
+            set { _webSessionLogger = value; }
         }
 
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, 
                                         IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
         {
+            _webSessionLogger = new BasicLogger();
             _javascriptUiFrameworkManager = javascriptUiFrameworkManager;
             _WebViewLifeCycleManager = lifecycler;
             _UrlSolver = urlSolver;
@@ -49,9 +50,8 @@ namespace MVVM.HTML.Core.Navigation
 
         private void ConsoleMessage(object sender, ConsoleMessageArgs e)
         { 
-            try
-            {
-                LogBrowser($"{e.Message}, source {e.Source}, line number {e.Line}, page {Url}");
+            try {
+                _webSessionLogger.LogBrowser(e, Url);
             }
             catch { }
         }
@@ -123,25 +123,13 @@ namespace MVVM.HTML.Core.Navigation
                 .RunAsync( () => FireLoaded(inavgable) );
         }
 
-        private void LogCritical(string iMessage)
-        {
-            _WebSessionWatcher.LogCritical(iMessage);
-            Trace.WriteLine($"MVVM for CEFGlue: Critical: {iMessage}");
-        }
-
-        private void LogBrowser(string iMessage)
-        {
-            _WebSessionWatcher.LogBrowser(iMessage);
-            Trace.WriteLine($"MVVM for CEFGlue: WebSession log message: {iMessage}");
-        }
-
         private void Crashed(object sender, BrowserCrashedArgs e)
         {
             var dest = _CurrentWebControl.HTMLWindow.Url;
             var vm = Binding.Root;
             var mode = Binding.Mode;
 
-            LogCritical("WebView crashed trying recover");
+            _webSessionLogger.Error("WebView crashed trying recover");
 
             CleanWebControl(ref _CurrentWebControl);
             Binding = null;
@@ -192,7 +180,7 @@ namespace MVVM.HTML.Core.Navigation
             {
                 var injectorFactory = GetInjectorFactory(uri);
                 _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
-                var engine = new HTMLViewEngine(_NextWebControl, injectorFactory);
+                var engine = new HTMLViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
 
                 HTML_Binding.Bind(engine, iViewModel, iMode, wh).WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
@@ -217,7 +205,7 @@ namespace MVVM.HTML.Core.Navigation
             }
             catch(Exception e)
             {
-                LogBrowser($"Can not execute javascript: {icode}, reason: {e}");
+                _webSessionLogger.Error($"Can not execute javascript: {icode}, reason: {e}");
             }          
         }
 

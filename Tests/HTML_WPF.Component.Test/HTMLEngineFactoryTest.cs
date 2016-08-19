@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
 using NSubstitute;
 using Xunit;
@@ -10,37 +11,37 @@ namespace HTML_WPF.Component.Test
     {
         private readonly IWPFWebWindowFactory _WPFWebWindowFactory;
         private readonly HTMLEngineFactory _HTMLEngineFactory = new HTMLEngineFactory();
-        private readonly IWebSessionWatcher _IWebSessionWatcher;
+        private readonly IWebSessionLogger _iWebSessionLogger;
 
         public HTMLEngineFactoryTest() 
         {
             _WPFWebWindowFactory = Substitute.For<IWPFWebWindowFactory>();
             _WPFWebWindowFactory.Name.Returns("FakeWEngine");
-            _IWebSessionWatcher = Substitute.For<IWebSessionWatcher>();
+            _iWebSessionLogger = Substitute.For<IWebSessionLogger>();
         }
 
         [Fact]
         public void WebSessionWatcher_IsInitializedWithNullWatcher() 
         {
-            _HTMLEngineFactory.WebSessionWatcher.Should().BeOfType<NullWatcher>();
+            _HTMLEngineFactory.WebSessionLogger.Should().BeOfType<BasicLogger>();
         }
 
         [Fact]
         public void WebSessionWatcher_SetEngineWatcher_WhenWebSessionWatcher_IsCalledBeforeRegisterHTMLEngine() 
         {
-            _HTMLEngineFactory.WebSessionWatcher = _IWebSessionWatcher;
+            _HTMLEngineFactory.WebSessionLogger = _iWebSessionLogger;
             _HTMLEngineFactory.RegisterHTMLEngine(_WPFWebWindowFactory);
 
-            _WPFWebWindowFactory.WebSessionWatcher.Should().Be(_IWebSessionWatcher);
+            _WPFWebWindowFactory.WebSessionLogger.Should().Be(_iWebSessionLogger);
         }
 
         [Fact]
         public void WebSessionWatcher_SetEngineWatcher_WhenWebSessionWatcher_IsCalledAfterRegisterHTMLEngine() 
         {
             _HTMLEngineFactory.RegisterHTMLEngine(_WPFWebWindowFactory);
-            _HTMLEngineFactory.WebSessionWatcher = _IWebSessionWatcher;
+            _HTMLEngineFactory.WebSessionLogger = _iWebSessionLogger;
            
-            _WPFWebWindowFactory.WebSessionWatcher.Should().Be(_IWebSessionWatcher);
+            _WPFWebWindowFactory.WebSessionLogger.Should().Be(_iWebSessionLogger);
         }
     }
 }

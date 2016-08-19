@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
+﻿using System.Threading;
 using Awesomium.Core;
 using HTML_WPF.Component;
 using MVVM.HTML.Core;
@@ -14,7 +13,7 @@ namespace HTMLEngine.Awesomium
 
         public string EngineName  => "Chromium 19"; 
         public string Name => "Awesomium";
-        public IWebSessionWatcher WebSessionWatcher { get; set; }
+        public IWebSessionLogger WebSessionLogger { get; set; }
 
         static AwesomiumWPFWebWindowFactory()
         {
@@ -41,9 +40,7 @@ namespace HTMLEngine.Awesomium
             if (e.Exception == null)
                 return;
 
-            WebSessionWatcher.LogCritical("Critical: WebCore ShuttingDown!!");
-            Trace.WriteLine($"MVVM for CEFGlue: HTMLEngine.Awesomium : WebCoreShutting Down, due to exception: {e.Exception}");
-            WebSessionWatcher.OnSessionError(e.Exception, () => e.Cancel = true);
+            WebSessionLogger.WebBrowserError(e.Exception, () => e.Cancel = true);
         }
 
         public IWPFWebWindow Create() 
@@ -53,9 +50,7 @@ namespace HTMLEngine.Awesomium
 
         public void Dispose()
         {
-            if (_Session != null)
-                _Session.Dispose();
-
+            _Session?.Dispose();
             WebCore.Shutdown();
         }
     }

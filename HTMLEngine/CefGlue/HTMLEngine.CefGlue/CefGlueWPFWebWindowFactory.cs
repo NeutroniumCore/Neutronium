@@ -28,7 +28,7 @@ namespace HTMLEngine.CefGlue
             return new CefGlueWPFWebWindow(_ICefCoreSession.CefApp);
         }
 
-        public IWebSessionWatcher WebSessionWatcher { get; set; }
+        public IWebSessionLogger WebSessionLogger { get; set; }
 
         public void Dispose()
         {

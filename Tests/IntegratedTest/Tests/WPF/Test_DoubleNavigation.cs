@@ -128,9 +128,9 @@ namespace IntegratedTest.Tests.WPF
         [Fact]
         public async Task Test_HTMLWindowRecovery_Capacity_Watcher()
         {
-            var watch = Substitute.For<IWebSessionWatcher>();
+            var watch = Substitute.For<IWebSessionLogger>();
             await Test_HTMLWindowRecovery_Capacity_Base(watch);
-            //watch.Received().LogCritical(Arg.Any<string>());
+            //watch.Received().Error(Arg.Any<string>());
         }
 
         [Fact]
@@ -200,7 +200,7 @@ namespace IntegratedTest.Tests.WPF
             });
         }
 
-        private async Task Test_HTMLWindowRecovery_Capacity_Base(IWebSessionWatcher iWatcher)
+        private async Task Test_HTMLWindowRecovery_Capacity_Base(IWebSessionLogger iLogger)
         {
             bool fl = false;
             EventHandler ea = null;
@@ -208,9 +208,9 @@ namespace IntegratedTest.Tests.WPF
 
             await TestNavigation(async (wpfbuild, wpfnav)  =>
             {
-                wpfnav.WebSessionWatcher.Should().NotBeNull();
-                if (iWatcher != null)
-                    wpfnav.WebSessionWatcher = iWatcher;
+                wpfnav.WebSessionLogger.Should().NotBeNull();
+                if (iLogger != null)
+                    wpfnav.WebSessionLogger = iLogger;
                 ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 wpfnav.OnFirstLoad += ea;
                 wpfnav.Should().NotBeNull();
@@ -260,10 +260,10 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav)  =>
             {
                 var a = new A1();
-                var watch = Substitute.For<IWebSessionWatcher>();
+                var watch = Substitute.For<IWebSessionLogger>();
 
-                wpfnav.WebSessionWatcher.Should().NotBeNull();
-                wpfnav.WebSessionWatcher = watch;
+                wpfnav.WebSessionLogger.Should().NotBeNull();
+                wpfnav.WebSessionLogger = watch;
                 //ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 //wpfnav.OnFirstLoad += ea;
                 //wpfnav.Should().NotBeNull();
@@ -291,19 +291,19 @@ namespace IntegratedTest.Tests.WPF
 
                 //Thread.Sleep(1000);
 
-                //watch.DidNotReceive().LogCritical("WebView crashed trying recover");
+                //watch.DidNotReceive().Error("WebView crashed trying recover");
             }, false, false);
         }
 
-        private async Task Test_HTMLWindow_WebCoreShutDown_Base(IWebSessionWatcher iWatcher)
+        private async Task Test_HTMLWindow_WebCoreShutDown_Base(IWebSessionLogger iLogger)
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 var a = new A1();
 
-                wpfnav.WebSessionWatcher.Should().NotBeNull();
-                if (iWatcher != null)
-                    wpfnav.WebSessionWatcher = iWatcher;
+                wpfnav.WebSessionLogger.Should().NotBeNull();
+                if (iLogger != null)
+                    wpfnav.WebSessionLogger = iLogger;
                 SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
 
@@ -327,23 +327,23 @@ namespace IntegratedTest.Tests.WPF
         [Fact]
         public async Task Test_HTMLWindow_WebCoreShutDown_Watcher()
         {
-            var watch = Substitute.For<IWebSessionWatcher>();
+            var watch = Substitute.For<IWebSessionLogger>();
             await Test_HTMLWindow_WebCoreShutDown_Base(watch);
-            //watch.Received().LogCritical("Critical: WebCore ShuttingDown!!");
-            //watch.Received().OnSessionError(null, Arg.Any<Action>());
+            //watch.Received().Error("Critical: WebCore ShuttingDown!!");
+            //watch.Received().WebBrowserError(null, Arg.Any<Action>());
         }
 
 
-        private async Task<Exception> Test_HTMLWindow_WebCoreShutDown_Base_Exception(IWebSessionWatcher iWatcher)
+        private async Task<Exception> Test_HTMLWindow_WebCoreShutDown_Base_Exception(IWebSessionLogger iLogger)
         {
             var a = new AA1();
             Exception res = null;
 
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
-                wpfnav.WebSessionWatcher.Should().NotBeNull();
-                if (iWatcher != null)
-                    wpfnav.WebSessionWatcher = iWatcher;
+                wpfnav.WebSessionLogger.Should().NotBeNull();
+                if (iLogger != null)
+                    wpfnav.WebSessionLogger = iLogger;
                 SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
 
@@ -368,10 +368,10 @@ namespace IntegratedTest.Tests.WPF
         //[Fact]
         //public void Test_HTMLWindow_WebCoreShutDown_Watcher_Exception() {
         //    WPFWindowTestWrapper.ShouldReceivedError = true;
-        //    IWebSessionWatcher watch = Substitute.For<IWebSessionWatcher>();
+        //    IWebSessionLogger watch = Substitute.For<IWebSessionLogger>();
         //    var exp = Test_HTMLWindow_WebCoreShutDown_Base_Exception(watch);
-        //    //watch.Received().LogCritical("Critical: WebCore ShuttingDown!!");
-        //    //watch.Received().OnSessionError(exp, Arg.Any<Action>());
+        //    //watch.Received().Error("Critical: WebCore ShuttingDown!!");
+        //    //watch.Received().WebBrowserError(exp, Arg.Any<Action>());
         //}
 
         [Fact]

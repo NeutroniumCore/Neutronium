@@ -21,7 +21,7 @@ namespace HTML_WPF.Component
     public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
         private IWPFWebWindowFactory _WPFWebWindowFactory;
-        private IWebSessionWatcher _WebSessionWatcher;
+        private IWebSessionLogger _webSessionLogger;
         private string _JavascriptDebugScript = null;
         private readonly IUrlSolver _UrlSolver;
         private readonly DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
@@ -110,7 +110,7 @@ namespace HTML_WPF.Component
             _WPFDoubleBrowserNavigator = new DoubleBrowserNavigator(this, _UrlSolver, _Injector);
             _WPFDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
 
-            WebSessionWatcher = engine.WebSessionWatcher;
+            WebSessionLogger = engine.WebSessionLogger;
         }
 
         private void DoShowInfo()
@@ -120,7 +120,7 @@ namespace HTML_WPF.Component
                    .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
                    .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")
                    .AppendLine($"MVVM Binding: {_Injector.Name}");
-            MessageBox.Show(GetParentWindow(), builder.ToString(), "Electron configuration");
+            MessageBox.Show(GetParentWindow(), builder.ToString(), "Neutrino configuration");
         }
 
         private Window GetParentWindow() 
@@ -133,10 +133,10 @@ namespace HTML_WPF.Component
             return parent as Window;
         }
 
-        public IWebSessionWatcher WebSessionWatcher
+        public IWebSessionLogger WebSessionLogger
         {
-            get { return _WebSessionWatcher; }
-            set { _WebSessionWatcher = value; _WPFDoubleBrowserNavigator.WebSessionWatcher = value; }
+            get { return _webSessionLogger; }
+            set { _webSessionLogger = value; _WPFDoubleBrowserNavigator.WebSessionLogger = value; }
         }
 
         private void FirstLoad(object sender, EventArgs e)

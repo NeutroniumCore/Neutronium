@@ -25,8 +25,7 @@ namespace MVVM.HTML.Core.Infra
 
         public static void DoNotWait(this Task task)
         {
-            task.ContinueWith( t => Trace.WriteLine($"MVVM for CEFGlue: Exception during task execution: {t.Exception}")
-                , TaskContinuationOptions.OnlyOnFaulted);
+            task.ContinueWith( t => Trace.WriteLine($"Exception during task execution: {t.Exception}"), TaskContinuationOptions.OnlyOnFaulted);
         }
     }
 }

@@ -7,6 +7,10 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
     /// </summary>
     public interface IJavascriptUIFrameworkManager
     {
+        /// <summary>
+        /// Get or set the session logger
+        /// </summary>
+        IWebSessionLogger WebSessionLogger { get; set; }
 
         /// <summary>
         /// Get the name and version of unferlying javascript framework

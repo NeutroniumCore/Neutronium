@@ -5,11 +5,13 @@ using System.IO;
 using System;
 using System.Text;
 using System.Collections.Generic;
+using MVVM.HTML.Core;
 
 namespace VueUiFramework
 {
     public class VueSessionInjector : IJavascriptUIFrameworkManager
     {
+        public IWebSessionLogger WebSessionLogger { get; set; }
         public string FrameworkName => "vue.js 1.0.25";
         public string Name => "VueInjector";
         private string _DebugScript;

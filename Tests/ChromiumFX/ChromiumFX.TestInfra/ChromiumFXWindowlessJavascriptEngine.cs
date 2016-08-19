@@ -4,6 +4,7 @@ using Chromium;
 using HTMEngine.ChromiumFX.EngineBinding;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -28,18 +29,18 @@ namespace ChromiumFX.TestInfra
             _WpfThread = wpfThread;
         }
 
-        public void Init(string path) 
+        public void Init(string path, IWebSessionLogger logger) 
         {
-            InitAsync(path).Wait();
+            InitAsync(path, logger).Wait();
         }
 
-        private async Task InitAsync(string path) 
+        private async Task InitAsync(string path, IWebSessionLogger logger ) 
         {
             var taskload = _WpfThread.Dispatcher.Invoke(() => RawInit(path));      
             WebView = await _ChromiumFXWebViewTask;
             await taskload;
 
-            ViewEngine = new HTMLViewEngine(new ChromiumFXHTMLWindowProvider(WebView, new Uri(path)), _FrameWork);
+            ViewEngine = new HTMLViewEngine(new ChromiumFXHTMLWindowProvider(WebView, new Uri(path)), _FrameWork, logger);
         }
 
         private CfxBrowserSettings GetSettings()

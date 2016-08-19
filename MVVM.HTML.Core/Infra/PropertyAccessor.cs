@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace MVVM.HTML.Core.Infra
@@ -8,15 +7,17 @@ namespace MVVM.HTML.Core.Infra
     {
         private PropertyInfo _PropertyInfo;
         private readonly object _Target;
+        private readonly IWebSessionLogger _Logger;
 
         public bool IsValid => _PropertyInfo != null;
         public bool IsSettable => IsValid && _PropertyInfo.CanWrite;
         public bool IsGettable => IsValid && _PropertyInfo.CanRead;
 
-        public PropertyAccessor(object target, string propertyName )
+        public PropertyAccessor(object target, string propertyName, IWebSessionLogger logger)
         {
             _PropertyInfo = target.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
             _Target = target;
+            _Logger = logger;
         }
 
         public Type GetTargetType()
@@ -37,7 +38,7 @@ namespace MVVM.HTML.Core.Infra
             }
             catch (Exception e) 
             {
-                Trace.WriteLine($"MVVM for CEFGlue: Unable to set C# from javascript object: property: {_PropertyInfo.Name} of {_Target}, javascript value {value}. Exception {e} was thrown.");
+                _Logger.Info($"Unable to set C# from javascript object: property: {_PropertyInfo.Name} of {_Target}, javascript value {value}. Exception {e} was thrown.");
                 return false;
             }
         }

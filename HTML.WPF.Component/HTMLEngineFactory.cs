@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -14,17 +13,14 @@ namespace HTML_WPF.Component
     /// </summary>
     public class HTMLEngineFactory : IHTMLEngineFactory 
     {
-        private IWebSessionWatcher _WebSessionWatcher;
+        private IWebSessionLogger _webSessionLogger;
         private readonly IDictionary<string, IWPFWebWindowFactory> _Engines = new Dictionary<string, IWPFWebWindowFactory>();
         private readonly IDictionary<string, IJavascriptUIFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptUIFrameworkManager>();
 
         /// <summary>
         /// Access the singleton IHTMLEngineFactory
         /// </summary>
-        public static IHTMLEngineFactory Engine
-        {
-            get; internal set;
-        }
+        public static IHTMLEngineFactory Engine { get; internal set;  }
 
         static HTMLEngineFactory()
         {
@@ -33,7 +29,7 @@ namespace HTML_WPF.Component
 
         public HTMLEngineFactory() 
         {
-            _WebSessionWatcher = new NullWatcher();
+            _webSessionLogger = new BasicLogger();
         }
 
         public IWPFWebWindowFactory ResolveJavaScriptEngine(string engineName)
@@ -44,7 +40,7 @@ namespace HTML_WPF.Component
             var res = _Engines.First().Value;
             if (!string.IsNullOrEmpty(engineName) && (res.Name != engineName))
             {
-                Trace.WriteLine($"Name mismatch in IWPFWebWindowFactory resolution {engineName} vs {res.Name}");
+                _webSessionLogger.Info(() => $"Name mismatch in IWPFWebWindowFactory resolution {engineName} vs {res.Name}");
             }
             return res;
         }
@@ -52,8 +48,7 @@ namespace HTML_WPF.Component
         public void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory)
         {
             _Engines[wpfWebWindowFactory.Name] = wpfWebWindowFactory;
-            if (_WebSessionWatcher != null)
-                wpfWebWindowFactory.WebSessionWatcher = _WebSessionWatcher;
+            wpfWebWindowFactory.WebSessionLogger = _webSessionLogger;
         }
 
         public IJavascriptUIFrameworkManager ResolveJavaScriptFramework(string frameworkName)
@@ -63,7 +58,7 @@ namespace HTML_WPF.Component
                 var res = _JavascriptFrameworks.First().Value;
                 if (!string.IsNullOrEmpty(frameworkName) && (res.Name != frameworkName))
                 {
-                    Trace.WriteLine($"MVVM for CEFGlue: Name mismatch in IJavascriptUIFrameworkManager resolution {frameworkName} vs {res.Name}");
+                    _webSessionLogger.Info(() => $"Name mismatch in IJavascriptUIFrameworkManager resolution {frameworkName} vs {res.Name}");
                 }
                 return res;
             }
@@ -74,16 +69,23 @@ namespace HTML_WPF.Component
         public void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
         {
             _JavascriptFrameworks[javascriptUiFrameworkManager.Name]= javascriptUiFrameworkManager;
+            javascriptUiFrameworkManager.WebSessionLogger = _webSessionLogger;
         }
 
-        public IWebSessionWatcher WebSessionWatcher 
+        public IWebSessionLogger WebSessionLogger 
         {
-            get { return _WebSessionWatcher; } 
+            get { return _webSessionLogger; } 
             set
             {
-                _WebSessionWatcher = value;
-                OnEngines(fact => fact.WebSessionWatcher = _WebSessionWatcher);
+                _webSessionLogger = value?? new NullLogger();
+                OnEngines(fact => fact.WebSessionLogger = _webSessionLogger);
+                OnJavascriptEngines(fact => fact.WebSessionLogger = _webSessionLogger);
             }
+        }
+
+        private void OnJavascriptEngines(Action<IJavascriptUIFrameworkManager> action) 
+        {
+            _JavascriptFrameworks.Values.ForEach(action);
         }
 
         private void OnEngines(Action<IWPFWebWindowFactory> action) 

@@ -27,8 +27,8 @@ namespace HTML_WPF.Component
         IWPFWebWindow Create();
 
         /// <summary>
-        /// get or set WebSessionWatcher
+        /// get or set WebSessionLogger
         /// </summary>
-        IWebSessionWatcher WebSessionWatcher { get; set; }
+        IWebSessionLogger WebSessionLogger { get; set; }
     }
 }

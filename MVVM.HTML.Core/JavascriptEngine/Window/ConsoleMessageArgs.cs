@@ -15,5 +15,10 @@ namespace MVVM.HTML.Core.JavascriptEngine.Window
         public string Source {get;set;}
 
         public int Line { get; set; }
+
+        public override string ToString() 
+        {
+            return $"Message: {Message}, source: {Source}, line number: {Line}";
+        }
     }
 }
