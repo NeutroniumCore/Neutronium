@@ -43,7 +43,10 @@
 
     var commandMixin = {
         props: {
-            command: Object,
+            command:{
+                type: Object,
+                default: null
+            },
             arg: {
                 type: Object,
                 default: null
@@ -51,6 +54,8 @@
         },
         computed: {
             canExecute: function () {
+                if (this.command === null)
+                    return false;
                 return this.command.CanExecuteValue;
             }
         },
@@ -70,7 +75,8 @@
         },
         methods: {
             computeCanExecute: function () {
-                this.command.CanExecute(this.arg);
+                if (this.command !== null)
+                    this.command.CanExecute(this.arg);
             },
             execute: function () {
                 if (this.canExecute) {

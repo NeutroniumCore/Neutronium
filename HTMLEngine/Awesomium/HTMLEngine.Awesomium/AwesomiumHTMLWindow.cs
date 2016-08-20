@@ -36,8 +36,7 @@ namespace HTMLEngine.Awesomium
 
         private void _WebControl_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
         {
-            if (ConsoleMessage != null)
-                ConsoleMessage(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
+            ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
         }
 
         public MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame

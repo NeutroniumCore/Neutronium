@@ -8,6 +8,7 @@ using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
 namespace ChromiumFX.TestInfra
 {
@@ -18,9 +19,11 @@ namespace ChromiumFX.TestInfra
         private CfxClient _CfxClient;
         private readonly Task<ChromiumFXWebView> _ChromiumFXWebViewTask;
         private CfxBrowser _CfxBrowser;
+        private ChromiumFXHTMLWindowProvider _ChromiumFXHTMLWindowProvider;
 
         public HTMLViewEngine ViewEngine { get; private set;  }
         public IWebView WebView { get; private set; }
+        public IHTMLWindow HTMLWindow => _ChromiumFXHTMLWindowProvider.HTMLWindow;
 
         internal ChromiumFXWindowlessJavascriptEngine(WpfThread wpfThread, Task<ChromiumFXWebView> chromiumFxWebViewTask, IJavascriptUIFrameworkManager frameWork) 
         {
@@ -39,8 +42,8 @@ namespace ChromiumFX.TestInfra
             var taskload = _WpfThread.Dispatcher.Invoke(() => RawInit(path));      
             WebView = await _ChromiumFXWebViewTask;
             await taskload;
-
-            ViewEngine = new HTMLViewEngine(new ChromiumFXHTMLWindowProvider(WebView, new Uri(path)), _FrameWork, logger);
+            _ChromiumFXHTMLWindowProvider = new ChromiumFXHTMLWindowProvider(_CfxClient, WebView, new Uri(path));
+            ViewEngine = new HTMLViewEngine(_ChromiumFXHTMLWindowProvider, _FrameWork, logger);
         }
 
         private CfxBrowserSettings GetSettings()

@@ -51,7 +51,7 @@ namespace IntegratedTest.Infra.Windowless {
 
         public void LogBrowser(ConsoleMessageArgs args, Uri url) 
         {
-            Log($"Brower Log: {args}, page: {url}");
+            Log($"{args}, page: {url}");
         }
 
         public void WebBrowserError(Exception exception, Action cancel) 

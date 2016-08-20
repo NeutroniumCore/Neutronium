@@ -6,6 +6,7 @@ using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using Xilium.CefGlue;
 
@@ -14,8 +15,14 @@ namespace CefGlue.TestInfra
     internal class CefGlueWindowlessSharedJavascriptEngine :  IWindowlessJavascriptEngine
     {
         private readonly IJavascriptUIFrameworkManager _JavascriptUIFrameworkManager;
+        private TestCefGlueHTMLWindowProvider _TestCefGlueHTMLWindowProvider;
         private CefFrame _CefFrame;
         private CefBrowser _CefBrowser;
+
+
+        public IWebView WebView { get; private set; }
+        public HTMLViewEngine ViewEngine { get; private set; }
+        public IHTMLWindow HTMLWindow => _TestCefGlueHTMLWindowProvider.HTMLWindow;
 
         public CefGlueWindowlessSharedJavascriptEngine(IJavascriptUIFrameworkManager javascriptUIFrameworkManager)
         {
@@ -28,9 +35,6 @@ namespace CefGlue.TestInfra
             WebView = cc.HTMLWindow.MainFrame;
         }
 
-        public IWebView WebView { get; private set; }
-
-        public HTMLViewEngine ViewEngine { get; private set; }
 
         private Task<IHTMLWindowProvider> InitTask(string fullpath, IWebSessionLogger logger)
         {
@@ -56,9 +60,9 @@ namespace CefGlue.TestInfra
                 _CefBrowser = await cefClient.GetLoadedBrowserAsync();
 
                 _CefFrame = _CefBrowser.GetMainFrame();
-                var htmlWindowProvider = new TestCefGlueHTMLWindowProvider(_CefFrame);
-                ViewEngine = new HTMLViewEngine( htmlWindowProvider,  _JavascriptUIFrameworkManager, logger);
-                tcs.SetResult(htmlWindowProvider);
+                _TestCefGlueHTMLWindowProvider = new TestCefGlueHTMLWindowProvider(_CefFrame);
+                ViewEngine = new HTMLViewEngine(_TestCefGlueHTMLWindowProvider,  _JavascriptUIFrameworkManager, logger);
+                tcs.SetResult(_TestCefGlueHTMLWindowProvider);
             });
 
             return tcs.Task;

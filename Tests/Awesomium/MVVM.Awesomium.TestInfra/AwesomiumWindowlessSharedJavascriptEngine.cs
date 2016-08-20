@@ -6,16 +6,21 @@ using HTMLEngine.Awesomium.Internal;
 using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Binding;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using Xunit.Abstractions;
 
-namespace MVVM.Awesomium.TestInfra 
+namespace MVVM.Awesomium.TestInfra
 {
     internal class AwesomiumWindowlessSharedJavascriptEngine : IWindowlessJavascriptEngine
     {
         private readonly IJavascriptUIFrameworkManager _JavascriptUIFrameworkManager;
         private readonly TaskCompletionSource<object> _EndTaskCompletionSource;
         private IWebView _CurrentWebView;
+        private AwesomiumTestHTMLWindowProvider _AwesomiumTestHTMLWindowProvider;
+
+        public HTMLViewEngine ViewEngine { get; private set; }
+        public HTML.Core.JavascriptEngine.JavascriptObject.IWebView WebView { get; private set; }
+        public IHTMLWindow HTMLWindow => _AwesomiumTestHTMLWindowProvider.HTMLWindow;
 
         public AwesomiumWindowlessSharedJavascriptEngine(IJavascriptUIFrameworkManager javascriptUIFrameworkManager)
         {
@@ -38,28 +43,18 @@ namespace MVVM.Awesomium.TestInfra
                 var uri = new Uri(ipath);
                 _CurrentWebView.Source = uri;
                 WebView = new AwesomiumWebView(_CurrentWebView);
-                var htmlWindowProvider = new AwesomiumTestHTMLWindowProvider(WebView, uri);
-                ViewEngine = new HTMLViewEngine(  htmlWindowProvider,  _JavascriptUIFrameworkManager, logger );
+                _AwesomiumTestHTMLWindowProvider = new AwesomiumTestHTMLWindowProvider(WebView, uri);
+                ViewEngine = new HTMLViewEngine(_AwesomiumTestHTMLWindowProvider,  _JavascriptUIFrameworkManager, logger );
                 var viewReadyExecuter = new ViewReadyExecuter(_CurrentWebView, () => { taskLoaded.TrySetResult(null); });
                 viewReadyExecuter.Do();
             });
 
             await taskLoaded.Task;
-        }
-
-        public HTMLViewEngine ViewEngine
-        {
-            get; private set;
-        }
+        }      
  
         public void Dispose()
         {
             WebCore.QueueWork(_CurrentWebView, () => _CurrentWebView.Dispose());      
-        }
-
-        public HTML.Core.JavascriptEngine.JavascriptObject.IWebView WebView
-        {
-            get; private set;
         }
     }
 }

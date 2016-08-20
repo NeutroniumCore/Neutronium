@@ -67,9 +67,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private void OnConsoleMessage(object sender, CfxOnConsoleMessageEventArgs e)
         {
-            var consoleMessage = ConsoleMessage;
-            if (consoleMessage != null)
-                consoleMessage(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
+            ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
         }
 
         private void OnLoadEnd(object sender, CfxOnLoadEndEventArgs e)

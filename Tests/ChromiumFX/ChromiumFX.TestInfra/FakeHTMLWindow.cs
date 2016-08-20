@@ -1,6 +1,8 @@
 ﻿using System;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using Chromium;
+using Chromium.Event;
 
 namespace ChromiumFX.TestInfra 
 {
@@ -8,15 +10,30 @@ namespace ChromiumFX.TestInfra
     {
         private readonly IWebView _Webview;
         private Uri _Uri;
-        public FakeHTMLWindow(IWebView webview, Uri url) 
+        private readonly CfxClient _CfxClient;
+
+        public Uri Url => _Uri;
+        public bool IsLoaded => true;
+        public IWebView MainFrame =>  _Webview; 
+
+        public FakeHTMLWindow(CfxClient cfxClient, IWebView webview, Uri url) 
         {
             _Uri = url;
             _Webview = webview;
+            _CfxClient = cfxClient;
+            _CfxClient.GetDisplayHandler += OnGetDisplayHandler;
         }
 
-        public IWebView MainFrame 
+        private void OnGetDisplayHandler(object sender, CfxGetDisplayHandlerEventArgs e)
         {
-            get { return _Webview; }
+            var displayhandler = new CfxDisplayHandler();
+            displayhandler.OnConsoleMessage += OnConsoleMessage;
+            e.SetReturnValue(displayhandler);
+        }
+
+        private void OnConsoleMessage(object sender, CfxOnConsoleMessageEventArgs e)
+        {
+            ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
         }
 
         public void NavigateTo(Uri path) 
@@ -24,29 +41,10 @@ namespace ChromiumFX.TestInfra
             throw new NotImplementedException();
         }
 
-        public Uri Url 
-        {
-            get { return _Uri; }
-        }
+        public event EventHandler<ConsoleMessageArgs> ConsoleMessage;
 
-        public bool IsLoaded 
-        {
-            get { return true; }
-        }
+        public event EventHandler<LoadEndEventArgs> LoadEnd  { add { } remove { } }
 
-        public event EventHandler<LoadEndEventArgs> LoadEnd 
-        {
-            add { } remove { }
-        }
-
-        public event EventHandler<ConsoleMessageArgs> ConsoleMessage 
-        {
-            add { } remove { }
-        }
-
-        public event EventHandler<BrowserCrashedArgs> Crashed 
-        {
-            add { } remove { }
-        }
+        public event EventHandler<BrowserCrashedArgs> Crashed { add { } remove { } }
     }
 }

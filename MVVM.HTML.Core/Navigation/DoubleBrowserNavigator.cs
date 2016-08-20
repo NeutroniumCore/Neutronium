@@ -50,7 +50,8 @@ namespace MVVM.HTML.Core.Navigation
 
         private void ConsoleMessage(object sender, ConsoleMessageArgs e)
         { 
-            try {
+            try
+            {
                 _webSessionLogger.LogBrowser(e, Url);
             }
             catch { }

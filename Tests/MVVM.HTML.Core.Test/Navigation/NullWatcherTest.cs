@@ -21,7 +21,6 @@ namespace MVVM.HTML.Core.Test
             _nullLogger.LogBrowser(null, null);
         }
 
-
         [Fact]
         public void Test_OnSessionError()
         {

@@ -49,6 +49,7 @@ namespace IntegratedTest.Infra.Windowless
             tester.Init(path, testLogger);
             _ViewEngine = tester.ViewEngine;
             _WebView = tester.WebView;
+            tester.HTMLWindow.ConsoleMessage += (_,e) => testLogger.LogBrowser(e, new Uri(path));
             _JavascriptFrameworkExtractor = _TestEnvironment.GetExtractor(_WebView);
             return tester;
         }

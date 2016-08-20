@@ -132,7 +132,8 @@
             }
         },
         inject: inject,
-        register: function(vm, observer) {
+        register: function (vm, observer) {
+            console.log("VueGlue register");
             var mixin = Vue._vmMixin;
             if (!!mixin && !Array.isArray(mixin))
                 mixin = [mixin];

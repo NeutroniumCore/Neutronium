@@ -4,27 +4,23 @@ using IntegratedTest.Infra.Window;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using Chromium;
 
 namespace ChromiumFX.TestInfra 
 {
     internal class ChromiumFXHTMLWindowProvider : IHTMLWindowProvider 
     {
-        private readonly IWebView _webview;                  
-        public ChromiumFXHTMLWindowProvider(IWebView webview, Uri url) 
+        private readonly IWebView _webview;
+        private readonly CfxClient _CfxClient;
+        public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
+        public IHTMLWindow HTMLWindow { get; }
+
+        public ChromiumFXHTMLWindowProvider(CfxClient cfxClient, IWebView webview, Uri url) 
         {
             _webview = webview;
-            HTMLWindow = new FakeHTMLWindow(webview, url);
-        }
-
-        public IHTMLWindow HTMLWindow 
-        {
-            get; private set;
-        }
-
-        public IDispatcher UIDispatcher 
-        {
-            get { return new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher); }
-        }
+            _CfxClient = cfxClient;
+            HTMLWindow = new FakeHTMLWindow(cfxClient, webview, url);
+        }     
 
         public void Show() 
         {
