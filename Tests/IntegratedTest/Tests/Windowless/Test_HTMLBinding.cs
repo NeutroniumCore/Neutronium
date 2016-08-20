@@ -866,13 +866,13 @@ namespace IntegratedTest.Tests.Windowless
                       string n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      DoSafe(() => Call(js, "One", _WebView.Factory.CreateObject(true)));
+                      var trueJs = _WebView.Factory.CreateObject(true);
+                      SetAttribute(js, "One", trueJs);
 
                       var res3 = GetAttribute(js, "One");
                       res3.IsObject.Should().BeTrue();
 
                       await Task.Delay(100);
-
                       datacontext.One.Should().Be(p1);
                   }
               };

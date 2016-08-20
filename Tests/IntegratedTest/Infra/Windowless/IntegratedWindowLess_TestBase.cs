@@ -88,8 +88,7 @@ namespace IntegratedTest.Infra.Windowless
                     await RunInContext(() => test.Test(mb));
                     _Logger.Info("End Test");
                 }
-            }
-         
+            }      
         }
 
         protected async Task RunAsync(TestInContextAsync test) 

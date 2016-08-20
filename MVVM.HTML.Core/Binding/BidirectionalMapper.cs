@@ -311,7 +311,11 @@ namespace MVVM.HTML.Core.Binding
             object targetvalue = null;
             bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, targetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
-                _Logger.Info(() => $"Unable to convert javascript object: { globalkey} to C# session. Value will be default to null. Please check javascript bindings.");
+            {
+                var message = $"Unable to convert javascript object: {globalkey} to C# session. Value will be default to null. Please check javascript bindings.";
+                _Logger.Info(message);
+                throw new ArgumentException(message);
+            }
 
             return new JSBasicObject(globalkey, targetvalue);
         }
