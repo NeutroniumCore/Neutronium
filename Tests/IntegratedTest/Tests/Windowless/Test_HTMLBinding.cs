@@ -481,7 +481,7 @@ namespace IntegratedTest.Tests.Windowless
                     await Task.Delay(50);
 
                     datacontext.Name.Should().Be(expected);
-                    _Output.WriteLine("Test ended sucessfully");
+                    _Logger.Info("Test ended sucessfully");
                 }
             };
 

@@ -7,6 +7,7 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Xunit.Abstractions;
 using UIFrameworkTesterHelper;
+using MVVM.HTML.Core;
 
 namespace IntegratedTest.Infra.Windowless
 {
@@ -16,7 +17,8 @@ namespace IntegratedTest.Infra.Windowless
         protected HTMLViewEngine _ViewEngine = null;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private WindowlessTestEnvironment _TestEnvironment;
-        protected readonly ITestOutputHelper _Output;
+        private readonly ITestOutputHelper _Output;
+        protected IWebSessionLogger _Logger;
 
         protected IJavascriptObjectConverter Converter => _WebView.Converter;
 
@@ -26,6 +28,7 @@ namespace IntegratedTest.Infra.Windowless
         { 
             _Output = output;
             _TestEnvironment = testEnvironment.GetWindowlessEnvironment();
+            _Logger = new TestLogger(_Output);
         }
 
         protected virtual void Init()
@@ -45,11 +48,10 @@ namespace IntegratedTest.Infra.Windowless
         {
             var tester = _TestEnvironment.Build();
             var path = _TestEnvironment.HtmlProvider.GetHtlmPath(context);
-            var testLogger = new TestLogger(_Output);
-            tester.Init(path, testLogger);
+            tester.Init(path, _Logger);
             _ViewEngine = tester.ViewEngine;
             _WebView = tester.WebView;
-            tester.HTMLWindow.ConsoleMessage += (_,e) => testLogger.LogBrowser(e, new Uri(path));
+            tester.HTMLWindow.ConsoleMessage += (_,e) => _Logger.LogBrowser(e, new Uri(path));
             _JavascriptFrameworkExtractor = _TestEnvironment.GetExtractor(_WebView);
             return tester;
         }
