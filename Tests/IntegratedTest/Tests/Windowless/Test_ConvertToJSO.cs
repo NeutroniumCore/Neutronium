@@ -49,8 +49,8 @@ namespace IntegratedTest.Tests.Windowless
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _javascriptUiFrameworkManager = Substitute.For<IJavascriptUIFrameworkManager>();
-            _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptUiFrameworkManager, null);
             var logger = new TestLogger(_Output);
+            _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptUiFrameworkManager, null, logger);         
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory, logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>

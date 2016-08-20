@@ -23,7 +23,7 @@ namespace MVVM.HTML.Core.Binding
 
         public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {
-            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _UIFrameworkManager, javascriptChangesObserver);
+            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _UIFrameworkManager, javascriptChangesObserver, _Logger);
         }
 
         internal async Task<BidirectionalMapper> GetMapper(object viewModel, JavascriptBindingMode mode, object additional)

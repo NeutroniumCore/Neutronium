@@ -10,6 +10,8 @@ namespace CefGlue.TestInfra.CefWindowless
         private readonly TestCefLifeSpanHandler _TestCefLifeSpanHandler;
         private readonly TestDisplayHandler _TestDisplayHandler;
 
+        internal TestDisplayHandler TestDisplayHandler => _TestDisplayHandler;
+
         public TestCefClient()
         {
             _TestCefLoadHandler = new TestCefLoadHandler();

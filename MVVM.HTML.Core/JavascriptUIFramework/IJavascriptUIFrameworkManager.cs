@@ -8,11 +8,6 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
     public interface IJavascriptUIFrameworkManager
     {
         /// <summary>
-        /// Get or set the session logger
-        /// </summary>
-        IWebSessionLogger WebSessionLogger { get; set; }
-
-        /// <summary>
         /// Get the name and version of unferlying javascript framework
         /// </summary>
         string FrameworkName { get; }
@@ -31,10 +26,13 @@ namespace MVVM.HTML.Core.JavascriptUIFramework
         /// <param name="listener">
         /// listener to call on changes 
         /// </param>
+        /// <param name="logger">
+        /// logger
+        /// </param>
         /// <returns>
         /// the newly created IJavascriptViewModelManager
         ///</returns>
-        IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener);
+        IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger);
 
         /// <summary>
         /// return javascript debug script to allow interactive debug

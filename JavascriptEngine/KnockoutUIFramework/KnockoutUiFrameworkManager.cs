@@ -11,13 +11,12 @@ namespace KnockoutUIFramework
         private string _JavascriptDebugScript;
         private string _MainScript;
 
-        public IWebSessionLogger WebSessionLogger { get; set; }
         public string FrameworkName => "knockout.js 3.3.0";
         public string Name => "KnockoutInjector";
 
-        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener) 
+        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger) 
         {
-            return new KnockoutUiVmManager(webView, listener, WebSessionLogger);
+            return new KnockoutUiVmManager(webView, listener, logger);
         }
 
         public string GetDebugScript()

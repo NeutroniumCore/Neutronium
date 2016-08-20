@@ -4,7 +4,6 @@ using System.Linq;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using MVVM.HTML.Core.Navigation;
 
 namespace HTML_WPF.Component
 {
@@ -69,7 +68,6 @@ namespace HTML_WPF.Component
         public void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
         {
             _JavascriptFrameworks[javascriptUiFrameworkManager.Name]= javascriptUiFrameworkManager;
-            javascriptUiFrameworkManager.WebSessionLogger = _webSessionLogger;
         }
 
         public IWebSessionLogger WebSessionLogger 
@@ -79,13 +77,7 @@ namespace HTML_WPF.Component
             {
                 _webSessionLogger = value?? new NullLogger();
                 OnEngines(fact => fact.WebSessionLogger = _webSessionLogger);
-                OnJavascriptEngines(fact => fact.WebSessionLogger = _webSessionLogger);
             }
-        }
-
-        private void OnJavascriptEngines(Action<IJavascriptUIFrameworkManager> action) 
-        {
-            _JavascriptFrameworks.Values.ForEach(action);
         }
 
         private void OnEngines(Action<IWPFWebWindowFactory> action) 

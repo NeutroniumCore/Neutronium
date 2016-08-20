@@ -8,26 +8,28 @@ namespace CefGlue.TestInfra.CefWindowless
 {
     public class TestCefGlueWindow : IHTMLWindow
     {
-        private CefFrame _CefFrame;
-        public TestCefGlueWindow(CefFrame iFrame)
-        {
-            _CefFrame = iFrame;
-        }
-
-        public bool IsLoaded
-        {
-            get { return true; }
-        }
-
-        public event EventHandler<LoadEndEventArgs> LoadEnd 
-        { 
-            add { } remove { } 
-        }
-
+        private readonly CefFrame _CefFrame;
+        private readonly TestCefClient _TestCefClient;
         private IWebView _IWebView;
+
+        public bool IsLoaded => true;
+        public Uri Url => new Uri(_CefFrame.Url);
+
         IWebView IHTMLWindow.MainFrame
         {
             get { return _IWebView ?? (_IWebView = _CefFrame.GetMainContext()); }
+        }
+
+        public TestCefGlueWindow(CefFrame iFrame, TestCefClient client)
+        {
+            _CefFrame = iFrame;
+            _TestCefClient = client;
+            _TestCefClient.TestDisplayHandler.ConsoleMessage += OnConsoleMessage;
+        }
+
+        private void OnConsoleMessage(object sender, ConsoleMessageArgs e)
+        {
+            ConsoleMessage?.Invoke(this, e);
         }
 
         public void NavigateTo(Uri path)
@@ -35,19 +37,10 @@ namespace CefGlue.TestInfra.CefWindowless
             throw new NotImplementedException();
         }
 
-        public Uri Url
-        {
-            get { return new Uri(_CefFrame.Url); }
-        }
+        public event EventHandler<ConsoleMessageArgs> ConsoleMessage;
 
-        public event EventHandler<ConsoleMessageArgs> ConsoleMessage
-        {
-            add { } remove { }
-        }
-
-        public event EventHandler<BrowserCrashedArgs> Crashed
-        {
-            add { } remove { }
-        }
+        public event EventHandler<LoadEndEventArgs> LoadEnd { add { } remove { } }
+       
+        public event EventHandler<BrowserCrashedArgs> Crashed { add { } remove { } }
     }
 }

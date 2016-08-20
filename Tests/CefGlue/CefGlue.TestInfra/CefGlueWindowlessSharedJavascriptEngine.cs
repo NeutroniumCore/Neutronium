@@ -19,7 +19,6 @@ namespace CefGlue.TestInfra
         private CefFrame _CefFrame;
         private CefBrowser _CefBrowser;
 
-
         public IWebView WebView { get; private set; }
         public HTMLViewEngine ViewEngine { get; private set; }
         public IHTMLWindow HTMLWindow => _TestCefGlueHTMLWindowProvider.HTMLWindow;
@@ -35,13 +34,11 @@ namespace CefGlue.TestInfra
             WebView = cc.HTMLWindow.MainFrame;
         }
 
-
         private Task<IHTMLWindowProvider> InitTask(string fullpath, IWebSessionLogger logger)
         {
             TaskCompletionSource<IHTMLWindowProvider> tcs = new TaskCompletionSource<IHTMLWindowProvider>();
             Task.Run(async () =>
             {
-
                 var cefWindowInfo = CefWindowInfo.Create();
                 cefWindowInfo.SetAsWindowless(IntPtr.Zero, true);
 
@@ -51,16 +48,13 @@ namespace CefGlue.TestInfra
                 // Initialize some the cust interactions with the browser process.
                 var cefClient = new TestCefClient();
 
-                //ipath = ipath ?? "javascript\\index.html";
-                //string fullpath = $"{Assembly.GetExecutingAssembly().GetPath()}\\{ipath}";
-
                 // Start up the browser instance.
                 CefBrowserHost.CreateBrowser(cefWindowInfo, cefClient, cefBrowserSettings, fullpath);
 
                 _CefBrowser = await cefClient.GetLoadedBrowserAsync();
 
                 _CefFrame = _CefBrowser.GetMainFrame();
-                _TestCefGlueHTMLWindowProvider = new TestCefGlueHTMLWindowProvider(_CefFrame);
+                _TestCefGlueHTMLWindowProvider = new TestCefGlueHTMLWindowProvider(_CefFrame, cefClient);
                 ViewEngine = new HTMLViewEngine(_TestCefGlueHTMLWindowProvider,  _JavascriptUIFrameworkManager, logger);
                 tcs.SetResult(_TestCefGlueHTMLWindowProvider);
             });

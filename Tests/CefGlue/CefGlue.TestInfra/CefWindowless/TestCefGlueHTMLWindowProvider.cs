@@ -7,19 +7,14 @@ namespace CefGlue.TestInfra.CefWindowless
 {
     public class TestCefGlueHTMLWindowProvider : IHTMLWindowProvider
     {
-        public TestCefGlueHTMLWindowProvider(CefFrame iFrame)
-        {
-            HTMLWindow = new TestCefGlueWindow(iFrame);
-        }
+        private readonly TestCefClient _TestCefClient;
+        public IHTMLWindow HTMLWindow { get; }
+        public IDispatcher UIDispatcher => new TestIUIDispatcher();
 
-        public IHTMLWindow HTMLWindow
+        public TestCefGlueHTMLWindowProvider(CefFrame iFrame, TestCefClient cefClient)
         {
-            get; private set;
-        }
-
-        public IDispatcher UIDispatcher
-        {
-            get { return new TestIUIDispatcher(); }
+            _TestCefClient = cefClient;
+            HTMLWindow = new TestCefGlueWindow(iFrame, cefClient);
         }
 
         public void Show()

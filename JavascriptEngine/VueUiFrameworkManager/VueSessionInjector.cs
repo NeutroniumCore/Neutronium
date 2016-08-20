@@ -11,13 +11,12 @@ namespace VueUiFramework
 {
     public class VueSessionInjector : IJavascriptUIFrameworkManager
     {
-        public IWebSessionLogger WebSessionLogger { get; set; }
         public string FrameworkName => "vue.js 1.0.25";
         public string Name => "VueInjector";
         private string _DebugScript;
         private const string _ToogleDebug = "window.vueDebug();";
 
-        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener) 
+        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger) 
         {
             return new VueVmManager(webView, listener);
         }

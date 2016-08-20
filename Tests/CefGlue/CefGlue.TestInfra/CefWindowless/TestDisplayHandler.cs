@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVM.HTML.Core.JavascriptEngine.Window;
+using System;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra.CefWindowless
@@ -7,8 +8,10 @@ namespace CefGlue.TestInfra.CefWindowless
     {
         protected override bool OnConsoleMessage(CefBrowser browser, string message, string source, int line)
         {
-            Console.WriteLine($"Cef console message: {message} src: {source} line: {line}");
+            ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(message, source, line));
             return false;
         }
+
+        public event EventHandler<ConsoleMessageArgs> ConsoleMessage;
     }
 }
