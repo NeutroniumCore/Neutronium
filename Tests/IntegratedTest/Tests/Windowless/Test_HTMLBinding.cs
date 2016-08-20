@@ -225,7 +225,6 @@ namespace IntegratedTest.Tests.Windowless
             await RunAsync(test);
         }
 
-
         [Fact]
         public async Task Test_HTMLBinding_Basic_OneWay()
         {
@@ -680,7 +679,7 @@ namespace IntegratedTest.Tests.Windowless
             var datacontext = new SimplePerson();
             datacontext.PersonalState = PersonalState.Single;
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                   Test = async (mb) =>
@@ -812,7 +811,7 @@ namespace IntegratedTest.Tests.Windowless
             var p2 = new Person() { Name = "Claudia" };
             datacontext.Two = p2;
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                   Test = async (mb) =>
@@ -851,7 +850,7 @@ namespace IntegratedTest.Tests.Windowless
             var p2 = new Person() { Name = "Claudia" };
             datacontext.Two = p2;
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
               {
                   Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                   Test = async (mb) =>
@@ -914,7 +913,7 @@ namespace IntegratedTest.Tests.Windowless
             var command = Substitute.For<ICommand>();
             var datacontexttest = new ViewModelTest() { Command = command };
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
@@ -1729,6 +1728,7 @@ namespace IntegratedTest.Tests.Windowless
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, TestContext.Simple);
         }
+
         public Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, TestContext ipath = TestContext.Index)
         {
             int r = 100;
@@ -1758,9 +1758,7 @@ namespace IntegratedTest.Tests.Windowless
                 }
             };
             return RunAsync(test);
-
         }
-
 
         [Fact]
         public async Task Test_HTMLBinding_Stress_Collection_Update_From_Javascript()

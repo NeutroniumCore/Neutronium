@@ -18,18 +18,15 @@ namespace IntegratedTest.Infra.Windowless
         protected HTMLViewEngine _ViewEngine = null;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private WindowlessTestEnvironment _TestEnvironment;
-        private readonly ITestOutputHelper _Output;
         protected IWebSessionLogger _Logger;
 
         protected IJavascriptObjectConverter Converter => _WebView.Converter;
-
         protected IJavascriptObjectFactory Factory => _WebView.Factory;
 
         protected IntegratedWindowLess_TestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
         { 
-            _Output = output;
             _TestEnvironment = testEnvironment.GetWindowlessEnvironment();
-            var logger = new TestLogger(_Output);
+            var logger = new TestLogger(output);
             _Logger = logger.Add(new BasicLogger());
         }
 
@@ -83,13 +80,13 @@ namespace IntegratedTest.Infra.Windowless
         {
             using (Tester(test.Path)) 
             {
-                _Output.WriteLine("Begin Binding");
+                _Logger.Info("Begin Binding");
                 using (var mb = await test.Bind(_ViewEngine))
                 {
-                    _Output.WriteLine("End Binding");
-                    _Output.WriteLine("Begin Test");
+                    _Logger.Info("End Binding");
+                    _Logger.Info("Begin Test");
                     await RunInContext(() => test.Test(mb));
-                    _Output.WriteLine("End Test");
+                    _Logger.Info("End Test");
                 }
             }
          
@@ -99,13 +96,13 @@ namespace IntegratedTest.Infra.Windowless
         {            
             using (Tester(test.Path)) 
             {
-                _Output.WriteLine("Begin Binding");
+                _Logger.Info("Begin Binding");
                 using (var mb = await test.Bind(_ViewEngine)) 
                 {
-                    _Output.WriteLine("End Binding");
-                    _Output.WriteLine("Begin Test");
-                    await  RunInContext(async () => await test.Test(mb));
-                    _Output.WriteLine("Ending test");
+                    _Logger.Info("End Binding");
+                    _Logger.Info("Begin Test");
+                    await RunInContext(async () => await test.Test(mb));
+                    _Logger.Info("Ending test");
                 }
             }            
         }

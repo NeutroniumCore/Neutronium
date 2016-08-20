@@ -16,7 +16,7 @@ namespace IntegratedTest.Infra.Windowless {
 
         private void Log(string message, [CallerMemberName] string memberName = "") 
         {
-            _Output.WriteLine($"{memberName} {message}");
+            _Output.WriteLine($"{memberName}: {message}");
         }
 
         private void Log(Func<string> message, [CallerMemberName] string memberName = "") 
