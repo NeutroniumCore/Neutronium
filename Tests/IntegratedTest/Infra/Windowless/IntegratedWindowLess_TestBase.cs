@@ -8,6 +8,7 @@ using MVVM.HTML.Core.JavascriptEngine.Window;
 using Xunit.Abstractions;
 using UIFrameworkTesterHelper;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Infra;
 
 namespace IntegratedTest.Infra.Windowless
 {
@@ -28,7 +29,8 @@ namespace IntegratedTest.Infra.Windowless
         { 
             _Output = output;
             _TestEnvironment = testEnvironment.GetWindowlessEnvironment();
-            _Logger = new TestLogger(_Output);
+            var logger = new TestLogger(_Output);
+            _Logger = logger.Add(new BasicLogger());
         }
 
         protected virtual void Init()

@@ -90,6 +90,7 @@
     <Compile Include="Binding\Listeners\ReListener.cs" />
     <Compile Include="Binding\CommandFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
+    <Compile Include="Infra\AddLoger.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
     <Compile Include="JavascriptUIFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptObjectInternalMapper.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="HTML_Binding.cs" />
     <Compile Include="Binding\CSharpToJavascriptConverter.cs" />
     <Compile Include="StringBinding.cs" />
+    <Compile Include="WebSessionLoggerExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Navigation\IUrlSolver.cs" />
