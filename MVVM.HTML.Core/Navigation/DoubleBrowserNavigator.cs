@@ -165,11 +165,12 @@ namespace MVVM.HTML.Core.Navigation
             var moderWindow = _NextWebControl.HTMLWindow as IHTMLModernWindow;
             if (moderWindow!=null)
             {
+                var debugContext = _WebViewLifeCycleManager.DebugContext;
                 EventHandler<BeforeJavascriptExcecutionArgs> before = null;
                 before = (o,e) =>
                 {
                     moderWindow.BeforeJavascriptExecuted -= before;
-                    e.JavascriptExecutor(_javascriptUiFrameworkManager.GetMainScript(_WebViewLifeCycleManager.DebugContext));
+                    e.JavascriptExecutor(_javascriptUiFrameworkManager.GetMainScript(debugContext));
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }
