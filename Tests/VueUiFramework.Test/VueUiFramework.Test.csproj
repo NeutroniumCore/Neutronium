@@ -117,6 +117,10 @@
       <Link>TestHtml\javascript\src\subscribeArray.min.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vue.js">
+      <Link>TestHtml\javascript\src\vue.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vue.min.js">
       <Link>TestHtml\javascript\src\vue.min.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

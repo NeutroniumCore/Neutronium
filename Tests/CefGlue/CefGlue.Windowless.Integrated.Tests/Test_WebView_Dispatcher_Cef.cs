@@ -1,5 +1,4 @@
-﻿using CefGlue.TestInfra;
-using IntegratedTest.Tests.Windowless;
+﻿using IntegratedTest.Tests.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 

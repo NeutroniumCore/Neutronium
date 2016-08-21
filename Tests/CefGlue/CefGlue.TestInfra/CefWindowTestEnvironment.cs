@@ -1,14 +1,12 @@
 ﻿using HTMLEngine.CefGlue;
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
-using UIFrameworkTesterHelper;
 using KnockoutUIFramework;
-using KnockoutUIFramework.Test.TestHtml;
 using MVVM.HTML.Core.JavascriptUIFramework;
 
-namespace CefGlue.TestInfra 
+namespace CefGlue.TestInfra
 {
-    public class CefWindowTestEnvironment : WindowTestEnvironment 
+    public abstract class CefWindowTestEnvironment : WindowTestEnvironment 
     {
         public override IWPFWebWindowFactory GetWPFWebWindowFactory() 
         {
@@ -16,6 +14,6 @@ namespace CefGlue.TestInfra
         }
 
         public override IJavascriptUIFrameworkManager FrameworkManager => new KnockoutUiFrameworkManager();
-        public override ITestHtmlProvider HtmlProvider => new KnockoutUiHtmlProvider();
+        //public override ITestHtmlProvider HtmlProvider => new KnockoutUiHtmlProvider();
     }
 }
