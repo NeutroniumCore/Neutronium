@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ChromiumFX.Windowless.Integrated.Tests
+namespace ChromiumFX.Windowless.Ko.Integrated.Tests
 {
     [Collection("ChromiumFX Ko Windowless Integrated")]
     public class Test_ConvertToJSO_ChromiumFX_Ko : Test_ConvertToJSO

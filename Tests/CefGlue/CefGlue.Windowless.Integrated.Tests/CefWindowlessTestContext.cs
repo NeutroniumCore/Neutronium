@@ -1,11 +1,10 @@
-﻿using CefGlue.TestInfra;
-using Xunit;
+﻿using Xunit;
 
-namespace CefGlue.Windowless.Integrated.Tests 
+namespace CefGlue.Windowless.Integrated.Tests
 {
 
-    [CollectionDefinition("Cef Windowless Integrated")]
-    public class CefWindowlessTestContext : ICollectionFixture<CefGlueWindowlessSharedJavascriptEngineFactory> 
+    [CollectionDefinition("Cef Windowless Ko Integrated")]
+    public class CefWindowlessTestContext : ICollectionFixture<CefGlueWindowlessSharedJavascriptEngineFactoryKo> 
     {
     }
 }

@@ -6,11 +6,12 @@ using Xunit.Abstractions;
 namespace CefGlue.Windowless.Integrated.Tests
 {
     [Collection("Cef Windowless Ko Integrated")]
-    public class Test_JavascriptToCSharpMapper_Simple_Cef : Test_JavascriptToCSharpMapper_Simple
+    public class Test_HTMLBinding_Cef_Ko : Test_HTMLBinding
     {
-        public Test_JavascriptToCSharpMapper_Simple_Cef(CefGlueWindowlessSharedJavascriptEngineFactoryKo context, ITestOutputHelper output) :
+        public Test_HTMLBinding_Cef_Ko(CefGlueWindowlessSharedJavascriptEngineFactoryKo context, ITestOutputHelper output) : 
             base(context, output)
         {
         }
     }
 }
+

@@ -2,15 +2,17 @@
 using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
-using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using IntegratedTest.JavascriptUIFramework;
 
 namespace CefGlue.TestInfra
 {
-    public class CefGlueWindowlessSharedJavascriptEngineFactory : IWindowLessHTMLEngineProvider
+    public abstract class CefGlueWindowlessSharedJavascriptEngineFactory : IWindowLessHTMLEngineProvider
     {
         private bool _Runing=false;
         private readonly WpfThread _WpfThread;
+
+        protected abstract FrameworkTestContext FrameworkTestContext { get; }
 
         public CefGlueWindowlessSharedJavascriptEngineFactory() 
         {
@@ -38,7 +40,7 @@ namespace CefGlue.TestInfra
             return new WindowlessTestEnvironment() 
             {
                 WindowlessJavascriptEngineBuilder = (frameWork) => CreateWindowlessJavascriptEngine(frameWork),
-                FrameworkTestContext = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext(),
+                FrameworkTestContext = FrameworkTestContext,
                 TestUIDispacther = new WPFUIDispatcher(_WpfThread.Dispatcher)
             };
         }

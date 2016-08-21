@@ -1,7 +1,6 @@
-﻿using ChromiumFX.TestInfra;
-using Xunit;
+﻿using Xunit;
 
-namespace ChromiumFX.Windowless.Integrated.Tests 
+namespace ChromiumFX.Windowless.Ko.Integrated.Tests
 {
 
     [CollectionDefinition("ChromiumFX Ko Windowless Integrated")]

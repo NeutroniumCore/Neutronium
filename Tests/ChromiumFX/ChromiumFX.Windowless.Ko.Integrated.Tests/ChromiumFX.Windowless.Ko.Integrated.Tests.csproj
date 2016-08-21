@@ -8,8 +8,8 @@
     <ProjectGuid>{072FFCC6-6840-4E6C-B314-07F3219409F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChromiumFX.Windowless.Integrated.Tests</RootNamespace>
-    <AssemblyName>ChromiumFX.Windowless.Integrated.Tests</AssemblyName>
+    <RootNamespace>ChromiumFX.Windowless.Ko.Integrated.Tests</RootNamespace>
+    <AssemblyName>ChromiumFX.Windowless.Ko.Integrated.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

@@ -214,3 +214,6 @@ FakesAssemblies/
 /ApplicationExamples/Example.ChromiumFX.Vue.Collection/cef/Resources/*.dat
 /Tests/ChromiumFX/ChromiumFx.Windowless.Vue.Integrated.Tests/cef/Resources/locales
 /Tests/ChromiumFX/ChromiumFx.Windowless.Vue.Integrated.Tests/cef/Resources
+/Tests/ChromiumFX/ChromiumFX.Windowless.Ko.Integrated.Tests/cef/Resources/locales/*.pak
+/Tests/ChromiumFX/ChromiumFX.Windowless.Ko.Integrated.Tests/cef/Resources/*.pak
+/Tests/ChromiumFX/ChromiumFX.Windowless.Ko.Integrated.Tests/cef/Resources/icudtl.dat

@@ -2,7 +2,7 @@
 using IntegratedTest.JavascriptUIFramework;
 using KnockoutUIFramework.Test.IntegratedInfra;
 
-namespace ChromiumFX.Windowless.Integrated.Tests
+namespace ChromiumFX.Windowless.Ko.Integrated.Tests
 {
     public class ChromiumFXWindowLessHTMLEngineProviderKo : ChromiumFXWindowLessHTMLEngineProvider
     {
