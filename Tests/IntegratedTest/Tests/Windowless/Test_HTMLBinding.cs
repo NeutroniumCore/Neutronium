@@ -827,7 +827,8 @@ namespace IntegratedTest.Tests.Windowless
                       string n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      DoSafe(() => Call(js, "One", _WebView.Factory.CreateString("Dede")));
+                      var StringJS = _WebView.Factory.CreateString("Dede");
+                      SetAttribute(js, "One", StringJS);
 
                       string res3 = GetStringAttribute(js, "One");
                       res3.Should().Be("Dede");
