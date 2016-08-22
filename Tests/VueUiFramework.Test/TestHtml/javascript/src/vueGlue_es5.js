@@ -150,6 +150,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 mixins: mixin,
                 data: vm,
                 ready: function ready() {
+                    console.log("Vue ready");
                     fufillOnReady(null);
                 }
             });

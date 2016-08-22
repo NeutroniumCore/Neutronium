@@ -96,6 +96,7 @@
     <Compile Include="Infra\Threading\DispatcherContextTaskScheduler.cs" />
     <Compile Include="Infra\Threading\DispatcherTaskFactory.cs" />
     <Compile Include="Infra\Windowless\IWindowLessHTMLEngineProvider.cs" />
+    <Compile Include="Infra\Windowless\TestContextBase.cs" />
     <Compile Include="Infra\Windowless\TestLogger.cs" />
     <Compile Include="JavascriptUIFramework\FrameworkTestContext.cs" />
     <Compile Include="Infra\Windowless\TestInContextAsync.cs" />

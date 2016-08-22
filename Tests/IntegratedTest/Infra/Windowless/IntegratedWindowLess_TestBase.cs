@@ -9,6 +9,7 @@ using Xunit.Abstractions;
 using UIFrameworkTesterHelper;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
+using System.Runtime.CompilerServices;
 
 namespace IntegratedTest.Infra.Windowless
 {
@@ -77,34 +78,30 @@ namespace IntegratedTest.Infra.Windowless
             await await taskFactory.StartNew(act);
         }
 
-        protected async Task RunAsync(TestInContext test)
+        private async Task RunAsync(TestContextBase test, Func<IHTMLBinding, Task> Run, string memberName)
         {
-            using (Tester(test.Path)) 
+            using (Tester(test.Path))
             {
+                _Logger.Info($"Starting {memberName}");
                 _Logger.Info("Begin Binding");
                 using (var mb = await test.Bind(_ViewEngine))
                 {
                     _Logger.Info("End Binding");
                     _Logger.Info("Begin Test");
-                    await RunInContext(() => test.Test(mb));
-                    _Logger.Info("End Test");
+                    await Run(mb);
                 }
-            }      
+                _Logger.Info($"Ending {memberName}");
+            }
         }
 
-        protected async Task RunAsync(TestInContextAsync test) 
-        {            
-            using (Tester(test.Path)) 
-            {
-                _Logger.Info("Begin Binding");
-                using (var mb = await test.Bind(_ViewEngine)) 
-                {
-                    _Logger.Info("End Binding");
-                    _Logger.Info("Begin Test");
-                    await RunInContext(async () => await test.Test(mb));
-                    _Logger.Info("Ending test");
-                }
-            }            
+        protected Task RunAsync(TestInContext test, [CallerMemberName] string memberName = "")
+        {
+            return RunAsync(test, mb => RunInContext(() => test.Test(mb)), memberName); 
+        }
+
+        protected Task RunAsync(TestInContextAsync test, [CallerMemberName] string memberName = "") 
+        {
+            return RunAsync(test, mb => RunInContext(async () => await test.Test(mb)), memberName);        
         }
 
         protected void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)

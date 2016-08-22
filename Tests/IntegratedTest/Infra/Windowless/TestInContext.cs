@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
-using UIFrameworkTesterHelper;
 using MVVM.HTML.Core;
-using MVVM.HTML.Core.Binding;
 
 namespace IntegratedTest.Infra.Windowless
 {
-    public class TestInContext
+    public class TestInContext : TestContextBase
     {
-        public TestContext Path { get; set; }
-
-        public Func<HTMLViewEngine, Task<IHTMLBinding>> Bind { get; set; }
-
         public Action<IHTMLBinding> Test { get; set; }
     }
 }
