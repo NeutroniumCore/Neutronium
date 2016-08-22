@@ -102,6 +102,9 @@
     <Compile Include="Infra\Windowless\TestInContextAsync.cs" />
     <Compile Include="Infra\Windowless\TestIUIDispatcher.cs" />
     <Compile Include="TestData\SimpleViewModel.cs" />
+    <Compile Include="Tests\Windowless\TestPerformanceKind.cs" />
+    <Compile Include="Tests\Windowless\Test_HTLMBinding_Performance.cs" />
+    <Compile Include="Tests\Windowless\Test_HTMLBinding_Base.cs" />
     <Compile Include="Tests\Windowless\Test_WebView_Dispatcher.cs" />
     <Compile Include="Tests\Windowless\Test_ConvertToJSO.cs" />
     <Compile Include="Tests\Windowless\Test_JavascriptToCSharpMapper_Simple.cs" />
@@ -249,7 +252,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

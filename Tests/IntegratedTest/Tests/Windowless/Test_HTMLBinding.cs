@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -25,25 +24,11 @@ using UIFrameworkTesterHelper;
 
 namespace IntegratedTest.Tests.Windowless
 {
-    public abstract class Test_HTMLBinding : IntegratedWindowLess_TestBase
+    public abstract class Test_HTMLBinding : Test_HTMLBinding_Base
     {
-        private readonly Person _DataContext;
-        private ICommand _ICommand;
-
         protected Test_HTMLBinding(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
-            _ICommand = Substitute.For<ICommand>();
-            _DataContext = new Person(_ICommand)
-            {
-                Name = "O Monstro",
-                LastName = "Desmaisons",
-                Local = new Local() { City = "Florianopolis", Region = "SC" },
-                PersonalState = PersonalState.Married
-            };
-
-            _DataContext.Skills.Add(new Skill() { Name = "Langage", Type = "French" });
-            _DataContext.Skills.Add(new Skill() { Name = "Info", Type = "C++" });
         }
 
         [Fact]
@@ -880,19 +865,6 @@ namespace IntegratedTest.Tests.Windowless
             await RunAsync(test);
         }
 
-        private void Check(IJavascriptObject coll, IList<Skill> iskill)
-        {
-            coll.GetArrayLength().Should().Be(iskill.Count);
-
-            for (int i = 0; i < iskill.Count; i++)
-            {
-                var c = coll.GetValue(i);
-
-                (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(iskill[i].Name);
-                (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(iskill[i].Type);
-            }
-        }
-
         private class ViewModelTest : ViewModelBase
         {
             private ICommand _ICommand;
@@ -1648,213 +1620,6 @@ namespace IntegratedTest.Tests.Windowless
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
-                }
-            };
-
-            await RunAsync(test);
-        }
-
-        [Fact]
-        public async Task Test_HTMLBinding_Stress_TwoWay_Collection()
-        {
-
-            var test = new TestInContextAsync()
-            {
-                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
-                {
-                    var js = mb.JSRootObject;
-
-                    var col = GetSafe(() => GetCollectionAttribute(js, "Skills")); ;
-                    col.GetArrayLength().Should().Be(2);
-
-                    Check(col, _DataContext.Skills);
-
-                    _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
-
-                    await Task.Delay(150);
-                    col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
-                    Check(col, _DataContext.Skills);
-
-                    _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
-                    int iis = 500;
-                    for (int i = 0; i < iis; i++)
-                    {
-                        _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
-                    }
-
-                    bool notok = true;
-                    int tcount = _DataContext.Skills.Count;
-
-                    var stopWatch = new Stopwatch();
-                    stopWatch.Start();
-
-                    while (notok)
-                    {
-                        await Task.Delay(10);
-                        col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
-                        notok = col.GetArrayLength() != tcount;
-                    }
-                    stopWatch.Stop();
-                    var ts = stopWatch.ElapsedMilliseconds;
-
-                    Console.WriteLine($"Perf: {((double)(ts)) / 1000} sec for {iis} items");
-                    Check(col, _DataContext.Skills);
-
-                    TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(4.7));
-                }
-            };
-
-            await RunAsync(test);
-        }
-
-        private class TwoList
-        {
-            public TwoList()
-            {
-                L1 = new List<Skill>();
-                L2 = new List<Skill>();
-            }
-            public List<Skill> L1 { get; }
-            public List<Skill> L2 { get; }
-        }
-
-        [Fact]
-        public Task Test_HTMLBinding_Stress_TwoWay_Collection_CreateBinding()
-        {
-            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, 1.5, TestContext.Simple);
-        }
-
-        [Fact]
-        public Task Test_HTMLBinding_Stress_OneWay_Collection_CreateBinding()
-        {
-            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, 1.5, TestContext.Simple);
-        }
-
-        public Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, double excpected, TestContext ipath = TestContext.Index)
-        {
-            int r = 100;
-            var datacontext = new TwoList();
-            datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
-
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            var test = new TestInContext()
-            {
-                Path = ipath,
-                Bind = (win) => HTML_Binding.Bind(win, datacontext, imode),
-                Test = (mb) =>
-                {
-                    stopWatch.Stop();
-                    long ts = stopWatch.ElapsedMilliseconds;
-
-                    Console.WriteLine("Perf: {0} sec for {1} items", ((double)(ts)) / 1000, r);
-
-                    var js = mb.JSRootObject;
-
-                    var col = GetSafe(() => GetCollectionAttribute(js, "L1"));
-                    col.GetArrayLength().Should().Be(r);
-
-                    TimeSpan.FromMilliseconds(ts).Should().BeLessThan(TimeSpan.FromSeconds(excpected));
-                }
-            };
-            return RunAsync(test);
-        }
-
-        [Fact]
-        public async Task Test_HTMLBinding_Stress_Collection_Update_From_Javascript()
-        {
-            int r = 100;
-            var datacontext = new TwoList();
-            datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
-
-            var test = new TestInContextAsync()
-            {
-                Path = TestContext.Simple,
-                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
-                {
-                    var js = mb.JSRootObject;
-
-                    var col1 = GetCollectionAttribute(js, "L1");
-                    col1.GetArrayLength().Should().Be(r);
-
-                    var col2 = GetCollectionAttribute(js, "L2");
-                    col2.GetArrayLength().Should().Be(0);
-
-                    var l2c = GetAttribute(js, "L2");
-                    l2c.Should().NotBeNull();
-
-                    string javascript = "window.app = function(value,coll){var args = []; args.push(0);args.push(0);for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);};";
-                    IJavascriptObject res = null;
-                    bool ok = _WebView.Eval(javascript, out res);
-                    ok.Should().BeTrue();
-
-                    bool notok = true;
-                    var stopWatch = new Stopwatch();
-                    stopWatch.Start();
-
-                    DoSafe(() => Call(_WebView.GetGlobal(), "app", col1, l2c));
-                    while (notok)
-                    {
-                        await Task.Delay(100);
-                        notok = datacontext.L2.Count != r;
-                    }
-                    stopWatch.Stop();
-                    long ts = stopWatch.ElapsedMilliseconds;
-
-                    Console.WriteLine($"Perf: {((double)(ts))/ 1000} sec for {r} items");
-                }
-            };
-
-            await RunAsync(test);
-        }
-
-
-
-        [Fact]
-        public Task Test_HTMLBinding_Stress_OneTime_Collection_CreateBinding()
-        {
-            return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, 1.5, TestContext.Simple);
-        }
-
-        [Fact]
-        public async Task Test_HTMLBinding_Stress_TwoWay_Int()
-        {
-            var test = new TestInContextAsync()
-            {
-                Path = TestContext.Simple,
-                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
-                {
-                    var js = mb.JSRootObject;
-                    int iis = 500;
-                    for (int i = 0; i < iis; i++)
-                    {
-                        _DataContext.Age += 1;
-                    }
-
-                    bool notok = true;
-                    var tg = _DataContext.Age;
-                    await Task.Delay(700);
-
-                    var stopWatch = new Stopwatch();
-                    stopWatch.Start();
-
-                    while (notok)
-                    {
-                        await Task.Delay(100);
-                        int doublev = GetIntAttribute(js, "Age");
-                        notok = doublev != tg;
-                    }
-                    stopWatch.Stop();
-                    var ts = stopWatch.ElapsedMilliseconds;
-
-                    Console.WriteLine("Perf: {0} sec for {1} iterations", ((double)(ts)) / 1000, iis);
-
-                    TimeSpan.FromMilliseconds(ts).Should().BeLessOrEqualTo(TimeSpan.FromSeconds(3.1));
-
                 }
             };
 
