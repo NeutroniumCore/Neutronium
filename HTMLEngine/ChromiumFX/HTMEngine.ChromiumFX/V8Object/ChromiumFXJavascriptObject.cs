@@ -69,10 +69,13 @@ namespace HTMEngine.ChromiumFX.V8Object
 
         public void Bind(string functionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action) 
         {
-            var cfrV8Handler = action.Convert(functionName, context.Convert());
-            _Functions.Value.Add(cfrV8Handler);
-            var func = CfrV8Value.CreateFunction(functionName, cfrV8Handler);
-            _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.ReadOnly | CfxV8PropertyAttribute.DontDelete);
+            lock (this) 
+            {
+                 var cfrV8Handler = action.Convert(functionName, context.Convert());
+                _Functions.Value.Add(cfrV8Handler);
+                var func = CfrV8Value.CreateFunction(functionName, cfrV8Handler);
+                _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.ReadOnly | CfxV8PropertyAttribute.DontDelete);
+            }           
         }
 
         public IJavascriptObject ExecuteFunction(IWebView context) 

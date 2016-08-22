@@ -1,4 +1,5 @@
 ﻿using System;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -14,13 +15,15 @@ namespace VueUiFramework
         private readonly Lazy<IJavascriptObject> _VueHelperLazy;
         private readonly VueJavascriptSessionInjector _VueJavascriptSessionInjector;
         private readonly VueJavascriptViewModelUpdater _VueJavascriptViewModelUpdater;
+        private readonly IWebSessionLogger _Logger;
 
-        public VueVmManager(IWebView webView, IJavascriptObject listener) 
+        public VueVmManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger) 
         {
             _WebView = webView;
+            _Logger = logger;
             _VueHelperLazy = new Lazy<IJavascriptObject>(GetVueHelper);
-            _VueJavascriptSessionInjector =  new VueJavascriptSessionInjector(webView, listener, _VueHelperLazy);
-            _VueJavascriptViewModelUpdater = new VueJavascriptViewModelUpdater(webView, listener, _VueHelperLazy);
+            _VueJavascriptSessionInjector =  new VueJavascriptSessionInjector(webView, listener, _VueHelperLazy, _Logger);
+            _VueJavascriptViewModelUpdater = new VueJavascriptViewModelUpdater(webView, listener, _VueHelperLazy);    
         }
 
         private IJavascriptObject GetVueHelper() 

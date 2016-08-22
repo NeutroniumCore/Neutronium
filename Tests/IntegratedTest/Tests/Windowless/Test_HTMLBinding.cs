@@ -1777,10 +1777,10 @@ namespace IntegratedTest.Tests.Windowless
                 {
                     var js = mb.JSRootObject;
 
-                    var col1 = GetSafe(() => GetCollectionAttribute(js, "L1"));
+                    var col1 = GetCollectionAttribute(js, "L1");
                     col1.GetArrayLength().Should().Be(r);
 
-                    var col2 = GetSafe(() => GetCollectionAttribute(js, "L2"));
+                    var col2 = GetCollectionAttribute(js, "L2");
                     col2.GetArrayLength().Should().Be(0);
 
                     var l2c = GetAttribute(js, "L2");

@@ -18,7 +18,7 @@ namespace VueUiFramework
 
         public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger) 
         {
-            return new VueVmManager(webView, listener);
+            return new VueVmManager(webView, listener, logger);
         }
 
         public string GetDebugScript()
