@@ -163,6 +163,12 @@
     <Content Include="TestHtml\javascript\empty_with_js.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestHtml\javascript\src\vueComandDirective_es5.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\vueGlue_es5.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestHtml\javascript\src\index.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

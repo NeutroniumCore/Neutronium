@@ -7,7 +7,7 @@
 </head>
 <body>
     <div id="main">
-        <input type="text" v-mode="Name" placeholder="First name">
+        <input type="text" v-model="Name" placeholder="First name">
         <ul>
             <li v-for="skill in Skills"><span>{{skill.Type}}</span><span>{{skill.Name}}</span></li>
         </ul>
@@ -27,9 +27,9 @@
 
     <script src="src/subscribearray.min.js"></script>
     <script src="src/vue.js"></script> 
-    <script src="src/vueComandDirective.js"></script> 
+    <script src="src/vueComandDirective_es5.js"></script> 
     <script src="src/index.js"></script>
-    <script src="src/vueglue.js"></script>
+    <script src="src/vueglue_es5.js"></script>
 
 </body>
 </html>
