@@ -352,6 +352,49 @@ describe('Importing lib', function () {
             });
         });
 
+        describe('splice function with 0, 0 first parameters on empty array', function() {
+            var result, added1 = "newfirst";          
+
+            beforeAll(function() {
+                doBeforeAll();
+                array = [];
+                result = array.splice(0, 0, added1);
+                jasmine.clock().tick(0);
+            });
+
+            afterAll(function() {
+                doafterAll();
+            });
+
+            it('should work as original- return value', function () {
+                expect(result).toEqual([]);
+            });
+
+            it('should work as original- return collection', function () {
+                expect(array).toEqual([added1]);
+            });
+
+            it('should send one change', function () {
+                expect(callback.calls.count()).toBe(1);
+            });
+
+            it('should send change with correct information: 1 element', function () {
+                expect(callback.calls.mostRecent().args[0].length).toBe(1);
+            });
+
+            it('should send change with correct information: first change :correct index', function () {
+                expect(callback.calls.mostRecent().args[0][0].index).toBe(0);
+            });
+
+            it('should send change with correct information: first change : correct value', function () {
+                expect(callback.calls.mostRecent().args[0][0].value).toBe(added1);
+            });
+
+            it('should send change with correct information: first change : correct status', function () {
+                expect(callback.calls.mostRecent().args[0][0].status).toBe('added');
+            });
+        });
+
 
         describe('splice function with 3 or more parameters and remove', function () {
             var result, added1 = "newfirst";

@@ -134,8 +134,8 @@
         var oginalSplice = subject.splice;
         overrideMethod('splice', function (i /*, length , insert */) {
             var position = i < 0 ? this.length + i : i;
-            if (position > this.length - 1)
-                position = this.length - 1;
+            if (position > this.length)
+                position = this.length;
             var insert = Array.prototype.slice.call(arguments, 2);
             var deleted = oginalSplice.apply(this, arguments);
             onListeners(() => spliceChangeBuilder(deleted, insert, position));

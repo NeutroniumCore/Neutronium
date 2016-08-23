@@ -117,7 +117,7 @@ namespace IntegratedTest.Tests.Windowless
                     var l2c = GetAttribute(js, "L2");
                     l2c.Should().NotBeNull();
 
-                    string javascript = "window.app = function(value,coll){var args = []; args.push(0);args.push(0);for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);};";
+                    var javascript = "window.app = function(value,coll){var args = []; args.push(0); args.push(0); for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);  console.log(value.length); console.log(coll.length);};";
                     IJavascriptObject res = null;
                     bool ok = _WebView.Eval(javascript, out res);
                     ok.Should().BeTrue();
