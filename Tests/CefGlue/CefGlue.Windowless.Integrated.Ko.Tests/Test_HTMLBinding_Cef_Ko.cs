@@ -2,7 +2,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace CefGlue.Windowless.Integrated.Tests
+namespace CefGlue.Windowless.Integrated.Ko.Tests
 {
     [Collection("Cef Windowless Ko Integrated")]
     public class Test_HTMLBinding_Cef_Ko : Test_HTMLBinding

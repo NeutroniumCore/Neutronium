@@ -2,7 +2,7 @@
 using IntegratedTest.JavascriptUIFramework;
 using KnockoutUIFramework.Test.IntegratedInfra;
 
-namespace CefGlue.Windowless.Integrated.Tests
+namespace CefGlue.Windowless.Integrated.Ko.Tests
 {
     public class CefGlueWindowlessSharedJavascriptEngineFactoryKo : CefGlueWindowlessSharedJavascriptEngineFactory
     {

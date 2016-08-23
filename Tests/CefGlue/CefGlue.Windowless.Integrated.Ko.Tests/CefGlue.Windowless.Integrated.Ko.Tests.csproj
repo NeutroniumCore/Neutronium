@@ -8,8 +8,8 @@
     <ProjectGuid>{9B5689B2-2774-45D1-A52C-4D6A46C93326}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefGlue.Windowless.Integrated.Tests</RootNamespace>
-    <AssemblyName>CefGlue.Windowless.Integrated.Tests</AssemblyName>
+    <RootNamespace>CefGlue.Windowless.Integrated.Ko.Tests</RootNamespace>
+    <AssemblyName>CefGlue.Windowless.Integrated.Ko.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

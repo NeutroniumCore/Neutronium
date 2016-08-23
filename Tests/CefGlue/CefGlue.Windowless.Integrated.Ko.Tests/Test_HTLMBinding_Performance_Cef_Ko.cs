@@ -3,7 +3,7 @@ using IntegratedTest.Tests.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace CefGlue.Windowless.Integrated.Tests 
+namespace CefGlue.Windowless.Integrated.Ko.Tests
 {
     [Collection("Cef Windowless Ko Integrated")]
     public class Test_HTLMBinding_Performance_Cef_Ko : Test_HTLMBinding_Performance
