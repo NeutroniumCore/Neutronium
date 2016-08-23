@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 
 namespace IntegratedTest.Tests.Windowless 
 {
-    public class Test_HTLMBinding_Performance : Test_HTMLBinding_Base 
+    public abstract class Test_HTLMBinding_Performance : Test_HTMLBinding_Base 
     {
         private readonly Dictionary<TestPerformanceKind, int> _ExpectedTimeInMilliSeconds; 
         protected Test_HTLMBinding_Performance(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds) : base(testEnvironment, output)
