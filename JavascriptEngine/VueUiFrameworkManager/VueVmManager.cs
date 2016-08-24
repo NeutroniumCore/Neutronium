@@ -23,7 +23,7 @@ namespace VueUiFramework
             _Logger = logger;
             _VueHelperLazy = new Lazy<IJavascriptObject>(GetVueHelper);
             _VueJavascriptSessionInjector =  new VueJavascriptSessionInjector(webView, listener, _VueHelperLazy, _Logger);
-            _VueJavascriptViewModelUpdater = new VueJavascriptViewModelUpdater(webView, listener, _VueHelperLazy);    
+            _VueJavascriptViewModelUpdater = new VueJavascriptViewModelUpdater(webView, listener, _VueHelperLazy, _Logger);    
         }
 
         private IJavascriptObject GetVueHelper() 
@@ -41,6 +41,7 @@ namespace VueUiFramework
                 _VueHelperLazy.Value.Dispose();
 
             _VueJavascriptViewModelUpdater.Dispose();
+            _VueJavascriptSessionInjector.Dispose();
         }
     }
 }

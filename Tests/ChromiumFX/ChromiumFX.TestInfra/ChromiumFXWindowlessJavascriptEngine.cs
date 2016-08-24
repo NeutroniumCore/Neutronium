@@ -83,6 +83,8 @@ namespace ChromiumFX.TestInfra
         {
             var browserhost = _CfxBrowser.Host;
             browserhost.CloseBrowser(true);
+            _CfxBrowser.Dispose();
+            _CfxClient.Dispose();
         }
     }
 }

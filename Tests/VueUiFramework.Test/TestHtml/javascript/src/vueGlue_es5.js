@@ -121,7 +121,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
 
     var fufillOnReady;
-    var ready = new Promise(function (fullfill) {
+    var readyPromise = new Promise(function (fullfill) {
         fufillOnReady = fullfill;
     });
 
@@ -151,6 +151,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 data: vm,
                 ready: function ready() {
                     console.log("Vue ready");
+                    console.log(typeof fufillOnReady);
                     fufillOnReady(null);
                 }
             });
@@ -159,7 +160,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
             return inject(vm, observer);
         },
-        ready: ready
+        ready: readyPromise
     };
 
     window.glueHelper = helper;

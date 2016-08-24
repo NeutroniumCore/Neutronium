@@ -94,6 +94,22 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
+        public async Task Bind_ShouldBeRobust() 
+        {
+            var test = new TestInContext() 
+            {
+                Bind = (win) => HTML_Binding.Bind(win,  _DataContext, JavascriptBindingMode.TwoWay),
+                Test = _ =>  { }
+            };
+
+            for (var i = 0; i < 150; i++) 
+            {
+                _Logger.Info($"Runing interaction {i}");
+                 await RunAsync(test);
+            }    
+        }
+
+        [Fact]
         public async Task Test_HTMLBinding_Stress_Collection_Update_From_Javascript() 
         {
             int r = 100;

@@ -64,6 +64,8 @@ namespace CefGlue.TestInfra
 
         public void Dispose()
         {
+            var browserhost = _CefBrowser.GetHost();
+            browserhost.CloseBrowser(true);
             _CefFrame.Dispose();
             _CefBrowser.Dispose();
         }
