@@ -356,8 +356,8 @@ describe('Importing lib', function () {
             var result, added1 = "newfirst";          
 
             beforeAll(function() {
-                doBeforeAll();
                 array = [];
+                createSubscription();
                 result = array.splice(0, 0, added1);
                 jasmine.clock().tick(0);
             });
