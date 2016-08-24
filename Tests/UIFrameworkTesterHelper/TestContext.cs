@@ -29,7 +29,6 @@ namespace UIFrameworkTesterHelper
         Navigation2,
 
         [Description("javascript/navigation_3.html")]
-        Navigation3,
-        
+        Navigation3
     }
 }
