@@ -2,6 +2,7 @@
 using MVVM.HTML.Core.JavascriptUIFramework;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using System.Collections.Generic;
+using MVVM.HTML.Core;
 using MVVM.HTML.Core.Infra;
 
 namespace VueUiFramework
@@ -12,12 +13,14 @@ namespace VueUiFramework
         private readonly IJavascriptObject _Listener;
         private readonly IDictionary<IJavascriptObject, IJavascriptObject> _Silenters =  new Dictionary<IJavascriptObject, IJavascriptObject>();
         private readonly Lazy<IJavascriptObject> _VueHelper;
+        private readonly IWebSessionLogger _Logger;
 
-        public VueJavascriptViewModelUpdater(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper)
+        public VueJavascriptViewModelUpdater(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper, IWebSessionLogger logger)
         {
             _WebView = webView;
             _Listener = listener;
             _VueHelper = vueHelper;
+            _Logger = logger;
         }
 
         public void ClearAllCollection(IJavascriptObject array)
@@ -62,6 +65,7 @@ namespace VueUiFramework
             {
                 var silenter = GetOrCreateSilenter(father);
                 if (silenter.IsUndefined) {
+                    _Logger.Info(()=> $"UpdateProperty called during an injection process. Property updated {propertyName}");
                     //may happen if code being call between register and inject
                     //in this case just set attribute value. The value will be register after
                     father.SetValue(propertyName, value);

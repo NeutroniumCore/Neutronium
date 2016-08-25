@@ -2,11 +2,12 @@
 using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Threading.Tasks;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Extension;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace VueUiFramework
 {
-    internal class VueJavascriptSessionInjector : IJavascriptSessionInjector
+    internal class VueJavascriptSessionInjector : IJavascriptSessionInjector, IDisposable
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptObject _Listener;
@@ -30,23 +31,28 @@ namespace VueUiFramework
 
         public async Task RegisterMainViewModel(IJavascriptObject jsObject)
         {
-             await await _WebView.EvaluateAsync(() => UnsafeRegister(jsObject));
+            var task = await _WebView.EvaluateAsync(() => UnsafeRegister(jsObject));
+            await task;
         }
 
         private Task UnsafeRegister(IJavascriptObject ijvm)
         {
             var tcs = new TaskCompletionSource<object>();
             _ReadyListener = _WebView.Factory.CreateObject(false);
-            _ReadyListener.Bind("fulfill", _WebView, (_, __, ___) => 
-            {
+            _ReadyListener.Bind("fulfill", _WebView, _ => {
                 _Logger.Debug("Vue ready received");
                 tcs.TrySetResult(null);
             });
 
             var vueHelper = _VueHelper.Value;
-            vueHelper.GetValue("ready").Invoke("then", _WebView, _ReadyListener.GetValue("fulfill"));
+            vueHelper.GetValue("ready").Invoke("then", _WebView, _ReadyListener.GetValue("fulfill"));       
             vueHelper.Invoke("register", _WebView, ijvm, _Listener);
             return tcs.Task;
+        }
+
+        public void Dispose() 
+        {
+            _ReadyListener.Dispose();
         }
     }
 }
