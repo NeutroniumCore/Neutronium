@@ -14,6 +14,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         public IJavascriptObjectConverter Converter { get; }
         public IJavascriptObjectFactory Factory { get; }
+        private CfrV8Context V8Context { get; }
 
         public ChromiumFXWebView(CfrBrowser cfrbrowser) 
         {
@@ -23,11 +24,6 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             _Dispatcher = new ChromiumFXDispatcher(_Browser, V8Context);
             Converter = new ChromiumFXConverter(V8Context);
             Factory = new ChromiumFXFactory(V8Context);
-        }
-
-        private CfrV8Context V8Context
-        {
-            set; get;
         }
 
         internal CfrFrame GetRaw()
@@ -70,7 +66,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             CfrV8Value v8Res;
             CfrV8Exception exception;
             bool resValue = V8Context.Eval(code, out v8Res, out exception);
-            res = (v8Res != null) ? v8Res.Convert() : null;
+            res = v8Res?.Convert();
             return resValue;
         }
 

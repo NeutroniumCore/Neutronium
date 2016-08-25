@@ -9,12 +9,7 @@ namespace HTMEngine.ChromiumFX.Convertion
         public static CfrFrame Convert(this IWebView context)
         {
             var chromiumContext = context as ChromiumFXWebView;
-            return (chromiumContext == null) ? null : chromiumContext.GetRaw();
-        }
-
-        public static IWebView Convert(this CfrFrame context)
-        {
-            return new ChromiumFXWebView(context.Browser);
+            return chromiumContext?.GetRaw();
         }
     }
 }
