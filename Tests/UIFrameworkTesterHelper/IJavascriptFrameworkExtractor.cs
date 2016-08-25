@@ -1,6 +1,6 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
-namespace IntegratedTest.JavascriptUIFramework
+namespace UIFrameworkTesterHelper
 {
     public interface IJavascriptFrameworkExtractor
     {

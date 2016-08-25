@@ -1,6 +1,5 @@
-﻿using System;
-using IntegratedTest.JavascriptUIFramework;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using UIFrameworkTesterHelper;
 
 namespace KnockoutUIFramework.Test.IntegratedInfra
 {

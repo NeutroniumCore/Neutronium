@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using IntegratedTest.Infra.Threading;
-using IntegratedTest.JavascriptUIFramework;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;

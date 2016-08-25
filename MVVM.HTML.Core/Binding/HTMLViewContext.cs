@@ -31,6 +31,7 @@ namespace MVVM.HTML.Core.Binding
         public void Dispose() 
         {
             _VmManager.Dispose();
+            _Listener.Dispose();
         }
     }
 }

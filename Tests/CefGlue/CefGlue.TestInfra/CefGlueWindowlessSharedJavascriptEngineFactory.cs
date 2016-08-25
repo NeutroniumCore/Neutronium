@@ -3,7 +3,7 @@ using HTML_WPF.Component;
 using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using IntegratedTest.JavascriptUIFramework;
+using UIFrameworkTesterHelper;
 
 namespace CefGlue.TestInfra
 {
