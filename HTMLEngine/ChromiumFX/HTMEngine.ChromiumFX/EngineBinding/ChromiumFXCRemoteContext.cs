@@ -11,14 +11,12 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         public ChromiumFXCRemoteContext(CfrBrowser browser) 
         {
             _CfxRemoteCallContext = (CfxRemoteCallContext.IsInContext) ? null : browser.CreateRemoteCallContext();
-            if (_CfxRemoteCallContext!=null)
-                _CfxRemoteCallContext.Enter();
+            _CfxRemoteCallContext?.Enter();
         }
 
         public void Dispose() 
         {
-            if (_CfxRemoteCallContext != null)
-                _CfxRemoteCallContext.Exit();
+            _CfxRemoteCallContext?.Exit();
         }
     }
 }

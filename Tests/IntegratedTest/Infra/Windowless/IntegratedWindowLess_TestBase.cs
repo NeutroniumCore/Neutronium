@@ -14,8 +14,8 @@ namespace IntegratedTest.Infra.Windowless
 {
     public abstract class IntegratedWindowLess_TestBase 
     {
-        protected IWebView _WebView = null;
-        protected HTMLViewEngine _ViewEngine = null;
+        protected IWebView _WebView;
+        protected HTMLViewEngine _ViewEngine;
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private WindowlessTestEnvironment _TestEnvironment;
         protected IWebSessionLogger _Logger;
@@ -79,15 +79,16 @@ namespace IntegratedTest.Infra.Windowless
 
         private async Task RunAsync(TestContextBase test, Func<IHTMLBinding, Task> Run, string memberName)
         {
+            _Logger.Info($"Starting {memberName}");
             using (Tester(test.Path))
-            {
-                _Logger.Info($"Starting {memberName}");
+            {        
                 _Logger.Info("Begin Binding");
                 using (var mb = await test.Bind(_ViewEngine))
                 {
                     _Logger.Info("End Binding");
-                    _Logger.Info("Begin Test");
+                    _Logger.Info("Begin Run");
                     await Run(mb);
+                    _Logger.Info("Ending Run");
                 }
                 _Logger.Info($"Ending {memberName}");
             }
@@ -155,12 +156,12 @@ namespace IntegratedTest.Infra.Windowless
 
         protected IJavascriptObject Create(Func<IJavascriptObject> factory)
         {
-            return _WebView.Evaluate(() => factory());
+            return _WebView.Evaluate(factory);
         }
 
-        protected void DoSafe(Action Doact)
+        protected void DoSafe(Action doact)
         {
-            _WebView.Run(Doact);
+            _WebView.Run(doact);
         }
     }
 }

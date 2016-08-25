@@ -71,7 +71,7 @@ namespace HTMEngine.ChromiumFX.V8Object
         {
             lock (this) 
             {
-                 var cfrV8Handler = action.Convert(functionName, context.Convert());
+                 var cfrV8Handler = action.Convert(functionName);
                 _Functions.Value.Add(cfrV8Handler);
                 var func = CfrV8Value.CreateFunction(functionName, cfrV8Handler);
                 _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.ReadOnly | CfxV8PropertyAttribute.DontDelete);
@@ -135,7 +135,7 @@ namespace HTMEngine.ChromiumFX.V8Object
         public IEnumerable<string> GetAttributeKeys()
         {
             var list = new List<string>();
-            var res = _CfrV8Value.GetKeys(list);
+            _CfrV8Value.GetKeys(list);
             return list;
         }
     }

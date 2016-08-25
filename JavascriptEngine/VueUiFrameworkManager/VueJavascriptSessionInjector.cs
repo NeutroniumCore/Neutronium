@@ -7,7 +7,7 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace VueUiFramework
 {
-    internal class VueJavascriptSessionInjector : IJavascriptSessionInjector
+    public class VueJavascriptSessionInjector : IJavascriptSessionInjector
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptObject _Listener;
@@ -28,10 +28,9 @@ namespace VueUiFramework
             return rawObject;
         }
 
-        public async Task RegisterMainViewModel(IJavascriptObject jsObject)
+        public Task RegisterMainViewModel(IJavascriptObject jsObject)
         {
-            var task = await _WebView.EvaluateAsync(() => UnsafeRegister(jsObject));
-            await task;
+            return _WebView.Evaluate(() => UnsafeRegister(jsObject));
         }
 
         private Task UnsafeRegister(IJavascriptObject ijvm)

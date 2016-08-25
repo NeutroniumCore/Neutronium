@@ -22,7 +22,7 @@ namespace ChromiumFX.TestInfra
         private TaskCompletionSource<ChromiumFXWebView> _TaskContextCreatedEventArgs;
         private CfrApp _CfrApp;
 
-        public ChromiumFXWindowLessHTMLEngineProvider() 
+        protected ChromiumFXWindowLessHTMLEngineProvider() 
         {
             _WpfThread = WpfThread.GetWpfThread();
             _WpfThread.AddRef();

@@ -59,7 +59,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
 
             await _WebView.RunAsync(async () =>
             {
-                var errormessage = (exception == null) ? "Faulted" : exception.Message;
+                var errormessage = exception?.Message ?? "Faulted";
                 await promise.InvokeAsync("reject", _WebView, _WebView.Factory.CreateString(errormessage));
             });
         }

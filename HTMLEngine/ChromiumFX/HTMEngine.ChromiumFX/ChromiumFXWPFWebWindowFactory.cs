@@ -36,7 +36,7 @@ namespace HTMEngine.ChromiumFX
 
         public IWPFWebWindow Create()
         {
-            return new ChromiumFXWPFWindow();
+            return new ChromiumFXWPFWindow(WebSessionLogger);
         }
 
         public void Dispose()

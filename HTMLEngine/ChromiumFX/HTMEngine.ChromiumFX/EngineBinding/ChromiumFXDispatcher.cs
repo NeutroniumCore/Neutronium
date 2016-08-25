@@ -13,7 +13,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         private readonly object _Locker = new object();
         private readonly HashSet<ChromiumFXTask> _Tasks = new HashSet<ChromiumFXTask>();
 
-        private CfrTaskRunner TaskRunner { get; set; }
+        private CfrTaskRunner TaskRunner { get; }
 
         public ChromiumFXDispatcher(CfrBrowser browser, CfrV8Context context) 
         {

@@ -32,6 +32,7 @@ namespace MVVM.HTML.Core.Binding
         {
             _VmManager.Dispose();
             _Listener.Dispose();
+            _logger.Debug("HTMLViewContext Disposed");
         }
     }
 }

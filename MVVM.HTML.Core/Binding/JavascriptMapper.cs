@@ -42,7 +42,8 @@ namespace MVVM.HTML.Core.Binding
         public void AutoMap()
         {
             CheckMode(true);
-            _Root.GetAllChildren(true).OfType<IJSObservableBridge>().ToList().ForEach(ch =>
+            var observables = _Root.GetAllChildren(true).OfType<IJSObservableBridge>().ToList();
+            observables.ForEach(ch =>
             {
                 ch.AutoMap();
                 _Register(ch.MappedJSValue, ch);

@@ -4,6 +4,8 @@ using Chromium.Remote;
 using Chromium.Remote.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
+using MVVM.HTML.Core;
+using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 
@@ -13,6 +15,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     {
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
         private readonly IDispatcher _dispatcher ;
+        private readonly IWebSessionLogger _Logger;
         private CfrBrowser _WebBrowser;
         private bool _FirstLoad = true;
         private bool _SendLoadOnContextCreated = false;
@@ -21,8 +24,9 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         public Uri Url => _ChromiumWebBrowser.Url;
         public bool IsLoaded  => !_ChromiumWebBrowser.IsLoading;
 
-        public ChromiumFxControlHTMLWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher) 
+        public ChromiumFxControlHTMLWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher, IWebSessionLogger logger) 
         {
+            _Logger = logger;
             _dispatcher = dispatcher;
             _ChromiumWebBrowser = chromiumWebBrowser;
             _ChromiumWebBrowser.LoadHandler.OnLoadEnd += OnLoadEnd;

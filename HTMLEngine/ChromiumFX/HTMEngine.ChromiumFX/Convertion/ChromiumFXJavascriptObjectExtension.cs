@@ -16,7 +16,7 @@ namespace HTMEngine.ChromiumFX.Convertion
         public static CfrV8Value Convert(this IJavascriptObject javascriptObject) 
         {
             var chromiumObject = javascriptObject as ChromiumFXJavascriptObject;
-            return (chromiumObject != null) ? chromiumObject.GetRaw() : null;
+            return chromiumObject?.GetRaw();
         }
 
         public static IJavascriptObject[] Convert(this IEnumerable<CfrV8Value> cfrV8Values) 

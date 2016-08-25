@@ -41,6 +41,7 @@ namespace VueUiFramework
                 _VueHelperLazy.Value.Dispose();
 
             _VueJavascriptViewModelUpdater.Dispose();
+            _Logger.Debug("VueVmManager disposed");
         }
     }
 }

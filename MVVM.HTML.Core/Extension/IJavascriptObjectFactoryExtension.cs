@@ -20,7 +20,7 @@ namespace MVVM.HTML.Core.Extension
             }
             catch
             {
-                throw ExceptionHelper.GetUnexpected();
+                throw ExceptionHelper.Get($"Unexpected Error creating enum: {ienum}");
             }
         }
     }
