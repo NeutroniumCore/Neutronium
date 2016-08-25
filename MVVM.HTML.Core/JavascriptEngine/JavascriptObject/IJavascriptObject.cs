@@ -79,24 +79,24 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// <summary>
         /// Execute asynchronously the function in the coresponding IWebView context.
         /// </summary>
-        /// <param name="iFunctionName">
+        /// <param name="functionName">
         /// function name
         /// </param>
         /// <param name="context">
         /// function context
         /// </param>
-        /// <param name="iparam">
+        /// <param name="param">
         /// function parameters
         /// </param>
         /// <returns>
         /// task of the result of the execution
         ///</returns>
-        Task<IJavascriptObject> InvokeAsync(string iFunctionName, IWebView context, params IJavascriptObject[] iparam);
+        Task<IJavascriptObject> InvokeAsync(string functionName, IWebView context, params IJavascriptObject[] param);
 
         /// <summary>
         /// Bind a function to a jaavscript object
         /// </summary>
-        /// <param name="iFunctionName">
+        /// <param name="functionName">
         /// function name
         /// </param>
         /// <param name="context">
@@ -106,12 +106,12 @@ namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
         /// action to run when the function is called. Action agrument: 
         /// function name, this object, function parameters
         /// </param>
-        void Bind(string iFunctionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action);
+        void Bind(string functionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action);
 
         /// <summary>
         /// Associates a value with the specified identifier.
         /// </summary>
-        void SetValue(string AttributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None);
+        void SetValue(string attributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None);
 
         /// <summary>
         /// Return a string value.  The underlying data will be converted to if

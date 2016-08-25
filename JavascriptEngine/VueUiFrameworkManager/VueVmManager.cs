@@ -41,7 +41,6 @@ namespace VueUiFramework
                 _VueHelperLazy.Value.Dispose();
 
             _VueJavascriptViewModelUpdater.Dispose();
-            _VueJavascriptSessionInjector.Dispose();
         }
     }
 }

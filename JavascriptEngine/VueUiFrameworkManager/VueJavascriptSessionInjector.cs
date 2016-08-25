@@ -7,14 +7,13 @@ using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 
 namespace VueUiFramework
 {
-    internal class VueJavascriptSessionInjector : IJavascriptSessionInjector, IDisposable
+    internal class VueJavascriptSessionInjector : IJavascriptSessionInjector
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptObject _Listener;
         private readonly Lazy<IJavascriptObject> _VueHelper;
         private readonly IWebSessionLogger _Logger;
-        private IJavascriptObject _ReadyListener;
-
+ 
         public VueJavascriptSessionInjector(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper, IWebSessionLogger logger)
         {
             _WebView = webView;
@@ -38,21 +37,16 @@ namespace VueUiFramework
         private Task UnsafeRegister(IJavascriptObject ijvm)
         {
             var tcs = new TaskCompletionSource<object>();
-            _ReadyListener = _WebView.Factory.CreateObject(false);
-            _ReadyListener.Bind("fulfill", _WebView, _ => {
+            _Listener.Bind("fulfill", _WebView, _ => 
+            {
                 _Logger.Debug("Vue ready received");
                 tcs.TrySetResult(null);
             });
 
             var vueHelper = _VueHelper.Value;
-            vueHelper.GetValue("ready").Invoke("then", _WebView, _ReadyListener.GetValue("fulfill"));       
+            vueHelper.GetValue("ready").Invoke("then", _WebView, _Listener.GetValue("fulfill"));       
             vueHelper.Invoke("register", _WebView, ijvm, _Listener);
             return tcs.Task;
-        }
-
-        public void Dispose() 
-        {
-            _ReadyListener.Dispose();
         }
     }
 }
