@@ -1,7 +1,5 @@
-﻿using System;
-using IntegratedTest.Infra.Windowless;
-using IntegratedTest.JavascriptUIFramework;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using UIFrameworkTesterHelper;
 
 namespace VueUiFramework.Test.IntegratedInfra
 {

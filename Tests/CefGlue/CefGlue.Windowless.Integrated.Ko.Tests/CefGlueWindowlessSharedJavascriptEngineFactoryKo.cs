@@ -1,6 +1,6 @@
 ﻿using CefGlue.TestInfra;
-using IntegratedTest.JavascriptUIFramework;
 using KnockoutUIFramework.Test.IntegratedInfra;
+using UIFrameworkTesterHelper;
 
 namespace CefGlue.Windowless.Integrated.Ko.Tests
 {

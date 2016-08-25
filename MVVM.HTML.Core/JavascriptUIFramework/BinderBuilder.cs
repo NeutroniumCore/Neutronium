@@ -1,5 +1,4 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
 using MVVM.HTML.Core.Extension;
 using MVVM.HTML.Core.Infra;
 

@@ -98,7 +98,6 @@
     <Compile Include="Infra\Windowless\IWindowLessHTMLEngineProvider.cs" />
     <Compile Include="Infra\Windowless\TestContextBase.cs" />
     <Compile Include="Infra\Windowless\TestLogger.cs" />
-    <Compile Include="JavascriptUIFramework\FrameworkTestContext.cs" />
     <Compile Include="Infra\Windowless\TestInContextAsync.cs" />
     <Compile Include="Infra\Windowless\TestIUIDispatcher.cs" />
     <Compile Include="TestData\SimpleViewModel.cs" />
@@ -112,7 +111,6 @@
     <Compile Include="Infra\Window\IWPFWindowWrapper.cs" />
     <Compile Include="Infra\Window\WindowTestEnvironment.cs" />
     <Compile Include="TestData\ChangingCollectionViewModel.cs" />
-    <Compile Include="JavascriptUIFramework\IJavascriptFrameworkExtractor.cs" />
     <Compile Include="Infra\Windowless\IWindowlessJavascriptEngine.cs" />
     <Compile Include="Infra\Windowless\IntegratedWindowLess_TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

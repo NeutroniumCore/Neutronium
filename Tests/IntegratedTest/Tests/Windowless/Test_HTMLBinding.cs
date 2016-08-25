@@ -67,7 +67,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_OneWay_JSON_ToString()
+        public async Task OneWay_JSON_ToString()
         {
             var test = new TestInContext()
             {
@@ -96,7 +96,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_HTML_WithoutFramework_ShouldThrowException()
+        public async Task Bind_WithoutFramework_ShouldThrowException()
         {
             using (Tester(TestContext.EmptyWithJs))
             {
@@ -118,7 +118,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_HTML_Without_Correct_js_ShouldThrowException()
+        public async Task Bind_WithoutCorrectJs_ShouldThrowException()
         {
             using (Tester(TestContext.AlmostEmpty))
             {
@@ -139,7 +139,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
           [Fact]
-        public async Task Basic_OneTime_CheckContext()
+        public async Task OneTime_CheckContext()
         {
             var test = new TestInContext()
             {
@@ -154,7 +154,7 @@ namespace IntegratedTest.Tests.Windowless
           }
 
         [Fact]
-        public async Task Basic_OneTime()
+        public async Task OneTime()
         {
             var test = new TestInContextAsync()
             {
@@ -211,7 +211,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_OneWay()
+        public async Task OneWay()
         {
             var test = new TestInContextAsync()
             {
@@ -287,7 +287,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_OneWay_Property_With_Exception()
+        public async Task OneWay_Property_With_Exception()
         {
             var dt = new Dummy();
 
@@ -309,7 +309,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_Register_Additional_property()
+        public async Task Register_Additional_property()
         {
             var test = new TestInContext()
             {
@@ -329,7 +329,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_Null_Property()
+        public async Task Null_Property()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -379,7 +379,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_Circular_reference()
+        public async Task Circular_reference()
         {
             var datacontext = new MVVM.ViewModel.Example.ForNavigation.Couple();
             var my = new MVVM.ViewModel.Example.ForNavigation.Person()
@@ -473,7 +473,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay()
+        public async Task TwoWay()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -539,7 +539,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Nested()
+        public async Task TwoWay_Nested()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -881,7 +881,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_Property_Test()
+        public async Task Property_Test()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new ViewModelTest() { Command = command };
@@ -917,7 +917,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command_Basic()
+        public async Task TwoWay_Command_Basic()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new ViewModelTest() { Command = command };
@@ -941,7 +941,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command()
+        public async Task TwoWay_Command()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new ViewModelTest() { Command = command };
@@ -965,7 +965,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_Command_With_Parameter()
+        public async Task TwoWay_Command_With_Parameter()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new ViewModelTest() { Command = command };
@@ -987,7 +987,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command_CanExecute_False()
+        public async Task TwoWay_Command_CanExecute_False()
         {
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(false);
@@ -1011,7 +1011,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command_CanExecute_True()
+        public async Task TwoWay_Command_CanExecute_True()
         {
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(true);
@@ -1035,7 +1035,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command_Uptate_From_Null()
+        public async Task TwoWay_Command_Uptate_From_Null()
         {
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(true);
@@ -1073,7 +1073,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_SimpleCommand_Without_Parameter()
+        public async Task TwoWay_SimpleCommand_Without_Parameter()
         {
             var command = Substitute.For<ISimpleCommand>();
             var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
@@ -1095,7 +1095,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_SimpleCommand_With_Parameter()
+        public async Task TwoWay_SimpleCommand_With_Parameter()
         {
             var command = Substitute.For<ISimpleCommand>();
             var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
@@ -1118,7 +1118,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_SimpleCommand_Name()
+        public async Task TwoWay_SimpleCommand_Name()
         {
             var command = Substitute.For<ISimpleCommand>();
             var datacontexttest = new ViewModelSimpleCommandTest() { SimpleCommand = command };
@@ -1158,7 +1158,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_CLR_Type_FromCtojavascript()
+        public async Task TwoWay_CLR_Type_FromCtojavascript()
         {
             var command = Substitute.For<ISimpleCommand>();
             var datacontext = new ViewModelCLRTypes();
@@ -1189,7 +1189,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_CLR_Type_FromjavascripttoCto()
+        public async Task TwoWay_CLR_Type_FromjavascripttoCto()
         {
             var command = Substitute.For<ISimpleCommand>();
             var datacontext = new ViewModelCLRTypes();
@@ -1244,7 +1244,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command_CanExecute_Refresh_Ok()
+        public async Task TwoWay_Command_CanExecute_Refresh_Ok()
         {
             bool canexecute = true;
             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
@@ -1275,7 +1275,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument()
+        public async Task TwoWay_Command_CanExecute_Refresh_Ok_Argument()
         {
             bool canexecute = true;
             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
@@ -1315,7 +1315,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
+        public async Task TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
         {
             _ICommand.CanExecute(Arg.Any<object>()).Returns(x => { if (x[0] == null) throw new Exception(); return false; });
 
@@ -1340,7 +1340,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_Command_Received_javascript_variable()
+        public async Task TwoWay_Command_Received_javascript_variable()
         {
             _ICommand.CanExecute(Arg.Any<object>()).Returns(true);
 
@@ -1364,7 +1364,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_Command_Complete()
+        public async Task TwoWay_Command_Complete()
         {
             _ICommand = new RelayCommand(() =>
                 {
@@ -1398,7 +1398,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Command_With_Null_Parameter()
+        public async Task TwoWay_Command_With_Null_Parameter()
         {
             var command = Substitute.For<ICommand>();
             var test = new ViewModelTest() { Command = command };
@@ -1423,7 +1423,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_ResultCommand_Should_have_ToString()
+        public async Task TwoWay_ResultCommand_Should_have_ToString()
         {
             var command = Substitute.For<ICommand>();
             var test = new ViewModelTest() { Command = command };
@@ -1443,7 +1443,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
+        public async Task TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
         {
             var function = NSubstitute.Substitute.For<Func<int, int>>();
             var dc = new FakeFactory<int, int>(function);
@@ -1467,7 +1467,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_ResultCommand_Received_javascript_variable()
+        public async Task TwoWay_ResultCommand_Received_javascript_variable()
         {
             var function = NSubstitute.Substitute.For<Func<int, int>>();
             function.Invoke(Arg.Any<int>()).Returns(255);
@@ -1519,7 +1519,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
+        public async Task TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
         {
             string errormessage = "original error message";
             var function = NSubstitute.Substitute.For<Func<int, int>>();
@@ -1566,7 +1566,7 @@ namespace IntegratedTest.Tests.Windowless
         //}
 
         [Fact]
-        public async Task Basic_TwoWay_Collection()
+        public async Task TwoWay_Collection()
         {
 
             var test = new TestInContextAsync()
@@ -1627,7 +1627,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Collection_FromJSUpdate()
+        public async Task TwoWay_Collection_FromJSUpdate()
         {
             var test = new TestInContextAsync()
             {
@@ -1696,7 +1696,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
+        public async Task TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
         {
             var test = new TestInContextAsync()
             {
@@ -1777,7 +1777,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_Decimal_ShouldOK()
+        public async Task TwoWay_Decimal_ShouldOK()
         {
             var datacontext = new VMwithdecimal();
 
@@ -1823,7 +1823,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Long_ShouldOK()
+        public async Task TwoWay_Long_ShouldOK()
         {
             var datacontext = new VMwithlong() { longValue = 45 };
 
@@ -1853,7 +1853,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Collection_string()
+        public async Task TwoWay_Collection_string()
         {
             var datacontext = new VMWithList<string>();
 
@@ -1916,7 +1916,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_TwoWay_Collection_should_be_observable_attribute()
+        public async Task TwoWay_Collection_should_be_observable_attribute()
         {
             var datacontext = new ChangingCollectionViewModel();
 
@@ -1946,7 +1946,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_Collection_NoneGenericList()
+        public async Task TwoWay_Collection_NoneGenericList()
         {
             var datacontext = new VMWithListNonGeneric();
             datacontext.List.Add(888);
@@ -1979,7 +1979,7 @@ namespace IntegratedTest.Tests.Windowless
 
 
         [Fact]
-        public async Task Basic_TwoWay_Collection_decimal()
+        public async Task TwoWay_Collection_decimal()
         {
             var datacontext = new VMWithList<decimal>();
 
@@ -2066,7 +2066,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public async Task Basic_HTML_Without_Correct_js_ShouldThrowException_2()
+        public async Task HTML_Without_Correct_js_ShouldThrowException_2()
         {
             using (Tester(TestContext.AlmostEmpty))
             {

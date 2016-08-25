@@ -1,9 +1,8 @@
 ﻿using System;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using UIFrameworkTesterHelper;
 
-namespace IntegratedTest.JavascriptUIFramework 
+namespace UIFrameworkTesterHelper
 {
     public class FrameworkTestContext 
     {

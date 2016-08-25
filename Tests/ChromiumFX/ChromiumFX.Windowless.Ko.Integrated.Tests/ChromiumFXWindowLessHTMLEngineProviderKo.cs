@@ -1,6 +1,6 @@
 ﻿using ChromiumFX.TestInfra;
-using IntegratedTest.JavascriptUIFramework;
 using KnockoutUIFramework.Test.IntegratedInfra;
+using UIFrameworkTesterHelper;
 
 namespace ChromiumFX.Windowless.Ko.Integrated.Tests
 {

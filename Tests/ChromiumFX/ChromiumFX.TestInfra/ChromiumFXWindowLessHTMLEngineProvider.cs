@@ -10,7 +10,7 @@ using IntegratedTest.Infra.Window;
 using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using IntegratedTest.JavascriptUIFramework;
+using UIFrameworkTesterHelper;
 
 namespace ChromiumFX.TestInfra
 {

@@ -1,7 +1,7 @@
-﻿using IntegratedTest.JavascriptUIFramework;
-using KnockoutUIFramework.Test.TestHtml;
+﻿using KnockoutUIFramework.Test.TestHtml;
+using UIFrameworkTesterHelper;
 
-namespace KnockoutUIFramework.Test.IntegratedInfra 
+namespace KnockoutUIFramework.Test.IntegratedInfra
 {
     public static class KnockoutFrameworkTestContext
     {
