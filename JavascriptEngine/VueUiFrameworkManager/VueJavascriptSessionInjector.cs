@@ -28,9 +28,10 @@ namespace VueUiFramework
             return rawObject;
         }
 
-        public Task RegisterMainViewModel(IJavascriptObject jsObject)
+        public async Task RegisterMainViewModel(IJavascriptObject jsObject)
         {
-            return _WebView.Evaluate(() => UnsafeRegister(jsObject));
+            var task = await _WebView.EvaluateAsync(() => UnsafeRegister(jsObject));
+            await task;
         }
 
         private Task UnsafeRegister(IJavascriptObject ijvm)

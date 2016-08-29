@@ -43,7 +43,7 @@ namespace IntegratedTest.Infra.Windowless
             }
         }
 
-        public IDisposable Tester(TestContext context = TestContext.Index)
+        protected IDisposable Tester(TestContext context = TestContext.Index)
         {
             var tester = _TestEnvironment.Build();
             var path = _TestEnvironment.HtmlProvider.GetHtlmPath(context);
@@ -51,7 +51,7 @@ namespace IntegratedTest.Infra.Windowless
             tester.Init(path, _Logger);
             _ViewEngine = tester.ViewEngine;
             _WebView = tester.WebView;
-            tester.HTMLWindow.ConsoleMessage += (_,e) => _Logger.LogBrowser(e, new Uri(path));
+            tester.HTMLWindow.ConsoleMessage += (_, e) => _Logger.LogBrowser(e, new Uri(path));
             _JavascriptFrameworkExtractor = _TestEnvironment.GetExtractor(_WebView);
             return tester;
         }

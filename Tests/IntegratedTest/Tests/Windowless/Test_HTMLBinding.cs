@@ -103,13 +103,16 @@ namespace IntegratedTest.Tests.Windowless
                 var vm = new object();
                 MVVMCEFGlueException ex = null;
 
-                try {
+                try
+                {
                     await HTML_Binding.Bind(_ViewEngine, new object(), JavascriptBindingMode.OneTime);
                 }
-                catch (AggregateException agregate) {
+                catch (AggregateException agregate)
+                {
                     ex = agregate.Flatten().InnerException as MVVMCEFGlueException;
                 }
-                catch (MVVMCEFGlueException myex) {
+                catch (MVVMCEFGlueException myex)
+                {
                     ex = myex;
                 }
 

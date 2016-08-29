@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Chromium.Remote;
 using HTMEngine.ChromiumFX.Convertion;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core;
 
 namespace HTMEngine.ChromiumFX.EngineBinding
 {
@@ -10,18 +11,20 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     {
         private readonly CfrBrowser _Browser;
         private readonly CfrFrame _CfrFrame;
-        private readonly ChromiumFXDispatcher _Dispatcher;    
+        private readonly ChromiumFXDispatcher _Dispatcher;
+        private readonly IWebSessionLogger _Logger;
 
         public IJavascriptObjectConverter Converter { get; }
         public IJavascriptObjectFactory Factory { get; }
         private CfrV8Context V8Context { get; }
 
-        public ChromiumFXWebView(CfrBrowser cfrbrowser) 
+        public ChromiumFXWebView(CfrBrowser cfrbrowser, IWebSessionLogger logger) 
         {
+            _Logger = logger;
             _Browser = cfrbrowser;
             _CfrFrame = _Browser.MainFrame;
             V8Context = _CfrFrame.V8Context;
-            _Dispatcher = new ChromiumFXDispatcher(_Browser, V8Context);
+            _Dispatcher = new ChromiumFXDispatcher(_Browser, V8Context, _Logger);
             Converter = new ChromiumFXConverter(V8Context);
             Factory = new ChromiumFXFactory(V8Context);
         }

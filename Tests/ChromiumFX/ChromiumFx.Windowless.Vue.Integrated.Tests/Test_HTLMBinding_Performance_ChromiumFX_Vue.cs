@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using ChromiumFX.Windowless.Integrated.Tests;
 using IntegratedTest.Tests.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace CefGlue.Windowless.Integrated.Vue.Tests 
+namespace ChromiumFX.Windowless.Integrated.Tests
 {
     [Collection("ChromiumFX Vue Windowless Integrated")]
     public class Test_HTLMBinding_Performance_ChromiumFX_Vue : Test_HTLMBinding_Performance
@@ -12,6 +11,7 @@ namespace CefGlue.Windowless.Integrated.Vue.Tests
         public Test_HTLMBinding_Performance_ChromiumFX_Vue(ChromiumFXWindowLessHTMLEngineProviderVue context, ITestOutputHelper output) : 
             base(context, output, GetKoCefPerformanceExpectations())
         {
+            context.Logger = _Logger;
         }
 
         private static Dictionary<TestPerformanceKind, int> GetKoCefPerformanceExpectations() 

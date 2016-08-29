@@ -10,6 +10,7 @@ namespace ChromiumFX.Windowless.Integrated.Tests
         public Test_HTMLBinding_ChromiumFX_Vue(ChromiumFXWindowLessHTMLEngineProviderVue context, ITestOutputHelper output)
             : base(context, output)
         {
+            context.Logger = _Logger;
         }
     }
 }

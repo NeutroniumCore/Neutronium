@@ -11,6 +11,7 @@ using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using UIFrameworkTesterHelper;
+using MVVM.HTML.Core;
 
 namespace ChromiumFX.TestInfra
 {
@@ -21,6 +22,7 @@ namespace ChromiumFX.TestInfra
         private RenderProcessHandler _RenderProcessHandler;
         private TaskCompletionSource<ChromiumFXWebView> _TaskContextCreatedEventArgs;
         private CfrApp _CfrApp;
+        public IWebSessionLogger Logger { get; set; }
 
         protected ChromiumFXWindowLessHTMLEngineProvider() 
         {
@@ -77,12 +79,23 @@ namespace ChromiumFX.TestInfra
             var remoteProcessId = CfxRemoteCallContext.CurrentContext.ProcessId;
             _CfrApp = new CfrApp();
             _RenderProcessHandler = new RenderProcessHandler(_CfrApp, remoteProcessId);
-            _CfrApp.GetRenderProcessHandler += (s, e) => e.SetReturnValue(_RenderProcessHandler);
             _RenderProcessHandler.OnNewFrame += (e) =>
             {
-                _TaskContextCreatedEventArgs.SetResult(new ChromiumFXWebView(e.Browser));
+                _TaskContextCreatedEventArgs.TrySetResult(new ChromiumFXWebView(e.Browser, Logger));
             };
-
+            _CfrApp.GetRenderProcessHandler += (s, e) =>
+            {
+                try
+                {
+                    e.SetReturnValue(_RenderProcessHandler);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Exception raised during GetRenderProcessHandler SetReturnValue {ex.Message}, loading task is {_TaskContextCreatedEventArgs.Task.Status}");
+                    throw;
+                }
+            };
+          
             return CfrRuntime.ExecuteProcess(_CfrApp);
         }
 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Chromium.Remote;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using System.Collections.Generic;
+using MVVM.HTML.Core;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {
@@ -10,13 +11,15 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     {
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
+        private readonly IWebSessionLogger _Logger;
         private readonly object _Locker = new object();
         private readonly HashSet<ChromiumFXTask> _Tasks = new HashSet<ChromiumFXTask>();
 
         private CfrTaskRunner TaskRunner { get; }
 
-        public ChromiumFXDispatcher(CfrBrowser browser, CfrV8Context context) 
+        public ChromiumFXDispatcher(CfrBrowser browser, CfrV8Context context, IWebSessionLogger logger) 
         {
+            _Logger = logger;
             _Browser = browser;
             _Context = context;
             TaskRunner = _Context.TaskRunner;
@@ -70,6 +73,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                     }
                     catch (Exception exception) 
                     {
+                        _Logger.Info(()=> $"Exception encountred during task dispatch: {exception.Message}");
                         taskCompletionSource.TrySetException(exception);
                     }
                 }

@@ -16,7 +16,15 @@ namespace IntegratedTest.Infra.Windowless {
 
         private void Log(string message, [CallerMemberName] string memberName = "") 
         {
-            _Output.WriteLine($"{memberName}: {message}");
+            try
+            {
+                _Output.WriteLine($"{memberName}: {message}");
+            }
+            catch(Exception)
+            {
+                //May happen if we try to log something after test complete
+                //may happen if a thread use a refernce to an ended test
+            }
         }
 
         private void Log(Func<string> message, [CallerMemberName] string memberName = "") 
