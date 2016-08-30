@@ -8,19 +8,22 @@ namespace MVVM.HTML.Core.Infra
     {
         private const string _Header = "MVVM for CEFGlue";
 
+        private void Log(string message) 
+        {
+            Trace.WriteLine($"{_Header} - {message}");
+        }
+
         public void Debug(string information) 
         {
-            Info($"Debug - {information}");
         }
 
         public void Debug(Func<string> information)
         {
-            Debug(information());
         }
 
         public void Info(string information) 
         {
-            Trace.WriteLine($"{_Header} - {information}");
+            Log($"Info: {information}");
         }
 
         public void Info(Func<string> information) 
@@ -30,7 +33,7 @@ namespace MVVM.HTML.Core.Infra
 
         public void Error(string information)
         {
-            Info($"Error - {information}");
+            Log($"Error - {information}");
         }
 
         public void Error(Func<string> information) 
@@ -40,12 +43,12 @@ namespace MVVM.HTML.Core.Infra
 
         public void LogBrowser(ConsoleMessageArgs e, Uri url) 
         {
-            Info($"Brower Log: {e}, page: {url}");
+            Log($"Brower Log: {e}, page: {url}");
         }
 
         void IWebSessionLogger.WebBrowserError(Exception exception, Action cancel)
         {
-            Info($"WebBrowser Error Exception raised: - {exception.Message}");
+            Log($"WebBrowser Error Exception raised: - {exception.Message}");
         }
     }
 }

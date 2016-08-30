@@ -32,11 +32,6 @@ namespace MVVM.HTML.Core
             _Bindings.Add(this);
         }
 
-        ~HTML_Binding()
-        {
-            _Logger.Debug(() => $"HTML_Binding {_Current} finalized");
-        }
-
         public override string ToString()
         {
             return _BirectionalMapper.JSValueRoot.ToString();

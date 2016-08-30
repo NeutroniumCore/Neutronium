@@ -47,7 +47,7 @@ namespace IntegratedTest.Infra.Windowless
         {
             var tester = _TestEnvironment.Build();
             var path = _TestEnvironment.HtmlProvider.GetHtlmPath(context);
-            _Logger.Info($"Loading file: {path}");
+            _Logger.Debug($"Loading file: {path}");
             tester.Init(path, _Logger);
             _ViewEngine = tester.ViewEngine;
             _WebView = tester.WebView;
@@ -79,18 +79,18 @@ namespace IntegratedTest.Infra.Windowless
 
         private async Task RunAsync(TestContextBase test, Func<IHTMLBinding, Task> Run, string memberName)
         {
-            _Logger.Info($"Starting {memberName}");
+            _Logger.Debug($"Starting {memberName}");
             using (Tester(test.Path))
             {        
                 _Logger.Info("Begin Binding");
                 using (var mb = await test.Bind(_ViewEngine))
                 {
-                    _Logger.Info("End Binding");
-                    _Logger.Info("Begin Run");
+                    _Logger.Debug("End Binding");
+                    _Logger.Debug("Begin Run");
                     await Run(mb);
-                    _Logger.Info("Ending Run");
+                    _Logger.Debug("Ending Run");
                 }
-                _Logger.Info($"Ending {memberName}");
+                _Logger.Debug($"Ending {memberName}");
             }
         }
 
