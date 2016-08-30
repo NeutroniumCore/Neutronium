@@ -4,7 +4,8 @@ using MVVM.HTML.Core;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Xunit.Abstractions;
 
-namespace IntegratedTest.Infra.Windowless {
+namespace IntegratedTest.Infra.Windowless
+{
     internal class TestLogger : IWebSessionLogger
     {
         private readonly ITestOutputHelper _Output;
