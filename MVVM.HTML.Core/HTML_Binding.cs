@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
@@ -10,7 +11,7 @@ namespace MVVM.HTML.Core
     {
         private readonly BidirectionalMapper _BirectionalMapper;
         private readonly HTMLViewContext _Context;
-        private static IHTMLBinding _IHTMLBinding;
+        private static HashSet<IHTMLBinding> _Bindings = new HashSet<IHTMLBinding>();
 
         public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
         public IJavascriptObject JSRootObject => _BirectionalMapper.JSValueRoot.GetJSSessionValue();
@@ -28,6 +29,7 @@ namespace MVVM.HTML.Core
             _BirectionalMapper = iConvertToJSO;
             _Logger = logger;
             _Logger.Debug(() => $"HTML_Binding {_Current} created");
+            _Bindings.Add(this);
         }
 
         ~HTML_Binding()
@@ -42,15 +44,15 @@ namespace MVVM.HTML.Core
 
         public void Dispose()
         {
+            _Logger.Debug(() => $"HTML_Binding {_Current} diposed");
             _BirectionalMapper.Dispose();
+            _Bindings.Remove(this);
         }
 
         internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)
         {
             var mapper = viewEngine.GetMapper(iViewModel, iMode, additional);
-            var res =
-                _IHTMLBinding =
-                new HTML_Binding(mapper, viewEngine.Logger);
+            var res = new HTML_Binding(mapper, viewEngine.Logger);
             await viewEngine.Evaluate( () => mapper.Init());
             return res;
          }
