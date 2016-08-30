@@ -10,6 +10,7 @@ namespace MVVM.HTML.Core
     {
         private readonly BidirectionalMapper _BirectionalMapper;
         private readonly HTMLViewContext _Context;
+        private static IHTMLBinding _IHTMLBinding;
 
         public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
         public IJavascriptObject JSRootObject => _BirectionalMapper.JSValueRoot.GetJSSessionValue();
@@ -17,11 +18,18 @@ namespace MVVM.HTML.Core
         public IWebView Context => _Context.WebView;
         public object Root => _BirectionalMapper.JSValueRoot.CValue;
         public IJSCSGlue JSBrideRootObject => _BirectionalMapper.JSValueRoot;
+        private readonly IWebSessionLogger _Logger;
 
-        private HTML_Binding(BidirectionalMapper iConvertToJSO)
+        private HTML_Binding(BidirectionalMapper iConvertToJSO, IWebSessionLogger logger)
         {
             _Context = iConvertToJSO.Context;
             _BirectionalMapper = iConvertToJSO;
+            _Logger = logger;
+        }
+
+        ~HTML_Binding()
+        {
+            _Logger.Info("HTML_Binding finalized");
         }
 
         public override string ToString()
@@ -36,8 +44,12 @@ namespace MVVM.HTML.Core
 
         internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)
         {
-            var mapper = await viewEngine.GetMapper(iViewModel, iMode, additional);
-            return new HTML_Binding(mapper);
-        }
+            var mapper = viewEngine.GetMapper(iViewModel, iMode, additional);
+            var res = 
+                //_IHTMLBinding = 
+                new HTML_Binding(mapper, viewEngine.Logger);
+            await viewEngine.Evaluate( () => mapper.Init());
+            return res;
+         }
     }
 }

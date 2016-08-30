@@ -58,9 +58,9 @@ namespace MVVM.HTML.Core.Binding
             _Context.WebView.Eval(resource.Load("Infra.js"), out res);
         }
 
-        private async Task RunInJavascriptContext(Action run)
+        private Task RunInJavascriptContext(Action run)
         {
-            await _Context.WebView.RunAsync(run);
+            return _Context.WebView.RunAsync(run);
         }
 
         private Task RunInJavascriptContext(Func<Task> run)
