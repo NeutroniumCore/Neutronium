@@ -11,6 +11,11 @@ namespace MVVM.HTML.Core
         /// <summary>
         /// called for debug logging
         /// </summary>
+        void Debug(Func<string> information);
+
+        /// <summary>
+        /// called for debug logging
+        /// </summary>
         void Debug(string information);
 
         /// <summary>
@@ -19,7 +24,7 @@ namespace MVVM.HTML.Core
         void Info(string information);
 
         /// <summary>
-        /// called on critical event 
+        /// called for information logging 
         /// </summary>
         void Info(Func<string> information);
 

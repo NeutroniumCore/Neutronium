@@ -8,9 +8,14 @@ namespace MVVM.HTML.Core.Infra
     {
         private const string _Header = "MVVM for CEFGlue";
 
-        void IWebSessionLogger.Debug(string information) 
+        public void Debug(string information) 
         {
             Info($"Debug - {information}");
+        }
+
+        public void Debug(Func<string> information)
+        {
+            Debug(information());
         }
 
         public void Info(string information) 

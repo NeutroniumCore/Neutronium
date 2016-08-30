@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
@@ -10,7 +9,7 @@ namespace MVVM.HTML.Core.Binding
     {
         private readonly IHTMLWindowProvider _HTMLWindowProvider;
         private readonly IJavascriptUIFrameworkManager _UIFrameworkManager;
-        private readonly IWebSessionLogger _Logger;
+        public IWebSessionLogger Logger { get; }
 
         private IWebView MainView => _HTMLWindowProvider.HTMLWindow.MainFrame;
 
@@ -18,26 +17,22 @@ namespace MVVM.HTML.Core.Binding
         {
             _HTMLWindowProvider = hTMLWindowProvider;
             _UIFrameworkManager = uiFrameworkManager;
-            _Logger = logger;
+            Logger = logger;
         }
 
         public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {
-            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _UIFrameworkManager, javascriptChangesObserver, _Logger);
+            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _UIFrameworkManager, javascriptChangesObserver, Logger);
         }
 
-        internal async Task<BidirectionalMapper> GetMapper(object viewModel, JavascriptBindingMode mode, object additional)
+        internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode, object additional)
         {
-            var mapper = await MainView.EvaluateAsync(() => Init(viewModel, mode, additional));
-            await mapper.Item2;
-            return mapper.Item1;
+            return Evaluate(() => new BidirectionalMapper(viewModel, this, mode, additional, Logger));
         }
 
-        private Tuple<BidirectionalMapper,Task> Init(object viewModel, JavascriptBindingMode mode, object additional) 
+        public T Evaluate<T>(Func<T> compute)
         {
-            var res = new BidirectionalMapper(viewModel, this, mode, additional, _Logger);
-            var task = res.Init();
-            return new Tuple<BidirectionalMapper, Task>(res, task);
+            return MainView.Evaluate(compute);
         }
     }
 }

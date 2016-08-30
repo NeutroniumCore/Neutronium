@@ -5,6 +5,11 @@ namespace MVVM.HTML.Core.Infra
 {
     public class NullLogger : IWebSessionLogger
     {
+
+        void IWebSessionLogger.Debug(Func<string> information)
+        {
+        }
+
         void IWebSessionLogger.Debug(string information) 
         {          
         }
@@ -31,6 +36,21 @@ namespace MVVM.HTML.Core.Infra
 
         void IWebSessionLogger.WebBrowserError(Exception exception, Action cancel)
         {
+        }
+
+        void IWebSessionLogger.Info(Func<string> information)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IWebSessionLogger.Error(Func<string> information)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IWebSessionLogger.LogBrowser(ConsoleMessageArgs iInformation, Uri url)
+        {
+            throw new NotImplementedException();
         }
     }
 }

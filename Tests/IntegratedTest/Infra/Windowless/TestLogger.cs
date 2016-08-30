@@ -37,6 +37,11 @@ namespace IntegratedTest.Infra.Windowless {
             Log(information);
         }
 
+        public void Debug(Func<string> information)
+        {
+            Log(information);
+        }
+
         public void Info(string information) 
         {
             Log(information);

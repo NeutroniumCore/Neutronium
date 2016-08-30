@@ -20,6 +20,11 @@ namespace MVVM.HTML.Core.Infra
             doOnLogger(_Logger2);
         }
 
+        public void Debug(Func<string> information)
+        {
+            Do(l => l.Debug(information));
+        }
+
         public void Debug(string information)
         {
             Do(l => l.Debug(information));
