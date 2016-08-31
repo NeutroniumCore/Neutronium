@@ -1,6 +1,6 @@
 ﻿using CefGlue.TestInfra;
 using KnockoutUIFramework.Test.TestHtml;
-using UIFrameworkTesterHelper;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
 namespace CefGlue.Window.Integrated.Tests
 {

@@ -1,8 +1,6 @@
-﻿using IntegratedTest;
-using IntegratedTest.Infra.Windowless;
-using KnockoutUIFramework.Test.IntegratedInfra;
+﻿using KnockoutUIFramework.Test.IntegratedInfra;
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 
 namespace MVVM.Awesomium.TestInfra 
 {
@@ -10,19 +8,19 @@ namespace MVVM.Awesomium.TestInfra
     {
         private AwesomiumWindowlessHTMLEngineFactory _AwesomiumWindowlessHTMLEngineFactory;
 
-        private AwesomiumWindowlessHTMLEngineFactory GetWindowLessEngine(IJavascriptUIFrameworkManager javascriptUIFrameworkManager) 
+        private AwesomiumWindowlessHTMLEngineFactory GetWindowLessEngine() 
         {
             if (_AwesomiumWindowlessHTMLEngineFactory != null)
                 return _AwesomiumWindowlessHTMLEngineFactory;
 
-            return _AwesomiumWindowlessHTMLEngineFactory = new AwesomiumWindowlessHTMLEngineFactory(javascriptUIFrameworkManager);
+            return _AwesomiumWindowlessHTMLEngineFactory = new AwesomiumWindowlessHTMLEngineFactory();
         }
 
-        public WindowlessTestEnvironment GetWindowlessEnvironment() 
+        public IWindowlessIntegratedContextBuilder GetWindowlessEnvironment() 
         {
-            return new WindowlessTestEnvironment()
+            return new WindowlessIntegratedTestEnvironment()
             {
-                WindowlessJavascriptEngineBuilder = (frameWork) => GetWindowLessEngine(frameWork).CreateWindowlessJavascriptEngine(),
+                WindowlessJavascriptEngineBuilder = () => GetWindowLessEngine().CreateWindowlessJavascriptEngine(),
                 FrameworkTestContext = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext(),
                 TestUIDispacther = new NullUIDispatcher()
             };

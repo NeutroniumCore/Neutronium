@@ -1,10 +1,10 @@
 ﻿using HTMLEngine.Awesomium;
 using HTML_WPF.Component;
-using IntegratedTest.Infra.Window;
-using UIFrameworkTesterHelper;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHtml;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.IntegratedContextTesterHelper.Window;
 
 namespace MVVM.Awesomium.TestInfra 
 {

@@ -89,7 +89,7 @@
     <Compile Include="AwesomiumTestHTMLWindow.cs" />
     <Compile Include="AwesomiumTestHTMLWindowProvider.cs" />
     <Compile Include="AwesomiumWindowlessHTMLEngineFactory.cs" />
-    <Compile Include="AwesomiumWindowlessSharedJavascriptEngine.cs" />
+    <Compile Include="AwesomiumWindowlessSharedHtmlEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
@@ -112,6 +112,18 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\Tests.Infra.HTMLEngineTesterHelper.csproj">
+      <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
+      <Name>Tests.Infra.HTMLEngineTesterHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\Tests.Infra.IntegratedContextTesterHelper.csproj">
+      <Project>{614bbb6d-d7c4-494a-929e-067ee62573ce}</Project>
+      <Name>Tests.Infra.IntegratedContextTesterHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\Tests.Infra.JavascriptEngineTesterHelper.csproj">
+      <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
+      <Name>Tests.Infra.JavascriptEngineTesterHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
       <Name>IntegratedTest</Name>
@@ -119,10 +131,6 @@
     <ProjectReference Include="..\..\KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj">
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
-      <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>
-      <Name>UIFrameworkTesterHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

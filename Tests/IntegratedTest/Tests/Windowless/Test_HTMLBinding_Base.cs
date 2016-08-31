@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
 using FluentAssertions;
-using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.ViewModel.Example;
 using NSubstitute;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit.Abstractions;
 
 namespace IntegratedTest.Tests.Windowless
  {
-    public class Test_HTMLBinding_Base : IntegratedWindowLess_TestBase 
+    public class Test_HTMLBinding_Base : IntegratedTestBase 
     {
         protected readonly Person _DataContext;
         protected ICommand _ICommand;

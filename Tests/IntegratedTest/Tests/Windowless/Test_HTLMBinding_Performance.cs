@@ -4,11 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.ViewModel.Example;
-using UIFrameworkTesterHelper;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Input;
 using FluentAssertions;
 using HTML_WPF.Component;
-using IntegratedTest.Infra.Window;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
@@ -14,6 +13,7 @@ using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Infra;
 using NSubstitute;
+using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Xunit;
 
 namespace IntegratedTest.Tests.WPF

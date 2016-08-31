@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FluentAssertions;
-using IntegratedTest.Infra.Windowless;
 using IntegratedTest.TestData;
 using MVVM.Component;
 using MVVM.HTML.Core;
@@ -18,9 +17,10 @@ using MVVM.ViewModel.Example;
 using MVVM.ViewModel.Infra;
 using Newtonsoft.Json;
 using NSubstitute;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
-using UIFrameworkTesterHelper;
 
 namespace IntegratedTest.Tests.Windowless
 {

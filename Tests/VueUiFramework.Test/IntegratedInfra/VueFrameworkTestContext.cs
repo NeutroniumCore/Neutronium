@@ -1,5 +1,5 @@
 ﻿using KnockoutUIFramework.Test.TestHtml;
-using UIFrameworkTesterHelper;
+using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace VueUiFramework.Test.IntegratedInfra
 {

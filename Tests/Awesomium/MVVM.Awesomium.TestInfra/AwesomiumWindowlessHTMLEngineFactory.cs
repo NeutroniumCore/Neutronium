@@ -3,24 +3,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using Awesomium.Core;
 using HTMLEngine.Awesomium;
-using IntegratedTest.Infra.Window;
-using IntegratedTest.Infra.Windowless;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Tests.Infra.HTMLEngineTesterHelper.Window;
+using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 
 namespace MVVM.Awesomium.TestInfra
 {
     public class AwesomiumWindowlessHTMLEngineFactory : IDisposable
     {
         private bool _Runing = false;
-        private readonly IJavascriptUIFrameworkManager _JavascriptUIFrameworkManager;
         private readonly TaskCompletionSource<object> _EndTaskCompletionSource;
         private readonly WpfThread _WpfThread;
 
-        public AwesomiumWindowlessHTMLEngineFactory(IJavascriptUIFrameworkManager javascriptUIFrameworkManager)
+        public AwesomiumWindowlessHTMLEngineFactory()
         {
             _WpfThread = WpfThread.GetWpfThread();
             _WpfThread.AddRef();
-            _JavascriptUIFrameworkManager = javascriptUIFrameworkManager;
             _EndTaskCompletionSource = new TaskCompletionSource<object>();
         }
 
@@ -42,7 +39,7 @@ namespace MVVM.Awesomium.TestInfra
             {
                 if (e.Exception != null) 
                 {
-                    Console.WriteLine("Exception on main thread {0}", e.Exception);
+                    Console.WriteLine($"Exception on main thread {e.Exception}");
                     e.Cancel = true;
                 }
                 _EndTaskCompletionSource.TrySetResult(null);
@@ -60,10 +57,10 @@ namespace MVVM.Awesomium.TestInfra
             return running.Task;
         }
 
-        public IWindowlessJavascriptEngine CreateWindowlessJavascriptEngine()
+        public IWindowlessHTMLEngine CreateWindowlessJavascriptEngine()
         {
             Init().Wait();
-            return new AwesomiumWindowlessSharedJavascriptEngine(_JavascriptUIFrameworkManager);
+            return new AwesomiumWindowlessSharedHtmlEngine();
         }
 
         public void Dispose()

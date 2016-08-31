@@ -90,13 +90,21 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\Tests.Infra.HTMLEngineTesterHelper.csproj">
+      <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
+      <Name>Tests.Infra.HTMLEngineTesterHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\Tests.Infra.IntegratedContextTesterHelper.csproj">
+      <Project>{614bbb6d-d7c4-494a-929e-067ee62573ce}</Project>
+      <Name>Tests.Infra.IntegratedContextTesterHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\Tests.Infra.JavascriptEngineTesterHelper.csproj">
+      <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
+      <Name>Tests.Infra.JavascriptEngineTesterHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
       <Name>IntegratedTest</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\UIFrameworkTesterHelper\UIFrameworkTesterHelper.csproj">
-      <Project>{d6f39e8c-bf8f-454e-8512-b46be149c339}</Project>
-      <Name>UIFrameworkTesterHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\VueUiFramework.Test\VueUiFramework.Test.csproj">
       <Project>{80d4f5ca-1065-4487-8fde-9fee9821716c}</Project>

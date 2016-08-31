@@ -1,6 +1,6 @@
-﻿using IntegratedTest.Infra.Windowless;
-using MVVM.HTML.Core.JavascriptEngine.Control;
+﻿using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra.CefWindowless

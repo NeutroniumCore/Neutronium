@@ -2,18 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions;
-using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using NSubstitute;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace IntegratedTest.Tests.Windowless
 {
-    public abstract class Test_ConvertToJSO : IntegratedWindowLess_TestBase
+    public abstract class Test_ConvertToJSO : IntegratedTestBase
     {
         private class TestClass
         {

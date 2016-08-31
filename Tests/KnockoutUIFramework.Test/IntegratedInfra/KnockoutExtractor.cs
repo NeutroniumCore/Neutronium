@@ -1,5 +1,5 @@
 ﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using UIFrameworkTesterHelper;
+using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace KnockoutUIFramework.Test.IntegratedInfra
 {

@@ -1,5 +1,5 @@
 ﻿using ChromiumFX.TestInfra;
-using UIFrameworkTesterHelper;
+using Tests.Infra.JavascriptEngineTesterHelper;
 using VueUiFramework.Test.IntegratedInfra;
 
 namespace ChromiumFX.Windowless.Integrated.Tests

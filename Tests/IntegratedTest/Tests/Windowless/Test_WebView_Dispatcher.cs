@@ -1,21 +1,21 @@
 ﻿using System;
 using FluentAssertions;
-using IntegratedTest.Infra.Windowless;
 using NSubstitute;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace IntegratedTest.Tests.Windowless
 {
-    public abstract class Test_WebView_Dispatcher : IntegratedWindowLess_TestBase
+    public abstract class Test_WebView_Dispatcher : IntegratedTestBase
     {
-        public Test_WebView_Dispatcher(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+        protected Test_WebView_Dispatcher(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
         }
 
         [Fact]
-        public void Test_CefTask_Action_Should_Call_Action()
+        public void WebViewRun_CallAction()
         {
             using (Tester())
             {
@@ -28,7 +28,7 @@ namespace IntegratedTest.Tests.Windowless
         }
 
         [Fact]
-        public void Test_CefTask_Action_Should_Not_Swallow_Exception()
+        public void WebViewRun_DoNotSwallowException()
         {
             using (Tester())
             {

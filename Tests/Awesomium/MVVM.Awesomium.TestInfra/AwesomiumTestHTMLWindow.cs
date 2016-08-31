@@ -6,30 +6,19 @@ namespace MVVM.Awesomium.Tests
 {
     internal class AwesomiumTestHTMLWindow : IHTMLWindow
     {
+        public IWebView MainFrame { get; }
+        public Uri Url { get; }
+        public bool IsLoaded => true;
+
         internal AwesomiumTestHTMLWindow(IWebView webView, Uri path)
         {
             MainFrame = webView;
             Url = path;
         }
 
-        public IWebView MainFrame
-        {
-            get; private set;
-        }
-
         public void NavigateTo(Uri path)
         {
             throw new NotImplementedException();
-        }
-
-        public Uri Url
-        {
-            get; private set;
-        }
-
-        public bool IsLoaded
-        {
-            get { return true; }
         }
 
         public event EventHandler<ConsoleMessageArgs> ConsoleMessage

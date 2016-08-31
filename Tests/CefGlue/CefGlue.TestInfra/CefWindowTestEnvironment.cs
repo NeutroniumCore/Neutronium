@@ -1,8 +1,8 @@
 ﻿using HTMLEngine.CefGlue;
 using HTML_WPF.Component;
-using IntegratedTest.Infra.Window;
 using KnockoutUIFramework;
 using MVVM.HTML.Core.JavascriptUIFramework;
+using Tests.Infra.IntegratedContextTesterHelper.Window;
 
 namespace CefGlue.TestInfra
 {
@@ -14,6 +14,5 @@ namespace CefGlue.TestInfra
         }
 
         public override IJavascriptUIFrameworkManager FrameworkManager => new KnockoutUiFrameworkManager();
-        //public override ITestHtmlProvider HtmlProvider => new KnockoutUiHtmlProvider();
     }
 }

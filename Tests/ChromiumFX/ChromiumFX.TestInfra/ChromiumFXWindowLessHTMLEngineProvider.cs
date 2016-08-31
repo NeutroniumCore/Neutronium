@@ -6,12 +6,12 @@ using Chromium;
 using Chromium.Remote;
 using ChromiumFX.TestInfra.Helper;
 using HTMEngine.ChromiumFX.EngineBinding;
-using IntegratedTest.Infra.Window;
-using IntegratedTest.Infra.Windowless;
 using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptUIFramework;
-using UIFrameworkTesterHelper;
 using MVVM.HTML.Core;
+using Tests.Infra.HTMLEngineTesterHelper.Window;
+using Tests.Infra.HTMLEngineTesterHelper.Windowless;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
+using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace ChromiumFX.TestInfra
 {
@@ -99,11 +99,11 @@ namespace ChromiumFX.TestInfra
             return CfrRuntime.ExecuteProcess(_CfrApp);
         }
 
-        public WindowlessTestEnvironment GetWindowlessEnvironment() 
+        public IWindowlessIntegratedContextBuilder GetWindowlessEnvironment() 
         {
-            return new WindowlessTestEnvironment() 
+            return new WindowlessIntegratedTestEnvironment() 
             {
-                WindowlessJavascriptEngineBuilder = (frameWork) => CreateWindowlessJavascriptEngine(frameWork),
+                WindowlessJavascriptEngineBuilder = () => CreateWindowlessJavascriptEngine(),
                 FrameworkTestContext = FrameworkTestContext,
                 TestUIDispacther = new NullUIDispatcher()
             };
@@ -111,11 +111,11 @@ namespace ChromiumFX.TestInfra
 
         protected abstract FrameworkTestContext FrameworkTestContext { get; }
 
-        private IWindowlessJavascriptEngine CreateWindowlessJavascriptEngine(IJavascriptUIFrameworkManager frameWork) 
+        private IWindowlessHTMLEngine CreateWindowlessJavascriptEngine() 
         {
             Init();
             _TaskContextCreatedEventArgs = new TaskCompletionSource<ChromiumFXWebView>();
-            return new ChromiumFXWindowlessJavascriptEngine(_WpfThread, _TaskContextCreatedEventArgs.Task, frameWork);
+            return new ChromiumFxWindowlessHtmlEngine(_WpfThread, _TaskContextCreatedEventArgs.Task);
         }
     }
 }

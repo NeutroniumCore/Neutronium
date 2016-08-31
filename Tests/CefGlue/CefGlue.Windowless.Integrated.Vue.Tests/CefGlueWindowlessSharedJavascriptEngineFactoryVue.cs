@@ -1,5 +1,5 @@
 ﻿using CefGlue.TestInfra;
-using UIFrameworkTesterHelper;
+using Tests.Infra.JavascriptEngineTesterHelper;
 using VueUiFramework.Test.IntegratedInfra;
 
 namespace CefGlue.Windowless.Integrated.Vue.Tests

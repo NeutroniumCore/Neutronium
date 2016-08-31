@@ -1,10 +1,10 @@
 ﻿using System;
 using HTML_WPF.Component;
-using IntegratedTest.Infra.Window;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Chromium;
+using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace ChromiumFX.TestInfra 
 {

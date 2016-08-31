@@ -1,10 +1,10 @@
 ﻿using HTMEngine.ChromiumFX;
 using HTML_WPF.Component;
-using IntegratedTest.Infra.Window;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHtml;
 using MVVM.HTML.Core.JavascriptUIFramework;
-using UIFrameworkTesterHelper;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.IntegratedContextTesterHelper.Window;
 
 namespace ChromiumFX.Window.Integrated.Tests
 {

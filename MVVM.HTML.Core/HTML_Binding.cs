@@ -9,9 +9,12 @@ namespace MVVM.HTML.Core
 {
     public class HTML_Binding : IHTMLBinding
     {
+        private static int _Count;
+        private static readonly HashSet<IHTMLBinding> _Bindings = new HashSet<IHTMLBinding>();
         private readonly BidirectionalMapper _BirectionalMapper;
         private readonly HTMLViewContext _Context;
-        private static HashSet<IHTMLBinding> _Bindings = new HashSet<IHTMLBinding>();
+        private readonly IWebSessionLogger _Logger;
+        private readonly int _Current = _Count++;
 
         public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
         public IJavascriptObject JSRootObject => _BirectionalMapper.JSValueRoot.GetJSSessionValue();
@@ -19,9 +22,7 @@ namespace MVVM.HTML.Core
         public IWebView Context => _Context.WebView;
         public object Root => _BirectionalMapper.JSValueRoot.CValue;
         public IJSCSGlue JSBrideRootObject => _BirectionalMapper.JSValueRoot;
-        private readonly IWebSessionLogger _Logger;
-        private static int _Count = 0;
-        private int _Current = _Count++;
+
 
         private HTML_Binding(BidirectionalMapper iConvertToJSO, IWebSessionLogger logger)
         {
