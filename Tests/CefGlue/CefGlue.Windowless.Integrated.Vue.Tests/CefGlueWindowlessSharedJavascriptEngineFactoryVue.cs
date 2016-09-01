@@ -1,11 +1,17 @@
 ﻿using CefGlue.TestInfra;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.JavascriptEngineTesterHelper;
 using VueUiFramework.Test.IntegratedInfra;
 
 namespace CefGlue.Windowless.Integrated.Vue.Tests
 {
-    public class CefGlueWindowlessSharedJavascriptEngineFactoryVue : CefGlueWindowlessSharedJavascriptEngineFactory
+    public class CefGlueWindowlessSharedJavascriptEngineFactoryVue : IWindowLessHTMLEngineProvider 
     {
-        protected override FrameworkTestContext FrameworkTestContext => VueFrameworkTestContext.GetVueFrameworkTestContext();
+        private static FrameworkTestContext VueTestContext { get; } = VueFrameworkTestContext.GetVueFrameworkTestContext();
+
+        public FrameworkTestContext FrameworkTestContext { get; } = VueTestContext;
+
+        public IBasicWindowLessHTMLEngineProvider WindowBuilder { get; } = new CefGlueWindowlessSharedJavascriptEngineFactory(VueTestContext.HtmlProvider);
     }
 }

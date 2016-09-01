@@ -1,38 +1,16 @@
 ﻿using KnockoutUIFramework.Test.IntegratedInfra;
-using MVVM.HTML.Core.Infra;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
+using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace MVVM.Awesomium.TestInfra 
 {
     public class AwesomiumTestContext : IWindowLessHTMLEngineProvider 
     {
-        private AwesomiumWindowlessHTMLEngineFactory _AwesomiumWindowlessHTMLEngineFactory;
+        private static FrameworkTestContext KoTestContext { get; } = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext();
 
-        private AwesomiumWindowlessHTMLEngineFactory GetWindowLessEngine() 
-        {
-            if (_AwesomiumWindowlessHTMLEngineFactory != null)
-                return _AwesomiumWindowlessHTMLEngineFactory;
+        public FrameworkTestContext FrameworkTestContext { get; } = KoTestContext;
 
-            return _AwesomiumWindowlessHTMLEngineFactory = new AwesomiumWindowlessHTMLEngineFactory();
-        }
-
-        public IWindowlessIntegratedContextBuilder GetWindowlessEnvironment() 
-        {
-            return new WindowlessIntegratedTestEnvironment()
-            {
-                WindowlessJavascriptEngineBuilder = () => GetWindowLessEngine().CreateWindowlessJavascriptEngine(),
-                FrameworkTestContext = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext(),
-                TestUIDispacther = new NullUIDispatcher()
-            };
-        }
-
-        public void Dispose() 
-        {
-            if (_AwesomiumWindowlessHTMLEngineFactory != null)
-            {
-                _AwesomiumWindowlessHTMLEngineFactory.Dispose();
-                _AwesomiumWindowlessHTMLEngineFactory = null;
-            }
-        }
+        public IBasicWindowLessHTMLEngineProvider WindowBuilder { get; } = new AwesomiumEngineProvider(KoTestContext.HtmlProvider);
     }
 }

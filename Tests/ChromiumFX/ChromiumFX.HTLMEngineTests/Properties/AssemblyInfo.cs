@@ -5,17 +5,14 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HTMEngine.ChromiumFX")]
+[assembly: AssemblyTitle("Tests.ChromiumFX.HTLMEngineTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HTMEngine.ChromiumFX")]
+[assembly: AssemblyProduct("Tests.ChromiumFX.HTLMEngineTests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-[assembly: InternalsVisibleTo("Tests.ChromiumFX.Infra")]
-
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -23,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c795bed0-3cab-4e42-bd49-28140700b160")]
+[assembly: Guid("0d2b555b-3df7-460b-843b-f9f3145135bd")]
 
 // Version information for an assembly consists of the following four values:
 //

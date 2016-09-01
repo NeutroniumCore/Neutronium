@@ -1,10 +1,10 @@
 ﻿using System;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
 using Chromium;
 using Chromium.Event;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using MVVM.HTML.Core.JavascriptEngine.Window;
 
-namespace ChromiumFX.TestInfra 
+namespace Tests.ChromiumFX.Infra 
 {
     internal class FakeHTMLWindow : IHTMLWindow
     {

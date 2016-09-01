@@ -1,9 +1,13 @@
 ﻿using System;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
+using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless 
 {
-    public interface IWindowLessHTMLEngineProvider : IDisposable 
+    public interface IWindowLessHTMLEngineProvider
     {
-        IWindowlessIntegratedContextBuilder GetWindowlessEnvironment();
+        FrameworkTestContext FrameworkTestContext { get; }
+
+        IBasicWindowLessHTMLEngineProvider WindowBuilder { get; }
     }
 }

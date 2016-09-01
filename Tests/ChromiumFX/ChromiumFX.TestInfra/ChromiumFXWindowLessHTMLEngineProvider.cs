@@ -4,28 +4,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using Chromium;
 using Chromium.Remote;
-using ChromiumFX.TestInfra.Helper;
 using HTMEngine.ChromiumFX.EngineBinding;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.Infra;
+using Tests.ChromiumFX.Infra.Helper;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
-using Tests.Infra.IntegratedContextTesterHelper.Windowless;
-using Tests.Infra.JavascriptEngineTesterHelper;
 
-namespace ChromiumFX.TestInfra
-{
-    public abstract class ChromiumFXWindowLessHTMLEngineProvider: IWindowLessHTMLEngineProvider 
+namespace Tests.ChromiumFX.Infra {
+    public class ChromiumFXWindowLessHTMLEngineProvider: IBasicWindowLessHTMLEngineProvider
     {
         private bool _Runing = false;
         private readonly WpfThread _WpfThread;
         private RenderProcessHandler _RenderProcessHandler;
         private TaskCompletionSource<ChromiumFXWebView> _TaskContextCreatedEventArgs;
         private CfrApp _CfrApp;
-        public IWebSessionLogger Logger { get; set; }
+        private readonly ITestHtmlProvider _HtmlProvider;
 
-        protected ChromiumFXWindowLessHTMLEngineProvider() 
+        public IWebSessionLogger Logger { get; set; }
+        
+
+        public ChromiumFXWindowLessHTMLEngineProvider(ITestHtmlProvider htmlProvider)
         {
+            _HtmlProvider = htmlProvider;
             _WpfThread = WpfThread.GetWpfThread();
             _WpfThread.AddRef();
         }
@@ -99,17 +102,15 @@ namespace ChromiumFX.TestInfra
             return CfrRuntime.ExecuteProcess(_CfrApp);
         }
 
-        public IWindowlessIntegratedContextBuilder GetWindowlessEnvironment() 
+        public IWindowlessHTMLEngineBuilder GetWindowlessEnvironment() 
         {
             return new WindowlessIntegratedTestEnvironment() 
             {
                 WindowlessJavascriptEngineBuilder = () => CreateWindowlessJavascriptEngine(),
-                FrameworkTestContext = FrameworkTestContext,
+                HtmlProvider = _HtmlProvider,
                 TestUIDispacther = new NullUIDispatcher()
             };
         }
-
-        protected abstract FrameworkTestContext FrameworkTestContext { get; }
 
         private IWindowlessHTMLEngine CreateWindowlessJavascriptEngine() 
         {

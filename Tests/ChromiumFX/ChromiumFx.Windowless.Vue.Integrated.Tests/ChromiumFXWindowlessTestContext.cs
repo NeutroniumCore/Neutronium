@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using ChromiumFx.Windowless.Vue.Integrated.Tests;
+using Xunit;
 
 namespace ChromiumFX.Windowless.Integrated.Tests 
 {

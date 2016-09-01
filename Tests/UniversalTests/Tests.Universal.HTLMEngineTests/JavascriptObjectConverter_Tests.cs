@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
@@ -10,7 +10,7 @@ namespace Tests.Universal.HTLMEngineTests
 {
     public abstract class JavascriptObjectConverter_Tests : TestBase
     {
-        protected JavascriptObjectConverter_Tests(IWindowlessHTMLEngineBuilder testEnvironment, ITestOutputHelper output)
+        protected JavascriptObjectConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
                         : base(testEnvironment, output)
         {
         }

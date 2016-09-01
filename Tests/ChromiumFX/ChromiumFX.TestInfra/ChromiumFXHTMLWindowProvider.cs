@@ -1,13 +1,12 @@
 ﻿using System;
+using Chromium;
 using HTML_WPF.Component;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
-using Chromium;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 
-namespace ChromiumFX.TestInfra 
-{
+namespace Tests.ChromiumFX.Infra {
     internal class ChromiumFXHTMLWindowProvider : IHTMLWindowProvider 
     {
         private readonly IWebView _webview;

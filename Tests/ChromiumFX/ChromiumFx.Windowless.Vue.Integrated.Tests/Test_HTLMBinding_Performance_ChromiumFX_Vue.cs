@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ChromiumFx.Windowless.Vue.Integrated.Tests;
 using IntegratedTest.Tests.Windowless;
 using Xunit;
 using Xunit.Abstractions;

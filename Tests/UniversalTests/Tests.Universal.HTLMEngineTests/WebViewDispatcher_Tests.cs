@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using NSubstitute;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
@@ -9,7 +10,7 @@ namespace Tests.Universal.HTLMEngineTests
 {
     public abstract class WebViewDispatcher_Tests : TestBase
     {
-        protected WebViewDispatcher_Tests(IWindowlessHTMLEngineBuilder testEnvironment, ITestOutputHelper output)
+        protected WebViewDispatcher_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
         }

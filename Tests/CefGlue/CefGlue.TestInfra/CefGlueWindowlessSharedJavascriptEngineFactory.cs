@@ -1,21 +1,21 @@
 ﻿using HTMLEngine.CefGlue.CefSession;
 using HTML_WPF.Component;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
-using Tests.Infra.IntegratedContextTesterHelper.Windowless;
-using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace CefGlue.TestInfra
 {
-    public abstract class CefGlueWindowlessSharedJavascriptEngineFactory : IWindowLessHTMLEngineProvider
+    public class CefGlueWindowlessSharedJavascriptEngineFactory : IBasicWindowLessHTMLEngineProvider 
     {
         private bool _Runing=false;
         private readonly WpfThread _WpfThread;
+        private readonly ITestHtmlProvider _HtmlProvider;
 
-        protected abstract FrameworkTestContext FrameworkTestContext { get; }
-
-        protected CefGlueWindowlessSharedJavascriptEngineFactory() 
+        public CefGlueWindowlessSharedJavascriptEngineFactory(ITestHtmlProvider htmlProvider)
         {
+            _HtmlProvider = htmlProvider;
             _WpfThread = WpfThread.GetWpfThread();
             _WpfThread.AddRef();
         }
@@ -35,12 +35,12 @@ namespace CefGlue.TestInfra
             _WpfThread.Release();
         }
 
-        public IWindowlessIntegratedContextBuilder GetWindowlessEnvironment() 
+        public IWindowlessHTMLEngineBuilder GetWindowlessEnvironment() 
         {
             return new WindowlessIntegratedTestEnvironment() 
             {
                 WindowlessJavascriptEngineBuilder = () => CreateWindowlessJavascriptEngine(),
-                FrameworkTestContext = FrameworkTestContext,
+                HtmlProvider = _HtmlProvider,
                 TestUIDispacther = new WPFUIDispatcher(_WpfThread.Dispatcher)
             };
         }

@@ -7,7 +7,7 @@ using MVVM.HTML.Core.Binding.GlueObject;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptUIFramework;
 using NSubstitute;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
@@ -38,7 +38,7 @@ namespace Tests.Universal.HTLMEngineTests
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
 
-        protected CSharpToJavascriptConverter_Tests(IWindowlessHTMLEngineBuilder testEnvironment, ITestOutputHelper output)
+        protected CSharpToJavascriptConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
         }

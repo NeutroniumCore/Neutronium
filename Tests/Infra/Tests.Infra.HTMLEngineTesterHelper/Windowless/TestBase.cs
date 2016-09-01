@@ -5,6 +5,7 @@ using MVVM.HTML.Core.Binding;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
+using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Threading;
 using Xunit.Abstractions;
@@ -21,9 +22,9 @@ namespace Tests.Infra.HTMLEngineTesterHelper.Windowless
         protected IJavascriptObjectConverter Converter => _WebView.Converter;
         protected IJavascriptObjectFactory Factory => _WebView.Factory;
 
-        protected TestBase(IWindowlessHTMLEngineBuilder testEnvironment, ITestOutputHelper output) 
+        protected TestBase(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output) 
         {
-            _TestEnvironment = testEnvironment;
+            _TestEnvironment = testEnvironment.GetWindowlessEnvironment();
             var logger = new TestLogger(output);
             _Logger = logger.Add(new BasicLogger());
         }

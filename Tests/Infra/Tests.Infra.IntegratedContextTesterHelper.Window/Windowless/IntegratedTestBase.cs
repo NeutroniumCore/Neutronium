@@ -14,22 +14,19 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
     public abstract class IntegratedTestBase : TestBase
     {
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
-        private readonly IWindowlessIntegratedContextBuilder _WindowlessHTMLEngineBuilder;
+        private readonly IWindowLessHTMLEngineProvider _WindowLessHTMLEngineProvider;
 
-        protected IntegratedTestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output): this (testEnvironment.GetWindowlessEnvironment(), output) 
+        protected IntegratedTestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output): base (testEnvironment.WindowBuilder, output) 
         {
-        }
-
-        private IntegratedTestBase(IWindowlessIntegratedContextBuilder windowlessIntegratedContextBuilder, ITestOutputHelper output) : base(windowlessIntegratedContextBuilder, output) 
-        {
-            _WindowlessHTMLEngineBuilder = windowlessIntegratedContextBuilder;
+            _WindowLessHTMLEngineProvider = testEnvironment;
         }
 
         protected override IWindowlessHTMLEngine Tester(TestContext context = TestContext.Index) 
         {
             var tester = base.Tester(context);
-            _ViewEngine = new HTMLViewEngine(tester.HTMLWindowProvider, _WindowlessHTMLEngineBuilder.FrameworkTestContext.FrameworkManager, _Logger);
-            _JavascriptFrameworkExtractor = _WindowlessHTMLEngineBuilder.GetExtractor(_WebView);
+            var frameworkHelper = _WindowLessHTMLEngineProvider.FrameworkTestContext;
+            _ViewEngine = new HTMLViewEngine(tester.HTMLWindowProvider, frameworkHelper.FrameworkManager, _Logger);
+            _JavascriptFrameworkExtractor = frameworkHelper.JavascriptFrameworkExtractorBuilder(_WebView);
             return tester;
         }
 

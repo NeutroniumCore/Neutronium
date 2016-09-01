@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Chromium;
-using HTMEngine.ChromiumFX.EngineBinding;
 using MVVM.HTML.Core;
+using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
-using MVVM.HTML.Core.JavascriptEngine.Control;
+using HTMEngine.ChromiumFX.EngineBinding;
 
-namespace ChromiumFX.TestInfra
+namespace Tests.ChromiumFX.Infra 
 {
     public class ChromiumFxWindowlessHtmlEngine : IWindowlessHTMLEngine 
     {

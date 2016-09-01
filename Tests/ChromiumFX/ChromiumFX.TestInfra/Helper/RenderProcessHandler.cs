@@ -2,7 +2,7 @@
 using Chromium.Remote;
 using Chromium.Remote.Event;
 
-namespace ChromiumFX.TestInfra.Helper 
+namespace Tests.ChromiumFX.Infra.Helper 
 {
     public class RenderProcessHandler : CfrRenderProcessHandler 
     {

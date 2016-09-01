@@ -83,9 +83,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AwesomiumTestContext.cs" />
     <Compile Include="AwesomiumWindowTestEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AwesomiumTestContext.cs" />
+    <Compile Include="AwesomiumEngineProvider.cs" />
     <Compile Include="AwesomiumTestHTMLWindow.cs" />
     <Compile Include="AwesomiumTestHTMLWindowProvider.cs" />
     <Compile Include="AwesomiumWindowlessHTMLEngineFactory.cs" />

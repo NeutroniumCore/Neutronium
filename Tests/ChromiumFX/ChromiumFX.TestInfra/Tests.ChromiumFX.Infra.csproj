@@ -8,8 +8,8 @@
     <ProjectGuid>{A82D4195-0F75-48B3-8E43-5BE90D061C6C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChromiumFX.TestInfra</RootNamespace>
-    <AssemblyName>ChromiumFX.TestInfra</AssemblyName>
+    <RootNamespace>Tests.ChromiumFX.Infra</RootNamespace>
+    <AssemblyName>Tests.ChromiumFX.Infra</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -117,14 +117,6 @@
     <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\Tests.Infra.HTMLEngineTesterHelper.csproj">
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
       <Name>Tests.Infra.HTMLEngineTesterHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\Tests.Infra.IntegratedContextTesterHelper.csproj">
-      <Project>{614bbb6d-d7c4-494a-929e-067ee62573ce}</Project>
-      <Name>Tests.Infra.IntegratedContextTesterHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\Tests.Infra.JavascriptEngineTesterHelper.csproj">
-      <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
-      <Name>Tests.Infra.JavascriptEngineTesterHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
