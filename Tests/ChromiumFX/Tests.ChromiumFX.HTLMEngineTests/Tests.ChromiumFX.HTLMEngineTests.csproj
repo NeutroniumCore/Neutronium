@@ -184,7 +184,7 @@
       <Project>{440a6f09-63e4-4bda-bef4-beaf02a8ee30}</Project>
       <Name>Tests.Universal.HTLMEngineTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChromiumFX.TestInfra\Tests.ChromiumFX.Infra.csproj">
+    <ProjectReference Include="..\Tests.ChromiumFX.Infra\Tests.ChromiumFX.Infra.csproj">
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
       <Name>Tests.ChromiumFX.Infra</Name>
     </ProjectReference>

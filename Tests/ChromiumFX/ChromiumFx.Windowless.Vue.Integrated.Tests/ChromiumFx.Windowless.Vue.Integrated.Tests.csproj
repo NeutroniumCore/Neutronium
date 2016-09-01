@@ -218,7 +218,7 @@
       <Project>{80d4f5ca-1065-4487-8fde-9fee9821716c}</Project>
       <Name>VueUiFramework.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChromiumFX.TestInfra\Tests.ChromiumFX.Infra.csproj">
+    <ProjectReference Include="..\Tests.ChromiumFX.Infra\Tests.ChromiumFX.Infra.csproj">
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
       <Name>Tests.ChromiumFX.Infra</Name>
     </ProjectReference>

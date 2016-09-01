@@ -219,3 +219,4 @@ FakesAssemblies/
 /Tests/ChromiumFX/ChromiumFX.Windowless.Ko.Integrated.Tests/cef/Resources/icudtl.dat
 /Tests/ChromiumFX/ChromiumFX.HTLMEngineTests/cef/Resources/locales
 /Tests/ChromiumFX/ChromiumFX.HTLMEngineTests/cef/Resources
+/Tests/ChromiumFX/Tests.ChromiumFX.HTLMEngineTests/cef/Resources

@@ -134,10 +134,6 @@
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChromiumFX.TestInfra\Tests.ChromiumFX.Infra.csproj">
-      <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
-      <Name>Tests.ChromiumFX.Infra</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\src\Koaddon.js">
