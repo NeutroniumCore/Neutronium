@@ -1,7 +1,6 @@
 ﻿using System;
 using MVVM.HTML.Core.Infra;
 using Xunit;
-using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.HTML.Core.Test
 {

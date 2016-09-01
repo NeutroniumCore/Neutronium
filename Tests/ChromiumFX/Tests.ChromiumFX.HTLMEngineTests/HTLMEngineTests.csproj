@@ -176,17 +176,17 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>MVVM.HTML.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\Tests.Infra.HTMLEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\HTMLEngineTesterHelper.csproj">
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
-      <Name>Tests.Infra.HTMLEngineTesterHelper</Name>
+      <Name>HTMLEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UniversalTests\Tests.Universal.HTLMEngineTests\Tests.Universal.HTLMEngineTests.csproj">
+    <ProjectReference Include="..\..\UniversalTests\Tests.Universal.HTLMEngineTests\HTLMEngineTests.csproj">
       <Project>{440a6f09-63e4-4bda-bef4-beaf02a8ee30}</Project>
-      <Name>Tests.Universal.HTLMEngineTests</Name>
+      <Name>HTLMEngineTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tests.ChromiumFX.Infra\Tests.ChromiumFX.Infra.csproj">
+    <ProjectReference Include="..\Tests.ChromiumFX.Infra\Infra.csproj">
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
-      <Name>Tests.ChromiumFX.Infra</Name>
+      <Name>Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

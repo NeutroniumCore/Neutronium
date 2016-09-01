@@ -1,7 +1,6 @@
 ﻿using System;
 using Xunit;
 using FluentAssertions;
-using MVVM.HTML.Core;
 using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.HTML.Core.Test

@@ -197,17 +197,17 @@
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
       <Name>KnockoutUIFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\Tests.Infra.HTMLEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\HTMLEngineTesterHelper.csproj">
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
-      <Name>Tests.Infra.HTMLEngineTesterHelper</Name>
+      <Name>HTMLEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\Tests.Infra.IntegratedContextTesterHelper.csproj">
+    <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj">
       <Project>{614bbb6d-d7c4-494a-929e-067ee62573ce}</Project>
-      <Name>Tests.Infra.IntegratedContextTesterHelper</Name>
+      <Name>IntegratedContextTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\Tests.Infra.JavascriptEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptEngineTesterHelper.csproj">
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
-      <Name>Tests.Infra.JavascriptEngineTesterHelper</Name>
+      <Name>JavascriptEngineTesterHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
       <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
@@ -217,9 +217,9 @@
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tests.ChromiumFX.Infra\Tests.ChromiumFX.Infra.csproj">
+    <ProjectReference Include="..\Tests.ChromiumFX.Infra\Infra.csproj">
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
-      <Name>Tests.ChromiumFX.Infra</Name>
+      <Name>Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
