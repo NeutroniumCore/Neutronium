@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Awesomium.Windowless.I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CefGlue", "CefGlue", "{4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue.TestInfra", "Tests\CefGlue\CefGlue.TestInfra\CefGlue.TestInfra.csproj", "{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\CefGlue\CefGlue.TestInfra\Infra.csproj", "{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CefGlue.Window.Integrated.Tests", "Tests\CefGlue\CefGlue.Window.Integrated.Tests\CefGlue.Window.Integrated.Tests.csproj", "{D0499D75-A2B5-4B0F-8280-C916CEA84EF5}"
 EndProject
@@ -138,6 +138,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTLMEngineTests", "Tests\ChromiumFX\Tests.ChromiumFX.HTLMEngineTests\HTLMEngineTests.csproj", "{0D2B555B-3DF7-460B-843B-F9F3145135BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HTMEngine", "HTMEngine", "{7A86C107-E1C7-4F1C-8FBF-7339F7623EF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTLMEngineTests", "Tests\CefGlue\HTLMEngineTests\HTLMEngineTests.csproj", "{E489B2FD-DD99-4276-BD33-51099ACA0970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -919,6 +921,22 @@ Global
 		{0D2B555B-3DF7-460B-843B-F9F3145135BD}.Release|x64.Build.0 = Release|Any CPU
 		{0D2B555B-3DF7-460B-843B-F9F3145135BD}.Release|x86.ActiveCfg = Release|Any CPU
 		{0D2B555B-3DF7-460B-843B-F9F3145135BD}.Release|x86.Build.0 = Release|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Debug|x64.Build.0 = Debug|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Debug|x86.Build.0 = Debug|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|x64.ActiveCfg = Release|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|x64.Build.0 = Release|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|x86.ActiveCfg = Release|Any CPU
+		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -980,6 +998,7 @@ Global
 		{A82D4195-0F75-48B3-8E43-5BE90D061C6C} = {3C1F3260-722C-4C57-93F6-DB044D7E73E4}
 		{0D2B555B-3DF7-460B-843B-F9F3145135BD} = {3C1F3260-722C-4C57-93F6-DB044D7E73E4}
 		{7A86C107-E1C7-4F1C-8FBF-7339F7623EF6} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
+		{E489B2FD-DD99-4276-BD33-51099ACA0970} = {4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

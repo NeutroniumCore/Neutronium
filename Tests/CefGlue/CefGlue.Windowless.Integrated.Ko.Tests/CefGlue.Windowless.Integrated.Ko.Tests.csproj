@@ -119,9 +119,9 @@
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CefGlue.TestInfra\CefGlue.TestInfra.csproj">
+    <ProjectReference Include="..\CefGlue.TestInfra\Infra.csproj">
       <Project>{947cc0fa-7f1c-4cf9-a908-1a29ed232f19}</Project>
-      <Name>CefGlue.TestInfra</Name>
+      <Name>Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
