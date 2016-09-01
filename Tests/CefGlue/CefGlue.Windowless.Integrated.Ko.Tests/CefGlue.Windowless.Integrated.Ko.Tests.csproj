@@ -86,10 +86,7 @@
     <Compile Include="CefWindowlessTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test_HTLMBinding_Performance_Cef_Ko.cs" />
-    <Compile Include="Test_WebView_Dispatcher_Cef.cs" />
-    <Compile Include="Test_ConvertToJSO_Cef.cs" />
     <Compile Include="Test_HTMLBinding_Cef_Ko.cs" />
-    <Compile Include="Test_JavascriptToCSharpMapper_Simple_Cef.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

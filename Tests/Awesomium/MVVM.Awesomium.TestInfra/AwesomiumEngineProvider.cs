@@ -5,7 +5,7 @@ using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
-namespace MVVM.Awesomium.TestInfra 
+namespace Tests.Awesomium.Infra 
 {
     public class AwesomiumEngineProvider : IBasicWindowLessHTMLEngineProvider
     {

@@ -1,12 +1,11 @@
 ﻿using System;
 using HTML_WPF.Component;
-using MVVM.Awesomium.Tests;
 using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 
-namespace MVVM.Awesomium.TestInfra
+namespace Tests.Awesomium.Infra
 {
     internal class AwesomiumTestHTMLWindowProvider : IHTMLWindowProvider
     {

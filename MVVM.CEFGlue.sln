@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegratedTest", "Tests\Int
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Awesomium", "Awesomium", "{32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Awesomium.TestInfra", "Tests\Awesomium\MVVM.Awesomium.TestInfra\MVVM.Awesomium.TestInfra.csproj", "{8955B9F6-B6E5-4FEF-A5AB-90C35AFB9CC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\Awesomium\MVVM.Awesomium.TestInfra\Infra.csproj", "{8955B9F6-B6E5-4FEF-A5AB-90C35AFB9CC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Awesomium.Windowless.Integrated.Tests", "Tests\Awesomium\MVVM.Awesomium.Windowless.Integrated.Tests\MVVM.Awesomium.Windowless.Integrated.Tests.csproj", "{05FE6E3C-50C9-4054-811B-86BDA5459F82}"
 EndProject
@@ -131,15 +131,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Tests", "Tests\Infra\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UniversalTests", "UniversalTests", "{D4977B2A-E4D4-4E9F-A2BF-2EAD13CAA5E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTLMEngineTests", "Tests\UniversalTests\Tests.Universal.HTLMEngineTests\HTLMEngineTests.csproj", "{440A6F09-63E4-4BDA-BEF4-BEAF02A8EE30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLEngineTests", "Tests\UniversalTests\Tests.Universal.HTLMEngineTests\HTMLEngineTests.csproj", "{440A6F09-63E4-4BDA-BEF4-BEAF02A8EE30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\ChromiumFX\Tests.ChromiumFX.Infra\Infra.csproj", "{A82D4195-0F75-48B3-8E43-5BE90D061C6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTLMEngineTests", "Tests\ChromiumFX\Tests.ChromiumFX.HTLMEngineTests\HTLMEngineTests.csproj", "{0D2B555B-3DF7-460B-843B-F9F3145135BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLEngineTests", "Tests\ChromiumFX\Tests.ChromiumFX.HTLMEngineTests\HTMLEngineTests.csproj", "{0D2B555B-3DF7-460B-843B-F9F3145135BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HTMEngine", "HTMEngine", "{7A86C107-E1C7-4F1C-8FBF-7339F7623EF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTLMEngineTests", "Tests\CefGlue\HTLMEngineTests\HTLMEngineTests.csproj", "{E489B2FD-DD99-4276-BD33-51099ACA0970}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLEngineTests", "Tests\CefGlue\HTLMEngineTests\HTMLEngineTests.csproj", "{E489B2FD-DD99-4276-BD33-51099ACA0970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLEngineTests", "Tests\Awesomium\HTMLEngineTests\HTMLEngineTests.csproj", "{BA9E21FA-3267-4B69-BB72-ABA196F715B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -937,6 +939,22 @@ Global
 		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|x64.Build.0 = Release|Any CPU
 		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|x86.ActiveCfg = Release|Any CPU
 		{E489B2FD-DD99-4276-BD33-51099ACA0970}.Release|x86.Build.0 = Release|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Debug|x64.Build.0 = Debug|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Debug|x86.Build.0 = Debug|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Release|x64.ActiveCfg = Release|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Release|x64.Build.0 = Release|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Release|x86.ActiveCfg = Release|Any CPU
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -999,6 +1017,7 @@ Global
 		{0D2B555B-3DF7-460B-843B-F9F3145135BD} = {3C1F3260-722C-4C57-93F6-DB044D7E73E4}
 		{7A86C107-E1C7-4F1C-8FBF-7339F7623EF6} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{E489B2FD-DD99-4276-BD33-51099ACA0970} = {4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0}
+		{BA9E21FA-3267-4B69-BB72-ABA196F715B4} = {32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

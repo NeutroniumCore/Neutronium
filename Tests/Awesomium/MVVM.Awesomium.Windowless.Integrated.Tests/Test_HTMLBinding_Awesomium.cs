@@ -1,5 +1,5 @@
 ﻿using IntegratedTest.Tests.Windowless;
-using MVVM.Awesomium.TestInfra;
+using Tests.Awesomium.Infra;
 using Xunit;
 using Xunit.Abstractions;
 

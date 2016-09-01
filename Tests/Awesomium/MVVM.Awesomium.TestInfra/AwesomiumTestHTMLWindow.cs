@@ -1,8 +1,8 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using System;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.HTML.Core.JavascriptEngine.Window;
-using System;
 
-namespace MVVM.Awesomium.Tests
+namespace Tests.Awesomium.Infra
 {
     internal class AwesomiumTestHTMLWindow : IHTMLWindow
     {

@@ -6,7 +6,7 @@ using MVVM.HTML.Core.JavascriptUIFramework;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 
-namespace MVVM.Awesomium.TestInfra 
+namespace Tests.Awesomium.Infra 
 {
     public class AwesomiumWindowTestEnvironment : WindowTestEnvironment 
     {

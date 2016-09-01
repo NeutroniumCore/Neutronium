@@ -6,7 +6,7 @@ using HTMLEngine.Awesomium;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 
-namespace MVVM.Awesomium.TestInfra
+namespace Tests.Awesomium.Infra
 {
     public class AwesomiumWindowlessHTMLEngineFactory : IDisposable
     {

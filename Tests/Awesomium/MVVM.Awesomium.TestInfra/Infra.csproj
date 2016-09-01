@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" />
-  <Import Project="..\..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props" Condition="Exists('..\..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9B6B0D48-C95C-43E5-9A6B-7C06F2B9B03A}</ProjectGuid>
+    <ProjectGuid>{8955B9F6-B6E5-4FEF-A5AB-90C35AFB9CC6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVVM.Awesomium.Window.Integrated.Tests</RootNamespace>
-    <AssemblyName>MVVM.Awesomium.Window.Integrated.Tests</AssemblyName>
+    <RootNamespace>Tests.Awesomium.Infra</RootNamespace>
+    <AssemblyName>Tests.Awesomium.Infra</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -52,27 +52,29 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86">
+      <HintPath>..\..\..\packages\Unofficial.Awesomium.Complete.1.7.4.2\lib\Awesomium.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Awesomium.Windows.Controls, Version=1.7.4.2, Culture=neutral, PublicKeyToken=7a34e179b8b61c39, processorArchitecture=x86">
+      <HintPath>..\..\..\packages\Unofficial.Awesomium.Complete.1.7.4.2\lib\Awesomium.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\xunit.assert.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.assert.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\xunit.extensibility.core.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.core.dll</HintPath>
+      <HintPath>..\..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
@@ -81,11 +83,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AwesomiumWindowTestContext.cs" />
-    <Compile Include="Test_DoubleNavigation_Animation_Awesomium.cs" />
-    <Compile Include="Test_DoubleNavigation_Awesomium.cs" />
-    <Compile Include="Test_HTMLViewControl_Awesomium.cs" />
+    <Compile Include="AwesomiumTestContext.cs" />
+    <Compile Include="AwesomiumWindowTestEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AwesomiumEngineProvider.cs" />
+    <Compile Include="AwesomiumTestHTMLWindow.cs" />
+    <Compile Include="AwesomiumTestHTMLWindowProvider.cs" />
+    <Compile Include="AwesomiumWindowlessHTMLEngineFactory.cs" />
+    <Compile Include="AwesomiumWindowlessSharedHtmlEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
@@ -95,6 +100,14 @@
     <ProjectReference Include="..\..\..\HTMLEngine\Awesomium\HTMLEngine.Awesomium\HTMLEngine.Awesomium.csproj">
       <Project>{92b20870-ad65-4ae8-bb1e-4d11b922a135}</Project>
       <Name>HTMLEngine.Awesomium</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\JavascriptEngine\KnockoutUIFramework\KnockoutUIFramework.csproj">
+      <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
+      <Name>KnockoutUIFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\MVVM.Component\MVVM.Component.csproj">
+      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
+      <Name>MVVM.Component</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
@@ -120,117 +133,15 @@
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
       <Name>KnockoutUIFramework.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MVVM.Awesomium.TestInfra\Infra.csproj">
-      <Project>{8955b9f6-b6e5-4fef-a5ab-90c35afb9cc6}</Project>
-      <Name>Infra</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="javascript\almost_empty.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\empty.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\empty_with_js.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\index_promise.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\navigation_1.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\navigation_2.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\navigation_3.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\simple.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\Koaddon.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\Ko_register.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\Ko_register_promise.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\promise.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Navigation data\css\style.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Navigation data\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Navigation data\js\animation.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Navigation data\js\knockout.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Navigation data\js\Ko_Extension.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Navigation data\js\Ko_Extension.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Navigation data\js\ref\jquery.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="javascript\src\ko-view.min.js.map">
-      <DependentUpon>ko-view.min.js</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="javascript\src\Ko_Extension.min.js.map">
-      <DependentUpon>Ko_Extension.min.js</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Navigation data\js\Ko_Extension.min.js.map">
-      <DependentUpon>Ko_Extension.min.js</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="javascript\src\Infra.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\knockout-delegatedEvents.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\knockout.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\ko-view.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="javascript\src\Ko_Extension.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <EmbeddedResource Include="javascript\src\Ko_Extension.min.js">
-      <DependentUpon>Ko_Extension.js</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="javascript\src\ko-view.min.js">
-      <DependentUpon>ko-view.js</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props'))" />
     <Error Condition="!Exists('..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

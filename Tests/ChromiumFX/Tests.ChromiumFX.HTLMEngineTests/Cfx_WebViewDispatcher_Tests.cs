@@ -1,9 +1,9 @@
-﻿using Tests.ChromiumFX.HTLMEngineTests.Infra;
-using Tests.Universal.HTLMEngineTests;
+﻿using Tests.ChromiumFX.HTMLEngineTests.Infra;
+using Tests.Universal.HTMLEngineTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Tests.ChromiumFX.HTLMEngineTests
+namespace Tests.ChromiumFX.HTMLEngineTests
 {
     [Collection("ChromiumFX Context")]
     public class Cfx_WebViewDispatcher_Tests : WebViewDispatcher_Tests

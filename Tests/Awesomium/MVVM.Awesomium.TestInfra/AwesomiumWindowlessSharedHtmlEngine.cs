@@ -8,14 +8,14 @@ using MVVM.HTML.Core.JavascriptEngine.Control;
 using MVVM.HTML.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 
-namespace MVVM.Awesomium.TestInfra
+namespace Tests.Awesomium.Infra 
 {
     internal class AwesomiumWindowlessSharedHtmlEngine : IWindowlessHTMLEngine
     {
         private IWebView _CurrentWebView;
         private AwesomiumTestHTMLWindowProvider _AwesomiumTestHTMLWindowProvider;
 
-        public HTML.Core.JavascriptEngine.JavascriptObject.IWebView WebView { get; private set; }
+        public MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView WebView { get; private set; }
         public IHTMLWindow HTMLWindow => _AwesomiumTestHTMLWindowProvider.HTMLWindow;
         public IHTMLWindowProvider HTMLWindowProvider => _AwesomiumTestHTMLWindowProvider;
 

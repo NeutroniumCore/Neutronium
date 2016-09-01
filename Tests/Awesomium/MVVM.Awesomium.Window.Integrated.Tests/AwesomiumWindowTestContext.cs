@@ -1,4 +1,4 @@
-﻿using MVVM.Awesomium.TestInfra;
+﻿using Tests.Awesomium.Infra;
 using Xunit;
 
 namespace MVVM.Awesomium.Window.Integrated.Tests

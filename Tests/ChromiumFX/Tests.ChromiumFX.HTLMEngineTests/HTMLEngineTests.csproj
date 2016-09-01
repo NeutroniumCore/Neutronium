@@ -8,8 +8,8 @@
     <ProjectGuid>{0D2B555B-3DF7-460B-843B-F9F3145135BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests.ChromiumFX.HTLMEngineTests</RootNamespace>
-    <AssemblyName>Tests.ChromiumFX.HTLMEngineTests</AssemblyName>
+    <RootNamespace>Tests.ChromiumFX.HTMLEngineTests</RootNamespace>
+    <AssemblyName>Tests.ChromiumFX.HTMLEngineTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -180,9 +180,9 @@
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
       <Name>HTMLEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UniversalTests\Tests.Universal.HTLMEngineTests\HTLMEngineTests.csproj">
+    <ProjectReference Include="..\..\UniversalTests\Tests.Universal.HTLMEngineTests\HTMLEngineTests.csproj">
       <Project>{440a6f09-63e4-4bda-bef4-beaf02a8ee30}</Project>
-      <Name>HTLMEngineTests</Name>
+      <Name>HTMLEngineTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tests.ChromiumFX.Infra\Infra.csproj">
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>

@@ -3,7 +3,7 @@ using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
-namespace MVVM.Awesomium.TestInfra 
+namespace Tests.Awesomium.Infra 
 {
     public class AwesomiumTestContext : IWindowLessHTMLEngineProvider 
     {

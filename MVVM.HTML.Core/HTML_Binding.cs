@@ -23,14 +23,13 @@ namespace MVVM.HTML.Core
         public object Root => _BirectionalMapper.JSValueRoot.CValue;
         public IJSCSGlue JSBrideRootObject => _BirectionalMapper.JSValueRoot;
 
-
         private HTML_Binding(BidirectionalMapper iConvertToJSO, IWebSessionLogger logger)
         {
             _Context = iConvertToJSO.Context;
             _BirectionalMapper = iConvertToJSO;
-            _Logger = logger;
-            _Logger.Debug(() => $"HTML_Binding {_Current} created");
+            _Logger = logger;           
             _Bindings.Add(this);
+            _Logger.Debug(() => $"HTML_Binding {_Current} created");
         }
 
         public override string ToString()
@@ -39,10 +38,10 @@ namespace MVVM.HTML.Core
         }
 
         public void Dispose()
-        {
-            _Logger.Debug(() => $"HTML_Binding {_Current} diposed");
+        {            
             _BirectionalMapper.Dispose();
             _Bindings.Remove(this);
+            _Logger.Debug(() => $"HTML_Binding {_Current} disposed");
         }
 
         internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)

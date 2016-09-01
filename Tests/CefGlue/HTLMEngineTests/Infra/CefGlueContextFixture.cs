@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Tests.CefGlue.HTLMEngineTests.Infra
+namespace Tests.CefGlue.HTMLEngineTests.Infra
 {
     [CollectionDefinition("CefGlue Context")]
     public class CefGlueContextFixture : ICollectionFixture<CefGlueContext> 

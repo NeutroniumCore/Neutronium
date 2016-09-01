@@ -93,7 +93,6 @@
     <Compile Include="ChromiumFXWindowlessTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test_HTMLBinding_ChromiumFX_Ko.cs" />
-    <Compile Include="Test_ConvertToJSO_ChromiumFX_Ko.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cef\Release\cef_sandbox.lib">

@@ -1,7 +1,7 @@
 ﻿using CefGlue.TestInfra;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
-namespace Tests.CefGlue.HTLMEngineTests.Infra
+namespace Tests.CefGlue.HTMLEngineTests.Infra
 {
     public class CefGlueContext : CefGlueWindowlessSharedJavascriptEngineFactory 
     {
