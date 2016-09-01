@@ -73,7 +73,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
                     }
                     catch (Exception exception) 
                     {
-                        _Logger.Info(()=> $"Exception encountred during task dispatch: {exception.Message}");
+                        _Logger?.Info(()=> $"Exception encountred during task dispatch: {exception.Message}");
                         taskCompletionSource.TrySetException(exception);
                     }
                 }
