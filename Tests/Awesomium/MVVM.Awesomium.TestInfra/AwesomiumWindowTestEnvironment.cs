@@ -1,21 +1,17 @@
 ﻿using HTMLEngine.Awesomium;
-using HTML_WPF.Component;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHtml;
-using MVVM.HTML.Core.JavascriptUIFramework;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 
 namespace Tests.Awesomium.Infra 
 {
-    public class AwesomiumWindowTestEnvironment : WindowTestEnvironment 
+    public class AwesomiumWindowTestEnvironment : WindowContextProvider 
     {
-        public override IWPFWebWindowFactory GetWPFWebWindowFactory()
+        public override WindowTestContext GetWindowTestContext() => new WindowTestContext 
         {
-            return new AwesomiumWPFWebWindowFactory();
-        }
-
-        public override IJavascriptUIFrameworkManager FrameworkManager => new KnockoutUiFrameworkManager();
-        public override ITestHtmlProvider HtmlProvider => new KnockoutUiHtmlProvider();
+            WPFWebWindowFactory = () => new AwesomiumWPFWebWindowFactory(),
+            FrameworkManager =  new KnockoutUiFrameworkManager(),
+            HtmlProvider = new KnockoutUiHtmlProvider()
+        };
     }
 }

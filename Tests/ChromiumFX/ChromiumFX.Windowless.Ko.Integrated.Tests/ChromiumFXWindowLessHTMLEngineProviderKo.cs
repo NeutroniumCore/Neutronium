@@ -6,12 +6,10 @@ using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace ChromiumFX.Windowless.Ko.Integrated.Tests
 {
-    public class ChromiumFXWindowLessHTMLEngineProviderKo : IWindowLessHTMLEngineProvider 
+    public class ChromiumFXWindowLessHTMLEngineProviderKo : WindowLessHTMLEngineProvider
     {
         private static FrameworkTestContext KoTestContext { get; } = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext();
-
-        public FrameworkTestContext FrameworkTestContext { get; } = KoTestContext;
-
-        public IBasicWindowLessHTMLEngineProvider WindowBuilder { get; } = new ChromiumFXWindowLessHTMLEngineProvider(KoTestContext.HtmlProvider);
+        public override FrameworkTestContext FrameworkTestContext { get; } = KoTestContext;
+        protected override IBasicWindowLessHTMLEngineProvider GetBasicWindowLessHTMLEngineProvider() => new ChromiumFXWindowLessHTMLEngineProvider(KoTestContext.HtmlProvider);
     }
 }

@@ -6,7 +6,7 @@ using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel;
 using Xunit;
-using Tests.Infra.HTMLEngineTesterHelper.Window;
+using Tests.Infra.IntegratedContextTesterHelper.Window;
 
 namespace IntegratedTest.Tests.WPF
 {
@@ -14,7 +14,7 @@ namespace IntegratedTest.Tests.WPF
     {
         private readonly NavigationBuilder _NavigationBuilder;
 
-        protected Test_DoubleNavigation_Animation(IWindowTestHTMLEngineEnvironment windowTestEnvironment):
+        protected Test_DoubleNavigation_Animation(IWindowContextProvider windowTestEnvironment):
             base(windowTestEnvironment)
         {
             _NavigationBuilder = new NavigationBuilder();

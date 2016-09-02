@@ -76,6 +76,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="Xilium.CefGlue, Version=3.2272.2035.0, Culture=neutral, PublicKeyToken=6235298024de30d5, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Unofficial.CefGlue.Core.3.2272.2035\lib\Xilium.CefGlue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
@@ -252,7 +256,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets'))" />
   </Target>
+  <Import Project="..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

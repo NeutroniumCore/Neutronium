@@ -6,11 +6,10 @@ using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace CefGlue.Windowless.Integrated.Ko.Tests
 {
-    public class CefGlueWindowlessSharedJavascriptEngineFactoryKo : IWindowLessHTMLEngineProvider 
+    public class CefGlueWindowlessSharedJavascriptEngineFactoryKo : WindowLessHTMLEngineProvider 
     {
         private static FrameworkTestContext KoTestContext { get; } = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext();
-
-        public FrameworkTestContext FrameworkTestContext { get; } = KoTestContext;
-        public IBasicWindowLessHTMLEngineProvider WindowBuilder { get; } = new CefGlueWindowlessSharedJavascriptEngineFactory(KoTestContext.HtmlProvider);
+        public override FrameworkTestContext FrameworkTestContext { get; } = KoTestContext;
+        protected override IBasicWindowLessHTMLEngineProvider GetBasicWindowLessHTMLEngineProvider() => new CefGlueWindowlessSharedJavascriptEngineFactory(KoTestContext.HtmlProvider);
     }
 }

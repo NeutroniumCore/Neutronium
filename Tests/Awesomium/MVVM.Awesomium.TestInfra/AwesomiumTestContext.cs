@@ -5,12 +5,12 @@ using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace Tests.Awesomium.Infra 
 {
-    public class AwesomiumTestContext : IWindowLessHTMLEngineProvider 
+    public class AwesomiumTestContext : WindowLessHTMLEngineProvider
     {
         private static FrameworkTestContext KoTestContext { get; } = KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext();
 
-        public FrameworkTestContext FrameworkTestContext { get; } = KoTestContext;
+        public override FrameworkTestContext FrameworkTestContext { get; } = KoTestContext;
 
-        public IBasicWindowLessHTMLEngineProvider WindowBuilder { get; } = new AwesomiumEngineProvider(KoTestContext.HtmlProvider);
+        protected override IBasicWindowLessHTMLEngineProvider GetBasicWindowLessHTMLEngineProvider() => new AwesomiumEngineProvider(KoTestContext.HtmlProvider);
     }
 }

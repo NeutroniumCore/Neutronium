@@ -11,11 +11,13 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
     public class WindowTest : IDisposable
     {
         private readonly IWPFWindowWrapper _WPFThreadingHelper;
+        private WindowTestEnvironment _WindowTestEnvironment;
         private IDispatcher _Dispatcher;
 
-        public WindowTest(IWindowTestHTMLEngineEnvironment context, Action<System.Windows.Window> init)
+        public WindowTest(WindowTestContext context, Action<System.Windows.Window> init)
         {
-            _WPFThreadingHelper = context.GetWindowWrapper(() => CreateNewWindow(init));
+            _WindowTestEnvironment = new WindowTestEnvironment(context);
+            _WPFThreadingHelper = _WindowTestEnvironment.GetWindowWrapper(() => CreateNewWindow(init));
         }
 
         private System.Windows.Window CreateNewWindow(Action<System.Windows.Window> init)
@@ -61,6 +63,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
             Action end = () => { _WPFThreadingHelper.CloseWindow(); };
             Dispatcher.Invoke(end);
             _WPFThreadingHelper.Dispose();
+            _WindowTestEnvironment.Dispose();
         }
     }
 }

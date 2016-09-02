@@ -6,12 +6,10 @@ using VueUiFramework.Test.IntegratedInfra;
 
 namespace CefGlue.Windowless.Integrated.Vue.Tests
 {
-    public class CefGlueWindowlessSharedJavascriptEngineFactoryVue : IWindowLessHTMLEngineProvider 
+    public class CefGlueWindowlessSharedJavascriptEngineFactoryVue : WindowLessHTMLEngineProvider
     {
         private static FrameworkTestContext VueTestContext { get; } = VueFrameworkTestContext.GetVueFrameworkTestContext();
-
-        public FrameworkTestContext FrameworkTestContext { get; } = VueTestContext;
-
-        public IBasicWindowLessHTMLEngineProvider WindowBuilder { get; } = new CefGlueWindowlessSharedJavascriptEngineFactory(VueTestContext.HtmlProvider);
+        public override FrameworkTestContext FrameworkTestContext { get; } = VueTestContext;
+        protected override IBasicWindowLessHTMLEngineProvider GetBasicWindowLessHTMLEngineProvider() => new CefGlueWindowlessSharedJavascriptEngineFactory(VueTestContext.HtmlProvider);
     }
 }

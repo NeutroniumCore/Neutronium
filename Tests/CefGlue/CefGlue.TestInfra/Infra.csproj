@@ -88,7 +88,6 @@
     <Compile Include="CefWindowless\TestCefLoadHandler.cs" />
     <Compile Include="CefWindowless\TestCefRenderHandler.cs" />
     <Compile Include="CefWindowless\TestDisplayHandler.cs" />
-    <Compile Include="CefWindowTestEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

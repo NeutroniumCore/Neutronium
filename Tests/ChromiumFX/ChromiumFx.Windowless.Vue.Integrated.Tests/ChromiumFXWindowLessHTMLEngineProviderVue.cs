@@ -7,13 +7,12 @@ using VueUiFramework.Test.IntegratedInfra;
 
 namespace ChromiumFx.Windowless.Vue.Integrated.Tests
 {
-    public class ChromiumFXWindowLessHTMLEngineProviderVue : IWindowLessHTMLEngineProvider 
+    public class ChromiumFXWindowLessHTMLEngineProviderVue : WindowLessHTMLEngineProvider
     {
         private readonly ChromiumFXWindowLessHTMLEngineProvider _WindowBuilder = new ChromiumFXWindowLessHTMLEngineProvider(VueTestContext.HtmlProvider);
-
         private static FrameworkTestContext VueTestContext { get; } = VueFrameworkTestContext.GetVueFrameworkTestContext();
-        public FrameworkTestContext FrameworkTestContext { get; } = VueTestContext;
-        public IBasicWindowLessHTMLEngineProvider WindowBuilder => _WindowBuilder;
+        public override FrameworkTestContext FrameworkTestContext { get; } = VueTestContext;
+        protected override IBasicWindowLessHTMLEngineProvider GetBasicWindowLessHTMLEngineProvider() => _WindowBuilder;
 
         public IWebSessionLogger Logger 
         {

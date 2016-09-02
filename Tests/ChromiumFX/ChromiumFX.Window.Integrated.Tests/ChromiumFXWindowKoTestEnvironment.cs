@@ -1,21 +1,17 @@
 ﻿using HTMEngine.ChromiumFX;
-using HTML_WPF.Component;
 using KnockoutUIFramework;
 using KnockoutUIFramework.Test.TestHtml;
-using MVVM.HTML.Core.JavascriptUIFramework;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 
 namespace ChromiumFX.Window.Integrated.Tests
 {
-    public class ChromiumFXWindowKoTestEnvironment : WindowTestEnvironment 
+    public class ChromiumFXWindowKoTestEnvironment : WindowContextProvider
     {
-        public override IWPFWebWindowFactory GetWPFWebWindowFactory() 
+        public override WindowTestContext GetWindowTestContext() => new WindowTestContext
         {
-            return new ChromiumFXWPFWebWindowFactory();
-        }
-
-        public override IJavascriptUIFrameworkManager FrameworkManager => new KnockoutUiFrameworkManager();
-        public override ITestHtmlProvider HtmlProvider => new KnockoutUiHtmlProvider();
+            WPFWebWindowFactory = () => new ChromiumFXWPFWebWindowFactory(),
+            FrameworkManager = new KnockoutUiFrameworkManager(),
+            HtmlProvider = new KnockoutUiHtmlProvider()
+        };
     }
 }

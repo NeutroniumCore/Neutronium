@@ -8,27 +8,20 @@ namespace HTMLEngine.CefGlue
     public class CefGlueWPFWebWindowFactory : IWPFWebWindowFactory
     {
         private readonly ICefCoreSession _ICefCoreSession;
+
+        public string EngineName => "Chromium 41";
+        public string Name => "Cef.Glue";
+        public IWebSessionLogger WebSessionLogger { get; set; }
+
         public CefGlueWPFWebWindowFactory( CefSettings iCefSettings = null)
         {
             _ICefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded(iCefSettings);
-        }
-
-        public string EngineName
-        {
-            get { return "Chromium 41"; }
-        }
-
-        public string Name
-        {
-            get { return "Cef.Glue"; }
         }
 
         public IWPFWebWindow Create()
         {
             return new CefGlueWPFWebWindow(_ICefCoreSession.CefApp);
         }
-
-        public IWebSessionLogger WebSessionLogger { get; set; }
 
         public void Dispose()
         {
