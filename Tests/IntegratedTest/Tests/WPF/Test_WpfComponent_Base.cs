@@ -10,8 +10,8 @@ namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_WpfComponent_Base<T>  where T : HTMLControlBase
     {
-        protected readonly IWindowTestEnvironment _WindowTestEnvironment;
-        protected Test_WpfComponent_Base(IWindowTestEnvironment windowTestEnvironment) 
+        protected readonly IWindowTestHTMLEngineEnvironment _WindowTestEnvironment;
+        protected Test_WpfComponent_Base(IWindowTestHTMLEngineEnvironment windowTestEnvironment) 
         {
             _WindowTestEnvironment = windowTestEnvironment;
         }

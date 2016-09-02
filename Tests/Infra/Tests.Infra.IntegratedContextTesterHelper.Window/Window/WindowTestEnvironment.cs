@@ -6,7 +6,7 @@ using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Window
 {
-    public abstract class WindowTestEnvironment : IWindowTestEnvironment 
+    public abstract class WindowTestEnvironment : IWindowTestHTMLEngineEnvironment
     {
         private bool _IsInit = false;
         private IWPFWebWindowFactory _WPFWebWindowFactory;

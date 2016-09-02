@@ -64,7 +64,6 @@
     <Compile Include="Windowless\TestContextBase.cs" />
     <Compile Include="Windowless\TestInContext.cs" />
     <Compile Include="Windowless\TestInContextAsync.cs" />
-    <Compile Include="Window\IWindowTestEnvironment.cs" />
     <Compile Include="Window\WindowTest.cs" />
     <Compile Include="Window\WindowTestEnvironment.cs" />
   </ItemGroup>
