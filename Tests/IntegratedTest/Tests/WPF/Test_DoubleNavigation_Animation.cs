@@ -31,7 +31,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Simple()
+        public async Task NavigateAsync_ShouldWaitForAnimationEnd()
         {        
             await Test(async (wpfnav, _) =>
             {
