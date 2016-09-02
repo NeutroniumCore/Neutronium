@@ -9,14 +9,14 @@ using MVVM.HTML.Core.Exceptions;
 using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel.Example;
-using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Xunit;
+using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_HTMLViewControl : Test_WpfComponent_Base<HTMLViewControl>
     {
-        protected Test_HTMLViewControl(IWindowTestEnvironment windowTestEnvironment) :
+        protected Test_HTMLViewControl(IWindowTestHTMLEngineEnvironment windowTestEnvironment) :
             base(windowTestEnvironment)
         {
         }

@@ -15,12 +15,13 @@ using MVVM.ViewModel.Infra;
 using NSubstitute;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Xunit;
+using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace IntegratedTest.Tests.WPF
 {
     public abstract class Test_DoubleNavigation : Test_WpfComponent_Base<HTMLWindow>
     {
-        protected Test_DoubleNavigation(IWindowTestEnvironment windowTestEnvironment) :
+        protected Test_DoubleNavigation(IWindowTestHTMLEngineEnvironment windowTestEnvironment) :
             base(windowTestEnvironment)
         {
         }

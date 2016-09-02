@@ -13,7 +13,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
         private readonly IWPFWindowWrapper _WPFThreadingHelper;
         private IDispatcher _Dispatcher;
 
-        public WindowTest(IWindowTestEnvironment context, Action<System.Windows.Window> init)
+        public WindowTest(IWindowTestHTMLEngineEnvironment context, Action<System.Windows.Window> init)
         {
             _WPFThreadingHelper = context.GetWindowWrapper(() => CreateNewWindow(init));
         }
@@ -31,7 +31,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
 
         public Dispatcher Dispatcher => Window.Dispatcher;
 
-        public async Task RunOnUIThread(Action Do) 
+        public async Task RunOnUIThread(Action Do)
         {
             await _Dispatcher.RunAsync(Do);
         }
@@ -41,12 +41,12 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
             await await EvaluateOnUIThread(Do);
         }
 
-        public async Task<T> EvaluateOnUIThread<T>(Func<T> Do) 
+        public async Task<T> EvaluateOnUIThread<T>(Func<T> Do)
         {
             return await _Dispatcher.EvaluateAsync(Do);
         }
 
-        public IDispatcher GetDispatcher() 
+        public IDispatcher GetDispatcher()
         {
             return _Dispatcher;
         }
