@@ -39,13 +39,22 @@ namespace HTMLEngine.CefGlue.CefGlueHelper
 
         public static Task<CefV8Value> InvokeAsync(this CefV8Value @this, string functionname, IWebView context, params CefV8Value[] args)
         {
-            return context.EvaluateAsync(() =>
-                {
-                    var fn = @this.GetValue(functionname);
-                    if ((fn==null) || !fn.IsFunction)
-                        return CefV8Value.CreateUndefined();
-                    return fn.ExecuteFunction(@this, args);
-                } );
+            return context.EvaluateAsync(() => @this.Execute(functionname, args));
+        }
+
+        private static CefV8Value Execute(this CefV8Value @this, string functionname, params CefV8Value[] args)
+        {
+            try
+            {
+                var fn = @this.GetValue(functionname);
+                if ((fn == null) || !fn.IsFunction)
+                    return CefV8Value.CreateUndefined();
+                return fn.ExecuteFunction(@this, args);
+            }
+            catch(Exception)
+            {
+                return CefV8Value.CreateUndefined();
+            }  
         }
 
         public static void Bind(this CefV8Value @this, string functionname, IWebView iCefV8Context, Action<string, CefV8Value, CefV8Value[]> iaction)
