@@ -118,10 +118,6 @@
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
       <Name>HTMLEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
-      <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
-      <Name>IntegratedTest</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

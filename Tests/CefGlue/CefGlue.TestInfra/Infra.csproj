@@ -122,10 +122,6 @@
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
       <Name>JavascriptEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IntegratedTest\IntegratedTest.csproj">
-      <Project>{36e61349-9c50-405a-b082-8b9340cb4e61}</Project>
-      <Name>IntegratedTest</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

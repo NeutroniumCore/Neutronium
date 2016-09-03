@@ -1,8 +1,7 @@
-﻿using System;
-using Tests.Infra.HTMLEngineTesterHelper.Context;
+﻿using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
-namespace Tests.Infra.IntegratedContextTesterHelper.Windowless 
+namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {
     public interface IWindowLessHTMLEngineProvider
     {

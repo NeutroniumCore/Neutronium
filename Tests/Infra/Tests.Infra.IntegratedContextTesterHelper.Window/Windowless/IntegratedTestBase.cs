@@ -32,18 +32,18 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 
         private async Task RunAsync(TestContextBase test, Func<IHTMLBinding, Task> Run, string memberName)
         {
-            _Logger.Debug($"Starting {memberName}");
+            _Logger.Info($"Starting {memberName}");
             using (Tester(test.Path))
             {        
                 _Logger.Info("Begin Binding");
                 using (var mb = await test.Bind(_ViewEngine))
                 {
-                    _Logger.Debug("End Binding");
-                    _Logger.Debug("Begin Run");
+                    _Logger.Info("End Binding");
+                    _Logger.Info("Begin Run");
                     await Run(mb);
-                    _Logger.Debug("Ending Run");
+                    _Logger.Info("Ending Run");
                 }
-                _Logger.Debug($"Ending {memberName}");
+                _Logger.Info($"Ending {memberName}");
             }
         }
 

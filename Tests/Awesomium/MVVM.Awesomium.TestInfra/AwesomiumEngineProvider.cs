@@ -1,11 +1,9 @@
-﻿using KnockoutUIFramework.Test.IntegratedInfra;
-using MVVM.HTML.Core.Infra;
+﻿using MVVM.HTML.Core.Infra;
 using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
-using Tests.Infra.JavascriptEngineTesterHelper;
 
-namespace Tests.Awesomium.Infra 
+namespace Tests.Awesomium.Infra
 {
     public class AwesomiumEngineProvider : IBasicWindowLessHTMLEngineProvider
     {
@@ -16,8 +14,6 @@ namespace Tests.Awesomium.Infra
         {
             _HtmlProvider = htmlProvider;
         }
-
-        public FrameworkTestContext FrameworkTestContext => KnockoutFrameworkTestContext.GetKnockoutFrameworkTestContext();
 
         private AwesomiumWindowlessHTMLEngineFactory GetWindowLessEngine() 
         {

@@ -18,6 +18,7 @@ using System.Windows;
 
 [assembly: InternalsVisibleTo("MVVM.Cef.Glue.Tests")]
 [assembly: InternalsVisibleTo("IntegratedTest")]
+[assembly: InternalsVisibleTo("Tests.Universal.HTMLBindingTests")]
 [assembly: InternalsVisibleTo("Tests.Universal.HTMLEngineTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
