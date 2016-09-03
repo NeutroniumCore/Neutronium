@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -8,13 +7,13 @@ using FluentAssertions;
 using HTML_WPF.Component;
 using MVVM.HTML.Core;
 using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Infra;
 using NSubstitute;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Xunit;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
 namespace IntegratedTest.Tests.WPF
 {
@@ -45,9 +44,9 @@ namespace IntegratedTest.Tests.WPF
 
         private void SetUpRoute(INavigationBuilder builder, HTMLWindow wpfnav)
         {
-            builder.Register<A1>("javascript\\navigation_1.html");
-            builder.Register<AA1>("javascript\\navigation_1.html");
-            builder.Register<A2>("javascript\\navigation_2.html");
+            builder.Register<A1>(GetRelativePath(TestContext.Navigation1));
+            builder.Register<AA1>(GetRelativePath(TestContext.Navigation1));
+            builder.Register<A2>(GetRelativePath(TestContext.Navigation2));
         }
 
         #region ViewModel
@@ -388,13 +387,13 @@ namespace IntegratedTest.Tests.WPF
                 await wpfnav.NavigateAsync(a1);
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
 
                 await wpfnav.NavigateAsync(a2);
 
                 a2.Navigation.Should().NotBeNull();
                 a1.Navigation.Should().BeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation2);
             });
         }
 
@@ -411,13 +410,13 @@ namespace IntegratedTest.Tests.WPF
 
                 await wpfnav.NavigateAsync(a1);
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
 
                 await wpfnav.NavigateAsync(a2);
 
                 a2.Navigation.Should().NotBeNull();
                 a1.Navigation.Should().BeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation2);
 
                 await wpfnav.NavigateAsync(a1);
 
@@ -425,7 +424,7 @@ namespace IntegratedTest.Tests.WPF
                 a2.Navigation.Should().BeNull();
                
                 await Task.Delay(1000);
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
             });
         }
 
@@ -436,20 +435,20 @@ namespace IntegratedTest.Tests.WPF
             {
                 wpfnav.Should().NotBeNull();
                 SetUpRoute(wpfbuild, wpfnav);
-                wpfbuild.Register<A1>("javascript\\navigation_3.html", "NewPath");
+                wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation3), "NewPath");
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
                 var a2 = new A2();
 
                 await wpfnav.NavigateAsync(a1);
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
 
                 await wpfnav.NavigateAsync(a2);
 
                 a2.Navigation.Should().NotBeNull();
                 a1.Navigation.Should().BeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation2);
 
                 await wpfnav.NavigateAsync(a1, "NewPath");
 
@@ -457,7 +456,7 @@ namespace IntegratedTest.Tests.WPF
                 a2.Navigation.Should().BeNull();
 
                 await Task.Delay(2000);
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_3.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation3);
             });
         }
 
@@ -473,12 +472,12 @@ namespace IntegratedTest.Tests.WPF
 
                 await wpfnav.NavigateAsync(a1);
                 a1.Navigation.Should();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
 
                 a1.GoTo1.Execute(null);
 
                 await Task.Delay(1000);
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation2);
             });
         }
 
@@ -495,13 +494,13 @@ namespace IntegratedTest.Tests.WPF
                 await wpfnav.NavigateAsync(a1);
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
 
                 a1.Change.Execute(null);
 
                 await Task.Delay(200);
 
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
             });
         }
 
@@ -517,13 +516,13 @@ namespace IntegratedTest.Tests.WPF
                 await wpfnav.NavigateAsync(a1);
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
 
                 await wpfnav.NavigateAsync(null);
 
                 await Task.Delay(200);
 
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
             });
         }
 
@@ -533,15 +532,15 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A>("javascript\\navigation_1.html");
-                wpfbuild.Register<A1>("javascript\\navigation_2.html", "Special");
+                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
+                wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special");
 
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
                 await wpfnav.NavigateAsync(a1);
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
             });
         }
 
@@ -551,8 +550,8 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                wpfbuild.RegisterAbsolute<A2>(string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), "javascript\\navigation_1.html"), "Special1");
-                wpfbuild.Register<A2>(new Uri(string.Format("{0}\\{1}", Assembly.GetExecutingAssembly().GetPath(), "javascript\\navigation_2.html")), "Special2");
+                wpfbuild.RegisterAbsolute<A2>(GetPath(TestContext.Navigation1), "Special1");
+                wpfbuild.Register<A2>(new Uri(GetPath(TestContext.Navigation2)), "Special2");
 
                 wpfnav.UseINavigable = true;
                 var a1 = new A2();
@@ -560,14 +559,14 @@ namespace IntegratedTest.Tests.WPF
                 await wpfnav.NavigateAsync(a1, "Special1");
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
 
                 await wpfnav.NavigateAsync(a1, "Special2");
 
                 a1.Navigation.Should().NotBeNull();
 
                 await Task.Delay(1000);
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation2);
             });
         }
 
@@ -577,8 +576,10 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A2>("javascript\\navigation_1.html", "Special1");
-                wpfbuild.Register<A2>("javascript\\navigation_2.html", "Special2");
+
+                wpfbuild.Register<A2>(GetRelativePath(TestContext.Navigation1), "Special1");
+                wpfbuild.Register<A2>(GetRelativePath(TestContext.Navigation2), "Special2");
+               
                 wpfnav.UseINavigable = true;
                 wpfnav.UseINavigable = true;
                 
@@ -587,13 +588,13 @@ namespace IntegratedTest.Tests.WPF
                 a2.Navigation.Should().NotBeNull();
 
                 await Task.Delay(1000);
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
 
                 await wpfnav.NavigateAsync(a2, "Special2");
                 a2.Navigation.Should().NotBeNull();
 
                 await Task.Delay(1000);
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation2);
             });
         }
 
@@ -618,15 +619,15 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A>("javascript\\navigation_1.html");
-                wpfbuild.Register<A1>("javascript\\navigation_2.html", "Special");
+                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
+                wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special2");
 
                 wpfnav.UseINavigable = true;
                 var a1 = new A2();
                 await wpfnav.NavigateAsync(a1);
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
             });
         }
 
@@ -640,8 +641,8 @@ namespace IntegratedTest.Tests.WPF
                 safe.ShouldNotThrow<Exception>();
 
                 wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A>("javascript\\navigation_1.html");
-                wpfbuild.Register<A1>("javascript\\navigation_2.html", "Special");
+                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
+                wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special");
 
                 wpfnav.UseINavigable = true;
                 wpfnav.UseINavigable.Should().BeTrue();
@@ -654,7 +655,7 @@ namespace IntegratedTest.Tests.WPF
                 await wpfnav.NavigateAsync(a1);
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_1.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
                 wpfnav.ShowDebugWindow();
                 wpfnav.OpenDebugBrowser();
 
@@ -687,8 +688,8 @@ namespace IntegratedTest.Tests.WPF
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A>("javascript\\navigation_1.html");
-                wpfbuild.Register<A1>("javascript\\navigation_2.html", "Special");
+                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
+                wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special");
 
                 wpfnav.UseINavigable = true;
                 var a1 = new A1();
@@ -696,7 +697,7 @@ namespace IntegratedTest.Tests.WPF
                 await wpfnav.NavigateAsync(a1, "Special");
 
                 a1.Navigation.Should().NotBeNull();
-                wpfnav.Source.AbsolutePath.Should().EndWith(@"javascript/navigation_2.html");
+                CheckPath(wpfnav.Source, TestContext.Navigation2);
             });
         }
 
@@ -706,8 +707,8 @@ namespace IntegratedTest.Tests.WPF
             TestNavigation((wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A>("javascript\\navigation_1.html");
-                wpfbuild.Register<A1>("javascript\\navigation_2.html", "Special");
+                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
+                wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special");
 
                 wpfnav.UseINavigable = true;
                 var a1 = new object();
@@ -715,6 +716,11 @@ namespace IntegratedTest.Tests.WPF
                 Func<Task> wf = async () => await wpfnav.NavigateAsync(a1);
                 wf.ShouldThrow<MVVMCEFGlueException>();
             });
+        }
+
+        private void CheckPath(Uri path, TestContext pathContext)
+        {
+            path.AbsolutePath.Should().EndWith(Path.GetFileName(GetRelativePath(pathContext)));
         }
     }
 }

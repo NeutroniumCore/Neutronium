@@ -8,5 +8,10 @@ namespace Tests.Infra.HTMLEngineTesterHelper.HtmlContext
         {
             return $"{GetType().Assembly.GetPath()}\\Html\\Empty.html";
         }
+
+        public string GetRelativeHtlmPath(TestContext context)
+        {
+            return "Html\\Empty.html";
+        }
     }
 }

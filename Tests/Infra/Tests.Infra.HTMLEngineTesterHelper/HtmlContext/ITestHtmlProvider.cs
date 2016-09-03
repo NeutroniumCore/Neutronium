@@ -3,5 +3,7 @@
     public interface ITestHtmlProvider 
     {
         string GetHtlmPath(TestContext context);
+
+        string GetRelativeHtlmPath(TestContext context);
     }
 }

@@ -77,11 +77,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoubleNavigation_Awe_Cef_Tests.cs" />
+    <Compile Include="DoubleNavigation_Cef_Ko_Tests.cs" />
     <Compile Include="DoubleNavigation_Animation_Cef_Ko_Tests.cs" />
     <Compile Include="Infra\CefGlueKoContext.cs" />
     <Compile Include="Infra\CefGlueKoContextFixture.cs" />
-    <Compile Include="HTMLViewControl_Awe_Cef_Tests.cs" />
+    <Compile Include="HTMLViewControl_Cef_Ko_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

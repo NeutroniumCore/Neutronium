@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using HTML_WPF.Component;
-using MVVM.HTML.Core.Infra;
 using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel;
 using Xunit;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
 namespace IntegratedTest.Tests.WPF
 {
@@ -37,9 +37,9 @@ namespace IntegratedTest.Tests.WPF
             {
                 var vm = new VM();
                 wpfnav.Should().NotBeNull();
-                var path = $"{GetType().Assembly.GetPath()}\\{"Navigation data\\index.html"}";
 
-                _NavigationBuilder.Register<VM>("Navigation data\\index.html");
+                _NavigationBuilder.Register<VM>(GetRelativePath(TestContext.AnimatedNavigation));
+
                 wpfnav.UseINavigable = true;
 
                 DateTime? opened = null;

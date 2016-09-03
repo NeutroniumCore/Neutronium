@@ -6,13 +6,13 @@ namespace Tests.Infra.HTMLEngineTesterHelper.HtmlContext
     {
         public string GetHtlmPath(TestContext context) 
         {
-            var relativePath = context.GetDescription();
-            return BuildPath(relativePath);
+            return $"{GetType().Assembly.GetPath()}{GetRelativeHtlmPath(context)}";
         }
 
-        private string BuildPath(string relative) 
+        public string GetRelativeHtlmPath(TestContext context)
         {
-            return $"{GetType().Assembly.GetPath()}\\TestHtml\\{relative}";
+            var relative = context.GetDescription();
+            return $"\\TestHtml\\{relative}";
         }
     }
 }

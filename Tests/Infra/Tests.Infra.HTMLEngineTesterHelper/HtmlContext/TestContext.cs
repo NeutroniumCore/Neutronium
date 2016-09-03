@@ -20,7 +20,7 @@ namespace Tests.Infra.HTMLEngineTesterHelper.HtmlContext
         IndexPromise,
 
         [Description("Navigation data\\index.html")]
-        SimpleNavigation,
+        AnimatedNavigation,
 
         [Description("javascript\\navigation_1.html")]
         Navigation1,

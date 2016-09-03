@@ -82,11 +82,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoubleNavigation_Awe_Cfx_Tests.cs" />
+    <Compile Include="DoubleNavigation_Cfx_Ko_Tests.cs" />
     <Compile Include="DoubleNavigation_Animation_Cfx_Ko_Tests.cs" />
     <Compile Include="Infra\CfxKoContext.cs" />
     <Compile Include="Infra\CfxKoContextFixture.cs" />
-    <Compile Include="HTMLViewControl_Awe_Cfx_Tests.cs" />
+    <Compile Include="HTMLViewControl_Cfx_Ko_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

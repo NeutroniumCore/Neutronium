@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions;
 using HTML_WPF.Component;
@@ -11,6 +10,7 @@ using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel.Example;
 using Xunit;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
 namespace IntegratedTest.Tests.WPF
 {
@@ -27,7 +27,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public void  Basic_Option()
+        public void Basic_Option()
         {
             Test((c) =>
             {
@@ -53,12 +53,12 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact(Skip = "Should be rethink")]
-        public void Basic_RelativeSource() 
+        public void Basic_RelativeSource()
         {
-            Test((c) => 
+            Test((c) =>
             {
                 string relp = "javascript\\navigation_1.html";
-                string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
+                string path = $"{typeof(HTMLViewControl).Assembly.GetPath()}\\{relp}";
                 if (File.Exists(path))
                     File.Delete(path);
 
@@ -88,8 +88,7 @@ namespace IntegratedTest.Tests.WPF
                 var dc = new Person();
 
                 viewControl.Mode = JavascriptBindingMode.OneWay;
-                string relp = "javascript\\navigation_1.html";
-                viewControl.Uri = new Uri($"{Assembly.GetAssembly(typeof (HTMLViewControlTests)).GetPath()}\\{relp}");
+                viewControl.Uri = new Uri(GetPath(TestContext.Navigation1));
                 w.Window.DataContext = dc;
 
                 var de = await tcs.Task;
@@ -99,7 +98,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact(Skip = "Should be rethink")]
-        public async Task Basic_Option_Simple_UsingRelativePath() 
+        public async Task Basic_Option_Simple_UsingRelativePath()
         {
             await Test(async (c, w) =>
             {
@@ -110,8 +109,8 @@ namespace IntegratedTest.Tests.WPF
                 var dc = new Person();
 
                 string relp = "javascript\\navigation_1.html";
-                string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
-                var jvs = PrepareFiles();
+                //string path = $"{typeof(HTMLViewControl).Assembly.GetPath()}\\{relp}";
+                //var jvs = PrepareFiles();
 
                 c.Mode = JavascriptBindingMode.OneWay;
                 c.RelativeSource = relp;
@@ -119,40 +118,9 @@ namespace IntegratedTest.Tests.WPF
 
                 var de = await tcs.Task;
 
-                foreach (string jv in jvs) 
-                {
-                    string p = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript\\src\\{jv}";
-                    File.Delete(p);
-                }
-                File.Delete(path);
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
             });
-        }
-
-        private string[] PrepareFiles()
-        {
-            string relp = "javascript2\\navigation_1.html";
-            string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
-            string nd = Path.GetDirectoryName(path);
-            Directory.CreateDirectory(nd);
-
-            if (!File.Exists(path))
-                File.Copy("javascript\\navigation_1.html", path);
-
-            string[] jvs = { "Ko_register.js", "Ko_Extension.js", "knockout.js" };
-
-            string src = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript2\\src";
-            Directory.CreateDirectory(src);
-
-            foreach (string jv in jvs)
-            {
-                string p = $"{src}\\{jv}";
-                if (!File.Exists(p))
-                    File.Copy($"javascript\\src\\{jv}", p);
-            }
-
-            return jvs;
         }
 
         [Fact]
@@ -162,26 +130,16 @@ namespace IntegratedTest.Tests.WPF
             {
                 var tcs = new TaskCompletionSource<DisplayEvent>();
                 EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { c.OnDisplay -= ea;  tcs.SetResult(e);};
+                ea = (o, e) => { c.OnDisplay -= ea; tcs.SetResult(e); };
                 c.OnDisplay += ea;
                 var dc = new Person();
 
-                string relp = "javascript2\\navigation_1.html";
-                string path = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\{relp}";
-                var jvs = PrepareFiles();
-
-                c.Mode = JavascriptBindingMode.OneWay; 
+                c.Mode = JavascriptBindingMode.OneWay;
                 w.Window.DataContext = dc;
-                c.RelativeSource = relp;
+                c.RelativeSource = GetRelativePath(TestContext.Navigation1);
 
                 var de = await tcs.Task;
 
-                foreach (var jv in jvs)
-                {
-                    string p = $"{typeof (HTMLViewControl).Assembly.GetPath()}\\javascript2\\src\\{jv}";
-                    File.Delete(p);
-                }
-                File.Delete(path);
                 de.Should().NotBeNull();
                 de.DisplayedViewModel.Should().Be(dc);
             });

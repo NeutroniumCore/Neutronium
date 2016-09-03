@@ -9,19 +9,19 @@ namespace MVVM.HTML.Core.Test
         private readonly IWebSessionLogger _nullLogger = new BasicLogger();
        
         [Fact]
-        public void Test_LogCritical()
+        public void LogCriticalTest()
         {
             _nullLogger.Error(string.Empty);
         }
 
         [Fact]
-        public void Test_LogBrowser()
+        public void LogBrowserTest()
         {
             _nullLogger.LogBrowser(null, null);
         }
 
         [Fact]
-        public void Test_OnSessionError()
+        public void OnSessionErrorTest()
         {
             _nullLogger.WebBrowserError(new Exception(), () => { });
         }
