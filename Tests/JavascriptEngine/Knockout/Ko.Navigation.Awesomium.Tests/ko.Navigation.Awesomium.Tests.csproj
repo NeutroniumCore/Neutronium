@@ -73,11 +73,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoubleNavigation_Awe_Ko_Tests.cs" />
-    <Compile Include="DoubleNavigation_Animation_Awe_Ko_Tests.cs" />
+    <Compile Include="DoubleNavigation_Ko_Awe_Tests.cs" />
+    <Compile Include="DoubleNavigation_Animation_Ko_Awe_Tests.cs" />
     <Compile Include="Infra\AwesomiumKoContext.cs" />
     <Compile Include="Infra\AwesomiumKoContextFixture.cs" />
-    <Compile Include="HTMLViewControl_Awe_Ko_Tests.cs" />
+    <Compile Include="HTMLViewControl_Ko_Awe_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

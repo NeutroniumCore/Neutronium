@@ -168,6 +168,15 @@
     <Content Include="TestHtml\javascript\empty_with_js.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestHtml\javascript\navigation_1.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\navigation_2.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\navigation_3.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestHtml\javascript\src\vueComandDirective_es5.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

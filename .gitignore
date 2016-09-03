@@ -222,3 +222,4 @@ FakesAssemblies/
 /Tests/ChromiumFX/Tests.ChromiumFX.HTLMEngineTests/cef/Resources
 /Tests/JavascriptEngine/Vuejs/Vue.Binding.ChromiumFx.Tests/cef/Resources
 /Tests/JavascriptEngine/Knockout/Ko.Navigation.ChromiumFx.Tests/cef/Resources
+/Tests/JavascriptEngine/Vuejs/Vue.Navigation.ChromiumFx.Tests/cef/Resources

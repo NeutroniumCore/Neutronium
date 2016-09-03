@@ -77,11 +77,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoubleNavigation_Cef_Ko_Tests.cs" />
-    <Compile Include="DoubleNavigation_Animation_Cef_Ko_Tests.cs" />
+    <Compile Include="DoubleNavigation_Ko_Cef_Tests.cs" />
+    <Compile Include="DoubleNavigation_Animation_Ko_Cef_Tests.cs" />
     <Compile Include="Infra\CefGlueKoContext.cs" />
     <Compile Include="Infra\CefGlueKoContextFixture.cs" />
-    <Compile Include="HTMLViewControl_Cef_Ko_Tests.cs" />
+    <Compile Include="HTMLViewControl_Ko_Cef_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,10 +92,6 @@
     <ProjectReference Include="..\..\..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>HTML_WPF.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\HTMLEngine\Awesomium\HTMLEngine.Awesomium\HTMLEngine.Awesomium.csproj">
-      <Project>{92B20870-AD65-4AE8-BB1E-4D11B922A135}</Project>
-      <Name>HTMLEngine.Awesomium</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\HTMLEngine\CefGlue\HTMLEngine.CefGlue\HTMLEngine.CefGlue.csproj">
       <Project>{CE4F4133-789F-420D-941D-18DA08B140FF}</Project>

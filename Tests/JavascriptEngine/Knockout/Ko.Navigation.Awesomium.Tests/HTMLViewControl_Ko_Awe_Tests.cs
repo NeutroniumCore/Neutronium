@@ -5,9 +5,9 @@ using Xunit;
 namespace Ko.Binding.Awesomium.Tests
 {
     [Collection("Awesomium Window Integrated")]
-    public class HTMLViewControl_Awe_Ko_Tests : HTMLViewControlTests
+    public class HTMLViewControl_Ko_Awe_Tests : HTMLViewControlTests
     {
-        public HTMLViewControl_Awe_Ko_Tests(AwesomiumKoContext context) : base(context)
+        public HTMLViewControl_Ko_Awe_Tests(AwesomiumKoContext context) : base(context)
         {
         }
     }

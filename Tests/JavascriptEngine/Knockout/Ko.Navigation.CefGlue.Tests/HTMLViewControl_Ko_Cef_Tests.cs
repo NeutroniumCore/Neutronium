@@ -5,9 +5,9 @@ using Xunit;
 namespace Ko.Navigation.CefGlue.Tests
 {
     [Collection("Cef Window Integrated")]
-    public class DoubleNavigation_Cef_Ko_Tests : DoubleNavigationTests
+    public class HTMLViewControl_Ko_Cef_Tests : HTMLViewControlTests
     {
-        public DoubleNavigation_Cef_Ko_Tests(CefGlueKoContext context) : base(context)
+        public HTMLViewControl_Ko_Cef_Tests(CefGlueKoContext context) : base(context)
         {
         }
     }

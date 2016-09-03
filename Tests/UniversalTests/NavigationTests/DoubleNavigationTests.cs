@@ -95,7 +95,7 @@ namespace IntegratedTest.Tests.WPF
         #endregion
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Simple()
+        public async Task SetNavigation_WhenNavigationIsTrigerred_ShouldBeSet()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>            
             {
@@ -118,13 +118,13 @@ namespace IntegratedTest.Tests.WPF
             });
         }
 
-        [Fact]
+        [Fact(Skip = "should be reimplemented")]
         public async Task Test_HTMLWindowRecovery_Capacity()
         {
             await Test_HTMLWindowRecovery_Capacity_Base(null);
         }
 
-        [Fact]
+        [Fact(Skip = "should be reimplemented")]
         public async Task Test_HTMLWindowRecovery_Capacity_Watcher()
         {
             var watch = Substitute.For<IWebSessionLogger>();
@@ -167,7 +167,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_HTMLWindow_Event()
+        public async Task OnNavigate_shouldFireEvents()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {       
@@ -294,6 +294,21 @@ namespace IntegratedTest.Tests.WPF
             }, false, false);
         }
 
+        [Fact(Skip ="should be reimplemented")]
+        public async Task Test_HTMLWindow_WebCoreShutDown()
+        {
+            await Test_HTMLWindow_WebCoreShutDown_Base(null);
+        }
+
+        [Fact(Skip = "should be reimplemented")]
+        public async Task Test_HTMLWindow_WebCoreShutDown_Watcher()
+        {
+            var watch = Substitute.For<IWebSessionLogger>();
+            await Test_HTMLWindow_WebCoreShutDown_Base(watch);
+            //watch.Received().Error("Critical: WebCore ShuttingDown!!");
+            //watch.Received().WebBrowserError(null, Arg.Any<Action>());
+        }
+
         private async Task Test_HTMLWindow_WebCoreShutDown_Base(IWebSessionLogger iLogger)
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
@@ -317,23 +332,7 @@ namespace IntegratedTest.Tests.WPF
             });
         }
 
-        [Fact]
-        public async Task Test_HTMLWindow_WebCoreShutDown()
-        {
-            await Test_HTMLWindow_WebCoreShutDown_Base(null);
-        }
-
-        [Fact]
-        public async Task Test_HTMLWindow_WebCoreShutDown_Watcher()
-        {
-            var watch = Substitute.For<IWebSessionLogger>();
-            await Test_HTMLWindow_WebCoreShutDown_Base(watch);
-            //watch.Received().Error("Critical: WebCore ShuttingDown!!");
-            //watch.Received().WebBrowserError(null, Arg.Any<Action>());
-        }
-
-
-        private async Task<Exception> Test_HTMLWindow_WebCoreShutDown_Base_Exception(IWebSessionLogger iLogger)
+        private async Task<Exception> GetExceptionFromHTMLWindow_WebCoreShutDown(IWebSessionLogger iLogger)
         {
             var a = new AA1();
             Exception res = null;
@@ -374,7 +373,7 @@ namespace IntegratedTest.Tests.WPF
         //}
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Simple()
+        public async Task NavigateAsync_UseTypeInformationFromRegister()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -398,7 +397,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Round_Trip()
+        public async Task NavigateAsync_UseTypeInformationFromRegister_RoundTrip()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -429,7 +428,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_3_screens()
+        public async Task NavigateAsync_UseTypeInformationFromRegister_3Screens()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -461,7 +460,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Simple_2()
+        public async Task NavigateAsync_UseTypeInformationFromRegister_2Screens()            
         {
             await TestNavigation(async (wpfbuild, wpfnav)  =>
             {
@@ -482,7 +481,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navigation_ToSame()
+        public async Task NavigateAsync_ReloadPageIfNeeded()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -505,7 +504,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navigation_ToNull()
+        public async Task NavigateAsync_ToNull_DoesNotThrow()
         {
             await TestNavigation(async (wpfbuild, wpfnav)  =>
             {
@@ -527,7 +526,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType()
+        public async Task NavigateAsync_ResolveOnBaseType()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -545,7 +544,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Resolve_OnName_alernativesignature()
+        public async Task NavigateAsync_WhenRegisterAbsoluteOrRegisterAbsoluteAreUsed_UsesIdINformation()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -571,7 +570,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Resolve_OnName()
+        public async Task NavigateAsync_UsesIdINformation()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -599,7 +598,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Navition_Resolve_NotFound()
+        public void NavigateAsync_WhenNoMatchIsFound_ThrowException()
         {
             TestNavigation((wpfbuild, wpfnav) =>
             {
@@ -614,25 +613,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType_2()
-        {
-            await TestNavigation(async (wpfbuild, wpfnav) =>
-            {
-                wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
-                wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special2");
-
-                wpfnav.UseINavigable = true;
-                var a1 = new A2();
-                await wpfnav.NavigateAsync(a1);
-
-                a1.Navigation.Should().NotBeNull();
-                CheckPath(wpfnav.Source, TestContext.Navigation1);
-            });
-        }
-
-        [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Debug_One()
+        public async Task OpenDebugBrowser_ShouldWork()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -669,7 +650,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Navition_Debug_One_NoDebug()
+        public void OpenDebugBrowser_ShouldNotCrash_WhenDebugIsFalse()
         {
             TestNavigation((wpfbuild, wpfnav) =>
             {
@@ -683,7 +664,7 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public async Task Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType_UsingName()
+        public async Task NavigateAsync_WhenidIsRegistered_UsesIdInformationBeforeBaseType()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {
@@ -702,12 +683,30 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Navition_Resolve_OnBaseType_ShoulFailed()
+        public async Task NavigateAsync_WhenidIsRegistered_UsesBaseTypeIfIdInformationDoesNotMatch()
+        {
+            await TestNavigation(async (wpfbuild, wpfnav) =>
+            {
+                wpfnav.Should().NotBeNull();
+                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
+                wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special2");
+
+                wpfnav.UseINavigable = true;
+                var a1 = new A2();
+                await wpfnav.NavigateAsync(a1);
+
+                a1.Navigation.Should().NotBeNull();
+                CheckPath(wpfnav.Source, TestContext.Navigation1);
+            });
+        }
+
+        [Fact]
+        public void NavigateAsync_WhenTypeIsNotRegistered_ShouldThrowException()
         {
             TestNavigation((wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
+                wpfbuild.Register<A> (GetRelativePath(TestContext.Navigation1));
                 wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special");
 
                 wpfnav.UseINavigable = true;

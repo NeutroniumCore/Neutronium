@@ -5,9 +5,9 @@ using Xunit;
 namespace Ko.Navigation.ChromiumFx.Tests
 {
     [Collection("Cfx Window Integrated")]
-    public class DoubleNavigation_Cfx_Ko_Tests : DoubleNavigationTests
+    public class DoubleNavigation_Ko_Cfx_Tests : DoubleNavigationTests
     {
-        public DoubleNavigation_Cfx_Ko_Tests(CfxKoContext context) : base(context)
+        public DoubleNavigation_Ko_Cfx_Tests(CfxKoContext context) : base(context)
         {
         }
     }

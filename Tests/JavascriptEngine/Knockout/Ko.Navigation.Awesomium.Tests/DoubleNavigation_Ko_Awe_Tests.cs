@@ -5,9 +5,9 @@ using Xunit;
 namespace Ko.Binding.Awesomium.Tests
 {
     [Collection("Awesomium Window Integrated")]
-    public class DoubleNavigation_Awe_Ko_Tests : DoubleNavigationTests
+    public class DoubleNavigation_Ko_Awe_Tests : DoubleNavigationTests
     {
-        public DoubleNavigation_Awe_Ko_Tests(AwesomiumKoContext context) : base(context)
+        public DoubleNavigation_Ko_Awe_Tests(AwesomiumKoContext context) : base(context)
         {
         }
     }

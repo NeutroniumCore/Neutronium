@@ -5,16 +5,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{77586540-30D1-4A2E-B42D-DADA1738BB0A}</ProjectGuid>
+    <ProjectGuid>{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ko.Navigation.ChromiumFx.Tests</RootNamespace>
-    <AssemblyName>Ko.Navigation.ChromiumFx.Tests</AssemblyName>
+    <RootNamespace>Vue.Navigation.ChromiumFx.Tests</RootNamespace>
+    <AssemblyName>Vue.Navigation.ChromiumFx.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,24 +31,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChromiumFX, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
@@ -82,12 +63,57 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoubleNavigation_Ko_Cfx_Tests.cs" />
-    <Compile Include="DoubleNavigation_Animation_Ko_Cfx_Tests.cs" />
-    <Compile Include="Infra\CfxKoContext.cs" />
-    <Compile Include="Infra\CfxKoContextFixture.cs" />
-    <Compile Include="HTMLViewControl_Ko_Cfx_Tests.cs" />
+    <Compile Include="DoubleNavigation_Vue_Cfx_Tests.cs" />
+    <Compile Include="HTMLViewControl_Vue_Cfx_Tests.cs" />
+    <Compile Include="Infra\CfxVueContext.cs" />
+    <Compile Include="Infra\CfxVueContextFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
+      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
+      <Name>HTML_WPF.Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\HTMLEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
+      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
+      <Name>ChromiumFXRenderProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
+      <Project>{E619F232-D964-4CDB-9A9C-DFB44E32C36F}</Project>
+      <Name>HTMEngine.ChromiumFX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\VueUiFramework.csproj">
+      <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
+      <Name>VueUiFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
+      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
+      <Name>MVVM.HTML.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ChromiumFX\Tests.ChromiumFX.Infra\Infra.csproj">
+      <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
+      <Name>Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\HTMLEngineTesterHelper.csproj">
+      <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
+      <Name>HTMLEngineTesterHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj">
+      <Project>{614bbb6d-d7c4-494a-929e-067ee62573ce}</Project>
+      <Name>IntegratedContextTesterHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptEngineTesterHelper.csproj">
+      <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
+      <Name>JavascriptEngineTesterHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalTests\NavigationTests\NavigationTests.csproj">
+      <Project>{6469a920-5763-4853-858d-455fa43894b8}</Project>
+      <Name>NavigationTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VueUiFramework.Test\VueUiFramework.Test.csproj">
+      <Project>{80d4f5ca-1065-4487-8fde-9fee9821716c}</Project>
+      <Name>VueUiFramework.Test</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="cef\Release\cef_sandbox.lib">
@@ -201,66 +227,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
-      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>HTML_WPF.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\HTMLEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
-      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
-      <Name>ChromiumFXRenderProcess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
-      <Project>{E619F232-D964-4CDB-9A9C-DFB44E32C36F}</Project>
-      <Name>HTMEngine.ChromiumFX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\JavascriptEngine\KnockoutUIFramework\KnockoutUIFramework.csproj">
-      <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
-      <Name>KnockoutUIFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\MVVM.Component\MVVM.Component.csproj">
-      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
-      <Name>MVVM.Component</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
-      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>MVVM.HTML.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\ChromiumFX\Tests.ChromiumFX.Infra\Infra.csproj">
-      <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
-      <Name>Infra</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\HTMLEngineTesterHelper.csproj">
-      <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
-      <Name>HTMLEngineTesterHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj">
-      <Project>{614BBB6D-D7C4-494A-929E-067EE62573CE}</Project>
-      <Name>IntegratedContextTesterHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptEngineTesterHelper.csproj">
-      <Project>{25EC8826-104C-4346-B648-CF7AB591399A}</Project>
-      <Name>JavascriptEngineTesterHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\UniversalTests\NavigationTests\NavigationTests.csproj">
-      <Project>{6469a920-5763-4853-858d-455fa43894b8}</Project>
-      <Name>NavigationTests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj">
-      <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
-      <Name>KnockoutUIFramework.Test</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
-    <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets'))" />
     <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets'))" />
   </Target>
-  <Import Project="..\..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />
   <Import Project="..\..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

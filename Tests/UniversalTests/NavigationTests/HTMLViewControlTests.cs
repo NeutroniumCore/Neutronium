@@ -27,13 +27,57 @@ namespace IntegratedTest.Tests.WPF
         }
 
         [Fact]
-        public void Basic_Option()
+        public void DefaultMode_IsTwoWay()
         {
             Test((c) =>
             {
                 c.SessionPath.Should().BeNull();
                 c.Mode.Should().Be(JavascriptBindingMode.TwoWay);
                 c.Uri.Should().BeNull();
+            });
+        }
+
+        [Fact]
+        public async Task OnDisplay_WhenDataContextChanges_IsFired()
+        {
+            await Test(async (viewControl, w) =>
+            {
+                var tcs = new TaskCompletionSource<DisplayEvent>();
+
+                EventHandler<DisplayEvent> ea = null;
+                ea = (o, e) => { tcs.TrySetResult(e); viewControl.OnDisplay -= ea; };
+                viewControl.OnDisplay += ea;
+                var dc = new Person();
+
+                viewControl.Mode = JavascriptBindingMode.OneWay;
+                viewControl.Uri = new Uri(GetPath(TestContext.Navigation1));
+                w.Window.DataContext = dc;
+
+                var de = await tcs.Task;
+                de.Should().NotBeNull();
+                de.DisplayedViewModel.Should().Be(dc);
+            });
+        }
+
+        [Fact]
+        public async Task SetRelativePath_AfterSetDataContext_TriggersABinding()
+        {
+            await Test(async (c, w) =>
+            {
+                var tcs = new TaskCompletionSource<DisplayEvent>();
+                EventHandler<DisplayEvent> ea = null;
+                ea = (o, e) => { c.OnDisplay -= ea; tcs.SetResult(e); };
+                c.OnDisplay += ea;
+                var dc = new Person();
+
+                c.Mode = JavascriptBindingMode.OneWay;
+                w.Window.DataContext = dc;
+                c.RelativeSource = GetRelativePath(TestContext.Navigation1);
+
+                var de = await tcs.Task;
+
+                de.Should().NotBeNull();
+                de.DisplayedViewModel.Should().Be(dc);
             });
         }
 
@@ -75,28 +119,6 @@ namespace IntegratedTest.Tests.WPF
             });
         }
 
-        [Fact]
-        public async Task OnDisplay_ShouldBeFired_OnDataContextChanges()
-        {
-            await Test(async (viewControl, w) =>
-            {
-                var tcs = new TaskCompletionSource<DisplayEvent>();
-
-                EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { tcs.TrySetResult(e); viewControl.OnDisplay -= ea; };
-                viewControl.OnDisplay += ea;
-                var dc = new Person();
-
-                viewControl.Mode = JavascriptBindingMode.OneWay;
-                viewControl.Uri = new Uri(GetPath(TestContext.Navigation1));
-                w.Window.DataContext = dc;
-
-                var de = await tcs.Task;
-                de.Should().NotBeNull();
-                de.DisplayedViewModel.Should().Be(dc);
-            });
-        }
-
         [Fact(Skip = "Should be rethink")]
         public async Task Basic_Option_Simple_UsingRelativePath()
         {
@@ -115,28 +137,6 @@ namespace IntegratedTest.Tests.WPF
                 c.Mode = JavascriptBindingMode.OneWay;
                 c.RelativeSource = relp;
                 w.Window.DataContext = dc;
-
-                var de = await tcs.Task;
-
-                de.Should().NotBeNull();
-                de.DisplayedViewModel.Should().Be(dc);
-            });
-        }
-
-        [Fact]
-        public async Task Basic_Option_Simple_UsingRelativePath_AfterDataContext()
-        {
-            await Test(async (c, w) =>
-            {
-                var tcs = new TaskCompletionSource<DisplayEvent>();
-                EventHandler<DisplayEvent> ea = null;
-                ea = (o, e) => { c.OnDisplay -= ea; tcs.SetResult(e); };
-                c.OnDisplay += ea;
-                var dc = new Person();
-
-                c.Mode = JavascriptBindingMode.OneWay;
-                w.Window.DataContext = dc;
-                c.RelativeSource = GetRelativePath(TestContext.Navigation1);
 
                 var de = await tcs.Task;
 
