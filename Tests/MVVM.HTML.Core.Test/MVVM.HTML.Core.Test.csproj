@@ -93,8 +93,7 @@
     <Compile Include="Infra\NullUIDispatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Navigation\NullWatcherTest.cs" />
-    <Compile Include="Navigation\Test_Navigation.cs" />
-    <Compile Include="Navigation\Test_NavigationBuilder.cs" />
+    <Compile Include="Navigation\NavigationBuilderTests.cs" />
     <Compile Include="Infra\TypeExtenderTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,10 +5,10 @@ using MVVM.HTML.Core.Navigation;
 
 namespace MVVM.HTML.Core.Test
 {
-    public class Test_NavigationBuilder
+    public class NavigationBuilderTests
     {
         private NavigationBuilder _NavigationBuilder;
-        public Test_NavigationBuilder()
+        public NavigationBuilderTests()
         {
             _NavigationBuilder = new NavigationBuilder();
         }
