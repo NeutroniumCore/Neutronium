@@ -223,3 +223,5 @@ FakesAssemblies/
 /Tests/JavascriptEngine/Vuejs/Vue.Binding.ChromiumFx.Tests/cef/Resources
 /Tests/JavascriptEngine/Knockout/Ko.Navigation.ChromiumFx.Tests/cef/Resources
 /Tests/JavascriptEngine/Vuejs/Vue.Navigation.ChromiumFx.Tests/cef/Resources
+/ApplicationExamples/Example.CefGlue.Vue.Navigation/cef/Resources/locales
+/ApplicationExamples/Example.CefGlue.Vue.Navigation/cef/Resources

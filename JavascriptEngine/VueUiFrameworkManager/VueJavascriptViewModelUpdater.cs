@@ -64,7 +64,8 @@ namespace VueUiFramework
             _WebView.RunAsync(() =>
             {
                 var silenter = GetOrCreateSilenter(father);
-                if (silenter.IsUndefined) {
+                if (silenter.IsUndefined)
+                {
                     _Logger.Info(()=> $"UpdateProperty called during an injection process. Property updated {propertyName}");
                     //may happen if code being call between register and inject
                     //in this case just set attribute value. The value will be register after

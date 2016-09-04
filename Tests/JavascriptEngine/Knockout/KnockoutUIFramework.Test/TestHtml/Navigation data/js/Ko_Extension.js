@@ -450,7 +450,7 @@ function executeAsPromise(vm,fnname,argument) {
         },
 
         init: function (element, valueAccessor,allBindings,viewModel,bindingContext) {
-            bindingContext.$root.__window__().IsLiteningOpen(true);
+            bindingContext.$root.__window__().IsListeningOpen(true);
         },
 
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {

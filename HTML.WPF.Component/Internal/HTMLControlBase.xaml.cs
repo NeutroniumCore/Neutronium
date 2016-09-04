@@ -79,7 +79,7 @@ namespace HTML_WPF.Component
 
         public bool UseINavigable
         {
-            get { return _WPFDoubleBrowserNavigator.UseINavigable; }
+            get { return (_WPFDoubleBrowserNavigator==null) ? true : _WPFDoubleBrowserNavigator.UseINavigable; }
             set { _WPFDoubleBrowserNavigator.UseINavigable = value; }
         }
 

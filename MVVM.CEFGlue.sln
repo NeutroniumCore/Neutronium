@@ -151,6 +151,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Binding.ChromiumFx.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Navigation.ChromiumFx.Tests", "Tests\JavascriptEngine\Vuejs\Vue.Navigation.ChromiumFx.Tests\Vue.Navigation.ChromiumFx.Tests.csproj", "{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFx.Vue.Navigation", "ApplicationExamples\Example.CefGlue.Vue.Navigation\Example.ChromiumFx.Vue.Navigation.csproj", "{ED49D168-61BA-402C-863A-2F1A94774375}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -995,6 +997,22 @@ Global
 		{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}.Release|x64.Build.0 = Release|Any CPU
 		{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}.Release|x86.ActiveCfg = Release|Any CPU
 		{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}.Release|x86.Build.0 = Release|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Debug|x64.Build.0 = Debug|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Debug|x86.Build.0 = Debug|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Release|x64.ActiveCfg = Release|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Release|x64.Build.0 = Release|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Release|x86.ActiveCfg = Release|Any CPU
+		{ED49D168-61BA-402C-863A-2F1A94774375}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1062,6 +1080,7 @@ Global
 		{BD6DC847-5389-47AB-9F7C-0D25CA59C7EB} = {FF87583F-5849-4394-8569-F915AD73D060}
 		{2536113C-36B7-4537-B1F0-22FCA97006AB} = {FF87583F-5849-4394-8569-F915AD73D060}
 		{2CDD21B9-CEE4-416C-A0FA-19364A795AC6} = {FF87583F-5849-4394-8569-F915AD73D060}
+		{ED49D168-61BA-402C-863A-2F1A94774375} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

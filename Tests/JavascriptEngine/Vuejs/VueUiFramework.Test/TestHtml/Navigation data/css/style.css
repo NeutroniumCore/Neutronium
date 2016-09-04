@@ -1,0 +1,18 @@
+.box {
+    border-style: solid;
+    border-width: 1px;
+    display: block;
+    width: 100px;
+    height: 100px;
+    background-color: #0000FF;
+    -webkit-transition:width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+    transition:width 2s, height 2s, background-color 2s, transform 2s;
+}
+
+.boxanimated {
+    background-color: #FFCCCC;
+    width:200px;
+    height:200px;
+    -webkit-transform:rotate(180deg);
+    transform:rotate(180deg);
+}

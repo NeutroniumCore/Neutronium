@@ -115,22 +115,56 @@
         fufillOnReady = fullfill;
     });
 
-    var helper = {
-        enumMixin: {
-            methods: {
-                enumImage: function(value, enumImages) {
-                    if (!value instanceof Enum)
-                        return null;
+    var enumMixin = {
+        methods: {
+            enumImage: function(value, enumImages) {
+                if (!value instanceof Enum)
+                    return null;
 
-                    var images = enumImages || this.enumImages;
-                    if (!images)
-                        return null;
+                var images = enumImages || this.enumImages;
+                if (!images)
+                    return null;
 
-                    var ec = images[value.type];
-                    return ec ? ec[value.name] : null;
-                }
+                var ec = images[value.type];
+                return ec ? ec[value.name] : null;
             }
-        },
+        }
+    };
+
+    function listenEventAndDo(options) {
+        const status = options.status;
+        const command = options.command;
+        const inform = options.inform;
+        const callBack = options.callBack;
+
+        this.$watch("$data.__window__.State", function (newVal) {
+            if (newVal.name == status) {
+                const cb = () => this.$data.__window__[command].Execute();
+                callBack(cb);
+            }
+        });
+
+        this.$nextTick(function () {
+            this.$data.__window__[inform] = true;
+        })
+    };
+
+    var openMixin = {
+        ready: function () {
+            listenEventAndDo.call(this, { status: "Opened", command: "EndOpen", inform: "IsListeningOpen", callBack: (cb) => this.onOpen(cb) });
+        }
+    };
+
+    var closeMixin = {
+        ready: function () {
+            listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
+        }
+    };
+
+    var helper = {
+        enumMixin: enumMixin,
+        openMixin: openMixin,
+        closeMixin: closeMixin,
         inject: inject,
         register: function (vm, observer) {
             console.log("VueGlue register");

@@ -6,7 +6,7 @@ namespace Example.ChromiumFX.Vue.Infra
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : ChromiumFXApp 
+    public class App : ChromiumFXApp 
     {
         protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
         {

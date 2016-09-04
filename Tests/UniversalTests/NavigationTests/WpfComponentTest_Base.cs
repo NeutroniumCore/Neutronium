@@ -5,14 +5,19 @@ using HTML_WPF.Component;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
+using MVVM.HTML.Core;
+using MVVM.HTML.Core.Infra;
 
 namespace IntegratedTest.Tests.WPF
 {
     public abstract class WpfComponentTest_Base<T>  where T : HTMLControlBase
     {
         protected readonly WindowTestContext _WindowTestEnvironment;
+        protected readonly IWebSessionLogger _Logger;
+
         protected WpfComponentTest_Base(IWindowContextProvider windowTestEnvironment) 
         {
+            _Logger = new BasicLogger();
             _WindowTestEnvironment = windowTestEnvironment.WindowTestContext;
         }
 
@@ -51,12 +56,14 @@ namespace IntegratedTest.Tests.WPF
             public Thandler Handler { get; set; }
         }
 
-        private WindowTest InitTest(HTMLControlBase_Handler<T> handler, bool iDebug = false, bool iManageLifeCycle = true) 
+        private WindowTest InitTest(HTMLControlBase_Handler<T> handler, bool iDebug = false, bool iManageLifeCycle = true)
         {
             AssemblyHelper.SetEntryAssembly();
             Func<T> iWebControlFac = () => 
             {
-                return handler.Handler = GetNewHTMLControlBase(iDebug);
+                var element = GetNewHTMLControlBase(iDebug);
+                element.WebSessionLogger = _Logger;
+                return handler.Handler = element;
             };
 
             return BuildWindow(iWebControlFac, iManageLifeCycle);
