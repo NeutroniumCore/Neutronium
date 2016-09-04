@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using System;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace KnockoutUIFramework.Test.IntegratedInfra
@@ -45,6 +46,20 @@ namespace KnockoutUIFramework.Test.IntegratedInfra
         public void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
         {
             _WebView.Evaluate(() => father.Invoke(attibutename, _WebView, value));
+        }
+
+        public IJavascriptObject GetRootViewModel()
+        {
+            return _WebView.Evaluate(() => UnSafeGetRootViewModel());
+        }
+
+        private IJavascriptObject UnSafeGetRootViewModel()
+        {
+            var window = _WebView.GetGlobal();
+            var ko = window.GetValue("ko");
+            var document = window.GetValue("document");
+            var body = document.GetValue("body");
+            return ko.Invoke("dataFor", _WebView, body);
         }
     }
 }

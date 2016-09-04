@@ -12,5 +12,7 @@
         TwoWay_Int,
         //Ko-Cef context: 4700
         TwoWay_Collection,
+
+        TwoWay_Collection_Update_From_Javascript
     }
 }

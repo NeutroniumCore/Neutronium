@@ -4,6 +4,8 @@ namespace Tests.Infra.JavascriptEngineTesterHelper
 {
     public interface IJavascriptFrameworkExtractor
     {
+        IJavascriptObject GetRootViewModel();
+
         IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename);
 
         IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename);

@@ -91,5 +91,10 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         {
             return _JavascriptFrameworkExtractor.GetBoolAttribute(value, attibutename);
         }
+
+        protected IJavascriptObject GetRootViewModel()
+        {
+            return _JavascriptFrameworkExtractor.GetRootViewModel();
+        }
     }
 }

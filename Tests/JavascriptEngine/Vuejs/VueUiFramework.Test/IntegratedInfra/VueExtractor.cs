@@ -1,4 +1,5 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using System;
+using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace VueUiFramework.Test.IntegratedInfra
@@ -44,6 +45,17 @@ namespace VueUiFramework.Test.IntegratedInfra
         public void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
         {
             _WebView.Run(() => father.SetValue(attibutename, value));
+        }
+
+        public IJavascriptObject GetRootViewModel()
+        {
+            return _WebView.Evaluate(() => UnSafeGetRootViewModel());
+        }
+
+        private IJavascriptObject UnSafeGetRootViewModel()
+        {
+            var window = _WebView.GetGlobal();
+            return window.GetValue("vm");
         }
     }
 }

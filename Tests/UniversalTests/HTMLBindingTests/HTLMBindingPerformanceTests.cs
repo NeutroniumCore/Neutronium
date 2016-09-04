@@ -46,19 +46,19 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public Task Test_HTMLBinding_Stress_TwoWay_Collection_CreateBinding() 
+        public Task Stress_TwoWay_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, TestPerformanceKind.TwoWay_Collection_CreateBinding, TestContext.Simple);
         }
 
         [Fact]
-        public Task Test_HTMLBinding_Stress_OneWay_Collection_CreateBinding() 
+        public Task Stress_OneWay_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, TestPerformanceKind.OneWay_Collection_CreateBinding, TestContext.Simple);
         }
 
         [Fact]
-        public Task Test_HTMLBinding_Stress_OneTime_Collection_CreateBinding() 
+        public Task Stress_OneTime_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, TestPerformanceKind.OneTime_Collection_CreateBinding, TestContext.Simple);
         }
@@ -110,7 +110,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task Test_HTMLBinding_Stress_Collection_Update_From_Javascript() 
+        public async Task Stress_Collection_Update_From_Javascript() 
         {
             int r = 100;
             var datacontext = new TwoList();
@@ -152,6 +152,7 @@ namespace Tests.Universal.HTMLBindingTests
                     long ts = stopWatch.ElapsedMilliseconds;
 
                     _Logger.Info($"Perf: {((double) (ts)) / 1000} sec for {r} iterations");
+                    CheckVsExpectation(ts, TestPerformanceKind.TwoWay_Collection_Update_From_Javascript);
                 }
             };
 
@@ -159,7 +160,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task Test_HTMLBinding_Stress_TwoWay_Int() 
+        public async Task Stress_TwoWay_Int() 
         {
             var test = new TestInContextAsync() 
             {
@@ -199,7 +200,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task Test_HTMLBinding_Stress_TwoWay_Collection() 
+        public async Task Stress_TwoWay_Collection() 
         {
 
             var test = new TestInContextAsync() 

@@ -22,7 +22,8 @@ namespace Ko.Binding.Awesomium.Tests
                 {TestPerformanceKind.TwoWay_Collection_CreateBinding, 1500},
                 {TestPerformanceKind.OneWay_Collection_CreateBinding, 1500},
                 {TestPerformanceKind.TwoWay_Int, 3100},
-                {TestPerformanceKind.TwoWay_Collection, 4700}
+                {TestPerformanceKind.TwoWay_Collection, 4700},
+                {TestPerformanceKind.TwoWay_Collection_Update_From_Javascript, 150}
             };
         }
     }

@@ -312,15 +312,14 @@ namespace Tests.Universal.HTMLBindingTests
 
 
         [Fact]
-        public async Task Register_Additional_property()
+        public async Task RootViewModel_CanBeExtended_ByComputedProperties()
         {
             var test = new TestInContext()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
                 Test = (mb) =>
                 {
-                    var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
-                    var js = mb.JSRootObject;
+                    var js = GetRootViewModel();
 
                     string res = GetStringAttribute(js, "completeName");
                     res.Should().Be("O Monstro Desmaisons");
