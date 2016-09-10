@@ -57,8 +57,8 @@
 	// 2. init devtools
 	(0, _devtools.initDevTools)({
 	  connect: function connect(cb) {
-	      // 3. called by devtools: inject backend
-	      inject(parent.__vue__backend__path__, function () {
+	    // 3. called by devtools: inject backend
+	    inject(parent.__vue__backend__path__, function () {
 	      // 4. send back bridge
 	      cb(new _bridge2.default({
 	        listen: function listen(fn) {
@@ -8431,7 +8431,7 @@
 	if (typeof __vue_options__ === "function") __vue_options__ = __vue_options__.options
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-11"
+	__vue_options__._scopeId = "data-v-8"
 	
 	module.exports = __vue_exports__ || __vue_options__
 
@@ -8452,8 +8452,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-11&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentInspector.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-11&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentInspector.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentInspector.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ComponentInspector.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -8471,7 +8471,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.inspector[data-v-11],\n.main[data-v-11] {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n.main[data-v-11] {\n  display: flex;\n  flex-direction: column;\n}\nh3[data-v-11] {\n  margin-top: 0;\n}\nsection[data-v-11]:not(:last-child) {\n  border-bottom: 1px solid #e3e3e3;\n}\n.top[data-v-11] {\n  line-height: 30px;\n  font-size: 18px;\n  color: #0062c3;\n  padding: 10px 20px;\n}\n.component-name[data-v-11] {\n  margin-right: 15px;\n}\n.component-name[data-v-11],\n.buttons[data-v-11] {\n  display: inline-block;\n  vertical-align: middle;\n  white-space: nowrap;\n}\n.button[data-v-11] {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 12px;\n  color: #666;\n  text-align: center;\n  cursor: pointer;\n  transition: box-shadow 0.25s ease;\n  margin-right: 15px;\n  transition: color 0.2s ease;\n}\n.button .material-icons[data-v-11] {\n  font-size: 16px;\n}\n.button span[data-v-11],\n.button i[data-v-11] {\n  vertical-align: middle;\n  margin-right: 3px;\n}\n.button[data-v-11]:hover {\n  color: #44a1ff;\n}\n.data[data-v-11] {\n  padding: 15px 20px;\n  flex: 1;\n  overflow-y: scroll;\n}\n.data[data-v-11]::-webkit-scrollbar {\n  width: 0 !important;\n}\n.data h3[data-v-11] {\n  font-size: 15px;\n}\n.data-fields[data-v-11] {\n  font-family: Menlo, Consolas, monospace;\n}\n.no-state[data-v-11] {\n  color: #ccc;\n  text-align: center;\n  font-size: 14px;\n}\n.non-selected[data-v-11] {\n  color: #ccc;\n  text-align: center;\n  margin-top: 50px;\n  line-height: 30px;\n}\n", ""]);
+	exports.push([module.id, "\n.inspector[data-v-8],\n.main[data-v-8] {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n}\n.main[data-v-8] {\n  display: flex;\n  flex-direction: column;\n}\nh3[data-v-8] {\n  margin-top: 0;\n}\nsection[data-v-8]:not(:last-child) {\n  border-bottom: 1px solid #e3e3e3;\n}\n.top[data-v-8] {\n  line-height: 30px;\n  font-size: 18px;\n  color: #0062c3;\n  padding: 10px 20px;\n}\n.component-name[data-v-8] {\n  margin-right: 15px;\n}\n.component-name[data-v-8],\n.buttons[data-v-8] {\n  display: inline-block;\n  vertical-align: middle;\n  white-space: nowrap;\n}\n.button[data-v-8] {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 12px;\n  color: #666;\n  text-align: center;\n  cursor: pointer;\n  transition: box-shadow 0.25s ease;\n  margin-right: 15px;\n  transition: color 0.2s ease;\n}\n.button .material-icons[data-v-8] {\n  font-size: 16px;\n}\n.button span[data-v-8],\n.button i[data-v-8] {\n  vertical-align: middle;\n  margin-right: 3px;\n}\n.button[data-v-8]:hover {\n  color: #44a1ff;\n}\n.data[data-v-8] {\n  padding: 15px 20px;\n  flex: 1;\n  overflow-y: scroll;\n}\n.data[data-v-8]::-webkit-scrollbar {\n  width: 0 !important;\n}\n.data h3[data-v-8] {\n  font-size: 15px;\n}\n.data-fields[data-v-8] {\n  font-family: Menlo, Consolas, monospace;\n}\n.no-state[data-v-8] {\n  color: #ccc;\n  text-align: center;\n  font-size: 14px;\n}\n.non-selected[data-v-8] {\n  color: #ccc;\n  text-align: center;\n  margin-top: 50px;\n  line-height: 30px;\n}\n", ""]);
 	
 	// exports
 
@@ -9277,7 +9277,7 @@
 	if (typeof __vue_options__ === "function") __vue_options__ = __vue_options__.options
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-8"
+	__vue_options__._scopeId = "data-v-10"
 	
 	module.exports = __vue_exports__ || __vue_options__
 
@@ -9298,8 +9298,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VuexHistory.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-8&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VuexHistory.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-10&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VuexHistory.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-10&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VuexHistory.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -9317,7 +9317,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.buttons[data-v-8] {\n  padding: 15px 30px 5px 20px;\n  border-bottom: 1px solid #eee;\n}\n.button[data-v-8] {\n  color: #555;\n  cursor: pointer;\n  display: inline-block;\n  font-size: 13px;\n  margin: 0 20px 10px 0;\n  transition: color 0.2s ease;\n}\n.button[data-v-8]:hover {\n  color: #44a1ff;\n}\n.button.disabled[data-v-8] {\n  color: #aaa;\n  cursor: not-allowed;\n}\n.button .material-icons[data-v-8] {\n  font-size: 16px;\n}\n.button .material-icons[data-v-8],\n.button span[data-v-8] {\n  vertical-align: middle;\n}\n.history[data-v-8] {\n  height: calc(100% - 48px);\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.entry[data-v-8] {\n  font-family: Menlo, Consolas, monospace;\n  color: #881391;\n  cursor: pointer;\n  padding: 10px 20px;\n  font-size: 14px;\n  background-color: #fff;\n  box-shadow: 0 1px 5px rgba(0,0,0,0.12);\n}\n.entry.active[data-v-8] {\n  color: #fff;\n  background-color: #44a1ff;\n}\n.entry.active .time[data-v-8] {\n  color: #d0e8ff;\n}\n.entry .mutation-type[data-v-8] {\n  display: inline-block;\n  vertical-align: middle;\n}\n.action[data-v-8] {\n  color: #d0e8ff;\n  font-size: 11px;\n  dispatch: inline-block;\n  vertical-align: middle;\n  margin-left: 8px;\n  white-space: nowrap;\n}\n.action .material-icons[data-v-8] {\n  font-size: 14px;\n  margin-right: -4px;\n}\n.action .material-icons[data-v-8],\n.action span[data-v-8] {\n  vertical-align: middle;\n}\n.action[data-v-8]:hover {\n  color: #fff;\n}\n.time[data-v-8] {\n  font-size: 11px;\n  color: #999;\n  float: right;\n  margin-top: 3px;\n}\n", ""]);
+	exports.push([module.id, "\n.buttons[data-v-10] {\n  padding: 15px 30px 5px 20px;\n  border-bottom: 1px solid #eee;\n}\n.button[data-v-10] {\n  color: #555;\n  cursor: pointer;\n  display: inline-block;\n  font-size: 13px;\n  margin: 0 20px 10px 0;\n  transition: color 0.2s ease;\n}\n.button[data-v-10]:hover {\n  color: #44a1ff;\n}\n.button.disabled[data-v-10] {\n  color: #aaa;\n  cursor: not-allowed;\n}\n.button .material-icons[data-v-10] {\n  font-size: 16px;\n}\n.button .material-icons[data-v-10],\n.button span[data-v-10] {\n  vertical-align: middle;\n}\n.history[data-v-10] {\n  height: calc(100% - 48px);\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.entry[data-v-10] {\n  font-family: Menlo, Consolas, monospace;\n  color: #881391;\n  cursor: pointer;\n  padding: 10px 20px;\n  font-size: 14px;\n  background-color: #fff;\n  box-shadow: 0 1px 5px rgba(0,0,0,0.12);\n}\n.entry.active[data-v-10] {\n  color: #fff;\n  background-color: #44a1ff;\n}\n.entry.active .time[data-v-10] {\n  color: #d0e8ff;\n}\n.entry .mutation-type[data-v-10] {\n  display: inline-block;\n  vertical-align: middle;\n}\n.action[data-v-10] {\n  color: #d0e8ff;\n  font-size: 11px;\n  dispatch: inline-block;\n  vertical-align: middle;\n  margin-left: 8px;\n  white-space: nowrap;\n}\n.action .material-icons[data-v-10] {\n  font-size: 14px;\n  margin-right: -4px;\n}\n.action .material-icons[data-v-10],\n.action span[data-v-10] {\n  vertical-align: middle;\n}\n.action[data-v-10]:hover {\n  color: #fff;\n}\n.time[data-v-10] {\n  font-size: 11px;\n  color: #999;\n  float: right;\n  margin-top: 3px;\n}\n", ""]);
 	
 	// exports
 
@@ -9637,7 +9637,7 @@
 	if (typeof __vue_options__ === "function") __vue_options__ = __vue_options__.options
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__._scopeId = "data-v-10"
+	__vue_options__._scopeId = "data-v-11"
 	
 	module.exports = __vue_exports__ || __vue_options__
 
@@ -9658,8 +9658,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-10&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VuexStateInspector.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-10&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VuexStateInspector.vue");
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-11&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VuexStateInspector.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-11&scoped=true!./../../../node_modules/stylus-loader/index.js!./../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VuexStateInspector.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -9677,7 +9677,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.vuex-state-inspector[data-v-10] {\n  padding: 15px 20px;\n}\n.top[data-v-10] {\n  border-bottom: 1px solid #e3e3e3;\n  height: 50px;\n  justify-content: space-between;\n  font-size: 18px;\n  box-shadow: 0 0 8px rgba(0,0,0,0.15);\n}\n.button[data-v-10] {\n  float: left;\n  position: relative;\n  align-items: center;\n  font-size: 12px;\n  color: #666;\n  text-align: center;\n  cursor: pointer;\n  border-right: 1px solid #e3e3e3;\n  transition: box-shadow 0.25s ease, color 0.2s ease;\n  height: 50px;\n  line-height: 50px;\n  padding: 0 22px 0 20px;\n  display: inline-block;\n  vertical-align: middle;\n}\n.button i[data-v-10] {\n  margin-right: 3px;\n  vertical-align: middle;\n}\n.button span[data-v-10] {\n  white-space: nowrap;\n  vertical-align: middle;\n}\n.button[data-v-10]:hover {\n  box-shadow: 0 2px 12px rgba(0,0,0,0.1);\n}\n.message[data-v-10] {\n  transition: all 0.3s ease;\n  color: #44a1ff;\n}\n.invalid-json[data-v-10] {\n  right: 20px;\n  left: initial;\n  top: 1px;\n  font-size: 12px;\n  color: #c41a16;\n  background-color: #fff;\n}\n.import-state[data-v-10] {\n  transition: all 0.3s ease;\n  position: absolute;\n  z-index: 1;\n  left: 220px;\n  right: 10px;\n  top: 5px;\n  box-shadow: 4px 4px 6px 0 #e3e3e3;\n  border: 1px solid #e3e3e3;\n  padding: 3px;\n  background-color: #fff;\n}\n.import-state textarea[data-v-10] {\n  width: 100%;\n  height: 100px;\n  display: block;\n  outline: none;\n  border: none;\n  resize: vertical;\n}\n", ""]);
+	exports.push([module.id, "\n.vuex-state-inspector[data-v-11] {\n  padding: 15px 20px;\n}\n.top[data-v-11] {\n  border-bottom: 1px solid #e3e3e3;\n  height: 50px;\n  justify-content: space-between;\n  font-size: 18px;\n  box-shadow: 0 0 8px rgba(0,0,0,0.15);\n}\n.button[data-v-11] {\n  float: left;\n  position: relative;\n  align-items: center;\n  font-size: 12px;\n  color: #666;\n  text-align: center;\n  cursor: pointer;\n  border-right: 1px solid #e3e3e3;\n  transition: box-shadow 0.25s ease, color 0.2s ease;\n  height: 50px;\n  line-height: 50px;\n  padding: 0 22px 0 20px;\n  display: inline-block;\n  vertical-align: middle;\n}\n.button i[data-v-11] {\n  margin-right: 3px;\n  vertical-align: middle;\n}\n.button span[data-v-11] {\n  white-space: nowrap;\n  vertical-align: middle;\n}\n.button[data-v-11]:hover {\n  box-shadow: 0 2px 12px rgba(0,0,0,0.1);\n}\n.message[data-v-11] {\n  transition: all 0.3s ease;\n  color: #44a1ff;\n}\n.invalid-json[data-v-11] {\n  right: 20px;\n  left: initial;\n  top: 1px;\n  font-size: 12px;\n  color: #c41a16;\n  background-color: #fff;\n}\n.import-state[data-v-11] {\n  transition: all 0.3s ease;\n  position: absolute;\n  z-index: 1;\n  left: 220px;\n  right: 10px;\n  top: 5px;\n  box-shadow: 4px 4px 6px 0 #e3e3e3;\n  border: 1px solid #e3e3e3;\n  padding: 3px;\n  background-color: #fff;\n}\n.import-state textarea[data-v-11] {\n  width: 100%;\n  height: 100px;\n  display: block;\n  outline: none;\n  border: none;\n  resize: vertical;\n}\n", ""]);
 	
 	// exports
 
@@ -10417,7 +10417,7 @@
 	  return _h('img', {
 	    staticClass: "logo",
 	    staticAttrs: {
-	        "src": parent.__vue__logo__path__
+	      "src": parent.__vue__logo__path__
 	    }
 	  })
 	}},function(){with(this) {
@@ -11202,6 +11202,7 @@
 	
 	var mutations = {
 	  FLUSH: function FLUSH(state, payload) {
+
 	    state.instances = (0, _freeze2.default)(payload.instances);
 	    state.inspectedInstance = (0, _freeze2.default)(payload.inspectedInstance);
 	  },
