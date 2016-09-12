@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{994258
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Component.Test", "Tests\MVVM.Component.Test\MVVM.Component.Test.csproj", "{371234C6-4903-4F7D-8283-C0F8DBEF8755}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.HTML.Core.Test", "Tests\MVVM.HTML.Core.Test\MVVM.HTML.Core.Test.csproj", "{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Core.Test", "Tests\MVVM.HTML.Core.Test\Neutronium.Core.Test.csproj", "{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Awesomium", "Awesomium", "{32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}"
 EndProject
@@ -59,7 +59,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptEngine", "Javascr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutUIFramework", "JavascriptEngine\KnockoutUIFramework\KnockoutUIFramework.csproj", "{AF41D637-D053-4FDE-9D8A-96106CCBD19E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTML_WPF.Component.Test", "Tests\HTML_WPF.Component.Test\HTML_WPF.Component.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WPF.Test", "Tests\HTML_WPF.Component.Test\Neutronium.WPF.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VueUiFramework", "JavascriptEngine\VueUiFrameworkManager\VueUiFramework.csproj", "{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}"
 EndProject

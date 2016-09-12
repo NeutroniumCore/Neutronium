@@ -1,9 +1,8 @@
 ﻿using System;
-using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Xunit;
 
-namespace MVVM.HTML.Core.Test
+namespace Neutronium.Core.Test.Navigation
 {
     public class NullWatcherTest
     {

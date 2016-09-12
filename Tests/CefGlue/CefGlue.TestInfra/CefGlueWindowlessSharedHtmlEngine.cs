@@ -5,7 +5,6 @@ using Neutronium.Core;
 using Neutronium.Core.JavascriptEngine.Control;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptEngine.Window;
-using Neutronium.Core.JavascriptUIFramework;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xilium.CefGlue;
 
@@ -13,7 +12,6 @@ namespace CefGlue.TestInfra
 {
     internal class CefGlueWindowlessSharedHtmlEngine :  IWindowlessHTMLEngine
     {
-        private readonly IJavascriptUiFrameworkManager _JavascriptUIFrameworkManager;
         private TestCefGlueHTMLWindowProvider _TestCefGlueHTMLWindowProvider;
         private CefFrame _CefFrame;
         private CefBrowser _CefBrowser;

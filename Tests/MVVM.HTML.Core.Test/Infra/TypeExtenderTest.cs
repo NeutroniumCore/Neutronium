@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xunit;
 using FluentAssertions;
 using Neutronium.Core.Infra;
+using Xunit;
 
-namespace MVVM.HTML.Core.Test
+namespace Neutronium.Core.Test.Infra
 {
     public class TypeExtenderTest
     {

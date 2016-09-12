@@ -1,9 +1,9 @@
 ﻿using System;
-using Xunit;
 using FluentAssertions;
 using Neutronium.Core.Navigation;
+using Xunit;
 
-namespace MVVM.HTML.Core.Test 
+namespace Neutronium.Core.Test.Navigation 
 {
     public class NavigationBuilderTests
     {

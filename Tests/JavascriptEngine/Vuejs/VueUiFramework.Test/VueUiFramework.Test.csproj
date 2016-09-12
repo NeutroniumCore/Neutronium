@@ -84,18 +84,6 @@
       <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegratedInfra\VueExtractor.cs" />
@@ -243,9 +231,9 @@
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
       <Name>JavascriptEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MVVM.HTML.Core.Test\MVVM.HTML.Core.Test.csproj">
+    <ProjectReference Include="..\..\..\MVVM.HTML.Core.Test\Neutronium.Core.Test.csproj">
       <Project>{a766ac1e-10fd-4d77-a95f-f1974fb0fefc}</Project>
-      <Name>MVVM.HTML.Core.Test</Name>
+      <Name>Neutronium.Core.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

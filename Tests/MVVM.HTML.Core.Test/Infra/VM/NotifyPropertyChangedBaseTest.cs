@@ -1,8 +1,8 @@
-﻿using Xunit;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Neutronium.Core.Infra.VM;
+using Xunit;
 
-namespace MVVM.HTML.Core.Test
+namespace Neutronium.Core.Test.Infra.VM
 {
     public class NotifyPropertyChangedBaseTest
     {

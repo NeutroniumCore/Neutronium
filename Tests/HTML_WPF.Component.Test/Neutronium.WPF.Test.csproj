@@ -8,8 +8,8 @@
     <ProjectGuid>{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HTML_WPF.Component.Test</RootNamespace>
-    <AssemblyName>HTML_WPF.Component.Test</AssemblyName>
+    <RootNamespace>Neutronium.WPF.Test</RootNamespace>
+    <AssemblyName>Neutronium.WPF.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
