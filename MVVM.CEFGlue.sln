@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.ViewModel", "ViewModel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Core", "MVVM.HTML.Core\Neutronium.Core.csproj", "{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTML_WPF.Component", "HTML.WPF.Component\HTML_WPF.Component.csproj", "{DCFC58E7-4D5B-43C5-827E-5D6F975F4995}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WPF", "HTML.WPF.Component\Neutronium.WPF.csproj", "{DCFC58E7-4D5B-43C5-827E-5D6F975F4995}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{994258EB-3B00-46FA-AD08-C1FF08DA4D3B}"
 	ProjectSection(SolutionItems) = preProject

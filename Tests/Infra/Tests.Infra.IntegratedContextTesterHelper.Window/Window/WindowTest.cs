@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using HTML_WPF.Component;
 using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.WPF.Internal;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Window

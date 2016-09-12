@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:component="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component"
+        xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
@@ -40,7 +40,7 @@
         </StackPanel>
 
         <TextBlock Background="Gray" FontWeight="Bold"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Text="ChromiumFx"/>
-        <component:HTMLViewControl HTMLEngine="ChromiumFX" Grid.Column="0" Grid.Row="1"   IsDebug="True"  x:Name="cfxBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <wpf:HTMLViewControl HTMLEngine="ChromiumFX" Grid.Column="0" Grid.Row="1"   IsDebug="True"  x:Name="cfxBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
     </Grid>
 </Window>

@@ -1,5 +1,5 @@
 ﻿using Chromium;
-using HTML_WPF.Component;
+using Neutronium.WPF;
 
 namespace HTMEngine.ChromiumFX 
 {

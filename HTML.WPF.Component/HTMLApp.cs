@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF
 {
     public abstract class HTMLApp : Application
     {

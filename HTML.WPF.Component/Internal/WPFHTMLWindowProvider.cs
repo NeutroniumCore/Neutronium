@@ -2,15 +2,15 @@
 using Neutronium.Core.JavascriptEngine.Control;
 using Neutronium.Core.JavascriptEngine.Window;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF.Internal
 {
     public class WPFHTMLWindowProvider : IHTMLWindowProvider
     {
         private readonly UIElement _UIElement;
-        private readonly HTMLControlBase _HTMLControlBase;
+        private readonly Neutronium.WPF.Internal.HTMLControlBase _HTMLControlBase;
         private readonly IWPFWebWindow _IWPFWebWindow;
 
-        public WPFHTMLWindowProvider(IWPFWebWindow iIWPFWebWindow, HTMLControlBase iHTMLControlBase)
+        public WPFHTMLWindowProvider(IWPFWebWindow iIWPFWebWindow, Neutronium.WPF.Internal.HTMLControlBase iHTMLControlBase)
         {
             _IWPFWebWindow = iIWPFWebWindow;
             _HTMLControlBase = iHTMLControlBase;

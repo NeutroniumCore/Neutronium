@@ -1,4 +1,4 @@
-﻿using HTML_WPF.Component;
+﻿using Neutronium.WPF;
 
 namespace HTMLEngine.Awesomium
 {

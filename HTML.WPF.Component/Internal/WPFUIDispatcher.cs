@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Neutronium.Core.JavascriptEngine.Window;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF.Internal
 {
     public class WPFUIDispatcher : IDispatcher
     {

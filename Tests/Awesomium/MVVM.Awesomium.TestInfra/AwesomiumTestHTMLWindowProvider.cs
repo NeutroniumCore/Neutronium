@@ -1,8 +1,8 @@
 ﻿using System;
-using HTML_WPF.Component;
 using Neutronium.Core.JavascriptEngine.Control;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.WPF.Internal;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace Tests.Awesomium.Infra

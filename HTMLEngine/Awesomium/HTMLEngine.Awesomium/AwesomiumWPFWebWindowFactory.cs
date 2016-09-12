@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Awesomium.Core;
-using HTML_WPF.Component;
 using Neutronium.Core;
+using Neutronium.WPF;
 
 namespace HTMLEngine.Awesomium
 {

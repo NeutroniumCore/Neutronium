@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:HTMLComponent="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component"
+        xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
         x:Class="Example.ChromiumFX.Vue.UI.MainWindow"
         Title="HTML5 vs WPF" Loaded="Window_Loaded" Height="350" Width="525">
     <Grid>
@@ -31,6 +31,6 @@
             <Button Content="Button" Height="23" Command="{Binding Command}" Width="75" />
 
         </StackPanel>
-        <HTMLComponent:HTMLViewControl  IsDebug="True"  x:Name="wcBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <wpf:HTMLViewControl  IsDebug="True"  x:Name="wcBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

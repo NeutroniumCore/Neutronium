@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
+using Neutronium.WPF;
 using NSubstitute;
 using Xunit;
 

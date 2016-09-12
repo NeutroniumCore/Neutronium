@@ -2,9 +2,9 @@
 using Neutronium.Core;
 using Neutronium.Core.Navigation;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF
 {
-    public class HTMLWindow : HTMLControlBase, INavigationSolver
+    public class HTMLWindow : Neutronium.WPF.Internal.HTMLControlBase, INavigationSolver
     {
         public HTMLWindow() : this(new NavigationBuilder())
         {

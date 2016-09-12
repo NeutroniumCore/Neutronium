@@ -1,6 +1,6 @@
-﻿using HTML_WPF.Component;
-using System;
+﻿using System;
 using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.WPF;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Window

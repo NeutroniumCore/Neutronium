@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="HTML_WPF.Component.HTMLControlBase"
+﻿<UserControl x:Class="Neutronium.WPF.Internal.HTMLControlBase"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

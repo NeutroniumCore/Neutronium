@@ -1,5 +1,5 @@
 ﻿using System;
-using HTML_WPF.Component;
+using Neutronium.WPF;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 

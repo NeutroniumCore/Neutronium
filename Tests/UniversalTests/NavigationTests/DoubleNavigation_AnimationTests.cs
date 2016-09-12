@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using HTML_WPF.Component;
 using MVVM.ViewModel;
 using Neutronium.Core.Navigation;
+using Neutronium.WPF;
 using Xunit;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;

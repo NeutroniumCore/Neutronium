@@ -2,7 +2,7 @@
 using Neutronium.Core;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF
 {
     /// <summary>
     /// Singleton object that allows you to register IWPFWebWindowFactory

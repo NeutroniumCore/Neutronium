@@ -1,5 +1,5 @@
 ﻿using HTMLEngine.CefGlue.CefSession;
-using HTML_WPF.Component;
+using Neutronium.WPF.Internal;
 using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Window;

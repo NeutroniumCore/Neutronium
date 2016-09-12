@@ -116,9 +116,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
+    <ProjectReference Include="..\..\HTML.WPF.Component\Neutronium.WPF.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>HTML_WPF.Component</Name>
+      <Name>Neutronium.WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
       <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>

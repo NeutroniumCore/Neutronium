@@ -3,9 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using HTMLEngine.CefGlue.CefSession;
 using HTMLEngine.CefGlue.WindowImplementation;
-using HTML_WPF.Component;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.WPF;
 
 namespace HTMLEngine.CefGlue
 {

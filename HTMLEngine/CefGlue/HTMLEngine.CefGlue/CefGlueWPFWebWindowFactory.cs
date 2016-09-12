@@ -1,6 +1,6 @@
 ﻿using HTMLEngine.CefGlue.CefSession;
-using HTML_WPF.Component;
 using Neutronium.Core;
+using Neutronium.WPF;
 using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using Neutronium.Core.JavascriptEngine.Window;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF
 {
     /// <summary>
     /// Abstraction of a WPF implementation of an HTML Browser

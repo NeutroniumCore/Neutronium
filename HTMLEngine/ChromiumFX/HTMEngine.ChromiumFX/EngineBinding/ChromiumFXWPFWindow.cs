@@ -5,9 +5,10 @@ using System.Windows.Input;
 using Chromium;
 using Chromium.WebBrowser;
 using HTMEngine.ChromiumFX.WPF;
-using HTML_WPF.Component;
 using Neutronium.Core;
 using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.WPF;
+using Neutronium.WPF.Internal;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {

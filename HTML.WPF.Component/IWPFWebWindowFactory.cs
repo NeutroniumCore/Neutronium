@@ -1,7 +1,7 @@
 ﻿using System;
 using Neutronium.Core;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF
 {
     /// <summary>
     /// IWPFWebWindow factory: abstraction of a WPF implementation of an HTML Browser

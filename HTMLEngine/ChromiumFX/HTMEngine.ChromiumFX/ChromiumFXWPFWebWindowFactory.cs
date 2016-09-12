@@ -3,8 +3,8 @@ using Chromium;
 using Chromium.WebBrowser;
 using HTMEngine.ChromiumFX.EngineBinding;
 using HTMEngine.ChromiumFX.Session;
-using HTML_WPF.Component;
 using Neutronium.Core;
+using Neutronium.WPF;
 
 namespace HTMEngine.ChromiumFX
 {

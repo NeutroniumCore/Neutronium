@@ -1,11 +1,11 @@
 ﻿<Window x:Class="Example.CefGlue.Ko.PromiseDemo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:MVVM.CEFGlue="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component"
+        xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
         Title="HTML" Height="350" Width="525">
     <Grid>
 
-        <MVVM.CEFGlue:HTMLViewControl RelativeSource="HTMLUI\index.html"  x:Name="HTMLViewControl" IsDebug="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <wpf:HTMLViewControl RelativeSource="HTMLUI\index.html"  x:Name="HTMLViewControl" IsDebug="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
     </Grid>
 </Window>

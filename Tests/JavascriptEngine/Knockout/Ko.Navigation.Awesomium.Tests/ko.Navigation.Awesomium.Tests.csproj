@@ -85,9 +85,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\HTML.WPF.Component\HTML_WPF.Component.csproj">
+    <ProjectReference Include="..\..\..\..\HTML.WPF.Component\Neutronium.WPF.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>HTML_WPF.Component</Name>
+      <Name>Neutronium.WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\HTMLEngine\Awesomium\HTMLEngine.Awesomium\HTMLEngine.Awesomium.csproj">
       <Project>{92B20870-AD65-4AE8-BB1E-4D11B922A135}</Project>

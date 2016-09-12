@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Text;
 using System.Windows.Media;
 using Neutronium.Core;
 using Neutronium.Core.Exceptions;
@@ -15,7 +15,7 @@ using Neutronium.Core.JavascriptEngine.Window;
 using Neutronium.Core.JavascriptUIFramework;
 using Neutronium.Core.Navigation;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF.Internal
 {
     public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {

@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:HTML_WPF.Component="clr-namespace:HTML_WPF.Component;assembly=HTML_WPF.Component" 
+        xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
         x:Class="Example.CefGlue.Ko.Calendar.MainWindow"
         Title="HTML vs WPF: DateTime" Height="350" Width="525" Loaded="Window_Loaded">
     <Grid>
@@ -10,7 +10,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <HTML_WPF.Component:HTMLViewControl IsDebug="True"  x:Name="WebControl" RelativeSource="HTLM\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <wpf:HTMLViewControl IsDebug="True"  x:Name="WebControl" RelativeSource="HTLM\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <DatePicker SelectedDate="{Binding Path=Date}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
     </Grid>

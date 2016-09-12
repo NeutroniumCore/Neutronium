@@ -5,7 +5,7 @@ using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace HTML_WPF.Component
+namespace Neutronium.WPF
 {
     /// <summary>
     /// IHTMLEngineFactory implementation
