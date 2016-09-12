@@ -1,9 +1,9 @@
-﻿<chromiumFxVueINfra:App x:Class="Example.ChromiumFX.Vue.Collection.App"
+﻿<chromiumFxVueINfra:WebBrowserApp x:Class="Example.ChromiumFX.Vue.Collection.WebBrowserApp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:chromiumFxVueINfra="clr-namespace:Example.ChromiumFX.Vue.Infra;assembly=Example.ChromiumFX.Vue.Infra" 
              StartupUri="MainWindow.xaml">
-    <chromiumFxVueINfra:App.Resources>
+    <chromiumFxVueINfra:WebBrowserApp.Resources>
          
-    </chromiumFxVueINfra:App.Resources>
-</chromiumFxVueINfra:App>
+    </chromiumFxVueINfra:WebBrowserApp.Resources>
+</chromiumFxVueINfra:WebBrowserApp>

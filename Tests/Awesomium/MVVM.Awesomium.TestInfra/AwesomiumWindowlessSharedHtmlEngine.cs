@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Awesomium.Core;
-using HTMLEngine.Awesomium.HTMLEngine;
-using HTMLEngine.Awesomium.Internal;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.Awesomium.Engine;
+using Neutronium.WebBrowserEngine.Awesomium.Internal;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 
 namespace Tests.Awesomium.Infra 

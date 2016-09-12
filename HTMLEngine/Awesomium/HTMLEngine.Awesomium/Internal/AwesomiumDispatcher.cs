@@ -2,9 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Awesomium.Core;
+using HTMLEngine.Awesomium;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace HTMLEngine.Awesomium.Internal
+namespace Neutronium.WebBrowserEngine.Awesomium.Internal
 {
     internal class AwesomiumDispatcher : IDispatcher
     {

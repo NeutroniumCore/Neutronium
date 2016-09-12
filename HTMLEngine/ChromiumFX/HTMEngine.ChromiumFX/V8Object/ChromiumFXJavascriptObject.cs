@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Chromium;
 using Chromium.Remote;
-using HTMEngine.ChromiumFX.Convertion;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 
-namespace HTMEngine.ChromiumFX.V8Object 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object 
 {
     internal class ChromiumFXJavascriptObject : IJavascriptObject 
     {

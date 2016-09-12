@@ -1,8 +1,7 @@
-﻿using MVVM.Cef.Glue;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefGlueImplementation
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 {
     public static class CefV8_Helper
     {

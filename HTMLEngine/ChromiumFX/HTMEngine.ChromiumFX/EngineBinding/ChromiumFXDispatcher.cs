@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Chromium.Remote;
-using System.Collections.Generic;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace HTMEngine.ChromiumFX.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
-    public class ChromiumFXDispatcher : IDispatcher 
+    public class ChromiumFxDispatcher : IDispatcher 
     {
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
         private readonly IWebSessionLogger _Logger;
         private readonly object _Locker = new object();
-        private readonly HashSet<ChromiumFXTask> _Tasks = new HashSet<ChromiumFXTask>();
+        private readonly HashSet<ChromiumFxTask> _Tasks = new HashSet<ChromiumFxTask>();
 
         private CfrTaskRunner TaskRunner { get; }
 
-        public ChromiumFXDispatcher(CfrBrowser browser, CfrV8Context context, IWebSessionLogger logger) 
+        public ChromiumFxDispatcher(CfrBrowser browser, CfrV8Context context, IWebSessionLogger logger) 
         {
             _Logger = logger;
             _Browser = browser;
@@ -102,7 +102,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private IDisposable GetRemoteContext() 
         {
-            return new ChromiumFXCRemoteContext(_Browser);
+            return new ChromiumFxCRemoteContext(_Browser);
         }
 
         private void RunInContext(Action action) 
@@ -121,17 +121,17 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             }
         }
 
-        private ChromiumFXTask AddTask(Action action)
+        private ChromiumFxTask AddTask(Action action)
         {
             lock(_Locker)
             {
-                var task = new ChromiumFXTask(action);
+                var task = new ChromiumFxTask(action);
                 _Tasks.Add(task);
                 return task;
             }         
         }
 
-        private void RemoveTask(ChromiumFXTask task)
+        private void RemoveTask(ChromiumFxTask task)
         {
             lock (_Locker)
                 _Tasks.Remove(task);

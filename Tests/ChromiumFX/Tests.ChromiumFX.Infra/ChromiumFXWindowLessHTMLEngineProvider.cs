@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Chromium;
 using Chromium.Remote;
-using HTMEngine.ChromiumFX.EngineBinding;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
+using Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding;
 using Tests.ChromiumFX.Infra.Helper;
 using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
@@ -20,7 +20,7 @@ namespace Tests.ChromiumFX.Infra
         private bool _Runing = false;
         private readonly WpfThread _WpfThread;
         private RenderProcessHandler _RenderProcessHandler;
-        private TaskCompletionSource<ChromiumFXWebView> _TaskContextCreatedEventArgs;
+        private TaskCompletionSource<ChromiumFxWebView> _TaskContextCreatedEventArgs;
         private CfrApp _CfrApp;
         private readonly ITestHtmlProvider _HtmlProvider;
 
@@ -84,7 +84,7 @@ namespace Tests.ChromiumFX.Infra
             _RenderProcessHandler = new RenderProcessHandler(_CfrApp, remoteProcessId);
             _RenderProcessHandler.OnNewFrame += (e) =>
             {
-                _TaskContextCreatedEventArgs.TrySetResult(new ChromiumFXWebView(e.Browser, Logger));
+                _TaskContextCreatedEventArgs.TrySetResult(new ChromiumFxWebView(e.Browser, Logger));
             };
             _CfrApp.GetRenderProcessHandler += (s, e) =>
             {
@@ -115,7 +115,7 @@ namespace Tests.ChromiumFX.Infra
         private IWindowlessHTMLEngine CreateWindowlessJavascriptEngine() 
         {
             Init();
-            _TaskContextCreatedEventArgs = new TaskCompletionSource<ChromiumFXWebView>();
+            _TaskContextCreatedEventArgs = new TaskCompletionSource<ChromiumFxWebView>();
             return new ChromiumFxWindowlessHtmlEngine(_WpfThread, _TaskContextCreatedEventArgs.Task);
         }
     }

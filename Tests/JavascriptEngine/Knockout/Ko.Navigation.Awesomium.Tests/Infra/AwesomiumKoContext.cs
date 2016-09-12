@@ -1,6 +1,7 @@
 ﻿using HTMLEngine.Awesomium;
 using KnockoutFramework.Test.TestHtml;
 using Neutronium.JavascriptFramework.Knockout;
+using Neutronium.WebBrowserEngine.Awesomium;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 
 namespace ko.Navigation.Awesomium.Tests.Infra

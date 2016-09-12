@@ -8,15 +8,15 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using HTMLEngine.CefGlue.CefGlueHelper;
-using HTMLEngine.CefGlue.CefSession;
-using HTMLEngine.CefGlue.Helpers.Log;
-using MVVM.Cef.Glue.WPF;
+using HTMLEngine.CefGlue.WindowImplementation;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper;
+using Neutronium.WebBrowserEngine.CefGlue.CefSession;
+using Neutronium.WebBrowserEngine.CefGlue.Helpers.Log;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.WindowImplementation
+namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
 {
     public class WpfCefBrowser : ContentControl, IDisposable, IModernWebBrowserWindow
     {
@@ -45,13 +45,13 @@ namespace HTMLEngine.CefGlue.WindowImplementation
         Dispatcher _mainUiDispatcher;
 
         private readonly ILogger _logger;
-        private readonly MVVMCefApp _App;
+        private readonly NeutroniumCefApp _App;
 
-        public WpfCefBrowser(MVVMCefApp app): this(app, Logger.Log)
+        public WpfCefBrowser(NeutroniumCefApp app): this(app, Logger.Log)
         {
         }
 
-        public WpfCefBrowser(MVVMCefApp app, ILogger logger)
+        public WpfCefBrowser(NeutroniumCefApp app, ILogger logger)
         {
             _App = app;
             if (logger == null)

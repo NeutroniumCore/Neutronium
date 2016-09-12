@@ -1,4 +1,5 @@
-﻿using Xilium.CefGlue;
+﻿using Neutronium.WebBrowserEngine.CefGlue.WindowImplementation;
+using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue.WindowImplementation
 {

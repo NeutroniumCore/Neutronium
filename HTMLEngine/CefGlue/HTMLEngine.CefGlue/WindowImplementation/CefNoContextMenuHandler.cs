@@ -1,6 +1,6 @@
 ﻿using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.WindowImplementation
+namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
 {
     class CefNoContextMenuHandler : CefContextMenuHandler
     {

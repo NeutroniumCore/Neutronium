@@ -1,11 +1,11 @@
 ﻿using System;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
-using HTMLEngine.Awesomium.HTMLEngine;
-using HTMLEngine.Awesomium.Internal;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.Awesomium.Engine;
+using Neutronium.WebBrowserEngine.Awesomium.Internal;
 
-namespace HTMLEngine.Awesomium
+namespace Neutronium.WebBrowserEngine.Awesomium
 {
     internal class AwesomiumHTMLWindow : IWebBrowserWindow, IDisposable
     {

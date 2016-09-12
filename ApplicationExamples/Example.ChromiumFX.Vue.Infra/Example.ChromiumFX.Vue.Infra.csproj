@@ -120,9 +120,9 @@
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>Neutronium.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
+    <ProjectReference Include="..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj">
       <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
-      <Name>HTMEngine.ChromiumFX</Name>
+      <Name>Neutronium.WebBrowserEngine.ChromiumFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\JavascriptEngine\VueUiFrameworkManager\Neutronium.JavascriptFramework.Vue.csproj">
       <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>

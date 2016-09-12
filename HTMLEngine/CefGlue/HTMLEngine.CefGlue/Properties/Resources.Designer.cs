@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HTMLEngine.CefGlue.Properties {
+namespace Neutronium.WebBrowserEngine.CefGlue.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace HTMLEngine.CefGlue.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HTMLEngine.CefGlue.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Neutronium.WebBrowserEngine.CefGlue.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

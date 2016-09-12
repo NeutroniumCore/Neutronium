@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Chromium;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
-using HTMEngine.ChromiumFX.EngineBinding;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding;
 
 namespace Tests.ChromiumFX.Infra 
 {
@@ -15,7 +15,7 @@ namespace Tests.ChromiumFX.Infra
     {
         private readonly WpfThread _WpfThread;
         private CfxClient _CfxClient;
-        private readonly Task<ChromiumFXWebView> _ChromiumFXWebViewTask;
+        private readonly Task<ChromiumFxWebView> _ChromiumFXWebViewTask;
         private CfxBrowser _CfxBrowser;
         private ChromiumFXHTMLWindowProvider _ChromiumFXHTMLWindowProvider;
 
@@ -23,7 +23,7 @@ namespace Tests.ChromiumFX.Infra
         public IWebBrowserWindow HTMLWindow => _ChromiumFXHTMLWindowProvider.HTMLWindow;
         public IWebBrowserWindowProvider HTMLWindowProvider => _ChromiumFXHTMLWindowProvider;
 
-        internal ChromiumFxWindowlessHtmlEngine(WpfThread wpfThread, Task<ChromiumFXWebView> chromiumFxWebViewTask) 
+        internal ChromiumFxWindowlessHtmlEngine(WpfThread wpfThread, Task<ChromiumFxWebView> chromiumFxWebViewTask) 
         {
             _ChromiumFXWebViewTask = chromiumFxWebViewTask;
             _WpfThread = wpfThread;

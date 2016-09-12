@@ -8,7 +8,7 @@ using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace HTMEngine.ChromiumFX.EngineBinding
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
     public class ChromiumFxControlWebBrowserWindow : IModernWebBrowserWindow
     {
@@ -55,7 +55,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         private void OnV8ContextCreated(object sender, CfrOnContextCreatedEventArgs e)
         {
-            MainFrame = new ChromiumFXWebView(e.Browser, _Logger);
+            MainFrame = new ChromiumFxWebView(e.Browser, _Logger);
 
             var beforeJavascriptExecuted = BeforeJavascriptExecuted;
             if (beforeJavascriptExecuted == null) 

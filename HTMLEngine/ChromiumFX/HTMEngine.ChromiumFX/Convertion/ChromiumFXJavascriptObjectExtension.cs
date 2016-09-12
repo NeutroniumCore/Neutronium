@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Chromium.Remote;
-using HTMEngine.ChromiumFX.V8Object;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.ChromiumFx.V8Object;
 
-namespace HTMEngine.ChromiumFX.Convertion 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion 
 {
-    public static class ChromiumFXJavascriptObjectExtension 
+    public static class ChromiumFxJavascriptObjectExtension 
     {
         public static IJavascriptObject Convert(this CfrV8Value cfrV8Value) 
         {

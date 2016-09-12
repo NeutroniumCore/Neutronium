@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HTMLEngine.CefGlue.Properties {
+namespace Neutronium.WebBrowserEngine.CefGlue.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

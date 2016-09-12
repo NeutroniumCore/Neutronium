@@ -1,15 +1,15 @@
 ﻿using System;
 using Chromium.Remote;
-using HTMEngine.ChromiumFX.Convertion;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 
-namespace HTMEngine.ChromiumFX.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
-    internal class ChromiumFXConverter : IJavascriptObjectConverter
+    internal class ChromiumFxConverter : IJavascriptObjectConverter
     {
         private readonly CfrV8Context _CfrV8Context;
-        internal ChromiumFXConverter(CfrV8Context context) 
+        internal ChromiumFxConverter(CfrV8Context context) 
         {
             _CfrV8Context = context;
         }

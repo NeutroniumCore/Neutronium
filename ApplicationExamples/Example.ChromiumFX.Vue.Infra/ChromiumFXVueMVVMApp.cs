@@ -1,13 +1,13 @@
-﻿using HTMEngine.ChromiumFX;
-using Neutronium.Core.JavascriptFramework;
+﻿using Neutronium.Core.JavascriptFramework;
 using Neutronium.JavascriptFramework.Vue;
+using Neutronium.WebBrowserEngine.ChromiumFx;
 
 namespace Example.ChromiumFX.Vue.Infra
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for WebBrowserApp.xaml
     /// </summary>
-    public class App : ChromiumFXApp 
+    public class WebBrowserApp : ChromiumFxWebBrowserApp 
     {
         protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
         {

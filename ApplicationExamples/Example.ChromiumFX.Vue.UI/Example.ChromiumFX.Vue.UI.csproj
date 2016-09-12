@@ -257,9 +257,9 @@
       <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
       <Name>ChromiumFXRenderProcess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
+    <ProjectReference Include="..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj">
       <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
-      <Name>HTMEngine.ChromiumFX</Name>
+      <Name>Neutronium.WebBrowserEngine.ChromiumFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\JavascriptEngine\VueUiFrameworkManager\Neutronium.JavascriptFramework.Vue.csproj">
       <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>

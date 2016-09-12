@@ -69,7 +69,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="CefGlueApp.xaml">
+    <ApplicationDefinition Include="CefGlueWebBrowserApp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
@@ -77,8 +77,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="CefGlueApp.xaml.cs">
-      <DependentUpon>CefGlueApp.xaml</DependentUpon>
+    <Compile Include="CefGlueWebBrowserApp.xaml.cs">
+      <DependentUpon>CefGlueWebBrowserApp.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -126,9 +126,9 @@
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>Neutronium.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\HTMLEngine\CefGlue\HTMLEngine.CefGlue\HTMLEngine.CefGlue.csproj">
+    <ProjectReference Include="..\..\HTMLEngine\CefGlue\HTMLEngine.CefGlue\Neutronium.WebBrowserEngine.CefGlue.csproj">
       <Project>{ce4f4133-789f-420d-941d-18da08b140ff}</Project>
-      <Name>HTMLEngine.CefGlue</Name>
+      <Name>Neutronium.WebBrowserEngine.CefGlue</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj">
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>

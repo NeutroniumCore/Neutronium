@@ -2,15 +2,15 @@
 using Neutronium.Core.Exceptions;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefSession
+namespace Neutronium.WebBrowserEngine.CefGlue.CefSession
 {
     public class CefCoreSession : ICefCoreSession, IDisposable
     {
         private readonly CefSettings _CefSettings;
         private readonly string[] _Args;
-        private readonly MVVMCefApp _CefApp;
+        private readonly NeutroniumCefApp _CefApp;
 
-        public CefCoreSession(CefSettings iCefSettings, MVVMCefApp iCefApp, string[] iArgs)
+        public CefCoreSession(CefSettings iCefSettings, NeutroniumCefApp iCefApp, string[] iArgs)
         {
             _CefApp = iCefApp;
             _Args = iArgs;
@@ -26,7 +26,7 @@ namespace HTMLEngine.CefGlue.CefSession
             CefRuntime.Initialize(mainArgs, _CefSettings, _CefApp, IntPtr.Zero);
         }
 
-        public MVVMCefApp CefApp 
+        public NeutroniumCefApp CefApp 
         { 
             get { return _CefApp; } 
         }

@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Awesomium.Core;
 using HTMLEngine.Awesomium;
+using Neutronium.WebBrowserEngine.Awesomium;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 

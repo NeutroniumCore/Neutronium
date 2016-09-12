@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Awesomium.Core;
 
-namespace HTMLEngine.Awesomium.Internal
+namespace Neutronium.WebBrowserEngine.Awesomium.Internal
 {
     public static class AwesomiumHelper
     {

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using HTMLEngine.CefGlue.CefGlueHelper;
-using MVVM.Cef.Glue;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefGlueImplementation
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 {
     public class CefV8_WebView : IWebView 
     {

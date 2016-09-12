@@ -1,18 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using HTMLEngine.CefGlue.CefSession;
-using HTMLEngine.CefGlue.WindowImplementation;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.CefGlue.CefSession;
+using Neutronium.WebBrowserEngine.CefGlue.WindowImplementation;
 using Neutronium.WPF;
 
-namespace HTMLEngine.CefGlue
+namespace Neutronium.WebBrowserEngine.CefGlue
 {
     internal class CefGlueWPFWebWindow : IWPFWebWindow
     {
         private readonly WpfCefBrowser _WpfCefBrowser;
-        internal CefGlueWPFWebWindow(MVVMCefApp app)
+        internal CefGlueWPFWebWindow(NeutroniumCefApp app)
         {
             _WpfCefBrowser = new WpfCefBrowser(app)
             {

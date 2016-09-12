@@ -4,15 +4,15 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Chromium;
 using Chromium.WebBrowser;
-using HTMEngine.ChromiumFX.WPF;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 using Neutronium.WPF;
 using Neutronium.WPF.Internal;
 
-namespace HTMEngine.ChromiumFX.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
-    internal class ChromiumFXWPFWindow : IWPFWebWindow 
+    internal class ChromiumFxWpfWindow : IWPFWebWindow 
     {
         private readonly ChromiumFxControl _ChromiumFxControl;
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
@@ -23,7 +23,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         public bool IsUIElementAlwaysTopMost => true;
         public IWebBrowserWindow HTMLWindow => _chromiumFxControlWebBrowserWindow;
 
-        public ChromiumFXWPFWindow(IWebSessionLogger logger) 
+        public ChromiumFxWpfWindow(IWebSessionLogger logger) 
         {
             _Logger = logger;
             _ChromiumFxControl = new ChromiumFxControl()
@@ -50,15 +50,15 @@ namespace HTMEngine.ChromiumFX.EngineBinding
 
         public bool OnDebugToolsRequest() 
         {
-            CfxWindowInfo windowInfo = new CfxWindowInfo();
-
-            windowInfo.Style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN | Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE;
-            windowInfo.ParentWindow = IntPtr.Zero;
-            windowInfo.WindowName = "Dev Tools";
-            windowInfo.X = 200;
-            windowInfo.Y = 200;
-            windowInfo.Width = 800;
-            windowInfo.Height = 600;
+            var windowInfo = new CfxWindowInfo {
+                Style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN | Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE,
+                ParentWindow = IntPtr.Zero,
+                WindowName = "Dev Tools",
+                X = 200,
+                Y = 200,
+                Width = 800,
+                Height = 600
+            };
 
             _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, new CfxClient(), new CfxBrowserSettings(), null);
             return true;

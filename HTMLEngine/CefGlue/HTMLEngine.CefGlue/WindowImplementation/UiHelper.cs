@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
-using HTMLEngine.CefGlue.Helpers.Log;
-using HTMLEngine.CefGlue.WindowImplementation;
+using Neutronium.WebBrowserEngine.CefGlue.Helpers.Log;
 
-namespace MVVM.Cef.Glue.WPF
+namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
 {
     public class UiHelper : IUiHelper
     {

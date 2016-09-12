@@ -1,8 +1,8 @@
 ﻿using Awesomium.Core;
-using HTMLEngine.Awesomium.HTMLEngine;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.Awesomium.Engine;
 
-namespace HTMLEngine.Awesomium.Internal
+namespace Neutronium.WebBrowserEngine.Awesomium.Internal
 {
     internal static class AwesomiumConverter
     {

@@ -1,8 +1,8 @@
-﻿using HTMLEngine.CefGlue.CefSession;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefGlueHelper
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper
 {
     public static class CefFrameExtensionExtension
     {

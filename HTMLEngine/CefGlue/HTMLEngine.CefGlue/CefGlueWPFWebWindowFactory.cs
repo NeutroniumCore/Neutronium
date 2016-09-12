@@ -1,9 +1,9 @@
-﻿using HTMLEngine.CefGlue.CefSession;
-using Neutronium.Core;
+﻿using Neutronium.Core;
+using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Neutronium.WPF;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue
+namespace Neutronium.WebBrowserEngine.CefGlue
 {
     public class CefGlueWPFWebWindowFactory : IWPFWebWindowFactory
     {

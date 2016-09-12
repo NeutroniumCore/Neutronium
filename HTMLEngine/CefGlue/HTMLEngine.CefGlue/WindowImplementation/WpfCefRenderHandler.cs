@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Input;
 using System.Windows.Interop;
-using HTMLEngine.CefGlue.Helpers.Log;
 using Microsoft.Win32.SafeHandles;
+using Neutronium.WebBrowserEngine.CefGlue.Helpers.Log;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.WindowImplementation
+namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
 {
     internal sealed class WpfCefRenderHandler : CefRenderHandler
     {
@@ -17,17 +17,17 @@ namespace HTMLEngine.CefGlue.WindowImplementation
         {
             if (owner == null)
             {
-                throw new ArgumentNullException("owner");
+                throw new ArgumentNullException(nameof(owner));
             }
 
             if (logger == null)
             {
-                throw new ArgumentNullException("logger");
+                throw new ArgumentNullException(nameof(logger));
             }
 
             if (uiHelper == null)
             {
-                throw new ArgumentNullException("uiHelper");
+                throw new ArgumentNullException(nameof(uiHelper));
             }
 
             _owner = owner;

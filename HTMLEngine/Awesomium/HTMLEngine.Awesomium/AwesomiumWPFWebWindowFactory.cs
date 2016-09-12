@@ -1,9 +1,10 @@
 ﻿using System.Threading;
 using Awesomium.Core;
+using HTMLEngine.Awesomium;
 using Neutronium.Core;
 using Neutronium.WPF;
 
-namespace HTMLEngine.Awesomium
+namespace Neutronium.WebBrowserEngine.Awesomium
 {
     public class AwesomiumWPFWebWindowFactory : IWPFWebWindowFactory
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefGlueHelper
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper
 {
     public static class CefV8ValueExtension
     {

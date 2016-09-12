@@ -1,10 +1,9 @@
 ﻿using System;
-using MVVM.Cef.Glue;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefGlueImplementation
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 {
     internal class CefV8_Converter : IJavascriptObjectConverter
     {

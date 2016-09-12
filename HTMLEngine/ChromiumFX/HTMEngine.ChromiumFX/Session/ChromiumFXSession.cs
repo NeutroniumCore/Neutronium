@@ -4,14 +4,14 @@ using Chromium.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
 
-namespace HTMEngine.ChromiumFX.Session
+namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 {
-    internal class ChromiumFXSession : IDisposable
+    internal class ChromiumFxSession : IDisposable
     {
-        private static ChromiumFXSession _Session = null;
+        private static ChromiumFxSession _Session = null;
         private readonly Action<CfxSettings> _SettingsBuilder;
 
-        private ChromiumFXSession(Action<CfxSettings> settingsBuilder) 
+        private ChromiumFxSession(Action<CfxSettings> settingsBuilder) 
         {
             _SettingsBuilder = settingsBuilder;
             CfxRuntime.LibCefDirPath = @"cef\Release";
@@ -38,12 +38,12 @@ namespace HTMEngine.ChromiumFX.Session
             settings.SingleProcess = false;
         }
 
-        internal static ChromiumFXSession GetSession(Action<CfxSettings> settingsBuilder)
+        internal static ChromiumFxSession GetSession(Action<CfxSettings> settingsBuilder)
         {
             if (_Session != null)
                 return _Session;
 
-            _Session = new ChromiumFXSession(settingsBuilder);
+            _Session = new ChromiumFxSession(settingsBuilder);
             return _Session;
         }
 

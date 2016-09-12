@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefGlueHelper
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper
 {
     internal class FunctionTask<T> : CefTask
     {

@@ -1,14 +1,14 @@
 ﻿using Chromium.Remote;
-using HTMEngine.ChromiumFX.EngineBinding;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding;
 
-namespace HTMEngine.ChromiumFX.Convertion
+namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion
 {
-    public static class ChromiumFXWebViewExtension
+    public static class ChromiumFxWebViewExtension
     {
         public static CfrFrame Convert(this IWebView context)
         {
-            var chromiumContext = context as ChromiumFXWebView;
+            var chromiumContext = context as ChromiumFxWebView;
             return chromiumContext?.GetRaw();
         }
     }

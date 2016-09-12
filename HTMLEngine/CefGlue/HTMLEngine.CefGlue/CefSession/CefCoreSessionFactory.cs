@@ -1,6 +1,6 @@
 ﻿using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefSession
+namespace Neutronium.WebBrowserEngine.CefGlue.CefSession
 {
     public class CefCoreSessionFactory
     {
@@ -23,7 +23,7 @@ namespace HTMLEngine.CefGlue.CefSession
 
         public ICefCoreSession GetSession()
         {
-            return new CefCoreSession(_CefSettings, new MVVMCefApp(), _Args);
+            return new CefCoreSession(_CefSettings, new NeutroniumCefApp(), _Args);
         }
     }
 }

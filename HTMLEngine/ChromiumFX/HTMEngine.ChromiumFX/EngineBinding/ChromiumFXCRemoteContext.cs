@@ -2,13 +2,13 @@
 using Chromium;
 using Chromium.Remote;
 
-namespace HTMEngine.ChromiumFX.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
-    internal class ChromiumFXCRemoteContext : IDisposable 
+    internal class ChromiumFxCRemoteContext : IDisposable 
     {
         private readonly CfxRemoteCallContext _CfxRemoteCallContext;
 
-        public ChromiumFXCRemoteContext(CfrBrowser browser) 
+        public ChromiumFxCRemoteContext(CfrBrowser browser) 
         {
             _CfxRemoteCallContext = (CfxRemoteCallContext.IsInContext) ? null : browser.CreateRemoteCallContext();
             _CfxRemoteCallContext?.Enter();

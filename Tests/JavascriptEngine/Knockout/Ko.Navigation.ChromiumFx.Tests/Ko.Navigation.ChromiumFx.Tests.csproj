@@ -101,9 +101,9 @@
       <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
       <Name>ChromiumFXRenderProcess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\HTMEngine.ChromiumFX.csproj">
+    <ProjectReference Include="..\..\..\..\HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj">
       <Project>{E619F232-D964-4CDB-9A9C-DFB44E32C36F}</Project>
-      <Name>HTMEngine.ChromiumFX</Name>
+      <Name>Neutronium.WebBrowserEngine.ChromiumFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj">
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>

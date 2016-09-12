@@ -1,16 +1,16 @@
 ﻿using System;
 using Chromium;
 using Chromium.WebBrowser;
-using HTMEngine.ChromiumFX.EngineBinding;
-using HTMEngine.ChromiumFX.Session;
 using Neutronium.Core;
+using Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding;
+using Neutronium.WebBrowserEngine.ChromiumFx.Session;
 using Neutronium.WPF;
 
-namespace HTMEngine.ChromiumFX
+namespace Neutronium.WebBrowserEngine.ChromiumFx
 {
     public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory 
     {
-        private readonly ChromiumFXSession _Session;
+        private readonly ChromiumFxSession _Session;
 
         public CfxSettings Settings { get; private set; }
         public string EngineName => "Chromium " + CfxRuntime.GetChromeVersion();
@@ -20,7 +20,7 @@ namespace HTMEngine.ChromiumFX
 
         public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsUpdater=null)
         {
-            _Session = ChromiumFXSession.GetSession((settings) => 
+            _Session = ChromiumFxSession.GetSession((settings) => 
             {
                 settingsUpdater?.Invoke(settings);
 
@@ -36,7 +36,7 @@ namespace HTMEngine.ChromiumFX
 
         public IWPFWebWindow Create()
         {
-            return new ChromiumFXWPFWindow(WebSessionLogger);
+            return new ChromiumFxWpfWindow(WebSessionLogger);
         }
 
         public void Dispose()

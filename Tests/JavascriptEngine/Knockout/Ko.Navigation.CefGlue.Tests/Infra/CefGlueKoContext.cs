@@ -1,6 +1,7 @@
 ﻿using HTMLEngine.CefGlue;
 using KnockoutFramework.Test.TestHtml;
 using Neutronium.JavascriptFramework.Knockout;
+using Neutronium.WebBrowserEngine.CefGlue;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 
 namespace Ko.Navigation.CefGlue.Tests.Infra

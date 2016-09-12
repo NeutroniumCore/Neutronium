@@ -97,9 +97,9 @@
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>Neutronium.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\HTMLEngine\Awesomium\HTMLEngine.Awesomium\HTMLEngine.Awesomium.csproj">
+    <ProjectReference Include="..\..\..\HTMLEngine\Awesomium\HTMLEngine.Awesomium\Neutronium.WebBrowserEngine.Awesomium.csproj">
       <Project>{92b20870-ad65-4ae8-bb1e-4d11b922a135}</Project>
-      <Name>HTMLEngine.Awesomium</Name>
+      <Name>Neutronium.WebBrowserEngine.Awesomium</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj">
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>

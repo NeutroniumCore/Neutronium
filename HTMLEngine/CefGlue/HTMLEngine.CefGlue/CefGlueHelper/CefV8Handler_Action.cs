@@ -1,7 +1,7 @@
 ﻿using System;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefGlueHelper
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper
 {
     internal class CefV8Handler_Action : CefV8Handler
     {

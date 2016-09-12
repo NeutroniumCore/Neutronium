@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefGlueHelper
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper
 {
     internal class CefTaskRunnerSynchronizationContext : SynchronizationContext
     {

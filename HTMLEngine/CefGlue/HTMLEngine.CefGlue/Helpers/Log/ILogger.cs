@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HTMLEngine.CefGlue.Helpers.Log
+namespace Neutronium.WebBrowserEngine.CefGlue.Helpers.Log
 {
     public interface ILogger
     {

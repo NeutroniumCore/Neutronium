@@ -1,6 +1,6 @@
 ﻿using Chromium.WebBrowser;
 
-namespace HTMEngine.ChromiumFX.WPF
+namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
     public partial class ChromiumFxControl
     {
@@ -8,10 +8,6 @@ namespace HTMEngine.ChromiumFX.WPF
         {
             InitializeComponent();
         }
-
-        public ChromiumWebBrowser WebBrowser
-        {
-            get { return ChromiumWebBrowser; }
-        }
+        public ChromiumWebBrowser WebBrowser => ChromiumWebBrowser;
     }
 }

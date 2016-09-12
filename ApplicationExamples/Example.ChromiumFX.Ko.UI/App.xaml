@@ -1,9 +1,6 @@
-﻿<chromiumFx:ChromiumFXApp x:Class="Example.ChromiumFX.Ko.UI.App"
+﻿<chromiumFx:ChromiumFxWebBrowserApp x:Class="Example.ChromiumFX.Ko.UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:chromiumFx="clr-namespace:HTMEngine.ChromiumFX;assembly=HTMEngine.ChromiumFX"
+             xmlns:chromiumFx="clr-namespace:Neutronium.WebBrowserEngine.ChromiumFx;assembly=Neutronium.WebBrowserEngine.ChromiumFx"
              StartupUri="MainWindow.xaml">
-    <chromiumFx:ChromiumFXApp.Resources>
-         
-    </chromiumFx:ChromiumFXApp.Resources>
-</chromiumFx:ChromiumFXApp>
+</chromiumFx:ChromiumFxWebBrowserApp>

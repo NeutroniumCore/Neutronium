@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HTMLEngine.CefGlue.WindowImplementation
+namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
 {
     public interface IUiHelper
     {

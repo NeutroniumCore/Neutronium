@@ -1,7 +1,7 @@
 ﻿using System;
 using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue.WPF
+namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
 {
     public class LoadStartEventArgs : EventArgs
     {

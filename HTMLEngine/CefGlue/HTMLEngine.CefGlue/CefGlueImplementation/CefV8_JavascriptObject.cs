@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HTMLEngine.CefGlue.CefGlueHelper;
-using Xilium.CefGlue;
-using System.Collections.Generic;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper;
+using Xilium.CefGlue;
 
-namespace MVVM.Cef.Glue
+namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 {
     public class CefV8_JavascriptObject : IJavascriptObject
     {

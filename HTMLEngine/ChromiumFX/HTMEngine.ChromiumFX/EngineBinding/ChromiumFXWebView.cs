@@ -1,32 +1,32 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Chromium.Remote;
-using HTMEngine.ChromiumFX.Convertion;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 
-namespace HTMEngine.ChromiumFX.EngineBinding
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
-    internal class ChromiumFXWebView : IWebView
+    internal class ChromiumFxWebView : IWebView
     {
         private readonly CfrBrowser _Browser;
         private readonly CfrFrame _CfrFrame;
-        private readonly ChromiumFXDispatcher _Dispatcher;
+        private readonly ChromiumFxDispatcher _Dispatcher;
         private readonly IWebSessionLogger _Logger;
 
         public IJavascriptObjectConverter Converter { get; }
         public IJavascriptObjectFactory Factory { get; }
         private CfrV8Context V8Context { get; }
 
-        public ChromiumFXWebView(CfrBrowser cfrbrowser, IWebSessionLogger logger) 
+        public ChromiumFxWebView(CfrBrowser cfrbrowser, IWebSessionLogger logger) 
         {
             _Logger = logger;
             _Browser = cfrbrowser;
             _CfrFrame = _Browser.MainFrame;
             V8Context = _CfrFrame.V8Context;
-            _Dispatcher = new ChromiumFXDispatcher(_Browser, V8Context, _Logger);
-            Converter = new ChromiumFXConverter(V8Context);
-            Factory = new ChromiumFXFactory(V8Context);
+            _Dispatcher = new ChromiumFxDispatcher(_Browser, V8Context, _Logger);
+            Converter = new ChromiumFxConverter(V8Context);
+            Factory = new ChromiumFxFactory(V8Context);
         }
 
         internal CfrFrame GetRaw()

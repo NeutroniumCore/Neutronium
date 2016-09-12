@@ -4,24 +4,24 @@ using System.Linq;
 using System.Text;
 using Chromium;
 using Chromium.Remote;
-using HTMEngine.ChromiumFX.Convertion;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 
-namespace HTMEngine.ChromiumFX.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
-    internal class ChromiumFXFactory : IJavascriptObjectFactory 
+    internal class ChromiumFxFactory : IJavascriptObjectFactory 
     {
         private static UInt32 _Count = 0;
         private readonly CfrV8Context _CfrV8Context;
         private static readonly IDictionary<Type, Func<object, CfrV8Value>> _Converters = new Dictionary<Type, Func<object, CfrV8Value>>();
 
-        internal ChromiumFXFactory(CfrV8Context context) 
+        internal ChromiumFxFactory(CfrV8Context context) 
         {
             _CfrV8Context = context;
         }
 
-        static ChromiumFXFactory() 
+        static ChromiumFxFactory() 
         {
             Register<string>(CfrV8Value.CreateString);
             Register<Int64>((source) => CfrV8Value.CreateDouble((double) source));

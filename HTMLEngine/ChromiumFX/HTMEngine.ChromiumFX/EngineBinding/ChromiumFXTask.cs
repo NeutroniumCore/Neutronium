@@ -1,11 +1,11 @@
-﻿using Chromium.Remote;
-using System;
+﻿using System;
+using Chromium.Remote;
 
-namespace HTMEngine.ChromiumFX.EngineBinding
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
-    public class ChromiumFXTask
+    public class ChromiumFxTask
     {
-        public ChromiumFXTask(Action perform)
+        public ChromiumFxTask(Action perform)
         {
             var task = new CfrTask();
             task.Execute += (sender, args) =>

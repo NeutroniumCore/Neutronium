@@ -1,11 +1,11 @@
 ﻿using System;
 using Xilium.CefGlue;
 
-namespace HTMLEngine.CefGlue.CefSession
+namespace Neutronium.WebBrowserEngine.CefGlue.CefSession
 {
     public interface ICefCoreSession : IDisposable
     {
-        MVVMCefApp CefApp  {  get ;  }
+        NeutroniumCefApp CefApp  {  get ;  }
 
         CefSettings CefSettings { get; }
     }

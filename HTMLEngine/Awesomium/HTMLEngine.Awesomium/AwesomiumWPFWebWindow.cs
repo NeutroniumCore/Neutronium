@@ -5,6 +5,7 @@ using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.Awesomium;
 using Neutronium.WPF;
 
 namespace HTMLEngine.Awesomium

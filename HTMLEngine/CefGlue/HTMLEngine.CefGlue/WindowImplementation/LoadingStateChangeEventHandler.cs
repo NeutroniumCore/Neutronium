@@ -1,7 +1,4 @@
-﻿
-using MVVM.Cef.Glue.WPF;
-
-namespace HTMLEngine.CefGlue.WindowImplementation
+﻿namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
 {
     public delegate void LoadingStateChangeEventHandler(object sender, LoadingStateChangeEventArgs e);
 }
