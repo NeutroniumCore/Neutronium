@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using MVVM.ViewModel.Infra;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
+using Neutronium.Example.ViewModel.Infra;
 
 namespace Example.ChromiumFx.Vue.Navigation
 {

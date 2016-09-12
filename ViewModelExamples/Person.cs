@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using MVVM.ViewModel.Infra;
 using Neutronium.Core.Infra;
+using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 
-namespace MVVM.ViewModel.Example
+namespace Neutronium.Example.ViewModel
 {
     public class Person : ViewModelBase
     {

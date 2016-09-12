@@ -117,9 +117,9 @@
       <Project>{2001fc2c-5166-4828-a47d-ab6d455a634b}</Project>
       <Name>HTMLBindingTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VueUiFramework.Test\VueUiFramework.Test.csproj">
+    <ProjectReference Include="..\VueUiFramework.Test\VueFramework.Test.csproj">
       <Project>{80d4f5ca-1065-4487-8fde-9fee9821716c}</Project>
-      <Name>VueUiFramework.Test</Name>
+      <Name>VueFramework.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using MVVM.ViewModel;
-using MVVM.ViewModel.Infra;
+using Neutronium.Example.ViewModel.Infra;
 
 namespace Example.CefGlue.Ko.CollectionTest.ViewModel
 {

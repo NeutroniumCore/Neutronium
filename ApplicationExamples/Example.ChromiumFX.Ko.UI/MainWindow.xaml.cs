@@ -1,4 +1,4 @@
-﻿using MVVM.ViewModel.Example;
+﻿using Neutronium.Example.ViewModel;
 
 namespace Example.ChromiumFX.Ko.UI 
 {

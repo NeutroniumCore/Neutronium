@@ -1,6 +1,5 @@
 ﻿using HTMLEngine.CefGlue;
-using KnockoutUIFramework;
-using KnockoutUIFramework.Test.TestHtml;
+using KnockoutFramework.Test.TestHtml;
 using Neutronium.JavascriptFramework.Knockout;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 
@@ -12,7 +11,7 @@ namespace Ko.Navigation.CefGlue.Tests.Infra
         {
             WPFWebWindowFactory = () => new CefGlueWPFWebWindowFactory(),
             FrameworkManager = new KnockoutUiFrameworkManager(),
-            HtmlProvider = new KnockoutUiHtmlProvider()
+            HtmlProvider = new KnockoutHtmlProvider()
         };
     }
 

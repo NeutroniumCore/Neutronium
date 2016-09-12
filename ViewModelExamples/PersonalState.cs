@@ -1,4 +1,4 @@
-﻿namespace MVVM.ViewModel.Example
+﻿namespace Neutronium.Example.ViewModel
 {
     public enum PersonalState
     {

@@ -129,9 +129,9 @@
       <Project>{6469a920-5763-4853-858d-455fa43894b8}</Project>
       <Name>NavigationTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj">
+    <ProjectReference Include="..\KnockoutUIFramework.Test\KnockoutFramework.Test.csproj">
       <Project>{3a9a7bf2-46ab-46b6-af62-9822181cf6ca}</Project>
-      <Name>KnockoutUIFramework.Test</Name>
+      <Name>KnockoutFramework.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

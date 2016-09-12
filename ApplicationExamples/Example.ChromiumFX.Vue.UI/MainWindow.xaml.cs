@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using MVVM.ViewModel.Example;
+using Neutronium.Example.ViewModel;
 
 namespace Example.ChromiumFX.Vue.UI
 {

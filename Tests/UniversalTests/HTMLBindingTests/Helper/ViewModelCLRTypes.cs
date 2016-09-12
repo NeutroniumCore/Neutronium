@@ -1,5 +1,5 @@
 ﻿using System;
-using MVVM.ViewModel;
+using Neutronium.Example.ViewModel.Infra;
 
 namespace Tests.Universal.HTMLBindingTests.Helper
 {

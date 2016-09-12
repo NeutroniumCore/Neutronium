@@ -1,8 +1,7 @@
-﻿using MVVM.ViewModel;
-using MVVM.ViewModel.Infra;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Neutronium.Example.ViewModel.Infra;
 
 namespace Tests.Universal.HTMLBindingTests.Helper
 {

@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Neutronium.Example.ViewModel.Infra;
 
-using MVVM.ViewModel.Infra;
-
-namespace MVVM.ViewModel.Example
-{
+namespace Neutronium.Example.ViewModel {
     public class SkillsViewModel : ViewModelBase
     {
         public SkillsViewModel()

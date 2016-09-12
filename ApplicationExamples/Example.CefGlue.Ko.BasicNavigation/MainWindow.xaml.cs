@@ -1,6 +1,9 @@
 ﻿using System;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
+using Neutronium.Example.ViewModel;
+using Couple = Neutronium.Example.ViewModel.ForNavigation.Couple;
+using Person = Neutronium.Example.ViewModel.ForNavigation.Person;
 
 namespace Example.CefGlue.Ko.BasicNavigation
 {
@@ -12,8 +15,8 @@ namespace Example.CefGlue.Ko.BasicNavigation
 
         private void SetUpRoute(INavigationBuilder iNavigationBuilder)
         {
-            iNavigationBuilder.Register<MVVM.ViewModel.Example.ForNavigation.Person>("HTMLUI\\index_one.html");
-            iNavigationBuilder.Register<MVVM.ViewModel.Example.ForNavigation.Couple>("HTMLUI\\index_couple.html");
+            iNavigationBuilder.Register<Person>("HTMLUI\\index_one.html");
+            iNavigationBuilder.Register<Couple>("HTMLUI\\index_couple.html");
         }
 
 
@@ -24,12 +27,12 @@ namespace Example.CefGlue.Ko.BasicNavigation
             HTMLWindow.UseINavigable = true;
             SetUpRoute(HTMLWindow.NavigationBuilder);
 
-            var datacontext = new MVVM.ViewModel.Example.ForNavigation.Couple();
-            var my = new MVVM.ViewModel.Example.ForNavigation.Person()
+            var datacontext = new Couple();
+            var my = new Person()
             {
                 Name = "O Monstro",
                 LastName = "Desmaisons",
-                Local = new MVVM.ViewModel.Example.Local() { City = "Florianopolis", Region = "SC" }
+                Local = new Local() { City = "Florianopolis", Region = "SC" }
             };
             my.Couple = datacontext;
             datacontext.One = my;

@@ -1,8 +1,8 @@
-﻿using KnockoutUIFramework.Test.TestHtml;
+﻿using KnockoutFramework.Test.TestHtml;
 using Neutronium.JavascriptFramework.Knockout;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
-namespace KnockoutUIFramework.Test.IntegratedInfra
+namespace KnockoutFramework.Test.IntegratedInfra
 {
     public static class KnockoutFrameworkTestContext
     {
@@ -12,7 +12,7 @@ namespace KnockoutUIFramework.Test.IntegratedInfra
             {
                 JavascriptFrameworkExtractorBuilder = (webView) => new KnockoutExtractor(webView),
                 FrameworkManager = new KnockoutUiFrameworkManager(),
-                HtmlProvider = new KnockoutUiHtmlProvider()
+                HtmlProvider = new KnockoutHtmlProvider()
             };
         }
     }

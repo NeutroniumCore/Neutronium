@@ -1,8 +1,7 @@
 ﻿using HTMEngine.ChromiumFX;
 using Neutronium.JavascriptFramework.Vue;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
-using VueUiFramework;
-using VueUiFramework.Test.TestHtml;
+using VueFramework.Test.TestHtml;
 
 namespace Vue.Navigation.ChromiumFx.Tests.Infra
 {
@@ -12,7 +11,7 @@ namespace Vue.Navigation.ChromiumFx.Tests.Infra
         {
             WPFWebWindowFactory = () => new ChromiumFXWPFWebWindowFactory(),
             FrameworkManager = new VueSessionInjector(),
-            HtmlProvider = new VueUiHtmlProvider()
+            HtmlProvider = new VueHtmlProvider()
         };
     }
 }

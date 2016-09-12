@@ -2,7 +2,7 @@
 using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.JavascriptEngineTesterHelper;
-using VueUiFramework.Test.IntegratedInfra;
+using VueFramework.Test.IntegratedInfra;
 
 namespace Vue.Binding.CefGlue.Tests.Infra
 {

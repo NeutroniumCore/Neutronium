@@ -1,8 +1,7 @@
-﻿using System;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
-namespace VueUiFramework.Test.IntegratedInfra
+namespace VueFramework.Test.IntegratedInfra
 {
     public class VueExtractor : IJavascriptFrameworkExtractor
     {

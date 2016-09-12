@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
 
-namespace MVVM.ViewModel.Example
+namespace Neutronium.Example.ViewModel
 {
 
     public class CardViewModel : ViewModelBase

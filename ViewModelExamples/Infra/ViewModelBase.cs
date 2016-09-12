@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MVVM.ViewModel
+namespace Neutronium.Example.ViewModel.Infra
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
@@ -16,10 +16,7 @@ namespace MVVM.ViewModel
 
         protected virtual void OnPropertyChanged(string pn)
         {
-            if (PropertyChanged == null)
-                return;
-
-            PropertyChanged(this, new PropertyChangedEventArgs(pn));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pn));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

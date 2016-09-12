@@ -1,8 +1,7 @@
-﻿using System;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
-namespace KnockoutUIFramework.Test.IntegratedInfra
+namespace KnockoutFramework.Test.IntegratedInfra
 {
     public class KnockoutExtractor : IJavascriptFrameworkExtractor
     {

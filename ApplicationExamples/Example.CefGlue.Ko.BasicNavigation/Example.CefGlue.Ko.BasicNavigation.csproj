@@ -142,9 +142,9 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ViewModelExamples\MVVM.ViewModel.csproj">
+    <ProjectReference Include="..\..\ViewModelExamples\Neutronium.Example.ViewModel.csproj">
       <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
-      <Name>MVVM.ViewModel</Name>
+      <Name>Neutronium.Example.ViewModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Example.CefGlue.Ko.Infra\Example.CefGlue.Ko.Infra.csproj">
       <Project>{aabc737d-3fee-4066-a90d-d00002404feb}</Project>

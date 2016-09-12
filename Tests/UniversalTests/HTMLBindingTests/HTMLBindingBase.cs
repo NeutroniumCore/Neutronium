@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
 using FluentAssertions;
-using MVVM.ViewModel.Example;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Example.ViewModel;
 using NSubstitute;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit.Abstractions;

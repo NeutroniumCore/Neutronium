@@ -1,6 +1,7 @@
 ﻿using System;
+using Neutronium.Example.ViewModel.Infra;
 
-namespace MVVM.ViewModel.Example
+namespace Neutronium.Example.ViewModel
 {
     public class DateInformation : ViewModelBase
     {

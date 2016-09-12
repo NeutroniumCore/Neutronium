@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace MVVM.ViewModel.Infra
+namespace Neutronium.Example.ViewModel.Infra
 {
    
     public class RelayCommand : ICommand

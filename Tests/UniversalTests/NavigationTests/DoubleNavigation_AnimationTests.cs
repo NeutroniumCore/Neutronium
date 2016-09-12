@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using MVVM.ViewModel;
 using Neutronium.Core.Navigation;
+using Neutronium.Example.ViewModel.Infra;
 using Neutronium.WPF;
 using Xunit;
 using Tests.Infra.IntegratedContextTesterHelper.Window;

@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using MVVM.ViewModel.Example;
+using Neutronium.Example.ViewModel;
 
 namespace Example.CefGlue.Ko.NestedVmUI
 {

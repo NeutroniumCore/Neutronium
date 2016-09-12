@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0F0F34BE-CD06-4C13-967D-BB0760617486}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModelExamples", "ViewModelExamples", "{6F066820-11A1-4533-A8CF-C7E43891D2BD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B3321797-0DAA-40DF-ADD3-13AC511028EF}"
 	ProjectSection(SolutionItems) = preProject
 		test.runsettings = test.runsettings
@@ -14,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B3321797
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.MVVMComponents", "MVVM.Component\Neutronium.MVVMComponents.csproj", "{26203C44-279D-4BFE-B17A-F6ADA8D240ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.ViewModel", "ViewModelExamples\MVVM.ViewModel.csproj", "{E35B9010-5429-4FFE-A788-E9C40E743E9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Example.ViewModel", "ViewModelExamples\Neutronium.Example.ViewModel.csproj", "{E35B9010-5429-4FFE-A788-E9C40E743E9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Core", "MVVM.HTML.Core\Neutronium.Core.csproj", "{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}"
 EndProject
@@ -125,11 +123,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLBindingTests", "Tests\U
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "knockout", "knockout", "{6F94F3CE-82AD-49C3-863A-6F4DC1D77DDC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vuejs", "Vuejs", "{FF87583F-5849-4394-8569-F915AD73D060}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vue", "Vue", "{FF87583F-5849-4394-8569-F915AD73D060}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutUIFramework.Test", "Tests\JavascriptEngine\Knockout\KnockoutUIFramework.Test\KnockoutUIFramework.Test.csproj", "{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutFramework.Test", "Tests\JavascriptEngine\Knockout\KnockoutUIFramework.Test\KnockoutFramework.Test.csproj", "{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VueUiFramework.Test", "Tests\JavascriptEngine\Vuejs\VueUiFramework.Test\VueUiFramework.Test.csproj", "{80D4F5CA-1065-4487-8FDE-9FEE9821716C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VueFramework.Test", "Tests\JavascriptEngine\Vuejs\VueUiFramework.Test\VueFramework.Test.csproj", "{80D4F5CA-1065-4487-8FDE-9FEE9821716C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Binding.Awesomium.Tests", "Tests\JavascriptEngine\Knockout\Ko.Binding.Awesomium.Tests\Ko.Binding.Awesomium.Tests.csproj", "{718C5421-B0C6-493A-91FA-471B9C48883E}"
 EndProject
@@ -1018,7 +1016,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E35B9010-5429-4FFE-A788-E9C40E743E9C} = {6F066820-11A1-4533-A8CF-C7E43891D2BD}
+		{E35B9010-5429-4FFE-A788-E9C40E743E9C} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{371234C6-4903-4F7D-8283-C0F8DBEF8755} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC} = {B3321797-0DAA-40DF-ADD3-13AC511028EF}
 		{32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0} = {7A86C107-E1C7-4F1C-8FBF-7339F7623EF6}

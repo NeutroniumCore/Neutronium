@@ -1,11 +1,10 @@
 ﻿using System.Windows.Input;
-
-using MVVM.ViewModel.Infra;
 using Neutronium.Core.Navigation;
+using Neutronium.Example.ViewModel.Infra;
 
-namespace MVVM.ViewModel.Example.ForNavigation
+namespace Neutronium.Example.ViewModel.ForNavigation
 {
-    public class Person : MVVM.ViewModel.Example.Person, INavigable
+    public class Person : Neutronium.Example.ViewModel.Person, INavigable
     {
         public Person()
         {
@@ -13,8 +12,8 @@ namespace MVVM.ViewModel.Example.ForNavigation
         }
         public INavigationSolver Navigation { get; set; }
 
-        private MVVM.ViewModel.Example.Couple _Couple;
-        public MVVM.ViewModel.Example.Couple Couple
+        private Neutronium.Example.ViewModel.Couple _Couple;
+        public Neutronium.Example.ViewModel.Couple Couple
         {
             get { return _Couple; }
             set { Set(ref _Couple, value, "Couple"); }

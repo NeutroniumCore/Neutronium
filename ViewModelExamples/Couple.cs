@@ -1,8 +1,7 @@
 ﻿using System.Windows.Input;
+using Neutronium.Example.ViewModel.Infra;
 
-using MVVM.ViewModel.Infra;
-
-namespace MVVM.ViewModel.Example
+namespace Neutronium.Example.ViewModel
 {
     public class Couple : ViewModelBase
     {
@@ -14,7 +13,7 @@ namespace MVVM.ViewModel.Example
 
         private void DoMakeSelf()
         {
-            var t = new MVVM.ViewModel.Example.ForNavigation.Person(){Couple=this};
+            var t = new ForNavigation.Person(){Couple=this};
             Two = t;         
         }
 

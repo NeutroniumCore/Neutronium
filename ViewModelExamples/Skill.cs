@@ -1,4 +1,6 @@
-﻿namespace MVVM.ViewModel.Example
+﻿using Neutronium.Example.ViewModel.Infra;
+
+namespace Neutronium.Example.ViewModel
 {
     public class Skill : ViewModelBase
     {

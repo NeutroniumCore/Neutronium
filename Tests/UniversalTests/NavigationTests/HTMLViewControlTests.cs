@@ -2,11 +2,11 @@
 using System.IO;
 using System.Threading.Tasks;
 using FluentAssertions;
-using MVVM.ViewModel.Example;
 using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
+using Neutronium.Example.ViewModel;
 using Neutronium.WPF;
 using Xunit;
 using Tests.Infra.IntegratedContextTesterHelper.Window;

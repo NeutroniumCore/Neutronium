@@ -111,9 +111,9 @@
       <Project>{6469a920-5763-4853-858d-455fa43894b8}</Project>
       <Name>NavigationTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VueUiFramework.Test\VueUiFramework.Test.csproj">
+    <ProjectReference Include="..\VueUiFramework.Test\VueFramework.Test.csproj">
       <Project>{80d4f5ca-1065-4487-8fde-9fee9821716c}</Project>
-      <Name>VueUiFramework.Test</Name>
+      <Name>VueFramework.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

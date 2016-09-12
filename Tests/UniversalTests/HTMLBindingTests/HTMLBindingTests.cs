@@ -6,9 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FluentAssertions;
-using MVVM.ViewModel;
-using MVVM.ViewModel.Example;
-using MVVM.ViewModel.Infra;
 using Newtonsoft.Json;
 using NSubstitute;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
@@ -19,6 +16,8 @@ using Neutronium.Core;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Example.ViewModel;
+using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Tests.Universal.HTMLBindingTests.Helper;
 
@@ -383,12 +382,12 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task Circular_reference()
         {
-            var datacontext = new MVVM.ViewModel.Example.ForNavigation.Couple();
-            var my = new MVVM.ViewModel.Example.ForNavigation.Person()
+            var datacontext = new Neutronium.Example.ViewModel.ForNavigation.Couple();
+            var my = new Neutronium.Example.ViewModel.ForNavigation.Person()
             {
                 Name = "O Monstro",
                 LastName = "Desmaisons",
-                Local = new MVVM.ViewModel.Example.Local() { City = "Florianopolis", Region = "SC" }
+                Local = new Local() { City = "Florianopolis", Region = "SC" }
             };
             my.Couple = datacontext;
             datacontext.One = my;

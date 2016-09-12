@@ -1,8 +1,8 @@
 ﻿using Neutronium.JavascriptFramework.Vue;
 using Tests.Infra.JavascriptEngineTesterHelper;
-using VueUiFramework.Test.TestHtml;
+using VueFramework.Test.TestHtml;
 
-namespace VueUiFramework.Test.IntegratedInfra
+namespace VueFramework.Test.IntegratedInfra
 {
     public class VueFrameworkTestContext
     {
@@ -12,7 +12,7 @@ namespace VueUiFramework.Test.IntegratedInfra
             {
                 JavascriptFrameworkExtractorBuilder = (webView) => new VueExtractor(webView),
                 FrameworkManager = new VueSessionInjector(),
-                HtmlProvider = new VueUiHtmlProvider()
+                HtmlProvider = new VueHtmlProvider()
             };
         }
     }

@@ -1,11 +1,10 @@
 ﻿using System.Windows.Input;
-
-using MVVM.ViewModel.Infra;
 using Neutronium.Core.Navigation;
+using Neutronium.Example.ViewModel.Infra;
 
-namespace MVVM.ViewModel.Example.ForNavigation
+namespace Neutronium.Example.ViewModel.ForNavigation
 {
-    public class Couple : MVVM.ViewModel.Example.Couple, INavigable
+    public class Couple : Neutronium.Example.ViewModel.Couple, INavigable
     {
         public Couple() : base()
         {
@@ -13,7 +12,7 @@ namespace MVVM.ViewModel.Example.ForNavigation
             GoTwo = new RelayCommand(() => Goto(Two));
         }
 
-        private void Goto(MVVM.ViewModel.Example.Person person) 
+        private void Goto(Neutronium.Example.ViewModel.Person person) 
         {
             Navigation?.NavigateAsync(person);
         }

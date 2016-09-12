@@ -9,8 +9,8 @@
     <ProjectGuid>{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KnockoutUIFramework.Test</RootNamespace>
-    <AssemblyName>KnockoutUIFramework.Test</AssemblyName>
+    <RootNamespace>KnockoutFramework.Test</RootNamespace>
+    <AssemblyName>KnockoutFramework.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -70,7 +70,7 @@
     <Compile Include="IntegratedInfra\KnockoutFrameworkTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntegratedInfra\KnockoutExtractor.cs" />
-    <Compile Include="TestHtml\KnockoutUiHtmlProvider.cs" />
+    <Compile Include="TestHtml\KnockoutHtmlProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj">
