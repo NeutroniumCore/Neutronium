@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MVVM.Component
+namespace Neutronium.MVVMComponents
 {
     public interface IResultCommand
     {

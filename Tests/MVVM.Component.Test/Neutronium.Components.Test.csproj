@@ -8,8 +8,8 @@
     <ProjectGuid>{371234C6-4903-4F7D-8283-C0F8DBEF8755}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVVM.Component.Test</RootNamespace>
-    <AssemblyName>MVVM.Component.Test</AssemblyName>
+    <RootNamespace>Neutronium.Components.Tests</RootNamespace>
+    <AssemblyName>Neutronium.Components.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -97,9 +97,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MVVM.Component\MVVM.Component.csproj">
+    <ProjectReference Include="..\..\MVVM.Component\Neutronium.MVVMComponents.csproj">
       <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
-      <Name>MVVM.Component</Name>
+      <Name>Neutronium.MVVMComponents</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

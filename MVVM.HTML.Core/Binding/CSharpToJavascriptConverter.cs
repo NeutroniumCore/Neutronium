@@ -3,10 +3,10 @@ using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
-using MVVM.Component;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding
 {

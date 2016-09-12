@@ -1,4 +1,4 @@
-﻿namespace MVVM.Component
+﻿namespace Neutronium.MVVMComponents
 {
     public interface ISimpleCommand
     {

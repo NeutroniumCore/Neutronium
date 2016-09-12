@@ -15,11 +15,11 @@ using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
-using MVVM.Component;
 using Neutronium.Core;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.MVVMComponents;
 using Tests.Universal.HTMLBindingTests.Helper;
 
 namespace Tests.Universal.HTMLBindingTests

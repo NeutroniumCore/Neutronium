@@ -1,6 +1,6 @@
-﻿using MVVM.Component;
-using System.Collections.ObjectModel;
-using MVVM.Component.Relay;
+﻿using System.Collections.ObjectModel;
+using Neutronium.MVVMComponents;
+using Neutronium.MVVMComponents.Relay;
 
 namespace MVVM.ViewModel.Example
 {

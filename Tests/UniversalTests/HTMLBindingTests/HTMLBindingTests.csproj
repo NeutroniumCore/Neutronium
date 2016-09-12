@@ -100,9 +100,9 @@
     <Compile Include="HTMLBindingBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MVVM.Component\MVVM.Component.csproj">
+    <ProjectReference Include="..\..\..\MVVM.Component\Neutronium.MVVMComponents.csproj">
       <Project>{26203C44-279D-4BFE-B17A-F6ADA8D240ED}</Project>
-      <Name>MVVM.Component</Name>
+      <Name>Neutronium.MVVMComponents</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\MVVM.HTML.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>

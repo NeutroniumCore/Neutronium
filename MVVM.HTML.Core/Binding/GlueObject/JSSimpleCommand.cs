@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVM.Component;
 using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject
 {

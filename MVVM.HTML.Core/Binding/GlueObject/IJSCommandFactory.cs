@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using MVVM.Component;
+using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject
 {

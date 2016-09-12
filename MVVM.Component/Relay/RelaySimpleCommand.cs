@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.Component.Relay
+namespace Neutronium.MVVMComponents.Relay
 {
     public class RelaySimpleCommand : ISimpleCommand
     {

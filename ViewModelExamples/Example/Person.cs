@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using MVVM.ViewModel.Infra;
-using MVVM.Component;
 using Neutronium.Core.Infra;
+using Neutronium.MVVMComponents;
 
 namespace MVVM.ViewModel.Example
 {

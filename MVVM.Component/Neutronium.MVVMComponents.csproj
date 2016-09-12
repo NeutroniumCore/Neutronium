@@ -7,8 +7,8 @@
     <ProjectGuid>{26203C44-279D-4BFE-B17A-F6ADA8D240ED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVVM.Component</RootNamespace>
-    <AssemblyName>MVVM.Component</AssemblyName>
+    <RootNamespace>Neutronium.MVVMComponents</RootNamespace>
+    <AssemblyName>Neutronium.MVVMComponents</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

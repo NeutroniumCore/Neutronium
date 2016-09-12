@@ -105,9 +105,9 @@
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
       <Name>KnockoutUIFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MVVM.Component\MVVM.Component.csproj">
+    <ProjectReference Include="..\..\..\MVVM.Component\Neutronium.MVVMComponents.csproj">
       <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
-      <Name>MVVM.Component</Name>
+      <Name>Neutronium.MVVMComponents</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\MVVM.HTML.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
