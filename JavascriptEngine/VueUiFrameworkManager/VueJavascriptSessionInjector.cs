@@ -5,7 +5,7 @@ using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace VueUiFramework
+namespace Neutronium.JavascriptFramework.Vue
 {
     public class VueJavascriptSessionInjector : IJavascriptSessionInjector
     {

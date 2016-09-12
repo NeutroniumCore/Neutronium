@@ -4,7 +4,7 @@ using Neutronium.Core.Exceptions;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace VueUiFramework 
+namespace Neutronium.JavascriptFramework.Vue 
 {
     public class VueVmManager : IJavascriptViewModelManager 
     {

@@ -5,7 +5,7 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace VueUiFramework
+namespace Neutronium.JavascriptFramework.Vue
 {
     internal class VueJavascriptViewModelUpdater : IJavascriptViewModelUpdater
     {

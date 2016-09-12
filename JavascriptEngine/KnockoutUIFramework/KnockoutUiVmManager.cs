@@ -2,7 +2,7 @@
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace KnockoutUIFramework 
+namespace Neutronium.JavascriptFramework.Knockout 
 {
     internal class KnockoutUiVmManager : IJavascriptViewModelManager 
     {

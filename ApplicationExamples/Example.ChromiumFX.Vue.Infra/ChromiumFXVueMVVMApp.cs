@@ -1,5 +1,6 @@
 ﻿using HTMEngine.ChromiumFX;
 using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.JavascriptFramework.Vue;
 
 namespace Example.ChromiumFX.Vue.Infra
 {
@@ -10,7 +11,7 @@ namespace Example.ChromiumFX.Vue.Infra
     {
         protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
         {
-            return new VueUiFramework.VueSessionInjector();
+            return new VueSessionInjector();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using HTMLEngine.Awesomium;
 using HTMLEngine.CefGlue;
-using KnockoutUIFramework;
+using Neutronium.JavascriptFramework.Knockout;
 using Neutronium.WPF;
 
 namespace Example.Awesomium.CefGlue.Ko.SimpleUI

@@ -73,9 +73,9 @@
     <Compile Include="TestHtml\KnockoutUiHtmlProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\JavascriptEngine\KnockoutUIFramework\KnockoutUIFramework.csproj">
+    <ProjectReference Include="..\..\..\..\JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj">
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
-      <Name>KnockoutUIFramework</Name>
+      <Name>Neutronium.JavascriptFramework.Knockout</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\MVVM.HTML.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>

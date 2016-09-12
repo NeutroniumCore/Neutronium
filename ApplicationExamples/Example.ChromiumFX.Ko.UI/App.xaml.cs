@@ -1,6 +1,6 @@
 ﻿using Chromium;
-using KnockoutUIFramework;
 using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.JavascriptFramework.Knockout;
 
 namespace Example.ChromiumFX.Ko.UI 
 {

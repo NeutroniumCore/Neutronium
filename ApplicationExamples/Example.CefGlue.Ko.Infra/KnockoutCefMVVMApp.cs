@@ -1,6 +1,6 @@
 ﻿using HTMLEngine.CefGlue;
-using KnockoutUIFramework;
 using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.JavascriptFramework.Knockout;
 
 namespace Example.CefGlue.Ko.Infra
 {

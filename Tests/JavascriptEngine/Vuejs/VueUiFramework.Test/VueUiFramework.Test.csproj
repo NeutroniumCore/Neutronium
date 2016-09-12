@@ -207,9 +207,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\VueUiFramework.csproj">
+    <ProjectReference Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\Neutronium.JavascriptFramework.Vue.csproj">
       <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
-      <Name>VueUiFramework</Name>
+      <Name>Neutronium.JavascriptFramework.Vue</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\MVVM.Component\Neutronium.MVVMComponents.csproj">
       <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>

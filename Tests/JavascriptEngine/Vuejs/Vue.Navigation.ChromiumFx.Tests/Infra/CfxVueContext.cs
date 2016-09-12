@@ -1,4 +1,5 @@
 ﻿using HTMEngine.ChromiumFX;
+using Neutronium.JavascriptFramework.Vue;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using VueUiFramework;
 using VueUiFramework.Test.TestHtml;

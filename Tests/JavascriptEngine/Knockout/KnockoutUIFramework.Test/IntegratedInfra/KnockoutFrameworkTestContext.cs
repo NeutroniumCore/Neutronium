@@ -1,4 +1,5 @@
 ﻿using KnockoutUIFramework.Test.TestHtml;
+using Neutronium.JavascriptFramework.Knockout;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace KnockoutUIFramework.Test.IntegratedInfra

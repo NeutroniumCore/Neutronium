@@ -79,9 +79,9 @@
       <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
       <Name>HTMEngine.ChromiumFX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\JavascriptEngine\VueUiFrameworkManager\VueUiFramework.csproj">
+    <ProjectReference Include="..\..\JavascriptEngine\VueUiFrameworkManager\Neutronium.JavascriptFramework.Vue.csproj">
       <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
-      <Name>VueUiFramework</Name>
+      <Name>Neutronium.JavascriptFramework.Vue</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\MVVM.HTML.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>

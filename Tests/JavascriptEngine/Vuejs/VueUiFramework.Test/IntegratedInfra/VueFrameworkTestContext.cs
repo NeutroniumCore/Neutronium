@@ -1,4 +1,5 @@
-﻿using Tests.Infra.JavascriptEngineTesterHelper;
+﻿using Neutronium.JavascriptFramework.Vue;
+using Tests.Infra.JavascriptEngineTesterHelper;
 using VueUiFramework.Test.TestHtml;
 
 namespace VueUiFramework.Test.IntegratedInfra

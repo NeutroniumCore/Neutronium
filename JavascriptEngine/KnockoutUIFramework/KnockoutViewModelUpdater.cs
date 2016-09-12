@@ -4,7 +4,7 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace KnockoutUIFramework
+namespace Neutronium.JavascriptFramework.Knockout
 {
     internal class KnockoutViewModelUpdater : IJavascriptViewModelUpdater, IDisposable
     {

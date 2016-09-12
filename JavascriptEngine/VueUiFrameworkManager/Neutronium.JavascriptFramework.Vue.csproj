@@ -7,8 +7,8 @@
     <ProjectGuid>{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VueUiFramework</RootNamespace>
-    <AssemblyName>VueUiFramework</AssemblyName>
+    <RootNamespace>Neutronium.JavascriptFramework.Vue</RootNamespace>
+    <AssemblyName>Neutronium.JavascriptFramework.Vue</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

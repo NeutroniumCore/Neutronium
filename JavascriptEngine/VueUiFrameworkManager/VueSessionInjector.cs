@@ -1,13 +1,13 @@
-﻿using System.IO;
-using System;
-using System.Text;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptUIFramework;
 
-namespace VueUiFramework
+namespace Neutronium.JavascriptFramework.Vue
 {
     public class VueSessionInjector : IJavascriptUiFrameworkManager
     {
