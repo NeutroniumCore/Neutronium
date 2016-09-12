@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Infra.VM;
-using MVVM.HTML.Core.Navigation;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.Window;
-using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Text;
 using System.Windows.Media;
+using Neutronium.Core;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra.VM;
+using Neutronium.Core.JavascriptEngine.Control;
+using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.Navigation;
 
 namespace HTML_WPF.Component
 {
@@ -25,7 +24,7 @@ namespace HTML_WPF.Component
         private string _JavascriptDebugScript = null;
         private readonly IUrlSolver _UrlSolver;
         private readonly DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
-        private readonly IJavascriptUIFrameworkManager _Injector;
+        private readonly IJavascriptUiFrameworkManager _Injector;
 
         public BasicRelayCommand DebugWindow { get; }
         public BasicRelayCommand DebugBrowser { get; }

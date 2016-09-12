@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 
 using MVVM.ViewModel.Infra;
-using MVVM.HTML.Core.Navigation;
+using Neutronium.Core.Navigation;
 
 namespace MVVM.ViewModel.Example.ForNavigation
 {

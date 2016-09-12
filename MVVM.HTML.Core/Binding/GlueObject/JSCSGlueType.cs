@@ -1,6 +1,6 @@
-﻿namespace MVVM.HTML.Core.Binding.GlueObject
+﻿namespace Neutronium.Core.Binding.GlueObject
 {
-    public enum JSCSGlueType
+    public enum JsCsGlueType
     {
         Object,
         Basic,

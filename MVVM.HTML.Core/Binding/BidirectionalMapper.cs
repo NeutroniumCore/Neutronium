@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.Binding.Listeners;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding
+namespace Neutronium.Core.Binding
 {
     public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, IJavascriptChangesObserver   
     {
@@ -54,7 +54,7 @@ namespace MVVM.HTML.Core.Binding
         private void RegisterJavascriptHelper()
         {
             IJavascriptObject res;
-            var resource = new ResourceReader("MVVM.HTML.Core.scripts", this);
+            var resource = new ResourceReader("Neutronium.Core.scripts", this);
             _Context.WebView.Eval(resource.Load("Infra.js"), out res);
         }
 
@@ -117,10 +117,10 @@ namespace MVVM.HTML.Core.Binding
 
             switch (iroot.Type)
             {
-                case JSCSGlueType.Basic:
+                case JsCsGlueType.Basic:
                     return null;
 
-                case JSCSGlueType.Object:
+                case JsCsGlueType.Object:
                     if ((iroot.JSValue.IsNull))
                         return null;
                     break;
@@ -142,7 +142,7 @@ namespace MVVM.HTML.Core.Binding
         {
             try
             {
-                var res = _SessionCache.GetGlobalCached(objectchanged) as JSGenericObject;
+                var res = _SessionCache.GetGlobalCached(objectchanged) as JsGenericObject;
                 if (res == null)
                     return;
 
@@ -197,7 +197,7 @@ namespace MVVM.HTML.Core.Binding
             if (!propertyAccessor.IsGettable)
                 return;
 
-            var currentfather = _SessionCache.GetCached(sender) as JSGenericObject;
+            var currentfather = _SessionCache.GetCached(sender) as JsGenericObject;
             if (currentfather == null) 
                 return;
 

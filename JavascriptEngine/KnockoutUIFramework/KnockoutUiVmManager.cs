@@ -1,6 +1,6 @@
-﻿using MVVM.HTML.Core;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+﻿using Neutronium.Core;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace KnockoutUIFramework 
 {

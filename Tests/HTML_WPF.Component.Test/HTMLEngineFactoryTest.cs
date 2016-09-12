@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
 using NSubstitute;
 using Xunit;
 

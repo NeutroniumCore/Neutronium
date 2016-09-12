@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace HTML_WPF.Component
 {

@@ -1,6 +1,6 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptUIFramework
 {
     /// <summary>
     /// Mapper used to create corresponde beetween simple javascript object

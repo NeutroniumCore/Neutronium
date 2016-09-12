@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MVVM.HTML.Core;
+using Neutronium.Core;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {

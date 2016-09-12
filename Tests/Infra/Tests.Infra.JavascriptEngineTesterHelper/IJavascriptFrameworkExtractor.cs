@@ -1,4 +1,4 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
 namespace Tests.Infra.JavascriptEngineTesterHelper
 {

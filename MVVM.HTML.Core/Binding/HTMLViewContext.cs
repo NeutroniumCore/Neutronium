@@ -1,9 +1,9 @@
 ﻿using System;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding
+namespace Neutronium.Core.Binding
 {
     public class HTMLViewContext : IDisposable
     {
@@ -15,7 +15,7 @@ namespace MVVM.HTML.Core.Binding
         private readonly IJavascriptViewModelManager _VmManager;
         private readonly IWebSessionLogger _logger;
 
-        public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptUIFrameworkManager javascriptUiFrameworkManager,
+        public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptUiFrameworkManager javascriptUiFrameworkManager,
                                 IJavascriptChangesObserver javascriptChangesObserver, IWebSessionLogger logger)
         {
             WebView = webView;

@@ -1,9 +1,9 @@
 ﻿using System;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Extension
+namespace Neutronium.Core.Extension
 {
     public static class IJavascriptObjectFactoryExtension
     {

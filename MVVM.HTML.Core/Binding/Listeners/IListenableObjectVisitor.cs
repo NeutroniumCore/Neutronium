@@ -1,8 +1,8 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
-using MVVM.HTML.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.GlueObject;
 
-namespace MVVM.HTML.Core.Binding.Listeners
+namespace Neutronium.Core.Binding.Listeners
 {
     public interface IListenableObjectVisitor
     {

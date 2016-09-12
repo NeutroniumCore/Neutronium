@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace HTML_WPF.Component
 {

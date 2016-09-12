@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace MVVM.HTML.Core.Exceptions
+namespace Neutronium.Core.Exceptions
 {
     public static class ExceptionHelper
     {
         public static Exception Get(string iMessage)
         {
-            return new MVVMCEFGlueException(iMessage);
+            return new NeutroniumException(iMessage);
         }
 
         public static Exception GetUnexpected()
@@ -16,7 +16,7 @@ namespace MVVM.HTML.Core.Exceptions
 
         public static ArgumentException GetArgument(string iMessage)
         {
-            return new MVVMCefGlueArgumentException(iMessage);
+            return new NeutroniumArgumentException(iMessage);
         }
     }
 }

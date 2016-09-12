@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using HTML_WPF.Component;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Window

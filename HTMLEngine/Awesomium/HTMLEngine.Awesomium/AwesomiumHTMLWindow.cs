@@ -3,7 +3,7 @@ using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using HTMLEngine.Awesomium.HTMLEngine;
 using HTMLEngine.Awesomium.Internal;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace HTMLEngine.Awesomium
 {
@@ -39,7 +39,7 @@ namespace HTMLEngine.Awesomium
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
         }
 
-        public MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame
+        public Neutronium.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame
         {
             get;  private set;
         }

@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVM.HTML.Core.Binding.CollectionChanges;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.Binding.CollectionChanges;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject
 {
     internal class JSArray : GlueBase, IJSObservableBridge
     {
@@ -19,7 +19,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         public IJavascriptObject JSValue { get; }
         public object CValue { get; }
         public IList<IJSCSGlue> Items { get; }     
-        public JSCSGlueType Type => JSCSGlueType.Array;
+        public JsCsGlueType Type => JsCsGlueType.Array;
         public IJavascriptObject MappedJSValue { get; private set;  }
         private IWebView WebView => _HTMLViewContext.WebView;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
@@ -37,9 +37,9 @@ namespace MVVM.HTML.Core.Binding.GlueObject
             _IndividualType = WebView.Factory.IsTypeBasic(type) ?  type : null;
         }
 
-        public CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
+        public Neutronium.Core.Binding.CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
         {
-            return new CollectionChanges.CollectionChanges(bridge, changes, _IndividualType);
+            return new Neutronium.Core.Binding.CollectionChanges.CollectionChanges(bridge, changes, _IndividualType);
         }
 
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)
@@ -69,7 +69,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
             });
         }
 
-        public void UpdateEventArgsFromJavascript(CollectionChanges.CollectionChanges iCollectionChanges)
+        public void UpdateEventArgsFromJavascript(Neutronium.Core.Binding.CollectionChanges.CollectionChanges iCollectionChanges)
         {
             var ilist = CValue as IList;
             if (ilist == null) return;

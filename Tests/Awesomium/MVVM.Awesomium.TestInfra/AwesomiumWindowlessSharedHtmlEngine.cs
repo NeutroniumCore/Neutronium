@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Awesomium.Core;
 using HTMLEngine.Awesomium.HTMLEngine;
 using HTMLEngine.Awesomium.Internal;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core;
+using Neutronium.Core.JavascriptEngine.Control;
+using Neutronium.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 
 namespace Tests.Awesomium.Infra 
@@ -15,7 +15,7 @@ namespace Tests.Awesomium.Infra
         private IWebView _CurrentWebView;
         private AwesomiumTestHTMLWindowProvider _AwesomiumTestHTMLWindowProvider;
 
-        public MVVM.HTML.Core.JavascriptEngine.JavascriptObject.IWebView WebView { get; private set; }
+        public Neutronium.Core.JavascriptEngine.JavascriptObject.IWebView WebView { get; private set; }
         public IHTMLWindow HTMLWindow => _AwesomiumTestHTMLWindowProvider.HTMLWindow;
         public IHTMLWindowProvider HTMLWindowProvider => _AwesomiumTestHTMLWindowProvider;
 

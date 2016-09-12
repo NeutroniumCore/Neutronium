@@ -1,7 +1,7 @@
 ﻿using System;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.Window;
 
-namespace MVVM.HTML.Core
+namespace Neutronium.Core
 {
     /// <summary>
     /// Interface to implement to receive event from browser

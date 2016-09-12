@@ -1,6 +1,6 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject
 {
     public interface IJSObservableBridge : IJSCSGlue
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.HTML.Core.JavascriptEngine.Window
+namespace Neutronium.Core.JavascriptEngine.Window
 {
     public class ConsoleMessageArgs : EventArgs
     {

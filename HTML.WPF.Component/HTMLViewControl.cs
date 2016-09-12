@@ -3,11 +3,10 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Navigation;
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
+using Neutronium.Core.Navigation;
 
 namespace HTML_WPF.Component
 {

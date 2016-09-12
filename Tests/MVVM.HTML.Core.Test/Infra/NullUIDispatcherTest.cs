@@ -1,7 +1,7 @@
-﻿using MVVM.HTML.Core.Infra;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
+using Neutronium.Core.Infra;
 
 namespace MVVM.HTML.Core.Test
 {

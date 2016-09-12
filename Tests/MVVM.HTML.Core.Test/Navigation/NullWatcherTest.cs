@@ -1,5 +1,6 @@
 ﻿using System;
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
 using Xunit;
 
 namespace MVVM.HTML.Core.Test

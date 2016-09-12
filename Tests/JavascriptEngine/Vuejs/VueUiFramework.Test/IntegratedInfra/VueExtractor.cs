@@ -1,5 +1,5 @@
 ﻿using System;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace VueUiFramework.Test.IntegratedInfra

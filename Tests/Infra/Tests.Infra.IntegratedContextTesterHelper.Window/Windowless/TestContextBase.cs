@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Binding;
+using Neutronium.Core;
+using Neutronium.Core.Binding;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless

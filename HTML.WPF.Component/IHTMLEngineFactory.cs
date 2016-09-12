@@ -1,6 +1,6 @@
 ﻿using System;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace HTML_WPF.Component
 {
@@ -31,24 +31,24 @@ namespace HTML_WPF.Component
         void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory);
 
         /// <summary>
-        /// Find a IJavascriptUIFrameworkManager by name.
+        /// Find a IJavascriptUiFrameworkManager by name.
         /// This method is called internally by HTLM_WPF.Component controls
         /// </summary>
         /// <param name="frameworkName">
         /// the name of the factory to be found
         /// </param>
         /// <returns>
-        /// IJavascriptUIFrameworkManager registered with a similar name.
+        /// IJavascriptUiFrameworkManager registered with a similar name.
         ///</returns>
-        IJavascriptUIFrameworkManager ResolveJavaScriptFramework(string frameworkName);
+        IJavascriptUiFrameworkManager ResolveJavaScriptFramework(string frameworkName);
 
         /// <summary>
-        /// register a IJavascriptUIFrameworkManager using its Name property
+        /// register a IJavascriptUiFrameworkManager using its Name property
         /// </summary>
         /// <param name="javascriptUiFrameworkManager">
-        /// IJavascriptUIFrameworkManager to be registered
+        /// IJavascriptUiFrameworkManager to be registered
         /// </param>
-        void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager);
+        void RegisterJavaScriptFramework(IJavascriptUiFrameworkManager javascriptUiFrameworkManager);
 
         /// <summary>
         /// get or set WebSessionLogger

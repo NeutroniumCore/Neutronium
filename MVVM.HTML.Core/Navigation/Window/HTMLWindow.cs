@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Infra.VM;
+using Neutronium.Core.Infra;
+using Neutronium.Core.Infra.VM;
 
-namespace MVVM.HTML.Core.Navigation.Window
+namespace Neutronium.Core.Navigation.Window
 {
     public class HTMLLogicWindow : NotifyPropertyChangedBase
     {

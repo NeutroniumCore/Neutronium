@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.HTML.Core.JavascriptUIFramework 
+namespace Neutronium.Core.JavascriptUIFramework 
 {
     public interface IJavascriptViewModelManager: IDisposable 
     {

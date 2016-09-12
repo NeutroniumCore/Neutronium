@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0F0F34BE-CD06-4C13-967D-BB0760617486}"
 EndProject
@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.Component", "MVVM.Comp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.ViewModel", "ViewModelExamples\MVVM.ViewModel.csproj", "{E35B9010-5429-4FFE-A788-E9C40E743E9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM.HTML.Core", "MVVM.HTML.Core\MVVM.HTML.Core.csproj", "{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Core", "MVVM.HTML.Core\Neutronium.Core.csproj", "{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTML_WPF.Component", "HTML.WPF.Component\HTML_WPF.Component.csproj", "{DCFC58E7-4D5B-43C5-827E-5D6F975F4995}"
 EndProject

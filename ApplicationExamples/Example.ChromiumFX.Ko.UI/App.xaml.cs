@@ -1,6 +1,6 @@
 ﻿using Chromium;
 using KnockoutUIFramework;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace Example.ChromiumFX.Ko.UI 
 {
@@ -9,7 +9,7 @@ namespace Example.ChromiumFX.Ko.UI
     /// </summary>
     public partial class App  
     {
-        protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
+        protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
         {
             return new KnockoutUiFrameworkManager();
         }

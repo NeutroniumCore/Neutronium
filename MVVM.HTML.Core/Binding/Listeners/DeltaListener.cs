@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core.Infra;
 
-namespace MVVM.HTML.Core.Binding.Listeners
+namespace Neutronium.Core.Binding.Listeners
 {
     internal class DeltaListener<T> where T:class
     {

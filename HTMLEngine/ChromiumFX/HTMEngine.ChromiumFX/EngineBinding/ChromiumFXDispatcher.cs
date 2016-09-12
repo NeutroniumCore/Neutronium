@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Chromium.Remote;
-using MVVM.HTML.Core.JavascriptEngine.Window;
 using System.Collections.Generic;
-using MVVM.HTML.Core;
+using Neutronium.Core;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {

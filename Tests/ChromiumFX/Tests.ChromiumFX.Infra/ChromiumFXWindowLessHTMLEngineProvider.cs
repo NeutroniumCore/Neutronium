@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Chromium;
 using Chromium.Remote;
 using HTMEngine.ChromiumFX.EngineBinding;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
 using Tests.ChromiumFX.Infra.Helper;
 using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 
-namespace Tests.ChromiumFX.Infra {
+namespace Tests.ChromiumFX.Infra 
+{
     public class ChromiumFXWindowLessHTMLEngineProvider: IBasicWindowLessHTMLEngineProvider
     {
         private bool _Runing = false;
@@ -23,8 +24,7 @@ namespace Tests.ChromiumFX.Infra {
         private CfrApp _CfrApp;
         private readonly ITestHtmlProvider _HtmlProvider;
 
-        public IWebSessionLogger Logger { get; set; }
-        
+        public IWebSessionLogger Logger { get; set; }     
 
         public ChromiumFXWindowLessHTMLEngineProvider(ITestHtmlProvider htmlProvider)
         {

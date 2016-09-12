@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Chromium;
 using Chromium.Remote;
 using HTMEngine.ChromiumFX.Convertion;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
 namespace HTMEngine.ChromiumFX.V8Object 
 {

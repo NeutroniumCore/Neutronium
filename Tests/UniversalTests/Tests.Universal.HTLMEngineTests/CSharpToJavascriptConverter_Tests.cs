@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions;
-using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.Binding;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 using NSubstitute;
 using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
@@ -36,7 +36,7 @@ namespace Tests.Universal.HTMLEngineTests
         private HTMLViewContext _HTMLViewContext;
         private IJSCommandFactory _JSCommandFactory;
         private IJavascriptSessionCache _ICSharpMapper;
-        private IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
+        private IJavascriptUiFrameworkManager _javascriptUiFrameworkManager;
 
         protected CSharpToJavascriptConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
@@ -48,7 +48,7 @@ namespace Tests.Universal.HTMLEngineTests
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
-            _javascriptUiFrameworkManager = Substitute.For<IJavascriptUIFrameworkManager>();
+            _javascriptUiFrameworkManager = Substitute.For<IJavascriptUiFrameworkManager>();
             _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptUiFrameworkManager, null, _Logger);         
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
@@ -87,7 +87,7 @@ namespace Tests.Universal.HTMLEngineTests
             Test(() =>
               {
                   var ibridgeresult = _ConverTOJSO.Map(_Tests);
-                  ibridgeresult.Type.Should().Be(JSCSGlueType.Array);
+                  ibridgeresult.Type.Should().Be(JsCsGlueType.Array);
                   IJavascriptObject resv = ibridgeresult.JSValue;
 
                   resv.Should().NotBeNull();

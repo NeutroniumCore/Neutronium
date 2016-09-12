@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
+namespace Neutronium.Core.JavascriptEngine.JavascriptObject
 {
     /// <summary>
     /// Factory to create IJavascriptObject

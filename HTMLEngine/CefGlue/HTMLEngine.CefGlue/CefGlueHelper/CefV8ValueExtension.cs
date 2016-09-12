@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue.CefGlueHelper

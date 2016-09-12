@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using MVVM.HTML.Core.Binding.Listeners;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject
 {
     public static class IJSCSGlueExtender
     {
@@ -55,7 +55,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
                 if ((notifyPropertyChanged != null) && !(child is IEnumerable))
                     ivisitor.OnObject(notifyPropertyChanged);
 
-                if (child.Type==JSCSGlueType.Command)
+                if (child.Type==JsCsGlueType.Command)
                     ivisitor.OnCommand(child as JSCommand);
             }
         }

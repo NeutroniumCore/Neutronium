@@ -1,5 +1,5 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+﻿using Neutronium.Core.JavascriptEngine.Control;
+using Neutronium.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xilium.CefGlue;
 

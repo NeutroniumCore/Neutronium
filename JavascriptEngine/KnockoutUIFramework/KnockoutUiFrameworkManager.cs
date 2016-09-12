@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace KnockoutUIFramework
 {
-    public class KnockoutUiFrameworkManager : IJavascriptUIFrameworkManager
+    public class KnockoutUiFrameworkManager : IJavascriptUiFrameworkManager
     {
         private string _JavascriptDebugScript;
         private string _MainScript;

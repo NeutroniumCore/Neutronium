@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding
+namespace Neutronium.Core.Binding
 {
     internal class SessionCacher : IJavascriptSessionCache
     {
@@ -61,14 +61,14 @@ namespace MVVM.HTML.Core.Binding
             if (global is JSCommand)
                 return;
 
-            var jso = (JSGenericObject)global;
+            var jso = (JsGenericObject)global;
             Update(jso.Attributes[att] as IJSObservableBridge, child);
         }
 
         internal void RegisterCollectionMapping(IJavascriptObject jsFather, string att, int index, IJavascriptObject child)
         {
             var father = GetGlobalCached(jsFather);
-            var jsos = (att == null) ? father : ((JSGenericObject)father).Attributes[att];
+            var jsos = (att == null) ? father : ((JsGenericObject)father).Attributes[att];
 
             Update(((JSArray)jsos).Items[index] as IJSObservableBridge, child);
         }

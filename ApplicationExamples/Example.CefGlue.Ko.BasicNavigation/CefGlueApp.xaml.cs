@@ -1,5 +1,5 @@
 ﻿using KnockoutUIFramework;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace Example.CefGlue.Ko.BasicNavigation
 {
@@ -8,7 +8,7 @@ namespace Example.CefGlue.Ko.BasicNavigation
     /// </summary>
     public partial class CefGlueApp
     {
-        protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
+        protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
         {
             return new KnockoutUiFrameworkManager();
         }

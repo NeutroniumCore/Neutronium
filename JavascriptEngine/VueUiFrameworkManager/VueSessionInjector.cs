@@ -1,15 +1,15 @@
-﻿using MVVM.HTML.Core.JavascriptUIFramework;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.Infra;
-using System.IO;
+﻿using System.IO;
 using System;
 using System.Text;
 using System.Collections.Generic;
-using MVVM.HTML.Core;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace VueUiFramework
 {
-    public class VueSessionInjector : IJavascriptUIFrameworkManager
+    public class VueSessionInjector : IJavascriptUiFrameworkManager
     {
         public string FrameworkName => "vue.js 1.0.25";
         public string Name => "VueInjector";

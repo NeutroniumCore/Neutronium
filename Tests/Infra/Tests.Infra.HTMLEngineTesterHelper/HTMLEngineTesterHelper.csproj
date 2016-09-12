@@ -81,7 +81,6 @@
     <Compile Include="Context\WindowlessTestEnvironment.cs" />
     <Compile Include="HtmlContext\ConventionalTestHtmlProvider.cs" />
     <Compile Include="HtmlContext\ITestHtmlProvider.cs" />
-    <Compile Include="HtmlContext\IWindowlessHTMLEngineBuilder.cs" />
     <Compile Include="HtmlContext\NullTestHtmlProvider.cs" />
     <Compile Include="HtmlContext\TestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,9 +104,9 @@
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>HTML_WPF.Component</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
+    <ProjectReference Include="..\..\..\MVVM.HTML.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>MVVM.HTML.Core</Name>
+      <Name>Neutronium.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

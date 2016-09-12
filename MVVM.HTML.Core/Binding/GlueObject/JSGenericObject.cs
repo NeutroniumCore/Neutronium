@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JSGenericObject : GlueBase, IJSObservableBridge
+    public class JsGenericObject : GlueBase, IJSObservableBridge
     {
         private readonly HTMLViewContext _HTMLViewContext;     
         private IJavascriptObject _MappedJSValue;
@@ -16,17 +16,17 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         public IJavascriptObject JSValue { get; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue { get; }
-        public JSCSGlueType Type => JSCSGlueType.Object;
+        public JsCsGlueType Type => JsCsGlueType.Object;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
 
-        public JSGenericObject(HTMLViewContext context, IJavascriptObject value, object icValue)
+        public JsGenericObject(HTMLViewContext context, IJavascriptObject value, object icValue)
         {
             JSValue = value;
             CValue = icValue;
             _HTMLViewContext = context;
         }
 
-        private JSGenericObject(HTMLViewContext context, IJavascriptObject value)
+        private JsGenericObject(HTMLViewContext context, IJavascriptObject value)
         {
             JSValue = value;
             _MappedJSValue = value;
@@ -34,9 +34,9 @@ namespace MVVM.HTML.Core.Binding.GlueObject
             _HTMLViewContext = context;
         }
 
-        public static JSGenericObject CreateNull(HTMLViewContext context)
+        public static JsGenericObject CreateNull(HTMLViewContext context)
         {
-            return new JSGenericObject(context, context.WebView.Factory.CreateNull());
+            return new JsGenericObject(context, context.WebView.Factory.CreateNull());
         }
 
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
@@ -44,7 +44,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
             sb.Append("{");
 
             var first = true;
-            foreach (var it in _Attributes.Where(kvp => kvp.Value.Type != JSCSGlueType.Command))
+            foreach (var it in _Attributes.Where(kvp => kvp.Value.Type != JsCsGlueType.Command))
             {
                 if (!first)
                     sb.Append(",");

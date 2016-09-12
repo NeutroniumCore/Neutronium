@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Navigation;
+using Neutronium.Core;
+using Neutronium.Core.Navigation;
 
 namespace HTML_WPF.Component
 {

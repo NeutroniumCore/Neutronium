@@ -1,8 +1,8 @@
 ﻿using System;
 using Chromium.Remote;
 using HTMEngine.ChromiumFX.Convertion;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {

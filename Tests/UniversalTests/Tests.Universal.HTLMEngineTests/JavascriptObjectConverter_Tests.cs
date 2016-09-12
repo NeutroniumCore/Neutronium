@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentAssertions;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xunit;

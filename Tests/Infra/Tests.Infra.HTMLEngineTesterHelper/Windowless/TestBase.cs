@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core;
+using Neutronium.Core.Binding;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Context;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Threading;

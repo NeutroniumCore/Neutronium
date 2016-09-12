@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
+namespace Neutronium.Core.JavascriptEngine.JavascriptObject
 {
     /// <summary>
     /// Converter from IJavascriptObject to basic CLR Type

@@ -6,10 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FluentAssertions;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Example;
 using MVVM.ViewModel.Infra;
@@ -20,6 +16,10 @@ using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 using MVVM.Component;
+using Neutronium.Core;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Tests.Universal.HTMLBindingTests.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
@@ -101,7 +101,7 @@ namespace Tests.Universal.HTMLBindingTests
             using (Tester(TestContext.EmptyWithJs))
             {
                 var vm = new object();
-                MVVMCEFGlueException ex = null;
+                NeutroniumException ex = null;
 
                 try
                 {
@@ -109,9 +109,9 @@ namespace Tests.Universal.HTMLBindingTests
                 }
                 catch (AggregateException agregate)
                 {
-                    ex = agregate.Flatten().InnerException as MVVMCEFGlueException;
+                    ex = agregate.Flatten().InnerException as NeutroniumException;
                 }
-                catch (MVVMCEFGlueException myex)
+                catch (NeutroniumException myex)
                 {
                     ex = myex;
                 }
@@ -126,13 +126,13 @@ namespace Tests.Universal.HTMLBindingTests
             using (Tester(TestContext.AlmostEmpty))
             {
                 var vm = new object();
-                MVVMCEFGlueException ex = null;
+                NeutroniumException ex = null;
 
                 try
                 {
                     await HTML_Binding.Bind(_ViewEngine, _DataContext, JavascriptBindingMode.OneTime);
                 }
-                catch (MVVMCEFGlueException myex)
+                catch (NeutroniumException myex)
                 {
                     ex = myex;
                 }
@@ -929,12 +929,12 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-                    var js = ((HTML_Binding) mb).JSBrideRootObject as JSGenericObject;
+                    var js = ((HTML_Binding) mb).JSBrideRootObject as JsGenericObject;
 
                     var mycommand = js.Attributes["Command"] as JSCommand;
                     mycommand.Should().NotBeNull();
                     mycommand.ToString().Should().Be("{}");
-                    mycommand.Type.Should().Be(JSCSGlueType.Command);
+                    mycommand.Type.Should().Be(JsCsGlueType.Command);
                     mycommand.MappedJSValue.Should().NotBeNull();
                 }
             };
@@ -1133,12 +1133,12 @@ namespace Tests.Universal.HTMLBindingTests
 
                     mb.ToString().Should().Be(@"{""SimpleCommand"":{}}");
 
-                    var js = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+                    var js = (mb as HTML_Binding).JSBrideRootObject as JsGenericObject;
 
-                    var mysimplecommand = js.Attributes["SimpleCommand"] as JSSimpleCommand;
+                    var mysimplecommand = js.Attributes["SimpleCommand"] as JsSimpleCommand;
                     mysimplecommand.Should().NotBeNull();
                     mysimplecommand.ToString().Should().Be("{}");
-                    mysimplecommand.Type.Should().Be(JSCSGlueType.SimpleCommand);
+                    mysimplecommand.Type.Should().Be(JsCsGlueType.SimpleCommand);
                     mysimplecommand.MappedJSValue.Should().NotBeNull();
                 }
             };
@@ -1483,11 +1483,11 @@ namespace Tests.Universal.HTMLBindingTests
                 { 
                   
                     {
-                        var glueobj = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
-                        var mysimplecommand = glueobj.Attributes["CreateObject"] as JSResultCommand;
+                        var glueobj = (mb as HTML_Binding).JSBrideRootObject as JsGenericObject;
+                        var mysimplecommand = glueobj.Attributes["CreateObject"] as JsResultCommand;
                         mysimplecommand.Should().NotBeNull();
                         mysimplecommand.ToString().Should().Be("{}");
-                        mysimplecommand.Type.Should().Be(JSCSGlueType.ResultCommand);
+                        mysimplecommand.Type.Should().Be(JsCsGlueType.ResultCommand);
                         mysimplecommand.MappedJSValue.Should().NotBeNull();
                     }
                    
@@ -1637,7 +1637,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+                    var root = (mb as HTML_Binding).JSBrideRootObject as JsGenericObject;
                     var js = mb.JSRootObject;
 
                     var col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
@@ -1706,7 +1706,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var root = (mb as HTML_Binding).JSBrideRootObject as JSGenericObject;
+                    var root = (mb as HTML_Binding).JSBrideRootObject as JsGenericObject;
                     var js = mb.JSRootObject;
 
                     var col = GetCollectionAttribute(js, "Skills");
@@ -2073,13 +2073,13 @@ namespace Tests.Universal.HTMLBindingTests
             using (Tester(TestContext.AlmostEmpty))
             {
                 var vm = new object();
-                MVVMCEFGlueException ex = null;
+                NeutroniumException ex = null;
 
                 try
                 {
                     await HTML_Binding.Bind(_ViewEngine, vm, JavascriptBindingMode.OneTime);
                 }
-                catch (MVVMCEFGlueException myex)
+                catch (NeutroniumException myex)
                 {
                     ex = myex;
                 }

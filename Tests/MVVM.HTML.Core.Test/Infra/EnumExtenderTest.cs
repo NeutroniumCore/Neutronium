@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using Xunit;
 using FluentAssertions;
-
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core.Infra;
 
 namespace MVVM.HTML.Core.Test
 {

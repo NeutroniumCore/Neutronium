@@ -1,7 +1,6 @@
-﻿using System;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptUIFramework
 {
     /// <summary>
     /// Interface responsible for updating javascript ViewModel to reflect

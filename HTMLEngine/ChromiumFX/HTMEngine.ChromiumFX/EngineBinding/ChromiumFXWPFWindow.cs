@@ -6,8 +6,8 @@ using Chromium;
 using Chromium.WebBrowser;
 using HTMEngine.ChromiumFX.WPF;
 using HTML_WPF.Component;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {

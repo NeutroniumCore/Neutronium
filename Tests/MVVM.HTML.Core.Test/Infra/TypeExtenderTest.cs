@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 using FluentAssertions;
-
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core.Infra;
 
 namespace MVVM.HTML.Core.Test
 {

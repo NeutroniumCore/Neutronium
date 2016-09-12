@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MVVM.HTML.Core.Infra
+namespace Neutronium.Core.Infra
 {
     public static class TypeExtender
     {

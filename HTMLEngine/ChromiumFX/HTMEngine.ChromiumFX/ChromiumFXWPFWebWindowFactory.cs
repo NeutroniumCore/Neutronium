@@ -4,7 +4,7 @@ using Chromium.WebBrowser;
 using HTMEngine.ChromiumFX.EngineBinding;
 using HTMEngine.ChromiumFX.Session;
 using HTML_WPF.Component;
-using MVVM.HTML.Core;
+using Neutronium.Core;
 
 namespace HTMEngine.ChromiumFX
 {

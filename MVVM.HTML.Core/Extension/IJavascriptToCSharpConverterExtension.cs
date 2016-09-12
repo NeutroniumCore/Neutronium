@@ -1,8 +1,8 @@
-﻿using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using System;
+﻿using System;
+using Neutronium.Core.Binding;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Extension
+namespace Neutronium.Core.Extension
 {
     public static class IJavascriptToCSharpConverterExtension
     {

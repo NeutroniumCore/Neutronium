@@ -1,8 +1,8 @@
 ﻿using System;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core;
+using Neutronium.Core.JavascriptEngine.Control;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace Tests.Infra.HTMLEngineTesterHelper.Windowless
 {

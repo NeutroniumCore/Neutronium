@@ -1,4 +1,4 @@
-﻿namespace MVVM.HTML.Core
+﻿namespace Neutronium.Core
 {
     public enum JavascriptBindingMode
     {

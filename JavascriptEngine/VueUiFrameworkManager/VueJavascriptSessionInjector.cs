@@ -1,9 +1,9 @@
 ﻿using System;
-using MVVM.HTML.Core.JavascriptUIFramework;
 using System.Threading.Tasks;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Extension;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core;
+using Neutronium.Core.Extension;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace VueUiFramework
 {

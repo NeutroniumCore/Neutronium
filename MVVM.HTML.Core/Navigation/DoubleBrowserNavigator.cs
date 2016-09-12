@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.Window;
-using MVVM.HTML.Core.JavascriptUIFramework;
-using MVVM.HTML.Core.Navigation.Window;
+using Neutronium.Core.Binding;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.Control;
+using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.Navigation.Window;
 
-namespace MVVM.HTML.Core.Navigation
+namespace Neutronium.Core.Navigation
 {
     public class DoubleBrowserNavigator : INavigationSolver 
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
-        private readonly IJavascriptUIFrameworkManager _javascriptUiFrameworkManager;
+        private readonly IJavascriptUiFrameworkManager _javascriptUiFrameworkManager;
         private readonly IUrlSolver _UrlSolver;        
         private IHTMLWindowProvider _CurrentWebControl;
         private IHTMLWindowProvider _NextWebControl;
@@ -40,7 +39,7 @@ namespace MVVM.HTML.Core.Navigation
         }
 
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, 
-                                        IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
+                                        IJavascriptUiFrameworkManager javascriptUiFrameworkManager)
         {
             _webSessionLogger = new BasicLogger();
             _javascriptUiFrameworkManager = javascriptUiFrameworkManager;
@@ -194,7 +193,7 @@ namespace MVVM.HTML.Core.Navigation
             return tcs.Task;
         }
 
-        private IJavascriptUIFrameworkManager GetInjectorFactory(Uri iUri)
+        private IJavascriptUiFrameworkManager GetInjectorFactory(Uri iUri)
         {
             return _javascriptUiFrameworkManager;
         }

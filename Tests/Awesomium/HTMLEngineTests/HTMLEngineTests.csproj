@@ -89,9 +89,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MVVM.HTML.Core\MVVM.HTML.Core.csproj">
+    <ProjectReference Include="..\..\..\MVVM.HTML.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>MVVM.HTML.Core</Name>
+      <Name>Neutronium.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\HTMLEngineTesterHelper.csproj">
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>

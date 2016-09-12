@@ -5,8 +5,8 @@ using HTML_WPF.Component;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
 
 namespace IntegratedTest.Tests.WPF
 {

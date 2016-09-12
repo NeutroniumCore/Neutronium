@@ -1,7 +1,7 @@
 ﻿using System;
 using HTMLEngine.CefGlue.CefGlueHelper;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra.CefWindowless

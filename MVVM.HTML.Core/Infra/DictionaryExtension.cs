@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MVVM.HTML.Core.Infra
+namespace Neutronium.Core.Infra
 {
     public static class DictionaryExtension
     {

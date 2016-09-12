@@ -1,7 +1,7 @@
-﻿using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding
+namespace Neutronium.Core.Binding
 {
     public interface IJavascriptSessionCache
     {

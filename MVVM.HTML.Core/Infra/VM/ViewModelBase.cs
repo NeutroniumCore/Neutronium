@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MVVM.HTML.Core.Infra.VM
+namespace Neutronium.Core.Infra.VM
 {
     public abstract class NotifyPropertyChangedBase :  INotifyPropertyChanged
     {

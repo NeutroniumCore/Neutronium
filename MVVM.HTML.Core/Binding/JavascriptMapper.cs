@@ -1,11 +1,11 @@
-﻿using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding
+namespace Neutronium.Core.Binding
 {
     internal class JavascriptMapper : IJavascriptObjectInternalMapper
     {

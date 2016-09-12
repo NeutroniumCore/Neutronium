@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject
 {
     public interface IJSCSGlue
     {
@@ -10,7 +10,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
 
         object CValue { get;}
 
-        JSCSGlueType Type { get; }
+        JsCsGlueType Type { get; }
 
         IEnumerable<IJSCSGlue> GetChildren();
 

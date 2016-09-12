@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using MVVM.HTML.Core.Binding;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.Binding;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core
+namespace Neutronium.Core
 {
     public class StringBinding :  IHTMLBinding
     {

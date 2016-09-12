@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using System.Threading.Tasks;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptUIFramework
 {
     /// <summary>
     /// Abstraction of the javascript framework responsible for databind

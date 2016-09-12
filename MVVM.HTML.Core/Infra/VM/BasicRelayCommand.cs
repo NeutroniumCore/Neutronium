@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace MVVM.HTML.Core.Infra.VM
+namespace Neutronium.Core.Infra.VM
 {
     public class BasicRelayCommand : ICommand
     {

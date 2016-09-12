@@ -1,4 +1,4 @@
-﻿namespace MVVM.HTML.Core.JavascriptUIFramework
+﻿namespace Neutronium.Core.JavascriptUIFramework
 {
     /// <summary>
     /// Describe modification type related to a collection

@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HTMLEngine.Awesomium.Internal;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Awesomium_Core = Awesomium.Core;
 
 namespace HTMLEngine.Awesomium.HTMLEngine

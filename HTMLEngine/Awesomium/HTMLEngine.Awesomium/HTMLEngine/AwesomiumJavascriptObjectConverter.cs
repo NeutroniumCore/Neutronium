@@ -1,6 +1,6 @@
 ﻿using System;
 using HTMLEngine.Awesomium.Internal;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Awesomium_Core = Awesomium.Core;
 
 namespace HTMLEngine.Awesomium.HTMLEngine

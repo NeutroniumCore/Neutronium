@@ -1,6 +1,6 @@
 ﻿using Xunit;
 using FluentAssertions;
-using MVVM.HTML.Core.Infra.VM;
+using Neutronium.Core.Infra.VM;
 
 namespace MVVM.HTML.Core.Test
 {

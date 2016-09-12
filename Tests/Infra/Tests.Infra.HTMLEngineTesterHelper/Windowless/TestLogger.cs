@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core;
+using Neutronium.Core.JavascriptEngine.Window;
 using Xunit.Abstractions;
 
 namespace Tests.Infra.HTMLEngineTesterHelper.Windowless

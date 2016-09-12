@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptUIFramework
 {
     /// <summary>
     /// Describe a set of modifications related to a collection

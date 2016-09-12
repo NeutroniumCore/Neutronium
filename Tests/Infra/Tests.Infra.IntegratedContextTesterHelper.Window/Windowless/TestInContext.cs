@@ -1,5 +1,5 @@
 ﻿using System;
-using MVVM.HTML.Core;
+using Neutronium.Core;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {

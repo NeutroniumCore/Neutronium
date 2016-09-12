@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
 using MVVM.Component;
-using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.Extension;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Extension;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding
+namespace Neutronium.Core.Binding
 {
     internal class CSharpToJavascriptConverter 
     {
@@ -33,7 +33,7 @@ namespace MVVM.HTML.Core.Binding
         public IJSCSGlue UnsafelMap(object from, object iadditional=null)
         {
             if (from == null)
-                return JSGenericObject.CreateNull(_Context);
+                return JsGenericObject.CreateNull(_Context);
 
             var res = _Cacher.GetCached(from);
             if (res != null)
@@ -68,7 +68,7 @@ namespace MVVM.HTML.Core.Binding
 
             var resobject = _Context.WebView.Factory.CreateObject(true);
 
-            var gres = new JSGenericObject(_Context, resobject, from);
+            var gres = new JsGenericObject(_Context, resobject, from);
             _Cacher.Cache(from, gres);
 
             MappNested(from, resobject,gres);
@@ -77,7 +77,7 @@ namespace MVVM.HTML.Core.Binding
             return gres;
         }
 
-        private void MappNested(object from, IJavascriptObject resobject, JSGenericObject gres)
+        private void MappNested(object from, IJavascriptObject resobject, JsGenericObject gres)
         {
             if (from == null)
                 return;

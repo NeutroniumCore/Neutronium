@@ -7,16 +7,16 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MVVM.HTML.Core")]
+[assembly: AssemblyTitle("Neutronium.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MVVM.HTML.Core")]
+[assembly: AssemblyProduct("Neutronium.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: InternalsVisibleTo("MVVM.Cef.Glue.Tests")]
+//[assembly: InternalsVisibleTo("MVVM.Cef.Glue.Tests")]
 [assembly: InternalsVisibleTo("IntegratedTest")]
 [assembly: InternalsVisibleTo("Tests.Universal.HTMLBindingTests")]
 [assembly: InternalsVisibleTo("Tests.Universal.HTMLEngineTests")]

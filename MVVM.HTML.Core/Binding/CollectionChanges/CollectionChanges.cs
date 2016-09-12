@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding.CollectionChanges
+namespace Neutronium.Core.Binding.CollectionChanges
 {
     public class CollectionChanges :  IComparer<IndividualCollectionChange>
     {

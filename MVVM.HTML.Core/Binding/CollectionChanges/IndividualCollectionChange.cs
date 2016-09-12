@@ -1,8 +1,8 @@
 ﻿using System;
-using MVVM.HTML.Core.Binding.GlueObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding.CollectionChanges
+namespace Neutronium.Core.Binding.CollectionChanges
 {
     public class IndividualCollectionChange
     {

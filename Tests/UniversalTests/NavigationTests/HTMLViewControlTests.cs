@@ -3,11 +3,11 @@ using System.IO;
 using System.Threading.Tasks;
 using FluentAssertions;
 using HTML_WPF.Component;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel.Example;
+using Neutronium.Core;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
+using Neutronium.Core.Navigation;
 using Xunit;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
@@ -92,7 +92,7 @@ namespace IntegratedTest.Tests.WPF
 
                 var relp = "javascript\\navigation_1.html";
                 Action act = () => c.RelativeSource = relp;
-                act.ShouldThrow<MVVMCEFGlueException>();
+                act.ShouldThrow<NeutroniumException>();
             });
         }
 

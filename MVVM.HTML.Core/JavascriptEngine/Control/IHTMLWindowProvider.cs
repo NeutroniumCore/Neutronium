@@ -1,7 +1,7 @@
 ﻿using System;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.Window;
 
-namespace MVVM.HTML.Core.JavascriptEngine.Control
+namespace Neutronium.Core.JavascriptEngine.Control
 {
     /// <summary>
     /// Abstraction of HTML UI control (regardless of WPF or WindowsForm framework)

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MVVM.HTML.Core.Infra
+namespace Neutronium.Core.Infra
 {
     public static class TaskHelper
     {

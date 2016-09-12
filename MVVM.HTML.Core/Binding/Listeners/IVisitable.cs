@@ -1,4 +1,4 @@
-﻿namespace MVVM.HTML.Core.Binding.Listeners
+﻿namespace Neutronium.Core.Binding.Listeners
 {
     public interface IVisitable
     {

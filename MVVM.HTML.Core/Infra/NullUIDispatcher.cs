@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.Window;
 
-namespace MVVM.HTML.Core.Infra
+namespace Neutronium.Core.Infra
 {
     public class NullUIDispatcher : IDispatcher
     {

@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Text;
 using MVVM.Component;
-using MVVM.HTML.Core.Extension;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.Extension;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JSSimpleCommand : GlueBase, IJSObservableBridge
+    public class JsSimpleCommand : GlueBase, IJSObservableBridge
     {
         private readonly ISimpleCommand _JSSimpleCommand;
         private readonly IWebView _WebView;
@@ -17,9 +17,9 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         public IJavascriptObject JSValue { get; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue => _JSSimpleCommand;
-        public JSCSGlueType Type => JSCSGlueType.SimpleCommand;
+        public JsCsGlueType Type => JsCsGlueType.SimpleCommand;
 
-        public JSSimpleCommand(IWebView webView, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
+        public JsSimpleCommand(IWebView webView, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
         {
             _WebView = webView;
             _JavascriptToCSharpConverter = converter;

@@ -8,8 +8,8 @@
     <ProjectGuid>{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MVVM.HTML.Core</RootNamespace>
-    <AssemblyName>MVVM.HTML.Core</AssemblyName>
+    <RootNamespace>Neutronium.Core</RootNamespace>
+    <AssemblyName>Neutronium.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -81,11 +81,11 @@
     <Compile Include="Binding\Listeners\IListenableObjectVisitor.cs" />
     <Compile Include="Binding\Listeners\ListenableVisitor.cs" />
     <Compile Include="Binding\GlueObject\JSCommand.cs" />
-    <Compile Include="Binding\GlueObject\JSSimpleCommand.cs" />
-    <Compile Include="Binding\GlueObject\JSResultCommand.cs" />
+    <Compile Include="Binding\GlueObject\JsSimpleCommand.cs" />
+    <Compile Include="Binding\GlueObject\JsResultCommand.cs" />
     <Compile Include="Binding\GlueObject\IJSObservableBridge.cs" />
     <Compile Include="Binding\GlueObject\JSBasicObject.cs" />
-    <Compile Include="Binding\GlueObject\JSCSGlueType.cs" />
+    <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />
     <Compile Include="Binding\HTMLViewContext.cs" />
     <Compile Include="Binding\Listeners\ReListener.cs" />
     <Compile Include="Binding\CommandFactory.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Infra\ProcessHelper.cs" />
     <Compile Include="JavascriptUIFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptObjectInternalMapper.cs" />
-    <Compile Include="JavascriptUIFramework\IJavascriptUIFrameworkManager.cs" />
+    <Compile Include="JavascriptUIFramework\IJavascriptUiFrameworkManager.cs" />
     <Compile Include="JavascriptUIFramework\CollectionChangeType.cs" />
     <Compile Include="Binding\CollectionChanges\CollectionChanges.cs" />
     <Compile Include="Binding\CollectionChanges\IndividualCollectionChange.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="JavascriptEngine\JavascriptObject\IJavascriptObjectFactory.cs" />
     <Compile Include="JavascriptEngine\JavascriptObject\IWebView.cs" />
     <Compile Include="IHTMLBinding.cs" />
-    <Compile Include="Exceptions\MVVMCEFGlueException.cs" />
+    <Compile Include="Exceptions\NeutroniumException.cs" />
     <Compile Include="Exceptions\ExceptionHelper.cs" />
     <Compile Include="Infra\NullUIDispatcher.cs" />
     <Compile Include="Infra\VM\BasicRelayCommand.cs" />
@@ -147,7 +147,7 @@
     <Compile Include="Binding\GlueObject\IJSCSGlue.cs" />
     <Compile Include="JavascriptUIFramework\IJavascriptObjectMapper.cs" />
     <Compile Include="Binding\GlueObject\JSArray.cs" />
-    <Compile Include="Binding\GlueObject\JSGenericObject.cs" />
+    <Compile Include="Binding\GlueObject\JsGenericObject.cs" />
     <Compile Include="Binding\BidirectionalMapper.cs" />
     <Compile Include="Infra\AssemblyExtension.cs" />
     <Compile Include="Infra\EnumerableCollection.cs" />

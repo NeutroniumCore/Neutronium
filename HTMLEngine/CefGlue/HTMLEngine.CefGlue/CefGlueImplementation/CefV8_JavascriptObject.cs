@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using HTMLEngine.CefGlue.CefGlueHelper;
 using Xilium.CefGlue;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using System.Collections.Generic;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue
 {

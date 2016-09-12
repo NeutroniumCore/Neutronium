@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
 
-namespace MVVM.HTML.Core.Navigation
+namespace Neutronium.Core.Navigation
 {
     public class NavigationBuilder : INavigationBuilder, IUrlSolver
     {

@@ -1,4 +1,4 @@
-﻿namespace MVVM.HTML.Core.Navigation.Window
+﻿namespace Neutronium.Core.Navigation.Window
 {
     public class WindowHelper
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace  MVVM.HTML.Core.Navigation
+namespace  Neutronium.Core.Navigation
 {
     public interface INavigationSolver : IDisposable
     {

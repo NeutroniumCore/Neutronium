@@ -5,11 +5,11 @@ using System.Windows;
 using System.Windows.Input;
 using FluentAssertions;
 using HTML_WPF.Component;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.Navigation;
 using MVVM.ViewModel;
 using MVVM.ViewModel.Infra;
+using Neutronium.Core;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Navigation;
 using NSubstitute;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Xunit;
@@ -608,7 +608,7 @@ namespace IntegratedTest.Tests.WPF
                 var a1 = new A2();
 
                 Func<Task> wf = () => wpfnav.NavigateAsync(a1);
-                wf.ShouldThrow<MVVMCEFGlueException>();
+                wf.ShouldThrow<NeutroniumException>();
             });
         }
 
@@ -713,7 +713,7 @@ namespace IntegratedTest.Tests.WPF
                 var a1 = new object();
 
                 Func<Task> wf = async () => await wpfnav.NavigateAsync(a1);
-                wf.ShouldThrow<MVVMCEFGlueException>();
+                wf.ShouldThrow<NeutroniumException>();
             });
         }
 

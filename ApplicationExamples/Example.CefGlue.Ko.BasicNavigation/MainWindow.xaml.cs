@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Windows;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.Navigation;
+using Neutronium.Core.Infra;
+using Neutronium.Core.Navigation;
 
 namespace Example.CefGlue.Ko.BasicNavigation
 {

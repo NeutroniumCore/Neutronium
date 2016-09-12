@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CefGlue.TestInfra.CefWindowless;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core;
+using Neutronium.Core.JavascriptEngine.Control;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptUIFramework;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xilium.CefGlue;
 
@@ -13,7 +13,7 @@ namespace CefGlue.TestInfra
 {
     internal class CefGlueWindowlessSharedHtmlEngine :  IWindowlessHTMLEngine
     {
-        private readonly IJavascriptUIFrameworkManager _JavascriptUIFrameworkManager;
+        private readonly IJavascriptUiFrameworkManager _JavascriptUIFrameworkManager;
         private TestCefGlueHTMLWindowProvider _TestCefGlueHTMLWindowProvider;
         private CefFrame _CefFrame;
         private CefBrowser _CefBrowser;

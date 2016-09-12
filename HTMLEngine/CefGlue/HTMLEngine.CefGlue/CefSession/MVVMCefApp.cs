@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using HTMLEngine.CefGlue.CefGlueImplementation;
 using HTMLEngine.CefGlue.WindowImplementation;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue.CefSession

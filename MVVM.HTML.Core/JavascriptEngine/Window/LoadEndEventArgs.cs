@@ -1,7 +1,7 @@
 ﻿using System;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.JavascriptEngine.Window
+namespace Neutronium.Core.JavascriptEngine.Window
 {
 	public class LoadEndEventArgs : EventArgs
 	{

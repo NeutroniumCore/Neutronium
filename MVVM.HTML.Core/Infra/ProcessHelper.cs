@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace MVVM.HTML.Core.Infra 
+namespace Neutronium.Core.Infra 
 {
     public static class ProcessHelper 
     {

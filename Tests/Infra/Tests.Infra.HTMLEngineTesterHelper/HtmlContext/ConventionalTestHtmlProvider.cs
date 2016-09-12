@@ -1,4 +1,4 @@
-﻿using MVVM.HTML.Core.Infra;
+﻿using Neutronium.Core.Infra;
 
 namespace Tests.Infra.HTMLEngineTesterHelper.HtmlContext
 {

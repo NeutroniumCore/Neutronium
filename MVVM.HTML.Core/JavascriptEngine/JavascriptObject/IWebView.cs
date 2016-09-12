@@ -1,6 +1,6 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.Window;
+﻿using Neutronium.Core.JavascriptEngine.Window;
 
-namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
+namespace Neutronium.Core.JavascriptEngine.JavascriptObject
 {
     /// <summary>
     /// Javascript Window interaction

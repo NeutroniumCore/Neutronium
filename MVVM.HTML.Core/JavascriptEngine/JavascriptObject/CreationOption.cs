@@ -1,4 +1,4 @@
-﻿namespace MVVM.HTML.Core.JavascriptEngine.JavascriptObject
+﻿namespace Neutronium.Core.JavascriptEngine.JavascriptObject
 {
     /// <summary>
     /// Option of javascript attribute creation

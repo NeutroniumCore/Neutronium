@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Infra;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace HTML_WPF.Component
 {
@@ -14,7 +14,7 @@ namespace HTML_WPF.Component
     {
         private IWebSessionLogger _webSessionLogger;
         private readonly IDictionary<string, IWPFWebWindowFactory> _Engines = new Dictionary<string, IWPFWebWindowFactory>();
-        private readonly IDictionary<string, IJavascriptUIFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptUIFrameworkManager>();
+        private readonly IDictionary<string, IJavascriptUiFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptUiFrameworkManager>();
 
         /// <summary>
         /// Access the singleton IHTMLEngineFactory
@@ -50,7 +50,7 @@ namespace HTML_WPF.Component
             wpfWebWindowFactory.WebSessionLogger = _webSessionLogger;
         }
 
-        public IJavascriptUIFrameworkManager ResolveJavaScriptFramework(string frameworkName)
+        public IJavascriptUiFrameworkManager ResolveJavaScriptFramework(string frameworkName)
         {
             if (_JavascriptFrameworks.Count == 1)
             {
@@ -65,7 +65,7 @@ namespace HTML_WPF.Component
             return _JavascriptFrameworks.GetOrDefault(frameworkName);
         }
 
-        public void RegisterJavaScriptFramework(IJavascriptUIFrameworkManager javascriptUiFrameworkManager)
+        public void RegisterJavaScriptFramework(IJavascriptUiFrameworkManager javascriptUiFrameworkManager)
         {
             _JavascriptFrameworks[javascriptUiFrameworkManager.Name]= javascriptUiFrameworkManager;
         }

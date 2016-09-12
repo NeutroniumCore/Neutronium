@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MVVM.HTML.Core.Binding.Listeners
+namespace Neutronium.Core.Binding.Listeners
 {
     internal class Silenter<T> : IDisposable where T: class
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.Control;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace HTML_WPF.Component
 {

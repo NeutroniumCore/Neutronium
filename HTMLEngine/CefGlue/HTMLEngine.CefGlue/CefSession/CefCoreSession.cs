@@ -1,5 +1,5 @@
 ﻿using System;
-using MVVM.HTML.Core.Exceptions;
+using Neutronium.Core.Exceptions;
 using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue.CefSession

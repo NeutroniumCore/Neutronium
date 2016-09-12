@@ -1,8 +1,8 @@
 ﻿using System;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Exceptions;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace VueUiFramework 
 {

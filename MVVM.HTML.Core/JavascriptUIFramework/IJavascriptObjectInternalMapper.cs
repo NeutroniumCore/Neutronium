@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MVVM.HTML.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptUIFramework
 {
     public interface  IJavascriptObjectInternalMapper : IJavascriptObjectMapper
     {

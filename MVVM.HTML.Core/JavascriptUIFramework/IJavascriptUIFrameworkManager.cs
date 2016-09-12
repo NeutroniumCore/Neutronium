@@ -1,11 +1,11 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace MVVM.HTML.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptUIFramework
 {
     /// <summary>
-    /// IJavascriptUIFrameworkManager factory
+    /// IJavascriptUiFrameworkManager factory
     /// </summary>
-    public interface IJavascriptUIFrameworkManager
+    public interface IJavascriptUiFrameworkManager
     {
         /// <summary>
         /// Get the name and version of unferlying javascript framework

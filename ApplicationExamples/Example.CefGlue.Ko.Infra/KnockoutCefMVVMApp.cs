@@ -1,6 +1,6 @@
 ﻿using HTMLEngine.CefGlue;
 using KnockoutUIFramework;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace Example.CefGlue.Ko.Infra
 {
@@ -9,7 +9,7 @@ namespace Example.CefGlue.Ko.Infra
     /// </summary>
     public class App : HTMLCefGlueApp 
     {
-        protected override IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager() 
+        protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
         {
             return new KnockoutUiFrameworkManager();
         }

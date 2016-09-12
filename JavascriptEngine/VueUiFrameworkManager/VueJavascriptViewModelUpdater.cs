@@ -1,9 +1,9 @@
 ﻿using System;
-using MVVM.HTML.Core.JavascriptUIFramework;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
 using System.Collections.Generic;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.Infra;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace VueUiFramework
 {

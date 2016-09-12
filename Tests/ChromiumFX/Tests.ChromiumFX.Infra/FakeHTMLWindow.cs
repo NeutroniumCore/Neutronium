@@ -1,8 +1,8 @@
 ﻿using System;
 using Chromium;
 using Chromium.Event;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace Tests.ChromiumFX.Infra 
 {

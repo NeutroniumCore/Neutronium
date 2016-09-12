@@ -1,4 +1,4 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.Window;
+﻿using Neutronium.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 

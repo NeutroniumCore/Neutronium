@@ -1,6 +1,6 @@
-﻿using MVVM.HTML.Core.Infra;
+﻿using Neutronium.Core.Infra;
 
-namespace MVVM.HTML.Core
+namespace Neutronium.Core
 {
     public static class WebSessionLoggerExtension
     {

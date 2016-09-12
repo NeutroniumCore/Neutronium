@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptUIFramework;
 
 namespace HTML_WPF.Component
 {
@@ -15,7 +15,7 @@ namespace HTML_WPF.Component
 
         protected abstract IWPFWebWindowFactory GetWindowFactory();
 
-        protected abstract IJavascriptUIFrameworkManager GetJavascriptUIFrameworkManager();
+        protected abstract IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager();
 
         protected override void OnExit(ExitEventArgs e)
         {

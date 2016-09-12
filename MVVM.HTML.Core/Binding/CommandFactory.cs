@@ -1,8 +1,8 @@
 ﻿using System.Windows.Input;
 using MVVM.Component;
-using MVVM.HTML.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.GlueObject;
 
-namespace MVVM.HTML.Core.Binding
+namespace Neutronium.Core.Binding
 {
     internal class CommandFactory : IJSCommandFactory
     {
@@ -20,14 +20,14 @@ namespace MVVM.HTML.Core.Binding
             return new JSCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
         }
 
-        public JSSimpleCommand Build(ISimpleCommand command)
+        public JsSimpleCommand Build(ISimpleCommand command)
         {
-            return new JSSimpleCommand(_HTMLViewContext.WebView, _JavascriptToCSharpConverter, command);
+            return new JsSimpleCommand(_HTMLViewContext.WebView, _JavascriptToCSharpConverter, command);
         }
 
-        public JSResultCommand Build(IResultCommand command)
+        public JsResultCommand Build(IResultCommand command)
         {
-            return new JSResultCommand(_HTMLViewContext.WebView, _JavascriptToCSharpConverter, command);
+            return new JsResultCommand(_HTMLViewContext.WebView, _JavascriptToCSharpConverter, command);
         }
     }
 }

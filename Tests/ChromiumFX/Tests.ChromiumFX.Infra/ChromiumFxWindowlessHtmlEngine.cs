@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Chromium;
-using MVVM.HTML.Core;
-using MVVM.HTML.Core.JavascriptEngine.Control;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using HTMEngine.ChromiumFX.EngineBinding;
+using Neutronium.Core;
+using Neutronium.Core.JavascriptEngine.Control;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
 
 namespace Tests.ChromiumFX.Infra 
 {

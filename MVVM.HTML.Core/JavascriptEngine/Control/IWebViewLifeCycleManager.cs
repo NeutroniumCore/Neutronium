@@ -1,6 +1,6 @@
-﻿using MVVM.HTML.Core.JavascriptEngine.Window;
+﻿using Neutronium.Core.JavascriptEngine.Window;
 
-namespace MVVM.HTML.Core.JavascriptEngine.Control
+namespace Neutronium.Core.JavascriptEngine.Control
 {
     /// <summary>
     /// HTMLWindow provider

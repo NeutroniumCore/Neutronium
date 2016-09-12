@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MVVM.HTML.Core.JavascriptEngine.Window
+namespace Neutronium.Core.JavascriptEngine.Window
 {
     /// <summary>
     /// Abstraction of a dipatcher used to communication with object having thread affinity

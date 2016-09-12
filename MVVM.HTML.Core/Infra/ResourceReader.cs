@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace MVVM.HTML.Core.Infra
+namespace Neutronium.Core.Infra
 {
     public class ResourceReader
     {
@@ -33,7 +33,7 @@ namespace MVVM.HTML.Core.Infra
         public string Load(IEnumerable<string> fileNames)
         {
             var builder = new StringBuilder();
-            fileNames.Select(Load).ForEach(s => builder.Append(s));
+            fileNames.Select(Load).ForEach(s => builder.Append((string) s));
             return builder.ToString();
         }
 

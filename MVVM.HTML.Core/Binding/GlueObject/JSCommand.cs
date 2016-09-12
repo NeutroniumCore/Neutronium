@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
-using MVVM.HTML.Core.Extension;
-using MVVM.HTML.Core.JavascriptEngine.JavascriptObject;
-using MVVM.HTML.Core.JavascriptEngine.Window;
-using MVVM.HTML.Core.JavascriptUIFramework;
+using Neutronium.Core.Extension;
+using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.JavascriptUIFramework;
 
-namespace MVVM.HTML.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject
 {
     public class JSCommand : GlueBase, IJSObservableBridge
     {
@@ -21,7 +21,7 @@ namespace MVVM.HTML.Core.Binding.GlueObject
         public IJavascriptObject JSValue { get; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue => _Command;
-        public JSCSGlueType Type => JSCSGlueType.Command;
+        public JsCsGlueType Type => JsCsGlueType.Command;
         private IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
