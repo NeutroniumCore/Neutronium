@@ -7,8 +7,8 @@ using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding
 {

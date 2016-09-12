@@ -1,10 +1,10 @@
 ﻿using System;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.Awesomium.Infra
 {
-    internal class AwesomiumTestHTMLWindow : IHTMLWindow
+    internal class AwesomiumTestHTMLWindow : IWebBrowserWindow
     {
         public IWebView MainFrame { get; }
         public Uri Url { get; }

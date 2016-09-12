@@ -1,19 +1,19 @@
 ﻿using System;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding
 {
     public class HTMLViewEngine
     {
-        private readonly IHTMLWindowProvider _HTMLWindowProvider;
+        private readonly IWebBrowserWindowProvider _HTMLWindowProvider;
         private readonly IJavascriptUiFrameworkManager _UIFrameworkManager;
         public IWebSessionLogger Logger { get; }
 
         private IWebView MainView => _HTMLWindowProvider.HTMLWindow.MainFrame;
 
-        public HTMLViewEngine(IHTMLWindowProvider hTMLWindowProvider, IJavascriptUiFrameworkManager uiFrameworkManager, IWebSessionLogger logger)
+        public HTMLViewEngine(IWebBrowserWindowProvider hTMLWindowProvider, IJavascriptUiFrameworkManager uiFrameworkManager, IWebSessionLogger logger)
         {
             _HTMLWindowProvider = hTMLWindowProvider;
             _UIFrameworkManager = uiFrameworkManager;

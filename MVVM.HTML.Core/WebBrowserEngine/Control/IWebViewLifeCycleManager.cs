@@ -1,6 +1,6 @@
-﻿using Neutronium.Core.JavascriptEngine.Window;
+﻿using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Neutronium.Core.JavascriptEngine.Control
+namespace Neutronium.Core.WebBrowserEngine.Control
 {
     /// <summary>
     /// HTMLWindow provider
@@ -10,7 +10,7 @@ namespace Neutronium.Core.JavascriptEngine.Control
         /// <summary>
         /// Create the HTMLWindowProvider
         /// </summary>
-        IHTMLWindowProvider Create();
+        IWebBrowserWindowProvider Create();
 
         /// <summary>
         /// Return the corresponding UI dispatcher

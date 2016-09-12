@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security;
 using System.Threading.Tasks;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.Infra.HTMLEngineTesterHelper.Threading 
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.WPF
 {
@@ -13,7 +13,7 @@ namespace Neutronium.WPF
         /// <summary>
         /// Get the browser HTMLWindow
         /// </summary>
-        IHTMLWindow HTMLWindow { get; }
+        IWebBrowserWindow HTMLWindow { get; }
 
         /// <summary>
         /// Inject a key event to the browser

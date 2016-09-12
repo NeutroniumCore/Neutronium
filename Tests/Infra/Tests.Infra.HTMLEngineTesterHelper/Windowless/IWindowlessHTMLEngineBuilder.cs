@@ -1,4 +1,4 @@
-﻿using Neutronium.Core.JavascriptEngine.Window;
+﻿using Neutronium.Core.WebBrowserEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
 namespace Tests.Infra.HTMLEngineTesterHelper.Windowless 

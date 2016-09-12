@@ -1,4 +1,4 @@
-﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.JavascriptEngineTesterHelper;
 
 namespace VueFramework.Test.IntegratedInfra

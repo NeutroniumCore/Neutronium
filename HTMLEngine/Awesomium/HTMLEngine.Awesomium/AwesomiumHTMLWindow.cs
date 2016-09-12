@@ -3,11 +3,11 @@ using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using HTMLEngine.Awesomium.HTMLEngine;
 using HTMLEngine.Awesomium.Internal;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace HTMLEngine.Awesomium
 {
-    internal class AwesomiumHTMLWindow : IHTMLWindow, IDisposable
+    internal class AwesomiumHTMLWindow : IWebBrowserWindow, IDisposable
     {
         private readonly IWebView _WebControl;
 
@@ -39,7 +39,7 @@ namespace HTMLEngine.Awesomium
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
         }
 
-        public Neutronium.Core.JavascriptEngine.JavascriptObject.IWebView MainFrame
+        public Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView MainFrame
         {
             get;  private set;
         }

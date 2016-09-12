@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Awesomium.Core;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace HTMLEngine.Awesomium.Internal
 {

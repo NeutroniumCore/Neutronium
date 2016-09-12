@@ -12,13 +12,13 @@ using HTMLEngine.CefGlue.CefGlueHelper;
 using HTMLEngine.CefGlue.CefSession;
 using HTMLEngine.CefGlue.Helpers.Log;
 using MVVM.Cef.Glue.WPF;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue.WindowImplementation
 {
-    public class WpfCefBrowser : ContentControl, IDisposable, IHTMLModernWindow
+    public class WpfCefBrowser : ContentControl, IDisposable, IModernWebBrowserWindow
     {
         private static readonly Key[] HandledKeys =
         {

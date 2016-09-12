@@ -1,6 +1,6 @@
 ﻿using Neutronium.Core.Extension;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.JavascriptFramework
 {

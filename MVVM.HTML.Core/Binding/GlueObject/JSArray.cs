@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using Neutronium.Core.Binding.CollectionChanges;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding.GlueObject
 {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using HTMLEngine.CefGlue.CefGlueHelper;
 using Xilium.CefGlue;
 using System.Collections.Generic;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace MVVM.Cef.Glue
 {

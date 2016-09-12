@@ -1,6 +1,6 @@
 ﻿using System;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
 namespace Tests.Infra.JavascriptEngineTesterHelper

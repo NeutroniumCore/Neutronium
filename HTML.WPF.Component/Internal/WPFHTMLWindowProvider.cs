@@ -1,10 +1,10 @@
 ﻿using System.Windows;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.WPF.Internal
 {
-    public class WPFHTMLWindowProvider : IHTMLWindowProvider
+    public class WPFHTMLWindowProvider : IWebBrowserWindowProvider
     {
         private readonly UIElement _UIElement;
         private readonly Neutronium.WPF.Internal.HTMLControlBase _HTMLControlBase;
@@ -17,7 +17,7 @@ namespace Neutronium.WPF.Internal
             _UIElement = _IWPFWebWindow.UIElement;
         }
 
-        public IHTMLWindow HTMLWindow
+        public IWebBrowserWindow HTMLWindow
         {
             get { return _IWPFWebWindow.HTMLWindow; }
         }

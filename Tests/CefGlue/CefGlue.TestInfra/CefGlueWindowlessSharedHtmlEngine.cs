@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using CefGlue.TestInfra.CefWindowless;
 using Neutronium.Core;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xilium.CefGlue;
 
@@ -17,8 +17,8 @@ namespace CefGlue.TestInfra
         private CefBrowser _CefBrowser;
 
         public IWebView WebView { get; private set; }
-        public IHTMLWindow HTMLWindow => _TestCefGlueHTMLWindowProvider.HTMLWindow;
-        public IHTMLWindowProvider HTMLWindowProvider => _TestCefGlueHTMLWindowProvider;
+        public IWebBrowserWindow HTMLWindow => _TestCefGlueHTMLWindowProvider.HTMLWindow;
+        public IWebBrowserWindowProvider HTMLWindowProvider => _TestCefGlueHTMLWindowProvider;
 
         public void Init(string path, IWebSessionLogger logger)
         {
@@ -26,9 +26,9 @@ namespace CefGlue.TestInfra
             WebView = cc.HTMLWindow.MainFrame;
         }
 
-        private Task<IHTMLWindowProvider> InitTask(string fullpath, IWebSessionLogger logger)
+        private Task<IWebBrowserWindowProvider> InitTask(string fullpath, IWebSessionLogger logger)
         {
-            TaskCompletionSource<IHTMLWindowProvider> tcs = new TaskCompletionSource<IHTMLWindowProvider>();
+            TaskCompletionSource<IWebBrowserWindowProvider> tcs = new TaskCompletionSource<IWebBrowserWindowProvider>();
             Task.Run(async () =>
             {
                 var cefWindowInfo = CefWindowInfo.Create();

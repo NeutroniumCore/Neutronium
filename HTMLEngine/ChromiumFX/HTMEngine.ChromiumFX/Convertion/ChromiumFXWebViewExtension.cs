@@ -1,6 +1,6 @@
 ﻿using Chromium.Remote;
 using HTMEngine.ChromiumFX.EngineBinding;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace HTMEngine.ChromiumFX.Convertion
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Neutronium.Core.JavascriptEngine.JavascriptObject
+namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
 {
     /// <summary>
     /// Abstraction of a javascript object

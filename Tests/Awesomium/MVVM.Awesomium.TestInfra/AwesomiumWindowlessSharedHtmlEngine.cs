@@ -4,8 +4,8 @@ using Awesomium.Core;
 using HTMLEngine.Awesomium.HTMLEngine;
 using HTMLEngine.Awesomium.Internal;
 using Neutronium.Core;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 
 namespace Tests.Awesomium.Infra 
@@ -15,9 +15,9 @@ namespace Tests.Awesomium.Infra
         private IWebView _CurrentWebView;
         private AwesomiumTestHTMLWindowProvider _AwesomiumTestHTMLWindowProvider;
 
-        public Neutronium.Core.JavascriptEngine.JavascriptObject.IWebView WebView { get; private set; }
-        public IHTMLWindow HTMLWindow => _AwesomiumTestHTMLWindowProvider.HTMLWindow;
-        public IHTMLWindowProvider HTMLWindowProvider => _AwesomiumTestHTMLWindowProvider;
+        public Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView WebView { get; private set; }
+        public IWebBrowserWindow HTMLWindow => _AwesomiumTestHTMLWindowProvider.HTMLWindow;
+        public IWebBrowserWindowProvider HTMLWindowProvider => _AwesomiumTestHTMLWindowProvider;
 
         public void Init(string path, IWebSessionLogger logger)
         {

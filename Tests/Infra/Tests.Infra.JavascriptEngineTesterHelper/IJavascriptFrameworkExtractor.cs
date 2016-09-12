@@ -1,4 +1,4 @@
-﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
+﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Tests.Infra.JavascriptEngineTesterHelper
 {

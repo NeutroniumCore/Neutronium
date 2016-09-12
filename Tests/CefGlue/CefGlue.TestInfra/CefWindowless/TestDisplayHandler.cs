@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra.CefWindowless

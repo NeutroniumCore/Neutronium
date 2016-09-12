@@ -15,7 +15,7 @@ using Xunit.Abstractions;
 using Neutronium.Core;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Exceptions;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;

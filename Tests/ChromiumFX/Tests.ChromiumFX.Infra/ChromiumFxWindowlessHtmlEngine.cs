@@ -5,9 +5,9 @@ using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using HTMEngine.ChromiumFX.EngineBinding;
 using Neutronium.Core;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.ChromiumFX.Infra 
 {
@@ -20,8 +20,8 @@ namespace Tests.ChromiumFX.Infra
         private ChromiumFXHTMLWindowProvider _ChromiumFXHTMLWindowProvider;
 
         public IWebView WebView { get; private set; }
-        public IHTMLWindow HTMLWindow => _ChromiumFXHTMLWindowProvider.HTMLWindow;
-        public IHTMLWindowProvider HTMLWindowProvider => _ChromiumFXHTMLWindowProvider;
+        public IWebBrowserWindow HTMLWindow => _ChromiumFXHTMLWindowProvider.HTMLWindow;
+        public IWebBrowserWindowProvider HTMLWindowProvider => _ChromiumFXHTMLWindowProvider;
 
         internal ChromiumFxWindowlessHtmlEngine(WpfThread wpfThread, Task<ChromiumFXWebView> chromiumFxWebViewTask) 
         {

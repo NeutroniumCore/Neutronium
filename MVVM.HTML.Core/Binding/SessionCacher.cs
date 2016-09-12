@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding
 {

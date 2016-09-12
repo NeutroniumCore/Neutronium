@@ -1,12 +1,12 @@
 ﻿using System;
 using HTMLEngine.CefGlue.CefGlueHelper;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra.CefWindowless
 {
-    public class TestCefGlueWindow : IHTMLWindow
+    public class TestCefGlueWindow : IWebBrowserWindow
     {
         private readonly CefFrame _CefFrame;
         private readonly TestCefClient _TestCefClient;
@@ -15,7 +15,7 @@ namespace CefGlue.TestInfra.CefWindowless
         public bool IsLoaded => true;
         public Uri Url => new Uri(_CefFrame.Url);
 
-        IWebView IHTMLWindow.MainFrame
+        IWebView IWebBrowserWindow.MainFrame
         {
             get { return _IWebView ?? (_IWebView = _CefFrame.GetMainContext()); }
         }

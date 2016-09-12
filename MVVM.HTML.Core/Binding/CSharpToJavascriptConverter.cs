@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Windows.Input;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Extension;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding

@@ -2,7 +2,7 @@
 using System.Linq;
 using Chromium.Remote;
 using HTMEngine.ChromiumFX.V8Object;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace HTMEngine.ChromiumFX.Convertion 
 {

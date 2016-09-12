@@ -1,5 +1,5 @@
 ﻿using MVVM.Cef.Glue;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue.CefGlueImplementation

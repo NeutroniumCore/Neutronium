@@ -2,7 +2,7 @@
 using Chromium.Remote;
 using HTMEngine.ChromiumFX.Convertion;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {

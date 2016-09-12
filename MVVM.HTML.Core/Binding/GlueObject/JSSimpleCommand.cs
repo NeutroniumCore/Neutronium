@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using Neutronium.Core.Extension;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject

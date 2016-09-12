@@ -1,5 +1,5 @@
 ﻿using System;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core
 {

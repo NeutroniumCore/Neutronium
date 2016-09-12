@@ -1,4 +1,4 @@
-﻿namespace Neutronium.Core.JavascriptEngine.JavascriptObject
+﻿namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
 {
     /// <summary>
     /// Option of javascript attribute creation

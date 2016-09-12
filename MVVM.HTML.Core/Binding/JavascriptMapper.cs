@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding
 {

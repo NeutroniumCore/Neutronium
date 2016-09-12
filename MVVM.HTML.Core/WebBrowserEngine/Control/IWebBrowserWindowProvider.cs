@@ -1,17 +1,17 @@
 ﻿using System;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Neutronium.Core.JavascriptEngine.Control
+namespace Neutronium.Core.WebBrowserEngine.Control
 {
     /// <summary>
     /// Abstraction of HTML UI control (regardless of WPF or WindowsForm framework)
     /// </summary>
-    public interface IHTMLWindowProvider : IDisposable
+    public interface IWebBrowserWindowProvider : IDisposable
     {
         /// <summary>
         /// Return the IHTMLWindow
         /// </summary>
-        IHTMLWindow HTMLWindow { get; }
+        IWebBrowserWindow HTMLWindow { get; }
 
         /// <summary>
         /// Return the UI dispatcher

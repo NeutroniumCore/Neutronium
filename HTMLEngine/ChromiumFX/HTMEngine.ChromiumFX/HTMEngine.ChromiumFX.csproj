@@ -85,7 +85,7 @@
     <Compile Include="EngineBinding\ChromiumFXFactory.cs" />
     <Compile Include="EngineBinding\ChromiumFXConverter.cs" />
     <Compile Include="EngineBinding\ChromiumFXDispatcher.cs" />
-    <Compile Include="EngineBinding\ChromiumFxControlHTMLWindow.cs" />
+    <Compile Include="EngineBinding\ChromiumFxControlWebBrowserWindow.cs" />
     <Compile Include="EngineBinding\ChromiumFXTask.cs" />
     <Compile Include="EngineBinding\ChromiumFXWebView.cs" />
     <Compile Include="EngineBinding\ChromiumFXWPFWindow.cs" />

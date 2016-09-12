@@ -1,15 +1,15 @@
 ﻿using System;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF.Internal;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace Tests.Awesomium.Infra
 {
-    internal class AwesomiumTestHTMLWindowProvider : IHTMLWindowProvider
+    internal class AwesomiumTestHTMLWindowProvider : IWebBrowserWindowProvider
     {
-        public IHTMLWindow HTMLWindow { get; }
+        public IWebBrowserWindow HTMLWindow { get; }
         public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
 
         internal AwesomiumTestHTMLWindowProvider(IWebView webView, Uri path)

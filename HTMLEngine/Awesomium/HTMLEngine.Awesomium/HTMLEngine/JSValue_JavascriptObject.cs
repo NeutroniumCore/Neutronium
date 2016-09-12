@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Awesomium.Core;
 using HTMLEngine.Awesomium.Internal;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using IWebView = Neutronium.Core.JavascriptEngine.JavascriptObject.IWebView;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using IWebView = Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView;
 
 namespace HTMLEngine.Awesomium.HTMLEngine
 {

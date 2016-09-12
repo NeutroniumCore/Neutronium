@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Neutronium.Core;
 using Neutronium.Core.Binding;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Tests.Infra.JavascriptEngineTesterHelper;

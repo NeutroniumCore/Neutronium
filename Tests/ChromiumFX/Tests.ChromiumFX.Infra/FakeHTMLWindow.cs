@@ -1,12 +1,12 @@
 ﻿using System;
 using Chromium;
 using Chromium.Event;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.ChromiumFX.Infra 
 {
-    internal class FakeHTMLWindow : IHTMLWindow
+    internal class FakeHTMLWindow : IWebBrowserWindow
     {
         private readonly IWebView _Webview;
         private Uri _Uri;

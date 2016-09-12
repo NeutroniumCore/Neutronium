@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using HTMLEngine.CefGlue.CefGlueImplementation;
 using HTMLEngine.CefGlue.WindowImplementation;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xilium.CefGlue;
 
 namespace HTMLEngine.CefGlue.CefSession

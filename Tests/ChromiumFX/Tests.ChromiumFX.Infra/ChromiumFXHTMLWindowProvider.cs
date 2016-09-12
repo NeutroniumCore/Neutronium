@@ -1,18 +1,18 @@
 ﻿using System;
 using Chromium;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF.Internal;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 
 namespace Tests.ChromiumFX.Infra {
-    internal class ChromiumFXHTMLWindowProvider : IHTMLWindowProvider 
+    internal class ChromiumFXHTMLWindowProvider : IWebBrowserWindowProvider 
     {
         private readonly IWebView _webview;
         private readonly CfxClient _CfxClient;
         public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
-        public IHTMLWindow HTMLWindow { get; }
+        public IWebBrowserWindow HTMLWindow { get; }
 
         public ChromiumFXHTMLWindowProvider(CfxClient cfxClient, IWebView webview, Uri url) 
         {

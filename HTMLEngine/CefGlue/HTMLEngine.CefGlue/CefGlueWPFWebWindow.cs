@@ -4,7 +4,7 @@ using System.Windows.Input;
 using HTMLEngine.CefGlue.CefSession;
 using HTMLEngine.CefGlue.WindowImplementation;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF;
 
 namespace HTMLEngine.CefGlue
@@ -23,7 +23,7 @@ namespace HTMLEngine.CefGlue
             };
         }
 
-        public IHTMLWindow HTMLWindow
+        public IWebBrowserWindow HTMLWindow
         {
             get { return _WpfCefBrowser; }
         }

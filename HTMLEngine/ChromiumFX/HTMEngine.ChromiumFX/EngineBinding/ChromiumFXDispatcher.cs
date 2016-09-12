@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Chromium.Remote;
 using System.Collections.Generic;
 using Neutronium.Core;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace HTMEngine.ChromiumFX.EngineBinding 
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Neutronium.Core.JavascriptEngine.Window
+namespace Neutronium.Core.WebBrowserEngine.Window
 {
     public class BeforeJavascriptExcecutionArgs : EventArgs
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Infra
 {

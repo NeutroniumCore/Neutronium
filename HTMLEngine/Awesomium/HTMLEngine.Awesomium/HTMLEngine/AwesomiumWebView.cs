@@ -2,15 +2,15 @@
 using System.Threading.Tasks;
 using Awesomium.Core;
 using HTMLEngine.Awesomium.Internal;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 using AwesomiumIWebView = Awesomium.Core.IWebView;
-using IWebView = Neutronium.Core.JavascriptEngine.JavascriptObject.IWebView;
-using MVVMIWebView = Neutronium.Core.JavascriptEngine.JavascriptObject.IWebView;
+using IWebView = Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView;
+using MVVMIWebView = Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView;
 
 namespace HTMLEngine.Awesomium.HTMLEngine
 {
-    internal class AwesomiumWebView : IWebView
+    internal class AwesomiumWebView : Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView
     {
         private readonly AwesomiumIWebView _IWebView;
         private readonly IDispatcher _Dispatcher;

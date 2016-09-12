@@ -5,12 +5,12 @@ using Chromium.Remote.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
 using Neutronium.Core;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace HTMEngine.ChromiumFX.EngineBinding
 {
-    public class ChromiumFxControlHTMLWindow : IHTMLModernWindow
+    public class ChromiumFxControlWebBrowserWindow : IModernWebBrowserWindow
     {
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
         private readonly IDispatcher _dispatcher ;
@@ -23,7 +23,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
         public Uri Url => _ChromiumWebBrowser.Url;
         public bool IsLoaded  => !_ChromiumWebBrowser.IsLoading;
 
-        public ChromiumFxControlHTMLWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher, IWebSessionLogger logger) 
+        public ChromiumFxControlWebBrowserWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher, IWebSessionLogger logger) 
         {
             _Logger = logger;
             _dispatcher = dispatcher;

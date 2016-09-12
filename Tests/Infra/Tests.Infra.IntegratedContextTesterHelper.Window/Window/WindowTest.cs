@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF.Internal;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 

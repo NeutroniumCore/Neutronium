@@ -6,7 +6,7 @@ using Chromium;
 using Chromium.WebBrowser;
 using HTMEngine.ChromiumFX.WPF;
 using Neutronium.Core;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF;
 using Neutronium.WPF.Internal;
 
@@ -16,12 +16,12 @@ namespace HTMEngine.ChromiumFX.EngineBinding
     {
         private readonly ChromiumFxControl _ChromiumFxControl;
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
-        private readonly ChromiumFxControlHTMLWindow _ChromiumFxControlHTMLWindow;
+        private readonly ChromiumFxControlWebBrowserWindow _chromiumFxControlWebBrowserWindow;
         private readonly IWebSessionLogger _Logger;
 
         public UIElement UIElement => _ChromiumFxControl;
         public bool IsUIElementAlwaysTopMost => true;
-        public IHTMLWindow HTMLWindow => _ChromiumFxControlHTMLWindow;
+        public IWebBrowserWindow HTMLWindow => _chromiumFxControlWebBrowserWindow;
 
         public ChromiumFXWPFWindow(IWebSessionLogger logger) 
         {
@@ -35,7 +35,7 @@ namespace HTMEngine.ChromiumFX.EngineBinding
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
-            _ChromiumFxControlHTMLWindow = new ChromiumFxControlHTMLWindow(_ChromiumWebBrowser, dispatcher, _Logger);
+            _chromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, _Logger);
         }
 
         public void Inject(Key keyToInject) 

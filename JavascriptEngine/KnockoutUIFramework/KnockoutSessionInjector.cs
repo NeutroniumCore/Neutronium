@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Extension;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.JavascriptFramework.Knockout
 {

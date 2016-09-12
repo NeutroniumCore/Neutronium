@@ -10,10 +10,10 @@ using System.Windows.Media;
 using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra.VM;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.Window;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Navigation;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.WPF.Internal
 {
@@ -221,7 +221,7 @@ namespace Neutronium.WPF.Internal
             }
         }
 
-        IHTMLWindowProvider IWebViewLifeCycleManager.Create()
+        IWebBrowserWindowProvider IWebViewLifeCycleManager.Create()
         {
             if (_WPFWebWindowFactory == null)
             {

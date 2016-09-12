@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Awesomium.Core;
 using Awesomium.Windows.Controls;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF;
 
 namespace HTMLEngine.Awesomium
@@ -16,7 +16,7 @@ namespace HTMLEngine.Awesomium
         private readonly WebControl _WebControl;
         private readonly AwesomiumHTMLWindow _AwesomiumHTMLWindow;
 
-        public IHTMLWindow HTMLWindow => _AwesomiumHTMLWindow;
+        public IWebBrowserWindow HTMLWindow => _AwesomiumHTMLWindow;
         public UIElement UIElement => _WebControl;
         public bool IsUIElementAlwaysTopMost => false;
 

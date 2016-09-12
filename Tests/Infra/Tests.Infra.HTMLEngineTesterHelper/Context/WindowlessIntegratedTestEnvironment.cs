@@ -1,5 +1,5 @@
 ﻿using System;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Window;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 

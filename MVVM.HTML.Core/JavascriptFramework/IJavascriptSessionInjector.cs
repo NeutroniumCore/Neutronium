@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.JavascriptFramework
 {

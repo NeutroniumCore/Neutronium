@@ -1,8 +1,8 @@
 ﻿using System;
 using Neutronium.Core;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptEngine.Window;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.Infra.HTMLEngineTesterHelper.Windowless
 {
@@ -10,7 +10,7 @@ namespace Tests.Infra.HTMLEngineTesterHelper.Windowless
     {
         void Init(string path, IWebSessionLogger logger);
         IWebView WebView { get; }
-        IHTMLWindow HTMLWindow { get; }
-        IHTMLWindowProvider HTMLWindowProvider {get;}
+        IWebBrowserWindow HTMLWindow { get; }
+        IWebBrowserWindowProvider HTMLWindowProvider {get;}
     }
 }

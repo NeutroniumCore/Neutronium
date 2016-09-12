@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using Neutronium.Core.Binding;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptEngine.Control;
-using Neutronium.Core.JavascriptEngine.Window;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Navigation.Window;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Navigation
 {
@@ -15,8 +15,8 @@ namespace Neutronium.Core.Navigation
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
         private readonly IJavascriptUiFrameworkManager _javascriptUiFrameworkManager;
         private readonly IUrlSolver _UrlSolver;        
-        private IHTMLWindowProvider _CurrentWebControl;
-        private IHTMLWindowProvider _NextWebControl;
+        private IWebBrowserWindowProvider _CurrentWebControl;
+        private IWebBrowserWindowProvider _NextWebControl;
         private IHTMLBinding _HTMLBinding;
         private IWebSessionLogger _webSessionLogger = new BasicLogger();
         private bool _Disposed = false;
@@ -25,8 +25,8 @@ namespace Neutronium.Core.Navigation
         private HTMLLogicWindow _Window;
 
         public Uri Url { get; private set; }
-        public IHTMLWindowProvider WebControl => _CurrentWebControl;
-        public IHTMLWindow HTMLWindow => _CurrentWebControl?.HTMLWindow;
+        public IWebBrowserWindowProvider WebControl => _CurrentWebControl;
+        public IWebBrowserWindow HTMLWindow => _CurrentWebControl?.HTMLWindow;
         public bool UseINavigable 
         {
             get { return _UseINavigable; }
@@ -161,7 +161,7 @@ namespace Neutronium.Core.Navigation
             _NextWebControl = _WebViewLifeCycleManager.Create();
             _NextWebControl.HTMLWindow.ConsoleMessage += ConsoleMessage;
 
-            var moderWindow = _NextWebControl.HTMLWindow as IHTMLModernWindow;
+            var moderWindow = _NextWebControl.HTMLWindow as IModernWebBrowserWindow;
             if (moderWindow!=null)
             {
                 var debugContext = _WebViewLifeCycleManager.DebugContext;
@@ -232,7 +232,7 @@ namespace Neutronium.Core.Navigation
             CleanWebControl(ref _NextWebControl);
         }
 
-        private void CleanWebControl(ref IHTMLWindowProvider iWebControl)
+        private void CleanWebControl(ref IWebBrowserWindowProvider iWebControl)
         {
             if (iWebControl == null)
                 return;
