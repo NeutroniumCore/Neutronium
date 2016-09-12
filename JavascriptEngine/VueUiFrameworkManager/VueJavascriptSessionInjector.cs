@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Neutronium.Core;
 using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.JavascriptFramework.Vue
 {

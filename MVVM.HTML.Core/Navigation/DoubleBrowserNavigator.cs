@@ -5,7 +5,7 @@ using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptEngine.Control;
 using Neutronium.Core.JavascriptEngine.Window;
-using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Navigation.Window;
 
 namespace Neutronium.Core.Navigation

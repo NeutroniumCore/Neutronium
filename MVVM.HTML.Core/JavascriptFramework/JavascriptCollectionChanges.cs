@@ -2,7 +2,7 @@
 using System.Linq;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace Neutronium.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptFramework
 {
     /// <summary>
     /// Describe a set of modifications related to a collection

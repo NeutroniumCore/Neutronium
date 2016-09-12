@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.WPF
 {

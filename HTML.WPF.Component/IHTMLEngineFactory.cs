@@ -1,6 +1,6 @@
 ﻿using System;
 using Neutronium.Core;
-using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.WPF
 {

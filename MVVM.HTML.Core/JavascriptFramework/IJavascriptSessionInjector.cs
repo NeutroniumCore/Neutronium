@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace Neutronium.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptFramework
 {
     /// <summary>
     /// Abstraction of the javascript framework responsible for databind

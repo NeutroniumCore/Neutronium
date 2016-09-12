@@ -5,7 +5,7 @@ using System.Text;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.JavascriptFramework.Vue
 {

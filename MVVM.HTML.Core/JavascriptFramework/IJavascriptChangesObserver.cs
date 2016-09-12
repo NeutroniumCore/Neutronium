@@ -1,6 +1,6 @@
 ﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace Neutronium.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptFramework
 {
     /// <summary>
     /// javascript observer for changes occuring on ViewModel

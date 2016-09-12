@@ -8,7 +8,7 @@ using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptEngine.JavascriptObject;
-using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding
 {

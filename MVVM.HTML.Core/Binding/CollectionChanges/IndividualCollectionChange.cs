@@ -1,6 +1,6 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.CollectionChanges
 {

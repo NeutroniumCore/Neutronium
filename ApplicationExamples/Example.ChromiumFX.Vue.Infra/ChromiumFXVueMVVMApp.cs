@@ -1,5 +1,5 @@
 ﻿using HTMEngine.ChromiumFX;
-using Neutronium.Core.JavascriptUIFramework;
+using Neutronium.Core.JavascriptFramework;
 using Neutronium.JavascriptFramework.Vue;
 
 namespace Example.ChromiumFX.Vue.Infra

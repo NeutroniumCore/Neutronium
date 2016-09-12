@@ -1,6 +1,6 @@
 ﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace Neutronium.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptFramework
 {
     /// <summary>
     /// Describe an atomic modifications related to a collection

@@ -1,6 +1,6 @@
 ﻿using Neutronium.Core.JavascriptEngine.JavascriptObject;
 
-namespace Neutronium.Core.JavascriptUIFramework
+namespace Neutronium.Core.JavascriptFramework
 {
     /// <summary>
     /// Mapper used to create corresponde beetween simple javascript object
