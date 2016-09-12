@@ -148,8 +148,6 @@
 	frame.style.width = "100%";
 
 	component.appendChild(frame);
-	//document.body.appendChild(component);
-	console.log(component);
 	var v = new exp({ el: component });
 	v.$appendTo(document.body);
 
