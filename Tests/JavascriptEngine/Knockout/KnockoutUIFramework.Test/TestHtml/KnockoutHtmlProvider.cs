@@ -1,4 +1,4 @@
-﻿using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+﻿using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
 namespace KnockoutFramework.Test.TestHtml 
 {

@@ -1,7 +1,7 @@
 ﻿using Neutronium.Core.WebBrowserEngine.Window;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Windowless 
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless 
 {
     public interface IWindowlessHTMLEngineBuilder 
     {

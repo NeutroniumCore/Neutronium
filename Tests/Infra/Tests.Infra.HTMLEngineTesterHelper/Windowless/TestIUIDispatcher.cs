@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Windowless
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
 {
     public class TestIUIDispatcher : IDispatcher
     {

@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Windowless
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
 {
     public interface IWindowlessHTMLEngine : IDisposable 
     {

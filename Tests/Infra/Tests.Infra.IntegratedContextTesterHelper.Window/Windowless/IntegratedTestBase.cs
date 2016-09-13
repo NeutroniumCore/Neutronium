@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Neutronium.Core;
 using Neutronium.Core.Binding;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Tests.Infra.JavascriptEngineTesterHelper;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit.Abstractions;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Window
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Window
 {
     public class WpfThread : IDisposable
     {

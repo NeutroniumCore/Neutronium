@@ -1,7 +1,7 @@
 ﻿using Neutronium.Core.Infra;
-using Tests.Infra.HTMLEngineTesterHelper.Context;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.Context;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 
 namespace Tests.Awesomium.Infra
 {

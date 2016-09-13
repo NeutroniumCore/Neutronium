@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using FluentAssertions;
-using Tests.Infra.HTMLEngineTesterHelper.Window;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 using Xunit;
 
 namespace Tests.Infra.Tests

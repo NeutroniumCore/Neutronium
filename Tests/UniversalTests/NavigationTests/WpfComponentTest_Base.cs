@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
-using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 using HTMLControlBase = Neutronium.WPF.Internal.HTMLControlBase;
 
 namespace Tests.Universal.NavigationTests

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Chromium;
-using Tests.Infra.HTMLEngineTesterHelper.Window;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 
 namespace Tests.ChromiumFX.Infra 
 {

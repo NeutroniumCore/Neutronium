@@ -5,12 +5,12 @@ using Neutronium.Core.Binding;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Tests.Infra.HTMLEngineTesterHelper.Context;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
-using Tests.Infra.HTMLEngineTesterHelper.Threading;
+using Tests.Infra.WebBrowserEngineTesterHelper.Context;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.Threading;
 using Xunit.Abstractions;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Windowless 
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless 
  {
     public abstract class TestBase 
     {

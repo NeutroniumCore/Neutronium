@@ -4,7 +4,7 @@ using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Xunit.Abstractions;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Windowless
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
 {
     public class TestLogger : IWebSessionLogger
     {

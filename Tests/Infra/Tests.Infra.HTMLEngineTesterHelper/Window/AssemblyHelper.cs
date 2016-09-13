@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Window
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Window
 {
    
     /// <summary>

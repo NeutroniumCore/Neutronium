@@ -1,8 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using NSubstitute;
-using Tests.Infra.HTMLEngineTesterHelper.Context;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.Context;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 

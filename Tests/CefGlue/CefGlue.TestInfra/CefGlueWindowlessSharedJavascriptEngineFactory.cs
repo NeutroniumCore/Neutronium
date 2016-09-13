@@ -1,9 +1,9 @@
 ﻿using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Neutronium.WPF.Internal;
-using Tests.Infra.HTMLEngineTesterHelper.Context;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
-using Tests.Infra.HTMLEngineTesterHelper.Window;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.Context;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 
 namespace CefGlue.TestInfra
 {

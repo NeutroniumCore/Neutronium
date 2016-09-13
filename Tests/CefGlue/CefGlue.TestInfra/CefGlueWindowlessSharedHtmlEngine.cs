@@ -5,7 +5,7 @@ using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra

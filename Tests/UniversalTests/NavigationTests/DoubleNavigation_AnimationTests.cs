@@ -4,8 +4,8 @@ using FluentAssertions;
 using Neutronium.Core.Navigation;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.WPF;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
 
 namespace Tests.Universal.NavigationTests

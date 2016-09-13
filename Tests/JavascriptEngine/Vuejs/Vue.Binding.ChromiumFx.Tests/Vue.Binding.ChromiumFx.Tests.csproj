@@ -107,9 +107,9 @@
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
       <Name>Infra</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\HTMLEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj">
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
-      <Name>HTMLEngineTesterHelper</Name>
+      <Name>WebBrowserEngineTesterHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj">
       <Project>{614BBB6D-D7C4-494A-929E-067EE62573CE}</Project>

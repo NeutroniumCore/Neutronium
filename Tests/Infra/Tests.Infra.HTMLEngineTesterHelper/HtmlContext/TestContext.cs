@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.HtmlContext
+namespace Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext
 {
     public enum TestContext 
     {

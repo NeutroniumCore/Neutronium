@@ -1,7 +1,7 @@
 ﻿using System.Security.Permissions;
 using System.Windows.Threading;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Window
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Window
 {
     public static class DispatcherHelper
     {

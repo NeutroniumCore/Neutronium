@@ -1,5 +1,5 @@
 ﻿using System;
-using Tests.Infra.HTMLEngineTesterHelper.Window;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Window 
 {

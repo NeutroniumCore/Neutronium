@@ -7,8 +7,8 @@ using FluentAssertions;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
 using Xunit.Abstractions;
 

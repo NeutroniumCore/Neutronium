@@ -1,5 +1,5 @@
 ﻿using Tests.Awesomium.Infra;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
 namespace Tests.Awesomium.HTMLEngineTests.Infra
 {

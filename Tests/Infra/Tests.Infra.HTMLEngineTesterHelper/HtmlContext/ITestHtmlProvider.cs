@@ -1,4 +1,4 @@
-﻿namespace Tests.Infra.HTMLEngineTesterHelper.HtmlContext
+﻿namespace Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext
 {
     public interface ITestHtmlProvider 
     {

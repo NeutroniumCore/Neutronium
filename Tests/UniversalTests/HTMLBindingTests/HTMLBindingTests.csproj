@@ -112,9 +112,9 @@
       <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
       <Name>Neutronium.Example.ViewModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\HTMLEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj">
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
-      <Name>HTMLEngineTesterHelper</Name>
+      <Name>WebBrowserEngineTesterHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj">
       <Project>{614bbb6d-d7c4-494a-929e-067ee62573ce}</Project>

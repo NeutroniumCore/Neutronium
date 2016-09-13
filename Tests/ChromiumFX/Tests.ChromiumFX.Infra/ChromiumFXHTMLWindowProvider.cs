@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF.Internal;
-using Tests.Infra.HTMLEngineTesterHelper.Window;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 
 namespace Tests.ChromiumFX.Infra {
     internal class ChromiumFXHTMLWindowProvider : IWebBrowserWindowProvider 

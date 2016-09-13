@@ -7,8 +7,8 @@
     <ProjectGuid>{335A20F1-F421-4EB1-9961-EE487350818E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests.Infra.HTMLEngineTesterHelper</RootNamespace>
-    <AssemblyName>Tests.Infra.HTMLEngineTesterHelper</AssemblyName>
+    <RootNamespace>Tests.Infra.WebBrowserEngineTesterHelper</RootNamespace>
+    <AssemblyName>Tests.Infra.WebBrowserEngineTesterHelper</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

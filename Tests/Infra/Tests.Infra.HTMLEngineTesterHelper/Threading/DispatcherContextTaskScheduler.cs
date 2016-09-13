@@ -4,7 +4,7 @@ using System.Security;
 using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Threading 
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Threading 
 {
     public class DispatcherContextTaskScheduler :  TaskScheduler 
     {

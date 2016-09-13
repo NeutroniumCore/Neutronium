@@ -1,5 +1,5 @@
-﻿using Tests.Infra.HTMLEngineTesterHelper.Context;
-using Tests.Infra.JavascriptEngineTesterHelper;
+﻿using Tests.Infra.JavascriptEngineTesterHelper;
+using Tests.Infra.WebBrowserEngineTesterHelper.Context;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {

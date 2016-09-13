@@ -7,8 +7,8 @@ using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using NSubstitute;
-using Tests.Infra.HTMLEngineTesterHelper.Context;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.Context;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 

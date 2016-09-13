@@ -1,7 +1,7 @@
 ﻿using System;
 using Neutronium.WPF;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
-using Tests.Infra.HTMLEngineTesterHelper.Window;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Window
 {

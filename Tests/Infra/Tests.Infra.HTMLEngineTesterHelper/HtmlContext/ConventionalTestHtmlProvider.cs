@@ -1,6 +1,6 @@
 ﻿using Neutronium.Core.Infra;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.HtmlContext
+namespace Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext
 {
     public class ConventionalTestHtmlProvider : ITestHtmlProvider 
     {

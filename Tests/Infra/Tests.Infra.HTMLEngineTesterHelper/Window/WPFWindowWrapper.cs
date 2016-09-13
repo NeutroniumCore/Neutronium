@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Window
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Window
 {
     public class WPFWindowWrapper : IWPFWindowWrapper
     {

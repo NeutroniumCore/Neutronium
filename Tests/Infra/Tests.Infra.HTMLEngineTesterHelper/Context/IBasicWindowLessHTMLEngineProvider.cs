@@ -1,7 +1,7 @@
 ﻿using System;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Context 
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Context 
 {
     public interface IBasicWindowLessHTMLEngineProvider : IDisposable 
     {

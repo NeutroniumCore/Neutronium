@@ -6,7 +6,7 @@ using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.Awesomium.Engine;
 using Neutronium.WebBrowserEngine.Awesomium.Internal;
-using Tests.Infra.HTMLEngineTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 
 namespace Tests.Awesomium.Infra 
 {

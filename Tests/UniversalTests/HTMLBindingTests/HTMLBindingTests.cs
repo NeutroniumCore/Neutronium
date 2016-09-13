@@ -8,7 +8,6 @@ using System.Windows.Input;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NSubstitute;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
@@ -19,6 +18,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Universal.HTMLBindingTests.Helper;
 
 namespace Tests.Universal.HTMLBindingTests

@@ -1,7 +1,7 @@
 ﻿using System;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
-namespace Tests.Infra.HTMLEngineTesterHelper.Window 
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Window 
 {
     public interface IWindowTestHTMLEngineEnvironment : IDisposable 
     {
