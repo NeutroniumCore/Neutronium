@@ -6,7 +6,7 @@ namespace Neutronium.Core.Infra
 {
     public class BasicLogger : IWebSessionLogger
     {
-        private const string _Header = "MVVM for CEFGlue";
+        private const string _Header = "Neutronium";
 
         private void Log(string message) 
         {

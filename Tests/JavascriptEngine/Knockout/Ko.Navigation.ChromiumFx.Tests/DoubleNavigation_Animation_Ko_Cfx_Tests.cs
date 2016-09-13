@@ -1,5 +1,5 @@
-﻿using IntegratedTest.Tests.WPF;
-using Ko.Navigation.ChromiumFx.Tests.Infra;
+﻿using Ko.Navigation.ChromiumFx.Tests.Infra;
+using Tests.Universal.NavigationTests;
 using Xunit;
 
 namespace Ko.Navigation.ChromiumFx.Tests

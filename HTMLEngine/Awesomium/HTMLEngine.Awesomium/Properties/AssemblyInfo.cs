@@ -16,7 +16,7 @@ using System.Windows;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: InternalsVisibleTo("MVVM.Awesomium.Tests")]
+//[assembly: InternalsVisibleTo("MVVM.Awesomium.Tests")]
 [assembly: InternalsVisibleTo("Tests.Awesomium.Infra")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

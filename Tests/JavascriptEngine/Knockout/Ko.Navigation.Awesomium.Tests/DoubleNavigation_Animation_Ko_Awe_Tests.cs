@@ -1,5 +1,5 @@
-﻿using IntegratedTest.Tests.WPF;
-using ko.Navigation.Awesomium.Tests.Infra;
+﻿using ko.Navigation.Awesomium.Tests.Infra;
+using Tests.Universal.NavigationTests;
 using Xunit;
 
 namespace Ko.Binding.Awesomium.Tests

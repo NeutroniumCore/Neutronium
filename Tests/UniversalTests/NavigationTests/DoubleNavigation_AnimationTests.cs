@@ -4,11 +4,11 @@ using FluentAssertions;
 using Neutronium.Core.Navigation;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.WPF;
-using Xunit;
-using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.IntegratedContextTesterHelper.Window;
+using Xunit;
 
-namespace IntegratedTest.Tests.WPF
+namespace Tests.Universal.NavigationTests
 {
     public abstract class DoubleNavigation_AnimationTests : WpfComponentTest_Base<HTMLWindow> 
     {

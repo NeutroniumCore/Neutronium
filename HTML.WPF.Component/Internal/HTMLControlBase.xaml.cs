@@ -115,11 +115,12 @@ namespace Neutronium.WPF.Internal
         private void DoShowInfo()
         {
             var builder = new StringBuilder();
-            builder.AppendLine($"WebBrowser: {_WPFWebWindowFactory.EngineName}")
+            builder.AppendLine($"Neutronium version: {typeof(IHTMLBinding).Assembly.GetName().Version}")
+                   .AppendLine($"WebBrowser: {_WPFWebWindowFactory.EngineName}")
                    .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
                    .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")
                    .AppendLine($"MVVM Binding: {_Injector.Name}");
-            MessageBox.Show(GetParentWindow(), builder.ToString(), "Neutrino configuration");
+            MessageBox.Show(GetParentWindow(), builder.ToString(), "Neutronium configuration");
         }
 
         private Window GetParentWindow() 

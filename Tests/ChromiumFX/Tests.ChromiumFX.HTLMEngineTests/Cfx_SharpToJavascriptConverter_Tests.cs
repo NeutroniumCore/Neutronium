@@ -1,5 +1,5 @@
 ﻿using Tests.ChromiumFX.HTMLEngineTests.Infra;
-using Tests.Universal.HTMLEngineTests;
+using Tests.Universal.WebBrowserEnginesTests;
 using Xunit;
 using Xunit.Abstractions;
 

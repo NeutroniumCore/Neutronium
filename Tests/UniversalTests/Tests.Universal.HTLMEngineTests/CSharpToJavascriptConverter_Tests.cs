@@ -12,7 +12,7 @@ using Tests.Infra.HTMLEngineTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Tests.Universal.HTMLEngineTests
+namespace Tests.Universal.WebBrowserEnginesTests
 {
     public abstract class CSharpToJavascriptConverter_Tests : TestBase
     {

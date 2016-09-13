@@ -1,4 +1,4 @@
-﻿using IntegratedTest.Tests.WPF;
+﻿using Tests.Universal.NavigationTests;
 using Vue.Navigation.ChromiumFx.Tests.Infra;
 using Xunit;
 

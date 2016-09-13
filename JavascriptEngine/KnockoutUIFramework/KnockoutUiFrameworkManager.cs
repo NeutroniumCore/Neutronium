@@ -60,7 +60,7 @@ namespace Neutronium.JavascriptFramework.Knockout
 
         private ResourceReader GetResourceReader()
         {
-            return new ResourceReader("KnockoutUIFramework.scripts", this);
+            return new ResourceReader("Neutronium.JavascriptFramework.Knockout.scripts", this);
         }
     }
 }

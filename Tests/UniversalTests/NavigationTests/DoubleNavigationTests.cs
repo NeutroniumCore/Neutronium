@@ -10,11 +10,11 @@ using Neutronium.Core.Navigation;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.WPF;
 using NSubstitute;
+using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Xunit;
-using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 
-namespace IntegratedTest.Tests.WPF
+namespace Tests.Universal.NavigationTests
 {
     public abstract class DoubleNavigationTests : WpfComponentTest_Base<HTMLWindow>
     {

@@ -97,9 +97,9 @@
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
       <Name>HTMLEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UniversalTests\Tests.Universal.HTLMEngineTests\HTMLEngineTests.csproj">
+    <ProjectReference Include="..\..\UniversalTests\Tests.Universal.HTLMEngineTests\WebBrowserEnginesTests.csproj">
       <Project>{440a6f09-63e4-4bda-bef4-beaf02a8ee30}</Project>
-      <Name>HTMLEngineTests</Name>
+      <Name>WebBrowserEnginesTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\MVVM.Awesomium.TestInfra\Infra.csproj">
       <Project>{8955b9f6-b6e5-4fef-a5ab-90c35afb9cc6}</Project>

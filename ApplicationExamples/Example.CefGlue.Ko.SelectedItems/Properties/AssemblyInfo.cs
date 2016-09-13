@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MVVM.CEFGlue.UI.SelectedItems")]
+[assembly: AssemblyTitle("Example.CefGlue.Ko.SelectedItems")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MVVM.CEFGlue.UI.SelectedItems")]
+[assembly: AssemblyProduct("Example.CefGlue.Ko.SelectedItems")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

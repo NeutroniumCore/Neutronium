@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Neutronium.Core;
+using Neutronium.Core.Infra;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
 using Tests.Infra.HTMLEngineTesterHelper.Window;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
-using Neutronium.Core;
-using Neutronium.Core.Infra;
 using HTMLControlBase = Neutronium.WPF.Internal.HTMLControlBase;
 
-namespace IntegratedTest.Tests.WPF
+namespace Tests.Universal.NavigationTests
 {
     public abstract class WpfComponentTest_Base<T>  where T : HTMLControlBase
     {

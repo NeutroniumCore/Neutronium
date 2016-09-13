@@ -8,11 +8,11 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
 using Neutronium.Example.ViewModel;
 using Neutronium.WPF;
-using Xunit;
-using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.HTMLEngineTesterHelper.HtmlContext;
+using Tests.Infra.IntegratedContextTesterHelper.Window;
+using Xunit;
 
-namespace IntegratedTest.Tests.WPF
+namespace Tests.Universal.NavigationTests
 {
     public abstract class HTMLViewControlTests : WpfComponentTest_Base<HTMLViewControl>
     {

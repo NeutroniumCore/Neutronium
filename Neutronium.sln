@@ -107,13 +107,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Tests", "Tests\Infra\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UniversalTests", "UniversalTests", "{D4977B2A-E4D4-4E9F-A2BF-2EAD13CAA5E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLEngineTests", "Tests\UniversalTests\Tests.Universal.HTLMEngineTests\HTMLEngineTests.csproj", "{440A6F09-63E4-4BDA-BEF4-BEAF02A8EE30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserEnginesTests", "Tests\UniversalTests\Tests.Universal.HTLMEngineTests\WebBrowserEnginesTests.csproj", "{440A6F09-63E4-4BDA-BEF4-BEAF02A8EE30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\ChromiumFX\Tests.ChromiumFX.Infra\Infra.csproj", "{A82D4195-0F75-48B3-8E43-5BE90D061C6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLEngineTests", "Tests\ChromiumFX\Tests.ChromiumFX.HTLMEngineTests\HTMLEngineTests.csproj", "{0D2B555B-3DF7-460B-843B-F9F3145135BD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HTMEngine", "HTMEngine", "{7A86C107-E1C7-4F1C-8FBF-7339F7623EF6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebBrowserEngines", "WebBrowserEngines", "{7A86C107-E1C7-4F1C-8FBF-7339F7623EF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTMLEngineTests", "Tests\CefGlue\HTLMEngineTests\HTMLEngineTests.csproj", "{E489B2FD-DD99-4276-BD33-51099ACA0970}"
 EndProject
