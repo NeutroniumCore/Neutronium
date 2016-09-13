@@ -11,7 +11,7 @@ namespace Ko.Navigation.CefGlue.Tests.Infra
         public override WindowTestContext GetWindowTestContext() => new WindowTestContext
         {
             WPFWebWindowFactory = () => new CefGlueWPFWebWindowFactory(),
-            FrameworkManager = new KnockoutUiFrameworkManager(),
+            FrameworkManager = new KnockoutFrameworkManager(),
             HtmlProvider = new KnockoutHtmlProvider()
         };
     }

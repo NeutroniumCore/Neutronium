@@ -10,9 +10,9 @@ namespace Example.CefGlue.Ko.Infra
     /// </summary>
     public class WebBrowserApp : CefGlueWebBrowserApp 
     {
-        protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
+        protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager() 
         {
-            return new KnockoutUiFrameworkManager();
+            return new KnockoutFrameworkManager();
         }
     }
 }

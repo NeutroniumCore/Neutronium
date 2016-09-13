@@ -18,7 +18,7 @@ namespace Example.Awesomium.CefGlue.Ko.SimpleUI
             var engine = HTMLEngineFactory.Engine;
             engine.RegisterHTMLEngine(new AwesomiumWPFWebWindowFactory() );
             engine.RegisterHTMLEngine(new CefGlueWPFWebWindowFactory());
-            engine.RegisterJavaScriptFramework(new KnockoutUiFrameworkManager());
+            engine.RegisterJavaScriptFramework(new KnockoutFrameworkManager());
             base.OnStartup(e);
         }
 

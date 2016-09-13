@@ -6,7 +6,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.JavascriptFramework.Knockout
 {
-    public class KnockoutUiFrameworkManager : IJavascriptUiFrameworkManager
+    public class KnockoutFrameworkManager : IJavascriptFrameworkManager
     {
         private string _JavascriptDebugScript;
         private string _MainScript;

@@ -31,24 +31,24 @@ namespace Neutronium.WPF
         void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory);
 
         /// <summary>
-        /// Find a IJavascriptUiFrameworkManager by name.
+        /// Find a IJavascriptFrameworkManager by name.
         /// This method is called internally by HTLM_WPF.Component controls
         /// </summary>
         /// <param name="frameworkName">
         /// the name of the factory to be found
         /// </param>
         /// <returns>
-        /// IJavascriptUiFrameworkManager registered with a similar name.
+        /// IJavascriptFrameworkManager registered with a similar name.
         ///</returns>
-        IJavascriptUiFrameworkManager ResolveJavaScriptFramework(string frameworkName);
+        IJavascriptFrameworkManager ResolveJavaScriptFramework(string frameworkName);
 
         /// <summary>
-        /// register a IJavascriptUiFrameworkManager using its Name property
+        /// register a IJavascriptFrameworkManager using its Name property
         /// </summary>
-        /// <param name="javascriptUiFrameworkManager">
-        /// IJavascriptUiFrameworkManager to be registered
+        /// <param name="javascriptFrameworkManager">
+        /// IJavascriptFrameworkManager to be registered
         /// </param>
-        void RegisterJavaScriptFramework(IJavascriptUiFrameworkManager javascriptUiFrameworkManager);
+        void RegisterJavaScriptFramework(IJavascriptFrameworkManager javascriptFrameworkManager);
 
         /// <summary>
         /// get or set WebSessionLogger

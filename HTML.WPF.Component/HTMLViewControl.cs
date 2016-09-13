@@ -7,10 +7,11 @@ using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
+using Neutronium.WPF.Internal;
 
 namespace Neutronium.WPF
 {
-    public class HTMLViewControl : Neutronium.WPF.Internal.HTMLControlBase
+    public class HTMLViewControl : HTMLControlBase
     {
         public static readonly DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(Uri), 
                                                     typeof(HTMLViewControl), new PropertyMetadata(OnUriChanged));

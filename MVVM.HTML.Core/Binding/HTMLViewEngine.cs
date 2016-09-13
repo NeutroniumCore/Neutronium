@@ -8,21 +8,21 @@ namespace Neutronium.Core.Binding
     public class HTMLViewEngine
     {
         private readonly IWebBrowserWindowProvider _HTMLWindowProvider;
-        private readonly IJavascriptUiFrameworkManager _UIFrameworkManager;
+        private readonly IJavascriptFrameworkManager _frameworkManager;
         public IWebSessionLogger Logger { get; }
 
         private IWebView MainView => _HTMLWindowProvider.HTMLWindow.MainFrame;
 
-        public HTMLViewEngine(IWebBrowserWindowProvider hTMLWindowProvider, IJavascriptUiFrameworkManager uiFrameworkManager, IWebSessionLogger logger)
+        public HTMLViewEngine(IWebBrowserWindowProvider hTMLWindowProvider, IJavascriptFrameworkManager frameworkManager, IWebSessionLogger logger)
         {
             _HTMLWindowProvider = hTMLWindowProvider;
-            _UIFrameworkManager = uiFrameworkManager;
+            _frameworkManager = frameworkManager;
             Logger = logger;
         }
 
         public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {
-            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _UIFrameworkManager, javascriptChangesObserver, Logger);
+            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _frameworkManager, javascriptChangesObserver, Logger);
         }
 
         internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode, object additional)

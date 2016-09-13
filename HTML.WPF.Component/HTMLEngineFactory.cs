@@ -14,7 +14,7 @@ namespace Neutronium.WPF
     {
         private IWebSessionLogger _webSessionLogger;
         private readonly IDictionary<string, IWPFWebWindowFactory> _Engines = new Dictionary<string, IWPFWebWindowFactory>();
-        private readonly IDictionary<string, IJavascriptUiFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptUiFrameworkManager>();
+        private readonly IDictionary<string, IJavascriptFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptFrameworkManager>();
 
         /// <summary>
         /// Access the singleton IHTMLEngineFactory
@@ -50,7 +50,7 @@ namespace Neutronium.WPF
             wpfWebWindowFactory.WebSessionLogger = _webSessionLogger;
         }
 
-        public IJavascriptUiFrameworkManager ResolveJavaScriptFramework(string frameworkName)
+        public IJavascriptFrameworkManager ResolveJavaScriptFramework(string frameworkName)
         {
             if (_JavascriptFrameworks.Count == 1)
             {
@@ -65,9 +65,9 @@ namespace Neutronium.WPF
             return _JavascriptFrameworks.GetOrDefault(frameworkName);
         }
 
-        public void RegisterJavaScriptFramework(IJavascriptUiFrameworkManager javascriptUiFrameworkManager)
+        public void RegisterJavaScriptFramework(IJavascriptFrameworkManager javascriptFrameworkManager)
         {
-            _JavascriptFrameworks[javascriptUiFrameworkManager.Name]= javascriptUiFrameworkManager;
+            _JavascriptFrameworks[javascriptFrameworkManager.Name]= javascriptFrameworkManager;
         }
 
         public IWebSessionLogger WebSessionLogger 

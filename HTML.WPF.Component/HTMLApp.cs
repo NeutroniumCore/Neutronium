@@ -15,7 +15,7 @@ namespace Neutronium.WPF
 
         protected abstract IWPFWebWindowFactory GetWindowFactory();
 
-        protected abstract IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager();
+        protected abstract IJavascriptFrameworkManager GetJavascriptUIFrameworkManager();
 
         protected override void OnExit(ExitEventArgs e)
         {

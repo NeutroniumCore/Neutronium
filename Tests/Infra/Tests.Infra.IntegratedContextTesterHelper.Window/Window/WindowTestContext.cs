@@ -9,7 +9,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
     {
         public Func<IWPFWebWindowFactory> WPFWebWindowFactory { get; set; }
 
-        public IJavascriptUiFrameworkManager FrameworkManager { get; set; }
+        public IJavascriptFrameworkManager FrameworkManager { get; set; }
 
         public ITestHtmlProvider HtmlProvider { get; set; }
     }

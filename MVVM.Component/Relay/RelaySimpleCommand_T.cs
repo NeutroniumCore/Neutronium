@@ -6,9 +6,9 @@ namespace Neutronium.MVVMComponents.Relay
     {
         private readonly Action<T> _Do;
 
-        public RelaySimpleCommand(Action<T> iDo)
+        public RelaySimpleCommand(Action<T> doAction)
         {
-            _Do = iDo;
+            _Do = doAction;
         }
 
         public void Execute(object argument)

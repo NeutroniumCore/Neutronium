@@ -3,9 +3,9 @@
 namespace Neutronium.Core.JavascriptFramework
 {
     /// <summary>
-    /// IJavascriptUiFrameworkManager factory
+    /// IJavascriptFrameworkManager factory
     /// </summary>
-    public interface IJavascriptUiFrameworkManager
+    public interface IJavascriptFrameworkManager
     {
         /// <summary>
         /// Get the name and version of unferlying javascript framework

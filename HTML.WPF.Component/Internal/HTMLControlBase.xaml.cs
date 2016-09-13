@@ -24,7 +24,7 @@ namespace Neutronium.WPF.Internal
         private string _JavascriptDebugScript = null;
         private readonly IUrlSolver _UrlSolver;
         private readonly DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
-        private readonly IJavascriptUiFrameworkManager _Injector;
+        private readonly IJavascriptFrameworkManager _Injector;
 
         public BasicRelayCommand DebugWindow { get; }
         public BasicRelayCommand DebugBrowser { get; }

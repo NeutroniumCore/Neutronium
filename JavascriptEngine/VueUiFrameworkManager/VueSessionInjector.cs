@@ -9,7 +9,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
-    public class VueSessionInjector : IJavascriptUiFrameworkManager
+    public class VueSessionInjector : IJavascriptFrameworkManager
     {
         public string FrameworkName => "vue.js 1.0.25";
         public string Name => "VueInjector";

@@ -9,7 +9,7 @@ namespace Example.ChromiumFX.Vue.Infra
     /// </summary>
     public class WebBrowserApp : ChromiumFxWebBrowserApp 
     {
-        protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
+        protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager() 
         {
             return new VueSessionInjector();
         }

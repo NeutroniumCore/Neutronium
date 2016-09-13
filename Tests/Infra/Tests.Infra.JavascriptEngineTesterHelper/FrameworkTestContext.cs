@@ -7,7 +7,7 @@ namespace Tests.Infra.JavascriptFrameworkTesterHelper
 {
     public class FrameworkTestContext 
     {
-        public IJavascriptUiFrameworkManager FrameworkManager { get; set; }
+        public IJavascriptFrameworkManager FrameworkManager { get; set; }
 
         public Func<IWebView, IJavascriptFrameworkExtractor> JavascriptFrameworkExtractorBuilder { get; set; }
 

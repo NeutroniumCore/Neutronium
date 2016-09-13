@@ -10,7 +10,7 @@ namespace Ko.Navigation.ChromiumFx.Tests.Infra
         public override WindowTestContext GetWindowTestContext() => new WindowTestContext
         {
             WPFWebWindowFactory = () => new ChromiumFXWPFWebWindowFactory(),
-            FrameworkManager = new KnockoutUiFrameworkManager(),
+            FrameworkManager = new KnockoutFrameworkManager(),
             HtmlProvider = new KnockoutHtmlProvider()
         };
     }

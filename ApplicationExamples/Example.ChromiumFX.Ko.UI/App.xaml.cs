@@ -9,9 +9,9 @@ namespace Example.ChromiumFX.Ko.UI
     /// </summary>
     public partial class App  
     {
-        protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
+        protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager() 
         {
-            return new KnockoutUiFrameworkManager();
+            return new KnockoutFrameworkManager();
         }
 
         protected override void UpdateChromiumSettings(CfxSettings settings)

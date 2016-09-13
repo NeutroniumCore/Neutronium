@@ -10,7 +10,7 @@
 //        public override WindowTestContext GetWindowTestContext() => new WindowTestContext 
 //        {
 //            WPFWebWindowFactory = () => new AwesomiumWPFWebWindowFactory(),
-//            FrameworkManager =  new KnockoutUiFrameworkManager(),
+//            FrameworkManager =  new KnockoutFrameworkManager(),
 //            HtmlProvider = new KnockoutUiHtmlProvider()
 //        };
 //    }

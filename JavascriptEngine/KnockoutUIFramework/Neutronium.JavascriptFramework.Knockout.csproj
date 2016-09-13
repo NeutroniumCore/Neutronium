@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="KnockoutSessionInjector.cs" />
-    <Compile Include="KnockoutUiFrameworkManager.cs" />
+    <Compile Include="KnockoutFrameworkManager.cs" />
     <Compile Include="KnockoutUiVmManager.cs" />
     <Compile Include="KnockoutViewModelUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

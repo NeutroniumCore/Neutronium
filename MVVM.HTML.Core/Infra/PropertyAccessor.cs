@@ -5,7 +5,7 @@ namespace Neutronium.Core.Infra
 {
     internal class PropertyAccessor
     {
-        private PropertyInfo _PropertyInfo;
+        private readonly PropertyInfo _PropertyInfo;
         private readonly object _Target;
         private readonly IWebSessionLogger _Logger;
 

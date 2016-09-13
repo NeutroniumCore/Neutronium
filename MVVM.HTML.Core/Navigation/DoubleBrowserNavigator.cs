@@ -13,7 +13,7 @@ namespace Neutronium.Core.Navigation
     public class DoubleBrowserNavigator : INavigationSolver 
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
-        private readonly IJavascriptUiFrameworkManager _javascriptUiFrameworkManager;
+        private readonly IJavascriptFrameworkManager _javascriptFrameworkManager;
         private readonly IUrlSolver _UrlSolver;        
         private IWebBrowserWindowProvider _CurrentWebControl;
         private IWebBrowserWindowProvider _NextWebControl;
@@ -39,10 +39,10 @@ namespace Neutronium.Core.Navigation
         }
 
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, 
-                                        IJavascriptUiFrameworkManager javascriptUiFrameworkManager)
+                                        IJavascriptFrameworkManager javascriptFrameworkManager)
         {
             _webSessionLogger = new BasicLogger();
-            _javascriptUiFrameworkManager = javascriptUiFrameworkManager;
+            _javascriptFrameworkManager = javascriptFrameworkManager;
             _WebViewLifeCycleManager = lifecycler;
             _UrlSolver = urlSolver;
         }
@@ -169,7 +169,7 @@ namespace Neutronium.Core.Navigation
                 before = (o,e) =>
                 {
                     moderWindow.BeforeJavascriptExecuted -= before;
-                    e.JavascriptExecutor(_javascriptUiFrameworkManager.GetMainScript(debugContext));
+                    e.JavascriptExecutor(_javascriptFrameworkManager.GetMainScript(debugContext));
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }
@@ -193,9 +193,9 @@ namespace Neutronium.Core.Navigation
             return tcs.Task;
         }
 
-        private IJavascriptUiFrameworkManager GetInjectorFactory(Uri iUri)
+        private IJavascriptFrameworkManager GetInjectorFactory(Uri iUri)
         {
-            return _javascriptUiFrameworkManager;
+            return _javascriptFrameworkManager;
         }
 
         public void ExcecuteJavascript(string icode)

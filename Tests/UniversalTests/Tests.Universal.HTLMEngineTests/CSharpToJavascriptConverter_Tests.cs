@@ -36,7 +36,7 @@ namespace Tests.Universal.WebBrowserEnginesTests
         private HTMLViewContext _HTMLViewContext;
         private IJSCommandFactory _JSCommandFactory;
         private IJavascriptSessionCache _ICSharpMapper;
-        private IJavascriptUiFrameworkManager _javascriptUiFrameworkManager;
+        private IJavascriptFrameworkManager _javascriptFrameworkManager;
 
         protected CSharpToJavascriptConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
@@ -48,8 +48,8 @@ namespace Tests.Universal.WebBrowserEnginesTests
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
-            _javascriptUiFrameworkManager = Substitute.For<IJavascriptUiFrameworkManager>();
-            _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptUiFrameworkManager, null, _Logger);         
+            _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
+            _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);         
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>

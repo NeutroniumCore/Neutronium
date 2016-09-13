@@ -6,9 +6,9 @@ namespace Neutronium.MVVMComponents.Relay
     public class RelayResultCommand<TResult> : IResultCommand
     {
         private readonly Func<TResult> _Function;
-        public RelayResultCommand(Func<TResult> iFunction)
+        public RelayResultCommand(Func<TResult> function)
         {
-            _Function = iFunction;
+            _Function = function;
         }
 
         public Task<object> Execute(object iargument)

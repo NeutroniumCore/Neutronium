@@ -11,7 +11,7 @@ namespace KnockoutFramework.Test.IntegratedInfra
             return new FrameworkTestContext 
             {
                 JavascriptFrameworkExtractorBuilder = (webView) => new KnockoutExtractor(webView),
-                FrameworkManager = new KnockoutUiFrameworkManager(),
+                FrameworkManager = new KnockoutFrameworkManager(),
                 HtmlProvider = new KnockoutHtmlProvider()
             };
         }

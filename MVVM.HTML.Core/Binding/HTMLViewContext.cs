@@ -15,7 +15,7 @@ namespace Neutronium.Core.Binding
         private readonly IJavascriptViewModelManager _VmManager;
         private readonly IWebSessionLogger _logger;
 
-        public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptUiFrameworkManager javascriptUiFrameworkManager,
+        public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
                                 IJavascriptChangesObserver javascriptChangesObserver, IWebSessionLogger logger)
         {
             WebView = webView;
@@ -23,7 +23,7 @@ namespace Neutronium.Core.Binding
             UIDispatcher = uiDispatcher;
             var builder = new BinderBuilder(webView, javascriptChangesObserver);
             _Listener = builder.BuildListener();
-            _VmManager = javascriptUiFrameworkManager.CreateManager(WebView, _Listener, _logger);
+            _VmManager = javascriptFrameworkManager.CreateManager(WebView, _Listener, _logger);
             ViewModelUpdater = _VmManager.ViewModelUpdater;
             JavascriptSessionInjector = _VmManager.Injector;
         }

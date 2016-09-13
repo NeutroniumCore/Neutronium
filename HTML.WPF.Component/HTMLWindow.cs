@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Neutronium.Core;
 using Neutronium.Core.Navigation;
+using Neutronium.WPF.Internal;
 
 namespace Neutronium.WPF
 {
-    public class HTMLWindow : Neutronium.WPF.Internal.HTMLControlBase, INavigationSolver
+    public class HTMLWindow : HTMLControlBase, INavigationSolver
     {
         public HTMLWindow() : this(new NavigationBuilder())
         {

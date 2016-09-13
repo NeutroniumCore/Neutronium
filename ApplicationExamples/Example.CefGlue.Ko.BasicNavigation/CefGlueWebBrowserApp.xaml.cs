@@ -8,9 +8,9 @@ namespace Example.CefGlue.Ko.BasicNavigation
     /// </summary>
     public partial class CefGlueWebBrowserApp
     {
-        protected override IJavascriptUiFrameworkManager GetJavascriptUIFrameworkManager() 
+        protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager() 
         {
-            return new KnockoutUiFrameworkManager();
+            return new KnockoutFrameworkManager();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ko.Navigation.Awesomium.Tests.Infra
         public override WindowTestContext GetWindowTestContext() => new WindowTestContext
         {
             WPFWebWindowFactory = () => new AwesomiumWPFWebWindowFactory(),
-            FrameworkManager = new KnockoutUiFrameworkManager(),
+            FrameworkManager = new KnockoutFrameworkManager(),
             HtmlProvider = new KnockoutHtmlProvider()
         };
     }
