@@ -1,7 +1,7 @@
 ﻿using CefGlue.TestInfra;
 using KnockoutFramework.Test.IntegratedInfra;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
-using Tests.Infra.JavascriptEngineTesterHelper;
+using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.Context;
 
 namespace Ko.Binding.ChromiumFx.Tests.Infra

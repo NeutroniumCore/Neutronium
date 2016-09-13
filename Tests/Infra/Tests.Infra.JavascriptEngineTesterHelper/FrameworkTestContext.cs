@@ -3,7 +3,7 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
-namespace Tests.Infra.JavascriptEngineTesterHelper
+namespace Tests.Infra.JavascriptFrameworkTesterHelper
 {
     public class FrameworkTestContext 
     {

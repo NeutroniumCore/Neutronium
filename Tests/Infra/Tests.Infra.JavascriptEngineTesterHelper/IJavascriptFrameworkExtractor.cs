@@ -1,6 +1,6 @@
 ﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Tests.Infra.JavascriptEngineTesterHelper
+namespace Tests.Infra.JavascriptFrameworkTesterHelper
 {
     public interface IJavascriptFrameworkExtractor
     {

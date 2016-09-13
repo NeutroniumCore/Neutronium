@@ -1,4 +1,4 @@
-﻿using Tests.Infra.JavascriptEngineTesterHelper;
+﻿using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.Context;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless

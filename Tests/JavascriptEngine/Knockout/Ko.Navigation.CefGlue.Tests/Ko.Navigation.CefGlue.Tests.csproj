@@ -121,9 +121,9 @@
       <Project>{614BBB6D-D7C4-494A-929E-067EE62573CE}</Project>
       <Name>IntegratedContextTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj">
       <Project>{25EC8826-104C-4346-B648-CF7AB591399A}</Project>
-      <Name>JavascriptEngineTesterHelper</Name>
+      <Name>JavascriptFrameworkTesterHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\UniversalTests\NavigationTests\NavigationTests.csproj">
       <Project>{6469a920-5763-4853-858d-455fa43894b8}</Project>

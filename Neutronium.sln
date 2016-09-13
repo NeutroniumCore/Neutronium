@@ -95,7 +95,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptFrameworks", "Jav
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{95F6E684-BFA1-4208-9B8D-99BF3EB5FE43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavascriptEngineTesterHelper", "Tests\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptEngineTesterHelper.csproj", "{25EC8826-104C-4346-B648-CF7AB591399A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavascriptFrameworkTesterHelper", "Tests\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj", "{25EC8826-104C-4346-B648-CF7AB591399A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserEngineTesterHelper", "Tests\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj", "{335A20F1-F421-4EB1-9961-EE487350818E}"
 EndProject

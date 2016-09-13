@@ -85,9 +85,9 @@
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
       <Name>WebBrowserEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj">
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
-      <Name>JavascriptEngineTesterHelper</Name>
+      <Name>JavascriptFrameworkTesterHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

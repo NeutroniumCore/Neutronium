@@ -118,9 +118,9 @@
       <Project>{614bbb6d-d7c4-494a-929e-067ee62573ce}</Project>
       <Name>IntegratedContextTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj">
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
-      <Name>JavascriptEngineTesterHelper</Name>
+      <Name>JavascriptFrameworkTesterHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

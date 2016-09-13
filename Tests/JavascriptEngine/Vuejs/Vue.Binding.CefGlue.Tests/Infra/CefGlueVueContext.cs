@@ -1,6 +1,6 @@
 ﻿using CefGlue.TestInfra;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
-using Tests.Infra.JavascriptEngineTesterHelper;
+using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.Context;
 using VueFramework.Test.IntegratedInfra;
 

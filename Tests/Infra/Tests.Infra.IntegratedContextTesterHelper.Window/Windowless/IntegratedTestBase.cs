@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Neutronium.Core;
 using Neutronium.Core.Binding;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Tests.Infra.JavascriptEngineTesterHelper;
+using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit.Abstractions;

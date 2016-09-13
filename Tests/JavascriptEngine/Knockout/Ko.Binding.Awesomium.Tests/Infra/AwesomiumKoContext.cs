@@ -1,7 +1,7 @@
 ﻿using KnockoutFramework.Test.IntegratedInfra;
 using Tests.Awesomium.Infra;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
-using Tests.Infra.JavascriptEngineTesterHelper;
+using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.Context;
 
 namespace Ko.Binding.Awesomium.Tests.Infra

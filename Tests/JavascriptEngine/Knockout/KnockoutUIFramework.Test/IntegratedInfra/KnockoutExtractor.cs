@@ -1,5 +1,5 @@
 ﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Tests.Infra.JavascriptEngineTesterHelper;
+using Tests.Infra.JavascriptFrameworkTesterHelper;
 
 namespace KnockoutFramework.Test.IntegratedInfra
 {

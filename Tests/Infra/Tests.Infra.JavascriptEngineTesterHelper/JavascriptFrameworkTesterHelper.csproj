@@ -7,8 +7,8 @@
     <ProjectGuid>{25EC8826-104C-4346-B648-CF7AB591399A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests.Infra.JavascriptEngineTesterHelper</RootNamespace>
-    <AssemblyName>Tests.Infra.JavascriptEngineTesterHelper</AssemblyName>
+    <RootNamespace>Tests.Infra.JavascriptFrameworkTesterHelper</RootNamespace>
+    <AssemblyName>Tests.Infra.JavascriptFrameworkTesterHelper</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
