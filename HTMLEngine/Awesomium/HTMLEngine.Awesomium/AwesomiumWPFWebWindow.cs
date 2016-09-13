@@ -41,7 +41,7 @@ namespace HTMLEngine.Awesomium
         public void Inject(Key KeyToInject)
         {
             IWebView wv = _WebControl;
-            KeyEventArgs kev = new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, KeyToInject);
+            var kev = new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, KeyToInject);
             wv.InjectKeyboardEvent(kev.GetKeyboardEvent(WebKeyboardEventType.KeyDown));
         }
 

@@ -14,6 +14,11 @@ namespace Neutronium.WebBrowserEngine.Awesomium
         public bool IsLoaded => _WebControl.IsDocumentReady;
         public Uri Url => _WebControl.Source;
 
+        public Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView MainFrame 
+        {
+            get;
+        }
+
         public AwesomiumHTMLWindow(WebControl iWebControl)
         {
             _WebControl = iWebControl;
@@ -30,8 +35,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium
             if ((WebCore.IsShuttingDown) || (!WebCore.IsInitialized))
                 return;
 
-            if (Crashed != null)
-                Crashed(this, new BrowserCrashedArgs());
+            Crashed?.Invoke(this, new BrowserCrashedArgs());
         }
 
         private void _WebControl_ConsoleMessage(object sender, ConsoleMessageEventArgs e)
@@ -39,20 +43,14 @@ namespace Neutronium.WebBrowserEngine.Awesomium
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
         }
 
-        public Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView MainFrame
-        {
-            get;  private set;
-        }
-
         public void NavigateTo(Uri path)
         {
             _WebControl.Source = path;
         }
 
-        private void FireLoaded()
+        private void FireLoaded() 
         {
-            if (LoadEnd != null)
-                LoadEnd(this, new LoadEndEventArgs(MainFrame));
+            LoadEnd?.Invoke(this, new LoadEndEventArgs(MainFrame));
         }
 
         public event EventHandler<LoadEndEventArgs> LoadEnd;

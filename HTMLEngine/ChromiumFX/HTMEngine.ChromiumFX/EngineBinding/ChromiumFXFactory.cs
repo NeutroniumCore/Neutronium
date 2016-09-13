@@ -76,7 +76,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (iLocal)
                 return UpdateConvert(rawResult);
 
-            _CfrV8Context.Global.SetValue(string.Format("__ChromiumFX_Object_{0}__", _GlobalCount++), rawResult, CfxV8PropertyAttribute.DontDelete | CfxV8PropertyAttribute.ReadOnly);
+            _CfrV8Context.Global.SetValue($"__ChromiumFX_Object_{_GlobalCount++}__", rawResult, CfxV8PropertyAttribute.DontDelete | CfxV8PropertyAttribute.ReadOnly);
             return UpdateConvert(rawResult);
         }
 
