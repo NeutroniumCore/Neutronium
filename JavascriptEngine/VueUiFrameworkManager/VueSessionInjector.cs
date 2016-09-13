@@ -75,7 +75,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private ResourceReader GetResourceReader()
         {
-            return new ResourceReader("Neutronium.JavascriptFramework.Vue.scripts", this);
+            return new ResourceReader("scripts", this);
         }
     }
 }

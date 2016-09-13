@@ -13,8 +13,8 @@ namespace Neutronium.Core.Infra
 
         public ResourceReader(string directory, object objectAssembly)
         {
-            _Directory = directory;
             _Assembly = objectAssembly.GetType().Assembly;
+            _Directory = $"{_Assembly.GetName().Name}.{directory}";
         }
 
         public ResourceReader(string directory, Assembly assembly)
