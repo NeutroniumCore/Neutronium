@@ -93,7 +93,7 @@
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>Neutronium.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\HTMLEngine\CefGlue\HTMLEngine.CefGlue\Neutronium.WebBrowserEngine.CefGlue.csproj">
+    <ProjectReference Include="..\..\..\..\WebBrowserEngine\CefGlue\HTMLEngine.CefGlue\Neutronium.WebBrowserEngine.CefGlue.csproj">
       <Project>{CE4F4133-789F-420D-941D-18DA08B140FF}</Project>
       <Name>Neutronium.WebBrowserEngine.CefGlue</Name>
     </ProjectReference>

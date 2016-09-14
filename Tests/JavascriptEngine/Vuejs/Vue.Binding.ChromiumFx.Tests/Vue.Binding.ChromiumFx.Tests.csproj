@@ -91,7 +91,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\HTMLEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
+    <ProjectReference Include="..\..\..\..\WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
       <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
       <Name>ChromiumFXRenderProcess</Name>
     </ProjectReference>

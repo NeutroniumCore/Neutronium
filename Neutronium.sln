@@ -37,21 +37,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\CefGlue\CefG
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChromiumFX", "ChromiumFX", "{3C1F3260-722C-4C57-93F6-DB044D7E73E4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebBrowserEngines", "WebBrowserEngines", "{0F9021F8-1144-4805-908D-8BE3F61B8489}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebBrowserEngine", "WebBrowserEngine", "{0F9021F8-1144-4805-908D-8BE3F61B8489}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChromiumFX", "ChromiumFX", "{F143A8A5-F7F5-4860-99F8-574788EB6D98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromiumFXRenderProcess", "HTMLEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj", "{5A202154-9F9A-47CF-A7A5-4DF6DA026076}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromiumFXRenderProcess", "WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj", "{5A202154-9F9A-47CF-A7A5-4DF6DA026076}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine.ChromiumFx", "HTMLEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj", "{E619F232-D964-4CDB-9A9C-DFB44E32C36F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine.ChromiumFx", "WebBrowserEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj", "{E619F232-D964-4CDB-9A9C-DFB44E32C36F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CefGlue", "CefGlue", "{C563BA79-74E4-4600-9008-4FC4ABA8C329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine.CefGlue", "HTMLEngine\CefGlue\HTMLEngine.CefGlue\Neutronium.WebBrowserEngine.CefGlue.csproj", "{CE4F4133-789F-420D-941D-18DA08B140FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine.CefGlue", "WebBrowserEngine\CefGlue\HTMLEngine.CefGlue\Neutronium.WebBrowserEngine.CefGlue.csproj", "{CE4F4133-789F-420D-941D-18DA08B140FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Awesomium", "Awesomium", "{32B7093F-0738-400D-A21E-AC0512038679}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine.Awesomium", "HTMLEngine\Awesomium\HTMLEngine.Awesomium\Neutronium.WebBrowserEngine.Awesomium.csproj", "{92B20870-AD65-4AE8-BB1E-4D11B922A135}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine.Awesomium", "WebBrowserEngine\Awesomium\HTMLEngine.Awesomium\Neutronium.WebBrowserEngine.Awesomium.csproj", "{92B20870-AD65-4AE8-BB1E-4D11B922A135}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptFrameworks", "JavascriptFrameworks", "{45DFFB49-44B9-49C6-8C5B-1B928366A462}"
 EndProject
