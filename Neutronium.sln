@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{994258
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Components.Test", "Tests\MVVM.Component.Test\Neutronium.Components.Test.csproj", "{371234C6-4903-4F7D-8283-C0F8DBEF8755}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Components.Test", "Tests\Neutronium.Components.Test\Neutronium.Components.Test.csproj", "{371234C6-4903-4F7D-8283-C0F8DBEF8755}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Core.Test", "Tests\Neutronium.Core.Test\Neutronium.Core.Test.csproj", "{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}"
 EndProject
@@ -53,11 +53,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Awesomium", "Awesomium", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine.Awesomium", "WebBrowserEngine\Awesomium\HTMLEngine.Awesomium\Neutronium.WebBrowserEngine.Awesomium.csproj", "{92B20870-AD65-4AE8-BB1E-4D11B922A135}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptFrameworks", "JavascriptFrameworks", "{45DFFB49-44B9-49C6-8C5B-1B928366A462}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptFramework", "JavascriptFramework", "{45DFFB49-44B9-49C6-8C5B-1B928366A462}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Knockout", "JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj", "{AF41D637-D053-4FDE-9D8A-96106CCBD19E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WPF.Test", "Tests\HTML_WPF.Component.Test\Neutronium.WPF.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WPF.Test", "Tests\Neutronium.WPF.Test\Neutronium.WPF.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Vue", "JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj", "{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}"
 EndProject
