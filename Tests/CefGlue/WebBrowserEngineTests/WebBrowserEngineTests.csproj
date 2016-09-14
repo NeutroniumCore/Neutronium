@@ -86,7 +86,7 @@
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
       <Name>WebBrowserEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UniversalTests\Tests.Universal.HTLMEngineTests\WebBrowserEngineTests.csproj">
+    <ProjectReference Include="..\..\UniversalTests\Tests.Universal.WebBrowserEngineTests\WebBrowserEngineTests.csproj">
       <Project>{440a6f09-63e4-4bda-bef4-beaf02a8ee30}</Project>
       <Name>WebBrowserEngineTests</Name>
     </ProjectReference>
