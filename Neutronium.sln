@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B3321797
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.MVVMComponents", "Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj", "{26203C44-279D-4BFE-B17A-F6ADA8D240ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Example.ViewModel", "ApplicationExamples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj", "{E35B9010-5429-4FFE-A788-E9C40E743E9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Example.ViewModel", "Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj", "{E35B9010-5429-4FFE-A788-E9C40E743E9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Core", "Neutronium.Core\Neutronium.Core.csproj", "{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}"
 EndProject
@@ -61,35 +61,35 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WPF.Test", "Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Vue", "JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj", "{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.SimpleUI", "ApplicationExamples\Example.CefGlue.Ko.SimpleUI\Example.CefGlue.Ko.SimpleUI.csproj", "{C872C8E9-D0B9-47AA-9AEA-6556A01BA1F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.SimpleUI", "Examples\Example.CefGlue.Ko.SimpleUI\Example.CefGlue.Ko.SimpleUI.csproj", "{C872C8E9-D0B9-47AA-9AEA-6556A01BA1F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.NestedVmUI", "ApplicationExamples\Example.CefGlue.Ko.NestedVmUI\Example.CefGlue.Ko.NestedVmUI.csproj", "{DACCBE49-211A-4288-B03D-5AA0370EB6BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.NestedVmUI", "Examples\Example.CefGlue.Ko.NestedVmUI\Example.CefGlue.Ko.NestedVmUI.csproj", "{DACCBE49-211A-4288-B03D-5AA0370EB6BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Ko.UI", "ApplicationExamples\Example.ChromiumFX.Ko.UI\Example.ChromiumFX.Ko.UI.csproj", "{34B6AD94-23B2-4808-BB6D-988A063711D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Ko.UI", "Examples\Example.ChromiumFX.Ko.UI\Example.ChromiumFX.Ko.UI.csproj", "{34B6AD94-23B2-4808-BB6D-988A063711D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.UI", "ApplicationExamples\Example.ChromiumFX.Vue.UI\Example.ChromiumFX.Vue.UI.csproj", "{3BB8BB87-A904-45CC-83BD-178D34200E81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.UI", "Examples\Example.ChromiumFX.Vue.UI\Example.ChromiumFX.Vue.UI.csproj", "{3BB8BB87-A904-45CC-83BD-178D34200E81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Awesomium.CefGlue.Ko.SimpleUI", "ApplicationExamples\Example.Awesomium.CefGlue.Ko.SimpleUI\Example.Awesomium.CefGlue.Ko.SimpleUI.csproj", "{DAE5BAA8-13A2-4B62-98F9-AACB86233789}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Awesomium.CefGlue.Ko.SimpleUI", "Examples\Example.Awesomium.CefGlue.Ko.SimpleUI\Example.Awesomium.CefGlue.Ko.SimpleUI.csproj", "{DAE5BAA8-13A2-4B62-98F9-AACB86233789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.Calendar", "ApplicationExamples\Example.CefGlue.Ko.Calendar\Example.CefGlue.Ko.Calendar.csproj", "{C71C2BF7-52D2-4F69-AB7A-9B29EEA8DBB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.Calendar", "Examples\Example.CefGlue.Ko.Calendar\Example.CefGlue.Ko.Calendar.csproj", "{C71C2BF7-52D2-4F69-AB7A-9B29EEA8DBB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.Navigation", "ApplicationExamples\Example.CefGlue.Ko.Navigation\Example.CefGlue.Ko.Navigation.csproj", "{890F0720-601B-4868-AD9A-9527CA9F0BAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.Navigation", "Examples\Example.CefGlue.Ko.Navigation\Example.CefGlue.Ko.Navigation.csproj", "{890F0720-601B-4868-AD9A-9527CA9F0BAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.CollectionTest", "ApplicationExamples\Example.CefGlue.Ko.CollectionTest\Example.CefGlue.Ko.CollectionTest.csproj", "{F3106EE2-0049-46EC-AF10-E346295F0B24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.CollectionTest", "Examples\Example.CefGlue.Ko.CollectionTest\Example.CefGlue.Ko.CollectionTest.csproj", "{F3106EE2-0049-46EC-AF10-E346295F0B24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.BasicNavigation", "ApplicationExamples\Example.CefGlue.Ko.BasicNavigation\Example.CefGlue.Ko.BasicNavigation.csproj", "{129B5DE2-523B-48EA-8676-1291D9A4DE0C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.BasicNavigation", "Examples\Example.CefGlue.Ko.BasicNavigation\Example.CefGlue.Ko.BasicNavigation.csproj", "{129B5DE2-523B-48EA-8676-1291D9A4DE0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.SelectedItems", "ApplicationExamples\Example.CefGlue.Ko.SelectedItems\Example.CefGlue.Ko.SelectedItems.csproj", "{FEF389FD-A0B8-4BFD-9A8C-DE1203D6FAB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.SelectedItems", "Examples\Example.CefGlue.Ko.SelectedItems\Example.CefGlue.Ko.SelectedItems.csproj", "{FEF389FD-A0B8-4BFD-9A8C-DE1203D6FAB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.Infra", "ApplicationExamples\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj", "{C769E3AD-E82E-4E2F-BC4C-C92CA572C2ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.Infra", "Examples\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj", "{C769E3AD-E82E-4E2F-BC4C-C92CA572C2ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.ParentEventBinding", "ApplicationExamples\Example.CefGlue.Ko.ParentEventBinding\Example.CefGlue.Ko.ParentEventBinding.csproj", "{E24112F1-092C-4BDC-AAE3-59B8931DF642}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.ParentEventBinding", "Examples\Example.CefGlue.Ko.ParentEventBinding\Example.CefGlue.Ko.ParentEventBinding.csproj", "{E24112F1-092C-4BDC-AAE3-59B8931DF642}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.PromiseDemo", "ApplicationExamples\Example.CefGlue.Ko.PromiseDemo\Example.CefGlue.Ko.PromiseDemo.csproj", "{E63BD567-AEFC-4859-9F17-ED646D0D7044}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.PromiseDemo", "Examples\Example.CefGlue.Ko.PromiseDemo\Example.CefGlue.Ko.PromiseDemo.csproj", "{E63BD567-AEFC-4859-9F17-ED646D0D7044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.Infra", "ApplicationExamples\Example.CefGlue.Ko.Infra\Example.CefGlue.Ko.Infra.csproj", "{AABC737D-3FEE-4066-A90D-D00002404FEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.Infra", "Examples\Example.CefGlue.Ko.Infra\Example.CefGlue.Ko.Infra.csproj", "{AABC737D-3FEE-4066-A90D-D00002404FEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.Collection", "ApplicationExamples\Example.ChromiumFX.Vue.Collection\Example.ChromiumFX.Vue.Collection.csproj", "{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.Collection", "Examples\Example.ChromiumFX.Vue.Collection\Example.ChromiumFX.Vue.Collection.csproj", "{AA253C28-62CC-4DA7-A5E7-F112B6A7DD1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptFrameworks", "JavascriptFrameworks", "{1E5217FA-DD2E-4228-910C-7E8F7849BA85}"
 EndProject
@@ -149,7 +149,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Binding.ChromiumFx.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Navigation.ChromiumFx.Tests", "Tests\JavascriptEngine\Vuejs\Vue.Navigation.ChromiumFx.Tests\Vue.Navigation.ChromiumFx.Tests.csproj", "{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFx.Vue.Navigation", "ApplicationExamples\Example.CefGlue.Vue.Navigation\Example.ChromiumFx.Vue.Navigation.csproj", "{ED49D168-61BA-402C-863A-2F1A94774375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFx.Vue.Navigation", "Examples\Example.CefGlue.Vue.Navigation\Example.ChromiumFx.Vue.Navigation.csproj", "{ED49D168-61BA-402C-863A-2F1A94774375}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
