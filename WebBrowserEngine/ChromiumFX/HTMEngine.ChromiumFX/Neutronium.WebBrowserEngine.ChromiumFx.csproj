@@ -98,7 +98,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\HTML.WPF.Component\Neutronium.WPF.csproj">
+    <ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>Neutronium.WPF</Name>
     </ProjectReference>
