@@ -5,16 +5,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}</ProjectGuid>
+    <ProjectGuid>{0D2B555B-3DF7-460B-843B-F9F3145135BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CefGlue.TestInfra</RootNamespace>
-    <AssemblyName>CefGlue.TestInfra</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Tests.ChromiumFX.WebBrowserEngineTests</RootNamespace>
+    <AssemblyName>Tests.ChromiumFX.WebBrowserEngineTests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +51,22 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ChromiumFX, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumFX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ChromiumWebBrowser, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumWebBrowser.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,67 +75,50 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="Xilium.CefGlue, Version=3.2272.2035.0, Culture=neutral, PublicKeyToken=6235298024de30d5, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Unofficial.CefGlue.Core.3.2272.2035\lib\Xilium.CefGlue.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+      <HintPath>..\..\..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+      <HintPath>..\..\..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
+      <HintPath>..\..\..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CefGlueWindowlessSharedHtmlEngine.cs" />
-    <Compile Include="CefGlueWindowlessSharedJavascriptEngineFactory.cs" />
-    <Compile Include="CefWindowless\TestCefClient.cs" />
-    <Compile Include="CefWindowless\TestCefGlueHTMLWindowProvider.cs" />
-    <Compile Include="CefWindowless\TestCefGlueWindow.cs" />
-    <Compile Include="CefWindowless\TestCefLifeSpanHandler.cs" />
-    <Compile Include="CefWindowless\TestCefLoadHandler.cs" />
-    <Compile Include="CefWindowless\TestCefRenderHandler.cs" />
-    <Compile Include="CefWindowless\TestDisplayHandler.cs" />
+    <Compile Include="Infra\ChromiumFXContextFixture.cs" />
+    <Compile Include="Infra\ChromiumFXContext.cs" />
+    <Compile Include="Cfx_SharpToJavascriptConverter_Tests.cs" />
+    <Compile Include="Cfx_JavascriptObjectConverter_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Cfx_WebViewDispatcher_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj">
-      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>Neutronium.WPF</Name>
+    <ProjectReference Include="..\..\..\..\WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
+      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
+      <Name>ChromiumFXRenderProcess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WebBrowserEngine\CefGlue\HTMLEngine.CefGlue\Neutronium.WebBrowserEngine.CefGlue.csproj">
-      <Project>{ce4f4133-789f-420d-941d-18da08b140ff}</Project>
-      <Name>Neutronium.WebBrowserEngine.CefGlue</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj">
-      <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
-      <Name>Neutronium.JavascriptFramework.Knockout</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Neutronium.Core\Neutronium.Core.csproj">
+    <ProjectReference Include="..\..\..\..\Neutronium.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj">
+    <ProjectReference Include="..\..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj">
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
       <Name>WebBrowserEngineTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj">
-      <Project>{614bbb6d-d7c4-494a-929e-067ee62573ce}</Project>
-      <Name>IntegratedContextTesterHelper</Name>
+    <ProjectReference Include="..\..\..\UniversalTests\Tests.Universal.WebBrowserEngineTests\WebBrowserEngineTests.csproj">
+      <Project>{440a6f09-63e4-4bda-bef4-beaf02a8ee30}</Project>
+      <Name>WebBrowserEngineTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj">
-      <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
-      <Name>JavascriptFrameworkTesterHelper</Name>
+    <ProjectReference Include="..\Tests.ChromiumFX.Infra\Infra.csproj">
+      <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
+      <Name>Infra</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -128,10 +126,10 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
-    <Error Condition="!Exists('..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets'))" />
   </Target>
-  <Import Project="..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />
+  <Import Project="..\..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

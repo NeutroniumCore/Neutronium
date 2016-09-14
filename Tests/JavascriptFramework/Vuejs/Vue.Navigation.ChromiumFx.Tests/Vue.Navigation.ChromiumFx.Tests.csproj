@@ -91,7 +91,7 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ChromiumFX\Tests.ChromiumFX.Infra\Infra.csproj">
+    <ProjectReference Include="..\..\..\WebBrowserEngines\ChromiumFX\Tests.ChromiumFX.Infra\Infra.csproj">
       <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
       <Name>Infra</Name>
     </ProjectReference>

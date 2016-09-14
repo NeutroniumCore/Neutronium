@@ -97,7 +97,7 @@
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\CefGlue\CefGlue.TestInfra\Infra.csproj">
+    <ProjectReference Include="..\..\..\WebBrowserEngines\CefGlue\CefGlue.TestInfra\Infra.csproj">
       <Project>{947cc0fa-7f1c-4cf9-a908-1a29ed232f19}</Project>
       <Name>Infra</Name>
     </ProjectReference>
