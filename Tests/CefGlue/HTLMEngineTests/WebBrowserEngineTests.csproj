@@ -7,8 +7,8 @@
     <ProjectGuid>{E489B2FD-DD99-4276-BD33-51099ACA0970}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests.CefGlue.HTMLEngineTests</RootNamespace>
-    <AssemblyName>Tests.CefGlue.HTMLEngineTests</AssemblyName>
+    <RootNamespace>Tests.CefGlue.WebBrowserEngineTests</RootNamespace>
+    <AssemblyName>Tests.CefGlue.WebBrowserEngineTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

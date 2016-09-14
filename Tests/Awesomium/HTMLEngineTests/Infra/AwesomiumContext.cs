@@ -1,7 +1,7 @@
 ﻿using Tests.Awesomium.Infra;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
-namespace Tests.Awesomium.HTMLEngineTests.Infra
+namespace Tests.Awesomium.WebBrowserEngineTests.Infra
 {
     public class AwesomiumContext : AwesomiumEngineProvider 
     {

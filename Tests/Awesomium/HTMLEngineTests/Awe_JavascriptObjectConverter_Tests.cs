@@ -1,9 +1,9 @@
-﻿using Tests.Awesomium.HTMLEngineTests.Infra;
+﻿using Tests.Awesomium.WebBrowserEngineTests.Infra;
 using Tests.Universal.WebBrowserEngineTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Tests.Awesomium.HTMLEngineTests
+namespace Tests.Awesomium.WebBrowserEngineTests
 {
     [Collection("Awesomium Context")]
     public class Awe_JavascriptObjectConverter_Tests : JavascriptObjectConverter_Tests

@@ -1,7 +1,7 @@
 ﻿using Tests.ChromiumFX.Infra;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
-namespace Tests.ChromiumFX.HTMLEngineTests.Infra
+namespace Tests.ChromiumFX.WebBrowserEngineTests.Infra
 {
     public class ChromiumFXContext : ChromiumFXWindowLessHTMLEngineProvider 
     {

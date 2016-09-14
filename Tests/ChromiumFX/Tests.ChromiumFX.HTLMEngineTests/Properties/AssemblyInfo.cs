@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Tests.ChromiumFX.HTLMEngineTests")]
+[assembly: AssemblyTitle("Tests.ChromiumFX.WebBrowserEngineTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Tests.ChromiumFX.HTLMEngineTests")]
+[assembly: AssemblyProduct("Tests.ChromiumFX.WebBrowserEngineTests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

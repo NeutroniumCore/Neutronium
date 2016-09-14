@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Tests.Awesomium.HTMLEngineTests.Infra
+namespace Tests.Awesomium.WebBrowserEngineTests.Infra
 {
     [CollectionDefinition("Awesomium Context")]
     public class AwesomiumContextFixture : ICollectionFixture<AwesomiumContext> 

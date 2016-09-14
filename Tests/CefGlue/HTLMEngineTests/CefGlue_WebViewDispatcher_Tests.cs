@@ -1,9 +1,9 @@
-﻿using Tests.CefGlue.HTMLEngineTests.Infra;
+﻿using Tests.CefGlue.WebBrowserEngineTests.Infra;
 using Tests.Universal.WebBrowserEngineTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Tests.CefGlue.HTMLEngineTests
+namespace Tests.CefGlue.WebBrowserEngineTests
 {
     [Collection("CefGlue Context")]
     public class CefGlue_WebViewDispatcher_Tests : WebViewDispatcher_Tests

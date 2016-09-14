@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BA9E21FA-3267-4B69-BB72-ABA196F715B4}</ProjectGuid>
+    <ProjectGuid>{0D2B555B-3DF7-460B-843B-F9F3145135BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests.Awesomium.HTMLEngineTests</RootNamespace>
-    <AssemblyName>Tests.Awesomium.HTMLEngineTests</AssemblyName>
+    <RootNamespace>Tests.ChromiumFX.WebBrowserEngineTests</RootNamespace>
+    <AssemblyName>Tests.ChromiumFX.WebBrowserEngineTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -51,12 +51,20 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214, processorArchitecture=x86">
-      <HintPath>..\..\..\packages\Unofficial.Awesomium.Complete.1.7.4.2\lib\Awesomium.Core.dll</HintPath>
+    <Reference Include="ChromiumFX, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumFX.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Awesomium.Windows.Controls, Version=1.7.4.2, Culture=neutral, PublicKeyToken=7a34e179b8b61c39, processorArchitecture=x86">
-      <HintPath>..\..\..\packages\Unofficial.Awesomium.Complete.1.7.4.2\lib\Awesomium.Windows.Controls.dll</HintPath>
+    <Reference Include="ChromiumWebBrowser, Version=3.2526.3.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\lib\ChromiumWebBrowser.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -81,14 +89,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Awe_JavascriptObjectConverter_Tests.cs" />
-    <Compile Include="Awe_SharpToJavascriptConverter_Tests.cs" />
-    <Compile Include="Awe_WebViewDispatcher_Tests.cs" />
-    <Compile Include="Infra\AwesomiumContext.cs" />
-    <Compile Include="Infra\AwesomiumContextFixture.cs" />
+    <Compile Include="Infra\ChromiumFXContextFixture.cs" />
+    <Compile Include="Infra\ChromiumFXContext.cs" />
+    <Compile Include="Cfx_SharpToJavascriptConverter_Tests.cs" />
+    <Compile Include="Cfx_JavascriptObjectConverter_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Cfx_WebViewDispatcher_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\HTMLEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
+      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
+      <Name>ChromiumFXRenderProcess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Neutronium.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>
@@ -101,13 +116,10 @@
       <Project>{440a6f09-63e4-4bda-bef4-beaf02a8ee30}</Project>
       <Name>WebBrowserEngineTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MVVM.Awesomium.TestInfra\Infra.csproj">
-      <Project>{8955b9f6-b6e5-4fef-a5ab-90c35afb9cc6}</Project>
+    <ProjectReference Include="..\Tests.ChromiumFX.Infra\Infra.csproj">
+      <Project>{a82d4195-0f75-48b3-8e43-5be90d061c6c}</Project>
       <Name>Infra</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -115,7 +127,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
+    <Error Condition="!Exists('..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets'))" />
   </Target>
+  <Import Project="..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\..\packages\Unofficial.Chromiumfx.3.2526.3\build\Unofficial.Chromiumfx.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
