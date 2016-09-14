@@ -1,11 +1,11 @@
-MVVM for CEF(Glue)
-==================
+Neutronium
+==========
 
 Description
 --------------
-This framework is an MVVM HTLM View engine for C# application.
+Neutronium is an MVVM HTLM View engine for C# application.
 HTML view infra relies on CEFGlue framework which is a C# glue for Chromium Embedded Framework(CEF).
-MVVM for CEF(Glue) abstracts all the heavy work of managing C# and javascript integration (including Thread management, type conversion) by providing a standard MVMM binding.
+Neutronium abstracts all the heavy work of managing C# and javascript integration (including Thread management, type conversion) by providing a standard MVMM binding.
 iThis allows to reuse 100% of View Model written for WPF in a HTML UI(provided you implement correctly the INotifyPropertyChanged, INotifyCollectionChanged and ICommand patterns).  
 On the javascript side, C# objects are converted to javascript objects and can be bound using knockout.js  library.  
 All changes between View and ViewModel are propagate back and forth by using knockout.js subscribers and C# events.
