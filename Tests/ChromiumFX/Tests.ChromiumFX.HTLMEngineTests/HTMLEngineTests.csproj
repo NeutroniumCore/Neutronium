@@ -104,7 +104,7 @@
       <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
       <Name>ChromiumFXRenderProcess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MVVM.HTML.Core\Neutronium.Core.csproj">
+    <ProjectReference Include="..\..\..\Neutronium.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>
     </ProjectReference>
