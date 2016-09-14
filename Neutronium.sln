@@ -123,29 +123,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "knockout", "knockout", "{6F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vue", "Vue", "{FF87583F-5849-4394-8569-F915AD73D060}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutFramework.Test", "Tests\JavascriptEngine\Knockout\KnockoutUIFramework.Test\KnockoutFramework.Test.csproj", "{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutFramework.Test", "Tests\JavascriptFramework\Knockout\KnockoutUIFramework.Test\KnockoutFramework.Test.csproj", "{3A9A7BF2-46AB-46B6-AF62-9822181CF6CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VueFramework.Test", "Tests\JavascriptEngine\Vuejs\VueUiFramework.Test\VueFramework.Test.csproj", "{80D4F5CA-1065-4487-8FDE-9FEE9821716C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VueFramework.Test", "Tests\JavascriptFramework\Vuejs\VueUiFramework.Test\VueFramework.Test.csproj", "{80D4F5CA-1065-4487-8FDE-9FEE9821716C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Binding.Awesomium.Tests", "Tests\JavascriptEngine\Knockout\Ko.Binding.Awesomium.Tests\Ko.Binding.Awesomium.Tests.csproj", "{718C5421-B0C6-493A-91FA-471B9C48883E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Binding.Awesomium.Tests", "Tests\JavascriptFramework\Knockout\Ko.Binding.Awesomium.Tests\Ko.Binding.Awesomium.Tests.csproj", "{718C5421-B0C6-493A-91FA-471B9C48883E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ko.Binding.CefGlue.Tests", "Tests\JavascriptEngine\Knockout\Ko.Binding.CefGlue.Tests\ko.Binding.CefGlue.Tests.csproj", "{D7C663BD-E6BA-45F6-91C3-11450CEE7FC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ko.Binding.CefGlue.Tests", "Tests\JavascriptFramework\Knockout\Ko.Binding.CefGlue.Tests\ko.Binding.CefGlue.Tests.csproj", "{D7C663BD-E6BA-45F6-91C3-11450CEE7FC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Binding.ChromiumFx.Tests", "Tests\JavascriptEngine\Knockout\Ko.Binding.ChromiumFx.Tests\Ko.Binding.ChromiumFx.Tests.csproj", "{8011F38B-5A4B-4FE7-8E1B-BD9D14905FFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Binding.ChromiumFx.Tests", "Tests\JavascriptFramework\Knockout\Ko.Binding.ChromiumFx.Tests\Ko.Binding.ChromiumFx.Tests.csproj", "{8011F38B-5A4B-4FE7-8E1B-BD9D14905FFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ko.Navigation.Awesomium.Tests", "Tests\JavascriptEngine\Knockout\Ko.Navigation.Awesomium.Tests\ko.Navigation.Awesomium.Tests.csproj", "{5D68EFC4-EE17-4754-BBF8-8CFF06B59F12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ko.Navigation.Awesomium.Tests", "Tests\JavascriptFramework\Knockout\Ko.Navigation.Awesomium.Tests\ko.Navigation.Awesomium.Tests.csproj", "{5D68EFC4-EE17-4754-BBF8-8CFF06B59F12}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationTests", "Tests\UniversalTests\NavigationTests\NavigationTests.csproj", "{6469A920-5763-4853-858D-455FA43894B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Navigation.CefGlue.Tests", "Tests\JavascriptEngine\Knockout\Ko.Navigation.CefGlue.Tests\Ko.Navigation.CefGlue.Tests.csproj", "{4E89A142-E8E6-4936-A76E-7AB40867BF4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Navigation.CefGlue.Tests", "Tests\JavascriptFramework\Knockout\Ko.Navigation.CefGlue.Tests\Ko.Navigation.CefGlue.Tests.csproj", "{4E89A142-E8E6-4936-A76E-7AB40867BF4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Navigation.ChromiumFx.Tests", "Tests\JavascriptEngine\Knockout\Ko.Navigation.ChromiumFx.Tests\Ko.Navigation.ChromiumFx.Tests.csproj", "{77586540-30D1-4A2E-B42D-DADA1738BB0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ko.Navigation.ChromiumFx.Tests", "Tests\JavascriptFramework\Knockout\Ko.Navigation.ChromiumFx.Tests\Ko.Navigation.ChromiumFx.Tests.csproj", "{77586540-30D1-4A2E-B42D-DADA1738BB0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Binding.CefGlue.Tests", "Tests\JavascriptEngine\Vuejs\Vue.Binding.CefGlue.Tests\Vue.Binding.CefGlue.Tests.csproj", "{BD6DC847-5389-47AB-9F7C-0D25CA59C7EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Binding.CefGlue.Tests", "Tests\JavascriptFramework\Vuejs\Vue.Binding.CefGlue.Tests\Vue.Binding.CefGlue.Tests.csproj", "{BD6DC847-5389-47AB-9F7C-0D25CA59C7EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Binding.ChromiumFx.Tests", "Tests\JavascriptEngine\Vuejs\Vue.Binding.ChromiumFx.Tests\Vue.Binding.ChromiumFx.Tests.csproj", "{2536113C-36B7-4537-B1F0-22FCA97006AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Binding.ChromiumFx.Tests", "Tests\JavascriptFramework\Vuejs\Vue.Binding.ChromiumFx.Tests\Vue.Binding.ChromiumFx.Tests.csproj", "{2536113C-36B7-4537-B1F0-22FCA97006AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Navigation.ChromiumFx.Tests", "Tests\JavascriptEngine\Vuejs\Vue.Navigation.ChromiumFx.Tests\Vue.Navigation.ChromiumFx.Tests.csproj", "{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Navigation.ChromiumFx.Tests", "Tests\JavascriptFramework\Vuejs\Vue.Navigation.ChromiumFx.Tests\Vue.Navigation.ChromiumFx.Tests.csproj", "{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFx.Vue.Navigation", "Examples\Example.CefGlue.Vue.Navigation\Example.ChromiumFx.Vue.Navigation.csproj", "{ED49D168-61BA-402C-863A-2F1A94774375}"
 EndProject

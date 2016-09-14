@@ -220,9 +220,9 @@ FakesAssemblies/
 /Tests/ChromiumFX/ChromiumFX.HTLMEngineTests/cef/Resources/locales
 /Tests/ChromiumFX/ChromiumFX.HTLMEngineTests/cef/Resources
 /Tests/ChromiumFX/Tests.ChromiumFX.HTLMEngineTests/cef/Resources
-/Tests/JavascriptEngine/Vuejs/Vue.Binding.ChromiumFx.Tests/cef/Resources
-/Tests/JavascriptEngine/Knockout/Ko.Navigation.ChromiumFx.Tests/cef/Resources
-/Tests/JavascriptEngine/Vuejs/Vue.Navigation.ChromiumFx.Tests/cef/Resources
+/Tests/JavascriptFramework/Vuejs/Vue.Binding.ChromiumFx.Tests/cef/Resources
+/Tests/JavascriptFramework/Knockout/Ko.Navigation.ChromiumFx.Tests/cef/Resources
+/Tests/JavascriptFramework/Vuejs/Vue.Navigation.ChromiumFx.Tests/cef/Resources
 /Examples/Example.CefGlue.Vue.Navigation/cef/Resources/locales
 /Examples/Example.CefGlue.Vue.Navigation/cef/Resources
 Resources
