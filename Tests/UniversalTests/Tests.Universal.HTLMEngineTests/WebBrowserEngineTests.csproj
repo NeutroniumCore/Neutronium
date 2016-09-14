@@ -8,8 +8,8 @@
     <ProjectGuid>{440A6F09-63E4-4BDA-BEF4-BEAF02A8EE30}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests.Universal.WebBrowserEnginesTests</RootNamespace>
-    <AssemblyName>Tests.Universal.WebBrowserEnginesTests</AssemblyName>
+    <RootNamespace>Tests.Universal.WebBrowserEngineTests</RootNamespace>
+    <AssemblyName>Tests.Universal.WebBrowserEngineTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>

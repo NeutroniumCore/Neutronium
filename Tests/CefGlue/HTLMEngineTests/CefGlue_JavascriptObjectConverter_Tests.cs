@@ -1,5 +1,5 @@
 ﻿using Tests.CefGlue.HTMLEngineTests.Infra;
-using Tests.Universal.WebBrowserEnginesTests;
+using Tests.Universal.WebBrowserEngineTests;
 using Xunit;
 using Xunit.Abstractions;
 

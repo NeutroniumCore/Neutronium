@@ -107,7 +107,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Tests", "Tests\Infra\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UniversalTests", "UniversalTests", "{D4977B2A-E4D4-4E9F-A2BF-2EAD13CAA5E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserEnginesTests", "Tests\UniversalTests\Tests.Universal.HTLMEngineTests\WebBrowserEnginesTests.csproj", "{440A6F09-63E4-4BDA-BEF4-BEAF02A8EE30}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserEngineTests", "Tests\UniversalTests\Tests.Universal.HTLMEngineTests\WebBrowserEngineTests.csproj", "{440A6F09-63E4-4BDA-BEF4-BEAF02A8EE30}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\ChromiumFX\Tests.ChromiumFX.Infra\Infra.csproj", "{A82D4195-0F75-48B3-8E43-5BE90D061C6C}"
 EndProject

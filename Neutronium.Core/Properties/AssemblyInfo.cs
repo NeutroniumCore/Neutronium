@@ -18,7 +18,7 @@ using System.Windows;
 
 [assembly: InternalsVisibleTo("IntegratedTest")]
 [assembly: InternalsVisibleTo("Tests.Universal.HTMLBindingTests")]
-[assembly: InternalsVisibleTo("Tests.Universal.WebBrowserEnginesTests")]
+[assembly: InternalsVisibleTo("Tests.Universal.WebBrowserEngineTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
