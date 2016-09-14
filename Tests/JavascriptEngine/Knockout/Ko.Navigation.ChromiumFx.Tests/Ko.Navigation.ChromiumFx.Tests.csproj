@@ -105,7 +105,7 @@
       <Project>{E619F232-D964-4CDB-9A9C-DFB44E32C36F}</Project>
       <Name>Neutronium.WebBrowserEngine.ChromiumFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj">
+    <ProjectReference Include="..\..\..\..\JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj">
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
       <Name>Neutronium.JavascriptFramework.Knockout</Name>
     </ProjectReference>

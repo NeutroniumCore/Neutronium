@@ -83,7 +83,7 @@
       <Project>{E619F232-D964-4CDB-9A9C-DFB44E32C36F}</Project>
       <Name>Neutronium.WebBrowserEngine.ChromiumFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\Neutronium.JavascriptFramework.Vue.csproj">
+    <ProjectReference Include="..\..\..\..\JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj">
       <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
       <Name>Neutronium.JavascriptFramework.Vue</Name>
     </ProjectReference>

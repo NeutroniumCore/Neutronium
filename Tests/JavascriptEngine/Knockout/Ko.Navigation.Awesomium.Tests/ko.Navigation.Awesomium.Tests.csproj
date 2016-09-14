@@ -93,7 +93,7 @@
       <Project>{92B20870-AD65-4AE8-BB1E-4D11B922A135}</Project>
       <Name>Neutronium.WebBrowserEngine.Awesomium</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj">
+    <ProjectReference Include="..\..\..\..\JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj">
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
       <Name>Neutronium.JavascriptFramework.Knockout</Name>
     </ProjectReference>

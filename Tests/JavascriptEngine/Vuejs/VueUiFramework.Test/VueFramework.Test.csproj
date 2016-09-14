@@ -102,27 +102,27 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="TestHtml\VueHtmlProvider.cs" />
-    <Content Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\scripts\subscribeArray.js">
+    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\subscribeArray.js">
       <Link>TestHtml\javascript\src\subscribeArray.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\scripts\subscribeArray.min.js">
+    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\subscribeArray.min.js">
       <Link>TestHtml\javascript\src\subscribeArray.min.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vue.js">
+    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vue.js">
       <Link>TestHtml\javascript\src\vue.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vue.min.js">
+    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vue.min.js">
       <Link>TestHtml\javascript\src\vue.min.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vueComandDirective.js">
+    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vueComandDirective.js">
       <Link>TestHtml\javascript\src\vueComandDirective.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\scripts\vueGlue.js">
+    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vueGlue.js">
       <Link>TestHtml\javascript\src\vueGlue.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -207,7 +207,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\JavascriptEngine\VueUiFrameworkManager\Neutronium.JavascriptFramework.Vue.csproj">
+    <ProjectReference Include="..\..\..\..\JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj">
       <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
       <Name>Neutronium.JavascriptFramework.Vue</Name>
     </ProjectReference>

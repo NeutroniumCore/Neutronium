@@ -130,7 +130,7 @@
       <Project>{ce4f4133-789f-420d-941d-18da08b140ff}</Project>
       <Name>Neutronium.WebBrowserEngine.CefGlue</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj">
+    <ProjectReference Include="..\..\JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj">
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
       <Name>Neutronium.JavascriptFramework.Knockout</Name>
     </ProjectReference>

@@ -55,11 +55,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptFrameworks", "JavascriptFrameworks", "{45DFFB49-44B9-49C6-8C5B-1B928366A462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Knockout", "JavascriptEngine\KnockoutUIFramework\Neutronium.JavascriptFramework.Knockout.csproj", "{AF41D637-D053-4FDE-9D8A-96106CCBD19E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Knockout", "JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj", "{AF41D637-D053-4FDE-9D8A-96106CCBD19E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WPF.Test", "Tests\HTML_WPF.Component.Test\Neutronium.WPF.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Vue", "JavascriptEngine\VueUiFrameworkManager\Neutronium.JavascriptFramework.Vue.csproj", "{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Vue", "JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj", "{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.CefGlue.Ko.SimpleUI", "ApplicationExamples\Example.CefGlue.Ko.SimpleUI\Example.CefGlue.Ko.SimpleUI.csproj", "{C872C8E9-D0B9-47AA-9AEA-6556A01BA1F0}"
 EndProject
