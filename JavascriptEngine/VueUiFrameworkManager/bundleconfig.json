@@ -1,0 +1,20 @@
+[
+  {
+    "outputFileName": "scripts/vueComandDirective.min.js",
+    "inputFiles": [
+      "scripts/vueComandDirective.js"
+    ]
+  },
+  {
+    "outputFileName": "scripts/vueGlue.min.js",
+    "inputFiles": [
+      "scripts/vueGlue.js"
+    ]
+  },
+  {
+    "outputFileName": "scripts/subscribeArray.min.js",
+    "inputFiles": [
+      "scripts/subscribeArray.js"
+    ]
+  }
+]
