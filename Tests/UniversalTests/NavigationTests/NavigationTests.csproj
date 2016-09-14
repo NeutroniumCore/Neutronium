@@ -107,7 +107,7 @@
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>Neutronium.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\MVVM.Component\Neutronium.MVVMComponents.csproj">
+    <ProjectReference Include="..\..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj">
       <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
       <Name>Neutronium.MVVMComponents</Name>
     </ProjectReference>

@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B3321797
 		test.runsettings = test.runsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.MVVMComponents", "MVVM.Component\Neutronium.MVVMComponents.csproj", "{26203C44-279D-4BFE-B17A-F6ADA8D240ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.MVVMComponents", "Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj", "{26203C44-279D-4BFE-B17A-F6ADA8D240ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Example.ViewModel", "ViewModelExamples\Neutronium.Example.ViewModel.csproj", "{E35B9010-5429-4FFE-A788-E9C40E743E9C}"
 EndProject

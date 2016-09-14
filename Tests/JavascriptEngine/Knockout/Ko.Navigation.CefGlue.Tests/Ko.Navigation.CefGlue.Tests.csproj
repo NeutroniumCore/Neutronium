@@ -101,7 +101,7 @@
       <Project>{af41d637-d053-4fde-9d8a-96106ccbd19e}</Project>
       <Name>Neutronium.JavascriptFramework.Knockout</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\MVVM.Component\Neutronium.MVVMComponents.csproj">
+    <ProjectReference Include="..\..\..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj">
       <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
       <Name>Neutronium.MVVMComponents</Name>
     </ProjectReference>
