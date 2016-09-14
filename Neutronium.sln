@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.Core.Test", "Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Awesomium", "Awesomium", "{32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\WebBrowserEngines\Awesomium\MVVM.Awesomium.TestInfra\Infra.csproj", "{8955B9F6-B6E5-4FEF-A5AB-90C35AFB9CC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\WebBrowserEngines\Awesomium\Awesomium.TestInfra\Infra.csproj", "{8955B9F6-B6E5-4FEF-A5AB-90C35AFB9CC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CefGlue", "CefGlue", "{4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0}"
 EndProject

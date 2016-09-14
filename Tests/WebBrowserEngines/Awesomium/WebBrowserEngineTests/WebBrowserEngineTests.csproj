@@ -101,7 +101,7 @@
       <Project>{440a6f09-63e4-4bda-bef4-beaf02a8ee30}</Project>
       <Name>WebBrowserEngineTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MVVM.Awesomium.TestInfra\Infra.csproj">
+    <ProjectReference Include="..\Awesomium.TestInfra\Infra.csproj">
       <Project>{8955b9f6-b6e5-4fef-a5ab-90c35afb9cc6}</Project>
       <Name>Infra</Name>
     </ProjectReference>
