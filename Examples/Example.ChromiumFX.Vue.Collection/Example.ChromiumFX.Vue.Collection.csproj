@@ -108,6 +108,94 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="cef\Release\cef_sandbox.lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Release\icudtl.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Release\libcef.lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Release\natives_blob.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Release\snapshot_blob.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Resources\cef.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Resources\cef_100_percent.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Resources\cef_200_percent.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Resources\cef_extensions.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Resources\devtools_resources.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Resources\icudtl.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="cef\Resources\locales\am.pak" />
+    <None Include="cef\Resources\locales\ar.pak" />
+    <None Include="cef\Resources\locales\bg.pak" />
+    <None Include="cef\Resources\locales\bn.pak" />
+    <None Include="cef\Resources\locales\ca.pak" />
+    <None Include="cef\Resources\locales\cs.pak" />
+    <None Include="cef\Resources\locales\da.pak" />
+    <None Include="cef\Resources\locales\de.pak" />
+    <None Include="cef\Resources\locales\el.pak" />
+    <None Include="cef\Resources\locales\en-GB.pak" />
+    <Content Include="cef\Resources\locales\en-US.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="cef\Resources\locales\es-419.pak" />
+    <None Include="cef\Resources\locales\es.pak" />
+    <None Include="cef\Resources\locales\et.pak" />
+    <None Include="cef\Resources\locales\fa.pak" />
+    <None Include="cef\Resources\locales\fi.pak" />
+    <None Include="cef\Resources\locales\fil.pak" />
+    <None Include="cef\Resources\locales\fr.pak" />
+    <None Include="cef\Resources\locales\gu.pak" />
+    <None Include="cef\Resources\locales\he.pak" />
+    <None Include="cef\Resources\locales\hi.pak" />
+    <None Include="cef\Resources\locales\hr.pak" />
+    <None Include="cef\Resources\locales\hu.pak" />
+    <None Include="cef\Resources\locales\id.pak" />
+    <None Include="cef\Resources\locales\it.pak" />
+    <None Include="cef\Resources\locales\ja.pak" />
+    <None Include="cef\Resources\locales\kn.pak" />
+    <None Include="cef\Resources\locales\ko.pak" />
+    <None Include="cef\Resources\locales\lt.pak" />
+    <None Include="cef\Resources\locales\lv.pak" />
+    <None Include="cef\Resources\locales\ml.pak" />
+    <None Include="cef\Resources\locales\mr.pak" />
+    <None Include="cef\Resources\locales\ms.pak" />
+    <None Include="cef\Resources\locales\nb.pak" />
+    <None Include="cef\Resources\locales\nl.pak" />
+    <None Include="cef\Resources\locales\pl.pak" />
+    <None Include="cef\Resources\locales\pt-BR.pak" />
+    <None Include="cef\Resources\locales\pt-PT.pak" />
+    <None Include="cef\Resources\locales\ro.pak" />
+    <None Include="cef\Resources\locales\ru.pak" />
+    <None Include="cef\Resources\locales\sk.pak" />
+    <None Include="cef\Resources\locales\sl.pak" />
+    <None Include="cef\Resources\locales\sr.pak" />
+    <None Include="cef\Resources\locales\sv.pak" />
+    <None Include="cef\Resources\locales\sw.pak" />
+    <None Include="cef\Resources\locales\ta.pak" />
+    <None Include="cef\Resources\locales\te.pak" />
+    <None Include="cef\Resources\locales\th.pak" />
+    <None Include="cef\Resources\locales\tr.pak" />
+    <None Include="cef\Resources\locales\uk.pak" />
+    <None Include="cef\Resources\locales\vi.pak" />
+    <None Include="cef\Resources\locales\zh-CN.pak" />
+    <None Include="cef\Resources\locales\zh-TW.pak" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -126,6 +214,27 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cef\Release\d3dcompiler_43.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef\Release\d3dcompiler_47.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef\Release\libcef.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef\Release\libEGL.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef\Release\libGLESv2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef\Release\widevinecdmadapter.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef\Release\wow_helper.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="src\images\male.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
