@@ -92,11 +92,34 @@
     <Content Include="scripts\devtools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="scripts\subscribeArray.es5.js">
+      <DependentUpon>subscribeArray.js</DependentUpon>
+    </Content>
+    <Content Include="scripts\subscribeArray.es5.min.js">
+      <DependentUpon>subscribeArray.es5.js</DependentUpon>
+    </Content>
+    <Content Include="scripts\vueComandDirective.es5.js">
+      <DependentUpon>vueComandDirective.js</DependentUpon>
+    </Content>
+    <Content Include="scripts\vueComandDirective.es5.min.js">
+      <DependentUpon>vueComandDirective.es5.js</DependentUpon>
+    </Content>
+    <Content Include="scripts\vueGlue.es5.js">
+      <DependentUpon>vueGlue.js</DependentUpon>
+    </Content>
+    <Content Include="scripts\vueGlue.es5.min.js">
+      <DependentUpon>vueGlue.es5.js</DependentUpon>
+    </Content>
     <EmbeddedResource Include="scripts\vueComandDirective.js" />
     <EmbeddedResource Include="scripts\hook.js" />
     <EmbeddedResource Include="scripts\vuedebug.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

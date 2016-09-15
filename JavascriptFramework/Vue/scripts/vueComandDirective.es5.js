@@ -1,10 +1,12 @@
 ﻿/*jshint esversion: 6 */
+"use strict";
+
 (function () {
-    const base = {
+    var base = {
         params: ["commandarg"],
 
-        update: function (newValue, oldValue) {
-            const evt = this.arg || "click";
+        update: function update(newValue, oldValue) {
+            var evt = this.arg || "click";
             if (!!oldValue) {
                 this.el.removeEventListener(evt, this.callBack);
             }
@@ -17,8 +19,8 @@
                 this.el.addEventListener(evt, this.callBack);
             }
         },
-        unbind: function () {
-            const evt = this.arg || "click";
+        unbind: function unbind() {
+            var evt = this.arg || "click";
             if (!!this.callBack) {
                 this.el.removeEventListener(evt, this.callBack);
             }
@@ -26,15 +28,14 @@
     };
 
     var comand = Object.assign({
-        execute: function (newValue, arg) {
+        execute: function execute(newValue, arg) {
             newValue.CanExecute(arg);
-            if (newValue.CanExecuteValue)
-                newValue.Execute(arg);
+            if (newValue.CanExecuteValue) newValue.Execute(arg);
         }
     }, base);
 
     var simpleComand = Object.assign({
-        execute: function (newValue, arg) {
+        execute: function execute(newValue, arg) {
             newValue.Execute(arg);
         }
     }, base);
@@ -44,46 +45,44 @@
 
     var commandMixin = {
         props: {
-            command:{
+            command: {
                 type: Object,
-                default: null
+                "default": null
             },
             arg: {
                 type: Object,
-                default: null
+                "default": null
             }
         },
         computed: {
-            canExecute: function () {
-                if (this.command === null)
-                    return false;
+            canExecute: function canExecute() {
+                if (this.command === null) return false;
                 return this.command.CanExecuteValue;
             }
         },
         watch: {
-            'command.CanExecuteCount': function () {
+            'command.CanExecuteCount': function commandCanExecuteCount() {
                 this.computeCanExecute();
             },
-            arg: function () {
+            arg: function arg() {
                 this.computeCanExecute();
             }
         },
-        ready: function () {
-            setTimeout(() => {
-                if (!!this.arg)
-                    this.computeCanExecute();
+        ready: function ready() {
+            var _this = this;
+
+            setTimeout(function () {
+                if (!!_this.arg) _this.computeCanExecute();
             });
         },
         methods: {
-            computeCanExecute: function () {
-                if (this.command !== null)
-                    this.command.CanExecute(this.arg);
+            computeCanExecute: function computeCanExecute() {
+                if (this.command !== null) this.command.CanExecute(this.arg);
             },
-            execute: function () {
+            execute: function execute() {
                 if (this.canExecute) {
                     var beforeCb = this.beforeCommand;
-                    if (!!beforeCb)
-                        beforeCb();
+                    if (!!beforeCb) beforeCb();
                     this.command.Execute(this.arg);
                 }
             }
@@ -91,5 +90,5 @@
     };
 
     Vue.__commandMixin = commandMixin;
+})();
 
-}());

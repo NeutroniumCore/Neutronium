@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "scripts/vueComandDirective.es5.js",
+    "inputFile": "scripts/vueComandDirective.js"
+  },
+  {
+    "outputFile": "scripts/vueGlue.es5.js",
+    "inputFile": "scripts/vueGlue.js"
+  },
+  {
+    "outputFile": "scripts/subscribeArray.es5.js",
+    "inputFile": "scripts/subscribeArray.js"
+  }
+]
