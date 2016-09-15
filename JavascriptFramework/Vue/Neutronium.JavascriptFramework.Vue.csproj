@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="scripts\vue.js" />
-    <EmbeddedResource Include="scripts\vue.min.js" />
+    <EmbeddedResource Include="scripts\vue.es5.min.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="scripts\subscribeArray.js" />
@@ -95,21 +95,21 @@
     <Content Include="scripts\subscribeArray.es5.js">
       <DependentUpon>subscribeArray.js</DependentUpon>
     </Content>
-    <Content Include="scripts\subscribeArray.es5.min.js">
+    <EmbeddedResource Include="scripts\subscribeArray.es5.min.js">
       <DependentUpon>subscribeArray.es5.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <Content Include="scripts\vueComandDirective.es5.js">
       <DependentUpon>vueComandDirective.js</DependentUpon>
     </Content>
-    <Content Include="scripts\vueComandDirective.es5.min.js">
+    <EmbeddedResource Include="scripts\vueComandDirective.es5.min.js">
       <DependentUpon>vueComandDirective.es5.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <Content Include="scripts\vueGlue.es5.js">
       <DependentUpon>vueGlue.js</DependentUpon>
     </Content>
-    <Content Include="scripts\vueGlue.es5.min.js">
+    <EmbeddedResource Include="scripts\vueGlue.es5.min.js">
       <DependentUpon>vueGlue.es5.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <EmbeddedResource Include="scripts\vueComandDirective.js" />
     <EmbeddedResource Include="scripts\hook.js" />
     <EmbeddedResource Include="scripts\vuedebug.js" />

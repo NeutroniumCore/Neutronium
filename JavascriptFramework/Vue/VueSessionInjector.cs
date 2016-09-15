@@ -55,17 +55,18 @@ namespace Neutronium.JavascriptFramework.Vue
         public string GetMainScript(bool debugContext)
         {
             var loader = GetResourceReader();
-            return loader.Load(GetJavascriptSource(debugContext));
+            return loader.LoadJavascript(GetJavascriptSource(debugContext), !debugContext, !debugContext);
         }
 
         private static IEnumerable<string> GetJavascriptSource(bool debugMode)
         {
             if (debugMode)
-                yield return "hook.js";
-            yield return "vue.js";
-            yield return "subscribeArray.min.js";
-            yield return "vueComandDirective.js";
-            yield return "vueGlue.js";
+                yield return "hook";
+
+            yield return "vue";
+            yield return "subscribeArray";
+            yield return "vueComandDirective";
+            yield return "vueGlue";
         }
 
         public bool HasDebugScript()

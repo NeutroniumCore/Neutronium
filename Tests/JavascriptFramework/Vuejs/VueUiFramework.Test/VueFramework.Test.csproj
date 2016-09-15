@@ -114,10 +114,6 @@
       <Link>TestHtml\javascript\src\vue.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vue.min.js">
-      <Link>TestHtml\javascript\src\vue.min.js</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vueComandDirective.js">
       <Link>TestHtml\javascript\src\vueComandDirective.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -165,6 +161,7 @@
     <Content Include="TestHtml\javascript\navigation_3.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestHtml\javascript\src\vue.min.js" />
     <Content Include="TestHtml\javascript\src\vueComandDirective_es5.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
