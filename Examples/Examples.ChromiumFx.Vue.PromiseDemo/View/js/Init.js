@@ -1,30 +1,42 @@
 ﻿(function () {
+    function asPromise(callback) {
+        return function asPromise(argument) {
+            return new Promise(function (fullfill, reject) {
+            var res = { fullfill: function (res) { fullfill(res); }, reject: function (err) { reject(new Error(err)); } };
+            callback.Execute(argument, res);
+        });  
+        }
+    }
 
-    ko.register = function (vm) {
-        vm.factotyresult = ko.observable(null);
-        vm.lastError = ko.observable(null);
-
-        vm.result = function (res) {
-            alert(res.LastName());
-            vm.factotyresult(res);
-        };
-
-        vm.error = function (err) {
-            vm.lastError(err);
-            console.log(err);
-            alert(err);
-        };
-
-        vm.click = function () {
-            executeAsPromise(vm, 'CreateObject',vm.Name()).then(
-                function (res) {
-                    alert(res.LastName());
-                    vm.factotyresult(res);
-                }
-            ).catch(function(reason) {
-                console.log(reason);
-                alert(reason);
-            });
-        };
+    const localMixin = {
+        data: {
+            factoryresult: null,
+            lastError: null
+        },
+        methods: {
+            asPromise : asPromise,
+            click: function () {
+                var self = this;
+                asPromise(this.CreateObject)(this.Name)
+                    .then(function (res) {
+                        alert(res.LastName);
+                        self.factoryresult = res;
+                    })
+                    .catch(function (reason) {
+                        console.log(reason);
+                        alert(reason);
+                    });
+            },
+            error: function (error) {
+                alert(error);
+                this.lastError = error;
+            },
+            result: function (res) {
+                alert(res.LastName);
+                this.factoryresult = res;
+            }
+        }
     };
+
+    Vue._vmMixin = [localMixin];
 })()

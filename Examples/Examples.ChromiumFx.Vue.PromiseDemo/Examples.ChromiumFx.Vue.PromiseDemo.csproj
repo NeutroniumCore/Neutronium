@@ -220,6 +220,10 @@
       <Project>{c769e3ad-e82e-4e2f-bc4c-c92ca572c2ed}</Project>
       <Name>Example.ChromiumFX.Vue.Infra</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj">
+      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
+      <Name>Neutronium.Example.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="cef\Release\d3dcompiler_43.dll">
@@ -241,6 +245,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="cef\Release\wow_helper.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\js\Init.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
