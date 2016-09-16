@@ -137,8 +137,12 @@
     <None Include="cef\Resources\locales\da.pak" />
     <None Include="cef\Resources\locales\de.pak" />
     <None Include="cef\Resources\locales\el.pak" />
-    <None Include="cef\Resources\locales\en-GB.pak" />
-    <None Include="cef\Resources\locales\en-US.pak" />
+    <Content Include="cef\Resources\locales\en-GB.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cef\Resources\locales\en-US.pak">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="cef\Resources\locales\es-419.pak" />
     <None Include="cef\Resources\locales\es.pak" />
     <None Include="cef\Resources\locales\et.pak" />

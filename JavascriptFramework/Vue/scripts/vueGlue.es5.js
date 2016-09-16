@@ -178,10 +178,28 @@
         }
     };
 
+    var promiseMixin = {
+        methods: {
+            asPromise: function asPromise(callback) {
+                return function asPromise(argument) {
+                    return new Promise(function (_fullfill, _reject) {
+                        var res = { fullfill: function fullfill(res) {
+                                _fullfill(res);
+                            }, reject: function reject(err) {
+                                _reject(new Error(err));
+                            } };
+                        callback.Execute(argument, res);
+                    });
+                };
+            }
+        }
+    };
+
     var helper = {
         enumMixin: enumMixin,
         openMixin: openMixin,
         closeMixin: closeMixin,
+        promiseMixin: promiseMixin,
         inject: inject,
         register: function register(vm, observer) {
             console.log("VueGlue register");
