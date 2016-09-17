@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Neutronium.Example.ViewModel;
+﻿using Neutronium.Example.ViewModel;
 
 namespace Examples.ChromiumFx.Vue.PromiseDemo
 {

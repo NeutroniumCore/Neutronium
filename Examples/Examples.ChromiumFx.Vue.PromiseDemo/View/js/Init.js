@@ -2,7 +2,8 @@
     const localMixin = {
         data: {
             factoryresult: null,
-            lastError: null
+            lastError: null,
+            inputName: null
         },
         methods: {
             click: function () {
