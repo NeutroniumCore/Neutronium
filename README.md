@@ -126,6 +126,3 @@ The binding is done on the DataContext property just as standard WPF,
 That's it!
 
 [Documentation (wiki) here.](https://github.com/David-Desmaisons/MVVM.CEF.Glue/wiki/)
-
-Coming soon: nuget package!!
-
