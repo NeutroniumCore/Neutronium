@@ -1,8 +1,8 @@
 <p align="center"><img width="100"src="https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png"></p>
 <h1 align="center">Neutronium</h1>
 
-[![Neutronium.ChromiumFx.Vue](http://img.shields.io/nuget/v/Neutronium.ChromiumFx.Vue.svg?style=flat)](https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue//)
-[![Neutronium.ChromiumFx.Vue](https://img.shields.io/github/license/mashape/apistatus.svg)](https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue//)
+[![Neutronium.ChromiumFx.Vue](http://img.shields.io/nuget/v/Neutronium.ChromiumFx.Vue.svg?style=flat)](https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue/)
+[![Neutronium.ChromiumFx.Vue](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/David-Desmaisons/Neutronium/blob/master/LICENSE)
 
 Description
 --------------
