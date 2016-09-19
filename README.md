@@ -1,5 +1,5 @@
-Neutronium
-==========
+<p align="center"><img width="100"src="https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png"></p>
+<h1 align="center">Neutronium</h1>
 
 Description
 --------------
@@ -16,6 +16,11 @@ This library can be used without having to write any javascript on your own as i
 More Advanced functionalities include navigation engine (based on association between HTML and ViewModel type) and possibility to call C# from javascript with a result value asynchronously using promises.
 
 This project is a port of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
+
+Nuget package
+-------------
+
+[ChromiumFx broswer and Vue.js](https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue/)
 
 Usage - Example
 --------------
