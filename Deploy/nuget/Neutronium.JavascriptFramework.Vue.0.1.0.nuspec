@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Neutronium.JavascriptFramework.Vue</id>
+        <version>0.1.0</version>
+        <authors>David Desmaisons</authors>
+        <owners>David Desmaisons</owners>
+        <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Neutronium is a MVVM HTLM View engine for C# application. This is the javascript binding based on vue.js framework.</description>
+        <tags>HTML, C#, Chromium, MVVM, View, WPF, Vue.js</tags>
+        <dependencies>
+            <dependency id="Neutronium.Core" version="0.1.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="build\resource\logo.png" target="build\resource\logo.png" />
+        <file src="build\scripts\backend.js" target="build\scripts\backend.js" />
+        <file src="build\scripts\devtools.js" target="build\scripts\devtools.js" />
+        <file src="build\Neutronium.JavascriptFramework.Vue.props" target="build\Neutronium.JavascriptFramework.Vue.props" />
+        <file src="lib\Neutronium.JavascriptFramework.Vue.dll" target="lib\Neutronium.JavascriptFramework.Vue.dll" />
+    </files>
+</package>

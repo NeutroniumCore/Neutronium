@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Unofficial.Chromiumfx</id>
+        <version>3.2526.4</version>
+        <authors>David Desmaisons</authors>
+        <licenseUrl>https://bitbucket.org/chromiumfx/chromiumfx/raw/685dd058608d29a6915cd7b7b714a44de36e4fb9/License.txt</licenseUrl>
+        <projectUrl>https://bitbucket.org/chromiumfx/chromiumfx</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Managed wrapper for the complete CEF API
+Remote wrapper for full access to DOM and V8 from within the browser process
+Windows Forms control based on ChromiumFX</description>
+        <summary>.NET bindings for the Chromium Embedded Framework.</summary>
+        <releaseNotes>Improved nuget package</releaseNotes>
+        <tags>Chromium, HTLM, Embedded, C#</tags>
+    </metadata>
+    <files>
+        <file src="build\cef\Release\cef_sandbox.lib" target="build\cef\Release\cef_sandbox.lib" />
+        <file src="build\cef\Release\d3dcompiler_43.dll" target="build\cef\Release\d3dcompiler_43.dll" />
+        <file src="build\cef\Release\d3dcompiler_47.dll" target="build\cef\Release\d3dcompiler_47.dll" />
+        <file src="build\cef\Release\icudtl.dat" target="build\cef\Release\icudtl.dat" />
+        <file src="build\cef\Release\libcef.dll" target="build\cef\Release\libcef.dll" />
+        <file src="build\cef\Release\libcef.lib" target="build\cef\Release\libcef.lib" />
+        <file src="build\cef\Release\libEGL.dll" target="build\cef\Release\libEGL.dll" />
+        <file src="build\cef\Release\libGLESv2.dll" target="build\cef\Release\libGLESv2.dll" />
+        <file src="build\cef\Release\natives_blob.bin" target="build\cef\Release\natives_blob.bin" />
+        <file src="build\cef\Release\snapshot_blob.bin" target="build\cef\Release\snapshot_blob.bin" />
+        <file src="build\cef\Release\widevinecdmadapter.dll" target="build\cef\Release\widevinecdmadapter.dll" />
+        <file src="build\cef\Release\wow_helper.exe" target="build\cef\Release\wow_helper.exe" />
+        <file src="build\cef\Resources\locales\am.pak" target="build\cef\Resources\locales\am.pak" />
+        <file src="build\cef\Resources\locales\ar.pak" target="build\cef\Resources\locales\ar.pak" />
+        <file src="build\cef\Resources\locales\bg.pak" target="build\cef\Resources\locales\bg.pak" />
+        <file src="build\cef\Resources\locales\bn.pak" target="build\cef\Resources\locales\bn.pak" />
+        <file src="build\cef\Resources\locales\ca.pak" target="build\cef\Resources\locales\ca.pak" />
+        <file src="build\cef\Resources\locales\cs.pak" target="build\cef\Resources\locales\cs.pak" />
+        <file src="build\cef\Resources\locales\da.pak" target="build\cef\Resources\locales\da.pak" />
+        <file src="build\cef\Resources\locales\de.pak" target="build\cef\Resources\locales\de.pak" />
+        <file src="build\cef\Resources\locales\el.pak" target="build\cef\Resources\locales\el.pak" />
+        <file src="build\cef\Resources\locales\en-GB.pak" target="build\cef\Resources\locales\en-GB.pak" />
+        <file src="build\cef\Resources\locales\en-US.pak" target="build\cef\Resources\locales\en-US.pak" />
+        <file src="build\cef\Resources\locales\es-419.pak" target="build\cef\Resources\locales\es-419.pak" />
+        <file src="build\cef\Resources\locales\es.pak" target="build\cef\Resources\locales\es.pak" />
+        <file src="build\cef\Resources\locales\et.pak" target="build\cef\Resources\locales\et.pak" />
+        <file src="build\cef\Resources\locales\fa.pak" target="build\cef\Resources\locales\fa.pak" />
+        <file src="build\cef\Resources\locales\fi.pak" target="build\cef\Resources\locales\fi.pak" />
+        <file src="build\cef\Resources\locales\fil.pak" target="build\cef\Resources\locales\fil.pak" />
+        <file src="build\cef\Resources\locales\fr.pak" target="build\cef\Resources\locales\fr.pak" />
+        <file src="build\cef\Resources\locales\gu.pak" target="build\cef\Resources\locales\gu.pak" />
+        <file src="build\cef\Resources\locales\he.pak" target="build\cef\Resources\locales\he.pak" />
+        <file src="build\cef\Resources\locales\hi.pak" target="build\cef\Resources\locales\hi.pak" />
+        <file src="build\cef\Resources\locales\hr.pak" target="build\cef\Resources\locales\hr.pak" />
+        <file src="build\cef\Resources\locales\hu.pak" target="build\cef\Resources\locales\hu.pak" />
+        <file src="build\cef\Resources\locales\id.pak" target="build\cef\Resources\locales\id.pak" />
+        <file src="build\cef\Resources\locales\it.pak" target="build\cef\Resources\locales\it.pak" />
+        <file src="build\cef\Resources\locales\ja.pak" target="build\cef\Resources\locales\ja.pak" />
+        <file src="build\cef\Resources\locales\kn.pak" target="build\cef\Resources\locales\kn.pak" />
+        <file src="build\cef\Resources\locales\ko.pak" target="build\cef\Resources\locales\ko.pak" />
+        <file src="build\cef\Resources\locales\lt.pak" target="build\cef\Resources\locales\lt.pak" />
+        <file src="build\cef\Resources\locales\lv.pak" target="build\cef\Resources\locales\lv.pak" />
+        <file src="build\cef\Resources\locales\ml.pak" target="build\cef\Resources\locales\ml.pak" />
+        <file src="build\cef\Resources\locales\mr.pak" target="build\cef\Resources\locales\mr.pak" />
+        <file src="build\cef\Resources\locales\ms.pak" target="build\cef\Resources\locales\ms.pak" />
+        <file src="build\cef\Resources\locales\nb.pak" target="build\cef\Resources\locales\nb.pak" />
+        <file src="build\cef\Resources\locales\nl.pak" target="build\cef\Resources\locales\nl.pak" />
+        <file src="build\cef\Resources\locales\pl.pak" target="build\cef\Resources\locales\pl.pak" />
+        <file src="build\cef\Resources\locales\pt-BR.pak" target="build\cef\Resources\locales\pt-BR.pak" />
+        <file src="build\cef\Resources\locales\pt-PT.pak" target="build\cef\Resources\locales\pt-PT.pak" />
+        <file src="build\cef\Resources\locales\ro.pak" target="build\cef\Resources\locales\ro.pak" />
+        <file src="build\cef\Resources\locales\ru.pak" target="build\cef\Resources\locales\ru.pak" />
+        <file src="build\cef\Resources\locales\sk.pak" target="build\cef\Resources\locales\sk.pak" />
+        <file src="build\cef\Resources\locales\sl.pak" target="build\cef\Resources\locales\sl.pak" />
+        <file src="build\cef\Resources\locales\sr.pak" target="build\cef\Resources\locales\sr.pak" />
+        <file src="build\cef\Resources\locales\sv.pak" target="build\cef\Resources\locales\sv.pak" />
+        <file src="build\cef\Resources\locales\sw.pak" target="build\cef\Resources\locales\sw.pak" />
+        <file src="build\cef\Resources\locales\ta.pak" target="build\cef\Resources\locales\ta.pak" />
+        <file src="build\cef\Resources\locales\te.pak" target="build\cef\Resources\locales\te.pak" />
+        <file src="build\cef\Resources\locales\th.pak" target="build\cef\Resources\locales\th.pak" />
+        <file src="build\cef\Resources\locales\tr.pak" target="build\cef\Resources\locales\tr.pak" />
+        <file src="build\cef\Resources\locales\uk.pak" target="build\cef\Resources\locales\uk.pak" />
+        <file src="build\cef\Resources\locales\vi.pak" target="build\cef\Resources\locales\vi.pak" />
+        <file src="build\cef\Resources\locales\zh-CN.pak" target="build\cef\Resources\locales\zh-CN.pak" />
+        <file src="build\cef\Resources\locales\zh-TW.pak" target="build\cef\Resources\locales\zh-TW.pak" />
+        <file src="build\cef\Resources\cef.pak" target="build\cef\Resources\cef.pak" />
+        <file src="build\cef\Resources\cef_100_percent.pak" target="build\cef\Resources\cef_100_percent.pak" />
+        <file src="build\cef\Resources\cef_200_percent.pak" target="build\cef\Resources\cef_200_percent.pak" />
+        <file src="build\cef\Resources\cef_extensions.pak" target="build\cef\Resources\cef_extensions.pak" />
+        <file src="build\cef\Resources\devtools_resources.pak" target="build\cef\Resources\devtools_resources.pak" />
+        <file src="build\cef\Resources\icudtl.dat" target="build\cef\Resources\icudtl.dat" />
+        <file src="build\libcfx.dll" target="build\libcfx.dll" />
+        <file src="build\Unofficial.Chromiumfx.targets" target="build\Unofficial.Chromiumfx.targets" />
+        <file src="lib\ChromiumFX.dll" target="lib\ChromiumFX.dll" />
+        <file src="lib\ChromiumWebBrowser.dll" target="lib\ChromiumWebBrowser.dll" />
+    </files>
+</package>

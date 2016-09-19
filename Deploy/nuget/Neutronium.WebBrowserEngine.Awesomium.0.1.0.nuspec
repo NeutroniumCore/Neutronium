@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Neutronium.WebBrowserEngine.Awesomium</id>
+        <version>0.1.0</version>
+        <authors>David Desmaisons</authors>
+        <owners>David Desmaisons</owners>
+        <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Neutronium is a MVVM HTLM View engine for C# application. This is Webbrowser implementation based on Awesomium project.</description>
+        <tags>HTML, C#, Awesomium, MVVM, View, WPF</tags>
+        <dependencies>
+            <dependency id="Neutronium.WPF" version="0.1.0" />
+            <dependency id="Unofficial.Awesomium.Complete" version="1.7.4.2" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="lib\Neutronium.WebBrowserEngine.Awesomium.dll" target="lib\Neutronium.WebBrowserEngine.Awesomium.dll" />
+    </files>
+</package>

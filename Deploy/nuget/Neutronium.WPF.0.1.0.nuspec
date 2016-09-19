@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Neutronium.WPF</id>
+        <version>0.1.0</version>
+        <title>Neutronium.WPF</title>
+        <authors>David Desmaisons</authors>
+        <owners>David Desmaisons</owners>
+        <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Neutronium is a MVVM HTLM View engine for C# application. This is wpf package ddeclaring wpf components without any webbrowser or javascript binding.</description>
+        <tags>HTML, C#, Chromium, MVVM, View, WPF</tags>
+        <dependencies>
+            <dependency id="Neutronium.Core" version="0.1.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="lib\Neutronium.WPF.dll" target="lib\Neutronium.WPF.dll" />
+    </files>
+</package>

@@ -159,6 +159,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Template", "Template", "{06
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeutroniumApplication", "Deploy\Template\NeutroniumApplication\NeutroniumApplication.csproj", "{0B796235-CF28-4885-8D6D-1F342AD9B642}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{0AC2EE35-F1C4-4CB8-810D-61A7A2E28F61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1122,6 +1124,7 @@ Global
 		{50A91F69-690C-40D3-ADFC-AA2CD6433A59} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{060FD116-723F-496F-B01D-8D42CEE3D414} = {C9946795-AE27-4A41-B64E-38108198AE5A}
 		{0B796235-CF28-4885-8D6D-1F342AD9B642} = {060FD116-723F-496F-B01D-8D42CEE3D414}
+		{0AC2EE35-F1C4-4CB8-810D-61A7A2E28F61} = {C9946795-AE27-4A41-B64E-38108198AE5A}
 	EndGlobalSection
 	GlobalSection(CodealikeProperties) = postSolution
 		SolutionGuid = 21ee2d50-c4fe-49f3-a899-1dc535d57fcf

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Neutronium.Core.JavascriptFramework;
+using Neutronium.WebBrowserEngine.ChromiumFx;
+using Neutronium.JavascriptFramework.Vue;
 
 namespace NeutroniumApplication
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : ChromiumFxWebBrowserApp
     {
+        protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager()
+        {
+            return new VueSessionInjector();
+        }
     }
 }

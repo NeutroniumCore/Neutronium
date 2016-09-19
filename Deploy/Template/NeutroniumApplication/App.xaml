@@ -1,9 +1,11 @@
-﻿<Application x:Class="NeutroniumApplication.App"
+﻿<chromiumFxInfra:ChromiumFxWebBrowserApp x:Class="NeutroniumApplication.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:NeutroniumApplication"
+             xmlns:chromiumFxInfra="clr-namespace:Neutronium.WebBrowserEngine.ChromiumFx;assembly=Neutronium.WebBrowserEngine.ChromiumFx" 
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
-         
-    </Application.Resources>
-</Application>
+    <chromiumFxInfra:ChromiumFxWebBrowserApp.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+    </chromiumFxInfra:ChromiumFxWebBrowserApp.Resources>
+</chromiumFxInfra:ChromiumFxWebBrowserApp>
