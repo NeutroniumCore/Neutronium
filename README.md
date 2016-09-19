@@ -2,7 +2,7 @@
 <h1 align="center">Neutronium</h1>
 
 [![Neutronium.ChromiumFx.Vue](http://img.shields.io/nuget/v/Neutronium.ChromiumFx.Vue.svg?style=flat)](https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue/)
-[![MIT License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/David-Desmaisons/Neutronium/blob/master/LICENSE)
+[![MIT License](https://img.shields.io/github/license/David-Desmaisons/Neutronium.svg)](https://github.com/David-Desmaisons/Neutronium/blob/master/LICENSE)
 
 Description
 --------------
