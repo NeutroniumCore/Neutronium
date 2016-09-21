@@ -13,9 +13,6 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
 
         public WpfThread WpfThread { get; private set; }
 
-        //public abstract IWPFWebWindowFactory GetWPFWebWindowFactory();
-        //public abstract IJavascriptFrameworkManager FrameworkManager { get; }
-
         public ITestHtmlProvider HtmlProvider => _WindowTestContext.HtmlProvider;
 
         public WindowTestEnvironment(WindowTestContext context) 

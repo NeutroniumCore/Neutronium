@@ -51,7 +51,11 @@ namespace Neutronium.WebBrowserEngine.Awesomium
 
         public void Dispose()
         {
-            _Session?.Dispose();
+            try {
+                _Session?.Dispose();
+            }
+            catch {
+            }
             WebCore.Shutdown();
         }
     }
