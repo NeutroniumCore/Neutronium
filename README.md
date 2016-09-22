@@ -5,11 +5,18 @@
 [![NuGet Badge](https://buildstats.info/nuget/Neutronium.Core)](https://www.nuget.org/packages/Neutronium.Core/)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Neutronium.svg)](https://github.com/David-Desmaisons/Neutronium/blob/master/LICENSE)
 
+What is Neutronium ?
+--------------------
 
+Neutronium is a UI framework to create .Net App using HTML, CSS and javascript in the View Layer.
+
+It uses MVVM pattern so that it is possible to use same ViewModels and patterns as classic WPF application.
+
+On the View layer, binding with javascript frameworks Vue.js and Knockout.js are provided.
 
 Description
 --------------
-Neutronium is an MVVM HTLM View engine for C# application.
+
 HTML view infra relies on CEFGlue framework which is a C# glue for Chromium Embedded Framework(CEF).
 Neutronium abstracts all the heavy work of managing C# and javascript integration (including Thread management, type conversion) by providing a standard MVMM binding.
 iThis allows to reuse 100% of View Model written for WPF in a HTML UI(provided you implement correctly the INotifyPropertyChanged, INotifyCollectionChanged and ICommand patterns).  
@@ -21,7 +28,7 @@ This library can be used without having to write any javascript on your own as i
 
 More Advanced functionalities include navigation engine (based on association between HTML and ViewModel type) and possibility to call C# from javascript with a result value asynchronously using promises.
 
-This project is a port of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
+This project is a continuation and improvement of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
 
 Get started
 ----------
