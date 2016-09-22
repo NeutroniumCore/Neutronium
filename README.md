@@ -1,8 +1,11 @@
 <p align="center"><img width="100"src="https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png"></p>
 <h1 align="center">Neutronium</h1>
 
+[![MIT License](https://img.shields.io/appveyor/ci/David-Desmaisons/Neutronium.svg?maxAge=2592000)](https://ci.appveyor.com/project/David-Desmaisons/neutronium)
 [![Neutronium.ChromiumFx.Vue](http://img.shields.io/nuget/v/Neutronium.ChromiumFx.Vue.svg?style=flat)](https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue/)
 [![MIT License](https://img.shields.io/github/license/David-Desmaisons/Neutronium.svg)](https://github.com/David-Desmaisons/Neutronium/blob/master/LICENSE)
+
+
 
 Description
 --------------
@@ -20,10 +23,18 @@ More Advanced functionalities include navigation engine (based on association be
 
 This project is a port of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
 
-Nuget package
--------------
+Get started
+----------
+
+Template C# projects can be downloaded [from visual studiogallery](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8).
+They install a ready to go neutronium application.
+
+Nuget packages
+--------------
 
 [ChromiumFx broswer and Vue.js](https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue/)
+
+[ChromiumFx broswer and knockout.js](https://www.nuget.org/packages/Neutronium.ChromiumFx.Knockout/)
 
 Usage - Example
 --------------

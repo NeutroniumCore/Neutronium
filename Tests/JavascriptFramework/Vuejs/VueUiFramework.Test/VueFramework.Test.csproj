@@ -228,10 +228,6 @@
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
       <Name>JavascriptFrameworkTesterHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Neutronium.Core.Test\Neutronium.Core.Test.csproj">
-      <Project>{a766ac1e-10fd-4d77-a95f-f1974fb0fefc}</Project>
-      <Name>Neutronium.Core.Test</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\spec\subscribeArray.spec.js">

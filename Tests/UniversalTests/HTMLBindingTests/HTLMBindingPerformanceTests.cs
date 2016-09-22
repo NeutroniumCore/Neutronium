@@ -16,6 +16,7 @@ namespace Tests.Universal.HTMLBindingTests
 {
     public abstract class HTLMBindingPerformanceTests : HTMLBindingBase 
     {
+        private const string PlateformDependant = "Plateform Dependant";
         private readonly Dictionary<TestPerformanceKind, int> _ExpectedTimeInMilliSeconds; 
         protected HTLMBindingPerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds) : base(testEnvironment, output)
         {
@@ -45,19 +46,19 @@ namespace Tests.Universal.HTMLBindingTests
             return TimeSpan.FromMilliseconds(_ExpectedTimeInMilliSeconds[context]);  
         }
 
-        [Fact]
+        [Fact(Skip = PlateformDependant)]
         public Task Stress_TwoWay_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, TestPerformanceKind.TwoWay_Collection_CreateBinding, TestContext.Simple);
         }
 
-        [Fact]
+        [Fact(Skip = PlateformDependant)]
         public Task Stress_OneWay_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, TestPerformanceKind.OneWay_Collection_CreateBinding, TestContext.Simple);
         }
 
-        [Fact]
+        [Fact(Skip = PlateformDependant)]
         public Task Stress_OneTime_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, TestPerformanceKind.OneTime_Collection_CreateBinding, TestContext.Simple);
@@ -93,7 +94,7 @@ namespace Tests.Universal.HTMLBindingTests
             return RunAsync(test);
         }
 
-        [Fact]
+        [Fact(Skip = PlateformDependant)]
         public async Task Bind_ShouldBeRobust() 
         {
             var test = new TestInContext() 
@@ -109,7 +110,7 @@ namespace Tests.Universal.HTMLBindingTests
             }    
         }
 
-        [Fact]
+        [Fact(Skip = PlateformDependant)]
         public async Task Stress_Collection_Update_From_Javascript() 
         {
             int r = 100;
@@ -159,7 +160,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        [Fact]
+        [Fact(Skip = PlateformDependant)]
         public async Task Stress_TwoWay_Int() 
         {
             var test = new TestInContextAsync() 
@@ -199,7 +200,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        [Fact]
+        [Fact(Skip = PlateformDependant)]
         public async Task Stress_TwoWay_Collection() 
         {
 
