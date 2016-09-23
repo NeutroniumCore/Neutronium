@@ -8,11 +8,11 @@
 What is Neutronium ?
 --------------------
 
-Neutronium is a framework to create **.NET desktop applications** using **HTML, CSS** and **javascript**.
+* Neutronium is a framework to create **.NET desktop applications** using **HTML, CSS** and **javascript**.
 
-Neutronium uses **[MVVM pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)** the same way as classic WPF application.
+* Neutronium uses **[MVVM pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)** the same way as classic WPF application.
 
-Neutronium provides bindings with **Vue.js** and **Knockout.js** to build powerfull HTML5 application.
+* Neutronium provides bindings with **Vue.js** and **Knockout.js** to build powerfull HTML5 application.
 
 Why Neutronium ?
 ----------------
@@ -26,8 +26,6 @@ Why Neutronium ?
 * **[Solution template](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8)** available for a quick start
 
 -**Reuse** ViewModel designed for WPF with a different View Engine.
-
-This project is a continuation and improvement of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
 
 Get started
 ----------
