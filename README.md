@@ -8,44 +8,31 @@
 What is Neutronium ?
 --------------------
 
-Neutronium is a framework to create .Net desktop applications using HTML, CSS and javascript.
+Neutronium is a framework to create **.NET desktop applications** using **HTML, CSS** and **javascript**.
 
-Neutronium uses [MVVM](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel) architecture so that you can use same pattern as for classic WPF application and reuse ViewModel.
+Neutronium uses **[MVVM pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)** the same way as classic WPF application.
 
-Neutronium provides bindings with javascript frameworks Vue.js and Knockout.js are provided to easily build powerfull application.
+Neutronium provides bindings with **Vue.js** and **Knockout.js** to build powerfull HTML5 application.
 
 Why Neutronium ?
 ----------------
 
--Use all the power of the javascript stack to build .Net desktop applications.
+-Use all the **power of the javascript stack** to build .NET desktop applications.
 
--Abstract the integration complexity offered by lower level solution such as [Awesomium](http://www.awesomium.com/), [CefGlue](http://xilium.bitbucket.org/cefglue/), [CefSharp](https://github.com/cefsharp/CefSharp) and [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx)
+-**Easy to use**: 
 
--Benefit from responsability segregation offered by MVVM.
+* **Focus on ViewModel logic** and abstract away from complex context, process and binding management you have to deal with other lower level embeded WebBrowser solutions available for .NET such as [Awesomium](http://www.awesomium.com/), [CefGlue](http://xilium.bitbucket.org/cefglue/), [CefSharp](https://github.com/cefsharp/CefSharp) and [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx)
+* Architecture Neutronium application **just like standard WPF** application.
+* **[Solution template](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8)** available for a quick start
 
--Reuse ViewModel designed for WPF with a different View Engine.
-
-Description
---------------
-
-HTML view infra relies on CEFGlue framework which is a C# glue for Chromium Embedded Framework(CEF).
-Neutronium abstracts all the heavy work of managing C# and javascript integration (including Thread management, type conversion) by providing a standard MVMM binding.
-iThis allows to reuse 100% of View Model written for WPF in a HTML UI(provided you implement correctly the INotifyPropertyChanged, INotifyCollectionChanged and ICommand patterns).  
-On the javascript side, C# objects are converted to javascript objects and can be bound using knockout.js  library.  
-All changes between View and ViewModel are propagate back and forth by using knockout.js subscribers and C# events.
-C# commands are mapped to javascript method and can be bind to click event using knockout.  
-MVVM for CEF(Glue) is shipped with some custom knockout binding to help with standard MVMM binding such as commands.
-This library can be used without having to write any javascript on your own as it will take care of all the mapping and plumbing for you!
-
-More Advanced functionalities include navigation engine (based on association between HTML and ViewModel type) and possibility to call C# from javascript with a result value asynchronously using promises.
+-**Reuse** ViewModel designed for WPF with a different View Engine.
 
 This project is a continuation and improvement of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
 
 Get started
 ----------
 
-Template C# projects can be downloaded [from visual studiogallery](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8).
-They install a ready to go neutronium application.
+Best way to start with Neutronium is to download template C# solution [from visual studio gallery](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8).
 
 Nuget packages
 --------------
@@ -158,3 +145,5 @@ The binding is done on the DataContext property just as standard WPF,
 That's it!
 
 [Documentation (wiki) here.](https://github.com/David-Desmaisons/MVVM.CEF.Glue/wiki/)
+
+This project is a continuation and improvement of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
