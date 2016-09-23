@@ -17,15 +17,15 @@ What is Neutronium ?
 Why Neutronium ?
 ----------------
 
--Use all the **power of the javascript stack** to build .NET desktop applications.
+* Use all the **power of the javascript stack** to build .NET desktop applications.
 
--**Easy to use**: 
+* **Easy to use**: 
 
-* **Focus on ViewModel logic** and abstract away from complex context, process and binding management you have to deal with other lower level embeded WebBrowser solutions available for .NET such as [Awesomium](http://www.awesomium.com/), [CefGlue](http://xilium.bitbucket.org/cefglue/), [CefSharp](https://github.com/cefsharp/CefSharp) and [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx)
-* Architecture Neutronium application **just like standard WPF** application.
-* **[Solution template](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8)** available for a quick start
+ * **Focus on ViewModel logic** and abstract away from complex context, process and binding management you have to deal with other lower level embeded WebBrowser solutions available for .NET such as [Awesomium](http://www.awesomium.com/), [CefGlue](http://xilium.bitbucket.org/cefglue/), [CefSharp](https://github.com/cefsharp/CefSharp) and [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx)
+ * Architecture Neutronium application **just like standard WPF** application.
+ * **[Solution template](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8)** available for a quick start
 
--**Reuse** ViewModel designed for WPF with a different View Engine.
+* **Reuse** ViewModel designed for WPF with a different View Engine.
 
 Get started
 ----------
