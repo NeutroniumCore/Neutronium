@@ -1,5 +1,5 @@
-﻿using CefGlue.TestInfra;
-using KnockoutFramework.Test.IntegratedInfra;
+﻿using KnockoutFramework.Test.IntegratedInfra;
+using Tests.ChromiumFX.Infra;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.Context;
@@ -12,6 +12,6 @@ namespace Ko.Binding.ChromiumFx.Tests.Infra
 
         public override FrameworkTestContext FrameworkTestContext { get; } = KoTestContext;
 
-        protected override IBasicWindowLessHTMLEngineProvider GetBasicWindowLessHTMLEngineProvider() => new CefGlueWindowlessSharedJavascriptEngineFactory(KoTestContext.HtmlProvider);
+        protected override IBasicWindowLessHTMLEngineProvider GetBasicWindowLessHTMLEngineProvider() => new ChromiumFXWindowLessHTMLEngineProvider(KoTestContext.HtmlProvider);
     }
 }
