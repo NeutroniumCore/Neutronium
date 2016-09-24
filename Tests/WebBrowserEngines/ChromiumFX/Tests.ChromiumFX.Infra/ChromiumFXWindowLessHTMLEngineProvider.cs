@@ -94,7 +94,7 @@ namespace Tests.ChromiumFX.Infra
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error($"Exception raised during GetRenderProcessHandler SetReturnValue {ex.Message}, loading task is {_TaskContextCreatedEventArgs.Task.Status}");
+                    Logger?.Error($"Exception raised during GetRenderProcessHandler SetReturnValue {ex.Message}, loading task is {_TaskContextCreatedEventArgs.Task.Status}");
                     throw;
                 }
             };
