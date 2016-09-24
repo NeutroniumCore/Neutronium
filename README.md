@@ -10,7 +10,7 @@ What is Neutronium ?
 
 * Neutronium is a framework to create **.NET desktop applications** using **HTML, CSS** and **javascript**.
 
-* Neutronium uses **[MVVM pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)** the same way as classic WPF application.
+* Neutronium uses **[MVVM pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)** exactly the same way as WPF application.
 
 * Neutronium provides bindings with **Vue.js** and **Knockout.js** to build powerfull HTML5 application.
 
@@ -44,100 +44,103 @@ Usage - Example
 
 **ViewModel (C#)**
 
-		public class ViewModelBase : INotifyPropertyChanged
-		{
-			protected void Set<T>(ref T ipnv, T value, string ipn)
-			{
-				if (object.Equals(ipnv, value))
-					return;
-				ipnv = value;
-				OnPropertyChanged(ipn);
-			}
+```C#
+public class ViewModelBase : INotifyPropertyChanged
+{
+	protected void Set<T>(ref T ipnv, T value, string ipn)
+	{
+		if (object.Equals(ipnv, value))
+			eturn;
+		ipnv = value;
+		OnPropertyChanged(ipn);
+	}
 
-			private void OnPropertyChanged(string pn)
-			{
-				if (PropertyChanged == null)
-					return;
+	private void OnPropertyChanged(string pn)
+	{
+		if (PropertyChanged == null)
+			return;
 
-				PropertyChanged(this, new PropertyChangedEventArgs(pn));
-			}
+		PropertyChanged(this, new PropertyChangedEventArgs(pn));
+	}
 
-			public event PropertyChangedEventHandler PropertyChanged;
-		}
+	public event PropertyChangedEventHandler PropertyChanged;
+}
 
-		public class Skill : ViewModelBase
-		{
-			private string _Type;
-			public string Type
-			{
-				get { return _Type; }
-				set { Set(ref _Type, value, "Type"); }
-			}
+public class Skill : ViewModelBase
+{
+	private string _Type;
+	public string Type
+	{
+		get { return _Type; }
+		set { Set(ref _Type, value, "Type"); }
+	}
 
-			private string _Name;
-			public string Name
-			{
-				get { return _Name; }
-				set { Set(ref _Name, value, "Name"); }
-			}
-		}
+	private string _Name;
+	public string Name
+	{
+		get { return _Name; }
+		set { Set(ref _Name, value, "Name"); }
+	}
+}
 
-		public class Person: ViewModelBase
-		{
-			public Person()
-			{
-				Skills = new ObservableCollection<Skill>();
-				RemoveSkill = new RelayCommand<Skill>(s=> this.Skills.Remove(s));
-			}
+public class Person: ViewModelBase
+{
+	public Person()
+	{
+		Skills = new ObservableCollection<Skill>();
+		RemoveSkill = new RelayCommand<Skill>(s=> this.Skills.Remove(s));
+	}
 		  
-			private string _LastName;
-			public string LastName
-			{
-				get { return _LastName; }
-				set { Set(ref _LastName, value, "LastName"); }
-			}
+	private string _LastName;
+	public string LastName
+	{
+		get { return _LastName; }
+		set { Set(ref _LastName, value, "LastName"); }
+	}
 
-			private string _Name;
-			public string Name
-			{
-				get { return _Name; }
-				set { Set(ref _Name, value, "Name"); }
-			}
+	private string _Name;
+	public string Name
+	{
+		get { return _Name; }
+		set { Set(ref _Name, value, "Name"); }
+	}
 		   
-			public IList<Skill> Skills { get; private set; }
+	public IList<Skill> Skills { get; private set; }
 
-			public ICommand RemoveSkill { get; private set; }
-		}
-		
+	public ICommand RemoveSkill { get; private set; }
+}
+```		
 		
 **View (HTML) using knockout mark-up**
 
-	<!doctype html>
-	<html>
-		<head>
-			<title></title>
-			<script src="js/knockout.js" type="text/javascript"></script>
-			<script src="js/Ko_Extension.js" type="text/javascript"></script>
-		</head>
-		<body>
-			<input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name" >
-			<ul data-bind="foreach: Skills">
-				<li><span data-bind="text:Type"></span>:<span data-bind="text:Name"></span>
-				<button data-bind="command: $root.RemoveSkill">Remove skill</button></li>
-			</ul>
-			<div>
-				<h2><span data-bind="text: Name"></span></h2>
-				<h2><span data-bind="text: LastName"></span></h2>
-			</div>
-
-			<button data-bind="command: ChangeSkill">Click me</button>
-		</body>
-	</html>
-
+```HTML
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<script src="js/knockout.js" type="text/javascript"></script>
+		<script src="js/Ko_Extension.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name" >
+		<ul data-bind="foreach: Skills">
+			<li><span data-bind="text:Type"></span>:<span data-bind="text:Name"></span>
+			<button data-bind="command: $root.RemoveSkill">Remove skill</button></li>
+		</ul>
+		<div>
+			<h2><span data-bind="text: Name"></span></h2>
+			<h2><span data-bind="text: LastName"></span></h2>
+		</div>
+		<button data-bind="command: ChangeSkill">Click me</button>
+	</body>
+</html>
+```
 	
 **Create the component(C# Xaml)**
 
-	<MVVM.CEFGlue:HTMLViewControl RelativeSource="src\index.html" />
+```XAML
+<Neutronium:HTMLViewControl RelativeSource="src\index.html" />
+```
 
 The binding is done on the DataContext property just as standard WPF,
 That's it!
