@@ -43,7 +43,7 @@ Main features
 How?
 ----
 
-* Neutronium combines [Chromium](https://www.chromium.org) via [ChromiumFx C# lib](https://bitbucket.org/chromiumfx/chromiumfx) and an binding engine that converts back and forth C# POCO to javascript POCO.
+* Neutronium combines [Chromium](https://www.chromium.org) via [ChromiumFx C# lib](https://bitbucket.org/chromiumfx/chromiumfx) and a binding engine that converts back and forth C# POCO to javascript POCO.
 * Javascript objects are then used as ViewModel for javascript MVVM library such as [knockout.js]("http://knockoutjs.com/) or [Vue.js](http://vuejs.org/images/logo.png).
 * Listeners are set-up on C# and javscript side for two-way binding.
    
