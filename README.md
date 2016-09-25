@@ -84,18 +84,13 @@ public class ViewModelBase : INotifyPropertyChanged
 
 public class Skill : ViewModelBase
 {
-	private string _Type;
-	public string Type
-	{
-		get { return _Type; }
-		set { Set(ref _Type, value, "Type"); }
-	}
+	public string Type { get;}
+	public string Name { get;}
 
-	private string _Name;
-	public string Name
+	public Skill (string name, string skillType)
 	{
-		get { return _Name; }
-		set { Set(ref _Name, value, "Name"); }
+		Name = name;
+		Type = skillType;
 	}
 }
 
