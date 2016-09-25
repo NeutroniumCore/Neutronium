@@ -82,7 +82,7 @@ public class ViewModelBase : INotifyPropertyChanged
 	}
 }
 
-public class Skill : ViewModelBase
+public class Skill
 {
 	public string Type { get;}
 	public string Name { get;}
