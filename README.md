@@ -47,23 +47,13 @@ Usage - Example
 ```C#
 public class ViewModelBase : INotifyPropertyChanged
 {
-	protected void Set<T>(ref T ipnv, T value, string ipn)
-	{
-		if (object.Equals(ipnv, value))
-			eturn;
-		ipnv = value;
-		OnPropertyChanged(ipn);
-	}
-
-	private void OnPropertyChanged(string pn)
-	{
-		if (PropertyChanged == null)
-			return;
-
-		PropertyChanged(this, new PropertyChangedEventArgs(pn));
-	}
-
 	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected void Set<T>(ref T pnv, T value, string pn)
+	{
+		pnv = value;
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pn));
+	}
 }
 
 public class Skill : ViewModelBase
@@ -85,12 +75,6 @@ public class Skill : ViewModelBase
 
 public class Person: ViewModelBase
 {
-	public Person()
-	{
-		Skills = new ObservableCollection<Skill>();
-		RemoveSkill = new RelayCommand<Skill>(s=> this.Skills.Remove(s));
-	}
-		  
 	private string _LastName;
 	public string LastName
 	{
@@ -108,18 +92,48 @@ public class Person: ViewModelBase
 	public IList<Skill> Skills { get; private set; }
 
 	public ICommand RemoveSkill { get; private set; }
+	
+	public Person()
+	{
+		Skills = new ObservableCollection<Skill>();
+		RemoveSkill = new RelayCommand<Skill>(s=> this.Skills.Remove(s));
+	}	  
 }
 ```		
 		
-**View (HTML) using knockout mark-up**
+**View (HTML)**
+**First option: use Vue.js**
+```HTML
+<!doctype html>
+<html>
+	<head>
+		<title>Vue.js Example</title>
+	</head>
+	<body>
+		<input type="text" v-model="Name" placeholder="First name" >
+		<ul>
+			<li v-for="skill in Skills">
+				<span>{{skill.Type}}:{{skill.Name}}</span>
+				<button @click="RemoveSkill.Execute(skill)">Remove skill</button>
+			</li>
+		</ul>
+		<div>
+			<h2>{{Name}}</h2>
+			<h2>{{LastName}}</h2>
+		</div>
+		<button @click="ChangeSkill.Execute()">Click me</button>
+	</body>
+</html>
+```
+
+
+**Alternativelly use knockout.js**
 
 ```HTML
 <!doctype html>
 <html>
 	<head>
-		<title></title>
-		<script src="js/knockout.js" type="text/javascript"></script>
-		<script src="js/Ko_Extension.js" type="text/javascript"></script>
+		<title>knockout.js Example</title>
 	</head>
 	<body>
 		<input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name" >
@@ -145,6 +159,6 @@ public class Person: ViewModelBase
 The binding is done on the DataContext property just as standard WPF,
 That's it!
 
-[Documentation (wiki) here.](https://github.com/David-Desmaisons/MVVM.CEF.Glue/wiki/)
+[Documentation (wiki) here.](https://github.com/David-Desmaisons/Neutronium/wiki/)
 
 This project is a continuation and improvement of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
