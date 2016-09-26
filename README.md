@@ -185,7 +185,7 @@ Best way to start with Neutronium is to download template C# solution [from visu
 Documentation
 -------------
 
-[here](https://github.com/David-Desmaisons/Neutronium/wiki/)
+[Here](https://github.com/David-Desmaisons/Neutronium/wiki/)
 
 
 Comparison with other libraries:
