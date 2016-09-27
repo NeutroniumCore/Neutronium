@@ -11,7 +11,7 @@
             if (!!newValue) {
                 var ctx = this;
                 this.callBack = function callBack() {
-                    var arg = ctx.params.comandarg || null;
+                    var arg = ctx.params.commandarg || null;
                     ctx.execute(newValue, arg);
                 };
                 this.el.addEventListener(evt, this.callBack);
