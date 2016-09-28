@@ -147,7 +147,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Binding.ChromiumFx.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vue.Navigation.ChromiumFx.Tests", "Tests\JavascriptFramework\Vuejs\Vue.Navigation.ChromiumFx.Tests\Vue.Navigation.ChromiumFx.Tests.csproj", "{2CDD21B9-CEE4-416C-A0FA-19364A795AC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFx.Vue.Navigation", "Examples\Example.CefGlue.Vue.Navigation\Example.ChromiumFx.Vue.Navigation.csproj", "{ED49D168-61BA-402C-863A-2F1A94774375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFx.Vue.Navigation", "Examples\Example.ChromiumFx.Vue.Navigation\Example.ChromiumFx.Vue.Navigation.csproj", "{ED49D168-61BA-402C-863A-2F1A94774375}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebBrowserEngineTests", "Tests\WebBrowserEngines\ChromiumFX\WebBrowserEngineTests\WebBrowserEngineTests.csproj", "{0D2B555B-3DF7-460B-843B-F9F3145135BD}"
 EndProject
