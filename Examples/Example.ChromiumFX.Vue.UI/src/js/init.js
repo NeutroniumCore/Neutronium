@@ -16,7 +16,7 @@
     };
 
     Vue.component('commandbutton', {
-        mixins: [Vue.__commandMixin],
+        mixins: [glueHelper.commandMixin],
         methods:{
             beforeCommand: function(){
                 alert('add skill');

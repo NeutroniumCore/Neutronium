@@ -179,6 +179,7 @@
         openMixin: openMixin,
         closeMixin: closeMixin,
         promiseMixin: promiseMixin,
+        commandMixin : Vue.__commandMixin,
         inject: inject,
         register: function (vm, observer) {
             console.log("VueGlue register");

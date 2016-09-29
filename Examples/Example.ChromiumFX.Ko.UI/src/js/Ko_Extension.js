@@ -473,6 +473,4 @@ function executeAsPromise(vm,fnname,argument) {
                 return bindings;
             }
         };
-
-
 }());
