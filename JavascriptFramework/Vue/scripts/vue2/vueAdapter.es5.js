@@ -16,9 +16,7 @@
         var div = document.createElement("div");
         div.appendChild(innerComponent);
         father.appendChild(div);
-        //setTimeout(function () {
-        var v = new component({ el: div });
-        //}, 0);
+        var v = new Vue({ el: div });
     }
 
     Vue.adapter = {
