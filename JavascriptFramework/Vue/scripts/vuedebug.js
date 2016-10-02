@@ -141,62 +141,57 @@
 	component.setAttribute("inicialwidth", (windowW/3)+ "px");
 	component.setAttribute("top",10);
 	component.setAttribute("right",(2 *windowW/3 -60) );		
-	//frame = document.createElement('iframe');
-	//frame.id = vueNodeName;
+	frame = document.createElement('iframe');
+	frame.id = vueNodeName;
 	
-	//frame.style.height = "100%";
-	//frame.style.width = "100%";
+	frame.style.height = "100%";
+	frame.style.width = "100%";
 
-    //component.appendChild(frame);
-
-	var div = document.createElement('div');
-	component.appendChild(div);
+    component.appendChild(frame);
 
 	const adapter = Vue.adapter;
 	adapter.dynamicAppend(exp, component, document.body);
 	//v.$el.id = vueRootNodeName;
-	//frame.id = vueNodeName;
-	//v.$appendTo(document.body);
 
-	//function dispacthToWindow(frame, e, evtName){
-	//	var boundingClientRect = frame.getBoundingClientRect();
+	function dispacthToWindow(frame, e, evtName){
+		var boundingClientRect = frame.getBoundingClientRect();
 
-	//	var evt = new MouseEvent(evtName, {
-	//	    view: window,
-	//	    bubbles: true,
-	//	    cancelable: false,
-	//	    detail: e.detail,
-	//	    screenX: e.screenX,
-	//	    screenY: e.screenY, 
-	//	    clientX: e.clientX + boundingClientRect.left, 
-	//	    clientY: e.clientY + boundingClientRect.top, 
-    //        ctrlKey: e.ctrlKey, 
-	//	    altKey: e.altKey,
-	//	    shiftKey: e.shiftKey, 
-	//	    metaKey: e.metaKey,
-	//	    button: e.button, 
-	//	    buttons: e.buttons,
-	//	    pageY : e.pageY,
-	//	    pageX : e.pageX
-	//	});
-	//	frame.dispatchEvent(evt);
-	//}
+		var evt = new MouseEvent(evtName, {
+		    view: window,
+		    bubbles: true,
+		    cancelable: false,
+		    detail: e.detail,
+		    screenX: e.screenX,
+		    screenY: e.screenY, 
+		    clientX: e.clientX + boundingClientRect.left, 
+		    clientY: e.clientY + boundingClientRect.top, 
+            ctrlKey: e.ctrlKey, 
+		    altKey: e.altKey,
+		    shiftKey: e.shiftKey, 
+		    metaKey: e.metaKey,
+		    button: e.button, 
+		    buttons: e.buttons,
+		    pageY : e.pageY,
+		    pageX : e.pageX
+		});
+		frame.dispatchEvent(evt);
+	}
 
-	//setTimeout( () =>{
+	setTimeout( () =>{
 
-	//	var newComponent= document.getElementById(vueRootNodeName);
-	//	newComponent.style.zIndex = '99999';
+		var newComponent= document.getElementById(vueRootNodeName);
+		newComponent.style.zIndex = '99999';
 
-	//	var newFrame = document.getElementById(vueNodeName);
-	//	newFrame.sandbox = "allow-scripts allow-same-origin allow-modals";		
-	//	newFrame.srcdoc ='<!doctype html><html style="height:100%;"><body style="height:100%;"><div id="app"></div> <script src="build/devtools.js"></script></body></html>';
+		var newFrame = document.getElementById(vueNodeName);
+		newFrame.sandbox = "allow-scripts allow-same-origin allow-modals";		
+		newFrame.srcdoc ='<!doctype html><html style="height:100%;"><body style="height:100%;"><div id="app"></div> <script src="build/devtools.js"></script></body></html>';
 
-	//	newFrame.onload  = () => {
-	//		var contentWindow =  newFrame.contentWindow;
-	//		["mousemove", "mouseup", "mouseleave"].forEach((evt) => contentWindow["on"+evt] = (ev) => dispacthToWindow(newFrame, ev, evt));
-	//	};
+		newFrame.onload  = () => {
+			var contentWindow =  newFrame.contentWindow;
+			["mousemove", "mouseup", "mouseleave"].forEach((evt) => contentWindow["on"+evt] = (ev) => dispacthToWindow(newFrame, ev, evt));
+		};
 		
-	//});
+	});
 
 	vueDebug();
 })();
