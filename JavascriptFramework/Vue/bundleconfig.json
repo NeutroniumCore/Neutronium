@@ -1,2 +1,8 @@
 [
+  {
+    "outputFileName": "scripts/vue1/vueAdapter.min.js",
+    "inputFiles": [
+      "scripts/vue1/vueAdapter.js"
+    ]
+  }
 ]

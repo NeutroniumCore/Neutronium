@@ -1287,9 +1287,9 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
-                    await Task.Yield();
-
                     var js = mb.JSRootObject;
+
+                    await Task.Delay(100);
 
                     var mycommand = GetAttribute(js, "TestCommand");
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
@@ -1320,13 +1320,15 @@ namespace Tests.Universal.HTMLBindingTests
         {
             _ICommand.CanExecute(Arg.Any<object>()).Returns(x => { if (x[0] == null) throw new Exception(); return false; });
 
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
                     _ICommand.Received().CanExecute(Arg.Any<object>());
                     var js = mb.JSRootObject;
+
+                    await Task.Delay(100);
 
                     var mycommand = GetAttribute(js, "TestCommand");
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");

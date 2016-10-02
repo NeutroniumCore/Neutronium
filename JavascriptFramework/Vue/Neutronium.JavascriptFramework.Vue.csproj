@@ -111,6 +111,8 @@
     <EmbeddedResource Include="scripts\vue2\vue.js" />
     <EmbeddedResource Include="scripts\vue2\vue.es5.min.js" />
     <EmbeddedResource Include="scripts\vue2\vueComandDirective.js" />
+    <EmbeddedResource Include="scripts\vue1\vueAdapter.js" />
+    <EmbeddedResource Include="scripts\vue2\vueAdapter.js" />
     <Content Include="scripts\vue2\vueComandDirective.es5.js">
       <DependentUpon>vueComandDirective.js</DependentUpon>
     </Content>
@@ -128,6 +130,7 @@
     <EmbeddedResource Include="scripts\vuedebug.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>

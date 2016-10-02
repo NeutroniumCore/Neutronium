@@ -149,17 +149,17 @@
         })
     };
 
-    var openMixin = {
-        ready: function () {
-            listenEventAndDo.call(this, { status: "Opened", command: "EndOpen", inform: "IsListeningOpen", callBack: (cb) => this.onOpen(cb) });
-        }
-    };
+    const VueAdapter = Vue.adapter
 
-    var closeMixin = {
-        ready: function () {
-            listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
-        }
-    };
+    var openMixin = VueAdapter.addOnReady({},
+        function () {
+            listenEventAndDo.call(this, { status: "Opened", command: "EndOpen", inform: "IsListeningOpen", callBack: (cb) => this.onOpen(cb) });
+        });
+
+    var closeMixin = VueAdapter.addOnReady({},
+      function () {
+           listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
+      });
 
     var promiseMixin = {
         methods: {
@@ -187,14 +187,16 @@
             if (!!mixin && !Array.isArray(mixin))
                 mixin = [mixin];
 
-            vueVm = new Vue({
-                el: "#main",
-                mixins: mixin,
-                data: vm,
-                ready: function () {
+            var vueOption = VueAdapter.addOnReady({
+                    el: "#main",
+                    mixins: mixin,
+                    data: vm
+                },
+                function () {
                     fufillOnReady(null);
-                }
-            });
+                });
+
+            vueVm = new Vue(vueOption);
 
             window.vm = vueVm;
 

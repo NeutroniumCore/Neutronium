@@ -72,6 +72,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
             addVersion("vue");
             addComom("subscribeArray");
+            addVersion("vueAdapter");
             addVersion("vueComandDirective");
             addComom("vueGlue");
             return builder.ToString();

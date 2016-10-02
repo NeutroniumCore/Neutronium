@@ -158,25 +158,23 @@
         });
     };
 
-    var openMixin = {
-        ready: function ready() {
-            var _this2 = this;
+    var VueAdapter = Vue.adapter;
 
-            listenEventAndDo.call(this, { status: "Opened", command: "EndOpen", inform: "IsListeningOpen", callBack: function callBack(cb) {
-                    return _this2.onOpen(cb);
-                } });
-        }
-    };
+    var openMixin = VueAdapter.addOnReady({}, function () {
+        var _this2 = this;
 
-    var closeMixin = {
-        ready: function ready() {
-            var _this3 = this;
+        listenEventAndDo.call(this, { status: "Opened", command: "EndOpen", inform: "IsListeningOpen", callBack: function callBack(cb) {
+                return _this2.onOpen(cb);
+            } });
+    });
 
-            listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: function callBack(cb) {
-                    return _this3.onClose(cb);
-                } });
-        }
-    };
+    var closeMixin = VueAdapter.addOnReady({}, function () {
+        var _this3 = this;
+
+        listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: function callBack(cb) {
+                return _this3.onClose(cb);
+            } });
+    });
 
     var promiseMixin = {
         methods: {
@@ -200,20 +198,22 @@
         openMixin: openMixin,
         closeMixin: closeMixin,
         promiseMixin: promiseMixin,
+        commandMixin: Vue.__commandMixin,
         inject: inject,
         register: function register(vm, observer) {
             console.log("VueGlue register");
             var mixin = Vue._vmMixin;
             if (!!mixin && !Array.isArray(mixin)) mixin = [mixin];
 
-            vueVm = new Vue({
+            var vueOption = VueAdapter.addOnReady({
                 el: "#main",
                 mixins: mixin,
-                data: vm,
-                ready: function ready() {
-                    fufillOnReady(null);
-                }
+                data: vm
+            }, function () {
+                fufillOnReady(null);
             });
+
+            vueVm = new Vue(vueOption);
 
             window.vm = vueVm;
 

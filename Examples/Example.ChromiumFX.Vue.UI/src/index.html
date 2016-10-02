@@ -42,7 +42,7 @@
             <h2><span>{{Local.City}}</span></h2>
             <input type="text" v-model="Local.City">
             
-            <input type="range" min="0" max="130" v-model="Age">
+            <input type="range" min="0" max="130" v-model.number="Age">
         </div>
         <div id="Local">
             <h2><span data-bind="text: Local().City"></span></h2>
