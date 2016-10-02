@@ -14,5 +14,13 @@
   {
     "outputFile": "scripts/vue1/vueComandDirective.es5.js",
     "inputFile": "scripts/vue1/vueComandDirective.js"
+  },
+  {
+    "outputFile": "scripts/vue2/vueAdapter.es5.js",
+    "inputFile": "scripts/vue2/vueAdapter.js"
+  },
+  {
+    "outputFile": "scripts/vue1/vueAdapter.es5.js",
+    "inputFile": "scripts/vue1/vueAdapter.js"
   }
 ]

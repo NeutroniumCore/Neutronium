@@ -28,7 +28,7 @@
 	}
 
 	var exp = Vue.component('expander', {
-		template: "<div class=\"expander\" :style=\"{ top: py + 'px', left : px + 'px'}\"> <header class=\"header\" @mousedown=\"dragMoveStart\" @dblclick=\"reduce\"></header> <div class=\"left\" @mousedown=\"dragExpandXMoveStart\"></div> <div class=\"main\" :style=\"{height: height, width: width }\">  <slot class=\"center\"></slot> </div> <div class=\"right\" @mousedown=\"dragExpandXStart\"></div> <footer class=\"footer\" @mousedown=\"dragExpandYStart\"></footer>  <footer class=\"fullexpander\" @mousedown=\"dragExpandXYStart\"></footer>  </div>",
+	    template: "<div class=\"expander\" :style=\"{ top: py + 'px', left : px + 'px'}\"> <header class=\"header\" @mousedown=\"dragMoveStart\" @dblclick=\"reduce\"></header> <div class=\"left\" @mousedown=\"dragExpandXMoveStart\"></div> <div class=\"main\" :style=\"{height: height, width: width }\">  <slot class=\"center\"> This will only be displayed if there is no content</slot> </div> <div class=\"right\" @mousedown=\"dragExpandXStart\"></div> <footer class=\"footer\" @mousedown=\"dragExpandYStart\"></footer>  <footer class=\"fullexpander\" @mousedown=\"dragExpandXYStart\"></footer>  </div>",
 		data: function data() {
 			    return {
 			      	dragging: false,
@@ -141,55 +141,62 @@
 	component.setAttribute("inicialwidth", (windowW/3)+ "px");
 	component.setAttribute("top",10);
 	component.setAttribute("right",(2 *windowW/3 -60) );		
-	frame = document.createElement('iframe');
-	frame.id = vueNodeName;
+	//frame = document.createElement('iframe');
+	//frame.id = vueNodeName;
 	
-	frame.style.height = "100%";
-	frame.style.width = "100%";
+	//frame.style.height = "100%";
+	//frame.style.width = "100%";
 
-	component.appendChild(frame);
-	var v = new exp({ el: component });
-	v.$appendTo(document.body);
+    //component.appendChild(frame);
 
-	function dispacthToWindow(frame, e, evtName){
-		var boundingClientRect = frame.getBoundingClientRect();
+	var div = document.createElement('div');
+	component.appendChild(div);
 
-		var evt = new MouseEvent(evtName, {
-		    view: window,
-		    bubbles: true,
-		    cancelable: false,
-		    detail: e.detail,
-		    screenX: e.screenX,
-		    screenY: e.screenY, 
-		    clientX: e.clientX + boundingClientRect.left, 
-		    clientY: e.clientY + boundingClientRect.top, 
-            ctrlKey: e.ctrlKey, 
-		    altKey: e.altKey,
-		    shiftKey: e.shiftKey, 
-		    metaKey: e.metaKey,
-		    button: e.button, 
-		    buttons: e.buttons,
-		    pageY : e.pageY,
-		    pageX : e.pageX
-		});
-		frame.dispatchEvent(evt);
-	}
+	const adapter = Vue.adapter;
+	adapter.dynamicAppend(exp, component, document.body);
+	//v.$el.id = vueRootNodeName;
+	//frame.id = vueNodeName;
+	//v.$appendTo(document.body);
 
-	setTimeout( () =>{
+	//function dispacthToWindow(frame, e, evtName){
+	//	var boundingClientRect = frame.getBoundingClientRect();
 
-		var newComponent= document.getElementById(vueRootNodeName);
-		newComponent.style.zIndex = '99999';
+	//	var evt = new MouseEvent(evtName, {
+	//	    view: window,
+	//	    bubbles: true,
+	//	    cancelable: false,
+	//	    detail: e.detail,
+	//	    screenX: e.screenX,
+	//	    screenY: e.screenY, 
+	//	    clientX: e.clientX + boundingClientRect.left, 
+	//	    clientY: e.clientY + boundingClientRect.top, 
+    //        ctrlKey: e.ctrlKey, 
+	//	    altKey: e.altKey,
+	//	    shiftKey: e.shiftKey, 
+	//	    metaKey: e.metaKey,
+	//	    button: e.button, 
+	//	    buttons: e.buttons,
+	//	    pageY : e.pageY,
+	//	    pageX : e.pageX
+	//	});
+	//	frame.dispatchEvent(evt);
+	//}
 
-		var newFrame = document.getElementById(vueNodeName);
-		newFrame.sandbox = "allow-scripts allow-same-origin allow-modals";		
-		newFrame.srcdoc ='<!doctype html><html style="height:100%;"><body style="height:100%;"><div id="app"></div> <script src="build/devtools.js"></script></body></html>';
+	//setTimeout( () =>{
 
-		newFrame.onload  = () => {
-			var contentWindow =  newFrame.contentWindow;
-			["mousemove", "mouseup", "mouseleave"].forEach((evt) => contentWindow["on"+evt] = (ev) => dispacthToWindow(newFrame, ev, evt));
-		};
+	//	var newComponent= document.getElementById(vueRootNodeName);
+	//	newComponent.style.zIndex = '99999';
+
+	//	var newFrame = document.getElementById(vueNodeName);
+	//	newFrame.sandbox = "allow-scripts allow-same-origin allow-modals";		
+	//	newFrame.srcdoc ='<!doctype html><html style="height:100%;"><body style="height:100%;"><div id="app"></div> <script src="build/devtools.js"></script></body></html>';
+
+	//	newFrame.onload  = () => {
+	//		var contentWindow =  newFrame.contentWindow;
+	//		["mousemove", "mouseup", "mouseleave"].forEach((evt) => contentWindow["on"+evt] = (ev) => dispacthToWindow(newFrame, ev, evt));
+	//	};
 		
-	});
+	//});
 
 	vueDebug();
 })();

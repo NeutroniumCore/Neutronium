@@ -1,6 +1,7 @@
-﻿(function () {
-    if (!!Vue.adapter)
-        return;
+﻿"use strict";
+
+(function () {
+    if (!!Vue.adapter) return;
 
     function addOnReady(element, readyCallBack) {
         element.ready = readyCallBack;
@@ -16,5 +17,5 @@
         addOnReady: addOnReady,
         dynamicAppend: dynamicAppend
     };
-
 })();
+
