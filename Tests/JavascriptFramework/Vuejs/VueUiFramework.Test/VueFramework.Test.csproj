@@ -112,15 +112,11 @@
     </Content>
     <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vue1\vue.js">
       <Link>TestHtml\javascript\src\vue.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vue1\vueComandDirective.es5.js">
       <Link>TestHtml\javascript\src\vueComandDirective.es5.js</Link>
-    </Content>
-    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vue1\vueComandDirective.es5.min.js">
-      <Link>TestHtml\javascript\src\vueComandDirective.es5.min.js</Link>
-    </Content>
-    <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vue1\vueComandDirective.js">
-      <Link>TestHtml\javascript\src\vueComandDirective.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\..\..\..\JavascriptFramework\Vue\scripts\vueGlue.js">
       <Link>TestHtml\javascript\src\vueGlue.js</Link>
@@ -165,7 +161,15 @@
     <Content Include="TestHtml\javascript\navigation_3.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestHtml\javascript\src\vue.min.js" />
+    <Content Include="TestHtml\javascript\src\vueComandDirective_es5.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\vue.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\vueComandDirective.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestHtml\javascript\src\vueGlue_es5.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
