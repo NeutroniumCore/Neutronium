@@ -1,50 +1,63 @@
 ﻿/*jshint esversion: 6 */
 (function () {
-    const base = {
-        params: ["commandarg"],
 
-        update: function (newValue, oldValue) {
-            const evt = this.arg || "click";
-            if (!!oldValue) {
-                this.el.removeEventListener(evt, this.callBack);
-            }
-            if (!!newValue) {
-                var ctx = this;
-                this.callBack = function callBack() {
-                    var arg = ctx.params.commandarg || null;
-                    ctx.execute(newValue, arg);
-                };
-                this.el.addEventListener(evt, this.callBack);
-            }
-        },
-        unbind: function () {
-            const evt = this.arg || "click";
-            if (!!this.callBack) {
-                this.el.removeEventListener(evt, this.callBack);
+    function createDirective(execute) {
+
+        function createListener(el, evt, value, arg) {
+            if (!value)
+                return null;
+
+            var res = function callBack() {
+                execute(value, arg);
+            };
+            el.addEventListener(evt, res);
+            return res;
+        }
+
+        function deleteListener(el, evt, callback) {
+            if (!!callBack) {
+                el.removeEventListener(evt, callBack);
             }
         }
-    };
 
-    var comand = Object.assign({
-        execute: function (newValue, arg) {
-            newValue.CanExecute(arg);
-            if (newValue.CanExecuteValue)
-                newValue.Execute(arg);
-        }
-    }, base);
+        return {
+            bind: function (el, binding) {
+                const evt = binding.arg || "click";
+                var arg = null;
+                el.__callBack = createListener(el, evt, binding.value, arg);
+            },
+            update: function (el, binding) {
+                if (binding.value == binding.oldValue)
+                    return;
+                const evt = binding.arg || "click";
+                deleteListener(el, evt, el.__callBack);
+                //var arg = ctx.params.commandarg || null;
+                var arg = null;
+                el.__callBack = createListener(el, evt, binding.value, arg);
+            },
+            unbind: function (el, binding) {
+                const evt = binding.arg || "click";
+                deleteListener(el, evt, el.__callBack);
+            }
+        };
+    }
 
-    var simpleComand = Object.assign({
-        execute: function (newValue, arg) {
+    var comand = createDirective(function (newValue, arg) {
+        newValue.CanExecute(arg);
+        if (newValue.CanExecuteValue)
             newValue.Execute(arg);
-        }
-    }, base);
+    });
+
+    var simpleComand = createDirective(function (newValue, arg) {
+        newValue.Execute(arg);
+    });
 
     Vue.directive("command", comand);
-    Vue.directive("simpleCommand", simpleComand);
+    Vue.directive("simplecommand", simpleComand);
 
     var commandMixin = {
         props: {
-            command:{
+            command: {
                 type: Object,
                 default: null
             },
@@ -68,12 +81,6 @@
                 this.computeCanExecute();
             }
         },
-        ready: function () {
-            setTimeout(() => {
-                if (!!this.arg)
-                    this.computeCanExecute();
-            });
-        },
         methods: {
             computeCanExecute: function () {
                 if (this.command !== null)
@@ -89,6 +96,14 @@
             }
         }
     };
+
+    commandMixin = Vue.adapter.addOnReady(commandMixin, function () {
+        var ctx = this;
+        setTimeout(() => {
+            if (!!ctx.arg)
+                ctx.computeCanExecute();
+        });
+    });
 
     Vue.__commandMixin = commandMixin;
 

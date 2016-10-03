@@ -186,7 +186,7 @@
 	  var inFragment = false;
 	  var currentFragment = null;
 	  walk(document, function (node) {
-	    if (node.id == "_debug_Vue_Root_Node_") {
+	    if (node.id === "_debug_Vue_Root_Node_") {
 	      return true;
 	    }
 	    if (inFragment) {

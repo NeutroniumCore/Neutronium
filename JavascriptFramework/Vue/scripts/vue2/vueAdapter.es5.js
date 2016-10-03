@@ -13,10 +13,8 @@
     }
 
     function dynamicAppend(component, innerComponent, father) {
-        var div = document.createElement("div");
-        div.appendChild(innerComponent);
-        father.appendChild(div);
-        var v = new Vue({ el: div });
+        father.appendChild(innerComponent);
+        var v = new Vue({ el: innerComponent });
     }
 
     Vue.adapter = {

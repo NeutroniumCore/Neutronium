@@ -151,7 +151,6 @@
 
 	const adapter = Vue.adapter;
 	adapter.dynamicAppend(exp, component, document.body);
-	//v.$el.id = vueRootNodeName;
 
 	function dispacthToWindow(frame, e, evtName){
 		var boundingClientRect = frame.getBoundingClientRect();
