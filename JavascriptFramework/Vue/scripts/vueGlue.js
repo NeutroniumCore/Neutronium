@@ -174,12 +174,62 @@
         }
     };
 
+    var commandMixin = {
+        props: {
+            command: {
+                type: Object,
+                default: null
+            },
+            arg: {
+                type: Object,
+                default: null
+            }
+        },
+        computed: {
+            canExecute: function () {
+                if (this.command === null)
+                    return false;
+                return this.command.CanExecuteValue;
+            }
+        },
+        watch: {
+            'command.CanExecuteCount': function () {
+                this.computeCanExecute();
+            },
+            arg: function () {
+                this.computeCanExecute();
+            }
+        },
+        methods: {
+            computeCanExecute: function () {
+                if (this.command !== null)
+                    this.command.CanExecute(this.arg);
+            },
+            execute: function () {
+                if (this.canExecute) {
+                    var beforeCb = this.beforeCommand;
+                    if (!!beforeCb)
+                        beforeCb();
+                    this.command.Execute(this.arg);
+                }
+            }
+        }
+    };
+
+    commandMixin = Vue.adapter.addOnReady(commandMixin, function () {
+        var ctx = this;
+        setTimeout(() => {
+            if (!!ctx.arg)
+                ctx.computeCanExecute();
+        });
+    });
+
     var helper = {
         enumMixin: enumMixin,
         openMixin: openMixin,
         closeMixin: closeMixin,
         promiseMixin: promiseMixin,
-        commandMixin : Vue.__commandMixin,
+        commandMixin: commandMixin,
         inject: inject,
         register: function (vm, observer) {
             console.log("VueGlue register");

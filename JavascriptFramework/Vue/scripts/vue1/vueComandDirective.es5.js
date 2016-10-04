@@ -42,53 +42,5 @@
 
     Vue.directive("command", comand);
     Vue.directive("simpleCommand", simpleComand);
-
-    var commandMixin = {
-        props: {
-            command: {
-                type: Object,
-                "default": null
-            },
-            arg: {
-                type: Object,
-                "default": null
-            }
-        },
-        computed: {
-            canExecute: function canExecute() {
-                if (this.command === null) return false;
-                return this.command.CanExecuteValue;
-            }
-        },
-        watch: {
-            'command.CanExecuteCount': function commandCanExecuteCount() {
-                this.computeCanExecute();
-            },
-            arg: function arg() {
-                this.computeCanExecute();
-            }
-        },
-        ready: function ready() {
-            var _this = this;
-
-            setTimeout(function () {
-                if (!!_this.arg) _this.computeCanExecute();
-            });
-        },
-        methods: {
-            computeCanExecute: function computeCanExecute() {
-                if (this.command !== null) this.command.CanExecute(this.arg);
-            },
-            execute: function execute() {
-                if (this.canExecute) {
-                    var beforeCb = this.beforeCommand;
-                    if (!!beforeCb) beforeCb();
-                    this.command.Execute(this.arg);
-                }
-            }
-        }
-    };
-
-    Vue.__commandMixin = commandMixin;
 })();
 

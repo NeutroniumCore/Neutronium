@@ -2,7 +2,7 @@
     var localMixin = {
         data: {
             result: null,
-            error: null,
+            error: null
         },
         methods: {
             onResult: function (res) {

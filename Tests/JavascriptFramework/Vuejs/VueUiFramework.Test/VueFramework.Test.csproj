@@ -175,9 +175,6 @@
     <Content Include="TestHtml\javascript\src\vue.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestHtml\javascript\src\vueComandDirective.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="TestHtml\javascript\src\index.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

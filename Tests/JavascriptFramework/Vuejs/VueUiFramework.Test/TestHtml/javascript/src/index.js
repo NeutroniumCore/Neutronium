@@ -9,12 +9,12 @@
     };
 
     Vue.component('commandbutton', {
-        mixins: [Vue.__commandMixin],
+        mixins: [glueHelper.commandMixin],
         props: {
             msg: String
         },
         template: "<button  @click='execute'>{{msg}}</button>"
-    })
+    });
 
     Vue._vmMixin = [localMixin];
 }());
