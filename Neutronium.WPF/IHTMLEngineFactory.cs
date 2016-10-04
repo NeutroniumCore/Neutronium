@@ -50,6 +50,17 @@ namespace Neutronium.WPF
         /// </param>
         void RegisterJavaScriptFramework(IJavascriptFrameworkManager javascriptFrameworkManager);
 
+
+        /// <summary>
+        /// register a IJavascriptFrameworkManager using its Name property
+        /// It will be used by default if the engine name is not specified
+        /// by HTMLWindow or HTMLViewControl
+        /// </summary>
+        /// <param name="javascriptFrameworkManager">
+        /// IJavascriptFrameworkManager to be registered
+        /// </param>
+        void RegisterJavaScriptFrameworkAsDefault(IJavascriptFrameworkManager javascriptFrameworkManager);
+
         /// <summary>
         /// get or set WebSessionLogger
         /// </summary>
