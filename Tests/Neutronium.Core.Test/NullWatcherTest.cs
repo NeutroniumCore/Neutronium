@@ -2,7 +2,7 @@
 using Neutronium.Core.Infra;
 using Xunit;
 
-namespace Neutronium.Core.Test.Navigation
+namespace Neutronium.Core.Test
 {
     public class NullWatcherTest
     {

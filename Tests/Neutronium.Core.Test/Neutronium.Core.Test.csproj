@@ -92,8 +92,8 @@
     <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />
     <Compile Include="Infra\NullUIDispatcherTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Navigation\NullWatcherTest.cs" />
-    <Compile Include="Navigation\NavigationBuilderTests.cs" />
+    <Compile Include="NullWatcherTest.cs" />
+    <Compile Include="NavigationBuilderTests.cs" />
     <Compile Include="Infra\TypeExtenderTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +107,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="javascript\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Navigation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

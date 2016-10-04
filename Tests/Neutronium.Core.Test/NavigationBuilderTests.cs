@@ -3,7 +3,7 @@ using FluentAssertions;
 using Neutronium.Core.Navigation;
 using Xunit;
 
-namespace Neutronium.Core.Test.Navigation 
+namespace Neutronium.Core.Test 
 {
     public class NavigationBuilderTests
     {
@@ -14,7 +14,7 @@ namespace Neutronium.Core.Test.Navigation
         }
 
         [Fact]
-        public void Test_DoubleRegister_Shoul_Generate_Error()
+        public void Test_DoubleRegister_Should_Generate_Error()
         {
             _NavigationBuilder.Register<object>("javascript\\index.html");
 
