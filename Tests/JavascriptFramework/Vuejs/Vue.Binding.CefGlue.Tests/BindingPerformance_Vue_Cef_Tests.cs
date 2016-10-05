@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 namespace Vue.Binding.CefGlue.Tests
 {
     [Collection("Cef Vue Windowless Integrated")]
-    public class BindingPerformance_Vue_Cef_Tests : HTLMBindingPerformanceTests
+    public class BindingPerformance_Vue_Cef_Tests : HTMLBindingPerformanceTests
     {
         public BindingPerformance_Vue_Cef_Tests(CefGlueVueContext context, ITestOutputHelper output)
             : base(context, output, GetKoCefPerformanceExpectations())

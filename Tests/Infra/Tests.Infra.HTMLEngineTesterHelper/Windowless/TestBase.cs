@@ -45,7 +45,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         protected virtual IWindowlessHTMLEngine Tester(TestContext context = TestContext.Index) 
         {
             var tester = _TestEnvironment.Build();
-            var path = _TestEnvironment.HtmlProvider.GetHtlmPath(context);
+            var path = _TestEnvironment.HtmlProvider.GetHtmlPath(context);
             _Logger.Debug($"Loading file: {path}");
             tester.Init(path, _Logger);
             _WebView = tester.WebView;

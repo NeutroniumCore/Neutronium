@@ -4,12 +4,12 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext
 {
     public class NullTestHtmlProvider : ITestHtmlProvider 
     {
-        public string GetHtlmPath(TestContext context)
+        public string GetHtmlPath(TestContext context)
         {
             return $"{GetType().Assembly.GetPath()}\\Html\\Empty.html";
         }
 
-        public string GetRelativeHtlmPath(TestContext context)
+        public string GetRelativeHtmlPath(TestContext context)
         {
             return "Html\\Empty.html";
         }

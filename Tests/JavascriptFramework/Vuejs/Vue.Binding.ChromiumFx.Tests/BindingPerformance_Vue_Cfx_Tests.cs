@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 namespace Vue.Binding.ChromiumFx.Tests
 {
     [Collection("Cfx Vue Windowless Integrated")]
-    public class BindingPerformance_Vue_Cfx_Tests : HTLMBindingPerformanceTests
+    public class BindingPerformance_Vue_Cfx_Tests : HTMLBindingPerformanceTests
     {
         public BindingPerformance_Vue_Cfx_Tests(CfxVueContext context, ITestOutputHelper output)
             : base(context, output, GetKoCefPerformanceExpectations())

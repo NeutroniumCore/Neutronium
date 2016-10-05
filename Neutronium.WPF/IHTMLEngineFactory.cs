@@ -12,7 +12,7 @@ namespace Neutronium.WPF
     {
         /// <summary>
         /// Find a IWPFWebWindowFactory by name.
-        /// This method is called internally by HTLM_WPF.Component controls
+        /// This method is called internally by Component controls
         /// </summary>
         /// <param name="engineName">
         /// the name of the factory to be found
@@ -32,7 +32,7 @@ namespace Neutronium.WPF
 
         /// <summary>
         /// Find a IJavascriptFrameworkManager by name.
-        /// This method is called internally by HTLM_WPF.Component controls
+        /// This method is called internally by Component controls
         /// </summary>
         /// <param name="frameworkName">
         /// the name of the factory to be found

@@ -70,7 +70,7 @@ namespace Neutronium.Core.Binding
 
         internal async Task Init()
         {
-            var res = await InjectInHTLMSession(_Root);
+            var res = await InjectInHTMLSession(_Root);
 
             await _sessionInjector.RegisterMainViewModel(res);
 
@@ -110,7 +110,7 @@ namespace Neutronium.Core.Binding
             Visit(_ListenerRegister.GetOff());
         }
 
-        private async Task<IJavascriptObject> InjectInHTLMSession(IJSCSGlue iroot)
+        private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue iroot)
         {
             if (iroot == null)
                 return null;
@@ -269,7 +269,7 @@ namespace Neutronium.Core.Binding
             {
                 value = valueBuilder();
                 if (value!=null)
-                    await InjectInHTLMSession(value);
+                    await InjectInHTMLSession(value);
             });
 
             if (value == null)

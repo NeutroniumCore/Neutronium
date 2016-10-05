@@ -114,31 +114,31 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="HTLM\css\Default\sprite.png">
+    <Content Include="HTML\css\Default\sprite.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTLM\css\kendo.common.min.css">
+    <Content Include="HTML\css\kendo.common.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTLM\css\kendo.default.min.css">
+    <Content Include="HTML\css\kendo.default.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTLM\css\textures\highlight.png">
+    <Content Include="HTML\css\textures\highlight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTLM\index.html">
+    <Content Include="HTML\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTLM\src\jquery-1.7.1.min.js">
+    <Content Include="HTML\src\jquery-1.7.1.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTLM\src\jquery.tmpl.js">
+    <Content Include="HTML\src\jquery.tmpl.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTLM\src\kendo.all.min.js">
+    <Content Include="HTML\src\kendo.all.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="HTLM\src\ko.bindingHandlers.kendoDatePicker.js">
+    <Content Include="HTML\src\ko.bindingHandlers.kendoDatePicker.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

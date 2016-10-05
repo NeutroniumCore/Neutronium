@@ -2,8 +2,8 @@
 {
     public interface ITestHtmlProvider 
     {
-        string GetHtlmPath(TestContext context);
+        string GetHtmlPath(TestContext context);
 
-        string GetRelativeHtlmPath(TestContext context);
+        string GetRelativeHtmlPath(TestContext context);
     }
 }

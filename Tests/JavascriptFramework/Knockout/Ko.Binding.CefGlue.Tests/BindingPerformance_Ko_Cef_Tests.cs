@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 namespace Ko.Binding.Awesomium.Tests
 {
     [Collection("Cef Ko Windowless Integrated")]
-    public class BindingPerformance_Ko_Cef_Tests : HTLMBindingPerformanceTests
+    public class BindingPerformance_Ko_Cef_Tests : HTMLBindingPerformanceTests
     {
         public BindingPerformance_Ko_Cef_Tests(CefGlueKoContext context, ITestOutputHelper output)
             : base(context, output, GetKoCefPerformanceExpectations())

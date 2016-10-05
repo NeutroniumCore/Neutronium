@@ -14,11 +14,11 @@ using Xunit.Abstractions;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public abstract class HTLMBindingPerformanceTests : HTMLBindingBase 
+    public abstract class HTMLBindingPerformanceTests : HTMLBindingBase 
     {
         private const string PlateformDependant = "Plateform Dependant";
         private readonly Dictionary<TestPerformanceKind, int> _ExpectedTimeInMilliSeconds; 
-        protected HTLMBindingPerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds) : base(testEnvironment, output)
+        protected HTMLBindingPerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds) : base(testEnvironment, output)
         {
             _ExpectedTimeInMilliSeconds = expectedTimeInMilliSeconds;
         }

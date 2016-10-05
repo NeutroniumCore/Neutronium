@@ -23,12 +23,12 @@ namespace Tests.Universal.NavigationTests
 
         protected string GetPath(TestContext context) 
         {
-             return _WindowTestEnvironment.HtmlProvider.GetHtlmPath(context);
+             return _WindowTestEnvironment.HtmlProvider.GetHtmlPath(context);
         }
 
         protected string GetRelativePath(TestContext context)
         {
-            return _WindowTestEnvironment.HtmlProvider.GetRelativeHtlmPath(context);
+            return _WindowTestEnvironment.HtmlProvider.GetRelativeHtmlPath(context);
         }
 
         private WindowTest BuildWindow(Func<T> iWebControlFac, bool iManageLifeCycle)

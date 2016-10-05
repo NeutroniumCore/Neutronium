@@ -95,7 +95,7 @@
     <Compile Include="Helper\ViewModelCLRTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestPerformanceKind.cs" />
-    <Compile Include="HTLMBindingPerformanceTests.cs" />
+    <Compile Include="HTMLBindingPerformanceTests.cs" />
     <Compile Include="HTMLBindingTests.cs" />
     <Compile Include="HTMLBindingBase.cs" />
   </ItemGroup>

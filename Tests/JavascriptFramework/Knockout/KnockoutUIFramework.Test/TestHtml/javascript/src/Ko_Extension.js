@@ -467,7 +467,7 @@ function executeAsPromise(vm,fnname,argument) {
                    }
 
                    if (ko.log)
-                       ko.log("ko binding error: '" + ex.message + "'", "node HTLM: " + node.outerHTML, "context:" + ko.toJSON(bindingContext.$data, ko.toJSONreplacer()));
+                       ko.log("ko binding error: '" + ex.message + "'", "node HTML: " + node.outerHTML, "context:" + ko.toJSON(bindingContext.$data, ko.toJSONreplacer()));
                 }
 
                 return bindings;
