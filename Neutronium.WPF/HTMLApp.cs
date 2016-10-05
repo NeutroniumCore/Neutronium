@@ -9,8 +9,13 @@ namespace Neutronium.WPF
         {
             var engine = HTMLEngineFactory.Engine;
             engine.RegisterHTMLEngine(GetWindowFactory());
-            engine.RegisterJavaScriptFramework(GetJavascriptUIFrameworkManager());       
+            engine.RegisterJavaScriptFramework(GetJavascriptUIFrameworkManager());
+            OnStartUp(engine);
             base.OnStartup(e);
+        }
+
+        protected virtual void OnStartUp(IHTMLEngineFactory factory) 
+        {            
         }
 
         protected abstract IWPFWebWindowFactory GetWindowFactory();

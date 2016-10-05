@@ -53,7 +53,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             var windowInfo = new CfxWindowInfo {
                 Style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN | Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE,
                 ParentWindow = IntPtr.Zero,
-                WindowName = "Dev Tools",
+                WindowName = "Neutronium Chromium Dev Tools",
                 X = 200,
                 Y = 200,
                 Width = 800,
