@@ -23,6 +23,7 @@ Why Neutronium?
 
  * **Focus on ViewModel logic** and abstract away from complex context, process and binding management you have to deal with other lower level embeded WebBrowser solutions available for .NET such as [Awesomium](http://www.awesomium.com/), [CefGlue](http://xilium.bitbucket.org/cefglue/), [CefSharp](https://github.com/cefsharp/CefSharp) and [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx)
  * Architecture Neutronium application **just like standard WPF** application.
+ * **Compatible** with popular **MVVM libraries** such as [MVVM Light Toolkit](http://www.mvvmlight.net/) and [reactiveUi](http://reactiveui.net/)
  * Use **standard javascript frameworks** to build UI
 
 * **Easy to set-up**:
