@@ -30,7 +30,7 @@
             </ListBox>
             <Button Content="Button" Height="23" Command="{Binding Command}" Width="75" />
 
-        </StackPanel>
-        <wpf:HTMLViewControl JavascriptUIEngine="VueInjectorV2"  IsDebug="True"  x:Name="wcBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        </StackPanel> 
+        <wpf:HTMLViewControl IsDebug="True" JavascriptUIEngine="VueInjectorV2" x:Name="wcBrowser" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

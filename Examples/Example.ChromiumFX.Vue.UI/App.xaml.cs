@@ -1,6 +1,5 @@
 ﻿using Neutronium.JavascriptFramework.Vue;
 using Neutronium.WPF;
-using System.Windows;
 
 namespace Example.ChromiumFX.Vue.UI
 {
@@ -9,11 +8,10 @@ namespace Example.ChromiumFX.Vue.UI
     /// </summary>
     public partial class WebBrowserApp
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void OnStartUp(IHTMLEngineFactory factory)
         {
-            var engine = HTMLEngineFactory.Engine;
-            engine.RegisterJavaScriptFramework(new VueSessionInjectorV2());
-            base.OnStartup(e);
+            factory.RegisterJavaScriptFramework(new VueSessionInjectorV2());
+            base.OnStartUp(factory);
         }
     }
 }
