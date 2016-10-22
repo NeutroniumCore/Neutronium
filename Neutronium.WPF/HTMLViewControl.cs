@@ -8,6 +8,7 @@ using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
 using Neutronium.WPF.Internal;
+using System.ComponentModel;
 
 namespace Neutronium.WPF
 {
@@ -24,8 +25,11 @@ namespace Neutronium.WPF
 
         public string RelativeSource
         {
-            set
+            set 
             {
+                if (DesignerProperties.GetIsInDesignMode(this))
+                    return;
+
                 var path = $"{Assembly.GetExecutingAssembly().GetPath()}\\{value}";
                 if (!File.Exists(path))
                     throw ExceptionHelper.Get($"Path not found {path}");
