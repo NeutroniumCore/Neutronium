@@ -202,7 +202,7 @@ namespace Neutronium.Core.Navigation
         {
             try 
             {
-                _CurrentWebControl.HTMLWindow.MainFrame.ExecuteJavaScript(icode);
+                _CurrentWebControl?.HTMLWindow.MainFrame.ExecuteJavaScript(icode);
             }
             catch(Exception e)
             {
