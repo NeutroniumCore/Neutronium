@@ -105,9 +105,9 @@
     <Content Include="scripts\vue1\vueAdapter.es5.js">
       <DependentUpon>vueAdapter.js</DependentUpon>
     </Content>
-    <Content Include="scripts\vue1\vueAdapter.es5.min.js">
+    <EmbeddedResource Include="scripts\vue1\vueAdapter.es5.min.js">
       <DependentUpon>vueAdapter.es5.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <Content Include="scripts\vue1\vueComandDirective.es5.js">
       <DependentUpon>vueComandDirective.js</DependentUpon>
     </Content>
@@ -122,9 +122,9 @@
     <Content Include="scripts\vue2\vueAdapter.es5.js">
       <DependentUpon>vueAdapter.js</DependentUpon>
     </Content>
-    <Content Include="scripts\vue2\vueAdapter.es5.min.js">
+    <EmbeddedResource Include="scripts\vue2\vueAdapter.es5.min.js">
       <DependentUpon>vueAdapter.es5.js</DependentUpon>
-    </Content>
+    </EmbeddedResource>
     <Content Include="scripts\vue2\vueComandDirective.es5.js">
       <DependentUpon>vueComandDirective.js</DependentUpon>
     </Content>

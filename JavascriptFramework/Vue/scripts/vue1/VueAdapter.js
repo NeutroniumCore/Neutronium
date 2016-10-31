@@ -16,5 +16,4 @@
         addOnReady: addOnReady,
         dynamicAppend: dynamicAppend
     };
-
 })();
