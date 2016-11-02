@@ -5,6 +5,7 @@ using Neutronium.Core;
 using Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding;
 using Neutronium.WebBrowserEngine.ChromiumFx.Session;
 using Neutronium.WPF;
+using Chromium.Event;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx
 {
@@ -18,7 +19,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
         public CfxBrowserSettings BrtowserSettings => ChromiumWebBrowser.DefaultBrowserSettings;
         public IWebSessionLogger WebSessionLogger { get; set; }
 
-        public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsUpdater=null)
+        public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsUpdater=null, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler=null)
         {
             _Session = ChromiumFxSession.GetSession((settings) => 
             {
@@ -31,7 +32,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
                 settings.SingleProcess = false;
 
                 Settings = settings;
-            });
+            }, commadLineHandler);
         }
 
         public IWPFWebWindow Create()

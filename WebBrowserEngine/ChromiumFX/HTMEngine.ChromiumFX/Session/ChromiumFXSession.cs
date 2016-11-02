@@ -10,10 +10,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
     {
         private static ChromiumFxSession _Session = null;
         private readonly Action<CfxSettings> _SettingsBuilder;
+        private readonly Action<CfxOnBeforeCommandLineProcessingEventArgs> _CommandLineHandler;
 
-        private ChromiumFxSession(Action<CfxSettings> settingsBuilder) 
+        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler) 
         {
             _SettingsBuilder = settingsBuilder;
+            _CommandLineHandler = commadLineHandler;
             CfxRuntime.LibCefDirPath = @"cef\Release";
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
@@ -23,6 +25,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
         private void ChromiumWebBrowser_OnBeforeCommandLineProcessing(CfxOnBeforeCommandLineProcessingEventArgs e)
         {
+            _CommandLineHandler?.Invoke(e);
         }
 
         private void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
@@ -38,12 +41,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             settings.SingleProcess = false;
         }
 
-        internal static ChromiumFxSession GetSession(Action<CfxSettings> settingsBuilder)
+        internal static ChromiumFxSession GetSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler)
         {
             if (_Session != null)
                 return _Session;
 
-            _Session = new ChromiumFxSession(settingsBuilder);
+            _Session = new ChromiumFxSession(settingsBuilder, commadLineHandler);
             return _Session;
         }
 

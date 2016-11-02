@@ -35,6 +35,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _ChromiumWebBrowser.ContextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
             _ChromiumWebBrowser.RequestHandler.OnRenderProcessTerminated += RequestHandler_OnRenderProcessTerminated;
             _ChromiumWebBrowser.LifeSpanHandler.OnBeforePopup += LifeSpanHandler_OnBeforePopup;
+            ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
+        }
+
+        private void ChromiumWebBrowser_OnBeforeCommandLineProcessing(CfxOnBeforeCommandLineProcessingEventArgs e)
+        {
         }
 
         private void LifeSpanHandler_OnBeforePopup(object sender, CfxOnBeforePopupEventArgs e)
