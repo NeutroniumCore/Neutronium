@@ -151,16 +151,18 @@ namespace Neutronium.Core.Binding
                 {
                     _Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
                     return;
-                }
-               
+                }          
 
                 var targetType = propertyAccessor.GetTargetType();
                 var glue = GetCachedOrCreateBasic(newValue, targetType);
 
-                using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null)
+                using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null) 
                 {
-                    propertyAccessor.Set(glue.CValue);
-                    res.UpdateCSharpProperty(propertyName, glue);
+                    Context.RunOnUIContext(() => 
+                    {
+                        propertyAccessor.Set(glue.CValue);
+                        res.UpdateCSharpProperty(propertyName, glue);
+                    });                  
                 }
             }
             catch (Exception e)

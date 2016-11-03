@@ -28,6 +28,11 @@ namespace Neutronium.Core.Binding
             JavascriptSessionInjector = _VmManager.Injector;
         }
 
+        public void RunOnUIContext(Action act) 
+        {
+            UIDispatcher.Run(act);
+        }
+
         public void Dispose() 
         {
             _VmManager.Dispose();
