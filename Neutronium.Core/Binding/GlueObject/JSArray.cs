@@ -44,29 +44,26 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private void ReplayChanges(IndividualCollectionChange change, IList ilist)
         {
-            UIDispatcher.Run(() => 
+            switch (change.CollectionChangeType)
             {
-                switch (change.CollectionChangeType)
+                case CollectionChangeType.Add:
+                if (change.Index == ilist.Count) 
                 {
-                    case CollectionChangeType.Add:
-                    if (change.Index == ilist.Count)
-                    {
-                        ilist.Add(change.Object.CValue);
-                        Items.Add(change.Object);
-                    }
-                    else
-                    {
-                        ilist.Insert(change.Index, change.Object.CValue);
-                        Items.Insert(change.Index, change.Object);
-                    }
-                    break;
-
-                    case CollectionChangeType.Remove:
-                        ilist.RemoveAt(change.Index);
-                        Items.RemoveAt(change.Index);
-                    break;
+                    ilist.Add(change.Object.CValue);
+                    Items.Add(change.Object);
                 }
-            });
+                else 
+                {
+                    ilist.Insert(change.Index, change.Object.CValue);
+                    Items.Insert(change.Index, change.Object);
+                }
+                break;
+
+                case CollectionChangeType.Remove:
+                    ilist.RemoveAt(change.Index);
+                    Items.RemoveAt(change.Index);
+                break;
+            }
         }
 
         public void UpdateEventArgsFromJavascript(Neutronium.Core.Binding.CollectionChanges.CollectionChanges iCollectionChanges)

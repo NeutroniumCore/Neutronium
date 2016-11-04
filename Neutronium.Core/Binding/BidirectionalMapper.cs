@@ -180,11 +180,14 @@ namespace Neutronium.Core.Binding
 
                var collectionChanges = res.GetChanger(changes, this);
 
-                using (ReListen()) 
-                using (_ListenerRegister.GetColllectionSilenter(res.CValue))
+                Context.RunOnUIContextAsync(() => 
                 {
-                    res.UpdateEventArgsFromJavascript(collectionChanges);
-                }
+                    using (ReListen())
+                    using (_ListenerRegister.GetColllectionSilenter(res.CValue)) 
+                    {
+                        res.UpdateEventArgsFromJavascript(collectionChanges);
+                    }
+                });
             }
             catch (Exception e)
             {
