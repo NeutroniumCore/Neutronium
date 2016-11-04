@@ -9,6 +9,7 @@ using Tests.Infra.WebBrowserEngineTesterHelper.Context;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Threading;
 using Xunit.Abstractions;
+using Neutronium.Core.Log;
 
 namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless 
  {

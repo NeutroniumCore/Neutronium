@@ -135,7 +135,7 @@
     <Compile Include="WebBrowserEngine\Window\IModernWebBrowserWindow.cs" />
     <Compile Include="WebBrowserEngine\Window\IWebBrowserWindow.cs" />
     <Compile Include="WebBrowserEngine\Window\LoadEndEventArgs.cs" />
-    <Compile Include="Infra\NullLogger.cs" />
+    <Compile Include="Log\NullLogger.cs" />
     <Compile Include="Navigation\DisplayEvent.cs" />
     <Compile Include="Navigation\INavigable.cs" />
     <Compile Include="Navigation\INavigationBuilder.cs" />
@@ -159,7 +159,7 @@
   <ItemGroup>
     <Compile Include="Navigation\IUrlSolver.cs" />
     <Compile Include="IWebSessionLogger.cs" />
-    <Compile Include="Infra\BasicLogger.cs" />
+    <Compile Include="Log\BasicLogger.cs" />
     <Compile Include="WebBrowserEngine\Control\IWebViewLifeCycleManager.cs" />
     <Compile Include="Navigation\NavigationEvent.cs" />
     <Compile Include="Navigation\NavigationBuilder.cs" />

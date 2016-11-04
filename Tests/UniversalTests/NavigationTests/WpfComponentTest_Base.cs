@@ -7,6 +7,7 @@ using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 using HTMLControlBase = Neutronium.WPF.Internal.HTMLControlBase;
+using Neutronium.Core.Log;
 
 namespace Tests.Universal.NavigationTests
 {

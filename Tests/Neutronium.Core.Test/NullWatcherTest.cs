@@ -1,6 +1,7 @@
 ﻿using System;
 using Neutronium.Core.Infra;
 using Xunit;
+using Neutronium.Core.Log;
 
 namespace Neutronium.Core.Test
 {

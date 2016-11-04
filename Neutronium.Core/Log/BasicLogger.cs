@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Neutronium.Core.Infra
+namespace Neutronium.Core.Log
 {
     public class BasicLogger : IWebSessionLogger
     {
