@@ -9,6 +9,8 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 using Neutronium.WPF;
 using Neutronium.WPF.Internal;
+using Chromium.Event;
+using Neutronium.WebBrowserEngine.ChromiumFx.Helper;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
@@ -22,6 +24,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public UIElement UIElement => _ChromiumFxControl;
         public bool IsUIElementAlwaysTopMost => true;
         public IWebBrowserWindow HTMLWindow => _chromiumFxControlWebBrowserWindow;
+        private IntPtr _DebugWindowHandle;
 
         public ChromiumFxWpfWindow(IWebSessionLogger logger) 
         {
@@ -50,6 +53,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public bool OnDebugToolsRequest() 
         {
+            if (_DebugWindowHandle != IntPtr.Zero)
+            {
+                NativeWindowHelper.BringToFront(_DebugWindowHandle);
+                return true;
+            }
             var windowInfo = new CfxWindowInfo {
                 Style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN | Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE,
                 ParentWindow = IntPtr.Zero,
@@ -60,8 +68,28 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 Height = 600
             };
 
-            _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, new CfxClient(), new CfxBrowserSettings(), null);
+            var debugClient = new CfxClient();
+            debugClient.GetLifeSpanHandler += DebugClient_GetLifeSpanHandler;
+            _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, debugClient, new CfxBrowserSettings(), null);
             return true;
+        }
+
+        private void DebugClient_GetLifeSpanHandler(object sender, CfxGetLifeSpanHandlerEventArgs e)
+        {
+            var debugLifeSpan = new CfxLifeSpanHandler();
+            debugLifeSpan.OnAfterCreated += DebugLifeSpan_OnAfterCreated;
+            debugLifeSpan.OnBeforeClose += DebugLifeSpan_OnBeforeClose;
+            e.SetReturnValue(debugLifeSpan);
+        }
+
+        private void DebugLifeSpan_OnBeforeClose(object sender, CfxOnBeforeCloseEventArgs e)
+        {
+            _DebugWindowHandle = IntPtr.Zero;
+        }
+
+        private void DebugLifeSpan_OnAfterCreated(object sender, CfxOnAfterCreatedEventArgs e)
+        {
+            _DebugWindowHandle = e.Browser.Host.WindowHandle;
         }
 
         public void CloseDebugTools() 

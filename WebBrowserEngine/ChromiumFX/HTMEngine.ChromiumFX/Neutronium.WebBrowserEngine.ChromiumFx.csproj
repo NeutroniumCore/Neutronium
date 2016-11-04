@@ -89,6 +89,7 @@
     <Compile Include="EngineBinding\ChromiumFxTask.cs" />
     <Compile Include="EngineBinding\ChromiumFxWebView.cs" />
     <Compile Include="EngineBinding\ChromiumFxWpfWindow.cs" />
+    <Compile Include="Helper\NativeWindowHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\ChromiumFxSession.cs" />
     <Compile Include="V8Object\ChromiumFXJavascriptObject.cs" />
