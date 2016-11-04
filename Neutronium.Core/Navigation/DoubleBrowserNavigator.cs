@@ -83,6 +83,7 @@ namespace Neutronium.Core.Navigation
         private void Switch(Task<IHTMLBinding> iBinding, HTMLLogicWindow iwindow, TaskCompletionSource<IHTMLBinding> tcs)
         {
             var oldvm = Binding?.Root;
+            var fireFirstLoad = false;
             Binding = iBinding.Result;
           
             if (_CurrentWebControl!=null)
@@ -92,7 +93,7 @@ namespace Neutronium.Core.Navigation
             }
             else 
             {
-                OnFirstLoad?.Invoke(this, EventArgs.Empty);
+                fireFirstLoad = true;
             }
 
             _CurrentWebControl = _NextWebControl;     
@@ -111,7 +112,10 @@ namespace Neutronium.Core.Navigation
             _Window.OpenAsync().ContinueWith(t => EndAnimation(Binding.Root));
 
             _Navigating = false;
-           
+
+            if (fireFirstLoad)
+                OnFirstLoad?.Invoke(this, EventArgs.Empty);
+
             FireNavigate(Binding.Root, oldvm);
 
             tcs?.SetResult(Binding);
