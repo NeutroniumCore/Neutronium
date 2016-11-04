@@ -140,30 +140,30 @@ namespace Neutronium.Core.Binding
 
         public void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string propertyName, IJavascriptObject newValue)
         {
-            try
+            try 
             {
                 var res = _SessionCache.GetGlobalCached(objectchanged) as JsGenericObject;
                 if (res == null)
                     return;
 
                 var propertyAccessor = new PropertyAccessor(res.CValue, propertyName, _Logger);
-                if (!propertyAccessor.IsSettable)
+                if (!propertyAccessor.IsSettable) 
                 {
                     _Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
                     return;
-                }          
+                }
 
                 var targetType = propertyAccessor.GetTargetType();
                 var glue = GetCachedOrCreateBasic(newValue, targetType);
 
-                using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null) 
+                Context.RunOnUIContextAsync(() => 
                 {
-                    Context.RunOnUIContext(() => 
+                    using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null) 
                     {
                         propertyAccessor.Set(glue.CValue);
                         res.UpdateCSharpProperty(propertyName, glue);
-                    });                  
-                }
+                    }
+                });
             }
             catch (Exception e)
             {

@@ -86,10 +86,18 @@ namespace Neutronium.WPF.Internal
         public static readonly DependencyProperty JavascriptUIEngineProperty =
             DependencyProperty.Register(nameof(JavascriptUIEngine), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
 
+        private bool _UseINavigable=true;
         public bool UseINavigable
         {
-            get { return (_WPFDoubleBrowserNavigator==null) ? true : _WPFDoubleBrowserNavigator.UseINavigable; }
-            set { _WPFDoubleBrowserNavigator.UseINavigable = value; }
+            get { return _UseINavigable; }
+            set 
+            {
+                _UseINavigable = value;
+                if (_WPFDoubleBrowserNavigator != null) 
+                {
+                    _WPFDoubleBrowserNavigator.UseINavigable = _UseINavigable;
+                }         
+            }
         }
 
         public event EventHandler<NavigationEvent> OnNavigate;
@@ -151,6 +159,7 @@ namespace Neutronium.WPF.Internal
             wpfDoubleBrowserNavigator.OnFirstLoad += FirstLoad;
             wpfDoubleBrowserNavigator.OnNavigate += OnNavigateFired;
             wpfDoubleBrowserNavigator.OnDisplay += OnDisplayFired;
+            wpfDoubleBrowserNavigator.UseINavigable = _UseINavigable;
             return wpfDoubleBrowserNavigator;
         }
 

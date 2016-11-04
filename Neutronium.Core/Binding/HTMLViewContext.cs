@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
@@ -28,9 +29,9 @@ namespace Neutronium.Core.Binding
             JavascriptSessionInjector = _VmManager.Injector;
         }
 
-        public void RunOnUIContext(Action act) 
+        public Task RunOnUIContextAsync(Action act) 
         {
-            UIDispatcher.Run(act);
+            return UIDispatcher.RunAsync(act);
         }
 
         public void Dispose() 
