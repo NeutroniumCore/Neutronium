@@ -1,7 +1,7 @@
 ﻿using System;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Neutronium.Core.Infra
+namespace Neutronium.Core.Log
 {
     public class NullLogger : IWebSessionLogger
     {
@@ -40,17 +40,14 @@ namespace Neutronium.Core.Infra
 
         void IWebSessionLogger.Info(Func<string> information)
         {
-            throw new NotImplementedException();
         }
 
         void IWebSessionLogger.Error(Func<string> information)
         {
-            throw new NotImplementedException();
         }
 
         void IWebSessionLogger.LogBrowser(ConsoleMessageArgs iInformation, Uri url)
         {
-            throw new NotImplementedException();
         }
     }
 }

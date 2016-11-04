@@ -7,6 +7,7 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Navigation.Window;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.Core.Log;
 
 namespace Neutronium.Core.Navigation
 {

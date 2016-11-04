@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using Neutronium.Core;
-using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.Log;
 using NSubstitute;
 using Xunit;
 
-namespace Neutronium.WPF.Test 
+namespace Neutronium.WPF.Test
 {
     public class HTMLEngineFactoryTest 
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.Log;
 
 namespace Neutronium.WPF
 {
