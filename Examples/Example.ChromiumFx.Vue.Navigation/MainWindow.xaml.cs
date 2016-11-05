@@ -34,14 +34,10 @@ namespace Example.ChromiumFx.Vue.Navigation
             InitializeComponent();
 
             SetUpRoute(HTMLWindow.NavigationBuilder);
-            this.Loaded += MainWindow_Loaded;
+            var datacontext = new Nav();
+            HTMLWindow.NavigateAsync(datacontext).DoNotWait();
         }
 
-        private async void MainWindow_Loaded(object sender, RoutedEventArgs e) 
-        {
-            var datacontext = new Nav();
-            await HTMLWindow.NavigateAsync(datacontext);
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

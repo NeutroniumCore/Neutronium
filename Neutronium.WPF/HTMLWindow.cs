@@ -2,6 +2,7 @@
 using Neutronium.Core;
 using Neutronium.Core.Navigation;
 using Neutronium.WPF.Internal;
+using System;
 
 namespace Neutronium.WPF
 {
@@ -18,9 +19,29 @@ namespace Neutronium.WPF
       
         public INavigationBuilder NavigationBuilder { get; }
 
-        public async Task<IHTMLBinding> NavigateAsync(object iViewModel, string id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        public Task<IHTMLBinding> NavigateAsync(object viewModel, string id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
-            return await NavigateAsyncBase(iViewModel, id, iMode);
+            if (IsLoaded)
+            {
+                return NavigateAsyncBase(viewModel, id, mode);
+            }
+
+            var taskCompletion = new TaskCompletionSource<IHTMLBinding>();
+            this.Loaded += (o,e) => HTMLWindow_Loaded(taskCompletion, viewModel, id, mode);
+            return taskCompletion.Task;
+        }
+
+        private async void HTMLWindow_Loaded(TaskCompletionSource<IHTMLBinding> taskCompletion, object viewModel, string id, JavascriptBindingMode mode)
+        {
+            try
+            {
+                var res = await NavigateAsyncBase(viewModel, id, mode);
+                taskCompletion.TrySetResult(res);
+            }
+            catch(Exception ex)
+            {
+                taskCompletion.SetException(ex);
+            }       
         }
     }
 }
