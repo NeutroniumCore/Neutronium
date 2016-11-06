@@ -15,5 +15,7 @@ namespace Neutronium.Core.Binding.GlueObject
         IEnumerable<IJSCSGlue> GetChildren();
 
         void BuilString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed);
+
+        void ComputeJavascriptValue(IJavascriptObjectFactory context, IJavascriptSessionCache cache);
     }
 }

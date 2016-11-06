@@ -69,7 +69,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
                 {
-                    var res = _ConverTOJSO.Map(_Test).JSValue;
+                    var res = _ConverTOJSO.Map(_Test).Result.JSValue;
                     res.Should().NotBeNull();
                     var res1 = res.GetValue("S1");
                     res1.Should().NotBeNull();
@@ -86,7 +86,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
               {
-                  var ibridgeresult = _ConverTOJSO.Map(_Tests);
+                  var ibridgeresult = _ConverTOJSO.Map(_Tests).Result;
                   ibridgeresult.Type.Should().Be(JsCsGlueType.Array);
                   IJavascriptObject resv = ibridgeresult.JSValue;
 
@@ -120,7 +120,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
               {
-                  var resv = _ConverTOJSO.Map(_Tests_NG).JSValue;
+                  var resv = _ConverTOJSO.Map(_Tests_NG).Result.JSValue;
 
                   resv.Should().NotBeNull();
                   resv.IsArray.Should().BeTrue();
@@ -152,7 +152,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
               {
-                  var res = _ConverTOJSO.Map(0.2D).JSValue;
+                  var res = _ConverTOJSO.Map(0.2D).Result.JSValue;
                   res.Should().NotBeNull();
                   res.IsNumber.Should().BeTrue();
                   double resd = res.GetDoubleValue();
@@ -167,7 +167,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             Test(() =>
               {
                   var date = new DateTime(1974, 02, 26, 01, 02, 03,DateTimeKind.Utc);
-                  var res = _ConverTOJSO.Map(date).JSValue;
+                  var res = _ConverTOJSO.Map(date).Result.JSValue;
                   res.Should().NotBeNull();
 
                   object ores = null;
@@ -183,7 +183,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
               {
-                  var res = _ConverTOJSO.Map(0.2M).JSValue;
+                  var res = _ConverTOJSO.Map(0.2M).Result.JSValue;
                   res.Should().NotBeNull();
                   res.IsNumber.Should().BeTrue();
                   double resd = res.GetDoubleValue();
@@ -198,7 +198,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
               {
-                  var res = _ConverTOJSO.Map(true).JSValue;
+                  var res = _ConverTOJSO.Map(true).Result.JSValue;
                   res.Should().NotBeNull();
                   res.IsBool.Should().BeTrue();
                   bool resd = res.GetBoolValue();
@@ -212,7 +212,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
                 {
-                    var res = _ConverTOJSO.Map(false).JSValue;
+                    var res = _ConverTOJSO.Map(false).Result.JSValue;
                     res.Should().NotBeNull();
                     res.IsBool.Should().BeTrue();
                     bool resd = res.GetBoolValue();
@@ -226,7 +226,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
               {
-                  var res = _ConverTOJSO.Map("toto").JSValue;
+                  var res = _ConverTOJSO.Map("toto").Result.JSValue;
                   res.Should().NotBeNull();
                   res.IsString.Should().BeTrue();
                   string resd = res.GetStringValue();
@@ -240,7 +240,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
               {
-                  var res = _ConverTOJSO.Map(_Test2).JSValue;
+                  var res = _ConverTOJSO.Map(_Test2).Result.JSValue;
                   res.Should().NotBeNull();
 
                   _ICSharpMapper.Received().Cache(_Test, Arg.Any<IJSCSGlue>());

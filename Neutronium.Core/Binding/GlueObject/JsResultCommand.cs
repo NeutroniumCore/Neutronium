@@ -17,7 +17,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
-        public IJavascriptObject JSValue { get; }
+        public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue => _JSResultCommand;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
@@ -26,8 +26,16 @@ namespace Neutronium.Core.Binding.GlueObject
         {
             _WebView = webView;
             _JavascriptToCSharpConverter = converter;
-            _JSResultCommand = resultCommand;
-            JSValue = _WebView.Factory.CreateObject(true);
+            _JSResultCommand = resultCommand;          
+        }
+
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        {
+            if (JSValue != null)
+                return false;
+
+            JSValue = factory.CreateObject(true);
+            return true;
         }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)
@@ -76,7 +84,7 @@ namespace Neutronium.Core.Binding.GlueObject
             });
         }
 
-        public IEnumerable<IJSCSGlue> GetChildren()
+        public override IEnumerable<IJSCSGlue> GetChildren()
         {
             return Enumerable.Empty<IJSCSGlue>();
         }

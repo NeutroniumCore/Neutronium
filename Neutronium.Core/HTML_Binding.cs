@@ -46,9 +46,9 @@ namespace Neutronium.Core
 
         internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)
         {
-            var mapper = viewEngine.GetMapper(iViewModel, iMode, additional);
+            var mapper = viewEngine.GetMapper(iViewModel, iMode );
             var res = new HTML_Binding(mapper, viewEngine.Logger);
-            await viewEngine.Evaluate( () => mapper.Init());
+            await viewEngine.Evaluate( () => mapper.Init(additional));
             return res;
          }
     }

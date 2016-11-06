@@ -3,15 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.Extension;
+using Neutronium.Core.Exceptions;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     internal class JSBasicObject : IJSCSGlue
     {
-        internal JSBasicObject(IJavascriptObject value, object icValue)
+        public IJavascriptObject JSValue { get; private set; }
+        public object CValue { get; }
+        public JsCsGlueType Type => JsCsGlueType.Basic;
+
+
+        internal JSBasicObject(object value)
         {
-            JSValue = value;
-            CValue = icValue;
+            CValue = value;
+        }
+
+        internal JSBasicObject(IJavascriptObject jsValue, object value)
+        {
+            CValue = value;
+            JSValue = jsValue;
+        }
+
+        public void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptSessionCache cache)
+        {
+            IJavascriptObject value;
+            if (factory.CreateBasic(CValue, out value))
+            {
+                JSValue = value;
+                return;
+            }
+                
+            if (!CValue.GetType().IsEnum)
+                throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
+
+            JSValue = factory.CreateEnum((Enum)CValue);
+            cache.CacheLocal(CValue, this);
         }
 
         public override string ToString()
@@ -39,12 +67,6 @@ namespace Neutronium.Core.Binding.GlueObject
         {
             sb.Append(this);
         }
-
-        public IJavascriptObject JSValue { get; }
-
-        public object CValue { get; }
-
-        public JsCsGlueType Type => JsCsGlueType.Basic;
 
         public IEnumerable<IJSCSGlue> GetChildren()
         {

@@ -125,5 +125,16 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// corresponding IJavascriptObject
         ///</returns>
         IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCollection);
+
+        /// <summary>
+        /// Create IJavascriptObject list
+        /// </summary>
+        /// <param name="size">
+        /// the size of the collection
+        /// </param>
+        /// <returns>
+        /// corresponding IJavascriptObject
+        ///</returns>
+        IJavascriptObject CreateArray(int size);
     }
 }

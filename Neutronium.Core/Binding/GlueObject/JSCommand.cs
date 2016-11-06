@@ -18,13 +18,14 @@ namespace Neutronium.Core.Binding.GlueObject
         private IJavascriptObject _MappedJSValue;
         private int _Count = 1;
 
-        public IJavascriptObject JSValue { get; }
+        public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue => _Command;
         public JsCsGlueType Type => JsCsGlueType.Command;
         private IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
+        private bool _InitialCanExecute=true;
 
         public JSCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command)
         {
@@ -32,20 +33,22 @@ namespace Neutronium.Core.Binding.GlueObject
             _HTMLViewContext = context;
             _Command = command;
        
-            var canexecute = true;
             try
             {
-                canexecute = _Command.CanExecute(null);
+                _InitialCanExecute = _Command.CanExecute(null);
             }
             catch { }
+        }
 
-            JSValue = WebView.Evaluate(() =>
-                {
-                    var res = WebView.Factory.CreateObject(true);
-                    res.SetValue("CanExecuteValue", WebView.Factory.CreateBool(canexecute));
-                    res.SetValue("CanExecuteCount", WebView.Factory.CreateInt(_Count)); 
-                    return res;       
-                });
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        {
+            if (JSValue != null)
+                return false;
+
+            JSValue = factory.CreateObject(true);
+            JSValue.SetValue("CanExecuteValue", factory.CreateBool(_InitialCanExecute));
+            JSValue.SetValue("CanExecuteCount", factory.CreateInt(_Count));
+            return true;
         }
 
         public void ListenChanges()
@@ -90,7 +93,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _MappedJSValue.Bind("CanExecute", WebView, CanExecuteCommand);
         }
 
-        public IEnumerable<IJSCSGlue> GetChildren()
+        public override IEnumerable<IJSCSGlue> GetChildren()
         {
             return Enumerable.Empty<IJSCSGlue>();
         }

@@ -20,7 +20,7 @@ namespace Neutronium.Core.Binding
         private readonly CSharpToJavascriptConverter _JSObjectBuilder;
         private readonly IJavascriptSessionInjector _sessionInjector;
         private readonly SessionCacher _SessionCache;
-        private readonly IJSCSGlue _Root;
+        private IJSCSGlue _Root;
         private readonly FullListenerRegister _ListenerRegister;
         private readonly List<IJSCSGlue> _UnrootedEntities= new List<IJSCSGlue>();
         private bool _IsListening = false;
@@ -29,8 +29,9 @@ namespace Neutronium.Core.Binding
         public bool ListenToCSharp => (_BindingMode != JavascriptBindingMode.OneTime);
         public JavascriptBindingMode Mode => _BindingMode;
         public HTMLViewContext Context => _Context;
+        private readonly object _RootObject;
 
-        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, object addicionalObject, IWebSessionLogger logger)
+        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, IWebSessionLogger logger)
         {        
             _BindingMode = iMode;
             _Logger = logger;
@@ -46,9 +47,32 @@ namespace Neutronium.Core.Binding
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
             var commandFactory = new CommandFactory(_Context, this);
-            RegisterJavascriptHelper();
             _JSObjectBuilder = new CSharpToJavascriptConverter(_Context, _SessionCache, commandFactory, _Logger) ;
-            _Root = _JSObjectBuilder.Map(iRoot, addicionalObject); 
+            _RootObject = iRoot;
+        }
+
+        internal async Task Init(object addicionalObject)
+        {
+            _Root = await _Context.EvaluateOnUIContextAsync(() => _JSObjectBuilder.InternalMap(_RootObject, addicionalObject));
+
+            await _Context.RunOnJavascriptContextAsync(() =>
+            {
+                RegisterJavascriptHelper();
+                _Root.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
+            });
+
+            var res = await InjectInHTMLSession(_Root);
+
+            await _sessionInjector.RegisterMainViewModel(res);
+
+            await RunInJavascriptContext(() =>
+            {
+                if (ListenToCSharp)
+                {
+                    ListenToCSharpChanges();
+                }
+                _IsListening = true;
+            });
         }
 
         private void RegisterJavascriptHelper()
@@ -68,20 +92,9 @@ namespace Neutronium.Core.Binding
             return _Context.WebView.Evaluate(run);
         }
 
-        internal async Task Init()
+        private Task<T> EvaluateInUIContextAsync<T>(Func<T> run)
         {
-            var res = await InjectInHTMLSession(_Root);
-
-            await _sessionInjector.RegisterMainViewModel(res);
-
-            await RunInJavascriptContext(() =>
-                  {
-                      if (ListenToCSharp)
-                      {
-                          ListenToCSharpChanges();
-                      }
-                      _IsListening = true;
-                  });
+            return _Context.EvaluateOnUIContextAsync(run);
         }
 
         public void Dispose()
@@ -212,7 +225,7 @@ namespace Neutronium.Core.Binding
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(nv), (child) => currentfather.ReRoot(pn, child) );
+            await RegisterAndDo(() => _JSObjectBuilder.InternalMap(nv), (child) => currentfather.ReRoot(pn, child) );
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -229,11 +242,11 @@ namespace Neutronium.Core.Binding
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(e.NewItems[0]), (addvalue) => arr.Add(addvalue, e.NewStartingIndex));
+                    await RegisterAndDo(() => _JSObjectBuilder.InternalMap(e.NewItems[0]), (addvalue) => arr.Add(addvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(e.NewItems[0]), (newvalue) => arr.Replace(newvalue, e.NewStartingIndex));
+                    await RegisterAndDo(() => _JSObjectBuilder.InternalMap(e.NewItems[0]), (newvalue) => arr.Replace(newvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
@@ -252,7 +265,7 @@ namespace Neutronium.Core.Binding
 
         public async Task<IJSCSGlue> RegisterInSession(object nv)
         {
-            return await RegisterAndDo(() => _JSObjectBuilder.UnsafelMap(nv), (newbridgedchild) => { _UnrootedEntities.Add(newbridgedchild); });
+            return await RegisterAndDo(() => _JSObjectBuilder.InternalMap(nv), (newbridgedchild) => { _UnrootedEntities.Add(newbridgedchild); });
         }
 
         private async Task RegisterAndDo(Action Do)
@@ -268,17 +281,15 @@ namespace Neutronium.Core.Binding
 
         private async Task<IJSCSGlue> RegisterAndDo(Func<IJSCSGlue> valueBuilder, Action<IJSCSGlue> Do)
         {
-            IJSCSGlue value=null;
-
-            await RunInJavascriptContext(async () =>
-            {
-                value = valueBuilder();
-                if (value!=null)
-                    await InjectInHTMLSession(value);
-            });
-
+            var value = await EvaluateInUIContextAsync(valueBuilder);
             if (value == null)
                 return null;
+             
+            await RunInJavascriptContext(async () =>
+            {
+                value.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
+                await InjectInHTMLSession(value);
+            });
 
             await RunInJavascriptContext(() =>
             {

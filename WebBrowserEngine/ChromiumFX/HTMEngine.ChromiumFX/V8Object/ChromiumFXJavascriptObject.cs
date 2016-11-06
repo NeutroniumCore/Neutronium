@@ -54,6 +54,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             _CfrV8Value.SetValue(attributeName, element.Convert(), (CfxV8PropertyAttribute) ioption);
         }
 
+        public void SetValue(int index, IJavascriptObject element)
+        {
+            _CfrV8Value.SetValue(index, element.Convert());
+        }
+
         public IJavascriptObject Invoke(string functionName, IWebView context, params IJavascriptObject[] parameters) 
         {
             var function = _CfrV8Value.GetValue(functionName);

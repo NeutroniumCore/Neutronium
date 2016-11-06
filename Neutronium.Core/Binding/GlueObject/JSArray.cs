@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly HTMLViewContext _HTMLViewContext;   
         private readonly Type _IndividualType;
 
-        public IJavascriptObject JSValue { get; }
+        public IJavascriptObject JSValue { get; private set; }
         public object CValue { get; }
         public IList<IJSCSGlue> Items { get; }     
         public JsCsGlueType Type => JsCsGlueType.Array;
@@ -30,11 +30,24 @@ namespace Neutronium.Core.Binding.GlueObject
             _HTMLViewContext = context;
             CValue = collection;
             Items = new List<IJSCSGlue>(values);
-
-            var dest = values.Select(v => v.JSValue).ToList();    
-            JSValue = WebView.Evaluate(() => WebView.Factory.CreateArray(dest));
             var type = collection.GetElementType();
             _IndividualType = WebView.Factory.IsTypeBasic(type) ?  type : null;
+        }
+    
+
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        {
+            if (JSValue!=null)
+                return false;
+        
+            JSValue = factory.CreateArray(Items.Count);
+            return true;
+        }
+
+        protected override void AfterChildrenComputeJavascriptValue()
+        {
+            var dest = Items.Select(v => v.JSValue).ToList();
+            dest.ForEach((javascriptObject, index) => JSValue.SetValue(index, javascriptObject));
         }
 
         public Neutronium.Core.Binding.CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
@@ -140,7 +153,7 @@ namespace Neutronium.Core.Binding.GlueObject
             sb.Append("]");
         }
 
-        public IEnumerable<IJSCSGlue> GetChildren()
+        public override IEnumerable<IJSCSGlue> GetChildren()
         {
             return Items;
         }

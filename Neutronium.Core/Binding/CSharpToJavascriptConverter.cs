@@ -4,9 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
 using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Extension;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
+using System.Threading.Tasks;
 
 namespace Neutronium.Core.Binding
 {
@@ -25,15 +24,20 @@ namespace Neutronium.Core.Binding
             _Cacher = icacher;
         }
 
-        public IJSCSGlue Map(object ifrom, object iadditional = null)
+        public async Task<IJSCSGlue> Map(object from, object iadditional = null)
         {
-            return _Context.WebView.Evaluate(() => UnsafelMap(ifrom, iadditional));
+            var res = await _Context.EvaluateOnUIContextAsync(() => InternalMap(from, iadditional));
+            await _Context.RunOnJavascriptContextAsync(() =>
+            {
+                res.ComputeJavascriptValue(_Context.WebView.Factory, _Cacher);
+            });
+            return res;
         }
 
-        public IJSCSGlue UnsafelMap(object from, object iadditional=null)
+        public IJSCSGlue InternalMap(object from, object iadditional=null)
         {
             if (from == null)
-                return JsGenericObject.CreateNull(_Context);
+                return new JsGenericObject(_Context, null);
 
             var res = _Cacher.GetCached(from);
             if (res != null)
@@ -51,14 +55,14 @@ namespace Neutronium.Core.Binding
             if (resultCommand != null)
                 return _CommandFactory.Build(resultCommand);
 
-            IJavascriptObject value;
-            if (_Context.WebView.Factory.CreateBasic(from, out value))
-                return new JSBasicObject(value, from);
+            var type = from.GetType();
+            if (_Context.WebView.Factory.IsTypeBasic(type))
+                return new JSBasicObject(from);
 
-            if (from.GetType().IsEnum)
+            if (type.IsEnum)
             {
-                var trueres = new JSBasicObject(_Context.WebView.Factory.CreateEnum((Enum)from), from);
-                _Cacher.CacheLocal(from, trueres);
+                var trueres = new JSBasicObject(from);
+                _Cacher.Cache(from, trueres);
                 return trueres;
             }
 
@@ -66,18 +70,16 @@ namespace Neutronium.Core.Binding
             if (ienfro!=null)
                 return  Convert(ienfro);
 
-            var resobject = _Context.WebView.Factory.CreateObject(true);
-
-            var gres = new JsGenericObject(_Context, resobject, from);
+            var gres = new JsGenericObject(_Context, from);
             _Cacher.Cache(from, gres);
 
-            MappNested(from, resobject,gres);
-            MappNested(iadditional, resobject, gres);
+            MappNested(from ,gres);
+            MappNested(iadditional, gres);
 
             return gres;
         }
 
-        private void MappNested(object from, IJavascriptObject resobject, JsGenericObject gres)
+        private void MappNested(object from, JsGenericObject gres)
         {
             if (from == null)
                 return;
@@ -98,15 +100,14 @@ namespace Neutronium.Core.Binding
                     continue;
                 }
 
-                var childres = UnsafelMap(childvalue);          
-                _Context.WebView.Run(() => resobject.SetValue(propertyName, childres.JSValue));
+                var childres = InternalMap(childvalue);          
                 gres.UpdateCSharpProperty(propertyName, childres);
             }
         }
 
         private IJSCSGlue Convert(IEnumerable source)
         {
-            var res = new JSArray(_Context, source.Cast<object>().Select(s => UnsafelMap(s)), source);
+            var res = new JSArray(_Context, source.Cast<object>().Select(s => InternalMap(s)), source);
             _Cacher.Cache(source, res);
             return res;
         }

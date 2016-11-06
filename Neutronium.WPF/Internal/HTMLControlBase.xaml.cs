@@ -99,7 +99,7 @@ namespace Neutronium.WPF.Internal
             set
             {
                 _VmDebugging = value;
-                DebugButtonLabel =  _VmDebugging ? "Close Debug tool" : "Inspect Vm";
+                DebugButtonLabel =  _VmDebugging ? "Close Debug" : "Inspect Vm";
             }
         }
 

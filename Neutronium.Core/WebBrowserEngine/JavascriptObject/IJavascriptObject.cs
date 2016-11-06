@@ -114,6 +114,11 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         void SetValue(string attributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None);
 
         /// <summary>
+        /// For array set the valu for a given index.
+        /// </summary>
+        void SetValue(int index, IJavascriptObject element);
+
+        /// <summary>
         /// Return a string value.  The underlying data will be converted to if
         /// necessary.
         /// </summary>

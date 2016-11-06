@@ -25,9 +25,9 @@ namespace Neutronium.Core.Binding
             return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _frameworkManager, javascriptChangesObserver, Logger);
         }
 
-        internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode, object additional)
+        internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode)
         {
-            return Evaluate(() => new BidirectionalMapper(viewModel, this, mode, additional, Logger));
+            return new BidirectionalMapper(viewModel, this, mode, Logger);
         }
 
         public T Evaluate<T>(Func<T> compute)

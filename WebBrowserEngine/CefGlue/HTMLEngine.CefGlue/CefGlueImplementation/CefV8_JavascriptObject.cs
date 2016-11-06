@@ -118,6 +118,11 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             _CefV8Value.SetValue(AttributeName, Convert(element),Convert(ioption));
         }
 
+        public void SetValue(int index, IJavascriptObject element)
+        {
+            _CefV8Value.SetValue(index, Convert(element));
+        }
+
         public string GetStringValue()
         {
             return _CefV8Value.GetStringValue();

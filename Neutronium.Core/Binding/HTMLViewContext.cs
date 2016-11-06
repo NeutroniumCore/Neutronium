@@ -34,6 +34,16 @@ namespace Neutronium.Core.Binding
             return UIDispatcher.RunAsync(act);
         }
 
+        public Task RunOnJavascriptContextAsync(Action act)
+        {
+            return WebView.RunAsync(act);
+        }
+
+        public Task<T> EvaluateOnUIContextAsync<T>(Func<T> act)
+        {
+            return UIDispatcher.EvaluateAsync(act);
+        }
+
         public void Dispose() 
         {
             _VmManager.Dispose();

@@ -19,7 +19,6 @@ namespace Neutronium.Core.Binding
 
         public void CacheLocal(object key, IJSCSGlue value)
         {
-            _FromCSharp.Add(key, value);
             _FromJavascript_Local.Add(value.JSValue.GetID(), value);
         }
 

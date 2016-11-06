@@ -151,7 +151,12 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
              return new Awesomium_Core.JSValue(iCount.Select(o => o.Convert()).ToArray()).Convert();
          }
 
-         public IJavascriptObject CreateObject(string iCreationCode)
+        public IJavascriptObject CreateArray(int size)
+        {
+            return new Awesomium_Core.JSValue(Enumerable.Repeat(new Awesomium_Core.JSValue(), size).ToArray()).Convert();
+        }
+
+        public IJavascriptObject CreateObject(string iCreationCode)
          {
              return _IWebView.EvaluateSafe(() => UpdateObject(_IWebView.ExecuteJavascriptWithResult(iCreationCode))).Convert();
          }

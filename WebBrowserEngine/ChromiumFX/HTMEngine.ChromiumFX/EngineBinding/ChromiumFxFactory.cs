@@ -120,6 +120,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return UpdateConvert(res);
         }
 
+        public IJavascriptObject CreateArray(int size)
+        {
+            var res = CfrV8Value.CreateArray(size);
+            return UpdateConvert(res);
+        }
+
         private IJavascriptObject UpdateConvert(CfrV8Value value) 
         {
             if (value == null)

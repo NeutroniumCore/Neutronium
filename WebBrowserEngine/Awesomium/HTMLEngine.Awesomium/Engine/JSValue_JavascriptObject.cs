@@ -104,6 +104,12 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             ((JSObject)_JSValue)[AttributeName] = element.Convert();
         }
 
+
+        public void SetValue(int index, IJavascriptObject element)
+        {
+            ((JSValue[])_JSValue)[index] = element.Convert();
+        }
+
         public string GetStringValue()
         {
             return (string)_JSValue;

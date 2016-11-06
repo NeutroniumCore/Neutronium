@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -13,30 +14,38 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly Dictionary<string, IJSCSGlue> _Attributes = new Dictionary<string, IJSCSGlue>();
 
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
-        public IJavascriptObject JSValue { get; }
+        public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
 
-        public JsGenericObject(HTMLViewContext context, IJavascriptObject value, object icValue)
+        public JsGenericObject(HTMLViewContext context, object icValue)
         {
-            JSValue = value;
             CValue = icValue;
             _HTMLViewContext = context;
         }
 
-        private JsGenericObject(HTMLViewContext context, IJavascriptObject value)
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
         {
-            JSValue = value;
-            _MappedJSValue = value;
-            CValue = null;
-            _HTMLViewContext = context;
+            if (JSValue != null)
+                return false;
+
+            if (CValue != null)
+            {
+                JSValue = factory.CreateObject(true);
+            }
+            else
+            {
+                JSValue = factory.CreateNull();
+                _MappedJSValue = JSValue;
+            }        
+            return true;
         }
 
-        public static JsGenericObject CreateNull(HTMLViewContext context)
+        protected override void AfterChildrenComputeJavascriptValue()
         {
-            return new JsGenericObject(context, context.WebView.Factory.CreateNull());
+            _Attributes.ForEach(attribute => JSValue.SetValue(attribute.Key, attribute.Value.JSValue));
         }
 
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
@@ -63,7 +72,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _MappedJSValue = ijsobject;
         }
 
-        public IEnumerable<IJSCSGlue> GetChildren()
+        public override IEnumerable<IJSCSGlue> GetChildren()
         {
             return _Attributes.Values; 
         }
