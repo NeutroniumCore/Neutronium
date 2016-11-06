@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <UniformGrid Rows="1" Grid.Row="1" HorizontalAlignment="Center" Visibility="{Binding ElementName=Root,Path=IsDebug,Converter={StaticResource BoolToVis}}">
-            <Button Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="Inspect Vm" Command="{Binding ElementName=Root,Path=DebugWindow}"/>
+            <Button Visibility="{Binding ElementName=Root,Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="{Binding ElementName=Root,Path=DebugButtonLabel}" Command="{Binding ElementName=Root,Path=DebugWindow}"/>
             <Button Content="Inspect" Command="{Binding ElementName=Root,Path=DebugBrowser}"/>
             <Button Width="50" Content="About" Command="{Binding ElementName=Root,Path=ShowInfo}"/>
         </UniformGrid>

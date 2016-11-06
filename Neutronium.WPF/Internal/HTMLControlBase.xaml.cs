@@ -23,6 +23,7 @@ namespace Neutronium.WPF.Internal
         private IWebSessionLogger _webSessionLogger;
         private string _JavascriptDebugScript = null;
         private readonly IUrlSolver _UrlSolver;
+        private IJavascriptFrameworkManager _Injector;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private DoubleBrowserNavigator WPFDoubleBrowserNavigator
         {
@@ -33,13 +34,9 @@ namespace Neutronium.WPF.Internal
             }
         }
 
-
-        private IJavascriptFrameworkManager _Injector;
-
         public BasicRelayCommand DebugWindow { get; }
         public BasicRelayCommand DebugBrowser { get; }
         public BasicRelayCommand ShowInfo { get; }
-
         public bool DebugContext => IsDebug;
         public Uri Source => _WPFDoubleBrowserNavigator?.Url;
 
@@ -86,6 +83,26 @@ namespace Neutronium.WPF.Internal
         public static readonly DependencyProperty JavascriptUIEngineProperty =
             DependencyProperty.Register(nameof(JavascriptUIEngine), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
 
+        public string DebugButtonLabel
+        {
+            get { return (string)GetValue(DebugButtonLabelProperty); }
+            set { SetValue(DebugButtonLabelProperty, value); }
+        }
+
+        public static readonly DependencyProperty DebugButtonLabelProperty =
+            DependencyProperty.Register(nameof(DebugButtonLabel), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
+
+        private bool _VmDebugging = false;
+        private bool VmDebugging
+        {
+            get { return _VmDebugging; }
+            set
+            {
+                _VmDebugging = value;
+                DebugButtonLabel =  _VmDebugging ? "Close Debug tool" : "Inspect Vm";
+            }
+        }
+
         private bool _UseINavigable=true;
         public bool UseINavigable
         {
@@ -114,6 +131,8 @@ namespace Neutronium.WPF.Internal
             DebugWindow = new BasicRelayCommand(ShowDebugWindow);
             DebugBrowser = new BasicRelayCommand(OpenDebugBrowser);
             ShowInfo = new BasicRelayCommand(DoShowInfo);
+
+            VmDebugging = false;
 
             InitializeComponent();
 
@@ -219,6 +238,7 @@ namespace Neutronium.WPF.Internal
         {
             RunDebugscript();
             WPFDoubleBrowserNavigator.ExcecuteJavascript(_Injector.GetDebugToogleScript());
+            VmDebugging = !VmDebugging;
         }
 
         public void OpenDebugBrowser() 
@@ -229,7 +249,7 @@ namespace Neutronium.WPF.Internal
 
             var result = currentWebControl.OnDebugToolsRequest();
             if (!result)
-                MessageBox.Show("Debug tools not available!");
+                MessageBox.Show("Debug tools not available!");           
         }
 
         public void CloseDebugBrowser() 

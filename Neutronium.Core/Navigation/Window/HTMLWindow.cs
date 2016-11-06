@@ -26,11 +26,11 @@ namespace Neutronium.Core.Navigation.Window
             set { Set(ref _IsLiteningOpen, value, nameof(IsListeningOpen)); }
         }
 
-        private bool _IsLiteningClose;
+        private bool _IsListeningClose;
         public bool IsListeningClose 
         {
-            get { return _IsLiteningClose; }
-            set { Set(ref _IsLiteningClose, value, nameof(IsListeningClose)); }
+            get { return _IsListeningClose; }
+            set { Set(ref _IsListeningClose, value, nameof(IsListeningClose)); }
         }
 
         public ICommand CloseReady { get; }
@@ -40,7 +40,7 @@ namespace Neutronium.Core.Navigation.Window
         {
             _Id = _GId++;
             _State = WindowLogicalState.Loading;
-            _IsLiteningClose = false;
+            _IsListeningClose = false;
             CloseReady = new BasicRelayCommand(() => EnTask(_CloseTask));
             EndOpen = new BasicRelayCommand(() => EnTask(_OpenTask));
         }
