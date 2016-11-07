@@ -28,14 +28,8 @@ namespace Neutronium.JavascriptFramework.Vue
             return rawObject;
         }
 
-        public async Task RegisterMainViewModel(IJavascriptObject jsObject)
-        {
-            var task = await _WebView.EvaluateAsync(() => UnsafeRegister(jsObject));
-            await task;
-        }
-
-        private Task UnsafeRegister(IJavascriptObject ijvm)
-        {
+       public Task RegisterMainViewModel(IJavascriptObject jsObject)
+       {
             var tcs = new TaskCompletionSource<object>();
             _Listener.Bind("fulfill", _WebView, _ => 
             {
@@ -45,7 +39,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
             var vueHelper = _VueHelper.Value;
             vueHelper.GetValue("ready").Invoke("then", _WebView, _Listener.GetValue("fulfill"));       
-            vueHelper.Invoke("register", _WebView, ijvm, _Listener);
+            vueHelper.Invoke("register", _WebView, jsObject, _Listener);
             return tcs.Task;
         }
     }

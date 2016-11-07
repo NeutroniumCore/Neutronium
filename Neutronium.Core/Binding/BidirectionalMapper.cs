@@ -54,20 +54,17 @@ namespace Neutronium.Core.Binding
         {
             _Root = await _Context.EvaluateOnUIContextAsync(() => _JSObjectBuilder.InternalMap(_RootObject, addicionalObject));
 
-            await _Context.RunOnJavascriptContextAsync(() =>
+            await RunInJavascriptContext(async () =>
             {
                 _Context.InitOnJsContext();
                 _sessionInjector = _Context.JavascriptSessionInjector;
                 RegisterJavascriptHelper();
                 _Root.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
-            });
 
-            var res = await InjectInHTMLSession(_Root);
+                var res = await InjectInHTMLSession(_Root);
 
-            await _sessionInjector.RegisterMainViewModel(res);
+                await _sessionInjector.RegisterMainViewModel(res);
 
-            await RunInJavascriptContext(() =>
-            {
                 if (ListenToCSharp)
                 {
                     ListenToCSharpChanges();
