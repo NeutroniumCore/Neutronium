@@ -18,7 +18,7 @@ namespace Neutronium.Core.Binding
         private readonly IWebSessionLogger _Logger;
         private readonly JavascriptBindingMode _BindingMode;
         private readonly CSharpToJavascriptConverter _JSObjectBuilder;
-        private readonly IJavascriptSessionInjector _sessionInjector;
+        private IJavascriptSessionInjector _sessionInjector;
         private readonly SessionCacher _SessionCache;
         private IJSCSGlue _Root;
         private readonly FullListenerRegister _ListenerRegister;
@@ -36,8 +36,7 @@ namespace Neutronium.Core.Binding
             _BindingMode = iMode;
             _Logger = logger;
             var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
-            _Context = contextBuilder.GetMainContext(javascriptObjecChanges);
-            _sessionInjector = _Context.JavascriptSessionInjector;  
+            _Context = contextBuilder.GetMainContext(javascriptObjecChanges); 
             _SessionCache = new SessionCacher();
             _ListenerRegister = new FullListenerRegister(
                                         (n) => n.PropertyChanged += CSharpPropertyChanged,
@@ -57,6 +56,8 @@ namespace Neutronium.Core.Binding
 
             await _Context.RunOnJavascriptContextAsync(() =>
             {
+                _Context.InitOnJsContext();
+                _sessionInjector = _Context.JavascriptSessionInjector;
                 RegisterJavascriptHelper();
                 _Root.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
             });
@@ -195,16 +196,28 @@ namespace Neutronium.Core.Binding
 
                 Context.RunOnUIContextAsync(() => 
                 {
-                    using (ReListen())
-                    using (_ListenerRegister.GetColllectionSilenter(res.CValue)) 
-                    {
-                        res.UpdateEventArgsFromJavascript(collectionChanges);
-                    }
+                    UpdateCollection(res, collectionChanges, res.CValue);
                 });
             }
             catch (Exception e)
             {
                 _Logger.Error(() =>$"Unable to update ViewModel from View, exception raised: {e.Message}");
+            }
+        }
+
+        private void UpdateCollection(JSArray array, Neutronium.Core.Binding.CollectionChanges.CollectionChanges change, object collection)
+        {
+            try
+            {
+                using (ReListen())
+                using (_ListenerRegister.GetColllectionSilenter(collection))
+                {
+                    array.UpdateEventArgsFromJavascript(change);
+                }
+            }
+            catch (Exception e)
+            {
+                _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {e.Message}");
             }
         }
 

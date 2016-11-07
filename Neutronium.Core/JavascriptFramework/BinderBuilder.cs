@@ -17,18 +17,15 @@ namespace Neutronium.Core.JavascriptFramework
 
         public IJavascriptObject BuildListener()
         {
-            return _WebView.Evaluate(() =>
-            {
-                var listener = _WebView.Factory.CreateObject(false);
+            var listener = _WebView.Factory.CreateObject(false);
 
-                if (_Observer == null)
-                    return listener;
-
-                listener.Bind("TrackChanges", _WebView, (e) => _Observer.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
-                listener.Bind("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
-
+            if (_Observer == null)
                 return listener;
-            });
+
+            listener.Bind("TrackChanges", _WebView, (e) => _Observer.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
+            listener.Bind("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
+
+            return listener;
         }
 
         private void JavascriptColectionChanged(IJavascriptObject[] arguments)

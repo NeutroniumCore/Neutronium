@@ -10,11 +10,13 @@ namespace Neutronium.Core.Binding
     {
         public IWebView WebView { get; }
         public IDispatcher UIDispatcher { get; }
-        public IJavascriptSessionInjector JavascriptSessionInjector { get; }
-        public IJavascriptViewModelUpdater ViewModelUpdater { get; }
-        private readonly IJavascriptObject _Listener;
-        private readonly IJavascriptViewModelManager _VmManager;
+        public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
+        public IJavascriptViewModelUpdater ViewModelUpdater { get; private set; }
+        private IJavascriptObject _Listener;
+        private IJavascriptViewModelManager _VmManager;
         private readonly IWebSessionLogger _logger;
+        private readonly IJavascriptChangesObserver _JavascriptChangesObserver;
+        private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
 
         public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
                                 IJavascriptChangesObserver javascriptChangesObserver, IWebSessionLogger logger)
@@ -22,9 +24,15 @@ namespace Neutronium.Core.Binding
             WebView = webView;
             _logger = logger;
             UIDispatcher = uiDispatcher;
-            var builder = new BinderBuilder(webView, javascriptChangesObserver);
+            _JavascriptChangesObserver = javascriptChangesObserver;
+            _JavascriptFrameworkManager = javascriptFrameworkManager;
+        }
+
+        public void InitOnJsContext()
+        {
+            var builder = new BinderBuilder(WebView, _JavascriptChangesObserver);
             _Listener = builder.BuildListener();
-            _VmManager = javascriptFrameworkManager.CreateManager(WebView, _Listener, _logger);
+            _VmManager = _JavascriptFrameworkManager.CreateManager(WebView, _Listener, _logger);
             ViewModelUpdater = _VmManager.ViewModelUpdater;
             JavascriptSessionInjector = _VmManager.Injector;
         }

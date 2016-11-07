@@ -38,6 +38,7 @@ namespace Neutronium.Core
             var root = await mainView.EvaluateAsync(() =>
                 {
                     var json = mainView.GetGlobal().GetValue("JSON");
+                    context.InitOnJsContext();
                     return json.Invoke("parse", mainView, mainView.Factory.CreateString(iViewModel));
                 });
 
