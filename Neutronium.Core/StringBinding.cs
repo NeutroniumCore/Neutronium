@@ -44,9 +44,13 @@ namespace Neutronium.Core
 
             var injector = context.JavascriptSessionInjector;
             //TODO improve context management or remove this functionality
-            var mappedroot = await mainView.EvaluateAsync( () => injector.Inject(root, null));
-            await injector.RegisterMainViewModel(mappedroot);
 
+            var mappedroot= await await mainView.EvaluateAsync(async () => {
+                var rootMapped = await mainView.EvaluateAsync(() => injector.Inject(root, null));
+                await injector.RegisterMainViewModel(rootMapped);
+                return rootMapped;
+            });
+           
             return new StringBinding(context, mappedroot);
         }
     }
