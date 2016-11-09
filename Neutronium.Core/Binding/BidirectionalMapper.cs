@@ -90,6 +90,11 @@ namespace Neutronium.Core.Binding
             return _Context.WebView.Evaluate(run);
         }
 
+        private Task<T> RunInJavascriptContext<T>(Func<Task<T>> run)
+        {
+            return _Context.WebView.Evaluate(run);
+        }
+
         private Task<T> EvaluateInUIContextAsync<T>(Func<T> run)
         {
             return _Context.EvaluateOnUIContextAsync(run);
@@ -295,21 +300,18 @@ namespace Neutronium.Core.Binding
             if (value == null)
                 return null;
              
-            await RunInJavascriptContext(async () =>
+            return await RunInJavascriptContext(async () =>
             {
                 value.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
                 await InjectInHTMLSession(value);
-            });
 
-            await RunInJavascriptContext(() =>
-            {
                 using (ReListen())
                 {
                     Do(value);
                 }
-            });
 
-            return value;
+                return value;
+            });
         }
 
         private ReListener _ReListen = null;
