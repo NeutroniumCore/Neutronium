@@ -24,7 +24,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 
         public void Dispose() 
         {
-            _BasicWindowLessHTMLEngineProvider.Dispose();
+            _BasicWindowLessHTMLEngineProvider?.Dispose();
         }
     }
 }
