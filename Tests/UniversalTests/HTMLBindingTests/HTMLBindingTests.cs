@@ -2088,6 +2088,57 @@ namespace Tests.Universal.HTMLBindingTests
                 ex.Should().NotBeNull();
             }
         }
+
+        private class SmartVM : ViewModelBase
+        {
+            private int _MagicNumber;
+            public int MagicNumber
+            {
+                get { return _MagicNumber; }
+                set
+                {
+                    if (value == 9)
+                    {
+                        value = 42;
+                    }
+                    Set(ref _MagicNumber, value, nameof(MagicNumber));
+                }
+            }
+        }
+
+        [Fact]
+        public async Task TwoWay_ShouldRespectPropertyValidation()
+        {
+            var datacontext = new SmartVM
+            {
+                MagicNumber = 8
+            };
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    var res = GetIntAttribute(js, "MagicNumber");
+                    res.Should().Be(8);
+
+                    var intValue = 9;
+                    var jsInt = Create(() => _WebView.Factory.CreateInt(intValue));
+                    SetAttribute(js, "MagicNumber", jsInt);
+                    await Task.Delay(100);
+
+                    datacontext.MagicNumber.Should().Be(42);
+                    await Task.Delay(100);
+
+                    res = GetIntAttribute(js, "MagicNumber");
+                    res.Should().Be(42);
+                }
+            };
+
+            await RunAsync(test);
+        }
     }
 }
 

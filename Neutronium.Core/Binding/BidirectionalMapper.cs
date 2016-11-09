@@ -176,8 +176,18 @@ namespace Neutronium.Core.Binding
                 {
                     using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null) 
                     {
+                        var oldValue = propertyAccessor.Get();
                         propertyAccessor.Set(glue.CValue);
-                        res.UpdateCSharpProperty(propertyName, glue);
+                        var actualValue = propertyAccessor.Get();
+
+                        if (Object.Equals(actualValue, glue.CValue))
+                        {
+                            res.UpdateCSharpProperty(propertyName, glue);
+                            return;
+                        }
+
+                        if (!Object.Equals(oldValue, actualValue))
+                            CSharpPropertyChanged(res.CValue, new PropertyChangedEventArgs(propertyName));   
                     }
                 });
             }
