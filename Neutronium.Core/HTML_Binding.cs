@@ -48,7 +48,7 @@ namespace Neutronium.Core
         {
             var mapper = viewEngine.GetMapper(iViewModel, iMode );
             var res = new HTML_Binding(mapper, viewEngine.Logger);
-            await viewEngine.Evaluate( () => mapper.Init(additional));
+            await mapper.Init(additional);
             return res;
          }
     }
