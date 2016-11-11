@@ -3,6 +3,7 @@ using Chromium;
 using Chromium.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 {
@@ -11,16 +12,23 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         private static ChromiumFxSession _Session = null;
         private readonly Action<CfxSettings> _SettingsBuilder;
         private readonly Action<CfxOnBeforeCommandLineProcessingEventArgs> _CommandLineHandler;
+        private readonly string _CurrentDirectory;
 
         private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler) 
         {
+            _CurrentDirectory = this.GetType().Assembly.GetPath();
             _SettingsBuilder = settingsBuilder;
             _CommandLineHandler = commadLineHandler;
-            CfxRuntime.LibCefDirPath = @"cef\Release";
+            CfxRuntime.LibCefDirPath = GetPath(@"cef\Release");
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
             ChromiumWebBrowser.Initialize();
+        }
+
+        private string GetPath(string relativePath) 
+        {
+            return System.IO.Path.Combine(_CurrentDirectory, relativePath);
         }
 
         private void ChromiumWebBrowser_OnBeforeCommandLineProcessing(CfxOnBeforeCommandLineProcessingEventArgs e)
@@ -33,12 +41,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             var settings = e.Settings;
 
             _SettingsBuilder?.Invoke(settings);
-
-            settings.NoSandbox = true;
-            settings.LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales");
-            settings.ResourcesDirPath = System.IO.Path.GetFullPath(@"cef\Resources");
-            settings.BrowserSubprocessPath = System.IO.Path.GetFullPath("ChromiumFXRenderProcess.exe");
+         
+            settings.LocalesDirPath = GetPath(@"cef\Resources\locales");
+            settings.ResourcesDirPath = GetPath(@"cef\Resources");
+            settings.BrowserSubprocessPath = GetPath("ChromiumFXRenderProcess.exe");
             settings.SingleProcess = false;
+            settings.MultiThreadedMessageLoop = true;
+            settings.NoSandbox = true;
         }
 
         internal static ChromiumFxSession GetSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler)
