@@ -28,6 +28,7 @@ Why Neutronium?
 
 * **Easy to set-up**:
  * **[Solution template](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8)** available for a quick start
+ * **[Vue Webpack template](https://github.com/David-Desmaisons/Neutronium/wiki/Build-large-project-with-Vue.js-and-Webpack)** available to use .vue files 
 
 * **Reuse** ViewModel designed for WPF with a different View Engine.
 
