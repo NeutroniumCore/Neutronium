@@ -24,13 +24,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
             _Session = ChromiumFxSession.GetSession((settings) => 
             {
                 settingsUpdater?.Invoke(settings);
-
-                settings.LocalesDirPath = System.IO.Path.GetFullPath(@"cef\Resources\locales");
-                settings.ResourcesDirPath = System.IO.Path.GetFullPath(@"cef\Resources");
-                settings.BrowserSubprocessPath = System.IO.Path.GetFullPath("ChromiumFXRenderProcess.exe");
-                settings.MultiThreadedMessageLoop = true;
-                settings.SingleProcess = false;
-
                 Settings = settings;
             }, commadLineHandler);
         }
