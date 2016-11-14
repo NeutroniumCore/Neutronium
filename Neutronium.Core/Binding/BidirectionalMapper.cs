@@ -288,14 +288,14 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        public async Task<IJSCSGlue> RegisterInSession(object nv)
+        public Task<IJSCSGlue> RegisterInSession(object nv)
         {
-            return await RegisterAndDo(() => _JSObjectBuilder.InternalMap(nv), (newbridgedchild) => { _UnrootedEntities.Add(newbridgedchild); });
+            return RegisterAndDo(() => _JSObjectBuilder.InternalMap(nv), (newbridgedchild) => { _UnrootedEntities.Add(newbridgedchild); });
         }
 
-        private async Task RegisterAndDo(Action Do)
+        private Task RegisterAndDo(Action Do)
         {
-            await RunInJavascriptContext(() =>
+            return RunInJavascriptContext(() =>
             {
                 using (ReListen())
                 {
