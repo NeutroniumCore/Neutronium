@@ -7,13 +7,14 @@ using Neutronium.Core.Extension;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public class JsResultCommand : GlueBase, IJSObservableBridge
     {
         private readonly IResultCommand _JSResultCommand;
-        private readonly IWebView _WebView;
+        private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
@@ -21,10 +22,12 @@ namespace Neutronium.Core.Binding.GlueObject
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue => _JSResultCommand;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
+        private IWebView WebView => _HTMLViewContext.WebView;
+        private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
 
-        public JsResultCommand(IWebView webView, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
+        public JsResultCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
         {
-            _WebView = webView;
+            _HTMLViewContext = context;
             _JavascriptToCSharpConverter = converter;
             _JSResultCommand = resultCommand;          
         }
@@ -41,7 +44,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _WebView, Execute);
+            _MappedJSValue.Bind("Execute", WebView, Execute);
         }
       
         private async void Execute(IJavascriptObject[] e)
@@ -51,7 +54,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
             try
             {
-                var res = await _JSResultCommand.Execute(argument);
+                var task = await UIDispatcher.EvaluateAsync(() => _JSResultCommand.Execute(argument));
+                var res = await task;
                 await SetResult(promise, res);
             }
             catch (Exception exception)
@@ -65,10 +69,10 @@ namespace Neutronium.Core.Binding.GlueObject
             if (promise == null)
                 return;
 
-            await _WebView.RunAsync(async () =>
+            await WebView.RunAsync(async () =>
             {
                 var errormessage = exception?.Message ?? "Faulted";
-                await promise.InvokeAsync("reject", _WebView, _WebView.Factory.CreateString(errormessage));
+                await promise.InvokeAsync("reject", WebView, WebView.Factory.CreateString(errormessage));
             });
         }
 
@@ -77,10 +81,10 @@ namespace Neutronium.Core.Binding.GlueObject
             if (promise == null)
                 return;
 
-            await _WebView.RunAsync(async () =>
+            await WebView.RunAsync(async () =>
             {
                 var bridgevalue = await _JavascriptToCSharpConverter.RegisterInSession(result);
-                await promise.InvokeAsync("fullfill", _WebView, bridgevalue.GetJSSessionValue());
+                await promise.InvokeAsync("fullfill", WebView, bridgevalue.GetJSSessionValue());
             });
         }
 

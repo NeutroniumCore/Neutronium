@@ -22,12 +22,12 @@ namespace Neutronium.Core.Binding
 
         public JsSimpleCommand Build(ISimpleCommand command)
         {
-            return new JsSimpleCommand(_HTMLViewContext.WebView, _JavascriptToCSharpConverter, command);
+            return new JsSimpleCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
         }
 
         public JsResultCommand Build(IResultCommand command)
         {
-            return new JsResultCommand(_HTMLViewContext.WebView, _JavascriptToCSharpConverter, command);
+            return new JsResultCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
         }
     }
 }

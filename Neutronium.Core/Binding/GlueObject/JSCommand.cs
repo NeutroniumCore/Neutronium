@@ -63,7 +63,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private void ExecuteCommand(IJavascriptObject[] e)
         {
-            UIDispatcher.RunAsync(() => _Command.Execute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e)));
+            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
+            UIDispatcher.RunAsync(() => _Command.Execute(parameter));
         }
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)
@@ -75,10 +76,14 @@ namespace Neutronium.Core.Binding.GlueObject
             });
         }
 
-        private void CanExecuteCommand(IJavascriptObject[] e)
+        private async void CanExecuteCommand(IJavascriptObject[] e)
         {
-            var res = _Command.CanExecute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
-            UpdateProperty("CanExecuteValue", (f) => f.CreateBool(res));
+            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
+            var res = await UIDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));
+            await WebView.RunAsync(() =>
+            {
+                UpdateProperty("CanExecuteValue", (f) => f.CreateBool(res));
+            });
         }
 
         private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)

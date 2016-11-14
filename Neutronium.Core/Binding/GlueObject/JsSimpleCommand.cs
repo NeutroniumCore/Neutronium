@@ -4,13 +4,14 @@ using System.Text;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public class JsSimpleCommand : GlueBase, IJSObservableBridge
     {
         private readonly ISimpleCommand _JSSimpleCommand;
-        private readonly IWebView _WebView;
+        private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
@@ -18,10 +19,12 @@ namespace Neutronium.Core.Binding.GlueObject
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue => _JSSimpleCommand;
         public JsCsGlueType Type => JsCsGlueType.SimpleCommand;
+        private IWebView WebView => _HTMLViewContext.WebView;
+        private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
 
-        public JsSimpleCommand(IWebView webView, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
+        public JsSimpleCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
         {
-            _WebView = webView;
+            _HTMLViewContext = context;
             _JavascriptToCSharpConverter = converter;
             _JSSimpleCommand = simpleCommand;
         }
@@ -38,12 +41,13 @@ namespace Neutronium.Core.Binding.GlueObject
         public void SetMappedJSValue(IJavascriptObject ijsobject)
         {
             _MappedJSValue = ijsobject;
-            _MappedJSValue.Bind("Execute", _WebView, Execute);
+            _MappedJSValue.Bind("Execute", WebView, Execute);
         }
 
         private void Execute(IJavascriptObject[] e)
         {
-            _JSSimpleCommand.Execute(_JavascriptToCSharpConverter.GetFirstArgumentOrNull(e));
+            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
+            UIDispatcher.RunAsync(() => _JSSimpleCommand.Execute(parameter));
         }
 
         public override IEnumerable<IJSCSGlue> GetChildren()
