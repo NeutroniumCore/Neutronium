@@ -90,9 +90,10 @@ namespace Neutronium.Core.Binding
             return _Context.WebView.Evaluate(run);
         }
 
-        private Task<T> RunInJavascriptContext<T>(Func<Task<T>> run)
+        private async Task<T> RunInJavascriptContext<T>(Func<Task<T>> run)
         {
-            return _Context.WebView.Evaluate(run);
+            var res = await _Context.WebView.EvaluateAsync(run);
+            return await res;
         }
 
         private Task<T> EvaluateInUIContextAsync<T>(Func<T> run)
