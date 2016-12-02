@@ -22,13 +22,13 @@ namespace Neutronium.WPF.Internal
                 act();
                 tcs.SetResult(null);
             };
-            _Dispatcher.BeginInvoke(doact);
+            BeginInvoke(doact);
             return tcs.Task;
         }
 
         public void Run(Action act)
         {
-            _Dispatcher.Invoke(act);
+            Invoke(act);
         }
 
         public Task<T> EvaluateAsync<T>(Func<T> compute)
@@ -38,7 +38,7 @@ namespace Neutronium.WPF.Internal
             {
                 tcs.SetResult(compute());
             };
-            _Dispatcher.BeginInvoke(doact);
+            BeginInvoke(doact);
             return tcs.Task;
         }
 
@@ -46,8 +46,32 @@ namespace Neutronium.WPF.Internal
         {
             var res = default(T);
             Action action = () => res = compute();
-            _Dispatcher.Invoke(action);
+            Invoke(action);
             return res;
+        }
+
+        private void Invoke(Action action)
+        {
+            if (_Dispatcher.CheckAccess())
+            {
+                action();
+            }
+            else
+            {
+                _Dispatcher.Invoke(action);
+            }
+        }
+
+        private void BeginInvoke(Action action)
+        {
+            if (_Dispatcher.CheckAccess())
+            {
+                action();
+            }
+            else
+            {
+                _Dispatcher.BeginInvoke(action);
+            }
         }
 
         public bool IsInContext() 
