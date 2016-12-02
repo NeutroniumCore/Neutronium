@@ -52,25 +52,23 @@ namespace Neutronium.WPF.Internal
 
         private void Invoke(Action action)
         {
-            if (_Dispatcher.CheckAccess())
-            {
-                action();
-            }
-            else
-            {
-                _Dispatcher.Invoke(action);
-            }
+            DoSynchroneIfPossible(action, (d, act) => d.Invoke(act));
         }
 
-        private void BeginInvoke(Action action)
+        private void BeginInvoke(Action action) 
         {
-            if (_Dispatcher.CheckAccess())
+            DoSynchroneIfPossible(action, (d, act) => d.BeginInvoke(act));
+        }
+
+        private void DoSynchroneIfPossible(Action action, Action<Dispatcher, Action> doAsync) 
+        {
+            if (_Dispatcher.CheckAccess()) 
             {
                 action();
             }
-            else
+            else 
             {
-                _Dispatcher.BeginInvoke(action);
+                doAsync(_Dispatcher, action);
             }
         }
 
