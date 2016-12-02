@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Neutronium.Core.WebBrowserEngine.Window;
@@ -62,7 +61,7 @@ namespace Neutronium.WPF.Internal
 
         private void DoSynchroneIfPossible(Action action, Action<Dispatcher, Action> doAsync) 
         {
-            if (_Dispatcher.CheckAccess()) 
+            if (IsInContext()) 
             {
                 action();
             }
@@ -74,7 +73,7 @@ namespace Neutronium.WPF.Internal
 
         public bool IsInContext() 
         {
-            return _Dispatcher.Thread == Thread.CurrentThread;
+            return _Dispatcher.CheckAccess();
         }
     }
 }
