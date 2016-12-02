@@ -251,12 +251,12 @@ namespace Neutronium.Core.Binding
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            await RegisterAndDo(() => _JSObjectBuilder.InternalMap(nv), (child) => currentfather.ReRoot(pn, child) );
+            await RegisterAndDo(() => _JSObjectBuilder.InternalMap(nv), (child) => currentfather.ReRoot(pn, child) ).ConfigureAwait(false);
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await UnsafeCSharpCollectionChanged(sender, e);
+            await UnsafeCSharpCollectionChanged(sender, e).ConfigureAwait(false);
         }
 
         private async Task UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
