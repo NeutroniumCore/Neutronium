@@ -129,19 +129,8 @@ namespace Neutronium.Core.Binding
 
         private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue iroot)
         {
-            if (iroot == null)
+            if ( (iroot == null) || (iroot.IsBasic()))
                 return null;
-
-            switch (iroot.Type)
-            {
-                case JsCsGlueType.Basic:
-                    return null;
-
-                case JsCsGlueType.Object:
-                    if ((iroot.JSValue.IsNull))
-                        return null;
-                    break;
-            }
 
             var jvm = _SessionCache.GetMapper(iroot as IJSObservableBridge);
             var res = _sessionInjector.Inject(iroot.JSValue, jvm);
@@ -314,6 +303,12 @@ namespace Neutronium.Core.Binding
             return await RunInJavascriptContext(async () =>
             {
                 value.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
+                if (value.IsBasic())
+                {
+                    Do(value);
+                    return value;
+                }
+
                 await InjectInHTMLSession(value);
 
                 using (ReListen())
@@ -322,7 +317,7 @@ namespace Neutronium.Core.Binding
                 }
 
                 return value;
-            });
+            }).ConfigureAwait(false);
         }
 
         private ReListener _ReListen = null;

@@ -21,6 +21,11 @@ namespace Neutronium.Core.Binding.GlueObject
             }
         }
 
+        public static bool IsBasic(this IJSCSGlue @this)
+        {
+            return ((@this.Type == JsCsGlueType.Basic) || ((@this.Type == JsCsGlueType.Basic) && @this.JSValue.IsNull));
+        }
+
         public static IEnumerable<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf=false)
         {
             var res = new HashSet<IJSCSGlue>();
