@@ -14,5 +14,10 @@ namespace Example.ChromiumFX.Vue.UI
             factory.RegisterJavaScriptFramework(new VueSessionInjectorV2());
             base.OnStartUp(factory);
         }
+
+        protected override void UpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEventArgs beforeLineCommand)
+        {
+            beforeLineCommand.CommandLine.AppendSwitch("disable-web-security");
+        }
     }
 }
