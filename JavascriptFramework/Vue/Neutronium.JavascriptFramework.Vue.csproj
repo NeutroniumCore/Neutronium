@@ -114,11 +114,11 @@
     <EmbeddedResource Include="scripts\vue1\vueComandDirective.es5.min.js">
       <DependentUpon>vueComandDirective.es5.js</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="scripts\vue2\vue.js" />
     <EmbeddedResource Include="scripts\vue2\vueComandDirective.js" />
     <EmbeddedResource Include="scripts\vue1\vueAdapter.js" />
     <EmbeddedResource Include="scripts\vue2\vueAdapter.js" />
     <EmbeddedResource Include="scripts\vue2\vue.es5.min.js" />
+    <EmbeddedResource Include="scripts\vue2\vue.js" />
     <Content Include="scripts\vue2\vueAdapter.es5.js">
       <DependentUpon>vueAdapter.js</DependentUpon>
     </Content>
