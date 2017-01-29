@@ -20,7 +20,7 @@
 		head.appendChild(s);
 	}
 
-	const css = " .expander { position: absolute; align-content: stretch; overflow: hidden; min-height: 15px; display: flex; flex-flow: row wrap; font-weight: bold; z-index: 98;} .test{ background: red; height: 100%; } .expander > * { flex: 1 100%; } .footer { background-color: #efefef; height: 10px; flex: 3 10px; text-align: center; order: 4; align-self: flex-end; cursor: ns-resize; } .fullexpander{ flex: 0 10px; height: 10px; order: 5; background: #efefef; align-self: flex-end; justify-content: flex-end; cursor: nwse-resize; } .header { background-color: #efefef; height: 10px; } .main { order: 2; flex: 3 auto; flex-grow: 1; } .right { flex: 0 10px; order: 3; width: 10px; background-color: #efefef; cursor: ew-resize; } .left { flex: 0 10px; order: 1; width: 10px; background-color: #efefef; cursor: ew-resize; } ";
+	const css = " .neutronium-debug-expander { position: absolute; align-content: stretch; overflow: hidden; min-height: 15px; display: flex; flex-flow: row wrap; font-weight: bold; z-index: 98;} .neutronium-debug-test{ background: red; height: 100%; } .neutronium-debug-expander > * { flex: 1 100%; } .neutronium-debug-footer { background-color: #efefef; height: 10px; flex: 3 10px; text-align: center; order: 4; align-self: flex-end; cursor: ns-resize; } .neutronium-debug-fullexpander { flex: 0 10px; height: 10px; order: 5; background: #efefef; align-self: flex-end; justify-content: flex-end; cursor: nwse-resize; } .neutronium-debug-header { background-color: #efefef; height: 10px; } .neutronium-debug-main { order: 2; flex: 3 auto; flex-grow: 1; } .neutronium-debug-right { flex: 0 10px; order: 3; width: 10px; background-color: #efefef; cursor: ew-resize; } .neutronium-debug-left { flex: 0 10px; order: 1; width: 10px; background-color: #efefef; cursor: ew-resize; } ";
 	addcss(css);
 
 	function convert(value){
@@ -28,7 +28,7 @@
 	}
 
 	var exp = Vue.component('expander', {
-	    template: "<div class=\"expander\" :style=\"{ top: py + 'px', left : px + 'px'}\"> <header class=\"header\" @mousedown=\"dragMoveStart\" @dblclick=\"reduce\"></header> <div class=\"left\" @mousedown=\"dragExpandXMoveStart\"></div> <div class=\"main\" :style=\"{height: height, width: width }\">  <slot class=\"center\"> This will only be displayed if there is no content</slot> </div> <div class=\"right\" @mousedown=\"dragExpandXStart\"></div> <footer class=\"footer\" @mousedown=\"dragExpandYStart\"></footer>  <footer class=\"fullexpander\" @mousedown=\"dragExpandXYStart\"></footer>  </div>",
+	    template: "<div class=\"neutronium-debug-expander\" :style=\"{ top: py + 'px', left : px + 'px'}\"> <header class=\"neutronium-debug-header\" @mousedown=\"dragMoveStart\" @dblclick=\"reduce\"></header> <div class=\"neutronium-debug-left\" @mousedown=\"dragExpandXMoveStart\"></div> <div class=\"neutronium-debug-main\" :style=\"{height: height, width: width }\">  <slot class=\"neutronium-debug-center\"> This will only be displayed if there is no content</slot> </div> <div class=\"neutronium-debug-right\" @mousedown=\"dragExpandXStart\"></div> <footer class=\"neutronium-debug-footer\" @mousedown=\"dragExpandYStart\"></footer>  <footer class=\"neutronium-debug-fullexpander\" @mousedown=\"dragExpandXYStart\"></footer>  </div>",
 		data: function data() {
 			    return {
 			      	dragging: false,
