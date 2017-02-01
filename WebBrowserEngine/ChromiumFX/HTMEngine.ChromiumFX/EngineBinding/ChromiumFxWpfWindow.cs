@@ -7,24 +7,24 @@ using Chromium.WebBrowser;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
-using Neutronium.WPF;
 using Neutronium.WPF.Internal;
 using Chromium.Event;
 using Neutronium.WebBrowserEngine.ChromiumFx.Helper;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
-    internal class ChromiumFxWpfWindow : IWPFWebWindow 
+    internal class ChromiumFxWpfWindow : IWPFCfxWebWindow
     {
         private readonly ChromiumFxControl _ChromiumFxControl;
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
         private readonly ChromiumFxControlWebBrowserWindow _chromiumFxControlWebBrowserWindow;
         private readonly IWebSessionLogger _Logger;
+        private IntPtr _DebugWindowHandle;
 
         public UIElement UIElement => _ChromiumFxControl;
         public bool IsUIElementAlwaysTopMost => true;
         public IWebBrowserWindow HTMLWindow => _chromiumFxControlWebBrowserWindow;
-        private IntPtr _DebugWindowHandle;
+        public ChromiumWebBrowser ChromiumWebBrowser => _ChromiumWebBrowser;
 
         public ChromiumFxWpfWindow(IWebSessionLogger logger) 
         {
