@@ -39,6 +39,7 @@ namespace Neutronium.WPF.Internal
         public BasicRelayCommand ShowInfo { get; }
         public bool DebugContext => IsDebug;
         public Uri Source => _WPFDoubleBrowserNavigator?.Url;
+        public IWPFWebWindow WPFWebWindow => (WPFDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider)?.WPFWebWindow;
 
         public bool IsDebug
         {
@@ -306,7 +307,7 @@ namespace Neutronium.WPF.Internal
             if (wpfacess == null)
                 return;
 
-            var wpfweb = wpfacess.IWPFWebWindow;
+            var wpfweb = wpfacess.WPFWebWindow;
             wpfweb?.Inject(keyToInject);
         }
     }

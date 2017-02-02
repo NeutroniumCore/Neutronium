@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
-using Neutronium.Example.ViewModel;
+using Neutronium.WebBrowserEngine.ChromiumFx;
+using System.Diagnostics;
 
 namespace Example.ChromiumFX.Vue.UI
 {
@@ -16,8 +17,19 @@ namespace Example.ChromiumFX.Vue.UI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Window w = sender as Window;
-            w.DataContext = new object();
+            DataContext = new object();
+            wcBrowser.OnDisplay += WcBrowser_OnDisplay;        
+        }
+
+        private void WcBrowser_OnDisplay(object sender, Neutronium.Core.Navigation.DisplayEvent e)
+        {
+            var windowCfx = wcBrowser.WPFWebWindow as IWPFCfxWebWindow;
+            windowCfx.ChromiumWebBrowser.DragHandler.OnDragEnter += DragHandler_OnDragEnter;
+        }
+
+        private void DragHandler_OnDragEnter(object sender, Chromium.Event.CfxOnDragEnterEventArgs e)
+        {
+            Trace.WriteLine("OnDragEnter fired");
         }
 
         protected override void OnClosed(EventArgs e)
