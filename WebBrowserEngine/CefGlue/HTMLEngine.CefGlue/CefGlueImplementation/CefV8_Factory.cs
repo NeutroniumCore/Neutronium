@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xilium.CefGlue;
+using MoreCollection.Extensions;
 
 namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 {

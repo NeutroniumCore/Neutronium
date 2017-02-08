@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
+using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Navigation
 {
@@ -15,7 +16,7 @@ namespace Neutronium.Core.Navigation
         {
             try
             {
-                var res = _Mapper.FindOrCreateEntity(type, t => new Dictionary<string, Uri>());
+                var res = _Mapper.GetOrAddEntity(type, t => new Dictionary<string, Uri>());
                 res.Add(id ?? string.Empty, uri);
             }
             catch (ArgumentException)

@@ -64,6 +64,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MoreCollection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MoreCollection.1.0.0\lib\net45\MoreCollection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="Microsoft.CSharp" />
@@ -125,7 +129,6 @@
     <Compile Include="Exceptions\ExceptionHelper.cs" />
     <Compile Include="Infra\NullUIDispatcher.cs" />
     <Compile Include="Infra\VM\BasicRelayCommand.cs" />
-    <Compile Include="Infra\DictionaryExtension.cs" />
     <Compile Include="Infra\TypeExtension.cs" />
     <Compile Include="Infra\VM\ViewModelBase.cs" />
     <Compile Include="WebBrowserEngine\Window\BeforeJavascriptExcecutionArgs.cs" />
@@ -179,7 +182,9 @@
       <Name>Neutronium.MVVMComponents</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,4 +1,4 @@
-﻿using Neutronium.Core.Infra;
+﻿using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
 using System.Text;

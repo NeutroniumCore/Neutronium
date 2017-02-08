@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Neutronium.Core;
-using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using MoreCollection.Extensions;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
@@ -91,7 +91,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father)
         {
-            var candidate = _Silenters.FindOrCreateEntity(father, _ => father.GetValue("__silenter"));
+            var candidate = _Silenters.GetOrAddEntity(father, _ => father.GetValue("__silenter"));
             if (candidate.IsUndefined) {
                 _Silenters.Remove(father);
             }
