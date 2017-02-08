@@ -6,13 +6,14 @@ using Chromium;
 using Chromium.Remote;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
+using MoreCollection.Set;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object 
 {
     internal class ChromiumFXJavascriptObject : IJavascriptObject 
     {
         private readonly CfrV8Value _CfrV8Value;
-        private readonly Lazy<HashSet<CfrV8Handler>> _Functions = new Lazy<HashSet<CfrV8Handler>>();
+        private readonly ISet<CfrV8Handler> _Functions = new HybridSet<CfrV8Handler>();
 
         public bool IsUndefined => _CfrV8Value.IsUndefined;
         public bool IsNull => _CfrV8Value.IsNull;
@@ -35,8 +36,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public void Dispose() 
         {
             _CfrV8Value.Dispose();
-            if (_Functions.IsValueCreated)
-                _Functions.Value.Clear();
+            _Functions.Clear();
         }
 
         public int GetArrayLength() 
@@ -77,7 +77,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             lock (this) 
             {
                  var cfrV8Handler = action.Convert(functionName);
-                _Functions.Value.Add(cfrV8Handler);
+                _Functions.Add(cfrV8Handler);
                 var func = CfrV8Value.CreateFunction(functionName, cfrV8Handler);
                 _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.ReadOnly | CfxV8PropertyAttribute.DontDelete);
             }           
