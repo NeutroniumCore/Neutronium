@@ -10,12 +10,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion
     {
         public static IJavascriptObject Convert(this CfrV8Value cfrV8Value) 
         {
-            return new ChromiumFXJavascriptObject(cfrV8Value);
+            if ((cfrV8Value == null) || (!cfrV8Value.IsObject)) 
+                return new ChromiumFXJavascriptSimple(cfrV8Value);
+
+            return new ChromiumFXJavascriptObject(cfrV8Value); 
         }
 
         public static CfrV8Value Convert(this IJavascriptObject javascriptObject) 
         {
-            var chromiumObject = javascriptObject as ChromiumFXJavascriptObject;
+            var chromiumObject = javascriptObject as ICfxJavascriptObject;
             return chromiumObject?.GetRaw();
         }
 

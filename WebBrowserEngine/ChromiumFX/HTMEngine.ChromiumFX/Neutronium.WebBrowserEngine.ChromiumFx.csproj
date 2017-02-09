@@ -59,6 +59,10 @@
       <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2526.5\lib\ChromiumWebBrowser.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MoreCollection, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MoreCollection.1.0.3\lib\net45\MoreCollection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -90,10 +94,14 @@
     <Compile Include="EngineBinding\ChromiumFxWebView.cs" />
     <Compile Include="EngineBinding\ChromiumFxWpfWindow.cs" />
     <Compile Include="Helper\NativeWindowHelper.cs" />
+    <Compile Include="IWPFCfxWebWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\ChromiumFxSession.cs" />
     <Compile Include="V8Object\ChromiumFXJavascriptObject.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptBase.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptSimple.cs" />
     <Compile Include="Convertion\ChromiumFxJavascriptObjectExtension.cs" />
+    <Compile Include="V8Object\ICfxJavascriptObject.cs" />
     <Compile Include="WPF\ChromiumFxControl.xaml.cs">
       <DependentUpon>ChromiumFxControl.xaml</DependentUpon>
     </Compile>

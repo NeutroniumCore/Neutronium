@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Chromium;
 using Chromium.Remote;
-using Neutronium.Core.Infra;
+using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 

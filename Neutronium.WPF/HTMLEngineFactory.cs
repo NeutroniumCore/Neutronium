@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Neutronium.Core;
-using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Log;
+using MoreCollection.Extensions;
 
 namespace Neutronium.WPF
 {

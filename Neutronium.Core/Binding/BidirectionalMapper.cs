@@ -129,19 +129,8 @@ namespace Neutronium.Core.Binding
 
         private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue iroot)
         {
-            if (iroot == null)
+            if ( (iroot == null) || (iroot.IsBasic()))
                 return null;
-
-            switch (iroot.Type)
-            {
-                case JsCsGlueType.Basic:
-                    return null;
-
-                case JsCsGlueType.Object:
-                    if ((iroot.JSValue.IsNull))
-                        return null;
-                    break;
-            }
 
             var jvm = _SessionCache.GetMapper(iroot as IJSObservableBridge);
             var res = _sessionInjector.Inject(iroot.JSValue, jvm);
@@ -251,12 +240,12 @@ namespace Neutronium.Core.Binding
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            await RegisterAndDo(() => _JSObjectBuilder.InternalMap(nv), (child) => currentfather.ReRoot(pn, child) );
+            await RegisterAndDo(() => _JSObjectBuilder.InternalMap(nv), (child) => currentfather.ReRoot(pn, child) ).ConfigureAwait(false);
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await UnsafeCSharpCollectionChanged(sender, e);
+            await UnsafeCSharpCollectionChanged(sender, e).ConfigureAwait(false);
         }
 
         private async Task UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -314,6 +303,12 @@ namespace Neutronium.Core.Binding
             return await RunInJavascriptContext(async () =>
             {
                 value.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
+                if (value.IsBasic())
+                {
+                    Do(value);
+                    return value;
+                }
+
                 await InjectInHTMLSession(value);
 
                 using (ReListen())
@@ -322,7 +317,7 @@ namespace Neutronium.Core.Binding
                 }
 
                 return value;
-            });
+            }).ConfigureAwait(false);
         }
 
         private ReListener _ReListen = null;

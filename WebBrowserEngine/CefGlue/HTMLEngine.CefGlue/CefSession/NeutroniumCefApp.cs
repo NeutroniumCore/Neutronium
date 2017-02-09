@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using HTMLEngine.CefGlue.WindowImplementation;
-using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation;
 using Neutronium.WebBrowserEngine.CefGlue.WindowImplementation;
 using Xilium.CefGlue;
+using MoreCollection.Extensions;
 
 namespace Neutronium.WebBrowserEngine.CefGlue.CefSession
 {

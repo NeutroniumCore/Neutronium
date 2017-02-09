@@ -11,7 +11,7 @@ namespace Neutronium.WPF.Internal
         private readonly IWPFWebWindow _IWPFWebWindow;
 
         public IWebBrowserWindow HTMLWindow => _IWPFWebWindow.HTMLWindow;
-        public IWPFWebWindow IWPFWebWindow => _IWPFWebWindow;
+        public IWPFWebWindow WPFWebWindow => _IWPFWebWindow;
         public IDispatcher UIDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
 
         public WPFHTMLWindowProvider(IWPFWebWindow iIWPFWebWindow, Neutronium.WPF.Internal.HTMLControlBase iHTMLControlBase)

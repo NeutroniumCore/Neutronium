@@ -10,7 +10,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         internal static VueVersions Vue1 { get; } = new VueVersions("vue.js 1.0.25", "VueInjector", "vue1");
 
-        internal static VueVersions Vue2 { get; } = new VueVersions("vue.js 2.1.3", "VueInjectorV2", "vue2");
+        internal static VueVersions Vue2 { get; } = new VueVersions("vue.js 2.1.10", "VueInjectorV2", "vue2");
 
         public ResourceReader GetVueResource()
         {

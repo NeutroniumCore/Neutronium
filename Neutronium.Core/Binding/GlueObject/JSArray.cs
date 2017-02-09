@@ -8,6 +8,7 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Binding.GlueObject
 {

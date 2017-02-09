@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Neutronium.Core.Infra;
+using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Binding.Listeners
 {

@@ -3,7 +3,8 @@ using System.Linq;
 using System.Text;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.Infra;
+using MoreCollection.Extensions;
+using MoreCollection.Dictionary;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -11,7 +12,7 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         private readonly HTMLViewContext _HTMLViewContext;     
         private IJavascriptObject _MappedJSValue;
-        private readonly Dictionary<string, IJSCSGlue> _Attributes = new Dictionary<string, IJSCSGlue>();
+        private readonly HybridDictionary<string, IJSCSGlue> _Attributes = new HybridDictionary<string, IJSCSGlue>();
 
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
         public IJavascriptObject JSValue { get; private set; }
