@@ -98,7 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\ChromiumFxSession.cs" />
     <Compile Include="V8Object\ChromiumFXJavascriptObject.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptObjectBase.cs" />
     <Compile Include="Convertion\ChromiumFxJavascriptObjectExtension.cs" />
+    <Compile Include="V8Object\ICfxJavascriptObject.cs" />
     <Compile Include="WPF\ChromiumFxControl.xaml.cs">
       <DependentUpon>ChromiumFxControl.xaml</DependentUpon>
     </Compile>

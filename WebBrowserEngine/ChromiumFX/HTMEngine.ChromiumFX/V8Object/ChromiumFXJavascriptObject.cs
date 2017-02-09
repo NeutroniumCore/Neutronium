@@ -10,7 +10,7 @@ using MoreCollection.Set;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object 
 {
-    internal class ChromiumFXJavascriptObject : IJavascriptObject 
+    internal class  ChromiumFXJavascriptObject : ICfxJavascriptObject
     {
         private readonly CfrV8Value _CfrV8Value;
         private readonly ISet<CfrV8Handler> _Functions = new HybridSet<CfrV8Handler>();
@@ -18,17 +18,17 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public bool IsUndefined => _CfrV8Value.IsUndefined;
         public bool IsNull => _CfrV8Value.IsNull;
         public bool IsObject => _CfrV8Value.IsObject;
-        public bool IsArray => _CfrV8Value.IsArray;
-        public bool IsString => _CfrV8Value.IsString;
-        public bool IsNumber => _CfrV8Value.IsDouble || _CfrV8Value.IsUint || _CfrV8Value.IsInt;
-        public bool IsBool => _CfrV8Value.IsBool;
+        public bool IsArray => false;
+        public bool IsString => false;
+        public bool IsNumber => false;
+        public bool IsBool => false;
 
         public ChromiumFXJavascriptObject(CfrV8Value cfrV8Value) 
         {
             _CfrV8Value = cfrV8Value?? CfrV8Value.CreateUndefined();
         }
 
-        internal CfrV8Value GetRaw() 
+        CfrV8Value ICfxJavascriptObject.GetRaw() 
         {
             return _CfrV8Value;
         }
