@@ -12,7 +12,7 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         private readonly HTMLViewContext _HTMLViewContext;     
         private IJavascriptObject _MappedJSValue;
-        private readonly HybridDictionary<string, IJSCSGlue> _Attributes = new HybridDictionary<string, IJSCSGlue>();
+        private readonly HybridDictionary<string, IJSCSGlue> _Attributes;
 
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
         public IJavascriptObject JSValue { get; private set; }
@@ -21,10 +21,11 @@ namespace Neutronium.Core.Binding.GlueObject
         public JsCsGlueType Type => JsCsGlueType.Object;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
 
-        public JsGenericObject(HTMLViewContext context, object icValue)
+        public JsGenericObject(HTMLViewContext context, object cValue, int childrenCount)
         {
-            CValue = icValue;
+            CValue = cValue;
             _HTMLViewContext = context;
+            _Attributes = new HybridDictionary<string, IJSCSGlue>(childrenCount);
         }
 
         protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
