@@ -50,7 +50,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
-            _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);         
+            _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
             _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>
@@ -70,15 +70,18 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                    var res = (await _ConverTOJSO.Map(_Test)).JSValue;
+                var res = (await _ConverTOJSO.Map(_Test)).JSValue;
+
+                DoSafe(() =>
+                {
                     res.Should().NotBeNull();
                     var res1 = res.GetValue("S1");
                     res1.Should().NotBeNull();
                     res1.IsString.Should().BeTrue();
-
                     var res2 = res.GetValue("I1");
                     res2.Should().NotBeNull();
                     res2.IsNumber.Should().BeTrue();
+                });
             });
         }
 
@@ -87,33 +90,37 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                  var ibridgeresult = await _ConverTOJSO.Map(_Tests);
-                  ibridgeresult.Type.Should().Be(JsCsGlueType.Array);
-                  IJavascriptObject resv = ibridgeresult.JSValue;
+                var ibridgeresult = await _ConverTOJSO.Map(_Tests);
 
-                  resv.Should().NotBeNull();
-                  resv.IsArray.Should().BeTrue();
-                  resv.GetArrayLength().Should().Be(2);
+                DoSafe(() =>
+                {
+                    ibridgeresult.Type.Should().Be(JsCsGlueType.Array);
+                    IJavascriptObject resv = ibridgeresult.JSValue;
 
-                  IJavascriptObject res = resv.GetValue(0);
-                  res.Should().NotBeNull();
-                  var res1 = res.GetValue("S1");
-                  res1.Should().NotBeNull();
-                  res1.IsString.Should().BeTrue();
+                    resv.Should().NotBeNull();
+                    resv.IsArray.Should().BeTrue();
+                    resv.GetArrayLength().Should().Be(2);
 
-                  var jsv = res.GetValue("S1");
-                  jsv.Should().NotBeNull();
-                  jsv.IsString.Should().BeTrue();
-                  string stv = jsv.GetStringValue();
-                  stv.Should().NotBeNull();
-                  stv.Should().Be("string1");
+                    IJavascriptObject res = resv.GetValue(0);
+                    res.Should().NotBeNull();
+                    var res1 = res.GetValue("S1");
+                    res1.Should().NotBeNull();
+                    res1.IsString.Should().BeTrue();
 
-                  var res2 = res.GetValue("I1");
-                  res2.Should().NotBeNull();
-                  res2.IsNumber.Should().BeTrue();
-                  int v2 = res2.GetIntValue();
-                  v2.Should().Be(1);
-              });
+                    var jsv = res.GetValue("S1");
+                    jsv.Should().NotBeNull();
+                    jsv.IsString.Should().BeTrue();
+                    string stv = jsv.GetStringValue();
+                    stv.Should().NotBeNull();
+                    stv.Should().Be("string1");
+
+                    var res2 = res.GetValue("I1");
+                    res2.Should().NotBeNull();
+                    res2.IsNumber.Should().BeTrue();
+                    int v2 = res2.GetIntValue();
+                    v2.Should().Be(1);
+                });
+            });
         }
 
         [Fact]
@@ -121,31 +128,35 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                  var resv = (await _ConverTOJSO.Map(_Tests_NG)).JSValue;
+                var resv = (await _ConverTOJSO.Map(_Tests_NG)).JSValue;
 
-                  resv.Should().NotBeNull();
-                  resv.IsArray.Should().BeTrue();
-                  resv.GetArrayLength().Should().Be(2);
+                DoSafe(() =>
+                {
 
-                  var res = resv.GetValue(0);
-                  res.Should().NotBeNull();
-                  var res1 = res.GetValue("S1");
-                  res1.Should().NotBeNull();
-                  res1.IsString.Should().BeTrue();
+                    resv.Should().NotBeNull();
+                    resv.IsArray.Should().BeTrue();
+                    resv.GetArrayLength().Should().Be(2);
 
-                  var jsv = res.GetValue("S1");
-                  jsv.Should().NotBeNull();
-                  jsv.IsString.Should().BeTrue();
-                  string stv = jsv.GetStringValue();
-                  stv.Should().NotBeNull();
-                  stv.Should().Be("string1");
+                    var res = resv.GetValue(0);
+                    res.Should().NotBeNull();
+                    var res1 = res.GetValue("S1");
+                    res1.Should().NotBeNull();
+                    res1.IsString.Should().BeTrue();
 
-                  var res2 = res.GetValue("I1");
-                  res2.Should().NotBeNull();
-                  res2.IsNumber.Should().BeTrue();
-                  int v2 = res2.GetIntValue();
-                  v2.Should().Be(1);
-              });
+                    var jsv = res.GetValue("S1");
+                    jsv.Should().NotBeNull();
+                    jsv.IsString.Should().BeTrue();
+                    string stv = jsv.GetStringValue();
+                    stv.Should().NotBeNull();
+                    stv.Should().Be("string1");
+
+                    var res2 = res.GetValue("I1");
+                    res2.Should().NotBeNull();
+                    res2.IsNumber.Should().BeTrue();
+                    int v2 = res2.GetIntValue();
+                    v2.Should().Be(1);
+                });
+            });
         }
 
         [Fact]
@@ -162,12 +173,12 @@ namespace Tests.Universal.WebBrowserEngineTests
             });
         }
 
-         [Fact]
+        [Fact]
         public async Task Test_Date()
         {
             await TestAsync(async () =>
             {
-                var date = new DateTime(1974, 02, 26, 01, 02, 03,DateTimeKind.Utc);
+                var date = new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc);
                 var res = (await _ConverTOJSO.Map(date)).JSValue;
                 res.Should().NotBeNull();
 
@@ -184,12 +195,12 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                  var res = (await _ConverTOJSO.Map(0.2M)).JSValue;
-                  res.Should().NotBeNull();
-                  res.IsNumber.Should().BeTrue();
-                  double resd = res.GetDoubleValue();
+                var res = (await _ConverTOJSO.Map(0.2M)).JSValue;
+                res.Should().NotBeNull();
+                res.IsNumber.Should().BeTrue();
+                double resd = res.GetDoubleValue();
 
-                  resd.Should().Be(0.2D);
+                resd.Should().Be(0.2D);
             });
         }
 
@@ -211,7 +222,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         [Fact]
         public async Task Test_Bool_False()
         {
-            await TestAsync(async  () =>
+            await TestAsync(async () =>
                 {
                     var res = (await _ConverTOJSO.Map(false)).JSValue;
                     res.Should().NotBeNull();
@@ -241,10 +252,10 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                  var res = (await _ConverTOJSO.Map(_Test2)).JSValue;
-                  res.Should().NotBeNull();
+                var res = (await _ConverTOJSO.Map(_Test2)).JSValue;
+                res.Should().NotBeNull();
 
-                  _ICSharpMapper.Received().Cache(_Test, Arg.Any<IJSCSGlue>());
+                _ICSharpMapper.Received().Cache(_Test, Arg.Any<IJSCSGlue>());
             });
         }
     }

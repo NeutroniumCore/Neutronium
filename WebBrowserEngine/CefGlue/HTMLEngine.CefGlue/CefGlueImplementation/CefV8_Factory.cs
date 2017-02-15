@@ -81,7 +81,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 
         public IJavascriptObject CreateObject(bool iLocal)
         {
-            return UpdateObject(CefV8Value.CreateObject(null));
+            return UpdateObject(CefV8Value.CreateObject());
         }
 
         public IJavascriptObject CreateInt(int value)
