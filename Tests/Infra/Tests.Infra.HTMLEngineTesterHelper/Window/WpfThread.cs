@@ -52,7 +52,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Window
         public void Dispose()
         {
             _CTS.Cancel();
-            _UIThread.Join();
+            _UIThread.Join(1000);
             _ARE.Dispose();
             _CTS.Dispose();
         }
