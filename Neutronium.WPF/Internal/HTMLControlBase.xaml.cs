@@ -223,7 +223,11 @@ namespace Neutronium.WPF.Internal
         public IWebSessionLogger WebSessionLogger
         {
             get { return _webSessionLogger; }
-            set { _webSessionLogger = value; _WPFDoubleBrowserNavigator.WebSessionLogger = value; }
+            set {
+                _webSessionLogger = value;
+                if (_WPFDoubleBrowserNavigator!=null)
+                    _WPFDoubleBrowserNavigator.WebSessionLogger = value;
+            }
         }
        
         private void RunDebugscript()

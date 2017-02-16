@@ -72,8 +72,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xilium.CefGlue, Version=3.2272.2035.0, Culture=neutral, PublicKeyToken=6235298024de30d5, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unofficial.CefGlue.Core.3.2272.2035\lib\Xilium.CefGlue.dll</HintPath>
+    <Reference Include="Xilium.CefGlue, Version=55.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unofficial.CefGlue.Core.3.2883.1539\lib\Xilium.CefGlue.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -192,13 +192,15 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets" Condition="Exists('..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.3.2272.2035\build\Unofficial.Cef.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.libcef.3.2883.1539\build\Unofficial.Cef.libcef.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.libcef.3.2883.1539\build\Unofficial.Cef.libcef.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.libs.3.2883.1539\build\Unofficial.Cef.libs.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.libs.3.2883.1539\build\Unofficial.Cef.libs.targets'))" />
   </Target>
+  <Import Project="..\..\packages\Unofficial.Cef.libcef.3.2883.1539\build\Unofficial.Cef.libcef.targets" Condition="Exists('..\..\packages\Unofficial.Cef.libcef.3.2883.1539\build\Unofficial.Cef.libcef.targets')" />
+  <Import Project="..\..\packages\Unofficial.Cef.libs.3.2883.1539\build\Unofficial.Cef.libs.targets" Condition="Exists('..\..\packages\Unofficial.Cef.libs.3.2883.1539\build\Unofficial.Cef.libs.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

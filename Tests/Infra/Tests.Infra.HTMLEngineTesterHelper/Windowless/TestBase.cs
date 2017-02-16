@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Neutronium.Core;
 using Neutronium.Core.Binding;
-using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Tests.Infra.WebBrowserEngineTesterHelper.Context;
@@ -11,8 +10,8 @@ using Tests.Infra.WebBrowserEngineTesterHelper.Threading;
 using Xunit.Abstractions;
 using Neutronium.Core.Log;
 
-namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless 
- {
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
+{
     public abstract class TestBase 
     {
         protected IWebView _WebView;
@@ -40,6 +39,15 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
             {
                 Init();
                 DoSafe(act);
+            }
+        }
+
+        protected async Task TestAsync(Func<Task> act, TestContext ipath = TestContext.Index)
+        {
+            using (Tester(ipath))
+            {
+                Init();
+                await DoSafeAsync(act);
             }
         }
 
@@ -98,6 +106,11 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         protected void DoSafe(Action doact) 
         {
             _WebView.Run(doact);
+        }
+
+        protected async Task DoSafeAsync(Func<Task> doact)
+        {
+            await await _WebView.EvaluateAsync(doact);
         }
     }
 }

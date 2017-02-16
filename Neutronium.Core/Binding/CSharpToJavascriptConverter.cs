@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.MVVMComponents;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Neutronium.Core.Binding
 {
@@ -37,7 +38,7 @@ namespace Neutronium.Core.Binding
         public IJSCSGlue InternalMap(object from, object iadditional=null)
         {
             if (from == null)
-                return new JsGenericObject(_Context, null);
+                return new JsGenericObject(_Context, null, 0);
 
             var res = _Cacher.GetCached(from);
             if (res != null)
@@ -70,33 +71,35 @@ namespace Neutronium.Core.Binding
             if (ienfro!=null)
                 return  Convert(ienfro);
 
-            var gres = new JsGenericObject(_Context, from);
+            var propertyInfos = GetPropertyInfos(from).Concat(GetPropertyInfos(iadditional)).ToList();
+
+            var gres = new JsGenericObject(_Context, from, propertyInfos.Count);
             _Cacher.Cache(from, gres);
 
-            MappNested(from ,gres);
-            MappNested(iadditional, gres);
+            MappNested(gres, propertyInfos);
 
             return gres;
         }
 
-        private void MappNested(object from, JsGenericObject gres)
+        private static IEnumerable<Tuple<PropertyInfo, object>> GetPropertyInfos(object from)
         {
-            if (from == null)
-                return;
+            return (from==null) ? Enumerable.Empty<Tuple<PropertyInfo, object>>() : from.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead).Select( prop => Tuple.Create(prop, from));
+        }
 
-           var propertyInfos = from.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead);
-
-            foreach (var propertyInfo in propertyInfos)
+        private void MappNested(JsGenericObject gres, IReadOnlyCollection<Tuple<PropertyInfo, object>> properties)
+        {
+            foreach (var property in properties)
             {
+                var propertyInfo = property.Item1;
                 var propertyName = propertyInfo.Name;
                 object childvalue;
                 try
                 {
-                    childvalue = propertyInfo.GetValue(from, null); 
+                    childvalue = propertyInfo.GetValue(property.Item2, null); 
                 }
                 catch(Exception e)
                 {
-                    _Logger.Info(()=> $"Unable to convert property {propertyName} from {@from} exception {e}");
+                    _Logger.Info(()=> $"Unable to convert property {propertyName} from {property.Item2} exception {e}");
                     continue;
                 }
 

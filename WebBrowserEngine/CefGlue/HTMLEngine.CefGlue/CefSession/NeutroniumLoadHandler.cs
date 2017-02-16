@@ -15,7 +15,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefSession
             _MVVMCefApp.EnsureLoaded(frame);
         }
 
-        protected override void OnLoadStart(CefBrowser browser, CefFrame frame)
+        protected override void OnLoadStart(CefBrowser browser, CefFrame frame, CefTransitionType transitionType)
         {
             _MVVMCefApp.OnLoadStart(browser, frame);
         }
