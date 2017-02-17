@@ -22,7 +22,7 @@ namespace HTMLEngine.CefGlue.WindowImplementation
             this._owner.OnLoadError(frame, errorCode, errorText, failedUrl);
         }
 
-        protected override void OnLoadStart(CefBrowser browser, CefFrame frame, CefTransitionType transitionType)
+        protected override void OnLoadStart(CefBrowser browser, CefFrame frame)
         {
             this._owner.OnLoadStart(frame);
         }
