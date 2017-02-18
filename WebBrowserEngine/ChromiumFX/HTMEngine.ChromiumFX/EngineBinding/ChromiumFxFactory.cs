@@ -72,7 +72,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private int _GlobalCount = 0;
         public IJavascriptObject CreateObject(bool iLocal) 
         {
-            var rawResult = CfrV8Value.CreateObject(null, null);
+            var rawResult = CfrV8Value.CreateObject(null);
             if (iLocal)
                 return UpdateConvert(rawResult);
 
@@ -84,7 +84,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             CfrV8Value v8Res;
             CfrV8Exception exception;
-            return (_CfrV8Context.Eval(iCreationCode, string.Empty, 1, out v8Res, out exception)) ? UpdateConvert(v8Res) : null;
+            return (_CfrV8Context.Eval(iCreationCode, out v8Res, out exception)) ? UpdateConvert(v8Res) : null;
         }
 
         public IJavascriptObject CreateUndefined() 

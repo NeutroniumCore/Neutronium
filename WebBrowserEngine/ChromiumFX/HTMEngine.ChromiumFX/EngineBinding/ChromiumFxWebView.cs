@@ -68,7 +68,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             CfrV8Value v8Res;
             CfrV8Exception exception;
-            var resValue = V8Context.Eval(code, string.Empty, 1, out v8Res, out exception);
+            var resValue = V8Context.Eval(code, out v8Res, out exception);
             res = v8Res?.Convert();
             return resValue;
         }
