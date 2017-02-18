@@ -97,9 +97,5 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
         protected override void OnScrollOffsetChanged(CefBrowser browser, double x, double y)
         {
         }
-
-        protected override void OnImeCompositionRangeChanged(CefBrowser browser, CefRange selectedRange, CefRectangle[] characterBounds)
-        {
-        }
     }
 }
