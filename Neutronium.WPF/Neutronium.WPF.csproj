@@ -75,10 +75,17 @@
     <Compile Include="HTMLViewControl.cs" />
     <Compile Include="HTMLWindow.cs" />
     <Compile Include="IHTMLEngineFactory.cs" />
+    <Compile Include="Internal\DebugControl.xaml.cs">
+      <DependentUpon>DebugControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IWPFWebWindowFactory.cs" />
     <Compile Include="Internal\WPFHTMLWindowProvider.cs" />
     <Compile Include="Internal\WPFUIDispatcher.cs" />
     <Compile Include="IWPFWebWindow.cs" />
+    <Page Include="Internal\DebugControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Internal\HTMLControlBase.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

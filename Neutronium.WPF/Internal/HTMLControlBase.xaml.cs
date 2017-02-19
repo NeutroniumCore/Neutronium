@@ -19,6 +19,7 @@ namespace Neutronium.WPF.Internal
 {
     public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
+        private DebugControl _DebugControl;
         private IWPFWebWindowFactory _WPFWebWindowFactory;
         private IWebSessionLogger _webSessionLogger;
         private string _JavascriptDebugScript = null;
@@ -47,7 +48,13 @@ namespace Neutronium.WPF.Internal
             set { SetValue(IsDebugProperty, value); }
         }
 
-        public static readonly DependencyProperty IsDebugProperty = DependencyProperty.Register(nameof(IsDebug), typeof (bool), typeof (HTMLControlBase), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsDebugProperty = DependencyProperty.Register(nameof(IsDebug), typeof (bool), typeof (HTMLControlBase), new PropertyMetadata(false, DebugChanged));
+
+        private static void DebugChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as HTMLControlBase;
+            control.DebugChanged((bool)e.NewValue);
+        }
 
         public bool VmDebug
         {
@@ -138,6 +145,27 @@ namespace Neutronium.WPF.Internal
             InitializeComponent();
 
             this.Loaded += HTMLControlBase_Loaded;    
+        }
+
+        private void DebugChanged(bool isDebug)
+        {
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
+
+            if (isDebug)
+            {
+                _DebugControl = new DebugControl
+                {
+                    DataContext = this
+                };
+                Grid.SetRow(_DebugControl, 1);
+                MainGrid.Children.Add(_DebugControl);
+            }
+            else
+            {
+                MainGrid.Children.Remove(_DebugControl);
+                _DebugControl = null;
+            }
         }
 
         private void HTMLControlBase_Loaded(object sender, RoutedEventArgs e)
