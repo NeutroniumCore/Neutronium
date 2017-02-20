@@ -29,9 +29,22 @@ namespace Tests.Universal.WebBrowserEngineTests
             public TestClass T2 { get; set; }
         }
 
+        private class Circular1 
+        {
+            public Circular1 Reference { get; set; }
+        }
+
+        private class Circular2 
+        {
+            public Circular2 Reference { get; set; }
+            public List<Circular2> List { get; } = new List<Circular2>();
+        }
+
         private CSharpToJavascriptConverter _ConverTOJSO;
         private TestClass _Test;
         private Test2 _Test2;
+        private Circular1 _CircularSimple;
+        private Circular2 _CircularComplex;
         private List<TestClass> _Tests;
         private ArrayList _Tests_NG;
         private HTMLViewContext _HTMLViewContext;
@@ -63,6 +76,15 @@ namespace Tests.Universal.WebBrowserEngineTests
             _Tests_NG = new ArrayList();
             _Tests_NG.Add(_Tests[0]);
             _Tests_NG.Add(_Tests[0]);
+
+            _CircularSimple = new Circular1();
+            _CircularSimple.Reference = _CircularSimple;
+
+            _CircularComplex = new Circular2();
+            var circularChild = new Circular2 {
+                Reference = _CircularComplex
+            };
+            _CircularComplex.List.Add(circularChild);
         }
 
         [Fact]
@@ -83,6 +105,58 @@ namespace Tests.Universal.WebBrowserEngineTests
                     res2.IsNumber.Should().BeTrue();
                 });
             });
+        }
+
+        [Fact]
+        public async Task Test_Circular_Reference_Simple() {    
+            await TestAsync(async () => {
+                var converTOJSO = GetCircularBreakerConverter();
+
+                var res = (await converTOJSO.Map(_CircularSimple)).JSValue;
+
+                DoSafe(() => {
+                    res.Should().NotBeNull();
+                    var res1 = res.GetValue("Reference");
+                    res1.Should().NotBeNull();
+                    res1.IsObject.Should().BeTrue();
+
+                    var res2 = res1.GetValue("Reference");
+                    res2.Should().NotBeNull();
+                    res2.IsObject.Should().BeTrue();
+
+                    var res3 = res1.GetValue("Reference");
+                    res3.Should().NotBeNull();
+                    res3.IsObject.Should().BeTrue();
+                });
+            });
+        }
+
+        [Fact]
+        public async Task Test_Circular_Reference_In_List() {
+            await TestAsync(async () => {
+                var converTOJSO = GetCircularBreakerConverter();
+
+                var res = (await converTOJSO.Map(_CircularComplex)).JSValue;
+
+                DoSafe(() => {
+                    res.Should().NotBeNull();
+
+                    var res0 = res.GetValue("List");
+                    res0.IsArray.Should().BeTrue();
+
+                    var res1 = res0.GetArrayElements()[0];
+                    res1.Should().NotBeNull();
+                    res1.IsObject.Should().BeTrue();
+
+                    var res2 = res1.GetValue("Reference");
+                    res2.Should().NotBeNull();
+                    res2.IsObject.Should().BeTrue();
+                });
+            });
+        }
+
+        private CSharpToJavascriptConverter GetCircularBreakerConverter() {
+            return new CSharpToJavascriptConverter(_HTMLViewContext, new SessionCacher(), _JSCommandFactory, _Logger);
         }
 
         [Fact]

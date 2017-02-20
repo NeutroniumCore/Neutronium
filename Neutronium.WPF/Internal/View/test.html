@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>main test window</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css">
+  </head>
+  <body>
+    <div id="main">
+      <App :view-model="$data">
+      </App>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="./build.js"></script>
+    <script type="text/javascript">
+      new Vue({el: '#main'});
+    </script>
+  </body>
+</html>

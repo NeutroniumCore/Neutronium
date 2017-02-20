@@ -81,9 +81,9 @@ namespace Neutronium.Core.Binding
             return gres;
         }
 
-        private static IEnumerable<Tuple<PropertyInfo, object>> GetPropertyInfos(object from)
+        private static IEnumerable<Tuple<PropertyInfo, object>> GetPropertyInfos(object from) 
         {
-            return (from==null) ? Enumerable.Empty<Tuple<PropertyInfo, object>>() : from.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead).Select( prop => Tuple.Create(prop, from));
+            return @from?.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead).Select(prop => Tuple.Create(prop, @from)) ?? Enumerable.Empty<Tuple<PropertyInfo, object>>();          
         }
 
         private void MappNested(JsGenericObject gres, IReadOnlyCollection<Tuple<PropertyInfo, object>> properties)
@@ -92,14 +92,15 @@ namespace Neutronium.Core.Binding
             {
                 var propertyInfo = property.Item1;
                 var propertyName = propertyInfo.Name;
+                var parentObject = property.Item2;
                 object childvalue;
                 try
                 {
-                    childvalue = propertyInfo.GetValue(property.Item2, null); 
+                    childvalue = propertyInfo.GetValue(parentObject, null); 
                 }
-                catch(Exception e)
+                catch(TargetInvocationException e)
                 {
-                    _Logger.Info(()=> $"Unable to convert property {propertyName} from {property.Item2} exception {e}");
+                    _Logger.Info(()=> $"Unable to convert property {propertyName} from {parentObject} of type {parentObject.GetType().FullName} exception {e.InnerException}");
                     continue;
                 }
 

@@ -16,21 +16,21 @@ namespace Neutronium.Core.Navigation.Window
         public WindowLogicalState State
         {
             get { return _State; }
-            set { Set(ref _State, value, nameof(State)); }
+            set { Set(ref _State, value); }
         }
 
         private bool _IsLiteningOpen;
         public bool IsListeningOpen
         {
             get { return _IsLiteningOpen; }
-            set { Set(ref _IsLiteningOpen, value, nameof(IsListeningOpen)); }
+            set { Set(ref _IsLiteningOpen, value); }
         }
 
         private bool _IsListeningClose;
         public bool IsListeningClose 
         {
             get { return _IsListeningClose; }
-            set { Set(ref _IsListeningClose, value, nameof(IsListeningClose)); }
+            set { Set(ref _IsListeningClose, value); }
         }
 
         public ICommand CloseReady { get; }
@@ -50,12 +50,9 @@ namespace Neutronium.Core.Navigation.Window
             completionSource.TrySetResult(null);
         }
 
-        public Task OpenAsync()
+        public Task OpenAsync() 
         {
-            if (!IsListeningClose)
-                return TaskHelper.Ended();
-
-            return _OpenTask.Task;
+            return !IsListeningClose ? TaskHelper.Ended() : _OpenTask.Task;
         }
 
         public Task CloseAsync()

@@ -14,12 +14,14 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WPF.Internal.DebugViewModel;
 
 namespace Neutronium.WPF.Internal
 {
     public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
-        private DebugControl _DebugControl;
+        private DebugControlNeutronium _DebugControl;
+        private DebugInformation _DebugInformation;
         private IWPFWebWindowFactory _WPFWebWindowFactory;
         private IWebSessionLogger _webSessionLogger;
         private string _JavascriptDebugScript = null;
@@ -35,9 +37,6 @@ namespace Neutronium.WPF.Internal
             }
         }
 
-        public BasicRelayCommand DebugWindow { get; }
-        public BasicRelayCommand DebugBrowser { get; }
-        public BasicRelayCommand ShowInfo { get; }
         public bool DebugContext => IsDebug;
         public Uri Source => _WPFDoubleBrowserNavigator?.Url;
         public IWPFWebWindow WPFWebWindow => (WPFDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider)?.WPFWebWindow;
@@ -55,14 +54,6 @@ namespace Neutronium.WPF.Internal
             var control = d as HTMLControlBase;
             control.DebugChanged((bool)e.NewValue);
         }
-
-        public bool VmDebug
-        {
-            get { return (bool) GetValue(VmDebugProperty); }
-            private set { SetValue(VmDebugProperty, value); }
-        }
-
-        public static readonly DependencyProperty VmDebugProperty = DependencyProperty.Register(nameof(VmDebug), typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false));
 
         public bool IsHTMLLoaded
         {
@@ -91,26 +82,6 @@ namespace Neutronium.WPF.Internal
         public static readonly DependencyProperty JavascriptUIEngineProperty =
             DependencyProperty.Register(nameof(JavascriptUIEngine), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
 
-        public string DebugButtonLabel
-        {
-            get { return (string)GetValue(DebugButtonLabelProperty); }
-            set { SetValue(DebugButtonLabelProperty, value); }
-        }
-
-        public static readonly DependencyProperty DebugButtonLabelProperty =
-            DependencyProperty.Register(nameof(DebugButtonLabel), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
-
-        private bool _VmDebugging = false;
-        private bool VmDebugging
-        {
-            get { return _VmDebugging; }
-            set
-            {
-                _VmDebugging = value;
-                DebugButtonLabel =  _VmDebugging ? "Close Debug" : "Inspect Vm";
-            }
-        }
-
         private bool _UseINavigable=true;
         public bool UseINavigable
         {
@@ -136,11 +107,13 @@ namespace Neutronium.WPF.Internal
 
             _UrlSolver = urlSolver;
 
-            DebugWindow = new BasicRelayCommand(ShowDebugWindow);
-            DebugBrowser = new BasicRelayCommand(OpenDebugBrowser);
-            ShowInfo = new BasicRelayCommand(DoShowInfo);
-
-            VmDebugging = false;
+            _DebugInformation = new DebugInformation {
+                DebugWindow = new BasicRelayCommand(ShowDebugWindow),
+                DebugBrowser = new BasicRelayCommand(OpenDebugBrowser),
+                ShowInfo = new BasicRelayCommand(DoShowInfo),
+                IsDebuggingVm = false,
+                ComponentName = this.GetType().Name
+            };
 
             InitializeComponent();
 
@@ -154,9 +127,9 @@ namespace Neutronium.WPF.Internal
 
             if (isDebug)
             {
-                _DebugControl = new DebugControl
+                _DebugControl = new DebugControlNeutronium 
                 {
-                    DataContext = this
+                    DataContext = _DebugInformation
                 };
                 Grid.SetRow(_DebugControl, 1);
                 MainGrid.Children.Add(_DebugControl);
@@ -193,8 +166,7 @@ namespace Neutronium.WPF.Internal
                 throw ExceptionHelper.Get($"Not able to find JavascriptUIEngine {JavascriptUIEngine}. Please register the correspoding Javascript UIEngine.");
 
             var debugableVm = _Injector.HasDebugScript();
-            DebugWindow.Executable = debugableVm;
-            VmDebug = debugableVm;
+            _DebugInformation.SetVmDebug(debugableVm);
 
             _WPFDoubleBrowserNavigator = GetDoubleBrowserNavigator();
 
@@ -271,7 +243,7 @@ namespace Neutronium.WPF.Internal
         {
             RunDebugscript();
             WPFDoubleBrowserNavigator.ExcecuteJavascript(_Injector.GetDebugToogleScript());
-            VmDebugging = !VmDebugging;
+            _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
         }
 
         public void OpenDebugBrowser() 

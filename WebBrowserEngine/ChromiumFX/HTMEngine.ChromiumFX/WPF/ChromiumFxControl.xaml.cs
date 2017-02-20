@@ -8,6 +8,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             InitializeComponent();
         }
-        public ChromiumWebBrowser WebBrowser => ChromiumWebBrowser;
+        internal ChromiumWebBrowser WebBrowser => ChromiumWebBrowser;
     }
 }
