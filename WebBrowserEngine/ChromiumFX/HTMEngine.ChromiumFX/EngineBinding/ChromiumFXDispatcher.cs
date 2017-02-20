@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Chromium.Remote;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Window;
+using System.Diagnostics;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
@@ -96,7 +97,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }
             public void Dispose() 
             {
-                _Context.Exit();
+                try
+                {
+                    _Context.Exit();
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine($"Problem in exiting chromiumFx context {ex}");
+                }
             }
         }
 

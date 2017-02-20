@@ -1,5 +1,7 @@
 ﻿using System;
 using Chromium;
+using Chromium.WebBrowser.Event;
+using Chromium.WebBrowser;
 
 namespace ChromiumFXRenderProcess 
 {
@@ -12,10 +14,7 @@ namespace ChromiumFXRenderProcess
         static void Main() 
         {
             CfxRuntime.LibCefDirPath = @"cef\Release";
-            var app = new CfxApp();
-            var handler = new CfxRenderProcessHandler();
-            app.GetRenderProcessHandler += (sender, args) => args.SetReturnValue(handler);
-            int retval = CfxRuntime.ExecuteProcess(app);
+            int retval = CfxRuntime.ExecuteProcess();
             Environment.Exit(retval);
         }
     }

@@ -28,7 +28,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
         {
             CefV8Exception exp=null;
             CefV8Value val = null;
-            bool bres = Context.TryEval(code, string.Empty, 1, out val, out exp);
+            bool bres = Context.TryEval(code, out val, out exp);
             res = (val == null) ? null : new CefV8_JavascriptObject(val);
             return bres;
         } 

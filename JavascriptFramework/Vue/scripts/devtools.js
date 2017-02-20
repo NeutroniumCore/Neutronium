@@ -10413,14 +10413,15 @@
 	    tag: "component",
 	    staticClass: "container"
 	  })])
-	}},staticRenderFns: [function(){with(this) {
-	  return _h('img', {
+	}
+	}, staticRenderFns: [function () {
+	  return this._h('img', {
 	    staticClass: "logo",
 	    staticAttrs: {
-	      "src": parent.__vue__logo__path__
+	        "src": window.parent.__vue__logo__path__
 	    }
 	  })
-	}},function(){with(this) {
+	},function(){with(this) {
 	  return _h('i', {
 	    staticClass: "material-icons"
 	  }, ["cached"])
