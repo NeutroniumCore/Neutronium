@@ -22,6 +22,19 @@ namespace Neutronium.WPF
         ///</returns>
         IWPFWebWindowFactory ResolveJavaScriptEngine(string engineName);
 
+
+        /// <summary>
+        /// Check if a IWPFWebWindowFactory of a given name is registered.
+        /// This method is called internally by Component controls
+        /// </summary>
+        /// <param name="engineName">
+        /// the name of the factory to be found
+        /// </param>
+        /// <returns>
+        /// true if found false otherwise
+        ///</returns>
+        bool HasJavaScriptEngine(string engineName);
+
         /// <summary>
         /// register a IWPFWebWindowFactory using its Name property
         /// </summary>

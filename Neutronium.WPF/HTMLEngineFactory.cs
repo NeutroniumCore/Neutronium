@@ -46,6 +46,11 @@ namespace Neutronium.WPF
             return res;
         }
 
+        public bool HasJavaScriptEngine(string engineName) 
+        {
+            return _JavascriptFrameworks.ContainsKey(engineName);
+        }
+
         public void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory)
         {
             _Engines[wpfWebWindowFactory.Name] = wpfWebWindowFactory;
@@ -55,7 +60,7 @@ namespace Neutronium.WPF
         private IJavascriptFrameworkManager PrivateResolveJavaScriptFramework(string frameworkName) 
         {
             if (_JavascriptFrameworks.Count != 1) 
-                return _JavascriptFrameworks.GetOrDefault(frameworkName) ?? _DefaultJavascriptFrameworkManager;
+                return _JavascriptFrameworks.GetOrDefault(frameworkName, _DefaultJavascriptFrameworkManager);
 
             var res = _JavascriptFrameworks.First().Value;
             if (!string.IsNullOrEmpty(frameworkName) && (res.Name != frameworkName)) 
