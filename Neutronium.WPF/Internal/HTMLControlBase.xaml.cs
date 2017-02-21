@@ -20,7 +20,7 @@ namespace Neutronium.WPF.Internal
 {
     public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
-        private DebugControlNeutronium _DebugControl;
+        private UserControl _DebugControl;
         private DebugInformation _DebugInformation;
         private IWPFWebWindowFactory _WPFWebWindowFactory;
         private IWebSessionLogger _webSessionLogger;
@@ -125,12 +125,20 @@ namespace Neutronium.WPF.Internal
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
+
+            //
             if (isDebug)
             {
-                _DebugControl = new DebugControlNeutronium 
+                var neutroniumSupport = HTMLEngineFactory.Engine.ResolveJavaScriptFramework("VueInjectorV2") != null;
+                if (neutroniumSupport)
                 {
-                    DataContext = _DebugInformation
-                };
+                    _DebugControl = new DebugControlNeutronium();
+                }
+                else
+                {
+                    _DebugControl = new DebugControl();
+                }
+                _DebugControl.DataContext = _DebugInformation;
                 Grid.SetRow(_DebugControl, 1);
                 MainGrid.Children.Add(_DebugControl);
             }
