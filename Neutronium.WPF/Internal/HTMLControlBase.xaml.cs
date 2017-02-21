@@ -125,8 +125,6 @@ namespace Neutronium.WPF.Internal
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
-
-            //
             if (isDebug)
             {
                 var neutroniumSupport = HTMLEngineFactory.Engine.HasJavaScriptEngine("VueInjectorV2");
@@ -278,6 +276,7 @@ namespace Neutronium.WPF.Internal
 
         public void Dispose()
         {
+            (_DebugControl as IDisposable)?.Dispose();
             _WPFDoubleBrowserNavigator.Dispose();
         }
 
