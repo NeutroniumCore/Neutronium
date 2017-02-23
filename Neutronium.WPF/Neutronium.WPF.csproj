@@ -150,13 +150,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Internal\View\0f7736d96dfba5998185767ce385aae5.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Internal\View\810a1b930979de83478be0f458b51dd8.png">
+    <Content Include="Internal\View\76ec2a09aa20e8a01442f48f046c1a57.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Internal\View\912ec66d7572ff821749319396470bde.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Internal\View\9c74e172f87984c48ddf5c8108cabe67.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Internal\View\build.js">
@@ -166,9 +166,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Internal\View\styles.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Internal\View\test.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
