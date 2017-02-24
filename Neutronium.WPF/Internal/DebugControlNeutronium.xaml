@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignWidth="300">
     <Grid  HorizontalAlignment="Stretch" Height="90">
-        <Wpf:HTMLViewControl x:Name="DebugWindow"  IsDebug="false" JavascriptUIEngine="VueInjectorV2" RelativeSource="Internal\View\index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="90"/>
+        <Wpf:HTMLViewControl x:Name="DebugWindow"  IsDebug="false" JavascriptUIEngine="VueInjectorV2" RelativeSource="Internal\View\index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="69"/>
     </Grid>
 </UserControl>
