@@ -20,6 +20,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly ChromiumFxControlWebBrowserWindow _chromiumFxControlWebBrowserWindow;
         private readonly IWebSessionLogger _Logger;
         private IntPtr _DebugWindowHandle;
+        private CfxClient _DebugCfxClient;
+        private CfxLifeSpanHandler _DebugCfxLifeSpanHandler;
 
         public UIElement UIElement => _ChromiumFxControl;
         public bool IsUIElementAlwaysTopMost => true;
@@ -68,29 +70,27 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 Height = 600
             };
 
-            var debugClient = new CfxClient();
-            debugClient.GetLifeSpanHandler += DebugClient_GetLifeSpanHandler;
-            _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, debugClient, new CfxBrowserSettings(), null);
+            _DebugCfxClient = new CfxClient();
+            _DebugCfxClient.GetLifeSpanHandler += DebugClient_GetLifeSpanHandler;
+            _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, _DebugCfxClient, new CfxBrowserSettings(), null);
             return true;
         }
 
         private void DebugClient_GetLifeSpanHandler(object sender, CfxGetLifeSpanHandlerEventArgs e)
         {
-            var debugLifeSpan = new CfxLifeSpanHandler();
-            debugLifeSpan.OnAfterCreated += DebugLifeSpan_OnAfterCreated;
-            debugLifeSpan.OnBeforeClose += DebugLifeSpan_OnBeforeClose;
-            debugLifeSpan.DoClose += DebugLifeSpan_DoClose;
-            e.SetReturnValue(debugLifeSpan);
-        }
-
-        private void DebugLifeSpan_DoClose(object sender, CfxDoCloseEventArgs e)
-        {
-            _DebugWindowHandle = IntPtr.Zero;
+            if (_DebugCfxLifeSpanHandler == null)
+            {
+                _DebugCfxLifeSpanHandler = new CfxLifeSpanHandler();
+                _DebugCfxLifeSpanHandler.OnAfterCreated += DebugLifeSpan_OnAfterCreated;
+                _DebugCfxLifeSpanHandler.OnBeforeClose += DebugLifeSpan_OnBeforeClose;
+            }
+            e.SetReturnValue(_DebugCfxLifeSpanHandler);
         }
 
         private void DebugLifeSpan_OnBeforeClose(object sender, CfxOnBeforeCloseEventArgs e)
         {
             _DebugWindowHandle = IntPtr.Zero;
+            _DebugCfxClient = null;
         }
 
         private void DebugLifeSpan_OnAfterCreated(object sender, CfxOnAfterCreatedEventArgs e)
@@ -106,6 +106,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public void Dispose()
         {
             _ChromiumWebBrowser.Dispose();
+            _DebugCfxClient = null;
+            _DebugCfxLifeSpanHandler = null;
         }
     }
 }
