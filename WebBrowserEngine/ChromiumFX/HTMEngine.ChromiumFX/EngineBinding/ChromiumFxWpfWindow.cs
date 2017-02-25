@@ -79,7 +79,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             var debugLifeSpan = new CfxLifeSpanHandler();
             debugLifeSpan.OnAfterCreated += DebugLifeSpan_OnAfterCreated;
             debugLifeSpan.OnBeforeClose += DebugLifeSpan_OnBeforeClose;
+            debugLifeSpan.DoClose += DebugLifeSpan_DoClose;
             e.SetReturnValue(debugLifeSpan);
+        }
+
+        private void DebugLifeSpan_DoClose(object sender, CfxDoCloseEventArgs e)
+        {
+            _DebugWindowHandle = IntPtr.Zero;
         }
 
         private void DebugLifeSpan_OnBeforeClose(object sender, CfxOnBeforeCloseEventArgs e)
