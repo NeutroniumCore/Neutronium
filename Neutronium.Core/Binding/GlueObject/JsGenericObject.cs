@@ -41,7 +41,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes.ForEach(attribute => JSValue.SetValue(attribute.Key, attribute.Value.JSValue));
         }
 
-        protected override void ComputeString(NameContext context)
+        protected override void ComputeString(DescriptionBuilder context)
         {
             context.Append("{");
             var first = true;
@@ -53,8 +53,12 @@ namespace Neutronium.Core.Binding.GlueObject
 
                 context.Append($@"""{it.Key}"":");
 
-                first = false;
-                it.Value.BuilString(context);
+                using (context.PushContext(it.Key))
+                {                   
+                    it.Value.BuilString(context);
+                }
+
+                first = false;           
             }
 
             context.Append("}");

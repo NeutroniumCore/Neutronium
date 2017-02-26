@@ -139,16 +139,19 @@ namespace Neutronium.Core.Binding.GlueObject
             Items.Insert(newIndex, item);
         }
 
-        protected override void ComputeString(NameContext context)
+        protected override void ComputeString(DescriptionBuilder context)
         {
             context.Append("[");
-            bool f = true;
+            var count = 0;
             foreach (var it in Items)
             {
-                if (!f)
+                if (count!=0)
                     context.Append(",");
-                f = false;
-                it.BuilString(context);
+
+                using (context.PushContext(count++))
+                {
+                    it.BuilString(context);
+                }         
             }
             context.Append("]");
         }

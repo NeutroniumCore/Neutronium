@@ -92,7 +92,7 @@ namespace Neutronium.Core.Binding.GlueObject
             return Enumerable.Empty<IJSCSGlue>();
         }
 
-        protected override void ComputeString(NameContext context)
+        protected override void ComputeString(DescriptionBuilder context)
         {
             context.Append("{}");
         }

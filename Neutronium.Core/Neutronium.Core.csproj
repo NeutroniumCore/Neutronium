@@ -75,7 +75,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Binding\GlueObject\NameContext.cs" />
+    <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
@@ -96,6 +96,7 @@
     <Compile Include="Binding\CommandFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="Infra\AddLoger.cs" />
+    <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
     <Compile Include="JavascriptFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptFramework\IJavascriptObjectInternalMapper.cs" />

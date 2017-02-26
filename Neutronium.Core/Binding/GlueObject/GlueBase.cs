@@ -6,7 +6,7 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     public abstract class GlueBase
     {
-        protected abstract void ComputeString(NameContext context);
+        protected abstract void ComputeString(DescriptionBuilder context);
 
         protected abstract bool LocalComputeJavascriptValue(IJavascriptObjectFactory context);
 
@@ -16,11 +16,14 @@ namespace Neutronium.Core.Binding.GlueObject
         {
         }
 
-        public void BuilString(NameContext context)
+        public void BuilString(DescriptionBuilder context)
         {
-            if (!context.AlreadyComputed(this as IJSCSGlue))
+            var contextualName = context.GetContextualName(this as IJSCSGlue);
+            if (contextualName != null)
+            {
+                context.Append(contextualName);
                 return;
-
+            }
             ComputeString(context);
         }
 
@@ -35,7 +38,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public override string ToString()
         {
-            var context = new NameContext();
+            var context = new DescriptionBuilder();
             BuilString(context);
             return context.BuildString();
         }

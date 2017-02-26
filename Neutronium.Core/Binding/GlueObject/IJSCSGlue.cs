@@ -13,7 +13,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         IEnumerable<IJSCSGlue> GetChildren();
 
-        void BuilString(NameContext context);
+        void BuilString(DescriptionBuilder context);
 
         void ComputeJavascriptValue(IJavascriptObjectFactory context, IJavascriptSessionCache cache);
     }
