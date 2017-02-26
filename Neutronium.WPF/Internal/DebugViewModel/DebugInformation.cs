@@ -30,6 +30,7 @@ namespace Neutronium.WPF.Internal.DebugViewModel
         }
 
         public string ComponentName { get; set; }
+        public string NeutroniumWPFVersion { get; set; }
         public ICommand DebugBrowser { get; set; }
         public BasicRelayCommand DebugWindow { get; set; }
         public ICommand ShowInfo { get; set; }

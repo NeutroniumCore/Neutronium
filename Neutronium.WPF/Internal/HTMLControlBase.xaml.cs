@@ -15,6 +15,7 @@ using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF.Internal.DebugViewModel;
+using Neutronium.WPF.Utils;
 
 namespace Neutronium.WPF.Internal
 {
@@ -112,6 +113,7 @@ namespace Neutronium.WPF.Internal
                 DebugBrowser = new BasicRelayCommand(OpenDebugBrowser),
                 ShowInfo = new BasicRelayCommand(DoShowInfo),
                 IsDebuggingVm = false,
+                NeutroniumWPFVersion =  VersionHelper.GetVersion(this).GetDisplayName(),
                 ComponentName = this.GetType().Name
             };
 
@@ -208,7 +210,7 @@ namespace Neutronium.WPF.Internal
         private void DoShowInfo()
         {
             var builder = new StringBuilder();
-            builder.AppendLine($"Neutronium version: {typeof(IHTMLBinding).Assembly.GetName().Version}")
+            builder.AppendLine($"Neutronium.Core { VersionHelper.GetVersion(typeof(IHTMLBinding)).GetDisplayName()}")
                    .AppendLine($"WebBrowser: {_WPFWebWindowFactory.EngineName}")
                    .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
                    .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")

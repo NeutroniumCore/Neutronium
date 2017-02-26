@@ -86,6 +86,7 @@
     <Compile Include="Internal\WPFHTMLWindowProvider.cs" />
     <Compile Include="Internal\WPFUIDispatcher.cs" />
     <Compile Include="IWPFWebWindow.cs" />
+    <Compile Include="Utils\VersionHelper.cs" />
     <Page Include="Internal\DebugControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
