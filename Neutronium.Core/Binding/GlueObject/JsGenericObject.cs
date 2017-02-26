@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
@@ -42,23 +41,23 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes.ForEach(attribute => JSValue.SetValue(attribute.Key, attribute.Value.JSValue));
         }
 
-        protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
+        protected override void ComputeString(NameContext context)
         {
-            sb.Append("{");
+            context.Append("{");
             var first = true;
             foreach (var it in _Attributes.Where(kvp => kvp.Value.Type != JsCsGlueType.Command)
                                           .OrderBy(kvp =>kvp.Key))
             {
                 if (!first)
-                    sb.Append(",");
+                    context.Append(",");
 
-                sb.Append($@"""{it.Key}"":");
+                context.Append($@"""{it.Key}"":");
 
                 first = false;
-                it.Value.BuilString(sb, alreadyComputed);
+                it.Value.BuilString(context);
             }
 
-            sb.Append("}");
+            context.Append("}");
         }
 
         public void SetMappedJSValue(IJavascriptObject ijsobject)

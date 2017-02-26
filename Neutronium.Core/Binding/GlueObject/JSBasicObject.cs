@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Exceptions;
@@ -72,9 +71,9 @@ namespace Neutronium.Core.Binding.GlueObject
             return CValue.ToString();
         }
 
-        public void BuilString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
+        public void BuilString(NameContext context)
         {
-            sb.Append(this);
+            context.Append(ToString());
         }
 
         public IEnumerable<IJSCSGlue> GetChildren()

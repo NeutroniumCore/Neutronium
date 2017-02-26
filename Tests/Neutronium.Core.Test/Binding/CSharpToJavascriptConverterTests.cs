@@ -9,6 +9,7 @@ using Neutronium.Core.Test.TestHelper;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using FluentAssertions;
+using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Test.Binding
 {
@@ -22,14 +23,16 @@ namespace Neutronium.Core.Test.Binding
         private IDispatcher _UiDispatcher;
         private IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private IJavascriptChangesObserver _JavascriptChangesObserver;
+        private Dictionary<object, IJSCSGlue> _Cache = new Dictionary<object, IJSCSGlue>();
 
         private HTMLViewContext _HTMLViewContext;
 
         public CSharpToJavascriptConverterTests()
         {
             _Cacher = Substitute.For<IJavascriptSessionCache>();
-            IJSCSGlue res = null;
-            _Cacher.GetCached(Arg.Any<object>()).Returns(res);
+            _Cacher.When(c => c.Cache(Arg.Any<object>(), Arg.Any<IJSCSGlue>()))
+                   .Do(callInfo => _Cache.Add(callInfo[0], (IJSCSGlue)callInfo[1]));
+            _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
             _CommandFactory = Substitute.For<IJSCommandFactory>();
             _Logger = Substitute.For<IWebSessionLogger>();
             _HTMLViewContext = GetContext();
@@ -47,7 +50,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public async Task Map_CreateJSGlueObject_WithCorrectToString()
+        public async Task Map_CreateJSGlueObject_WithCorrectToString_NoneCircular()
         {
             var testObject = new TestClass();
             var res = await _CSharpToJavascriptConverter.Map(testObject);
@@ -55,6 +58,50 @@ namespace Neutronium.Core.Test.Binding
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
         }
 
+        [Fact]
+        public async Task Map_CreateJSGlueObject_WithCorrectToString_Nested()
+        {
+            var testObject = new TestClass
+            {
+                Property1 = new TestClass()
+            };
+            var res = await _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property2\":null,\"Property3\":null}");
+
+        }
+
+        [Fact]
+        public async Task Map_CreateJSGlueObject_WithCorrectToString_CircularRoot()
+        {
+            var testObject = new TestClass();
+            testObject.Property1 = testObject;
+            var res = await _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be("{\"Children\":[],\"Property1\":\"~\",\"Property2\":null,\"Property3\":null}");
+        }
+
+        [Fact]
+        public async Task Map_CreateJSGlueObject_WithCorrectToString_CircularProperty()
+        {
+            var testObject = new TestClass();
+            var testObject2 = new TestClass();
+            testObject.Property1 = testObject2;
+            testObject.Property2 = testObject2;
+            var res = await _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property2\":\"~Property1\",\"Property3\":null}");
+        }
+
+        [Fact]
+        public async Task Map_CreateJSGlueObject_WithCorrectToString_ListSimple()
+        {
+            var testObject = new TestClass();
+            testObject.Children.Add(testObject);
+            var res = await _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be("{\"Children\":[\"~\"],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
+        }
 
         private class TestClass
         {

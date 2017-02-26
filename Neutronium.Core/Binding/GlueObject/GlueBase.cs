@@ -1,13 +1,12 @@
 ﻿using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public abstract class GlueBase
     {
-        protected abstract void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed);
+        protected abstract void ComputeString(NameContext context);
 
         protected abstract bool LocalComputeJavascriptValue(IJavascriptObjectFactory context);
 
@@ -17,12 +16,12 @@ namespace Neutronium.Core.Binding.GlueObject
         {
         }
 
-        public void BuilString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
+        public void BuilString(NameContext context)
         {
-            if (!alreadyComputed.Add(this as IJSCSGlue))
+            if (!context.AlreadyComputed(this as IJSCSGlue))
                 return;
 
-            ComputeString(sb, alreadyComputed);
+            ComputeString(context);
         }
 
         public void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptSessionCache cache)
@@ -36,9 +35,9 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
-            BuilString(sb, new HashSet<IJSCSGlue>());
-            return sb.ToString();
+            var context = new NameContext();
+            BuilString(context);
+            return context.BuildString();
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Neutronium.Core.Binding.CollectionChanges;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
@@ -140,18 +139,18 @@ namespace Neutronium.Core.Binding.GlueObject
             Items.Insert(newIndex, item);
         }
 
-        protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
+        protected override void ComputeString(NameContext context)
         {
-            sb.Append("[");
+            context.Append("[");
             bool f = true;
             foreach (var it in Items)
             {
                 if (!f)
-                    sb.Append(",");
+                    context.Append(",");
                 f = false;
-                it.BuilString(sb, alreadyComputed);
+                it.BuilString(context);
             }
-            sb.Append("]");
+            context.Append("]");
         }
 
         public override IEnumerable<IJSCSGlue> GetChildren()

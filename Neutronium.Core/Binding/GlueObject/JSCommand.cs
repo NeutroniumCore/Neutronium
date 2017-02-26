@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptFramework;
@@ -103,9 +102,9 @@ namespace Neutronium.Core.Binding.GlueObject
             return Enumerable.Empty<IJSCSGlue>();
         }
 
-        protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
+        protected override void ComputeString(NameContext context)
         {
-            sb.Append("{}");
+            context.Append("{}");
         }
     }
 }

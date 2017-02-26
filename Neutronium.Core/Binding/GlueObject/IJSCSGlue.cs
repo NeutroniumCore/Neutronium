@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject
@@ -14,7 +13,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         IEnumerable<IJSCSGlue> GetChildren();
 
-        void BuilString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed);
+        void BuilString(NameContext context);
 
         void ComputeJavascriptValue(IJavascriptObjectFactory context, IJavascriptSessionCache cache);
     }
