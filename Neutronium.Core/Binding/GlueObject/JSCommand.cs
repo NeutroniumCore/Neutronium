@@ -104,7 +104,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         protected override void ComputeString(DescriptionBuilder context)
         {
-            context.Append("{}");
+            context.AppendCommandDescription();
         }
     }
 }

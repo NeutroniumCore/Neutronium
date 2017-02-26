@@ -14,7 +14,7 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.WPF.Internal.DebugViewModel;
+using Neutronium.WPF.Internal.Debug;
 using Neutronium.WPF.Utils;
 
 namespace Neutronium.WPF.Internal

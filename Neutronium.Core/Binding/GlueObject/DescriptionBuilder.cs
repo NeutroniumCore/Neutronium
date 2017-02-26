@@ -12,6 +12,12 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly Dictionary<IJSCSGlue,string> _AlreadyComputed = new Dictionary<IJSCSGlue, string>();
         private readonly Stack<string> _Context = new Stack<string>();
         private readonly StringBuilder _NameBuilder = new StringBuilder();
+        private readonly string _CommandDescription;
+
+        public DescriptionBuilder(string commandDescription = "{}")
+        {
+            _CommandDescription = commandDescription;
+        }
 
         public string GetContextualName(IJSCSGlue glue)
         {
@@ -22,6 +28,11 @@ namespace Neutronium.Core.Binding.GlueObject
         public void Append(string value)
         {
             _NameBuilder.Append(value);
+        }
+
+        public void AppendCommandDescription()
+        {
+            _NameBuilder.Append(_CommandDescription);
         }
 
         public string BuildString()
