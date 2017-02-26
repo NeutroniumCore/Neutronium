@@ -43,6 +43,10 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public override string ToString()
         {
+            if (CValue == null)
+            {
+                return "null";
+            }
             if (CValue is string)
             {
                 return $@"""{((string) CValue).Replace(@"""", @"\""")}""";

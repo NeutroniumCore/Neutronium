@@ -17,6 +17,7 @@ using System.Windows;
 [assembly: AssemblyCulture("")]
 
 [assembly: InternalsVisibleTo("IntegratedTest")]
+[assembly: InternalsVisibleTo("Neutronium.Core.Test")]
 [assembly: InternalsVisibleTo("Tests.Universal.HTMLBindingTests")]
 [assembly: InternalsVisibleTo("Tests.Universal.WebBrowserEngineTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

@@ -55,7 +55,8 @@ namespace Neutronium.Core.Binding.GlueObject
             sb.Append("{");
 
             var first = true;
-            foreach (var it in _Attributes.Where(kvp => kvp.Value.Type != JsCsGlueType.Command))
+            foreach (var it in _Attributes.Where(kvp => kvp.Value.Type != JsCsGlueType.Command)
+                                          .OrderBy(kvp =>kvp.Key))
             {
                 if (!first)
                     sb.Append(",");

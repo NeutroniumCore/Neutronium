@@ -9,7 +9,7 @@ namespace CefGlue.TestInfra.CefWindowless
     {
         private readonly TestCefClient _TestCefClient;
         public IWebBrowserWindow HTMLWindow { get; }
-        public IDispatcher UIDispatcher => new TestIUIDispatcher();
+        public IDispatcher UIDispatcher => new TestUIDispatcher();
 
         public TestCefGlueHTMLWindowProvider(CefFrame iFrame, TestCefClient cefClient)
         {

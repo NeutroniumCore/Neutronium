@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
 {
-    public class TestIUIDispatcher : IDispatcher
+    public class TestUIDispatcher : IDispatcher
     {
         public Task RunAsync(Action act)
         {

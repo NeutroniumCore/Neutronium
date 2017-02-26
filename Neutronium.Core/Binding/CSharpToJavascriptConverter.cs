@@ -38,7 +38,7 @@ namespace Neutronium.Core.Binding
         public IJSCSGlue InternalMap(object from, object iadditional=null)
         {
             if (from == null)
-                return new JsGenericObject(_Context, null, 0);
+                return new JSBasicObject(null);
 
             var res = _Cacher.GetCached(from);
             if (res != null)
