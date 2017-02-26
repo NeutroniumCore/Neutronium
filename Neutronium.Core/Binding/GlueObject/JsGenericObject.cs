@@ -33,15 +33,7 @@ namespace Neutronium.Core.Binding.GlueObject
             if (JSValue != null)
                 return false;
 
-            if (CValue != null)
-            {
-                JSValue = factory.CreateObject(true);
-            }
-            else
-            {
-                JSValue = factory.CreateNull();
-                _MappedJSValue = JSValue;
-            }        
+            JSValue = factory.CreateObject(true);       
             return true;
         }
 
@@ -53,7 +45,6 @@ namespace Neutronium.Core.Binding.GlueObject
         protected override void ComputeString(StringBuilder sb, HashSet<IJSCSGlue> alreadyComputed)
         {
             sb.Append("{");
-
             var first = true;
             foreach (var it in _Attributes.Where(kvp => kvp.Value.Type != JsCsGlueType.Command)
                                           .OrderBy(kvp =>kvp.Key))
