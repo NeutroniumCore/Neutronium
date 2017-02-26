@@ -94,6 +94,21 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
+        public async Task Map_CreateJSGlueObject_WithCorrectToString_CircularNestedProperty()
+        {
+            var testObject = new TestClass();
+            var testObject2 = new TestClass();
+            testObject.Property1 = new TestClass
+            {
+                Property2 = testObject2
+            };
+            testObject.Property3 = testObject2;
+            var res = await _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property3\":null},\"Property2\":null,\"Property3\":\"~Property1~Property2\"}");
+        }
+
+        [Fact]
         public async Task Map_CreateJSGlueObject_WithCorrectToString_ListSimple()
         {
             var testObject = new TestClass();
@@ -101,6 +116,18 @@ namespace Neutronium.Core.Test.Binding
             var res = await _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[\"~\"],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
+        }
+
+        [Fact]
+        public async Task Map_CreateJSGlueObject_WithCorrectToString_ListProperty()
+        {
+            var testObject = new TestClass();
+            var testObject2 = new TestClass();
+            testObject.Property3 = testObject2;
+            testObject.Children.Add(testObject2);
+            var res = await _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be("{\"Children\":[{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}],\"Property1\":null,\"Property2\":null,\"Property3\":\"~Children~0\"}");
         }
 
         private class TestClass

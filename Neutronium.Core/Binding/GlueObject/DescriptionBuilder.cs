@@ -2,6 +2,7 @@
 using Neutronium.Core.Infra;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Neutronium.Core.Binding.GlueObject
@@ -14,7 +15,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public string GetContextualName(IJSCSGlue glue)
         {
-            var found = _AlreadyComputed.GetOrAdd(glue, _ => $"\"~{(string.Join("~", _Context))}\"");
+            var found = _AlreadyComputed.GetOrAdd(glue, _ => $"\"~{(string.Join("~", _Context.Reverse()))}\"");
             return (found.CollectionStatus == CollectionStatus.Found) ? found.Item : null;
         }
 
