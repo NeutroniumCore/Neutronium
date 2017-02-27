@@ -16,6 +16,8 @@ using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF.Internal.Debug;
 using Neutronium.WPF.Utils;
+using Microsoft.Win32;
+using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.WPF.Internal
 {
@@ -28,6 +30,7 @@ namespace Neutronium.WPF.Internal
         private string _JavascriptDebugScript = null;
         private readonly IUrlSolver _UrlSolver;
         private IJavascriptFrameworkManager _Injector;
+        private string _SaveDirectory;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private DoubleBrowserNavigator WPFDoubleBrowserNavigator
         {
@@ -48,7 +51,7 @@ namespace Neutronium.WPF.Internal
             set { SetValue(IsDebugProperty, value); }
         }
 
-        public static readonly DependencyProperty IsDebugProperty = DependencyProperty.Register(nameof(IsDebug), typeof (bool), typeof (HTMLControlBase), new PropertyMetadata(false, DebugChanged));
+        public static readonly DependencyProperty IsDebugProperty = DependencyProperty.Register(nameof(IsDebug), typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false, DebugChanged));
 
         private static void DebugChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -83,17 +86,17 @@ namespace Neutronium.WPF.Internal
         public static readonly DependencyProperty JavascriptUIEngineProperty =
             DependencyProperty.Register(nameof(JavascriptUIEngine), typeof(string), typeof(HTMLControlBase), new PropertyMetadata(string.Empty));
 
-        private bool _UseINavigable=true;
+        private bool _UseINavigable = true;
         public bool UseINavigable
         {
             get { return _UseINavigable; }
-            set 
+            set
             {
                 _UseINavigable = value;
-                if (_WPFDoubleBrowserNavigator != null) 
+                if (_WPFDoubleBrowserNavigator != null)
                 {
                     _WPFDoubleBrowserNavigator.UseINavigable = _UseINavigable;
-                }         
+                }
             }
         }
 
@@ -101,25 +104,65 @@ namespace Neutronium.WPF.Internal
         public event EventHandler OnFirstLoad;
         public event EventHandler<DisplayEvent> OnDisplay;
 
-        protected HTMLControlBase(IUrlSolver urlSolver) 
+        protected HTMLControlBase(IUrlSolver urlSolver)
         {
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
             _UrlSolver = urlSolver;
 
-            _DebugInformation = new DebugInformation {
+            _DebugInformation = new DebugInformation
+            {
                 DebugWindow = new BasicRelayCommand(ShowDebugWindow),
                 DebugBrowser = new BasicRelayCommand(OpenDebugBrowser),
                 ShowInfo = new BasicRelayCommand(DoShowInfo),
+                SaveVm = new BasicRelayCommand(DoSaveVm),
                 IsDebuggingVm = false,
-                NeutroniumWPFVersion =  VersionHelper.GetVersion(this).GetDisplayName(),
+                NeutroniumWPFVersion = VersionHelper.GetVersion(this).GetDisplayName(),
                 ComponentName = this.GetType().Name
             };
 
             InitializeComponent();
 
-            this.Loaded += HTMLControlBase_Loaded;    
+            this.Loaded += HTMLControlBase_Loaded;
+        }
+
+        private void DoSaveVm()
+        {
+            var binding = _WPFDoubleBrowserNavigator?.Binding?.JSBrideRootObject;
+            if (binding == null)
+                return;
+
+            var savefile = new SaveFileDialog();
+            savefile.FileName = "Vm.circular.json";
+            savefile.InitialDirectory = ComputeProposedDirectory();
+
+            if (savefile.ShowDialog() != true)
+                return;
+
+            var fileName = savefile.FileName;
+            _SaveDirectory = Path.GetDirectoryName(fileName);
+            var descriptionBuilder = new DescriptionBuilder("null");
+            binding.BuilString(descriptionBuilder);
+            var content = descriptionBuilder.BuildString();
+            File.WriteAllLines(fileName, new[] { content });
+        }
+
+        private string ComputeProposedDirectory()
+        {
+            var path = _WPFDoubleBrowserNavigator?.HTMLWindow?.Url?.AbsolutePath;
+            if (path == null)
+                return _SaveDirectory;
+
+            var directory = Path.GetDirectoryName(path); ;
+            var transformed = directory.Replace(@"\bin\Debug", string.Empty);
+            transformed = transformed.Replace(@"\bin\Release", string.Empty);
+
+            if (transformed.Length == directory.Length)
+                return _SaveDirectory;
+
+            var dataFolder = Path.Combine(Path.GetDirectoryName(transformed), "data");
+            return Directory.Exists(dataFolder) ? dataFolder : _SaveDirectory;
         }
 
         private void DebugChanged(bool isDebug)
@@ -129,24 +172,29 @@ namespace Neutronium.WPF.Internal
 
             if (isDebug)
             {
-                var neutroniumSupport = HTMLEngineFactory.Engine.HasJavaScriptEngine("VueInjectorV2");
-                if (neutroniumSupport)
-                {
-                    _DebugControl = new DebugControlNeutronium();
-                }
-                else
-                {
-                    _DebugControl = new DebugControl();
-                }
-                _DebugControl.DataContext = _DebugInformation;
-                Grid.SetRow(_DebugControl, 1);
-                MainGrid.Children.Add(_DebugControl);
+                SetUpDebugTool();
             }
             else
             {
                 MainGrid.Children.Remove(_DebugControl);
                 _DebugControl = null;
             }
+        }
+
+        private void SetUpDebugTool()
+        {
+            var neutroniumSupport = HTMLEngineFactory.Engine.HasJavaScriptEngine("VueInjectorV2");
+            if (neutroniumSupport)
+            {
+                _DebugControl = new DebugControlNeutronium();
+            }
+            else
+            {
+                _DebugControl = new DebugControl();
+            }
+            _DebugControl.DataContext = _DebugInformation;
+            Grid.SetRow(_DebugControl, 1);
+            MainGrid.Children.Add(_DebugControl);
         }
 
         private void HTMLControlBase_Loaded(object sender, RoutedEventArgs e)
@@ -159,7 +207,7 @@ namespace Neutronium.WPF.Internal
             if (_WPFWebWindowFactory != null)
                 return;
 
-            if (IsLoaded==false)
+            if (IsLoaded == false)
                 throw ExceptionHelper.Get($"Not able to access Neutronium methods before the component is loaded");
 
             var engine = HTMLEngineFactory.Engine;
@@ -218,10 +266,10 @@ namespace Neutronium.WPF.Internal
             MessageBox.Show(GetParentWindow(), builder.ToString(), "Neutronium configuration");
         }
 
-        private Window GetParentWindow() 
+        private Window GetParentWindow()
         {
             var parent = VisualTreeHelper.GetParent(this);
-            while (!(parent is Window)) 
+            while (!(parent is Window))
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }
@@ -231,13 +279,14 @@ namespace Neutronium.WPF.Internal
         public IWebSessionLogger WebSessionLogger
         {
             get { return _webSessionLogger; }
-            set {
+            set
+            {
                 _webSessionLogger = value;
-                if (_WPFDoubleBrowserNavigator!=null)
+                if (_WPFDoubleBrowserNavigator != null)
                     _WPFDoubleBrowserNavigator.WebSessionLogger = value;
             }
         }
-       
+
         private void RunDebugscript()
         {
             if (_JavascriptDebugScript == null)
@@ -254,18 +303,18 @@ namespace Neutronium.WPF.Internal
             _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
         }
 
-        public void OpenDebugBrowser() 
+        public void OpenDebugBrowser()
         {
             var currentWebControl = WPFDoubleBrowserNavigator.WebControl;
-            if (currentWebControl == null) 
+            if (currentWebControl == null)
                 return;
 
             var result = currentWebControl.OnDebugToolsRequest();
             if (!result)
-                MessageBox.Show("Debug tools not available!");           
+                MessageBox.Show("Debug tools not available!");
         }
 
-        public void CloseDebugBrowser() 
+        public void CloseDebugBrowser()
         {
             var currentWebControl = WPFDoubleBrowserNavigator.WebControl;
             currentWebControl?.CloseDebugTools();
@@ -291,8 +340,8 @@ namespace Neutronium.WPF.Internal
         public string SessionPath
         {
             get { return _WebSessionPath; }
-            set 
-            { 
+            set
+            {
                 _WebSessionPath = value;
                 if (_WebSessionPath != null)
                     Directory.CreateDirectory(_WebSessionPath);
@@ -301,12 +350,12 @@ namespace Neutronium.WPF.Internal
 
         IWebBrowserWindowProvider IWebViewLifeCycleManager.Create()
         {
-            var webwindow = _WPFWebWindowFactory.Create();           
+            var webwindow = _WPFWebWindowFactory.Create();
             var ui = webwindow.UIElement;
             Panel.SetZIndex(ui, 0);
-            
+
             this.MainGrid.Children.Add(ui);
-            return new WPFHTMLWindowProvider(webwindow, this );
+            return new WPFHTMLWindowProvider(webwindow, this);
         }
 
         IDispatcher IWebViewLifeCycleManager.GetDisplayDispatcher()
@@ -316,7 +365,7 @@ namespace Neutronium.WPF.Internal
 
         public void Inject(Key keyToInject)
         {
-            var wpfacess =  (WPFDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider);
+            var wpfacess = (WPFDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider);
             if (wpfacess == null)
                 return;
 
