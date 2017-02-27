@@ -4,6 +4,7 @@ using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -57,15 +58,23 @@ namespace Neutronium.Core.Binding.GlueObject
                 return $@"""{((string) CValue).Replace(@"""", @"\""")}""";
             }
 
-            if (CValue is DateTime)
+            object unBoxed = CValue;
+            if (unBoxed is DateTime) 
             {
-                var dt = (DateTime)CValue;
+                var dt = (DateTime)unBoxed;
                 return $@"""{dt.Year:0000}-{dt.Month:00}-{dt.Day:00}T{dt.Hour:00}:{dt.Minute:00}:{dt.Second:00}.{dt.Millisecond:000}Z""";
             }
 
-            if (CValue is Enum)
+            if (unBoxed is Enum)
             {
-                return $@"""{CValue.ToString()}""";
+                var emumValue = (Enum)unBoxed;
+                return $"{{\"type\":\"{emumValue.GetType().Name}\",\"intValue\":{Convert.ToInt32(emumValue)},\"name\":\"{emumValue.ToString()}\",\"displayName\":\"{emumValue.GetDescription()}\"}}";
+            }
+
+            if (unBoxed is bool)
+            {
+                var boolValue = (bool)unBoxed;
+                return $"{(boolValue ? "true" : "false")}";
             }
 
             return CValue.ToString();

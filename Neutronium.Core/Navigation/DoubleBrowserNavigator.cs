@@ -57,10 +57,10 @@ namespace Neutronium.Core.Navigation
             catch { }
         }
 
-        private IHTMLBinding Binding
+        public IHTMLBinding Binding
         {
             get { return _HTMLBinding; }
-            set
+            private set
             {
                 _HTMLBinding?.Dispose();
 

@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Neutronium.Core.Binding;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
@@ -15,6 +17,8 @@ namespace Neutronium.Core
         public object Root => null;
         public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
         public IWebView Context => _Context.WebView;
+        public IJSCSGlue JSBrideRootObject => null;
+
 
         internal StringBinding(HTMLViewContext context, IJavascriptObject root)
         {
