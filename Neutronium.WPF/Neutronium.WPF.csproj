@@ -75,23 +75,23 @@
     <Compile Include="HTMLViewControl.cs" />
     <Compile Include="HTMLWindow.cs" />
     <Compile Include="IHTMLEngineFactory.cs" />
-    <Compile Include="Internal\Debug\DebugControl.xaml.cs">
+    <Compile Include="Internal\DebugTools\DebugControl.xaml.cs">
       <DependentUpon>DebugControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Internal\Debug\DebugControlNeutronium.xaml.cs">
+    <Compile Include="Internal\DebugTools\DebugControlNeutronium.xaml.cs">
       <DependentUpon>DebugControlNeutronium.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Internal\Debug\DebugInformation.cs" />
+    <Compile Include="Internal\DebugTools\DebugInformation.cs" />
     <Compile Include="IWPFWebWindowFactory.cs" />
     <Compile Include="Internal\WPFHTMLWindowProvider.cs" />
     <Compile Include="Internal\WPFUIDispatcher.cs" />
     <Compile Include="IWPFWebWindow.cs" />
     <Compile Include="Utils\VersionHelper.cs" />
-    <Page Include="Internal\Debug\DebugControl.xaml">
+    <Page Include="Internal\DebugTools\DebugControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Internal\Debug\DebugControlNeutronium.xaml">
+    <Page Include="Internal\DebugTools\DebugControlNeutronium.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

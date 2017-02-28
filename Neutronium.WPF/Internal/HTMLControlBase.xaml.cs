@@ -14,7 +14,7 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.WPF.Internal.Debug;
+using Neutronium.WPF.Internal.DebugTools;
 using Neutronium.WPF.Utils;
 using Microsoft.Win32;
 using Neutronium.Core.Binding.GlueObject;
@@ -226,7 +226,7 @@ namespace Neutronium.WPF.Internal
 
             _WPFDoubleBrowserNavigator = GetDoubleBrowserNavigator();
 
-            WebSessionLogger = engine.WebSessionLogger;
+            WebSessionLogger = WebSessionLogger?? engine.WebSessionLogger;
         }
 
         private DoubleBrowserNavigator GetDoubleBrowserNavigator()
