@@ -134,7 +134,7 @@ namespace Neutronium.WPF.Internal
                 return;
 
             var savefile = new SaveFileDialog();
-            savefile.FileName = "Vm.circular.json";
+            savefile.FileName = "vm.cjson";
             savefile.InitialDirectory = ComputeProposedDirectory();
 
             if (savefile.ShowDialog() != true)
