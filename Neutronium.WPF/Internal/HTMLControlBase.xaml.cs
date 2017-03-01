@@ -207,9 +207,6 @@ namespace Neutronium.WPF.Internal
             if (_WPFWebWindowFactory != null)
                 return;
 
-            if (IsLoaded == false)
-                throw ExceptionHelper.Get($"Not able to access Neutronium methods before the component is loaded");
-
             var engine = HTMLEngineFactory.Engine;
             _WPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
 

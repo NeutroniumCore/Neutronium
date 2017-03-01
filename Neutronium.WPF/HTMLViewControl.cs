@@ -57,12 +57,6 @@ namespace Neutronium.WPF
             _UrlSolver = urlSolver;
             _UrlSolver.Solver = this;
             DataContextChanged += HTMLViewControl_DataContextChanged;
-            Loaded += HTMLViewControl_Loaded;
-        }
-
-        private async void HTMLViewControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            await CheckNavigation();
         }
 
         private async void HTMLViewControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -78,7 +72,7 @@ namespace Neutronium.WPF
 
         private async Task CheckNavigation()
         {
-            if ((Uri == null) || (DataContext == null) || (!IsLoaded))
+            if ((Uri == null) || (DataContext == null))
                 return;
 
             await NavigateAsyncBase(DataContext, null, Mode);
