@@ -75,7 +75,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Extension\IJavascriptObjectExtension.cs" />
@@ -96,6 +95,7 @@
     <Compile Include="Binding\Listeners\ReListener.cs" />
     <Compile Include="Binding\CommandFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
+    <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Infra\AddLoger.cs" />
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />

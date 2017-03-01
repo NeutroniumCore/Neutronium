@@ -3,6 +3,7 @@ using Chromium;
 using Chromium.Event;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding;
 
 namespace Tests.ChromiumFX.Infra 
 {
@@ -34,6 +35,11 @@ namespace Tests.ChromiumFX.Infra
         private void OnConsoleMessage(object sender, CfxOnConsoleMessageEventArgs e)
         {
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
+        }
+
+        public bool IsTypeBasic(Type type) 
+        {
+            return ChromiumFxFactory.IsTypeConvertible(type);
         }
 
         public void NavigateTo(Uri path) 

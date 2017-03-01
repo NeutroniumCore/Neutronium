@@ -25,6 +25,7 @@ namespace Neutronium.Core.Binding
             _Cacher = icacher;
         }
 
+        //Maintened as test facility
         public async Task<IJSCSGlue> Map(object from, object iadditional = null)
         {
             var res = await _Context.EvaluateOnUIContextAsync(() => InternalMap(from, iadditional));
@@ -57,7 +58,7 @@ namespace Neutronium.Core.Binding
                 return _CommandFactory.Build(resultCommand);
 
             var type = from.GetType();
-            if (_Context.WebView.Factory.IsTypeBasic(type))
+            if (_Context.IsTypeBasic(type))
                 return new JSBasicObject(from);
 
             if (type.IsEnum)

@@ -52,6 +52,11 @@ namespace Neutronium.Core.Binding
             return UIDispatcher.EvaluateAsync(act);
         }
 
+        public bool IsTypeBasic(Type type) 
+        {
+            return WebView.Factory.IsTypeBasic(type);
+        }
+
         public void Dispose() 
         {
             _VmManager.Dispose();

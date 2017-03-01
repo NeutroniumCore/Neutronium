@@ -80,15 +80,17 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
              return bres;
          }
 
-         public bool IsTypeBasic(Type itype)
+         public static bool IsTypeConvertible(Type type) 
          {
-             if (itype == null)
-                 return false;
-
-             return _Converters.ContainsKey(itype);
+             return type != null && _Converters.ContainsKey(type);
          }
 
-         private Awesomium_Core.JSValue Check(Awesomium_Core.JSObject ires)
+        public bool IsTypeBasic(Type type) 
+        {
+            return IsTypeConvertible(type);
+        }
+
+        private Awesomium_Core.JSValue Check(Awesomium_Core.JSObject ires)
          {
              if (ires == null)
                  throw ExceptionHelper.GetUnexpected();

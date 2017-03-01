@@ -110,7 +110,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _SendLoadOnContextCreated = false;
             _dispatcher.RunAsync(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
         }
-        
+
+        public bool IsTypeBasic(Type type) 
+        {
+            return ChromiumFxFactory.IsTypeConvertible(type);
+        }
+
         public void NavigateTo(Uri path) 
         {
             _ChromiumWebBrowser.LoadUrl(path.AbsolutePath);

@@ -61,12 +61,14 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return true;
         }
 
-        public bool IsTypeBasic(Type itype)
+        public static bool IsTypeConvertible(Type itype) 
         {
-            if (itype == null)
-                return false;
+            return itype != null && _Converters.ContainsKey(itype);
+        }
 
-            return _Converters.ContainsKey(itype);
+        public bool IsTypeBasic(Type type) 
+        {
+            return IsTypeConvertible(type);
         }
 
         public IJavascriptObject CreateNull()

@@ -11,28 +11,28 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <summary>
         /// Create IJavascriptObject from basic CLR types
         /// </summary>
-        /// <param name="ifrom">
+        /// <param name="from">
         /// object to be converted
         /// </param>
         /// <param name="res">
-        /// IJavascriptObject converted from <paramref name="ifrom" />
+        /// IJavascriptObject converted from <paramref name="from" />
         /// </param>
         /// <returns>
         /// true if the IJavascriptObject has been created
         ///</returns>
-        bool CreateBasic(object ifrom, out IJavascriptObject res);
+        bool CreateBasic(object from, out IJavascriptObject res);
 
         /// <summary>
         /// Indicates if a type is a basic CLR type which
         /// can be converted with SolveBasic
         /// </summary>
-        /// <param name="itype">
+        /// <param name="type">
         /// Type to check
         /// </param>
         /// <returns>
         /// true if type can be handled by SolveBasic
         ///</returns>
-        bool IsTypeBasic(Type itype);
+        bool IsTypeBasic(Type type);
 
         /// <summary>
         /// Create IJavascriptObject representing null value

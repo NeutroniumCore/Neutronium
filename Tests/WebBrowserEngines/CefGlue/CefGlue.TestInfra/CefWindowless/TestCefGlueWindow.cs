@@ -2,6 +2,7 @@
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper;
+using Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra.CefWindowless
@@ -15,10 +16,7 @@ namespace CefGlue.TestInfra.CefWindowless
         public bool IsLoaded => true;
         public Uri Url => new Uri(_CefFrame.Url);
 
-        IWebView IWebBrowserWindow.MainFrame
-        {
-            get { return _IWebView ?? (_IWebView = _CefFrame.GetMainContext()); }
-        }
+        IWebView IWebBrowserWindow.MainFrame => _IWebView ?? (_IWebView = _CefFrame.GetMainContext());
 
         public TestCefGlueWindow(CefFrame iFrame, TestCefClient client)
         {
@@ -30,6 +28,11 @@ namespace CefGlue.TestInfra.CefWindowless
         private void OnConsoleMessage(object sender, ConsoleMessageArgs e)
         {
             ConsoleMessage?.Invoke(this, e);
+        }
+
+        public bool IsTypeBasic(Type type) 
+        {
+            return CefV8_Factory.IsTypeConvertible(type);
         }
 
         public void NavigateTo(Uri path)

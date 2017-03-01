@@ -1,6 +1,7 @@
 ﻿using System;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.Awesomium.Engine;
 
 namespace Tests.Awesomium.Infra
 {
@@ -14,6 +15,11 @@ namespace Tests.Awesomium.Infra
         {
             MainFrame = webView;
             Url = path;
+        }
+
+        public bool IsTypeBasic(Type type) 
+        {
+            return AwesomiumJavascriptObjectFactory.IsTypeConvertible(type);
         }
 
         public void NavigateTo(Uri path)
