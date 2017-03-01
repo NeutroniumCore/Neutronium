@@ -167,6 +167,12 @@ namespace Neutronium.Core.Navigation
             _NextWebControl.HTMLWindow.ConsoleMessage += ConsoleMessage;
 
             var moderWindow = _NextWebControl.HTMLWindow as IModernWebBrowserWindow;
+
+            Task<IBindingBuilder> initVm = null;
+            var injectorFactory = GetInjectorFactory(uri);
+            var engine = new HTMLViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
+            initVm = HTML_Binding.GetBindingBuilder(engine, iViewModel, iMode, wh);
+
             if (moderWindow!=null)
             {
                 var debugContext = _WebViewLifeCycleManager.DebugContext;
@@ -175,20 +181,30 @@ namespace Neutronium.Core.Navigation
                 {
                     moderWindow.BeforeJavascriptExecuted -= before;
                     e.JavascriptExecutor(_javascriptFrameworkManager.GetMainScript(debugContext));
+
+
+                    //var injectorFactory = GetInjectorFactory(uri);
+                    //var engine = new HTMLViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
+                    //initVm = HTML_Binding.GetBindingBuilder(engine, iViewModel, iMode, wh);
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }
 
             var tcs = new TaskCompletionSource<IHTMLBinding>();
 
-            EventHandler<LoadEndEventArgs> sourceupdate = null;
-            sourceupdate = (o, e) =>
-            {
-                var injectorFactory = GetInjectorFactory(uri);
-                _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
-                var engine = new HTMLViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
+           
 
-                HTML_Binding.Bind(engine, iViewModel, iMode, wh).WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
+            EventHandler<LoadEndEventArgs> sourceupdate = null;
+            sourceupdate = async (o, e) =>
+            {
+                //var injectorFactory = GetInjectorFactory(uri);
+                //_NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
+                //var engine = new HTMLViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
+
+                //HTML_Binding.Bind(engine, iViewModel, iMode, wh).WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
+                var builder = await initVm;
+
+                builder.CreateBinding().WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
             };
 
             Url = uri;

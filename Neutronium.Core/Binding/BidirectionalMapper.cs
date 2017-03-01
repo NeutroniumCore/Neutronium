@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Reflection;
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
@@ -50,11 +51,20 @@ namespace Neutronium.Core.Binding
             _RootObject = iRoot;
         }
 
-        internal async Task Init(object addicionalObject)
+        internal async Task Init(object addicionalObject) 
+        {
+            await IntrospectVm(addicionalObject);
+            await UpdateJavascriptObjects();
+        }
+
+        internal async Task IntrospectVm(object addicionalObject) 
         {
             _Root = await _Context.EvaluateOnUIContextAsync(() => _JSObjectBuilder.InternalMap(_RootObject, addicionalObject));
+        }
 
-            await RunInJavascriptContext(async () =>
+        internal async Task UpdateJavascriptObjects() 
+        {
+            await RunInJavascriptContext(async () => 
             {
                 _Context.InitOnJsContext();
                 _sessionInjector = _Context.JavascriptSessionInjector;
@@ -65,10 +75,9 @@ namespace Neutronium.Core.Binding
 
                 await _sessionInjector.RegisterMainViewModel(res);
 
-                if (ListenToCSharp)
-                {
+                if (ListenToCSharp) 
                     ListenToCSharpChanges();
-                }
+
                 _IsListening = true;
             });
         }

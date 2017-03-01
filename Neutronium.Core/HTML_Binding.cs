@@ -50,6 +50,39 @@ namespace Neutronium.Core
             var res = new HTML_Binding(mapper, viewEngine.Logger);
             await mapper.Init(additional);
             return res;
-         }
+        }
+
+        internal static async Task<IBindingBuilder> GetBindingBuilder(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null) 
+        {
+            var mapper = viewEngine.GetMapper(iViewModel, iMode);
+            var bindingBuilder = new BindingBuilder(mapper, viewEngine.Logger, additional);
+            await bindingBuilder.Init();
+
+            return bindingBuilder;
+        }
+
+        private class BindingBuilder : IBindingBuilder
+        {
+            private readonly HTML_Binding _Binding;
+            private readonly BidirectionalMapper _Mapper;
+            private readonly object _AdditionalVm;
+            public BindingBuilder(BidirectionalMapper mapper, IWebSessionLogger logger, object additionalVm) 
+            {
+                _Binding = new HTML_Binding(mapper, logger);
+                _Mapper = mapper;
+                _AdditionalVm = additionalVm;
+            }
+
+            public Task Init() 
+            {
+                return _Mapper.IntrospectVm(_AdditionalVm);
+            }
+
+            async Task<IHTMLBinding> IBindingBuilder.CreateBinding() 
+            {
+                await _Mapper.UpdateJavascriptObjects();
+                return _Binding;
+            }
+        }
     }
 }
