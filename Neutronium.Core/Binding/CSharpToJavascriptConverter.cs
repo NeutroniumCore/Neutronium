@@ -5,8 +5,9 @@ using System.Reflection;
 using System.Windows.Input;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.MVVMComponents;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using Neutronium.Core.Infra;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding
 {
@@ -15,28 +16,17 @@ namespace Neutronium.Core.Binding
         private readonly IJavascriptSessionCache _Cacher;
         private readonly IJSCommandFactory _CommandFactory;
         private readonly IWebSessionLogger _Logger;
-        private readonly HTMLViewContext _Context;
+        private readonly IWebBrowserWindow _Context;
 
-        public CSharpToJavascriptConverter(HTMLViewContext context, IJavascriptSessionCache icacher, IJSCommandFactory commandFactory, IWebSessionLogger logger)
+        public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache icacher, IJSCommandFactory commandFactory, IWebSessionLogger logger)
         {
+            _Context = context;
             _CommandFactory = commandFactory;
             _Logger = logger;
-            _Context = context;
             _Cacher = icacher;
         }
 
-        //Maintened as test facility
-        public async Task<IJSCSGlue> Map(object from, object iadditional = null)
-        {
-            var res = await _Context.EvaluateOnUIContextAsync(() => InternalMap(from, iadditional));
-            await _Context.RunOnJavascriptContextAsync(() =>
-            {
-                res.ComputeJavascriptValue(_Context.WebView.Factory, _Cacher);
-            });
-            return res;
-        }
-
-        public IJSCSGlue InternalMap(object from, object iadditional=null)
+        public IJSCSGlue Map(object from, object iadditional=null)
         {
             if (from == null)
                 return new JSBasicObject(null);
@@ -74,11 +64,10 @@ namespace Neutronium.Core.Binding
 
             var propertyInfos = GetPropertyInfos(from).Concat(GetPropertyInfos(iadditional)).ToList();
 
-            var gres = new JsGenericObject(_Context, from, propertyInfos.Count);
+            var gres = new JsGenericObject(from, propertyInfos.Count);
             _Cacher.Cache(from, gres);
 
             MappNested(gres, propertyInfos);
-
             return gres;
         }
 
@@ -105,14 +94,17 @@ namespace Neutronium.Core.Binding
                     continue;
                 }
 
-                var childres = InternalMap(childvalue);          
+                var childres = Map(childvalue);          
                 gres.UpdateCSharpProperty(propertyName, childres);
             }
         }
 
         private IJSCSGlue Convert(IEnumerable source)
         {
-            var res = new JSArray(_Context, source.Cast<object>().Select(s => InternalMap(s)), source);
+            var type = source.GetElementType();
+            var basictype = _Context.IsTypeBasic(type) ? type : null;
+
+            var res = new JSArray(source.Cast<object>().Select(s => Map(s)), source, basictype);
             _Cacher.Cache(source, res);
             return res;
         }

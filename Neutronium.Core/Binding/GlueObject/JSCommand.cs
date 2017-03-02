@@ -39,7 +39,7 @@ namespace Neutronium.Core.Binding.GlueObject
             catch { }
         }
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater)
         {
             if (JSValue != null)
                 return false;

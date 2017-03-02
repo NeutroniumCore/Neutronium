@@ -8,30 +8,30 @@ using MoreCollection.Dictionary;
 namespace Neutronium.Core.Binding.GlueObject
 {
     public class JsGenericObject : GlueBase, IJSObservableBridge
-    {
-        private readonly HTMLViewContext _HTMLViewContext;     
+    {   
         private IJavascriptObject _MappedJSValue;
         private readonly HybridDictionary<string, IJSCSGlue> _Attributes;
+        private IJavascriptViewModelUpdater _ViewModelUpdater;
 
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
         public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;
-        private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
+       
 
-        public JsGenericObject(HTMLViewContext context, object cValue, int childrenCount)
+        public JsGenericObject(object cValue, int childrenCount)
         {
-            CValue = cValue;
-            _HTMLViewContext = context;
+            CValue = cValue;           
             _Attributes = new HybridDictionary<string, IJSCSGlue>(childrenCount);
         }
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater)
         {
             if (JSValue != null)
                 return false;
 
+            _ViewModelUpdater = updater;
             JSValue = factory.CreateObject(true);       
             return true;
         }
@@ -81,7 +81,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public void ReRoot(string propertyName, IJSCSGlue glue)
         {
             UpdateCSharpProperty(propertyName, glue);
-            ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue());
+            _ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue());
         }    
     }
 }

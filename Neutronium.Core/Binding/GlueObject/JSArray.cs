@@ -6,40 +6,35 @@ using Neutronium.Core.Binding.CollectionChanges;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.WebBrowserEngine.Window;
 using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     internal class JSArray : GlueBase, IJSObservableBridge
-    {
-        private readonly HTMLViewContext _HTMLViewContext;   
+    {  
         private readonly Type _IndividualType;
+        private IJavascriptViewModelUpdater _ViewModelUpdater;
 
         public IJavascriptObject JSValue { get; private set; }
         public object CValue { get; }
         public IList<IJSCSGlue> Items { get; }     
         public JsCsGlueType Type => JsCsGlueType.Array;
         public IJavascriptObject MappedJSValue { get; private set;  }
-        private IWebView WebView => _HTMLViewContext.WebView;
-        private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
-        private IDispatcher UIDispatcher=> _HTMLViewContext.UIDispatcher;
+       
 
-        public JSArray(HTMLViewContext context, IEnumerable<IJSCSGlue> values, IEnumerable collection)
+        public JSArray(IEnumerable<IJSCSGlue> values, IEnumerable collection, Type individual)
         {
-            _HTMLViewContext = context;
             CValue = collection;
             Items = new List<IJSCSGlue>(values);
-            var type = collection.GetElementType();
-            _IndividualType = WebView.Factory.IsTypeBasic(type) ?  type : null;
-        }
-    
+            _IndividualType = individual; 
+        } 
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater)
         {
             if (JSValue!=null)
                 return false;
-        
+
+            _ViewModelUpdater = updater;
             JSValue = factory.CreateArray(Items.Count);
             return true;
         }
@@ -89,22 +84,22 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private void Splice(int index, int number, IJSCSGlue glue)
         {
-            ViewModelUpdater.SpliceCollection(MappedJSValue, index, number, glue.GetJSSessionValue());
+            _ViewModelUpdater.SpliceCollection(MappedJSValue, index, number, glue.GetJSSessionValue());
         }
 
         private void Splice(int index, int number)
         {
-            ViewModelUpdater.SpliceCollection(MappedJSValue, index, number);
+            _ViewModelUpdater.SpliceCollection(MappedJSValue, index, number);
         }
 
         private void ClearAllJavascriptCollection()
         {
-            ViewModelUpdater.ClearAllCollection(MappedJSValue);
+            _ViewModelUpdater.ClearAllCollection(MappedJSValue);
         }
 
         public void MoveJavascriptCollection(IJavascriptObject item, int oldIndex, int newIndex)
         {
-            ViewModelUpdater.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
+            _ViewModelUpdater.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
         }
 
         public void Add(IJSCSGlue jscBridge, int index)
