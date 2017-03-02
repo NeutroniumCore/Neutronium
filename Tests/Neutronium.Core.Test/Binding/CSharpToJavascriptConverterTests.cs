@@ -5,7 +5,6 @@ using Xunit;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.JavascriptFramework;
-using Neutronium.Core.Test.TestHelper;
 using System.Collections.Generic;
 using FluentAssertions;
 using MoreCollection.Extensions;
