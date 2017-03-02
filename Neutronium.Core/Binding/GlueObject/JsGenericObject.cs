@@ -17,8 +17,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue { get; }
-        public JsCsGlueType Type => JsCsGlueType.Object;
-       
+        public JsCsGlueType Type => JsCsGlueType.Object;      
 
         public JsGenericObject(object cValue, int childrenCount)
         {
@@ -81,7 +80,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public void ReRoot(string propertyName, IJSCSGlue glue)
         {
             UpdateCSharpProperty(propertyName, glue);
-            _ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue());
+            _ViewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue());
         }    
     }
 }

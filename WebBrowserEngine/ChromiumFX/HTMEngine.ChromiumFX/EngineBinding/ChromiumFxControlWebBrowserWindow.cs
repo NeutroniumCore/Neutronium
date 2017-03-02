@@ -83,8 +83,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
         }
 
-        private void OnLoadEnd(object sender, CfxOnLoadEndEventArgs e)
+        private void OnLoadEnd(object sender, CfxOnLoadEndEventArgs e) 
         {
+            if (!e.Frame.IsMain)
+                return;
+
             if (_FirstLoad) 
             {
                 _FirstLoad = false;

@@ -24,6 +24,7 @@ namespace Neutronium.Core.Binding
         private readonly FullListenerRegister _ListenerRegister;
         private readonly List<IJSCSGlue> _UnrootedEntities= new List<IJSCSGlue>();
         private bool _IsListening = false;
+        private bool _IsLoaded = false;
 
         public IJSCSGlue JSValueRoot => _Root;
         public bool ListenToCSharp => (_BindingMode != JavascriptBindingMode.OneTime);
@@ -58,7 +59,15 @@ namespace Neutronium.Core.Binding
 
         internal async Task IntrospectVm(object addicionalObject) 
         {
-            _Root = await _Context.EvaluateOnUIContextAsync(() => _JSObjectBuilder.Map(_RootObject, addicionalObject));
+            await _Context.RunOnUIContextAsync(() => 
+            {
+                _Root = _JSObjectBuilder.Map(_RootObject, addicionalObject);
+
+                if (ListenToCSharp)
+                    ListenToCSharpChanges();
+
+                _IsListening = true;
+            });
         }
 
         internal async Task UpdateJavascriptObjects() 
@@ -71,13 +80,9 @@ namespace Neutronium.Core.Binding
                 _Root.ComputeJavascriptValue(_Context.WebView.Factory, _Context.ViewModelUpdater, _SessionCache);
 
                 var res = await InjectInHTMLSession(_Root);
-
                 await _sessionInjector.RegisterMainViewModel(res);
 
-                if (ListenToCSharp) 
-                    ListenToCSharpChanges();
-
-                _IsListening = true;
+                _IsLoaded = true;
             });
         }
 
@@ -307,6 +312,21 @@ namespace Neutronium.Core.Binding
             var value = await EvaluateInUIContextAsync(valueBuilder);
             if (value == null)
                 return null;
+
+            if (!_IsLoaded) 
+            {
+                if (value.IsBasic()) 
+                {
+                    Do(value);
+                    return value;
+                }
+
+                using (ReListen()) 
+                {
+                    Do(value);
+                }
+                return value;
+            }
              
             return await RunInJavascriptContext(async () =>
             {
@@ -351,7 +371,7 @@ namespace Neutronium.Core.Binding
             if (res != null)
                 return res;
 
-            object targetvalue = null;
+            object targetvalue;
             bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, targetType);
             if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
             {
