@@ -9,6 +9,7 @@ using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Threading;
 using Xunit.Abstractions;
 using Neutronium.Core.Log;
+using Neutronium.Core.WebBrowserEngine.Control;
 
 namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
 {
@@ -17,6 +18,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         protected IWebView _WebView;
         protected HTMLViewEngine _ViewEngine;
         protected IWebSessionLogger _Logger;
+        protected IWebBrowserWindowProvider _WebBrowserWindowProvider;
         private readonly IWindowlessHTMLEngineBuilder _TestEnvironment;
 
         protected IJavascriptObjectConverter Converter => _WebView.Converter;
@@ -58,6 +60,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
             _Logger.Debug($"Loading file: {path}");
             tester.Init(path, _Logger);
             _WebView = tester.WebView;
+            _WebBrowserWindowProvider = tester.HTMLWindowProvider;
             tester.HTMLWindow.ConsoleMessage += (_, e) => _Logger.LogBrowser(e, new Uri(path));
             return tester;
         }

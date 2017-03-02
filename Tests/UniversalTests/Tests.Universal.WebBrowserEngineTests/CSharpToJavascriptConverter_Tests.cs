@@ -12,6 +12,7 @@ using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 using System.Threading.Tasks;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {
@@ -51,6 +52,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         private IJSCommandFactory _JSCommandFactory;
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptFrameworkManager _javascriptFrameworkManager;
+        private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HTMLWindow;
 
         protected CSharpToJavascriptConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
@@ -63,8 +65,8 @@ namespace Tests.Universal.WebBrowserEngineTests
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
-            _HTMLViewContext = new HTMLViewContext(_ViewEngine.HTMLWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
-            _ConverTOJSO = new CSharpToJavascriptConverter(_ViewEngine.HTMLWindow, _ICSharpMapper, _JSCommandFactory, _Logger);
+            _HTMLViewContext = new HTMLViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
+            _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _ICSharpMapper, _JSCommandFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>
             {
@@ -163,7 +165,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         private CSharpToJavascriptConverter GetCircularBreakerConverter(IJavascriptSessionCache cacher)
         {
-            return new CSharpToJavascriptConverter(_ViewEngine.HTMLWindow, cacher, _JSCommandFactory, _Logger);
+            return new CSharpToJavascriptConverter(WebBrowserWindow, cacher, _JSCommandFactory, _Logger);
         }
 
         [Fact]
