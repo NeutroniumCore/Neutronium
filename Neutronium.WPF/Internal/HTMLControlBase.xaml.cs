@@ -172,6 +172,9 @@ namespace Neutronium.WPF.Internal
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
+            if (_WPFWebWindowFactory == null)
+                return;
+
             if (isDebug)
             {
                 SetUpDebugTool();
@@ -183,8 +186,11 @@ namespace Neutronium.WPF.Internal
             }
         }
 
-        private void SetUpDebugTool()
+        private void SetUpDebugTool() 
         {
+            if (_DebugControl!=null)
+                return;
+
             var neutroniumSupport = HTMLEngineFactory.Engine.HasJavaScriptEngine("VueInjectorV2");
             if (neutroniumSupport)
             {
@@ -226,6 +232,9 @@ namespace Neutronium.WPF.Internal
             _WPFDoubleBrowserNavigator = GetDoubleBrowserNavigator();
 
             WebSessionLogger = WebSessionLogger?? engine.WebSessionLogger;
+
+            if (IsDebug)
+                SetUpDebugTool();
         }
 
         private DoubleBrowserNavigator GetDoubleBrowserNavigator()

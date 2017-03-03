@@ -7,7 +7,7 @@ namespace Neutronium.WPF.Internal
 {
     public class WPFUIDispatcher : IDispatcher
     {
-        private Dispatcher _Dispatcher;
+        private readonly Dispatcher _Dispatcher;
         public WPFUIDispatcher(Dispatcher iDispatcher)
         {
             _Dispatcher = iDispatcher;

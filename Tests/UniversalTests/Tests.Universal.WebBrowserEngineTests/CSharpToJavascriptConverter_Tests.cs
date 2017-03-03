@@ -12,6 +12,7 @@ using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit;
 using Xunit.Abstractions;
 using System.Threading.Tasks;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {
@@ -51,6 +52,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         private IJSCommandFactory _JSCommandFactory;
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptFrameworkManager _javascriptFrameworkManager;
+        private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HTMLWindow;
 
         protected CSharpToJavascriptConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
@@ -63,8 +65,8 @@ namespace Tests.Universal.WebBrowserEngineTests
             _JSCommandFactory = Substitute.For<IJSCommandFactory>();
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
-            _HTMLViewContext = new HTMLViewContext(_WebView, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
-            _ConverTOJSO = new CSharpToJavascriptConverter(_HTMLViewContext, _ICSharpMapper, _JSCommandFactory, _Logger);
+            _HTMLViewContext = new HTMLViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
+            _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _ICSharpMapper, _JSCommandFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>
             {
@@ -81,7 +83,8 @@ namespace Tests.Universal.WebBrowserEngineTests
             _CircularSimple.Reference = _CircularSimple;
 
             _CircularComplex = new Circular2();
-            var circularChild = new Circular2 {
+            var circularChild = new Circular2
+            {
                 Reference = _CircularComplex
             };
             _CircularComplex.List.Add(circularChild);
@@ -92,7 +95,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await _ConverTOJSO.Map(_Test)).JSValue;
+                var res = (await Map(_Test)).JSValue;
 
                 DoSafe(() =>
                 {
@@ -109,10 +112,12 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         [Fact]
         public async Task Test_Circular_Reference_Simple() {    
-            await TestAsync(async () => {
-                var converTOJSO = GetCircularBreakerConverter();
+            await TestAsync(async () => 
+            {
+                var cacher = new SessionCacher();
+                _ConverTOJSO = GetCircularBreakerConverter(cacher);
 
-                var res = (await converTOJSO.Map(_CircularSimple)).JSValue;
+                var res = (await Map(_CircularSimple, cacher)).JSValue;
 
                 DoSafe(() => {
                     res.Should().NotBeNull();
@@ -132,11 +137,14 @@ namespace Tests.Universal.WebBrowserEngineTests
         }
 
         [Fact]
-        public async Task Test_Circular_Reference_In_List() {
-            await TestAsync(async () => {
-                var converTOJSO = GetCircularBreakerConverter();
+        public async Task Test_Circular_Reference_In_List()
+        {
+            await TestAsync(async () => 
+            {
+                var cacher = new SessionCacher();
+                _ConverTOJSO = GetCircularBreakerConverter(cacher);
 
-                var res = (await converTOJSO.Map(_CircularComplex)).JSValue;
+                var res = (await Map(_CircularComplex, cacher)).JSValue;
 
                 DoSafe(() => {
                     res.Should().NotBeNull();
@@ -155,8 +163,9 @@ namespace Tests.Universal.WebBrowserEngineTests
             });
         }
 
-        private CSharpToJavascriptConverter GetCircularBreakerConverter() {
-            return new CSharpToJavascriptConverter(_HTMLViewContext, new SessionCacher(), _JSCommandFactory, _Logger);
+        private CSharpToJavascriptConverter GetCircularBreakerConverter(IJavascriptSessionCache cacher)
+        {
+            return new CSharpToJavascriptConverter(WebBrowserWindow, cacher, _JSCommandFactory, _Logger);
         }
 
         [Fact]
@@ -164,7 +173,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var ibridgeresult = await _ConverTOJSO.Map(_Tests);
+                var ibridgeresult = await Map(_Tests);
 
                 DoSafe(() =>
                 {
@@ -202,7 +211,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var resv = (await _ConverTOJSO.Map(_Tests_NG)).JSValue;
+                var resv = (await Map(_Tests_NG)).JSValue;
 
                 DoSafe(() =>
                 {
@@ -238,7 +247,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await _ConverTOJSO.Map(0.2D)).JSValue;
+                var res = (await Map(0.2D)).JSValue;
                 res.Should().NotBeNull();
                 res.IsNumber.Should().BeTrue();
                 double resd = res.GetDoubleValue();
@@ -253,7 +262,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             await TestAsync(async () =>
             {
                 var date = new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc);
-                var res = (await _ConverTOJSO.Map(date)).JSValue;
+                var res = (await Map(date)).JSValue;
                 res.Should().NotBeNull();
 
                 object ores = null;
@@ -269,7 +278,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await _ConverTOJSO.Map(0.2M)).JSValue;
+                var res = (await Map(0.2M)).JSValue;
                 res.Should().NotBeNull();
                 res.IsNumber.Should().BeTrue();
                 double resd = res.GetDoubleValue();
@@ -284,7 +293,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await _ConverTOJSO.Map(true)).JSValue;
+                var res = (await Map(true)).JSValue;
                 res.Should().NotBeNull();
                 res.IsBool.Should().BeTrue();
                 bool resd = res.GetBoolValue();
@@ -298,7 +307,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
                 {
-                    var res = (await _ConverTOJSO.Map(false)).JSValue;
+                    var res = (await Map(false)).JSValue;
                     res.Should().NotBeNull();
                     res.IsBool.Should().BeTrue();
                     bool resd = res.GetBoolValue();
@@ -312,7 +321,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
               {
-                  var res = (await _ConverTOJSO.Map("toto")).JSValue;
+                  var res = (await Map("toto")).JSValue;
                   res.Should().NotBeNull();
                   res.IsString.Should().BeTrue();
                   string resd = res.GetStringValue();
@@ -326,11 +335,22 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await _ConverTOJSO.Map(_Test2)).JSValue;
+                var res = (await Map(_Test2)).JSValue;
                 res.Should().NotBeNull();
 
                 _ICSharpMapper.Received().Cache(_Test, Arg.Any<IJSCSGlue>());
             });
+        }
+
+        private async Task<IJSCSGlue> Map(object from, IJavascriptSessionCache cacher=null)
+        {
+            cacher = cacher ?? _ICSharpMapper;
+            var res = await _HTMLViewContext.EvaluateOnUIContextAsync(() => _ConverTOJSO.Map(from));
+            await _HTMLViewContext.RunOnJavascriptContextAsync(() =>
+            {
+                res.ComputeJavascriptValue(_HTMLViewContext.WebView.Factory, _HTMLViewContext.ViewModelUpdater, cacher);
+            });
+            return res;
         }
     }
 }

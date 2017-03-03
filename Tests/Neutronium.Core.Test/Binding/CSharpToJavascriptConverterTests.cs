@@ -5,8 +5,6 @@ using Xunit;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.JavascriptFramework;
-using Neutronium.Core.Test.TestHelper;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using FluentAssertions;
 using MoreCollection.Extensions;
@@ -24,8 +22,7 @@ namespace Neutronium.Core.Test.Binding
         private IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private IJavascriptChangesObserver _JavascriptChangesObserver;
         private Dictionary<object, IJSCSGlue> _Cache = new Dictionary<object, IJSCSGlue>();
-
-        private HTMLViewContext _HTMLViewContext;
+        private IWebBrowserWindow _IWebBrowserWindow;
 
         public CSharpToJavascriptConverterTests()
         {
@@ -35,66 +32,56 @@ namespace Neutronium.Core.Test.Binding
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
             _CommandFactory = Substitute.For<IJSCommandFactory>();
             _Logger = Substitute.For<IWebSessionLogger>();
-            _HTMLViewContext = GetContext();
-            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_HTMLViewContext, _Cacher, _CommandFactory, _Logger);
-        }
-
-        private HTMLViewContext GetContext()
-        {
-            _WebView = Substitute.For<IWebView>();
-            _JavascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
-            _JavascriptChangesObserver = Substitute.For<IJavascriptChangesObserver>();
-            _UiDispatcher = new TestUIDispatcher();
-            var res = new HTMLViewContext(_WebView, _UiDispatcher, _JavascriptFrameworkManager, _JavascriptChangesObserver, _Logger);
-            return res;
+            _IWebBrowserWindow = Substitute.For<IWebBrowserWindow>();
+            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_IWebBrowserWindow, _Cacher, _CommandFactory, _Logger);
         }
 
         [Fact]
-        public async Task Map_CreateJSGlueObject_WithCorrectToString_NoneCircular()
+        public void Map_CreateJSGlueObject_WithCorrectToString_NoneCircular()
         {
             var testObject = new TestClass();
-            var res = await _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
         }
 
         [Fact]
-        public async Task Map_CreateJSGlueObject_WithCorrectToString_Nested()
+        public void Map_CreateJSGlueObject_WithCorrectToString_Nested()
         {
             var testObject = new TestClass
             {
                 Property1 = new TestClass()
             };
-            var res = await _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property2\":null,\"Property3\":null}");
 
         }
 
         [Fact]
-        public async Task Map_CreateJSGlueObject_WithCorrectToString_CircularRoot()
+        public void Map_CreateJSGlueObject_WithCorrectToString_CircularRoot()
         {
             var testObject = new TestClass();
             testObject.Property1 = testObject;
-            var res = await _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":\"~\",\"Property2\":null,\"Property3\":null}");
         }
 
         [Fact]
-        public async Task Map_CreateJSGlueObject_WithCorrectToString_CircularProperty()
+        public void Map_CreateJSGlueObject_WithCorrectToString_CircularProperty()
         {
             var testObject = new TestClass();
             var testObject2 = new TestClass();
             testObject.Property1 = testObject2;
             testObject.Property2 = testObject2;
-            var res = await _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property2\":\"~Property1\",\"Property3\":null}");
         }
 
         [Fact]
-        public async Task Map_CreateJSGlueObject_WithCorrectToString_CircularNestedProperty()
+        public void Map_CreateJSGlueObject_WithCorrectToString_CircularNestedProperty()
         {
             var testObject = new TestClass();
             var testObject2 = new TestClass();
@@ -103,29 +90,29 @@ namespace Neutronium.Core.Test.Binding
                 Property2 = testObject2
             };
             testObject.Property3 = testObject2;
-            var res = await _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property3\":null},\"Property2\":null,\"Property3\":\"~Property1~Property2\"}");
         }
 
         [Fact]
-        public async Task Map_CreateJSGlueObject_WithCorrectToString_ListSimple()
+        public void CreateJSGlueObject_WithCorrectToString_ListSimple()
         {
             var testObject = new TestClass();
             testObject.Children.Add(testObject);
-            var res = await _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[\"~\"],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
         }
 
         [Fact]
-        public async Task Map_CreateJSGlueObject_WithCorrectToString_ListProperty()
+        public void Map_CreateJSGlueObject_WithCorrectToString_ListProperty()
         {
             var testObject = new TestClass();
             var testObject2 = new TestClass();
             testObject.Property3 = testObject2;
             testObject.Children.Add(testObject2);
-            var res = await _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}],\"Property1\":null,\"Property2\":null,\"Property3\":\"~Children~0\"}");
         }

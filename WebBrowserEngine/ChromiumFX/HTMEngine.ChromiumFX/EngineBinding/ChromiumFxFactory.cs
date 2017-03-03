@@ -38,6 +38,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             Register<DateTime>((source) => CfrV8Value.CreateDate(CfrTime.FromUniversalTime(source.ToUniversalTime())));
         }
 
+        public static bool IsTypeConvertible(Type itype) 
+        {
+            return itype != null && _Converters.ContainsKey(itype);
+        }
+
         private static void Register<T>(Func<T, CfrV8Value> Factory) 
         {
             _Converters.Add(typeof(T), (o) => Factory((T) o));
@@ -56,12 +61,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return true;
         }
 
-        public bool IsTypeBasic(Type itype)
+        public bool IsTypeBasic(Type type) 
         {
-            if (itype == null)
-                return false;
-
-            return _Converters.ContainsKey(itype);
+            return IsTypeConvertible(type);
         }
 
         public IJavascriptObject CreateNull() 

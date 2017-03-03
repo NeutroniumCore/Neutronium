@@ -55,11 +55,12 @@ namespace Neutronium.Core.Navigation
 
         private Uri SolveType(Type type, string id)
         {
-            foreach (var inType in type.GetBaseTypes()) {
+            foreach (var inType in type.GetBaseTypes())
+            {
                 IDictionary<string, Uri> dicres;
-                if (!_Mapper.TryGetValue(inType, out dicres)) {
+                if (!_Mapper.TryGetValue(inType, out dicres))
                     continue;
-                }
+
                 Uri res;
                 if (dicres.TryGetValue(id, out res))
                     return res;
@@ -67,14 +68,14 @@ namespace Neutronium.Core.Navigation
             return null;
         }
 
-        public Uri Solve(object viewModel, string iId = null)
+        public Uri Solve(object viewModel, string id = "")
         {
-            var id = iId ?? string.Empty;
-            var res = SolveType(viewModel.GetType(), id);
+            var type = viewModel.GetType();
+            var res = SolveType(type, id);
             if (res != null)
                 return res;
 
-            return (id!=string.Empty) ? SolveType(viewModel.GetType(), string.Empty) : null;
+            return (!string.IsNullOrEmpty(id)) ? SolveType(type, string.Empty) : null;
         }
     }
 }

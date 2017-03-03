@@ -2,6 +2,7 @@
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding
 {
@@ -11,7 +12,8 @@ namespace Neutronium.Core.Binding
         private readonly IJavascriptFrameworkManager _frameworkManager;
         public IWebSessionLogger Logger { get; }
 
-        private IWebView MainView => _HTMLWindowProvider.HTMLWindow.MainFrame;
+        private IWebView MainView => HTMLWindow.MainFrame;
+        public IWebBrowserWindow HTMLWindow => _HTMLWindowProvider.HTMLWindow;
 
         public HTMLViewEngine(IWebBrowserWindowProvider hTMLWindowProvider, IJavascriptFrameworkManager frameworkManager, IWebSessionLogger logger)
         {
@@ -22,7 +24,7 @@ namespace Neutronium.Core.Binding
 
         public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {
-            return new HTMLViewContext(MainView, _HTMLWindowProvider.UIDispatcher, _frameworkManager, javascriptChangesObserver, Logger);
+            return new HTMLViewContext(HTMLWindow, _HTMLWindowProvider.UIDispatcher, _frameworkManager, javascriptChangesObserver, Logger);
         }
 
         internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode)

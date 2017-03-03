@@ -39,7 +39,7 @@ namespace Neutronium.Core.Binding.GlueObject
             catch { }
         }
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater)
         {
             if (JSValue != null)
                 return false;
@@ -69,7 +69,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private void Command_CanExecuteChanged(object sender, EventArgs e)
         {
             _Count = (_Count == 1) ? 2 : 1;
-            WebView.RunAsync(() =>
+            WebView?.RunAsync(() =>
             {
                 UpdateProperty("CanExecuteCount", (f) => f.CreateInt(_Count));
             });
@@ -79,6 +79,8 @@ namespace Neutronium.Core.Binding.GlueObject
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             var res = await UIDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));
+            if (WebView == null)
+                return;
             await WebView.RunAsync(() =>
             {
                 UpdateProperty("CanExecuteValue", (f) => f.CreateBool(res));

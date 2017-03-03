@@ -89,7 +89,6 @@
     <Compile Include="Windowless\IWindowlessHTMLEngine.cs" />
     <Compile Include="Windowless\IWindowlessHTMLEngineBuilder.cs" />
     <Compile Include="Windowless\TestBase.cs" />
-    <Compile Include="Windowless\TestUIDispatcher.cs" />
     <Compile Include="Windowless\TestLogger.cs" />
     <Compile Include="Window\AssemblyHelper.cs" />
     <Compile Include="Window\DispatcherHelper.cs" />

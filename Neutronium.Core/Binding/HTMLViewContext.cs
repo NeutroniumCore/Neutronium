@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding
 {
     public class HTMLViewContext : IDisposable
     {
-        public IWebView WebView { get; }
+        public IWebView WebView => _IWebBrowserWindow.MainFrame;
         public IDispatcher UIDispatcher { get; }
         public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
         public IJavascriptViewModelUpdater ViewModelUpdater { get; private set; }
@@ -17,11 +17,12 @@ namespace Neutronium.Core.Binding
         private readonly IWebSessionLogger _logger;
         private readonly IJavascriptChangesObserver _JavascriptChangesObserver;
         private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
+        private readonly IWebBrowserWindow _IWebBrowserWindow;
 
-        public HTMLViewContext(IWebView webView, IDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
+        public HTMLViewContext(IWebBrowserWindow webBrowserWindow, IDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
                                 IJavascriptChangesObserver javascriptChangesObserver, IWebSessionLogger logger)
         {
-            WebView = webView;
+            _IWebBrowserWindow = webBrowserWindow;
             _logger = logger;
             UIDispatcher = uiDispatcher;
             _JavascriptChangesObserver = javascriptChangesObserver;
@@ -50,6 +51,11 @@ namespace Neutronium.Core.Binding
         public Task<T> EvaluateOnUIContextAsync<T>(Func<T> act)
         {
             return UIDispatcher.EvaluateAsync(act);
+        }
+
+        public bool IsTypeBasic(Type type) 
+        {
+            return WebView.Factory.IsTypeBasic(type);
         }
 
         public void Dispose() 

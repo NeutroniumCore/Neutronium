@@ -19,7 +19,7 @@ namespace Neutronium.Core.Navigation
         private IWebBrowserWindowProvider _CurrentWebControl;
         private IWebBrowserWindowProvider _NextWebControl;
         private IHTMLBinding _HTMLBinding;
-        private IWebSessionLogger _webSessionLogger = new BasicLogger();
+        private IWebSessionLogger _webSessionLogger;
         private bool _Disposed = false;
         private bool _Navigating = false;
         private bool _UseINavigable = false;
@@ -167,6 +167,11 @@ namespace Neutronium.Core.Navigation
             _NextWebControl.HTMLWindow.ConsoleMessage += ConsoleMessage;
 
             var moderWindow = _NextWebControl.HTMLWindow as IModernWebBrowserWindow;
+
+            var injectorFactory = GetInjectorFactory(uri);
+            var engine = new HTMLViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
+            var initVm = HTML_Binding.GetBindingBuilder(engine, iViewModel, iMode, wh);
+
             if (moderWindow!=null)
             {
                 var debugContext = _WebViewLifeCycleManager.DebugContext;
@@ -178,17 +183,15 @@ namespace Neutronium.Core.Navigation
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }
-
             var tcs = new TaskCompletionSource<IHTMLBinding>();
 
             EventHandler<LoadEndEventArgs> sourceupdate = null;
-            sourceupdate = (o, e) =>
+            sourceupdate = async (o, e) =>
             {
-                var injectorFactory = GetInjectorFactory(uri);
                 _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
-                var engine = new HTMLViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
 
-                HTML_Binding.Bind(engine, iViewModel, iMode, wh).WaitWith(closetask, t => Switch(t, wh.__window__, tcs));
+                var builder = await initVm;
+                await builder.CreateBinding().WaitWith(closetask, t => Switch(t, wh.__window__, tcs)).ConfigureAwait(false);
             };
 
             Url = uri;

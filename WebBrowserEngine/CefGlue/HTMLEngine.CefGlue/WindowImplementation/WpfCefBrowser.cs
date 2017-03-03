@@ -12,6 +12,7 @@ using HTMLEngine.CefGlue.WindowImplementation;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper;
+using Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation;
 using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Neutronium.WebBrowserEngine.CefGlue.Helpers.Log;
 using Xilium.CefGlue;
@@ -868,9 +869,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
         {
             // Remove leading whitespace from the URL
             url = url.TrimStart();
-
-            if (_browser != null)
-                _browser.GetMainFrame().LoadString(content, url);
+            _browser?.GetMainFrame().LoadString(content, url);
         }
 
         public bool CanGoBack()
@@ -881,10 +880,9 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
                 return false;
         }
 
-        public void GoBack()
+        public void GoBack() 
         {
-            if (_browser != null)
-                _browser.GoBack();
+            _browser?.GoBack();
         }
 
         public bool CanGoForward()
@@ -892,24 +890,24 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
             return _browser != null && _browser.CanGoForward;
         }
 
-        public void GoForward()
+        public void GoForward() 
         {
-            if (_browser != null)
-                _browser.GoForward();
+            _browser?.GoForward();
         }
 
-        public void Refresh()
+        public void Refresh() 
         {
-            if (_browser != null)
-                _browser.Reload();
+            _browser?.Reload();
+        }
+
+        public bool IsTypeBasic(Type type) 
+        { 
+            return CefV8_Factory.IsTypeConvertible(type);
         }
 
         #endregion
 
-        public IWebView MainFrame
-        {
-            get { return _browser.GetMainFrame().GetMainContext(); }
-        }
+        public IWebView MainFrame => _browser.GetMainFrame().GetMainContext();
 
         public event EventHandler<BrowserCrashedArgs> Crashed
         {

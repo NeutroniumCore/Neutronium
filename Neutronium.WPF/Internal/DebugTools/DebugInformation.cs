@@ -23,7 +23,8 @@ namespace Neutronium.WPF.Internal.DebugTools
         public bool IsDebuggingVm 
         {
             get { return _IsDebuggingVm; }
-            set {
+            set
+            {
                 Set(ref _IsDebuggingVm, value);
                 DebugButtonLabel = value ? "Close Debug" : "Inspect Vm";
             }

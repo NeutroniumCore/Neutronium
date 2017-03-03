@@ -9,8 +9,7 @@ namespace Neutronium.Core.JavascriptFramework
     /// </summary>
     public class JavascriptCollectionChanges
     {
-        public JavascriptCollectionChanges(IJavascriptObject collection,  
-                                            IEnumerable<IndividualJavascriptCollectionChange> changes)
+        public JavascriptCollectionChanges(IJavascriptObject collection, IEnumerable<IndividualJavascriptCollectionChange> changes)
         {
             Collection = collection;
             Changes = changes.ToArray();
