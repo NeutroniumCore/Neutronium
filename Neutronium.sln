@@ -161,11 +161,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeutroniumApplication", "De
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{0AC2EE35-F1C4-4CB8-810D-61A7A2E28F61}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{50ADDD0F-5030-43DC-8C14-757768D9EB68}"
-	ProjectSection(SolutionItems) = preProject
-		Performance1.psess = Performance1.psess
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.SOP", "Examples\Example.ChromiumFX.Vue.SOP\Example.ChromiumFX.Vue.SOP.csproj", "{E21A6C8F-8DC3-4E87-9333-F9906AF897AC}"
 EndProject
 Global

@@ -19,7 +19,7 @@ namespace Neutronium.Core.Infra
 
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
-            return Task.FromResult<T>(compute());
+            return Task.FromResult(compute());
         }
 
         public T Evaluate<T>(Func<T> compute)

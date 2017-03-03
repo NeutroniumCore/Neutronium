@@ -92,7 +92,8 @@ namespace Neutronium.JavascriptFramework.Vue
         private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father)
         {
             var candidate = _Silenters.GetOrAddEntity(father, _ => father.GetValue("__silenter"));
-            if (candidate.IsUndefined) {
+            if (candidate.IsUndefined)
+            {
                 _Silenters.Remove(father);
             }
             return candidate;

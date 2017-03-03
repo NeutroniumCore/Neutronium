@@ -5,31 +5,29 @@ using System.ComponentModel;
 using System.Linq;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public static class IJSCSGlueExtender
     {
-        private static void GetAllChildren(this IJSCSGlue @this, bool includeMySelf, ISet<IJSCSGlue> res) 
+        private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res) 
         {
-            if (includeMySelf)
-                res.Add(@this);
-
-            foreach (var direct in @this.GetChildren().Where(res.Add)) 
-            {
-                direct.GetAllChildren(false, res);
-            }
+            @this.GetChildren().Where(res.Add).ForEach(direct => direct.GetAllChildren(res));
         }
 
         public static bool IsBasic(this IJSCSGlue @this)
         {
-            return ((@this.Type == JsCsGlueType.Basic) || ((@this.Type == JsCsGlueType.Basic) && @this.JSValue.IsNull));
+            return (@this.Type == JsCsGlueType.Basic);
         }
 
         public static IEnumerable<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf=false)
         {
             var res = new HashSet<IJSCSGlue>();
-            @this.GetAllChildren(includeMySelf,res);
+            if (includeMySelf)
+                res.Add(@this);
+
+            @this.GetAllChildren(res);
             return res;
         }
 

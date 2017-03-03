@@ -10,6 +10,7 @@ namespace Neutronium.Core.Binding.Listeners
         private readonly Action<INotifyPropertyChanged> _OnObject;
         private readonly Action<INotifyCollectionChanged> _OnCollection;
         private readonly Action<JSCommand> _OnCommand;
+
         public ListenableVisitor(Action<INotifyPropertyChanged> onObject,
                             Action<INotifyCollectionChanged> onCollection, Action<JSCommand> onCommand)
         {

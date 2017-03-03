@@ -1,6 +1,6 @@
-﻿using Neutronium.Core.WebBrowserEngine.Control;
+﻿using Neutronium.Core.Infra;
+using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra.CefWindowless
@@ -9,7 +9,7 @@ namespace CefGlue.TestInfra.CefWindowless
     {
         private readonly TestCefClient _TestCefClient;
         public IWebBrowserWindow HTMLWindow { get; }
-        public IDispatcher UIDispatcher => new TestUIDispatcher();
+        public IDispatcher UIDispatcher => new NullUIDispatcher();
 
         public TestCefGlueHTMLWindowProvider(CefFrame iFrame, TestCefClient cefClient)
         {

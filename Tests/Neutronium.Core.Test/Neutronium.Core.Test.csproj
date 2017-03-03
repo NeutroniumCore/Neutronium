@@ -100,7 +100,6 @@
     <Compile Include="NullWatcherTest.cs" />
     <Compile Include="NavigationBuilderTests.cs" />
     <Compile Include="Infra\TypeExtenderTest.cs" />
-    <Compile Include="TestHelper\TestUIDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

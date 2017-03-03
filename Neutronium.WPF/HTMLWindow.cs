@@ -22,9 +22,7 @@ namespace Neutronium.WPF
         public Task<IHTMLBinding> NavigateAsync(object viewModel, string id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
             if (IsLoaded)
-            {
                 return NavigateAsyncBase(viewModel, id, mode);
-            }
 
             var taskCompletion = new TaskCompletionSource<IHTMLBinding>();
             this.Loaded += (o,e) => HTMLWindow_Loaded(taskCompletion, viewModel, id, mode);
