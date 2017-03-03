@@ -103,6 +103,24 @@
     <Content Include="scripts\subscribeArray.es5.js">
       <DependentUpon>subscribeArray.js</DependentUpon>
     </Content>
+    <Content Include="Toolbar\76ec2a09aa20e8a01442f48f046c1a57.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\912ec66d7572ff821749319396470bde.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\9c74e172f87984c48ddf5c8108cabe67.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\build.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\styles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="scripts\subscribeArray.es5.min.js">
       <DependentUpon>subscribeArray.es5.js</DependentUpon>
     </EmbeddedResource>
@@ -152,6 +170,21 @@
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <Content Include="Toolbar\674f50d287a8c48dc19ba404d20fe713.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\af7ae505a9eed503f8b8e6982036873e.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\b06871f281fee6b241d60582ae9369b9.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\fee66e712a8a08eef5805a46892932ad.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Toolbar\styles.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

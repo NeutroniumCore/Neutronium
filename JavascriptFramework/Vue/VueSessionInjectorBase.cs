@@ -12,6 +12,8 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         public string FrameworkName => _VueVersion.FrameworkName;
         public string Name => _VueVersion.Name;
+        public string DebugToolbaRelativePath => _VueVersion.ToolBarPath;
+
         private string _DebugScript;
         private const string _ToogleDebug = "window.vueDebug();";
         private readonly IVueVersion _VueVersion;

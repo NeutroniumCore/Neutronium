@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
@@ -13,6 +14,7 @@ namespace Neutronium.JavascriptFramework.Knockout
 
         public string FrameworkName => "knockout.js 3.3.0";
         public string Name => "KnockoutInjector";
+        public string DebugToolbaRelativePath => null;
 
         public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger) 
         {

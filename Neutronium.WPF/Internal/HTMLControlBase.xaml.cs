@@ -191,10 +191,10 @@ namespace Neutronium.WPF.Internal
             if (_DebugControl!=null)
                 return;
 
-            var neutroniumSupport = HTMLEngineFactory.Engine.HasJavaScriptEngine("VueInjectorV2");
-            if (neutroniumSupport)
+            var pathToHTML = HTMLEngineFactory.Engine.ResolveToolbar();
+            if (pathToHTML!=null)
             {
-                _DebugControl = new DebugControlNeutronium();
+                _DebugControl = new DebugControlNeutronium(pathToHTML);
             }
             else
             {

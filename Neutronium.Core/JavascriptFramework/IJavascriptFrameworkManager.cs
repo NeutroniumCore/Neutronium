@@ -57,5 +57,12 @@ namespace Neutronium.Core.JavascriptFramework
         /// true if the injector returns a valid debug script
         /// </summary>
         bool HasDebugScript();
+
+
+        /// <summary>
+        /// relative path to toolbar HTML file to debug toolbar implementation if any
+        /// null otherwise.
+        /// </summary>
+        string DebugToolbaRelativePath { get;  }
     }
 }

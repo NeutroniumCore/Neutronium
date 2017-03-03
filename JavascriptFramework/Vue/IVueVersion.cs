@@ -8,6 +8,8 @@ namespace Neutronium.JavascriptFramework.Vue
 
         string Name { get; }
 
+        string ToolBarPath { get; }
+
         ResourceReader GetVueResource();
     }
 }

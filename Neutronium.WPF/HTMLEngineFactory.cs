@@ -5,6 +5,7 @@ using Neutronium.Core;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Log;
 using MoreCollection.Extensions;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.WPF
 {
@@ -17,7 +18,7 @@ namespace Neutronium.WPF
         private IJavascriptFrameworkManager _DefaultJavascriptFrameworkManager;
         private readonly IDictionary<string, IWPFWebWindowFactory> _Engines = new Dictionary<string, IWPFWebWindowFactory>();
         private readonly IDictionary<string, IJavascriptFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptFrameworkManager>();
-
+    
         /// <summary>
         /// Access the singleton IHTMLEngineFactory
         /// </summary>
@@ -107,6 +108,17 @@ namespace Neutronium.WPF
         {
             OnEngines(fact => fact.Dispose());
             _Engines.Clear();
+        }
+
+        public string ResolveToolbar()
+        {
+            return _JavascriptFrameworks.Values.Select(GetPath).FirstOrDefault(tool => tool != null);
+        }
+
+        private string GetPath(IJavascriptFrameworkManager javascriptFrameworkManager)
+        {
+            var path = javascriptFrameworkManager.DebugToolbaRelativePath;
+            return (path == null) ? null : $"{javascriptFrameworkManager.GetType().Assembly.GetPath()}\\{path}";
         }
     }
 }
