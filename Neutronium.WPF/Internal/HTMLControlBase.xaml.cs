@@ -124,7 +124,7 @@ namespace Neutronium.WPF.Internal
 
             InitializeComponent();
 
-            this.Loaded += HTMLControlBase_Loaded;
+            this.Initialized += HTMLControlBase_Initialized;
         }
 
         private void DoSaveVm()
@@ -133,9 +133,11 @@ namespace Neutronium.WPF.Internal
             if (binding == null)
                 return;
 
-            var savefile = new SaveFileDialog();
-            savefile.FileName = "vm.cjson";
-            savefile.InitialDirectory = ComputeProposedDirectory();
+            var savefile = new SaveFileDialog 
+            {
+                FileName = "vm.cjson",
+                InitialDirectory = ComputeProposedDirectory()
+            };
 
             if (savefile.ShowDialog() != true)
                 return;
@@ -197,7 +199,7 @@ namespace Neutronium.WPF.Internal
             MainGrid.Children.Add(_DebugControl);
         }
 
-        private void HTMLControlBase_Loaded(object sender, RoutedEventArgs e)
+        private void HTMLControlBase_Initialized(object sender, EventArgs e)
         {
             Init();
         }

@@ -4,6 +4,10 @@
         xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
         x:Class="Example.ChromiumFX.Vue.UI.MainWindow"
         Title="HTML5 vs WPF" Loaded="Window_Loaded" Height="700" Width="1200">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -17,6 +21,7 @@
             <TextBlock Text="{Binding PersonalState}"/>
             <TextBox Text="{Binding Local.City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBox Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding ElementName=wcBrowser, Path=IsHTMLLoaded}"/>
             <ListBox ItemsSource="{Binding Skills}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -33,4 +38,8 @@
         </StackPanel>
         <wpf:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="wcBrowser" RelativeSource="View\Main\dist\index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
+
+    <Window.Visibility>
+        <Binding ElementName="wcBrowser" Path="IsHTMLLoaded" Converter="{StaticResource BoolToVis}" FallbackValue="Collapsed" TargetNullValue="Collapsed"/>
+    </Window.Visibility>
 </Window>
