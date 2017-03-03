@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
         x:Class="Example.ChromiumFX.Vue.UI.MainWindow"
-        Title="HTML5 vs WPF" Loaded="Window_Loaded" Height="700" Width="1200">
+        Title="HTML5 vs WPF"  Height="700" Width="1200">
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <wpf:BoolToHiddenConverter x:Key="BoolToVis"/>
     </Window.Resources>
 
     <Grid>
@@ -40,6 +40,6 @@
     </Grid>
 
     <Window.Visibility>
-        <Binding ElementName="wcBrowser" Path="IsHTMLLoaded" Converter="{StaticResource BoolToVis}" FallbackValue="Collapsed" TargetNullValue="Collapsed"/>
+        <Binding ElementName="wcBrowser" Path="IsHTMLLoaded" Converter="{StaticResource BoolToVis}"/>
     </Window.Visibility>
 </Window>

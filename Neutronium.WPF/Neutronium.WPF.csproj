@@ -87,6 +87,7 @@
     <Compile Include="Internal\WPFUIDispatcher.cs" />
     <Compile Include="IWPFWebWindow.cs" />
     <Compile Include="Utils\VersionHelper.cs" />
+    <Compile Include="WPF\BoolToHiddenConverter.cs" />
     <Page Include="Internal\DebugTools\DebugControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
