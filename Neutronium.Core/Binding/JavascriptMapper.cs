@@ -51,10 +51,10 @@ namespace Neutronium.Core.Binding
             _TCS.TrySetResult(null);
         }
 
-        public void MapFirst(IJavascriptObject iRoot)
+        public void MapFirst(IJavascriptObject root)
         {
             CheckMode(false);
-            _Update(_Root, iRoot);
+            _Update(_Root, root);
         }
 
         public void Map(IJavascriptObject father, string att, IJavascriptObject child)
@@ -71,7 +71,7 @@ namespace Neutronium.Core.Binding
 
         public Task UpdateTask => _TCS.Task;
 
-        public void EndMapping(IJavascriptObject iRoot)
+        public void EndMapping(IJavascriptObject root)
         {
             CheckMode(false);
             _TCS.TrySetResult(null);

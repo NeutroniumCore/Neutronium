@@ -11,7 +11,7 @@ namespace Neutronium.MVVMComponents.Relay
             _Function = function;
         }
 
-        public Task<object> Execute(object iargument)
+        public Task<object> Execute(object argument)
         {
             var tcs = new TaskCompletionSource<object>();
             tcs.SetResult(_Function());

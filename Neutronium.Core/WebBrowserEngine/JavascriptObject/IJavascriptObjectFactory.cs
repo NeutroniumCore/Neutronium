@@ -45,24 +45,24 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <summary>
         /// Create IJavascriptObject object
         /// </summary>   
-        /// <param name="iLocal">
+        /// <param name="local">
         /// true if local object, meaning browser context. 
         /// </param>
         /// <returns>
         /// corresponding IJavascriptObject
         ///</returns>
-        IJavascriptObject CreateObject(bool iLocal);
+        IJavascriptObject CreateObject(bool local);
 
         /// <summary>
         /// Create IJavascriptObject object from javascript code
         /// </summary>   
-        /// <param name="iCreationCode">
+        /// <param name="creationCode">
         /// the javascript code to create the object
         /// </param>
         /// <returns>
         /// corresponding IJavascriptObject
         ///</returns>
-        IJavascriptObject CreateObject(string iCreationCode);
+        IJavascriptObject CreateObject(string creationCode);
 
         /// <summary>
         /// Create IJavascriptObject corresponding to undefined
@@ -118,13 +118,13 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <summary>
         /// Create IJavascriptObject list
         /// </summary>
-        /// <param name="iCollection">
+        /// <param name="collection">
         /// the elements of the collection
         /// </param>
         /// <returns>
         /// corresponding IJavascriptObject
         ///</returns>
-        IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCollection);
+        IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> collection);
 
         /// <summary>
         /// Create IJavascriptObject list

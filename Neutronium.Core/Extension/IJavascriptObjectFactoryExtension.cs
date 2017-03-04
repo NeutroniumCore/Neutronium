@@ -7,11 +7,11 @@ namespace Neutronium.Core.Extension
 {
     public static class IJavascriptObjectFactoryExtension
     {
-        public static IJavascriptObject CreateEnum(this IJavascriptObjectFactory @this, Enum ienum)
+        public static IJavascriptObject CreateEnum(this IJavascriptObjectFactory @this, Enum @enum)
         {
             try
             {
-                var res = @this.CreateObject($"new Enum('{ienum.GetType().Name}',{Convert.ToInt32(ienum)},'{ienum.ToString()}','{ienum.GetDescription()}')");
+                var res = @this.CreateObject($"new Enum('{@enum.GetType().Name}',{Convert.ToInt32(@enum)},'{@enum.ToString()}','{@enum.GetDescription()}')");
 
                 if ((res == null) || (!res.IsObject))
                     throw ExceptionHelper.GetUnexpected();
@@ -20,7 +20,7 @@ namespace Neutronium.Core.Extension
             }
             catch
             {
-                throw ExceptionHelper.Get($"Unexpected Error creating enum: {ienum}");
+                throw ExceptionHelper.Get($"Unexpected Error creating enum: {@enum}");
             }
         }
     }

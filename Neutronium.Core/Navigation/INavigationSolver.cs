@@ -7,7 +7,7 @@ namespace  Neutronium.Core.Navigation
     {
         bool UseINavigable { get; set; }
 
-        Task<IHTMLBinding> NavigateAsync(object iViewModel, string id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay);
+        Task<IHTMLBinding> NavigateAsync(object viewModel, string id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay);
 
         event EventHandler<NavigationEvent> OnNavigate;
 

@@ -7,7 +7,7 @@ namespace Neutronium.Core.Binding
 {
     public interface IJavascriptToCSharpConverter
     {
-        IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject key, Type iTargetType);
+        IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject key, Type targetType);
 
         Task<IJSCSGlue> RegisterInSession(object nv);
     }

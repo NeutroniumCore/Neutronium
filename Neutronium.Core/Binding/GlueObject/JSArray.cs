@@ -154,9 +154,9 @@ namespace Neutronium.Core.Binding.GlueObject
             return Items;
         }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject)
+        public void SetMappedJSValue(IJavascriptObject jsobject)
         {
-            MappedJSValue = ijsobject;
+            MappedJSValue = jsobject;
         }
     }
 }

@@ -62,9 +62,9 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject)
+        public void SetMappedJSValue(IJavascriptObject jsobject)
         {
-            _MappedJSValue = ijsobject;
+            _MappedJSValue = jsobject;
         }
 
         public override IEnumerable<IJSCSGlue> GetChildren()

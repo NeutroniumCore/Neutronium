@@ -12,15 +12,15 @@ namespace Neutronium.Core.Infra
             return Task.FromResult<object>(null);
         }
 
-        public static Task WaitWith<T>(this Task<T> @this, Task other, Action<Task<T>> ithen, TaskScheduler tsc)
+        public static Task WaitWith<T>(this Task<T> @this, Task other, Action<Task<T>> then, TaskScheduler tsc)
         {
             var tasks = new[] { @this, other };
-            return Task.Factory.ContinueWhenAll(tasks, (ts) => ithen(ts[0] as Task<T>), CancellationToken.None, TaskContinuationOptions.None, tsc);
+            return Task.Factory.ContinueWhenAll(tasks, (ts) => then(ts[0] as Task<T>), CancellationToken.None, TaskContinuationOptions.None, tsc);
         }
 
-        public static Task WaitWith<T>(this Task<T> @this, Task other, Action<Task<T>> ithen)
+        public static Task WaitWith<T>(this Task<T> @this, Task other, Action<Task<T>> then)
         {
-            return @this.WaitWith(other, ithen, TaskScheduler.FromCurrentSynchronizationContext());
+            return @this.WaitWith(other, then, TaskScheduler.FromCurrentSynchronizationContext());
         }      
 
         public static void DoNotWait(this Task task)

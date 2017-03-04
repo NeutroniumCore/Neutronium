@@ -29,7 +29,7 @@ namespace Neutronium.Core.JavascriptFramework
         /// </summary>
         /// <param name="jsObject">
         /// Main ViewModel: javascript Observable object 
-        /// </param>
+        /// </param>C:\Users\David\Documents\Source\Neutronium\Neutronium.Core\JavascriptFramework\IJavascriptSessionInjector.cs
         /// <returns>
         /// task that completes when all binding are done
         ///</returns>

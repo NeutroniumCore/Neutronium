@@ -8,11 +8,11 @@ namespace Neutronium.Core.WebBrowserEngine.Window
         public string Source { get; }
         public int Line { get; }
 
-        public ConsoleMessageArgs(string iMessage, string iSource, int iLine)
+        public ConsoleMessageArgs(string message, string source, int line)
         {
-            Message = iMessage;
-            Source = iSource;
-            Line = iLine;
+            Message = message;
+            Source = source;
+            Line = line;
         }
 
         public override string ToString() 

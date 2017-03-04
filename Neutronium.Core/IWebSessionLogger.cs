@@ -41,7 +41,7 @@ namespace Neutronium.Core
         /// <summary>
         /// called on each consolo log called by browser 
         /// </summary>
-        void LogBrowser(ConsoleMessageArgs iInformation, Uri url);
+        void LogBrowser(ConsoleMessageArgs information, Uri url);
 
         /// <summary>
         /// called in case of browser critical error

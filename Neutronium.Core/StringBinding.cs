@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
@@ -34,7 +33,7 @@ namespace Neutronium.Core
             });
         }
 
-        public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string iViewModel)
+        public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string viewModel)
         {
             var context = engine.GetMainContext(null);
             var mainView = context.WebView;
@@ -43,7 +42,7 @@ namespace Neutronium.Core
                 {
                     var json = mainView.GetGlobal().GetValue("JSON");
                     context.InitOnJsContext();
-                    return json.Invoke("parse", mainView, mainView.Factory.CreateString(iViewModel));
+                    return json.Invoke("parse", mainView, mainView.Factory.CreateString(viewModel));
                 });
 
             var injector = context.JavascriptSessionInjector;

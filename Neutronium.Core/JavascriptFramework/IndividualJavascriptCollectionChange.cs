@@ -7,11 +7,11 @@ namespace Neutronium.Core.JavascriptFramework
     /// </summary>
     public class IndividualJavascriptCollectionChange
     {
-        public IndividualJavascriptCollectionChange(CollectionChangeType iCollectionChange, int iIndex, IJavascriptObject iObject)
+        public IndividualJavascriptCollectionChange(CollectionChangeType collectionChange, int index, IJavascriptObject @object)
         {
-            CollectionChangeType=iCollectionChange;
-             Index=   iIndex;
-             Object = iObject;
+            CollectionChangeType=collectionChange;
+             Index=   index;
+             Object = @object;
         }
 
         /// <summary>

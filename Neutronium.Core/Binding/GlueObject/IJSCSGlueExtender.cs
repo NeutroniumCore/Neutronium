@@ -42,7 +42,7 @@ namespace Neutronium.Core.Binding.GlueObject
             @this.SetMappedJSValue(@this.JSValue);
         }
 
-        public static void ApplyOnListenable(this IJSCSGlue @this, IListenableObjectVisitor ivisitor)
+        public static void ApplyOnListenable(this IJSCSGlue @this, IListenableObjectVisitor visitor)
         {
             foreach (var child in @this.GetAllChildren(true))
             {
@@ -50,16 +50,16 @@ namespace Neutronium.Core.Binding.GlueObject
                 var notifyCollectionChanged = childvalue as INotifyCollectionChanged;
                 if (notifyCollectionChanged != null)
                 {
-                    ivisitor.OnCollection(notifyCollectionChanged);
+                    visitor.OnCollection(notifyCollectionChanged);
                     continue;
                 }
 
                 var notifyPropertyChanged = childvalue as INotifyPropertyChanged;
                 if ((notifyPropertyChanged != null) && !(child is IEnumerable))
-                    ivisitor.OnObject(notifyPropertyChanged);
+                    visitor.OnObject(notifyPropertyChanged);
 
                 if (child.Type==JsCsGlueType.Command)
-                    ivisitor.OnCommand(child as JSCommand);
+                    visitor.OnCommand(child as JSCommand);
             }
         }
     }

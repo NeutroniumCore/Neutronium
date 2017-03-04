@@ -111,7 +111,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <summary>
         /// Associates a value with the specified identifier.
         /// </summary>
-        void SetValue(string attributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None);
+        void SetValue(string attributeName, IJavascriptObject element, CreationOption option = CreationOption.None);
 
         /// <summary>
         /// For array set the valu for a given index.
@@ -154,7 +154,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// Returns the value with the specified identifier on success. Returns NULL
         /// if this method is called incorrectly or an exception is thrown.
         /// </summary>
-        IJavascriptObject GetValue(string ivalue);
+        IJavascriptObject GetValue(string value);
 
         /// <summary>
         /// Get the values of the attributes if the javascript object is an object

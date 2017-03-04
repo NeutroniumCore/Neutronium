@@ -51,12 +51,6 @@ namespace Neutronium.Core.Binding
             _RootObject = iRoot;
         }
 
-        internal async Task Init(object addicionalObject) 
-        {
-            await IntrospectVm(addicionalObject);
-            await UpdateJavascriptObjects();
-        }
-
         internal async Task IntrospectVm(object addicionalObject) 
         {
             await _Context.RunOnUIContextAsync(() => 

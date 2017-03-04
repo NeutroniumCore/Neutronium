@@ -18,15 +18,15 @@ namespace Neutronium.Core.Binding
         private readonly IWebSessionLogger _Logger;
         private readonly IWebBrowserWindow _Context;
 
-        public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache icacher, IJSCommandFactory commandFactory, IWebSessionLogger logger)
+        public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache cacher, IJSCommandFactory commandFactory, IWebSessionLogger logger)
         {
             _Context = context;
             _CommandFactory = commandFactory;
             _Logger = logger;
-            _Cacher = icacher;
+            _Cacher = cacher;
         }
 
-        public IJSCSGlue Map(object from, object iadditional=null)
+        public IJSCSGlue Map(object from, object additional=null)
         {
             if (from == null)
                 return new JSBasicObject(null);
@@ -62,7 +62,7 @@ namespace Neutronium.Core.Binding
             if (ienfro!=null)
                 return  Convert(ienfro);
 
-            var propertyInfos = GetPropertyInfos(from).Concat(GetPropertyInfos(iadditional)).ToList();
+            var propertyInfos = GetPropertyInfos(from).Concat(GetPropertyInfos(additional)).ToList();
 
             var gres = new JsGenericObject(from, propertyInfos.Count);
             _Cacher.Cache(from, gres);

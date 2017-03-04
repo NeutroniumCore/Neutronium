@@ -6,6 +6,6 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         IJavascriptObject MappedJSValue { get; }
 
-        void SetMappedJSValue(IJavascriptObject ijsobject);
+        void SetMappedJSValue(IJavascriptObject jsobject);
     }
 }

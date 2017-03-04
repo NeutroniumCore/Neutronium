@@ -4,9 +4,9 @@ namespace Neutronium.Core.Exceptions
 {
     public static class ExceptionHelper
     {
-        public static Exception Get(string iMessage)
+        public static Exception Get(string message)
         {
-            return new NeutroniumException(iMessage);
+            return new NeutroniumException(message);
         }
 
         public static Exception GetUnexpected()
@@ -14,9 +14,9 @@ namespace Neutronium.Core.Exceptions
             return Get("Unexpected error");
         }
 
-        public static ArgumentException GetArgument(string iMessage)
+        public static ArgumentException GetArgument(string message)
         {
-            return new NeutroniumArgumentException(iMessage);
+            return new NeutroniumArgumentException(message);
         }
     }
 }

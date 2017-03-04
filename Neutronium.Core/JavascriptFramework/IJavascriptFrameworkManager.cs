@@ -60,7 +60,7 @@ namespace Neutronium.Core.JavascriptFramework
 
 
         /// <summary>
-        /// relative path to toolbar HTML file to debug toolbar implementation if any
+        /// return relative path to toolbar HTML file if any
         /// null otherwise.
         /// </summary>
         string DebugToolbaRelativePath { get;  }

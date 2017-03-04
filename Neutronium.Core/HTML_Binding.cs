@@ -23,10 +23,10 @@ namespace Neutronium.Core
         public object Root => _BirectionalMapper.JSValueRoot.CValue;
         public IJSCSGlue JSBrideRootObject => _BirectionalMapper.JSValueRoot;
 
-        private HTML_Binding(BidirectionalMapper iConvertToJSO, IWebSessionLogger logger)
+        private HTML_Binding(BidirectionalMapper convertToJSO, IWebSessionLogger logger)
         {
-            _Context = iConvertToJSO.Context;
-            _BirectionalMapper = iConvertToJSO;
+            _Context = convertToJSO.Context;
+            _BirectionalMapper = convertToJSO;
             _Logger = logger;           
             _Bindings.Add(this);
             _Logger.Debug(() => $"HTML_Binding {_Current} created");
@@ -44,20 +44,17 @@ namespace Neutronium.Core
             _Logger.Debug(() => $"HTML_Binding {_Current} disposed");
         }
 
-        internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null)
+        internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null)
         {
-            var mapper = viewEngine.GetMapper(iViewModel, iMode );
-            var res = new HTML_Binding(mapper, viewEngine.Logger);
-            await mapper.Init(additional);
-            return res;
+            var builder = await GetBindingBuilder(viewEngine, viewModel, mode, additional);
+            return await builder.CreateBinding();
         }
 
-        internal static async Task<IBindingBuilder> GetBindingBuilder(HTMLViewEngine viewEngine, object iViewModel, JavascriptBindingMode iMode, object additional = null) 
+        internal static async Task<IBindingBuilder> GetBindingBuilder(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null) 
         {
-            var mapper = viewEngine.GetMapper(iViewModel, iMode);
+            var mapper = viewEngine.GetMapper(viewModel, mode);
             var bindingBuilder = new BindingBuilder(mapper, viewEngine.Logger, additional);
             await bindingBuilder.Init();
-
             return bindingBuilder;
         }
 

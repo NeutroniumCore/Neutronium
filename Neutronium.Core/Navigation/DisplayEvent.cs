@@ -6,9 +6,9 @@ namespace Neutronium.Core.Navigation
     {
         public object DisplayedViewModel { get; }
 
-        public DisplayEvent(object iNewViewModel)
+        public DisplayEvent(object newViewModel)
         {
-            DisplayedViewModel = iNewViewModel;
+            DisplayedViewModel = newViewModel;
         }
     }
 }

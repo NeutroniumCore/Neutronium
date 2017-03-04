@@ -4,6 +4,6 @@ namespace Neutronium.MVVMComponents
 {
     public interface IResultCommand
     {
-        Task<object> Execute(object iargument);
+        Task<object> Execute(object argument);
     }
 }

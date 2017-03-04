@@ -6,14 +6,14 @@ namespace Neutronium.MVVMComponents.Relay
     public class RelayResultCommand<TIn, TResult> : IResultCommand
     {
         private readonly Func<TIn, Task<TResult>> _ResultBuilder;
-        public RelayResultCommand(Func<TIn, TResult> iFunction)
+        public RelayResultCommand(Func<TIn, TResult> function)
         {
             _ResultBuilder = (iargument) =>
                 {
                     var tcs = new TaskCompletionSource<TResult>();
                     try
                     {
-                        tcs.SetResult(iFunction(iargument));
+                        tcs.SetResult(function(iargument));
                     }
                     catch(Exception e)
                     {
@@ -23,14 +23,14 @@ namespace Neutronium.MVVMComponents.Relay
                 };
         }
 
-        public RelayResultCommand(Func<TIn, Task<TResult>> iResultBuilder)
+        public RelayResultCommand(Func<TIn, Task<TResult>> resultBuilder)
         {
-            _ResultBuilder = iResultBuilder;
+            _ResultBuilder = resultBuilder;
         }
 
-        public async Task<object> Execute(object iargument)
+        public async Task<object> Execute(object argument)
         {
-            return await _ResultBuilder((TIn)iargument);
+            return await _ResultBuilder((TIn)argument);
         }
     }
 }

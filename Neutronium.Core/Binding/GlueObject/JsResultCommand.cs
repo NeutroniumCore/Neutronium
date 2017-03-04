@@ -41,9 +41,9 @@ namespace Neutronium.Core.Binding.GlueObject
             return true;
         }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject)
+        public void SetMappedJSValue(IJavascriptObject jsobject)
         {
-            _MappedJSValue = ijsobject;
+            _MappedJSValue = jsobject;
             _MappedJSValue.Bind("Execute", WebView, Execute);
         }
       

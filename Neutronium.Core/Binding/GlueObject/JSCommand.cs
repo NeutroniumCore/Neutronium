@@ -92,9 +92,9 @@ namespace Neutronium.Core.Binding.GlueObject
             ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, factory(WebView.Factory));
         }
 
-        public void SetMappedJSValue(IJavascriptObject ijsobject)
+        public void SetMappedJSValue(IJavascriptObject jsobject)
         {
-            _MappedJSValue = ijsobject;
+            _MappedJSValue = jsobject;
             _MappedJSValue.Bind("Execute", WebView, ExecuteCommand);
             _MappedJSValue.Bind("CanExecute", WebView, CanExecuteCommand);
         }

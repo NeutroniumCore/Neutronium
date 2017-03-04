@@ -11,10 +11,10 @@ namespace Neutronium.Core.Binding.CollectionChanges
         private readonly Type _TargetedType;
         private readonly JavascriptCollectionChanges _Changes;
 
-        internal CollectionChanges(IJavascriptToCSharpConverter iJSCBridgeCache, JavascriptCollectionChanges changes, Type iTargetedType)
+        internal CollectionChanges(IJavascriptToCSharpConverter jSCBridgeCache, JavascriptCollectionChanges changes, Type targetedType)
         {
-            _IJSCBridgeCache = iJSCBridgeCache;
-            _TargetedType = iTargetedType;
+            _IJSCBridgeCache = jSCBridgeCache;
+            _TargetedType = targetedType;
             _Changes = changes;
         }
 
