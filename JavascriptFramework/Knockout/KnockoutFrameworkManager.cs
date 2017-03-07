@@ -16,7 +16,7 @@ namespace Neutronium.JavascriptFramework.Knockout
         public string Name => "KnockoutInjector";
         public string DebugToolbaRelativePath => null;
 
-        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger) 
+        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode) 
         {
             return new KnockoutUiVmManager(webView, listener, logger);
         }

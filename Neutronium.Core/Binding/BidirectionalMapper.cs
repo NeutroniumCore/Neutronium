@@ -64,11 +64,11 @@ namespace Neutronium.Core.Binding
             });
         }
 
-        internal async Task UpdateJavascriptObjects() 
+        internal async Task UpdateJavascriptObjects(bool debugMode) 
         {
             await RunInJavascriptContext(async () => 
             {
-                _Context.InitOnJsContext();
+                _Context.InitOnJsContext(debugMode);
                 _sessionInjector = _Context.JavascriptSessionInjector;
                 RegisterJavascriptHelper();
                 _Root.ComputeJavascriptValue(_Context.WebView.Factory, _Context.ViewModelUpdater, _SessionCache);

@@ -29,11 +29,11 @@ namespace Neutronium.Core.Binding
             _JavascriptFrameworkManager = javascriptFrameworkManager;
         }
 
-        public void InitOnJsContext()
+        public void InitOnJsContext(bool debugMode)
         {
             var builder = new BinderBuilder(WebView, _JavascriptChangesObserver);
             _Listener = builder.BuildListener();
-            _VmManager = _JavascriptFrameworkManager.CreateManager(WebView, _Listener, _logger);
+            _VmManager = _JavascriptFrameworkManager.CreateManager(WebView, _Listener, _logger, debugMode);
             ViewModelUpdater = _VmManager.ViewModelUpdater;
             JavascriptSessionInjector = _VmManager.Injector;
         }

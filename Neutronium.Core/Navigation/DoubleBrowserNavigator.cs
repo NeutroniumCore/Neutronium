@@ -190,7 +190,7 @@ namespace Neutronium.Core.Navigation
                 _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
 
                 var builder = await initVm;
-                await builder.CreateBinding().WaitWith(closetask, t => Switch(t, wh.__window__, tcs)).ConfigureAwait(false);
+                await builder.CreateBinding(_WebViewLifeCycleManager.DebugContext).WaitWith(closetask, t => Switch(t, wh.__window__, tcs)).ConfigureAwait(false);
             };
 
             Url = uri;

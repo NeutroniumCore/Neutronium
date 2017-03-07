@@ -47,7 +47,7 @@ namespace Neutronium.Core
         internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null)
         {
             var builder = await GetBindingBuilder(viewEngine, viewModel, mode, additional);
-            return await builder.CreateBinding();
+            return await builder.CreateBinding(false);
         }
 
         internal static async Task<IBindingBuilder> GetBindingBuilder(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null) 
@@ -75,9 +75,9 @@ namespace Neutronium.Core
                 return _Mapper.IntrospectVm(_AdditionalVm);
             }
 
-            async Task<IHTMLBinding> IBindingBuilder.CreateBinding() 
+            async Task<IHTMLBinding> IBindingBuilder.CreateBinding(bool debugMode) 
             {
-                await _Mapper.UpdateJavascriptObjects();
+                await _Mapper.UpdateJavascriptObjects(debugMode);
                 return _Binding;
             }
         }

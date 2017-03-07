@@ -23,7 +23,7 @@ namespace Neutronium.JavascriptFramework.Vue
             _VueVersion = vueVersion;
         }
 
-        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger) 
+        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode) 
         {
             return new VueVmManager(webView, listener, logger);
         }

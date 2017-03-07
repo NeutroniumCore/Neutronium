@@ -32,7 +32,7 @@ namespace Neutronium.Core.JavascriptFramework
         /// <returns>
         /// the newly created IJavascriptViewModelManager
         ///</returns>
-        IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger);
+        IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode);
 
         /// <summary>
         /// return javascript debug script to allow interactive debug
