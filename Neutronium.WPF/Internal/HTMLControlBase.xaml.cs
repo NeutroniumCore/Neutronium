@@ -298,13 +298,14 @@ namespace Neutronium.WPF.Internal
 
         public void ShowDebugWindow()
         {
-            _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script), ShowHTMLWindow);
+            _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script), 
+                                (path,action) => ShowHTMLWindow(path, debug => action(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
             _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
         }
 
         private void ShowHTMLWindow(string path, Action<IWebView> injectedCode) 
         {
-            var window = new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, injectedCode);
+            var window = new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path,  injectedCode);
             window.Show();
         }
 

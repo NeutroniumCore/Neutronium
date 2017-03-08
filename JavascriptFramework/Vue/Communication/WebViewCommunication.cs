@@ -1,6 +1,7 @@
 ﻿using System;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MoreCollection.Extensions;
 
 namespace Neutronium.JavascriptFramework.Vue.Communication
@@ -30,10 +31,14 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
             return listener.Subscribe(onEvent);
         }
 
-        public IDisposable Listen(IWebView source, IWebView target)
+        public IDisposable Listen(IWebView source, IWebView target) 
         {
-            Action<string> dispatch = message => target.ExecuteJavaScript($"window.postMessage({message},'*');");
-            return Subscribe(source, dispatch);
+            return Subscribe(source, GetDispatchAction(target));
+        }
+
+        private static Action<string> GetDispatchAction(IWebView target) 
+        {
+            return message => { Task.Run(() => target.ExecuteJavaScript($"window.postMessage('{message}','*');")); };
         }
     }
 }

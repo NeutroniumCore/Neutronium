@@ -62,11 +62,18 @@ namespace Neutronium.JavascriptFramework.Vue
             return _ToogleDebug;
         }
 
-        public void DebugVm(Action<string> runJavascript, Action<string, Action<IWebView>> openNewWindow)
+        public void DebugVm(Action<string> runJavascript, Action<string, Action<IWebView, IWebView>> openNewWindow)
         {
-            var javascriptDebugScript = GetDebugScript();
-            runJavascript(javascriptDebugScript);
-            runJavascript(GetDebugToogleScript());
+            //var javascriptDebugScript = GetDebugScript();
+            //runJavascript(javascriptDebugScript);
+            //runJavascript(GetDebugToogleScript());
+            openNewWindow(@"DebugTools\Window\index.html", RegisterDebugWindowHook);
+        }
+
+        private void RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 
+        {
+            _WebViewCommunication.Listen(current, debugWebView);
+            _WebViewCommunication.Listen(debugWebView, current);
         }
 
         public string GetMainScript(bool debugMode)

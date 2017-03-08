@@ -53,9 +53,10 @@ namespace Neutronium.Core.JavascriptFramework
         /// execute javascript in the current window
         /// </param>
         /// <param name="openNewWindow">
-        /// open a HTML window with the given path and given action on WebView
+        /// open a HTML window with the given path and given action on WebViews:
+        /// first is the current, second is the debug webview
         /// </param>
-        void DebugVm(Action<string> runJavascript, Action<string, Action<IWebView>> openNewWindow);
+        void DebugVm(Action<string> runJavascript, Action<string, Action<IWebView, IWebView>> openNewWindow);
 
         /// <summary>
         /// return main javascript debug including framework code

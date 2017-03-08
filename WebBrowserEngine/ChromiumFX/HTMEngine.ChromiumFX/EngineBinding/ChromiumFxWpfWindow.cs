@@ -36,7 +36,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 Visibility = Visibility.Hidden,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
+                //ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
