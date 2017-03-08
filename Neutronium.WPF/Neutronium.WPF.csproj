@@ -82,8 +82,8 @@
       <DependentUpon>DebugControlNeutronium.xaml</DependentUpon>
     </Compile>
     <Compile Include="Internal\DebugTools\DebugInformation.cs" />
-    <Compile Include="Internal\DebugTools\ViewModelDebug.xaml.cs">
-      <DependentUpon>ViewModelDebug.xaml</DependentUpon>
+    <Compile Include="Internal\DebugTools\HTMLSimpleWindow.xaml.cs">
+      <DependentUpon>HTMLSimpleWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="IWPFWebWindowFactory.cs" />
     <Compile Include="Internal\WPFHTMLWindowProvider.cs" />
@@ -99,7 +99,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Internal\DebugTools\ViewModelDebug.xaml">
+    <Page Include="Internal\DebugTools\HTMLSimpleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,6 +18,7 @@ using Neutronium.WPF.Internal.DebugTools;
 using Neutronium.WPF.Utils;
 using Microsoft.Win32;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.WPF.Internal
 {
@@ -297,10 +298,14 @@ namespace Neutronium.WPF.Internal
 
         public void ShowDebugWindow()
         {
-            _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script));
+            _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script), ShowHTMLWindow);
             _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
-            //var window = new ViewModelDebug(_WPFWebWindowFactory.Create(), @"Internal\DebugTools\Window\index.html");
-            //window.Show();
+        }
+
+        private void ShowHTMLWindow(string path, Action<IWebView> injectedCode) 
+        {
+            var window = new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, injectedCode);
+            window.Show();
         }
 
         public void OpenDebugBrowser()

@@ -148,7 +148,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
             if (BeforeJavascriptExecuted!=null)
             {
                 Action<string> execute = (code) => frame.ExecuteJavaScript(code, string.Empty, 0);
-                var beforeJavascriptExcecutionArgs = new BeforeJavascriptExcecutionArgs(execute);
+                var beforeJavascriptExcecutionArgs = new BeforeJavascriptExcecutionArgs(MainFrame, execute);
                 BeforeJavascriptExecuted(this, beforeJavascriptExcecutionArgs);
             }
         }
@@ -180,12 +180,12 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
             }
         }
 
-        internal void Inject(Key KeyToInject)
+        internal void Inject(Key keyToInject)
         {
-            CefKeyEvent keyEvent = new CefKeyEvent()
+            var keyEvent = new CefKeyEvent()
             {
                 EventType = CefKeyEventType.Char,
-                WindowsKeyCode = KeyInterop.VirtualKeyFromKey(KeyToInject)
+                WindowsKeyCode = KeyInterop.VirtualKeyFromKey(keyToInject)
             };
 
             _browserHost.SendKeyEvent(keyEvent);
