@@ -124,13 +124,13 @@
     <Content Include="DebugTools\Toolbar\styles.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DebugTools\Window\build\backend.js">
+    <Content Include="DebugTools\Window\dist\backend.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DebugTools\Window\build\devtools.js">
+    <Content Include="DebugTools\Window\dist\devtools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DebugTools\Window\build\hook.js">
+    <Content Include="DebugTools\Window\dist\hook.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DebugTools\Window\index.html">
