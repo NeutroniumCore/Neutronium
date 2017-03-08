@@ -21,7 +21,7 @@ namespace Neutronium.JavascriptFramework.Knockout
             return new KnockoutUiVmManager(webView, listener, logger);
         }
 
-        public string GetDebugScript()
+        private string GetDebugScript()
         {
             if (_JavascriptDebugScript != null)
                 return  _JavascriptDebugScript ;
@@ -30,7 +30,7 @@ namespace Neutronium.JavascriptFramework.Knockout
             return _JavascriptDebugScript ;
         }
 
-        public string GetDebugToogleScript()
+        private string GetDebugToogleScript()
         {
             return "ko.dodebug();";
         }
@@ -63,6 +63,13 @@ namespace Neutronium.JavascriptFramework.Knockout
         private ResourceReader GetResourceReader()
         {
             return new ResourceReader("scripts", this);
+        }
+
+        public void DebugVm(Action<string> runJavascript)
+        {
+            var javascriptDebugScript = GetDebugScript();
+            runJavascript(javascriptDebugScript);
+            runJavascript(GetDebugToogleScript());
         }
     }
 }

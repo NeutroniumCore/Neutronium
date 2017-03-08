@@ -3,6 +3,7 @@ using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.JavascriptFramework.Vue.Communication;
 
 namespace Neutronium.JavascriptFramework.Vue 
 {
@@ -15,12 +16,14 @@ namespace Neutronium.JavascriptFramework.Vue
         private readonly Lazy<IJavascriptObject> _VueHelperLazy;
         private readonly VueJavascriptSessionInjector _VueJavascriptSessionInjector;
         private readonly VueJavascriptViewModelUpdater _VueJavascriptViewModelUpdater;
+        private readonly IWebViewCommunication _WebViewCommunication;
         private readonly IWebSessionLogger _Logger;
 
-        public VueVmManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger) 
+        public VueVmManager(IWebView webView, IJavascriptObject listener, IWebViewCommunication webViewCommunication, IWebSessionLogger logger) 
         {
             _WebView = webView;
             _Logger = logger;
+            _WebViewCommunication = webViewCommunication;
             _VueHelperLazy = new Lazy<IJavascriptObject>(GetVueHelper);
             _VueJavascriptSessionInjector =  new VueJavascriptSessionInjector(webView, listener, _VueHelperLazy, _Logger);
             _VueJavascriptViewModelUpdater = new VueJavascriptViewModelUpdater(webView, listener, _VueHelperLazy, _Logger);    
@@ -32,6 +35,7 @@ namespace Neutronium.JavascriptFramework.Vue
             if ((vueHelper == null) || (vueHelper.IsUndefined))
                 throw ExceptionHelper.Get("glueHelper not found!");
 
+            _WebViewCommunication?.RegisterCommunicator(_WebView);
             return vueHelper;
         }
 

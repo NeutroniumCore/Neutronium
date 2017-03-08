@@ -5,6 +5,7 @@ using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.JavascriptFramework.Vue.Communication;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
@@ -17,18 +18,20 @@ namespace Neutronium.JavascriptFramework.Vue
         private string _DebugScript;
         private const string _ToogleDebug = "window.vueDebug();";
         private readonly IVueVersion _VueVersion;
+        private readonly IWebViewCommunication _WebViewCommunication;
 
         protected VueSessionInjectorBase(IVueVersion vueVersion)
         {
             _VueVersion = vueVersion;
+            _WebViewCommunication = new WebViewCommunication();
         }
 
         public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode) 
         {
-            return new VueVmManager(webView, listener, logger);
+            return new VueVmManager(webView, listener, debugMode ? _WebViewCommunication : null, logger);
         }
 
-        public string GetDebugScript()
+        private string GetDebugScript()
         {
             if (_DebugScript != null)
                 return _DebugScript;
@@ -54,9 +57,16 @@ namespace Neutronium.JavascriptFramework.Vue
             return new Uri(fullPath).AbsoluteUri;
         }
 
-        public string GetDebugToogleScript() 
+        private string GetDebugToogleScript() 
         {
             return _ToogleDebug;
+        }
+
+        public void DebugVm(Action<string> runJavascript)
+        {
+            var javascriptDebugScript = GetDebugScript();
+            runJavascript(javascriptDebugScript);
+            runJavascript(GetDebugToogleScript());
         }
 
         public string GetMainScript(bool debugMode)

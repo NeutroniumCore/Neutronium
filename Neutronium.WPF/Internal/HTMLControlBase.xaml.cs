@@ -295,20 +295,12 @@ namespace Neutronium.WPF.Internal
             }
         }
 
-        private void RunDebugscript()
-        {
-            if (_JavascriptDebugScript == null)
-            {
-                _JavascriptDebugScript = _Injector.GetDebugScript();
-            }
-            WPFDoubleBrowserNavigator.ExcecuteJavascript(_JavascriptDebugScript);
-        }
-
         public void ShowDebugWindow()
         {
-            RunDebugscript();
-            WPFDoubleBrowserNavigator.ExcecuteJavascript(_Injector.GetDebugToogleScript());
+            _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script));
             _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
+            //var window = new ViewModelDebug(_WPFWebWindowFactory.Create(), @"Internal\DebugTools\Window\index.html");
+            //window.Show();
         }
 
         public void OpenDebugBrowser()
