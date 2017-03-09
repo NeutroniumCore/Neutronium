@@ -72,8 +72,19 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private void RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 
         {
-            _WebViewCommunication.Listen(current, debugWebView);
-            _WebViewCommunication.Listen(debugWebView, current);
+            Func<string, string> postmesssage = (message) => $"window.postMessage('{message}','*');";
+
+            _WebViewCommunication.ExecuteCodeOnEvent(current, "debug", debugWebView, postmesssage);
+            _WebViewCommunication.ExecuteCodeOnEvent(debugWebView, "main", current, postmesssage);
+            _WebViewCommunication.Subscribe(debugWebView, "inject", _ => InjectBackend(current));
+        }
+
+        private void InjectBackend(IWebView current)
+        {
+            var loader = new ResourceReader("DebugTools.Window.dist", this);
+            var data = loader.Load("backend.js");
+            data += ";window.__listener__.postMessage('debug', '{\"type\": \"inject\"}');";
+            current.ExecuteJavaScript(data);
         }
 
         public string GetMainScript(bool debugMode)

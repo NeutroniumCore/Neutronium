@@ -7,8 +7,8 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
     {
         void RegisterCommunicator(IWebView webView);
 
-        IDisposable Subscribe(IWebView webView, Action<string> onEvent);
+        IDisposable Subscribe(IWebView webView, string channel, Action<string> onEvent);
 
-        IDisposable Listen(IWebView source, IWebView target);
+        IDisposable ExecuteCodeOnEvent(IWebView source, string channel, IWebView target, Func<string, string> codeBuilder);
     }
 }

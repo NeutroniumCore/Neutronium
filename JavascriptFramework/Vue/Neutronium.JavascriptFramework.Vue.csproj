@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communication\IWebViewCommunication.cs" />
+    <Compile Include="Communication\MessageEvent.cs" />
     <Compile Include="Communication\WebViewCommunication.cs" />
     <Compile Include="Communication\WebViewListener.cs" />
     <Compile Include="IVueVersion.cs" />
@@ -124,9 +125,7 @@
     <Content Include="DebugTools\Toolbar\styles.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DebugTools\Window\dist\backend.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="DebugTools\Window\dist\backend.js" />
     <Content Include="DebugTools\Window\dist\devtools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

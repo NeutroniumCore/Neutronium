@@ -25,20 +25,20 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
             return new WebViewListener(webView);
         }
 
-        public IDisposable Subscribe(IWebView webView, Action<string> onEvent)
+        public IDisposable Subscribe(IWebView webView, string channel, Action<string> onEvent)
         {
             var listener = Get(webView);
-            return listener.Subscribe(onEvent);
+            return listener.Subscribe(channel, message => Task.Run(() => onEvent(message)));
         }
 
-        public IDisposable Listen(IWebView source, IWebView target) 
+        public IDisposable ExecuteCodeOnEvent(IWebView source, string channel, IWebView target, Func<string,string> codeBuilder) 
         {
-            return Subscribe(source, GetDispatchAction(target));
+            return Subscribe(source, channel, GetDispatchAction(target, codeBuilder));
         }
 
-        private static Action<string> GetDispatchAction(IWebView target) 
+        private static Action<string> GetDispatchAction(IWebView target, Func<string, string> codeBuilder) 
         {
-            return message => { Task.Run(() => target.ExecuteJavaScript($"window.postMessage('{message}','*');")); };
+            return message => target.ExecuteJavaScript(codeBuilder(message));
         }
     }
 }
