@@ -5,6 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Neutronium ViewModel Debugger" Height="300" Width="300">
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     </Grid>
 </Window>
