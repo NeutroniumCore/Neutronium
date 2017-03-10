@@ -72,18 +72,28 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private void RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 
         {
-            Func<string, string> postmesssage = (message) => $"window.postMessage('{message}','*');";
+            //Func<string, string> postmesssage = (message) => $"window.postMessage('{message}','*');";
 
-            _WebViewCommunication.ExecuteCodeOnEvent(current, "debug", debugWebView, postmesssage);
-            _WebViewCommunication.ExecuteCodeOnEvent(debugWebView, "main", current, postmesssage);
+            _WebViewCommunication.ExecuteCodeOnEvent(current, "debug", debugWebView, PostMessage);
+            _WebViewCommunication.ExecuteCodeOnEvent(debugWebView, "main", current, PostMessage);
             _WebViewCommunication.Subscribe(debugWebView, "inject", _ => InjectBackend(current));
+            _WebViewCommunication.ExecuteCodeOnEvent(current, "inject", debugWebView, _ => "window.__listener__.emitter.emit('inject','');");
+        }
+
+        private static string PostMessage(string message)
+        {
+            //var res = $"window.postMessage('{message}','*');";
+            var res = $"window.__listener__.emitter.emit('data',{message});";
+            Console.WriteLine($"central message: {message}");
+            Console.WriteLine($"central send: '{res}'");
+            return res;
         }
 
         private void InjectBackend(IWebView current)
         {
             var loader = new ResourceReader("DebugTools.Window.dist", this);
             var data = loader.Load("backend.js");
-            data += ";window.__listener__.postMessage('debug', '{\"type\": \"inject\"}');";
+            data += ";window.__listener__.postMessage('inject', '');";
             current.ExecuteJavaScript(data);
         }
 

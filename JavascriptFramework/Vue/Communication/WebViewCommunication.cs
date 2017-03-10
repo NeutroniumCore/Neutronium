@@ -38,7 +38,11 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
 
         private static Action<string> GetDispatchAction(IWebView target, Func<string, string> codeBuilder) 
         {
-            return message => target.ExecuteJavaScript(codeBuilder(message));
+            return message =>
+            {
+                var transformed = message.Replace(@"\", @"\\");
+                target.ExecuteJavaScript(codeBuilder($"'{transformed}'"));
+            };
         }
     }
 }

@@ -40,7 +40,13 @@ namespace Neutronium.WPF.Internal.DebugTools
                 modern.BeforeJavascriptExecuted += Modern_BeforeJavascriptExecuted;
 
            var uri = new Uri($"{GetType().Assembly.GetPath()}\\{_path}");
+            _WPFWebWindow.HTMLWindow.ConsoleMessage += HTMLWindow_ConsoleMessage;
             _WPFWebWindow.HTMLWindow.NavigateTo(uri);
+        }
+
+        private void HTMLWindow_ConsoleMessage(object sender, ConsoleMessageArgs e)
+        {
+            Console.WriteLine($"Debug tools: {e.Message}");
         }
 
         private void Modern_BeforeJavascriptExecuted(object sender, BeforeJavascriptExcecutionArgs e) 
@@ -52,6 +58,7 @@ namespace Neutronium.WPF.Internal.DebugTools
 
         private void HTMLWindow_LoadEnd(object sender, Core.WebBrowserEngine.Window.LoadEndEventArgs e)
         {
+            Console.WriteLine($"Debug tools: loaded");
             _WPFWebWindow.HTMLWindow.LoadEnd -= HTMLWindow_LoadEnd;
             _WebBrowser.Visibility = Visibility.Visible;
             Visibility = Visibility.Visible;
