@@ -20,7 +20,7 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
             _Listener.Bind("postMessage", _WebView, (e) => PostMessage(e[0].GetStringValue(), e[1].GetStringValue()));
             _WebView.GetGlobal().SetValue("__neutronium_listener__", _Listener, CreationOption.DontDelete | CreationOption.ReadOnly | CreationOption.DontEnum);
 
-            var loader = new ResourceReader("Communication.script", this);
+            var loader = new ResourceReader("Communication.script.dist", this);
             var data = loader.Load("communication.js");
             _WebView.ExecuteJavaScript(data);
         }

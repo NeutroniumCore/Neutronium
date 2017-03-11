@@ -95,7 +95,9 @@
     <EmbeddedResource Include="scripts\subscribeArray.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Communication\script\communication.js" />
+    <EmbeddedResource Include="Communication\script\dist\communication.js" />
+    <Content Include="Communication\script\src\communication.js" />
+    <Content Include="Communication\script\webpack.config.js" />
     <Content Include="resource\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -174,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bundleconfig.json" />
+    <None Include="Communication\script\.eslintrc" />
+    <None Include="Communication\script\package.json" />
+    <None Include="Communication\script\yarn.lock" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>

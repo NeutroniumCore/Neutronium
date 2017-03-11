@@ -1,0 +1,42 @@
+{
+  "name": "neutronium-communication",
+  "version": "3.0.8",
+  "description": "",
+  "main": "communication.js",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production && webpack --progress --hide-modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "vue",
+    "devtools"
+  ],
+  "author": "David Desmaisons",
+  "license": "MIT",
+  "bugs": {
+  },
+  "homepage": "",
+  "devDependencies": {
+    "buble": "^0.15.1",
+    "buble-loader": "^0.4.0",
+    "chromedriver": "^2.25.1",
+    "cross-env": "^3.1.3",
+    "eslint": "^3.9.1",
+    "eslint-config-vue": "^2.0.0",
+    "eslint-plugin-vue": "^1.0.0",
+    "file-loader": "^0.9.0",
+    "friendly-errors-webpack-plugin": "^1.1.2",
+    "nightwatch": "^0.9.4",
+    "nightwatch-helpers": "^1.2.0",
+    "selenium-server": "2.52.0",
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^2.2.0"
+  },
+  "dependencies": {
+    "circular-json-es6": "^2.0.0",
+    "mitt": "^1.1.0"
+  }
+}
