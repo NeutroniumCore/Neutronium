@@ -12,5 +12,7 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
         IDisposable SubscribeAll(IWebView webView, Action<string, string> onEvent);
 
         IDisposable ExecuteCodeOnAllEvents(IWebView source, IWebView target, Func<string, string, string> codeBuilder);
+
+        IDisposable Connect(IWebView first, IWebView second);
     }
 }

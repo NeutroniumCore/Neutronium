@@ -97,6 +97,7 @@
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Infra\AddLoger.cs" />
+    <Compile Include="Infra\ComposedDisposable.cs" />
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
     <Compile Include="JavascriptFramework\BinderBuilder.cs" />

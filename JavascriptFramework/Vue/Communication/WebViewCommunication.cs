@@ -2,6 +2,8 @@
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
 using MoreCollection.Extensions;
+using System.Diagnostics;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.JavascriptFramework.Vue.Communication
 {
@@ -39,6 +41,20 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
         public IDisposable ExecuteCodeOnAllEvents(IWebView source, IWebView target, Func<string,string, string> codeBuilder) 
         {
             return SubscribeAll(source, GetDispatchAction(target, codeBuilder));
+        }
+
+        public IDisposable Connect(IWebView first, IWebView second)
+        {
+            var disp1 = SubscribeAll(first, GetDispatchAction(second, PostMessage));
+            var disp2 = SubscribeAll(second, GetDispatchAction(first, PostMessage));
+            return new ComposedDisposable(disp1, disp2);
+        }
+
+        private static string PostMessage(string channel, string message)
+        {
+            var code = $"window.__neutronium_listener__.emit({channel},{message});";
+            Trace.WriteLine(code);
+            return code;
         }
 
         private static Action<string, string> GetDispatchAction(IWebView target, Func<string, string, string> codeBuilder) 

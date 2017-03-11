@@ -95,13 +95,8 @@
     <EmbeddedResource Include="scripts\subscribeArray.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Communication\script\communication.js" />
     <Content Include="resource\logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\backend.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="scripts\devtools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="scripts\hook.js" />
