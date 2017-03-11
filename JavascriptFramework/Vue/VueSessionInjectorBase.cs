@@ -5,6 +5,7 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.JavascriptFramework.Vue.Communication;
+using System.Diagnostics;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
@@ -35,22 +36,23 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private void RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 
         {
-            _WebViewCommunication.ExecuteCodeOnEvent(current, "debug", debugWebView, PostMessage);
-            _WebViewCommunication.ExecuteCodeOnEvent(debugWebView, "main", current, PostMessage);
+            _WebViewCommunication.ExecuteCodeOnAllEvents(current, debugWebView, PostMessage);
+            _WebViewCommunication.ExecuteCodeOnAllEvents(debugWebView, current, PostMessage);
             _WebViewCommunication.Subscribe(debugWebView, "inject", _ => InjectBackend(current));
-            _WebViewCommunication.ExecuteCodeOnEvent(current, "inject", debugWebView, _ => "window.__listener__.emitter.emit('inject','');");
         }
 
-        private static string PostMessage(string message)
+        private static string PostMessage(string channel, string message)
         {
-            return $"window.__listener__.emitter.emit('data',{message});";
+            var code = $"window.__listener__.emitter.emit({channel},{message});";
+            Trace.WriteLine(code);
+            return code;
         }
 
         private void InjectBackend(IWebView current)
         {
             var loader = new ResourceReader("DebugTools.Window.dist", this);
             var data = loader.Load("backend.js");
-            data += ";window.__listener__.postMessage('inject', '');";
+            data += ";window.__listener__.postMessage('injectDone', '');";
             current.ExecuteJavaScript(data);
         }
 

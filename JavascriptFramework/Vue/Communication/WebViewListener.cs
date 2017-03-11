@@ -2,6 +2,7 @@
 using Neutronium.Core.Extension;
 using System;
 using Neutronium.Core.Infra;
+using System.Threading.Tasks;
 
 namespace Neutronium.JavascriptFramework.Vue.Communication
 {
@@ -27,13 +28,27 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
 
         public IDisposable Subscribe(string channel, Action<string> onEvent)
         {
-            EventHandler<MessageEvent> ea = (o, message) =>
+            EventHandler<MessageEvent> ea = (o, message) => Task.Run(() =>
             {
-                if (channel==message.Channel)
+                if (channel == message.Channel)
                     onEvent(message.Message);
-            };
-            _MessageReceived += ea;
-            return new DisposableAction(() => _MessageReceived -= ea);
+            });       
+            return Register(ea);
+        }
+
+        public IDisposable SubscribeAllChannel(Action<string, string> onEvent)
+        {
+            EventHandler<MessageEvent> ea = (o, message) => Task.Run(() =>
+            {
+                onEvent(message.Channel , message.Message);
+            });
+            return Register(ea);
+        }
+
+        private IDisposable Register(EventHandler<MessageEvent> eventHandler)
+        {
+            _MessageReceived += eventHandler;
+            return new DisposableAction(() => _MessageReceived -= eventHandler);
         }
 
         public void Dispose()

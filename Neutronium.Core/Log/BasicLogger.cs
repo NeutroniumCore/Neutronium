@@ -43,7 +43,7 @@ namespace Neutronium.Core.Log
 
         public void LogBrowser(ConsoleMessageArgs e, Uri url) 
         {
-            Log($"Brower Log: {e}, page: {url}");
+            Log($"Browser Log: {e}, page: {url}");
         }
 
         void IWebSessionLogger.WebBrowserError(Exception exception, Action cancel)

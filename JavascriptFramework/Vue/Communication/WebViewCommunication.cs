@@ -1,7 +1,6 @@
 ﻿using System;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using MoreCollection.Extensions;
 
 namespace Neutronium.JavascriptFramework.Vue.Communication
@@ -28,20 +27,26 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
         public IDisposable Subscribe(IWebView webView, string channel, Action<string> onEvent)
         {
             var listener = Get(webView);
-            return listener.Subscribe(channel, message => Task.Run(() => onEvent(message)));
+            return listener.Subscribe(channel, onEvent);
         }
 
-        public IDisposable ExecuteCodeOnEvent(IWebView source, string channel, IWebView target, Func<string,string> codeBuilder) 
+        public IDisposable SubscribeAll(IWebView webView, Action<string, string> onEvent)
         {
-            return Subscribe(source, channel, GetDispatchAction(target, codeBuilder));
+            var listener = Get(webView);
+            return listener.SubscribeAllChannel(onEvent);
         }
 
-        private static Action<string> GetDispatchAction(IWebView target, Func<string, string> codeBuilder) 
+        public IDisposable ExecuteCodeOnAllEvents(IWebView source, IWebView target, Func<string,string, string> codeBuilder) 
         {
-            return message =>
+            return SubscribeAll(source, GetDispatchAction(target, codeBuilder));
+        }
+
+        private static Action<string, string> GetDispatchAction(IWebView target, Func<string, string, string> codeBuilder) 
+        {
+            return (channel, message) =>
             {
                 var transformed = message.Replace(@"\", @"\\");
-                target.ExecuteJavaScript(codeBuilder($"'{transformed}'"));
+                target.ExecuteJavaScript(codeBuilder($"'{channel}'", $"'{transformed}'"));
             };
         }
     }
