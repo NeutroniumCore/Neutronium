@@ -43,7 +43,7 @@ namespace Neutronium.JavascriptFramework.Vue
         {
             var loader = new ResourceReader("DebugTools.Window.dist", this);
             var data = loader.Load("backend.js");
-            data += ";window.__neutronium_listener__.post('injectDone', '');";
+            data = ";window.__neutronium_listener__.post('injectDone');" + data;
             current.ExecuteJavaScript(data);
         }
 
