@@ -13,6 +13,7 @@ namespace Tests.ChromiumFX.Infra {
         private readonly CfxClient _CfxClient;
         public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
         public IWebBrowserWindow HTMLWindow { get; }
+        event EventHandler<bool> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
 
         public ChromiumFXHTMLWindowProvider(CfxClient cfxClient, IWebView webview, Uri url) 
         {

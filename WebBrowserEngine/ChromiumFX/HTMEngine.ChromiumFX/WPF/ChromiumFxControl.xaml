@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
     </UserControl.Resources>
-    <WindowsFormsHost VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+    <WindowsFormsHost x:Name="Host" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
         <chromiumFxWebBrowser:ChromiumWebBrowser x:Name="ChromiumWebBrowser" Dock="Fill" />
     </WindowsFormsHost>
 </UserControl>

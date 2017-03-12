@@ -38,5 +38,10 @@ namespace Neutronium.Core.WebBrowserEngine.Control
         /// Close debug tools window if possible
         /// </summary>
         void CloseDebugTools();
+
+        /// <summary>
+        /// event send when debug tools is openong or closing
+        /// </summary>
+        event EventHandler<bool> DebugToolOpened;
     }
 }

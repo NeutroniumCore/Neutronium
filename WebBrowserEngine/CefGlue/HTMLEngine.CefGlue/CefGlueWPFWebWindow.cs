@@ -6,12 +6,19 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Neutronium.WebBrowserEngine.CefGlue.WindowImplementation;
 using Neutronium.WPF;
+using System;
 
 namespace Neutronium.WebBrowserEngine.CefGlue
 {
     internal class CefGlueWPFWebWindow : IWPFWebWindow
     {
+        public IWebBrowserWindow HTMLWindow => _WpfCefBrowser;
+        public UIElement UIElement => _WpfCefBrowser;
+        public bool IsUIElementAlwaysTopMost => false;
+        event EventHandler<bool> IWPFWebWindow.DebugToolOpened { add { } remove { } }
+
         private readonly WpfCefBrowser _WpfCefBrowser;
+       
         internal CefGlueWPFWebWindow(NeutroniumCefApp app)
         {
             _WpfCefBrowser = new WpfCefBrowser(app)
@@ -23,24 +30,9 @@ namespace Neutronium.WebBrowserEngine.CefGlue
             };
         }
 
-        public IWebBrowserWindow HTMLWindow
-        {
-            get { return _WpfCefBrowser; }
-        }
-
         public void Inject(Key KeyToInject)
         {
             _WpfCefBrowser.Inject(KeyToInject);
-        }
-
-        public UIElement UIElement
-        {
-            get { return _WpfCefBrowser; }
-        }
-
-        public bool IsUIElementAlwaysTopMost 
-        {
-            get { return false; }
         }
 
         public bool OnDebugToolsRequest() 

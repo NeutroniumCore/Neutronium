@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra.VM;
@@ -269,17 +268,7 @@ namespace Neutronium.WPF.Internal
                    .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
                    .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")
                    .AppendLine($"MVVM Binding: {_Injector.Name}");
-            MessageBox.Show(GetParentWindow(), builder.ToString(), "Neutronium configuration");
-        }
-
-        private Window GetParentWindow()
-        {
-            var parent = VisualTreeHelper.GetParent(this);
-            while (!(parent is Window))
-            {
-                parent = VisualTreeHelper.GetParent(parent);
-            }
-            return parent as Window;
+            MessageBox.Show(Window.GetWindow(this), builder.ToString(), "Neutronium configuration");
         }
 
         public IWebSessionLogger WebSessionLogger
@@ -329,9 +318,20 @@ namespace Neutronium.WPF.Internal
             if (currentWebControl == null)
                 return;
 
+            WPFDoubleBrowserNavigator.WebControl.DebugToolOpened += WebControl_DebugToolOpened;
+
             var result = currentWebControl.OnDebugToolsRequest();
             if (!result)
                 MessageBox.Show("Debug tools not available!");
+        }
+
+        private void WebControl_DebugToolOpened(object sender, bool opened)
+        {
+            _DebugInformation.IsInspecting = opened;
+            if (!opened)
+            {
+                WPFDoubleBrowserNavigator.WebControl.DebugToolOpened -= WebControl_DebugToolOpened;
+            }
         }
 
         public void CloseDebugBrowser()

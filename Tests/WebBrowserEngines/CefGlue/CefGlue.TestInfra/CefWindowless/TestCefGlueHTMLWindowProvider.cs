@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Infra;
+﻿using System;
+using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Xilium.CefGlue;
@@ -8,6 +9,8 @@ namespace CefGlue.TestInfra.CefWindowless
     public class TestCefGlueHTMLWindowProvider : IWebBrowserWindowProvider
     {
         private readonly TestCefClient _TestCefClient;
+
+        event EventHandler<bool> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
         public IWebBrowserWindow HTMLWindow { get; }
         public IDispatcher UIDispatcher => new NullUIDispatcher();
 

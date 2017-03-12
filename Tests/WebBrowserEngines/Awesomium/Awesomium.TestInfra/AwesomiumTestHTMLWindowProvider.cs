@@ -11,6 +11,7 @@ namespace Tests.Awesomium.Infra
     {
         public IWebBrowserWindow HTMLWindow { get; }
         public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
+        event EventHandler<bool> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
 
         internal AwesomiumTestHTMLWindowProvider(IWebView webView, Uri path)
         {

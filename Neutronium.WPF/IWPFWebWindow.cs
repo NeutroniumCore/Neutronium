@@ -44,5 +44,7 @@ namespace Neutronium.WPF
         /// Close debug tools window if possible
         /// </summary>
         void CloseDebugTools();
+
+        event EventHandler<bool> DebugToolOpened;
     }
 }
