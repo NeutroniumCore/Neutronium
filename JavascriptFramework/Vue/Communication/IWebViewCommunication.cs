@@ -7,6 +7,8 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
     {
         void RegisterCommunicator(IWebView webView);
 
+        void Disconnect(IWebView webView);
+
         IDisposable Subscribe(IWebView webView, string channel, Action<string> onEvent);
 
         IDisposable SubscribeAll(IWebView webView, Action<string, string> onEvent);

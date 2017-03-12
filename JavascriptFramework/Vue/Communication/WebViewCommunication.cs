@@ -16,6 +16,11 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
             Get(webView);
         }
 
+        public void Disconnect(IWebView webView)
+        {
+            _Listeners.Remove(webView);
+        }
+
         private WebViewListener Get(IWebView webView)
         {
             return _Listeners.GetOrAddEntity(webView, RegisterWebView);

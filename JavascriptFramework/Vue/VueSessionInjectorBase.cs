@@ -37,7 +37,8 @@ namespace Neutronium.JavascriptFramework.Vue
         {
             var disp = _WebViewCommunication.Connect(current, debugWebView);
             var disp2 = _WebViewCommunication.Subscribe(debugWebView, "inject", _ => InjectBackend(current));
-            return new ComposedDisposable(disp, disp2);
+            var disconnector = new DisposableAction(() => _WebViewCommunication.Disconnect(debugWebView));
+            return new ComposedDisposable(disp, disp2, disconnector);
         }
 
         private void InjectBackend(IWebView current)
