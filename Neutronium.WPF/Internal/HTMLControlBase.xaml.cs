@@ -227,9 +227,6 @@ namespace Neutronium.WPF.Internal
             if (_Injector == null)
                 throw ExceptionHelper.Get($"Not able to find JavascriptUIEngine {JavascriptUIEngine}. Please register the correspoding Javascript UIEngine.");
 
-            var debugableVm = _Injector.HasDebugScript();
-            _DebugInformation.SetVmDebug(debugableVm);
-
             _WPFDoubleBrowserNavigator = GetDoubleBrowserNavigator();
 
             WebSessionLogger = WebSessionLogger?? engine.WebSessionLogger;
@@ -306,8 +303,10 @@ namespace Neutronium.WPF.Internal
             _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script), 
                                 (path, onCreate) => ShowHTMLWindow(path, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
 
-            if (_VmDebugWindow==null)
+            if (_VmDebugWindow == null)
                 _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
+            else
+                _DebugInformation.IsDebuggingVm = true;
         }
 
         private void ShowHTMLWindow(string path, Func<IWebView, IDisposable> injectedCode) 
@@ -321,6 +320,7 @@ namespace Neutronium.WPF.Internal
         {
             _VmDebugWindow.Closed -= _VmDebugWindow_Closed;
             _VmDebugWindow = null;
+            _DebugInformation.IsDebuggingVm = false;
         }
 
         public void OpenDebugBrowser()

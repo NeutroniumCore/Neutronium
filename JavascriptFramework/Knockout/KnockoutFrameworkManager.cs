@@ -35,11 +35,6 @@ namespace Neutronium.JavascriptFramework.Knockout
             return "ko.dodebug();";
         }
 
-        public bool HasDebugScript()
-        {
-            return true;
-        }
-
         public string GetMainScript(bool debugMode)
         {
             if (_MainScript != null)

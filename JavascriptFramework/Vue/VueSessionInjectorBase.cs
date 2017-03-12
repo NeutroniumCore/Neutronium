@@ -69,8 +69,6 @@ namespace Neutronium.JavascriptFramework.Vue
             return builder.ToString();
         }
 
-        public bool HasDebugScript() => true;
-
         private ResourceReader GetResourceReader()
         {
             return new ResourceReader("scripts", this);

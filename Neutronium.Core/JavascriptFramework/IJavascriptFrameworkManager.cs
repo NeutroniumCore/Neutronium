@@ -68,12 +68,6 @@ namespace Neutronium.Core.JavascriptFramework
         string GetMainScript(bool debugContext);
 
         /// <summary>
-        /// true if the injector returns a valid debug script
-        /// </summary>
-        bool HasDebugScript();
-
-
-        /// <summary>
         /// return relative path to toolbar HTML file if any
         /// null otherwise.
         /// </summary>

@@ -127,9 +127,6 @@
     <Content Include="DebugTools\Window\dist\devtools.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DebugTools\Window\dist\hook.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="DebugTools\Window\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -172,7 +169,6 @@
       <DependentUpon>vueGlue.es5.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="scripts\vue1\vueComandDirective.js" />
-    <EmbeddedResource Include="scripts\vuedebug.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bundleconfig.json" />
