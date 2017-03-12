@@ -28,10 +28,10 @@ namespace Neutronium.WPF.Internal
         private DebugInformation _DebugInformation;
         private IWPFWebWindowFactory _WPFWebWindowFactory;
         private IWebSessionLogger _webSessionLogger;
-        private string _JavascriptDebugScript = null;
         private readonly IUrlSolver _UrlSolver;
         private IJavascriptFrameworkManager _Injector;
         private string _SaveDirectory;
+        private HTMLSimpleWindow _VmDebugWindow;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private DoubleBrowserNavigator WPFDoubleBrowserNavigator
         {
@@ -298,15 +298,29 @@ namespace Neutronium.WPF.Internal
 
         public void ShowDebugWindow()
         {
+            if (_VmDebugWindow != null)
+            {
+                _VmDebugWindow.Activate();
+                return;
+            }
             _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script), 
-                                (path,action) => ShowHTMLWindow(path, debug => action(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
-            _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
+                                (path, onCreate) => ShowHTMLWindow(path, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
+
+            if (_VmDebugWindow==null)
+                _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
         }
 
-        private void ShowHTMLWindow(string path, Action<IWebView> injectedCode) 
+        private void ShowHTMLWindow(string path, Func<IWebView, IDisposable> injectedCode) 
         {
-            var window = new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path,  injectedCode);
-            window.Show();
+            _VmDebugWindow = new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path,  injectedCode);
+            _VmDebugWindow.Closed += _VmDebugWindow_Closed;
+            _VmDebugWindow.Show();
+        }
+
+        private void _VmDebugWindow_Closed(object sender, EventArgs e)
+        {
+            _VmDebugWindow.Closed -= _VmDebugWindow_Closed;
+            _VmDebugWindow = null;
         }
 
         public void OpenDebugBrowser()

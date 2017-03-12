@@ -9,19 +9,20 @@ namespace Neutronium.WPF.Internal.DebugTools
     /// <summary>
     /// Interaction logic for ViewModelDebug.xaml
     /// </summary>
-    public partial class HTMLSimpleWindow : Window
+    public partial class HTMLSimpleWindow : IDisposable
     {
         private readonly IWPFWebWindow _WPFWebWindow;
         private readonly string _path;
         private UIElement _WebBrowser;
-        private Action<IWebView> _OnWebViewCreated;
+        private Func<IWebView, IDisposable> _OnWebViewCreated;
+        private IDisposable _Disposable;
 
         public HTMLSimpleWindow()
         {
             InitializeComponent();
         }
 
-        public HTMLSimpleWindow(IWPFWebWindow wpfWebWindow, string path, Action<IWebView> onWebViewCreated)
+        public HTMLSimpleWindow(IWPFWebWindow wpfWebWindow, string path, Func<IWebView, IDisposable> onWebViewCreated)
         {
             _WPFWebWindow = wpfWebWindow;
             _path = path;
@@ -53,7 +54,7 @@ namespace Neutronium.WPF.Internal.DebugTools
         {
             var modern = _WPFWebWindow.HTMLWindow as IModernWebBrowserWindow;
             modern.BeforeJavascriptExecuted -= Modern_BeforeJavascriptExecuted;
-            _OnWebViewCreated(e.WebView);
+            _Disposable = _OnWebViewCreated(e.WebView);
         }
 
         private void HTMLWindow_LoadEnd(object sender, Core.WebBrowserEngine.Window.LoadEndEventArgs e)
@@ -62,6 +63,18 @@ namespace Neutronium.WPF.Internal.DebugTools
             _WPFWebWindow.HTMLWindow.LoadEnd -= HTMLWindow_LoadEnd;
             _WebBrowser.Visibility = Visibility.Visible;
             Visibility = Visibility.Visible;
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            _Disposable?.Dispose();
+            _Disposable = null;
         }
     }
 }

@@ -28,15 +28,16 @@ namespace Neutronium.JavascriptFramework.Vue
             return new VueVmManager(webView, listener, debugMode ? _WebViewCommunication : null, logger);
         }
 
-        public void DebugVm(Action<string> runJavascript, Action<string, Action<IWebView, IWebView>> openNewWindow)
+        public void DebugVm(Action<string> runJavascript, Action<string, Func<IWebView, IWebView, IDisposable>> openNewWindow)
         {
             openNewWindow(@"DebugTools\Window\index.html", RegisterDebugWindowHook);
         }
 
-        private void RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 
+        private IDisposable RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 
         {
-            _WebViewCommunication.Connect(current, debugWebView);
-            _WebViewCommunication.Subscribe(debugWebView, "inject", _ => InjectBackend(current));
+            var disp = _WebViewCommunication.Connect(current, debugWebView);
+            var disp2 = _WebViewCommunication.Subscribe(debugWebView, "inject", _ => InjectBackend(current));
+            return new ComposedDisposable(disp, disp2);
         }
 
         private void InjectBackend(IWebView current)
