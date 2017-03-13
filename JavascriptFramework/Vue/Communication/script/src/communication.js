@@ -19,14 +19,16 @@ listener.emit = function (channel, data) {
 
 const rawPost = listener.postMessage
 const post = function (channel, data = null) {
-  var stringData = CircularJson.stringify(data);
+  var stringData = CircularJson.stringify(data)
   rawPost(channel, stringData)
 }
 listener.post = post;
 
-
-listener.eval = function (code) {
-  post('code', code)
+listener.eval = function (codeChannel, code) {
+  post(`code:${codeChannel}`, code)
 }
 
-on('code',code => eval(code));
+listener.runCodeOn = function (codeChannel) {
+  on(`code:${codeChannel}`, code => eval(code))
+}
+
