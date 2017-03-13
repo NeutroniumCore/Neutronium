@@ -2,7 +2,6 @@
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
 using MoreCollection.Extensions;
-using System.Diagnostics;
 using Neutronium.Core.Infra;
 
 namespace Neutronium.JavascriptFramework.Vue.Communication
@@ -57,9 +56,7 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
 
         private static string PostMessage(string channel, string message)
         {
-            var code = $"window.__neutronium_listener__.emit({channel},{message});";
-            Trace.WriteLine(code);
-            return code;
+            return $"window.__neutronium_listener__.emit({channel},{message});";
         }
 
         private static Action<string, string> GetDispatchAction(IWebView target, Func<string, string, string> codeBuilder) 
