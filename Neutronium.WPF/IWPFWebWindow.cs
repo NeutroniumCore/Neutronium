@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.WPF
@@ -45,6 +46,9 @@ namespace Neutronium.WPF
         /// </summary>
         void CloseDebugTools();
 
-        event EventHandler<bool> DebugToolOpened;
+        /// <summary>
+        /// event send when debug tools is openong or closing
+        /// </summary>
+        event EventHandler<DebugEventArgs> DebugToolOpened;
     }
 }

@@ -14,7 +14,7 @@ namespace Neutronium.WPF.Internal
         public IWebBrowserWindow HTMLWindow => _WPFWebWindow.HTMLWindow;
         public IWPFWebWindow WPFWebWindow => _WPFWebWindow;
         public IDispatcher UIDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
-        public event EventHandler<bool> DebugToolOpened
+        public event EventHandler<DebugEventArgs> DebugToolOpened
         {
             add { _WPFWebWindow.DebugToolOpened += value; }
             remove { _WPFWebWindow.DebugToolOpened -= value; }

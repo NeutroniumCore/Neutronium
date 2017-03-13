@@ -74,7 +74,6 @@ namespace Tests.ChromiumFX.Infra
                 throw new Exception("Failed to initialize CEF library.");
 
             Thread.Sleep(200);
-
         }
 
         internal int RenderProcessStartup() 

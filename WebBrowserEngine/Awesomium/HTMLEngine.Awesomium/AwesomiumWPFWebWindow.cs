@@ -8,6 +8,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.Awesomium;
 using Neutronium.WPF;
 using System;
+using Neutronium.Core.WebBrowserEngine.Control;
 
 namespace HTMLEngine.Awesomium
 {
@@ -21,7 +22,7 @@ namespace HTMLEngine.Awesomium
         public IWebBrowserWindow HTMLWindow => _AwesomiumHTMLWindow;
         public UIElement UIElement => _WebControl;
         public bool IsUIElementAlwaysTopMost => false;
-        event EventHandler<bool> IWPFWebWindow.DebugToolOpened { add { } remove { } }
+        event EventHandler<DebugEventArgs> IWPFWebWindow.DebugToolOpened { add { } remove { } }
 
         public AwesomiumWPFWebWindow(WebSession iSession, WebConfig webConfig)
         {

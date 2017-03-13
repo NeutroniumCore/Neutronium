@@ -10,7 +10,7 @@ namespace CefGlue.TestInfra.CefWindowless
     {
         private readonly TestCefClient _TestCefClient;
 
-        event EventHandler<bool> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
+        event EventHandler<DebugEventArgs> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
         public event EventHandler OnDisposed;
         public IWebBrowserWindow HTMLWindow { get; }
         public IDispatcher UIDispatcher => new NullUIDispatcher();

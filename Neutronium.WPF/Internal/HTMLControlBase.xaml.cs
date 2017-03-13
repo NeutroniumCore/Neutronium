@@ -329,10 +329,10 @@ namespace Neutronium.WPF.Internal
                 MessageBox.Show("Debug tools not available!");
         }
 
-        private void WebControl_DebugToolOpened(object sender, bool opened)
+        private void WebControl_DebugToolOpened(object sender, DebugEventArgs eventArgs)
         {
-            _DebugInformation.IsInspecting = opened;
-            if (!opened)
+            _DebugInformation.IsInspecting = eventArgs.Opening;
+            if (!eventArgs.Opening)
             {
                 WPFDoubleBrowserNavigator.WebControl.DebugToolOpened -= WebControl_DebugToolOpened;
             }

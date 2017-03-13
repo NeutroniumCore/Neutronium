@@ -7,6 +7,7 @@ using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Neutronium.WebBrowserEngine.CefGlue.WindowImplementation;
 using Neutronium.WPF;
 using System;
+using Neutronium.Core.WebBrowserEngine.Control;
 
 namespace Neutronium.WebBrowserEngine.CefGlue
 {
@@ -15,7 +16,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue
         public IWebBrowserWindow HTMLWindow => _WpfCefBrowser;
         public UIElement UIElement => _WpfCefBrowser;
         public bool IsUIElementAlwaysTopMost => false;
-        event EventHandler<bool> IWPFWebWindow.DebugToolOpened { add { } remove { } }
+        event EventHandler<DebugEventArgs> IWPFWebWindow.DebugToolOpened { add { } remove { } }
 
         private readonly WpfCefBrowser _WpfCefBrowser;
        

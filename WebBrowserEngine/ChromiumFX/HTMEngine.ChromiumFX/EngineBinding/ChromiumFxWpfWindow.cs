@@ -9,6 +9,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 using Neutronium.WPF.Internal;
 using Chromium.Event;
+using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.WebBrowserEngine.ChromiumFx.Helper;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
@@ -27,7 +28,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public bool IsUIElementAlwaysTopMost => true;
         public IWebBrowserWindow HTMLWindow => _chromiumFxControlWebBrowserWindow;
         public ChromiumWebBrowser ChromiumWebBrowser => _ChromiumWebBrowser;
-        public event EventHandler<bool> DebugToolOpened;
+        public event EventHandler<DebugEventArgs> DebugToolOpened;
 
         public ChromiumFxWpfWindow(IWebSessionLogger logger) 
         {
@@ -74,7 +75,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _DebugCfxClient = new CfxClient();
             _DebugCfxClient.GetLifeSpanHandler += DebugClient_GetLifeSpanHandler;
             _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, _DebugCfxClient, new CfxBrowserSettings(), null);
-            DebugToolOpened?.Invoke(this, true);
+            DebugToolOpened?.Invoke(this, new DebugEventArgs(true, null));
             return true;
         }
 
@@ -93,7 +94,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             _DebugWindowHandle = IntPtr.Zero;
             _DebugCfxClient = null;
-            DebugToolOpened?.Invoke(this, false);
+            DebugToolOpened?.Invoke(this, new DebugEventArgs(false, null));
         }
 
         private void DebugLifeSpan_OnAfterCreated(object sender, CfxOnAfterCreatedEventArgs e)
@@ -104,7 +105,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public void CloseDebugTools() 
         {
             _ChromiumWebBrowser.BrowserHost.CloseDevTools();
-            DebugToolOpened?.Invoke(this, false);
+            DebugToolOpened?.Invoke(this, new DebugEventArgs(false, null));
         }
 
         public void Dispose()
