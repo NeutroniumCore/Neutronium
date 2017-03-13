@@ -9,6 +9,8 @@ namespace Example.ChromiumFX.Vue.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Skill _FirstSkill;
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -26,12 +28,7 @@ namespace Example.ChromiumFX.Vue.UI
             datacontext.Skills.Add(new Skill() { Name = "Info", Type = "C++" });
 
             DataContext = datacontext;
-            _Person = datacontext;
         }
-
-        private Skill _FirstSkill;
-        private Person _Person;
-
 
         protected override void OnClosed(EventArgs e)
         {

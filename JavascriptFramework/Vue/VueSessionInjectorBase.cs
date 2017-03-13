@@ -36,7 +36,7 @@ namespace Neutronium.JavascriptFramework.Vue
         private IDisposable RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 
         {
             var disp = _WebViewCommunication.Connect(current, debugWebView);
-            var disp2 = _WebViewCommunication.Subscribe(debugWebView, "inject", _ => InjectBackend(current));
+            var disp2 = _WebViewCommunication.Subscribe(debugWebView, "main:inject", _ => InjectBackend(current));
             var disconnector = new DisposableAction(() => _WebViewCommunication.Disconnect(debugWebView));
             return new ComposedDisposable(disp, disp2, disconnector);
         }
@@ -45,7 +45,7 @@ namespace Neutronium.JavascriptFramework.Vue
         {
             var loader = new ResourceReader("DebugTools.Window.dist", this);
             var data = loader.Load("backend.js");
-            data = ";window.__neutronium_listener__.post('injectDone');" + data;
+            data = ";window.__neutronium_listener__.post('dev:injectDone');" + data;
             current.ExecuteJavaScript(data);
         }
 
