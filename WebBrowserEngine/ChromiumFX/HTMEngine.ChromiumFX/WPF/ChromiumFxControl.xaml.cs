@@ -1,5 +1,7 @@
 ﻿using Chromium.WebBrowser;
+using System.Threading.Tasks;
 using System.Windows;
+using System;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
@@ -7,7 +9,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
     {
         internal ChromiumWebBrowser WebBrowser => ChromiumWebBrowser;
         private Window Window { get; set; }
-        private bool _FirstActived = true;
 
         public ChromiumFxControl() 
         {
@@ -19,26 +20,23 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             this.Loaded -= ChromiumFxControl_Loaded;
             Window = Window.GetWindow(this);
+            Window.StateChanged += Window_StateChanged;
             Window.Closed += Window_Closed;
-            Window.Activated += Window_Activated;
         }
 
-        private void Window_Activated(object sender, System.EventArgs e)
+        private async void Window_StateChanged(object sender, EventArgs e)
         {
-            if (_FirstActived)
-            {
-                _FirstActived = false;
+            if (Window.WindowState == WindowState.Minimized)
                 return;
-            }
-            //Host.InvalidateArrange();
-            System.Action refresh = () => { ChromiumWebBrowser.Invalidate(); };
-            this.Dispatcher.BeginInvoke(refresh);
+
+            await Task.Delay(10);
+            ChromiumWebBrowser.Refresh();
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
             Window.Closed -= Window_Closed;
-            Window.Activated -= Window_Closed;
+            Window.StateChanged -= Window_StateChanged;
         }
     }
 }
