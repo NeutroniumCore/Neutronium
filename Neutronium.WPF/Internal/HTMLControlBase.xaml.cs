@@ -32,6 +32,7 @@ namespace Neutronium.WPF.Internal
         private string _SaveDirectory;
         private HTMLSimpleWindow _VmDebugWindow;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
+        private Window Window => Window.GetWindow(this);
         private DoubleBrowserNavigator WPFDoubleBrowserNavigator
         {
             get
@@ -268,7 +269,7 @@ namespace Neutronium.WPF.Internal
                    .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
                    .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")
                    .AppendLine($"MVVM Binding: {_Injector.Name}");
-            MessageBox.Show(Window.GetWindow(this), builder.ToString(), "Neutronium configuration");
+            MessageBox.Show(Window, builder.ToString(), "Neutronium configuration");
         }
 
         public IWebSessionLogger WebSessionLogger
@@ -300,7 +301,10 @@ namespace Neutronium.WPF.Internal
 
         private void ShowHTMLWindow(string path, Func<IWebView, IDisposable> injectedCode) 
         {
-            _VmDebugWindow = new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path,  injectedCode);
+            _VmDebugWindow = new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, injectedCode) 
+            {
+                Owner = Window
+            };
             _VmDebugWindow.Closed += _VmDebugWindow_Closed;
             _VmDebugWindow.Show();
         }
@@ -375,7 +379,20 @@ namespace Neutronium.WPF.Internal
             Panel.SetZIndex(ui, 0);
 
             this.MainGrid.Children.Add(ui);
-            return new WPFHTMLWindowProvider(webwindow, this);
+            var res = new WPFHTMLWindowProvider(webwindow, this);
+            res.OnDisposed += OnWindowDisposed;
+            return res;
+        }
+
+        private void OnWindowDisposed(object sender, EventArgs e) 
+        {
+            var res = sender as WPFHTMLWindowProvider;
+            res.OnDisposed -= OnWindowDisposed;
+            if (_VmDebugWindow != null) 
+            {
+                _VmDebugWindow.Close();
+                _VmDebugWindow = null;
+            }
         }
 
         IDispatcher IWebViewLifeCycleManager.GetDisplayDispatcher()

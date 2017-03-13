@@ -43,5 +43,12 @@ namespace Neutronium.Core.WebBrowserEngine.Control
         /// event send when debug tools is openong or closing
         /// </summary>
         event EventHandler<bool> DebugToolOpened;
+
+        /// <summary>
+        /// event send when WebBrowserWindowProvider is disposed
+        /// </summary>
+        event EventHandler OnDisposed;
+
+
     }
 }

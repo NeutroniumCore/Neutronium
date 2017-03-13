@@ -43,7 +43,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private void InjectBackend(IWebView current)
         {
-            var loader = new ResourceReader("DebugTools.Window.dist", this);
+            var loader = GetResourceReader("DebugTools.Window.dist");
             var data = loader.Load("backend.js");
             data = ";window.__neutronium_listener__.post('dev:injectDone');" + data;
             current.ExecuteJavaScript(data);
@@ -69,9 +69,9 @@ namespace Neutronium.JavascriptFramework.Vue
             return builder.ToString();
         }
 
-        private ResourceReader GetResourceReader()
+        private ResourceReader GetResourceReader(string path = "scripts")
         {
-            return new ResourceReader("scripts", this);
+            return new ResourceReader(path, this);
         }
     }
 }

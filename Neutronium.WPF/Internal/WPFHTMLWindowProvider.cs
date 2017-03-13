@@ -9,22 +9,23 @@ namespace Neutronium.WPF.Internal
     {
         private readonly UIElement _UIElement;
         private readonly Neutronium.WPF.Internal.HTMLControlBase _HTMLControlBase;
-        private readonly IWPFWebWindow _IWPFWebWindow;
+        private readonly IWPFWebWindow _WPFWebWindow;
 
-        public IWebBrowserWindow HTMLWindow => _IWPFWebWindow.HTMLWindow;
-        public IWPFWebWindow WPFWebWindow => _IWPFWebWindow;
+        public IWebBrowserWindow HTMLWindow => _WPFWebWindow.HTMLWindow;
+        public IWPFWebWindow WPFWebWindow => _WPFWebWindow;
         public IDispatcher UIDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
         public event EventHandler<bool> DebugToolOpened
         {
-            add { _IWPFWebWindow.DebugToolOpened += value; }
-            remove { _IWPFWebWindow.DebugToolOpened -= value; }
+            add { _WPFWebWindow.DebugToolOpened += value; }
+            remove { _WPFWebWindow.DebugToolOpened -= value; }
         }
+        public event EventHandler OnDisposed;
 
-        public WPFHTMLWindowProvider(IWPFWebWindow iIWPFWebWindow, Neutronium.WPF.Internal.HTMLControlBase iHTMLControlBase)
+        public WPFHTMLWindowProvider(IWPFWebWindow wpfWebWindow, Neutronium.WPF.Internal.HTMLControlBase htmlControlBase)
         {
-            _IWPFWebWindow = iIWPFWebWindow;
-            _HTMLControlBase = iHTMLControlBase;
-            _UIElement = _IWPFWebWindow.UIElement;
+            _WPFWebWindow = wpfWebWindow;
+            _HTMLControlBase = htmlControlBase;
+            _UIElement = _WPFWebWindow.UIElement;
         }
 
         public void Show()
@@ -39,12 +40,12 @@ namespace Neutronium.WPF.Internal
 
         public bool OnDebugToolsRequest() 
         {
-            return _IWPFWebWindow.OnDebugToolsRequest();
+            return _WPFWebWindow.OnDebugToolsRequest();
         }
 
         public void CloseDebugTools() 
         {
-            _IWPFWebWindow.CloseDebugTools();
+            _WPFWebWindow.CloseDebugTools();
         }
 
         public void Dispose()
@@ -52,7 +53,9 @@ namespace Neutronium.WPF.Internal
             _UIElement.Visibility = Visibility.Hidden;
             _HTMLControlBase.MainGrid.Children.Remove(_UIElement);
 
-            _IWPFWebWindow.Dispose();
+            _WPFWebWindow.Dispose();
+
+            OnDisposed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

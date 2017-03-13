@@ -14,6 +14,7 @@ namespace Tests.ChromiumFX.Infra {
         public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
         public IWebBrowserWindow HTMLWindow { get; }
         event EventHandler<bool> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
+        public event EventHandler OnDisposed;
 
         public ChromiumFXHTMLWindowProvider(CfxClient cfxClient, IWebView webview, Uri url) 
         {
@@ -32,6 +33,7 @@ namespace Tests.ChromiumFX.Infra {
 
         public void Dispose() 
         {
+            OnDisposed?.Invoke(this, EventArgs.Empty);
         }
 
         public bool OnDebugToolsRequest() 

@@ -12,6 +12,7 @@ namespace Tests.Awesomium.Infra
         public IWebBrowserWindow HTMLWindow { get; }
         public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
         event EventHandler<bool> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
+        public event EventHandler OnDisposed;
 
         internal AwesomiumTestHTMLWindowProvider(IWebView webView, Uri path)
         {
@@ -34,6 +35,7 @@ namespace Tests.Awesomium.Infra
 
         public void Dispose()
         {
+            OnDisposed?.Invoke(this, EventArgs.Empty);
         }
     }
 }
