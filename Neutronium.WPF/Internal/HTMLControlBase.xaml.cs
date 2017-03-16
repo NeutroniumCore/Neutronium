@@ -31,6 +31,7 @@ namespace Neutronium.WPF.Internal
         private IJavascriptFrameworkManager _Injector;
         private string _SaveDirectory;
         private HTMLSimpleWindow _VmDebugWindow;
+        private IWebView _DevToolsWebView;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private Window Window => Window.GetWindow(this);
         private DoubleBrowserNavigator WPFDoubleBrowserNavigator
@@ -99,6 +100,12 @@ namespace Neutronium.WPF.Internal
                     _WPFDoubleBrowserNavigator.UseINavigable = _UseINavigable;
                 }
             }
+        }
+
+        public IWebView DevToolsWebView
+        {
+            get { return _DevToolsWebView; }
+            set { _DevToolsWebView = value; }
         }
 
         public event EventHandler<NavigationEvent> OnNavigate;
@@ -336,6 +343,7 @@ namespace Neutronium.WPF.Internal
             {
                 WPFDoubleBrowserNavigator.WebControl.DebugToolOpened -= WebControl_DebugToolOpened;
             }
+            DevToolsWebView = eventArgs.WebView;
         }
 
         public void CloseDebugBrowser()
