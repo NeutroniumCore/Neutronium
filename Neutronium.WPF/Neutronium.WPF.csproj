@@ -81,7 +81,8 @@
     <Compile Include="Internal\DebugTools\DebugControlNeutronium.xaml.cs">
       <DependentUpon>DebugControlNeutronium.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Internal\DebugTools\DebugInformation.cs" />
+    <Compile Include="Internal\ViewModel\About.cs" />
+    <Compile Include="Internal\ViewModel\DebugInformation.cs" />
     <Compile Include="Internal\DebugTools\HTMLSimpleWindow.xaml.cs">
       <DependentUpon>HTMLSimpleWindow.xaml</DependentUpon>
     </Compile>

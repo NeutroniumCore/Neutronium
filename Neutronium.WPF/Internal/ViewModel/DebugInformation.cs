@@ -1,19 +1,19 @@
-﻿using System.Windows.Input;
-using Neutronium.Core.Infra.VM;
+﻿using Neutronium.Core.Infra.VM;
+using System.Windows.Input;
 
 namespace Neutronium.WPF.Internal.DebugTools
 {
-    public class DebugInformation: NotifyPropertyChangedBase 
+    public class DebugInformation : NotifyPropertyChangedBase
     {
         private string _DebugButtonLabel;
-        public string DebugButtonLabel 
+        public string DebugButtonLabel
         {
             get { return _DebugButtonLabel; }
             set { Set(ref _DebugButtonLabel, value); }
         }
 
         private bool _IsDebuggingVm;
-        public bool IsDebuggingVm 
+        public bool IsDebuggingVm
         {
             get { return _IsDebuggingVm; }
             set

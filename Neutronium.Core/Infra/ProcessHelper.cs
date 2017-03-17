@@ -6,12 +6,17 @@ namespace Neutronium.Core.Infra
     {
         public static void OpenFileWinstalledApplication(string url) 
         {
-            Process.Start(string.Format(url));
+            Process.Start(url);
         }
 
         public static void OpenLocalUrlInBrowser(int port) 
         {
-            OpenFileWinstalledApplication($"http://localhost:{port}/");
+            OpenUrlInBrowser($"http://localhost:{port}/");
+        }
+
+        public static void OpenUrlInBrowser(string url)
+        {
+            OpenFileWinstalledApplication(url);
         }
     }
 }
