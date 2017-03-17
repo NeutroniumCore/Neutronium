@@ -1,17 +1,14 @@
 ﻿using System;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.WebBrowserEngine.Control 
+namespace Neutronium.Core.WebBrowserEngine.Control
 {
     public class DebugEventArgs: EventArgs 
     {
         public bool Opening { get; }
-        public IWebView WebView { get; }
 
-        public DebugEventArgs(bool opening, IWebView webView) 
+        public DebugEventArgs(bool opening) 
         {
             Opening = opening;
-            WebView = webView;
         }
     }
 }

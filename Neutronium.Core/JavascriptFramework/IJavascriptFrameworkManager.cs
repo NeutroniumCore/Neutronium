@@ -40,20 +40,9 @@ namespace Neutronium.Core.JavascriptFramework
         ///</returns>
         IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode);
 
-        ///// <summary>
-        ///// return javascript debug script to allow interactive debug
-        ///// of view model bound to the view
-        ///// </summary>
-        //string GetDebugScript();
-
-        ///// <summary>
-        ///// return javascript script that toogle the display of debug tool
-        ///// </summary>
-        //string GetDebugToogleScript();
-
-        ///// <summary>
-        ///// Run debug Vm tool
-        ///// </summary>
+        /// <summary>
+        /// Run debug Vm tool
+        /// </summary>
         /// <param name="runJavascript">
         /// execute javascript in the current window
         /// </param>

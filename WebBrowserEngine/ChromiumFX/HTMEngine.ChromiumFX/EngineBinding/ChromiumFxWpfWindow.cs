@@ -11,8 +11,6 @@ using Neutronium.WPF.Internal;
 using Chromium.Event;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.WebBrowserEngine.ChromiumFx.Helper;
-using Chromium.Remote.Event;
-using Neutronium.Core.Log;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
@@ -80,28 +78,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _DebugCfxClient = new CfxClient();
             _DebugCfxClient.GetLifeSpanHandler += DebugClient_GetLifeSpanHandler;
 
-            ChromiumWebBrowser.RemoteProcessCreated += ChromiumWebBrowser_RemoteProcessCreated;
-
             _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, _DebugCfxClient, new CfxBrowserSettings(), null);
-           
+            DebugToolOpened?.Invoke(this, new DebugEventArgs(true));
+
             return true;
-        }
-
-        private void ChromiumWebBrowser_RemoteProcessCreated(Chromium.WebBrowser.Event.RemoteProcessCreatedEventArgs e)
-        {
-            ChromiumWebBrowser.RemoteProcessCreated -= ChromiumWebBrowser_RemoteProcessCreated;
-            CfrOnContextCreatedEventHandler handler = null;
-            handler = (o, evt) =>
-            {
-                e.RenderProcessHandler.OnContextCreated -= handler;
-                RenderProcessHandler_OnContextCreated(evt);
-            };
-            e.RenderProcessHandler.OnContextCreated += handler;
-        }
-
-        private void RenderProcessHandler_OnContextCreated(Chromium.Remote.Event.CfrOnContextCreatedEventArgs e)
-        {
-            DebugToolOpened?.Invoke(this, new DebugEventArgs(true, new ChromiumFxWebView(e.Browser, new NullLogger())));
         }
 
         private void DebugClient_GetLifeSpanHandler(object sender, CfxGetLifeSpanHandlerEventArgs e)
@@ -119,7 +99,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             _DebugWindowHandle = IntPtr.Zero;
             _DebugCfxClient = null;
-            DebugToolOpened?.Invoke(this, new DebugEventArgs(false, null));
+            DebugToolOpened?.Invoke(this, new DebugEventArgs(false));
         }
 
         private void DebugLifeSpan_OnAfterCreated(object sender, CfxOnAfterCreatedEventArgs e)
@@ -130,7 +110,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public void CloseDebugTools() 
         {
             _ChromiumWebBrowser.BrowserHost.CloseDevTools();
-            DebugToolOpened?.Invoke(this, new DebugEventArgs(false, null));
+            DebugToolOpened?.Invoke(this, new DebugEventArgs(false));
         }
 
         public void Dispose()
