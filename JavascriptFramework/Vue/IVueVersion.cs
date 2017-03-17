@@ -6,6 +6,8 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         string FrameworkName { get; }
 
+        string FrameworkNameVersion { get; }
+
         string Name { get; }
 
         string ToolBarPath { get; }

@@ -9,9 +9,14 @@ namespace Neutronium.Core.JavascriptFramework
     public interface IJavascriptFrameworkManager
     {
         /// <summary>
-        /// Get the name and version of unferlying javascript framework
+        /// Get the name of unferlying javascript framework
         /// </summary>
         string FrameworkName { get; }
+
+        /// <summary>
+        /// Get the version of unferlying javascript framework
+        /// </summary>
+        string FrameworkNameVersion { get; }
 
         /// <summary>
         /// name of the javascript C# bridge engine

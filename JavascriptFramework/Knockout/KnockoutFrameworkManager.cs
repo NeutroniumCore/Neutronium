@@ -12,7 +12,8 @@ namespace Neutronium.JavascriptFramework.Knockout
         private string _JavascriptDebugScript;
         private string _MainScript;
 
-        public string FrameworkName => "knockout.js 3.3.0";
+        public string FrameworkName => "knockout.js";
+        public string FrameworkNameVersion => "3.3.0";
         public string Name => "KnockoutInjector";
         public string DebugToolbaRelativePath => null;
 

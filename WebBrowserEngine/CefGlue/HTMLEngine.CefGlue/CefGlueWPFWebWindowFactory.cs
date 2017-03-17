@@ -9,8 +9,10 @@ namespace Neutronium.WebBrowserEngine.CefGlue
     {
         private readonly ICefCoreSession _ICefCoreSession;
 
-        public string EngineName => "Chromium 55";
+        public string EngineName => "Chromium";
         public string Name => "Cef.Glue";
+        public string EngineVersion => "51";
+
         public IWebSessionLogger WebSessionLogger { get; set; }
 
         public CefGlueWPFWebWindowFactory( CefSettings iCefSettings = null)

@@ -15,6 +15,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
 
         public CfxSettings Settings { get; private set; }
         public string EngineName => "Chromium " + CfxRuntime.GetChromeVersion();
+        public string EngineVersion => CfxRuntime.GetChromeVersion();
         public string Name => "ChromiumFX";
         public CfxBrowserSettings BrtowserSettings => ChromiumWebBrowser.DefaultBrowserSettings;
         public IWebSessionLogger WebSessionLogger { get; set; }

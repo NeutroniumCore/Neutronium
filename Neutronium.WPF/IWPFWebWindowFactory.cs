@@ -9,9 +9,14 @@ namespace Neutronium.WPF
     public interface IWPFWebWindowFactory : IDisposable
     {
         /// <summary>
-        /// Get the name and version of unferlying javascript engine
+        /// Get the name of unferlying javascript engine
         /// </summary>
         string EngineName { get; }
+
+        /// <summary>
+        /// Get the version of unferlying javascript engine
+        /// </summary>
+        string EngineVersion { get; }
 
         /// <summary>
         /// value of the .Net glue framework to javascript engine

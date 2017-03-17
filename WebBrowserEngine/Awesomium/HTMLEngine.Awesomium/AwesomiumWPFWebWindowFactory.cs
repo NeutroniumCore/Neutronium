@@ -12,7 +12,8 @@ namespace Neutronium.WebBrowserEngine.Awesomium
         private static WebSession _Session = null;
         public static Thread WebCoreThread { get; internal set; }
 
-        public string EngineName  => "Chromium 19"; 
+        public string EngineName  => "Chromium 19";
+        public string EngineVersion => "19";
         public string Name => "Awesomium";
         public IWebSessionLogger WebSessionLogger { get; set; }
 
