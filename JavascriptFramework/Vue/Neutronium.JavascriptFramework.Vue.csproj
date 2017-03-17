@@ -209,9 +209,6 @@
     <Content Include="DebugTools\About\fee66e712a8a08eef5805a46892932ad.woff">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DebugTools\About\styles.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <Content Include="DebugTools\Toolbar\674f50d287a8c48dc19ba404d20fe713.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -223,9 +220,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DebugTools\Toolbar\fee66e712a8a08eef5805a46892932ad.woff">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DebugTools\Toolbar\styles.css.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

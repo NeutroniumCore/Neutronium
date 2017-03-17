@@ -10,7 +10,7 @@ namespace Neutronium.JavascriptFramework.Vue
 {
     public class VueSessionInjectorBase : IJavascriptFrameworkManager
     {
-        public string FrameworkName => _VueVersion.FrameworkName;
+        public string FrameworkName => "Vue.js";
         public string Name => _VueVersion.Name;
         public string DebugToolbarRelativePath => _VueVersion.ToolBarPath;
         public string FrameworkVersion => _VueVersion.FrameworkNameVersion;

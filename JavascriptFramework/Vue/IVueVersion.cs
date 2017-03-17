@@ -4,8 +4,6 @@ namespace Neutronium.JavascriptFramework.Vue
 {
     public interface IVueVersion
     {
-        string FrameworkName { get; }
-
         string FrameworkNameVersion { get; }
 
         string Name { get; }
