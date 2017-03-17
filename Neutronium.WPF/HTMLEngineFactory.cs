@@ -117,7 +117,7 @@ namespace Neutronium.WPF
 
         private string GetPath(IJavascriptFrameworkManager javascriptFrameworkManager)
         {
-            var path = javascriptFrameworkManager.DebugToolbaRelativePath;
+            var path = javascriptFrameworkManager.DebugToolbarRelativePath;
             return (path == null) ? null : $"{javascriptFrameworkManager.GetType().Assembly.GetPath()}\\{path}";
         }
     }

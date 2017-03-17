@@ -9,6 +9,16 @@ namespace Neutronium.WPF.Utils
             return GetVersion(value.GetType());
         }
 
+        public static string GetVersionDisplayName(Type type)
+        {
+            return type.Assembly.GetName().Version.GetDisplayName();
+        }
+
+        public static string GetVersionDisplayName(object @object) 
+        {
+            return @object.GetType().Assembly.GetName().Version.GetDisplayName();
+        }
+
         public static Version GetVersion(Type type)
         {
             return type.Assembly.GetName().Version;
@@ -18,5 +28,8 @@ namespace Neutronium.WPF.Utils
         {
             return $"{version.Major}.{version.Minor}.{version.Revision}";
         }
+
+
+        MVVMBindingVersion
     }
 }

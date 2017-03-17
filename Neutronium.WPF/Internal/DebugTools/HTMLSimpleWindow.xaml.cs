@@ -22,7 +22,7 @@ namespace Neutronium.WPF.Internal.DebugTools
             InitializeComponent();
         }
 
-        public HTMLSimpleWindow(IWPFWebWindow wpfWebWindow, string path, Func<IWebView, IDisposable> onWebViewCreated)
+        public HTMLSimpleWindow(IWPFWebWindow wpfWebWindow, string path, Func<IWebView, IDisposable> onWebViewCreated=null)
         {
             _WPFWebWindow = wpfWebWindow;
             _path = path;

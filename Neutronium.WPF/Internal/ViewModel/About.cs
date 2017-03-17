@@ -4,7 +4,6 @@ using Neutronium.Core.Infra;
 
 namespace Neutronium.WPF.Internal.DebugTools
 {
-
     public class About
     {
         public string CoreVersion { get; set; }
@@ -15,6 +14,7 @@ namespace Neutronium.WPF.Internal.DebugTools
         public string JavascriptFramework { get; set; }
         public string BrowserBinding { get; set; }
         public string MVVMBinding { get; set; }
+        public string MVVMBindingVersion { get; set; }
         public ICommand GoToGithub { get; }
 
         public About()

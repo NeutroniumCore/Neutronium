@@ -16,7 +16,7 @@ namespace Neutronium.Core.JavascriptFramework
         /// <summary>
         /// Get the version of unferlying javascript framework
         /// </summary>
-        string FrameworkNameVersion { get; }
+        string FrameworkVersion { get; }
 
         /// <summary>
         /// name of the javascript C# bridge engine
@@ -65,6 +65,12 @@ namespace Neutronium.Core.JavascriptFramework
         /// return relative path to toolbar HTML file if any
         /// null otherwise.
         /// </summary>
-        string DebugToolbaRelativePath { get;  }
+        string DebugToolbarRelativePath { get;  }
+
+        /// <summary>
+        /// return relative path to about screen HTML file if any
+        /// null otherwise.
+        /// </summary>
+        string AboutRelativePath { get; }
     }
 }

@@ -12,8 +12,9 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         public string FrameworkName => _VueVersion.FrameworkName;
         public string Name => _VueVersion.Name;
-        public string DebugToolbaRelativePath => _VueVersion.ToolBarPath;
-        public string FrameworkNameVersion => _VueVersion.FrameworkNameVersion;
+        public string DebugToolbarRelativePath => _VueVersion.ToolBarPath;
+        public string FrameworkVersion => _VueVersion.FrameworkNameVersion;
+        public string AboutRelativePath => null;
 
         private readonly IVueVersion _VueVersion;
         private readonly IWebViewCommunication _WebViewCommunication;

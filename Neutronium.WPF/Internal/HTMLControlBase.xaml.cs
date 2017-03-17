@@ -261,8 +261,28 @@ namespace Neutronium.WPF.Internal
             OnDisplay?.Invoke(this, e);
         }
 
-        private void DoShowInfo()
+        private void DoShowInfo() 
         {
+            var path = _Injector.AboutRelativePath;
+            if (path != null) 
+            {
+                var aboutWindow = GetWHMLWindow(path);
+                var info = new About {
+                    BrowserBinding = _WPFWebWindowFactory.Name,
+                    CoreVersion = VersionHelper.GetVersionDisplayName(typeof(IHTMLBinding)),
+                    WPFVersion = VersionHelper.GetVersionDisplayName(this),
+                    WebBrowser = _WPFWebWindowFactory.EngineName,
+                    WebBrowserVersion = _WPFWebWindowFactory.EngineVersion,
+                    JavascriptFramework = _Injector.FrameworkName,
+                    JavascriptFrameworkVersion = _Injector.FrameworkVersion,
+                    MVVMBinding = _Injector.Name,
+                    MVVMBindingVersion = VersionHelper.GetVersionDisplayName(_Injector),
+                };
+                aboutWindow.DataContext = info;
+                aboutWindow.ShowDialog();
+                return;
+            }
+
             var builder = new StringBuilder();
             builder.AppendLine($"Neutronium.Core { VersionHelper.GetVersion(typeof(IHTMLBinding)).GetDisplayName()}")
                    .AppendLine($"WebBrowser: {_WPFWebWindowFactory.EngineName}")
@@ -270,6 +290,14 @@ namespace Neutronium.WPF.Internal
                    .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")
                    .AppendLine($"MVVM Binding: {_Injector.Name}");
             MessageBox.Show(Window, builder.ToString(), "Neutronium configuration");
+        }
+
+        private HTMLSimpleWindow GetWHMLWindow(string path, Func<IWebView, IDisposable> onWebViewCreated = null) 
+        {
+            return new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, onWebViewCreated) 
+            {
+                Owner = Window
+            };
         }
 
         public IWebSessionLogger WebSessionLogger
@@ -301,10 +329,7 @@ namespace Neutronium.WPF.Internal
 
         private void ShowHTMLWindow(string path, Func<IWebView, IDisposable> injectedCode) 
         {
-            _VmDebugWindow = new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, injectedCode) 
-            {
-                Owner = Window
-            };
+            _VmDebugWindow = GetWHMLWindow(path, injectedCode);
             _VmDebugWindow.Closed += _VmDebugWindow_Closed;
             _VmDebugWindow.Show();
         }
