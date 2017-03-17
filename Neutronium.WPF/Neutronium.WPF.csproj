@@ -74,12 +74,16 @@
     <Compile Include="HTMLEngineFactory.cs" />
     <Compile Include="HTMLViewControl.cs" />
     <Compile Include="HTMLWindow.cs" />
+    <Compile Include="HTMLWindowInfo.cs" />
     <Compile Include="IHTMLEngineFactory.cs" />
     <Compile Include="Internal\DebugTools\DebugControl.xaml.cs">
       <DependentUpon>DebugControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Internal\DebugTools\DebugControlNeutronium.xaml.cs">
       <DependentUpon>DebugControlNeutronium.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Internal\DebugTools\NeutroniumWindow.xaml.cs">
+      <DependentUpon>NeutroniumWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Internal\ViewModel\About.cs" />
     <Compile Include="Internal\ViewModel\DebugInformation.cs" />
@@ -99,6 +103,10 @@
     <Page Include="Internal\DebugTools\DebugControlNeutronium.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Internal\DebugTools\NeutroniumWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Internal\DebugTools\HTMLSimpleWindow.xaml">
       <SubType>Designer</SubType>

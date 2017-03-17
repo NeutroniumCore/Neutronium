@@ -8,10 +8,13 @@ namespace Neutronium.WPF.Internal.DebugTools
     /// </summary>
     public partial class DebugControlNeutronium  : IDisposable
     {
-        public DebugControlNeutronium(string path)
+        public string JavascriptUIEngine { get; set; }
+        public DebugControlNeutronium(string path, string javascriptUIEngine)
         {
+            JavascriptUIEngine = javascriptUIEngine;
             InitializeComponent();
             DebugWindow.Uri = new Uri(path);
+            DebugWindow.WebSessionLogger = new NullLogger();
         }
 
         public DebugControlNeutronium() 

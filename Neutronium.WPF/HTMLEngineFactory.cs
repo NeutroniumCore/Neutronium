@@ -110,15 +110,25 @@ namespace Neutronium.WPF
             _Engines.Clear();
         }
 
-        public string ResolveToolbar()
+        public HTMLWindowInfo ResolveToolbar() 
         {
-            return _JavascriptFrameworks.Values.Select(GetPath).FirstOrDefault(tool => tool != null);
+            return Resolve(fr => fr.DebugToolbarRelativePath);        
         }
 
-        private string GetPath(IJavascriptFrameworkManager javascriptFrameworkManager)
+        public HTMLWindowInfo ResolveAboutScreen() 
         {
-            var path = javascriptFrameworkManager.DebugToolbarRelativePath;
-            return (path == null) ? null : $"{javascriptFrameworkManager.GetType().Assembly.GetPath()}\\{path}";
+            return Resolve(fr => fr.AboutRelativePath);
+        }
+
+        public HTMLWindowInfo Resolve(Func<IJavascriptFrameworkManager, string> nameBuilder) {
+            return _JavascriptFrameworks.Where(kvp => nameBuilder(kvp.Value) != null)
+                                        .Select(kvp => new HTMLWindowInfo { AbsolutePath = GetPath(kvp.Value, nameBuilder), Framework = kvp.Value })
+                                        .FirstOrDefault();
+        }
+
+        private static string GetPath(IJavascriptFrameworkManager javascriptFrameworkManager, Func<IJavascriptFrameworkManager, string> nameBuilder)
+        {
+            return  $"{javascriptFrameworkManager.GetType().Assembly.GetPath()}\\{nameBuilder(javascriptFrameworkManager)}";
         }
     }
 }

@@ -28,8 +28,5 @@ namespace Neutronium.WPF.Utils
         {
             return $"{version.Major}.{version.Minor}.{version.Revision}";
         }
-
-
-        MVVMBindingVersion
     }
 }

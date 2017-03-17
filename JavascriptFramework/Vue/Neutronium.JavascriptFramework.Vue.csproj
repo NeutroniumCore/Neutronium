@@ -98,6 +98,24 @@
     <EmbeddedResource Include="Communication\script\dist\communication.js" />
     <Content Include="Communication\script\src\communication.js" />
     <Content Include="Communication\script\webpack.config.js" />
+    <Content Include="DebugTools\About\810a1b930979de83478be0f458b51dd8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\912ec66d7572ff821749319396470bde.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\9c74e172f87984c48ddf5c8108cabe67.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\build.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\styles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="resource\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -179,6 +197,21 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="DebugTools\About\674f50d287a8c48dc19ba404d20fe713.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\af7ae505a9eed503f8b8e6982036873e.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\b06871f281fee6b241d60582ae9369b9.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\fee66e712a8a08eef5805a46892932ad.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\styles.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <Content Include="DebugTools\Toolbar\674f50d287a8c48dc19ba404d20fe713.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

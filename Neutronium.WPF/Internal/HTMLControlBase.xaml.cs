@@ -192,10 +192,10 @@ namespace Neutronium.WPF.Internal
             if (_DebugControl!=null)
                 return;
 
-            var pathToHTML = HTMLEngineFactory.Engine.ResolveToolbar();
-            if (pathToHTML!=null)
+            var windoInfo = HTMLEngineFactory.Engine.ResolveToolbar();
+            if (windoInfo != null)
             {
-                _DebugControl = new DebugControlNeutronium(pathToHTML);
+                _DebugControl = new DebugControlNeutronium(windoInfo.AbsolutePath, windoInfo.Framework.Name);
             }
             else
             {
@@ -263,11 +263,11 @@ namespace Neutronium.WPF.Internal
 
         private void DoShowInfo() 
         {
-            var path = _Injector.AboutRelativePath;
-            if (path != null) 
+            var windoInfo = HTMLEngineFactory.Engine.ResolveAboutScreen();
+            if (windoInfo != null) 
             {
-                var aboutWindow = GetWHMLWindow(path);
-                var info = new About {
+                var info = new About 
+                {
                     BrowserBinding = _WPFWebWindowFactory.Name,
                     CoreVersion = VersionHelper.GetVersionDisplayName(typeof(IHTMLBinding)),
                     WPFVersion = VersionHelper.GetVersionDisplayName(this),
@@ -278,7 +278,13 @@ namespace Neutronium.WPF.Internal
                     MVVMBinding = _Injector.Name,
                     MVVMBindingVersion = VersionHelper.GetVersionDisplayName(_Injector),
                 };
-                aboutWindow.DataContext = info;
+
+                var aboutWindow = new NeutroniumWindow(windoInfo.AbsolutePath, windoInfo.Framework.Name)
+                {
+                    Title = "About",
+                    Owner = Window,
+                    DataContext = info
+                };
                 aboutWindow.ShowDialog();
                 return;
             }
@@ -292,11 +298,12 @@ namespace Neutronium.WPF.Internal
             MessageBox.Show(Window, builder.ToString(), "Neutronium configuration");
         }
 
-        private HTMLSimpleWindow GetWHMLWindow(string path, Func<IWebView, IDisposable> onWebViewCreated = null) 
+        private HTMLSimpleWindow GetWHMLWindow(string path, string title, Func<IWebView, IDisposable> onWebViewCreated = null) 
         {
             return new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, onWebViewCreated) 
             {
-                Owner = Window
+                Owner = Window,
+                Title = title
             };
         }
 
@@ -329,7 +336,7 @@ namespace Neutronium.WPF.Internal
 
         private void ShowHTMLWindow(string path, Func<IWebView, IDisposable> injectedCode) 
         {
-            _VmDebugWindow = GetWHMLWindow(path, injectedCode);
+            _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", injectedCode);
             _VmDebugWindow.Closed += _VmDebugWindow_Closed;
             _VmDebugWindow.Show();
         }

@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Wpf="clr-namespace:Neutronium.WPF" x:Class="Neutronium.WPF.Internal.DebugTools.DebugControlNeutronium"
+             x:Name="Root"
              mc:Ignorable="d" 
              d:DesignWidth="300">
     <Grid  HorizontalAlignment="Stretch" Height="90">
-        <Wpf:HTMLViewControl x:Name="DebugWindow"  IsDebug="false" JavascriptUIEngine="VueInjectorV2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="69"/>
+        <Wpf:HTMLViewControl x:Name="DebugWindow"  IsDebug="false" JavascriptUIEngine="{Binding ElementName=Root, Path=JavascriptUIEngine}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="69"/>
     </Grid>
 </UserControl>

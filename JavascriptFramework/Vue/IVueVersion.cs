@@ -12,6 +12,8 @@ namespace Neutronium.JavascriptFramework.Vue
 
         string ToolBarPath { get; }
 
+        string AboutPath { get; }
+
         ResourceReader GetVueResource();
     }
 }

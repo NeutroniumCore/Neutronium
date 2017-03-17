@@ -1,0 +1,10 @@
+﻿<Window x:Class="Neutronium.WPF.Internal.DebugTools.NeutroniumWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Icon="../../Resource/logo.png"
+        ResizeMode="NoResize"
+        Height="600" Width="310">
+
+    <Grid x:Name="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    </Grid>
+</Window>

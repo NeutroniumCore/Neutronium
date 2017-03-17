@@ -52,13 +52,23 @@ namespace Neutronium.WPF
 
 
         /// <summary>
-        /// return a toolbar implementation correspoding to the given registered
+        /// return path toolbar implementation correspoding to the given registered
         /// javascript Framework Manager. Return null if nothing is found
         /// </summary>
         /// <returns>
         /// path to the toolbar HTML file if any, null otherwise
         ///</returns>
-        string ResolveToolbar();
+        HTMLWindowInfo ResolveToolbar();
+
+        /// <summary>
+        /// return path to about screen implementation correspoding to the given registered
+        /// javascript Framework Manager. Return null if nothing is found
+        /// </summary>
+        /// <returns>
+        /// HTMLWindowInfo containing path to the toolbar HTML file 
+        /// and corresponding javascript framework if found any, null otherwise
+        ///</returns>
+        HTMLWindowInfo ResolveAboutScreen();
 
 
         /// <summary>
