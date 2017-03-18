@@ -120,15 +120,20 @@ namespace Neutronium.WPF
             return Resolve(fr => fr.AboutRelativePath);
         }
 
-        public HTMLWindowInfo Resolve(Func<IJavascriptFrameworkManager, string> nameBuilder) {
-            return _JavascriptFrameworks.Where(kvp => nameBuilder(kvp.Value) != null)
-                                        .Select(kvp => new HTMLWindowInfo { AbsolutePath = GetPath(kvp.Value, nameBuilder), Framework = kvp.Value })
+        public HTMLWindowInfo Resolve(Func<IJavascriptFrameworkManager, WindowInformation> windowInfoGetter) {
+            return _JavascriptFrameworks.Values.Select(framework => new  { Window = windowInfoGetter(framework) , Framework= framework })
+                                        .Where(info => info.Window!= null)
+                                        .Select(info => new HTMLWindowInfo {
+                                            Height =info.Window.Height,
+                                            Width = info.Window.Width,
+                                            AbsolutePath = GetPath(info.Framework, info.Window),
+                                            Framework = info.Framework })
                                         .FirstOrDefault();
         }
 
-        private static string GetPath(IJavascriptFrameworkManager javascriptFrameworkManager, Func<IJavascriptFrameworkManager, string> nameBuilder)
+        private static string GetPath(IJavascriptFrameworkManager javascriptFrameworkManager,  WindowInformation windowInfo)
         {
-            return  $"{javascriptFrameworkManager.GetType().Assembly.GetPath()}\\{nameBuilder(javascriptFrameworkManager)}";
+            return  $"{javascriptFrameworkManager.GetType().Assembly.GetPath()}\\{windowInfo.RelativePath}";
         }
     }
 }

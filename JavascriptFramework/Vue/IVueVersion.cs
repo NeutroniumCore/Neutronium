@@ -1,4 +1,5 @@
 ﻿using Neutronium.Core.Infra;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
@@ -8,9 +9,9 @@ namespace Neutronium.JavascriptFramework.Vue
 
         string Name { get; }
 
-        string ToolBarPath { get; }
+        WindowInformation ToolBar { get; }
 
-        string AboutPath { get; }
+        WindowInformation About { get; }
 
         ResourceReader GetVueResource();
     }

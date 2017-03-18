@@ -62,15 +62,15 @@ namespace Neutronium.Core.JavascriptFramework
         string GetMainScript(bool debugContext);
 
         /// <summary>
-        /// return relative path to toolbar HTML file if any
+        /// return window information for toolbar HTML file if any
         /// null otherwise.
         /// </summary>
-        string DebugToolbarRelativePath { get;  }
+        WindowInformation DebugToolbarRelativePath { get;  }
 
         /// <summary>
-        /// return relative path to about screen HTML file if any
+        /// return window information for about screen HTML file if any
         /// null otherwise.
         /// </summary>
-        string AboutRelativePath { get; }
+        WindowInformation AboutRelativePath { get; }
     }
 }

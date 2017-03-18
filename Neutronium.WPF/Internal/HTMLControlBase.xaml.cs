@@ -275,7 +275,9 @@ namespace Neutronium.WPF.Internal
                 {
                     Title = "About",
                     Owner = Window,
-                    DataContext = new About(_WPFWebWindowFactory, _Injector)
+                    DataContext = new About(_WPFWebWindowFactory, _Injector),
+                    Width = windoInfo.Width,
+                    Height = windoInfo.Height
                 };
                 EventHandler handler = null;
                 handler = (o, e) =>
