@@ -17,7 +17,6 @@ namespace Neutronium.JavascriptFramework.Vue
                                                                         new WindowInformation
                                                                         {
                                                                             RelativePath = "DebugTools\\Toolbar\\index.html",
-
                                                                         },
                                                                         new WindowInformation
                                                                         {

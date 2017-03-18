@@ -299,12 +299,14 @@ namespace Neutronium.WPF.Internal
             MessageBox.Show(Window, builder.ToString(), "Neutronium configuration");
         }
 
-        private HTMLSimpleWindow GetWHMLWindow(string path, string title, Func<IWebView, IDisposable> onWebViewCreated = null) 
+        private HTMLSimpleWindow GetWHMLWindow(string path, string title, int width, int height, Func<IWebView, IDisposable> onWebViewCreated = null) 
         {
             return new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, onWebViewCreated) 
             {
                 Owner = Window,
-                Title = title
+                Title = title,
+                Height= height,
+                Width= width
             };
         }
 
@@ -327,7 +329,7 @@ namespace Neutronium.WPF.Internal
                 return;
             }
             _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script), 
-                                (path, onCreate) => ShowHTMLWindow(path, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
+                                (path, width, height, onCreate) => ShowHTMLWindow(path, width, height, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
 
             if (_VmDebugWindow == null)
                 _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
@@ -335,9 +337,9 @@ namespace Neutronium.WPF.Internal
                 _DebugInformation.IsDebuggingVm = true;
         }
 
-        private void ShowHTMLWindow(string path, Func<IWebView, IDisposable> injectedCode) 
+        private void ShowHTMLWindow(string path, int width, int height, Func<IWebView, IDisposable> injectedCode) 
         {
-            _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", injectedCode);
+            _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", width, height, injectedCode);
             _VmDebugWindow.Closed += _VmDebugWindow_Closed;
             _VmDebugWindow.Show();
         }

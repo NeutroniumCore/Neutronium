@@ -62,7 +62,7 @@ namespace Neutronium.JavascriptFramework.Knockout
             return new ResourceReader("scripts", this);
         }
 
-        public void DebugVm(Action<string> runJavascript, Action<string, Func<IWebView, IWebView, IDisposable>> openNewWindow)
+        public void DebugVm(Action<string> runJavascript, Action<string, int, int, Func<IWebView, IWebView, IDisposable>> openNewWindow)
         {
             var javascriptDebugScript = GetDebugScript();
             runJavascript(javascriptDebugScript);

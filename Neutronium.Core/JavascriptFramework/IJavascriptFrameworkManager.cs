@@ -51,7 +51,7 @@ namespace Neutronium.Core.JavascriptFramework
         /// first is the current, second is the debug webview returning a
         /// disposable function called when window is closed
         /// </param>
-        void DebugVm(Action<string> runJavascript, Action<string, Func<IWebView, IWebView, IDisposable>> openNewWindow);
+        void DebugVm(Action<string> runJavascript, Action<string, int, int, Func<IWebView, IWebView, IDisposable>> openNewWindow);
 
         /// <summary>
         /// return main javascript debug including framework code
