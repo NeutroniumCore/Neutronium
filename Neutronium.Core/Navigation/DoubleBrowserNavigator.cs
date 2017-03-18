@@ -113,12 +113,12 @@ namespace Neutronium.Core.Navigation
 
             _Navigating = false;
 
-            if (fireFirstLoad)
-                OnFirstLoad?.Invoke(this, EventArgs.Empty);
-
             FireNavigate(Binding.Root, oldvm);
 
             tcs?.SetResult(Binding);
+
+            if (fireFirstLoad)
+                OnFirstLoad?.Invoke(this, EventArgs.Empty);        
         }    
 
         private void EndAnimation(object navigable)

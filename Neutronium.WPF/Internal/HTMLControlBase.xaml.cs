@@ -30,6 +30,7 @@ namespace Neutronium.WPF.Internal
         private readonly IUrlSolver _UrlSolver;
         private IJavascriptFrameworkManager _Injector;
         private string _SaveDirectory;
+        private bool _LoadingAbout = false;
         private HTMLSimpleWindow _VmDebugWindow;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private Window Window => Window.GetWindow(this);
@@ -266,26 +267,24 @@ namespace Neutronium.WPF.Internal
             var windoInfo = HTMLEngineFactory.Engine.ResolveAboutScreen();
             if (windoInfo != null) 
             {
-                var info = new About 
-                {
-                    BrowserBinding = _WPFWebWindowFactory.Name,
-                    CoreVersion = VersionHelper.GetVersionDisplayName(typeof(IHTMLBinding)),
-                    WPFVersion = VersionHelper.GetVersionDisplayName(this),
-                    WebBrowser = _WPFWebWindowFactory.EngineName,
-                    WebBrowserVersion = _WPFWebWindowFactory.EngineVersion,
-                    JavascriptFramework = _Injector.FrameworkName,
-                    JavascriptFrameworkVersion = _Injector.FrameworkVersion,
-                    MVVMBinding = _Injector.Name,
-                    MVVMBindingVersion = VersionHelper.GetVersionDisplayName(_Injector),
-                };
+                if (_LoadingAbout)
+                    return;
 
+                _LoadingAbout = true;
                 var aboutWindow = new NeutroniumWindow(windoInfo.AbsolutePath, windoInfo.Framework.Name)
                 {
                     Title = "About",
                     Owner = Window,
-                    DataContext = info
+                    DataContext = new About(_WPFWebWindowFactory, _Injector)
                 };
-                aboutWindow.ShowDialog();
+                EventHandler handler = null;
+                handler = (o, e) =>
+                {
+                    aboutWindow.OnFirstLoad -= handler;
+                    aboutWindow.ShowDialog();
+                    _LoadingAbout = false;
+                };
+                aboutWindow.OnFirstLoad += handler;
                 return;
             }
 
