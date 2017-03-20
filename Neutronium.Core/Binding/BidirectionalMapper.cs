@@ -115,7 +115,7 @@ namespace Neutronium.Core.Binding
 
             _Context.Dispose();
             _UnrootedEntities.Clear();
-            _Logger.Debug("BidirectionalMapper  disposed");
+            _Logger.Debug("BidirectionalMapper disposed");
         }
 
         public void Visit(IListenableObjectVisitor visitor)

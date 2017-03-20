@@ -71,7 +71,7 @@ namespace Neutronium.Core.Binding
             return gres;
         }
 
-        private static IEnumerable<Tuple<PropertyInfo, object>> GetPropertyInfos(object from) 
+        private static IEnumerable<Tuple<PropertyInfo, object>> GetPropertyInfos(object @from) 
         {
             return @from?.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead).Select(prop => Tuple.Create(prop, @from)) ?? Enumerable.Empty<Tuple<PropertyInfo, object>>();          
         }

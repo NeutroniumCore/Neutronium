@@ -8,11 +8,6 @@ namespace Neutronium.Core.Binding.Listeners
     {
         private readonly HashSet<T> _Old = new HashSet<T>();
         private readonly HashSet<T> _New = new HashSet<T>();
-        private readonly ListenerRegister<T> _ListenerRegister;
-        public DeltaListener(ListenerRegister<T> listenerRegister)
-        {
-            _ListenerRegister = listenerRegister;
-        }
 
         public void VisitOld(T old)
         {
@@ -24,18 +19,10 @@ namespace Neutronium.Core.Binding.Listeners
             _New.Add(old);
         }
 
-        public void Apply()
+        public void Apply(ListenerRegister<T> listenerRegister)
         {
-            _Old.Where(o => !_New.Contains(o)).ForEach(_ListenerRegister.Off);
-            _New.Where(o => !_Old.Contains(o)).ForEach(_ListenerRegister.On);
-        }
-    }
-
-    internal static class DeltaListener
-    {
-        public static DeltaListener<T> GetDeltaListener<T>(ListenerRegister<T> listenerRegister) where T : class
-        {
-            return new DeltaListener<T>(listenerRegister);
+            _Old.Where(o => !_New.Contains(o)).ForEach(listenerRegister.Off);
+            _New.Where(o => !_Old.Contains(o)).ForEach(listenerRegister.On);
         }
     }
 }
