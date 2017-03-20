@@ -14,7 +14,7 @@ namespace Neutronium.Core.Navigation
     public class DoubleBrowserNavigator : INavigationSolver 
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
-        private readonly IJavascriptFrameworkManager _javascriptFrameworkManager;
+        private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private readonly IUrlSolver _UrlSolver;        
         private IWebBrowserWindowProvider _CurrentWebControl;
         private IWebBrowserWindowProvider _NextWebControl;
@@ -42,7 +42,7 @@ namespace Neutronium.Core.Navigation
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, IJavascriptFrameworkManager javascriptFrameworkManager)
         {
             _webSessionLogger = new BasicLogger();
-            _javascriptFrameworkManager = javascriptFrameworkManager;
+            _JavascriptFrameworkManager = javascriptFrameworkManager;
             _WebViewLifeCycleManager = lifecycler;
             _UrlSolver = urlSolver;
         }
@@ -178,7 +178,7 @@ namespace Neutronium.Core.Navigation
                 before = (o,e) =>
                 {
                     moderWindow.BeforeJavascriptExecuted -= before;
-                    e.JavascriptExecutor(_javascriptFrameworkManager.GetMainScript(debugContext));
+                    e.JavascriptExecutor(_JavascriptFrameworkManager.GetMainScript(debugContext));
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }
@@ -202,7 +202,7 @@ namespace Neutronium.Core.Navigation
 
         private IJavascriptFrameworkManager GetInjectorFactory(Uri uri)
         {
-            return _javascriptFrameworkManager;
+            return _JavascriptFrameworkManager;
         }
 
         public void ExcecuteJavascript(string code)
