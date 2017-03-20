@@ -96,6 +96,7 @@
     <Compile Include="Infra\EnumExtenderTest.cs" />
     <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />
     <Compile Include="Infra\NullUIDispatcherTest.cs" />
+    <Compile Include="Navigation\Routing\ConventionRouterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NullWatcherTest.cs" />
     <Compile Include="NavigationBuilderTests.cs" />

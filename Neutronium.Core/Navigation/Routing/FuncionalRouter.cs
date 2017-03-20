@@ -1,0 +1,19 @@
+﻿using System;
+
+namespace Neutronium.Core.Navigation.Routing
+{
+    public class FuncionalRouter : Router
+    {    
+        private readonly Func<Type, string, string> _PathBuilder;
+
+        internal FuncionalRouter(INavigationBuilder builder, Func<Type, string, string> pathBuilder):base (builder)
+        {
+            _PathBuilder = pathBuilder;
+        }
+
+        protected override string BuildPath(Type type, string id) 
+        {
+            return _PathBuilder(type, id);
+        }
+    }
+}
