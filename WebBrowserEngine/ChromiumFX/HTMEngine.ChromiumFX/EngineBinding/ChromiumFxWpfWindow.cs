@@ -42,11 +42,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
-            _chromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, _Logger);
-
-            
+            _chromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, _Logger);         
         }
-
 
         public void Inject(Key keyToInject) 
         {

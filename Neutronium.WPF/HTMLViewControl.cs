@@ -17,6 +17,9 @@ namespace Neutronium.WPF
         public static readonly DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(Uri), 
                                                     typeof(HTMLViewControl), new PropertyMetadata(OnUriChanged));
 
+        private static int _count=0;
+        public override string UniqueName { get; } = $"HTML ViewControl {_count++}";
+            
         public Uri Uri
         {
             get { return (Uri)GetValue(UriProperty); }

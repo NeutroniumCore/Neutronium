@@ -8,6 +8,8 @@ namespace Neutronium.WPF.Internal.DebugTools
     /// </summary>
     public partial class NeutroniumWindow : IDisposable 
     {
+        public event EventHandler OnFirstLoad;
+
         private HTMLViewControl _View;
 
         public NeutroniumWindow()
@@ -26,9 +28,15 @@ namespace Neutronium.WPF.Internal.DebugTools
                 JavascriptUIEngine = engine,
                 Name = "wcBrowser"
             };
+            _View.OnFirstLoad += _View_OnFirstLoad;
 
             InitializeComponent();
             Main.Children.Add(_View);
+        }
+
+        private void _View_OnFirstLoad(object sender, EventArgs e)
+        {
+            OnFirstLoad?.Invoke(this, e);
         }
 
         protected override void OnClosed(EventArgs e) 

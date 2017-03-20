@@ -51,7 +51,7 @@ namespace Neutronium.Core.JavascriptFramework
         /// first is the current, second is the debug webview returning a
         /// disposable function called when window is closed
         /// </param>
-        void DebugVm(Action<string> runJavascript, Action<string, Func<IWebView, IWebView, IDisposable>> openNewWindow);
+        void DebugVm(Action<string> runJavascript, Action<string, int, int, Func<IWebView, IWebView, IDisposable>> openNewWindow);
 
         /// <summary>
         /// return main javascript debug including framework code
@@ -62,15 +62,15 @@ namespace Neutronium.Core.JavascriptFramework
         string GetMainScript(bool debugContext);
 
         /// <summary>
-        /// return relative path to toolbar HTML file if any
+        /// return window information for toolbar HTML file if any
         /// null otherwise.
         /// </summary>
-        string DebugToolbarRelativePath { get;  }
+        WindowInformation DebugToolbarRelativePath { get;  }
 
         /// <summary>
-        /// return relative path to about screen HTML file if any
+        /// return window information for about screen HTML file if any
         /// null otherwise.
         /// </summary>
-        string AboutRelativePath { get; }
+        WindowInformation AboutRelativePath { get; }
     }
 }

@@ -12,9 +12,9 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         public string FrameworkName => "Vue.js";
         public string Name => _VueVersion.Name;
-        public string DebugToolbarRelativePath => _VueVersion.ToolBarPath;
+        public WindowInformation DebugToolbarRelativePath => _VueVersion.ToolBar;
         public string FrameworkVersion => _VueVersion.FrameworkNameVersion;
-        public string AboutRelativePath => _VueVersion.AboutPath;
+        public WindowInformation AboutRelativePath => _VueVersion.About;
 
         private readonly IVueVersion _VueVersion;
         private readonly IWebViewCommunication _WebViewCommunication;
@@ -30,9 +30,9 @@ namespace Neutronium.JavascriptFramework.Vue
             return new VueVmManager(webView, listener, debugMode ? _WebViewCommunication : null, logger);
         }
 
-        public void DebugVm(Action<string> runJavascript, Action<string, Func<IWebView, IWebView, IDisposable>> openNewWindow)
+        public void DebugVm(Action<string> runJavascript, Action<string, int, int, Func<IWebView, IWebView, IDisposable>> openNewWindow)
         {
-            openNewWindow(@"DebugTools\Window\index.html", RegisterDebugWindowHook);
+            openNewWindow(@"DebugTools\Window\index.html", 800, 700, RegisterDebugWindowHook);
         }
 
         private IDisposable RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 

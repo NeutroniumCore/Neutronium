@@ -21,9 +21,9 @@ namespace Neutronium.Core.Binding.Listeners
             _FullListenerRegister = fullListenerRegister;
             _OnDisposeOk = onDispose;
 
-            _DeltaProperty = DeltaListener.GetDeltaListener(_FullListenerRegister.Property);
-            _DeltaCollection = DeltaListener.GetDeltaListener(_FullListenerRegister.Collection);
-            _DeltaCommand = DeltaListener.GetDeltaListener(_FullListenerRegister.Command);
+            _DeltaProperty = new DeltaListener<INotifyPropertyChanged>();
+            _DeltaCollection = new DeltaListener<INotifyCollectionChanged>();
+            _DeltaCommand = new DeltaListener<JSCommand>();
 
             Visit(_DeltaProperty.VisitOld, _DeltaCollection.VisitOld, _DeltaCommand.VisitOld);
         }
@@ -51,9 +51,9 @@ namespace Neutronium.Core.Binding.Listeners
         {
             Visit(_DeltaProperty.VisitNew, _DeltaCollection.VisitNew, _DeltaCommand.VisitNew);
 
-            _DeltaProperty.Apply();
-            _DeltaCollection.Apply();
-            _DeltaCommand.Apply();
+            _DeltaProperty.Apply(_FullListenerRegister.Property);
+            _DeltaCollection.Apply(_FullListenerRegister.Collection);
+            _DeltaCommand.Apply(_FullListenerRegister.Command);
 
             _OnDisposeOk();
         }

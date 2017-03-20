@@ -8,6 +8,9 @@ namespace Neutronium.WPF
 {
     public class HTMLWindow : HTMLControlBase, INavigationSolver
     {
+        private static int _count = 0;
+        public override string UniqueName { get; } = $"HTML Window {_count++}";
+
         public HTMLWindow() : this(new NavigationBuilder())
         {
         }

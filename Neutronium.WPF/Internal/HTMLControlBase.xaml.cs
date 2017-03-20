@@ -21,7 +21,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.WPF.Internal
 {
-    public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
+    public abstract partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
         private UserControl _DebugControl;
         private DebugInformation _DebugInformation;
@@ -30,6 +30,7 @@ namespace Neutronium.WPF.Internal
         private readonly IUrlSolver _UrlSolver;
         private IJavascriptFrameworkManager _Injector;
         private string _SaveDirectory;
+        private bool _LoadingAbout = false;
         private HTMLSimpleWindow _VmDebugWindow;
         private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
         private Window Window => Window.GetWindow(this);
@@ -100,6 +101,8 @@ namespace Neutronium.WPF.Internal
                 }
             }
         }
+
+        public abstract string UniqueName { get; }
 
         public event EventHandler<NavigationEvent> OnNavigate;
         public event EventHandler OnFirstLoad;
@@ -266,26 +269,26 @@ namespace Neutronium.WPF.Internal
             var windoInfo = HTMLEngineFactory.Engine.ResolveAboutScreen();
             if (windoInfo != null) 
             {
-                var info = new About 
-                {
-                    BrowserBinding = _WPFWebWindowFactory.Name,
-                    CoreVersion = VersionHelper.GetVersionDisplayName(typeof(IHTMLBinding)),
-                    WPFVersion = VersionHelper.GetVersionDisplayName(this),
-                    WebBrowser = _WPFWebWindowFactory.EngineName,
-                    WebBrowserVersion = _WPFWebWindowFactory.EngineVersion,
-                    JavascriptFramework = _Injector.FrameworkName,
-                    JavascriptFrameworkVersion = _Injector.FrameworkVersion,
-                    MVVMBinding = _Injector.Name,
-                    MVVMBindingVersion = VersionHelper.GetVersionDisplayName(_Injector),
-                };
+                if (_LoadingAbout)
+                    return;
 
+                _LoadingAbout = true;
                 var aboutWindow = new NeutroniumWindow(windoInfo.AbsolutePath, windoInfo.Framework.Name)
                 {
                     Title = "About",
                     Owner = Window,
-                    DataContext = info
+                    DataContext = new About(_WPFWebWindowFactory, _Injector),
+                    Width = windoInfo.Width,
+                    Height = windoInfo.Height
                 };
-                aboutWindow.ShowDialog();
+                EventHandler handler = null;
+                handler = (o, e) =>
+                {
+                    aboutWindow.OnFirstLoad -= handler;
+                    aboutWindow.ShowDialog();
+                    _LoadingAbout = false;
+                };
+                aboutWindow.OnFirstLoad += handler;
                 return;
             }
 
@@ -298,12 +301,14 @@ namespace Neutronium.WPF.Internal
             MessageBox.Show(Window, builder.ToString(), "Neutronium configuration");
         }
 
-        private HTMLSimpleWindow GetWHMLWindow(string path, string title, Func<IWebView, IDisposable> onWebViewCreated = null) 
+        private HTMLSimpleWindow GetWHMLWindow(string path, string title, int width, int height, Func<IWebView, IDisposable> onWebViewCreated = null) 
         {
             return new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, onWebViewCreated) 
             {
                 Owner = Window,
-                Title = title
+                Title = title,
+                Height= height,
+                Width= width
             };
         }
 
@@ -326,7 +331,7 @@ namespace Neutronium.WPF.Internal
                 return;
             }
             _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script), 
-                                (path, onCreate) => ShowHTMLWindow(path, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
+                                (path, width, height, onCreate) => ShowHTMLWindow(path, width, height, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
 
             if (_VmDebugWindow == null)
                 _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
@@ -334,9 +339,9 @@ namespace Neutronium.WPF.Internal
                 _DebugInformation.IsDebuggingVm = true;
         }
 
-        private void ShowHTMLWindow(string path, Func<IWebView, IDisposable> injectedCode) 
+        private void ShowHTMLWindow(string path, int width, int height, Func<IWebView, IDisposable> injectedCode) 
         {
-            _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", injectedCode);
+            _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", width, height, injectedCode);
             _VmDebugWindow.Closed += _VmDebugWindow_Closed;
             _VmDebugWindow.Show();
         }
