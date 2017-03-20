@@ -21,7 +21,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.WPF.Internal
 {
-    public partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
+    public abstract partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
         private UserControl _DebugControl;
         private DebugInformation _DebugInformation;
@@ -101,6 +101,8 @@ namespace Neutronium.WPF.Internal
                 }
             }
         }
+
+        public abstract string UniqueName { get; }
 
         public event EventHandler<NavigationEvent> OnNavigate;
         public event EventHandler OnFirstLoad;
