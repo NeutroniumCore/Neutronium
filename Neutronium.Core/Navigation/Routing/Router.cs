@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Navigation.Routing
 {
-    public abstract class Router
+    internal abstract class Router : IConventionRouter
     {
         private readonly INavigationBuilder _Builder;
 

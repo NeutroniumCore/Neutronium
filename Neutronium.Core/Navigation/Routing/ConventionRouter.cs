@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Navigation.Routing
 {
-    public class ConventionRouter : Router
+    internal sealed class ConventionRouter : Router
     {
         private readonly string _Pattern;
         private const string ViewModel = "ViewModel";
@@ -20,6 +20,11 @@ namespace Neutronium.Core.Navigation.Routing
                 name = name.Substring(0, name.Length - ViewModel.Length);
             }
             return string.Format(_Pattern, name, id).Replace(@"\\", @"\");
+        }
+
+        public override string ToString() 
+        {
+            return $"Template: {string.Format(_Pattern, "{vm}", "{id}")}";
         }
     }
 }
