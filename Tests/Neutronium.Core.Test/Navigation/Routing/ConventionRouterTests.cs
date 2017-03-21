@@ -13,6 +13,8 @@ namespace Neutronium.Core.Test.Navigation.Routing
 
         private class TestViewModel { };
 
+        private class FooViewModel { };
+
         public ConventionRouterTests()
         {
             _NavigationBuilder = Substitute.For<INavigationBuilder>();
@@ -21,22 +23,26 @@ namespace Neutronium.Core.Test.Navigation.Routing
         }
 
         [Theory]
-        [InlineData(null, @"View\Test\dist\index.html")]
-        [InlineData("edit", @"View\Test\edit\dist\index.html")]
-        [InlineData("delete", @"View\Test\delete\dist\index.html")]
-        public void Register_Call_NavigationBuilder_WithCorrectParameters_TemplateWithId(string id, string path)
+        [InlineData(null, @"View\Foo\dist\index.html")]
+        [InlineData("edit", @"View\Foo\edit\dist\index.html")]
+        [InlineData("delete", @"View\Foo\delete\dist\index.html")]
+        public void Register_Call_NavigationBuilder_WithCorrectParameters_TemplateWithId(string id, string expectedPath)
         {
-            _ConventionRouterWithId.Register<TestViewModel>(id);
-            _NavigationBuilder.Received(1).Register<TestViewModel>(Arg.Is<string>(p => p == path), id);
+            RegisterAndCheck<FooViewModel>(_ConventionRouterWithId, id, expectedPath);
         }
 
         [Theory]
         [InlineData(null, @"View\Test\dist\index.html")]
         [InlineData("edit", @"View\Test\dist\index.html")]
-        public void Register_Call_NavigationBuilder_WithCorrectParameters_TemplateWithoutId(string id, string path)
+        public void Register_Call_NavigationBuilder_WithCorrectParameters_TemplateWithoutId(string id, string expectedPath)
         {
-            _ConventionRouterWithoutId.Register<TestViewModel>(id);
-            _NavigationBuilder.Received(1).Register<TestViewModel>(Arg.Is<string>(p => p == path), id);
+            RegisterAndCheck<TestViewModel>(_ConventionRouterWithoutId, id, expectedPath);
+        }
+
+        private void RegisterAndCheck<T>(ConventionRouter router, string id, string expectedPath)
+        {
+            router.Register<T>(id);
+            _NavigationBuilder.Received(1).Register<T>(expectedPath, id);
         }
     }
 }

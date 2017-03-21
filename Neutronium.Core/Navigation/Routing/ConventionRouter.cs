@@ -7,7 +7,7 @@ namespace Neutronium.Core.Navigation.Routing
         private readonly string _Pattern;
         private const string ViewModel = "ViewModel";
 
-        internal ConventionRouter(INavigationBuilder builder, string pattern) : base(builder)
+        public ConventionRouter(INavigationBuilder builder, string pattern) : base(builder)
         {
             _Pattern = pattern.Replace("{vm}", "{0}").Replace("{id}", "{1}");
         }
@@ -19,7 +19,7 @@ namespace Neutronium.Core.Navigation.Routing
             {
                 name = name.Substring(0, name.Length - ViewModel.Length);
             }
-            return string.Format(_Pattern, name, id);
+            return string.Format(_Pattern, name, id).Replace(@"\\", @"\");
         }
     }
 }
