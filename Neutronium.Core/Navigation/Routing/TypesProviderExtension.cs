@@ -10,6 +10,11 @@ namespace Neutronium.Core.Navigation.Routing
             return new TypesProvider(assembly.GetTypes());
         }
 
+        public static ITypesProvider GetAllTypesFromAssembly(this object @object) 
+        {
+            return GetAllTypes(@object.GetType().Assembly);
+        }
+
         public static ITypesProvider Implementing<T>(this ITypesProvider typeProvider)
         {
             return new TypesProvider(typeProvider.Types.Where(t => t.IsAssignableFrom(typeof(T))));
