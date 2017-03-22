@@ -17,7 +17,7 @@ namespace Neutronium.Core.Test.Navigation.Routing
 
         public class Class2 : IInterface, IInterface2 { }
 
-        private IEnumerable<Type> TestAssemblyTypes => typeof(TypeProviderTest).Assembly.GetTypes();
+        private static IEnumerable<Type> TestAssemblyTypes => typeof(TypeProviderTest).Assembly.GetTypes();
 
         [Fact]
         public void GetAllTypesFromAssembly_object_returns_types_of_assembly()
