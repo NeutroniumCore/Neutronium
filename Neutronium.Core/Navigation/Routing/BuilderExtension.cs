@@ -1,7 +1,8 @@
 ﻿using System;
 
-namespace Neutronium.Core.Navigation.Routing {
-    public static class BuilderExtension 
+namespace Neutronium.Core.Navigation.Routing
+{
+    public static class BuilderExtension
     {
         /// <summary>
         /// Get a convention router based on a template
@@ -19,7 +20,7 @@ namespace Neutronium.Core.Navigation.Routing {
         /// <returns>
         /// corresponding IConventionRouter
         /// </returns>
-        public static IConventionRouter GetTemplateConvention(this INavigationBuilder builder, string template) 
+        public static IConventionRouter GetTemplateConvention(this INavigationBuilder builder, string template)
         {
             return new ConventionRouter(builder, template);
         }
@@ -36,7 +37,7 @@ namespace Neutronium.Core.Navigation.Routing {
         /// <returns>
         /// corresponding IConventionRouter
         /// </returns>
-        public static IConventionRouter GetConvention(this INavigationBuilder builder, Func<Type, string, string> pathBuilder) 
+        public static IConventionRouter GetConvention(this INavigationBuilder builder, Func<Type, string, string> pathBuilder)
         {
             return new FuncionalRouter(builder, pathBuilder);
         }

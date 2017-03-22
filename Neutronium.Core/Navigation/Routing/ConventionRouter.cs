@@ -16,9 +16,8 @@ namespace Neutronium.Core.Navigation.Routing
         {
             var name = type.Name;
             if (name.EndsWith(ViewModel))
-            {
                 name = name.Substring(0, name.Length - ViewModel.Length);
-            }
+
             return string.Format(_Pattern, name, id).Replace(@"\\", @"\");
         }
 
