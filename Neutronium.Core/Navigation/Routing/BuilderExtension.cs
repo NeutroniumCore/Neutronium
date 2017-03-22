@@ -12,7 +12,7 @@ namespace Neutronium.Core.Navigation.Routing
         /// </param>
         /// <param name="template">
         /// string template to build relative path to html file
-        /// {vm} will be replaced by ViewModel name (excluding ending ViewModel)
+        /// {vm} will be replaced by ViewModel name (excluding ending ViewModel if any)
         /// {id} will be replaced by id
         /// Ex: @"View\{vm}\dist\index.html"
         ///     @"View\{vm}\{id}\dist\index.html"

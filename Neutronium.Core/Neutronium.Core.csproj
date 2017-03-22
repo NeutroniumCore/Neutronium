@@ -123,10 +123,12 @@
     <Compile Include="Infra\ResourceReader.cs" />
     <Compile Include="Navigation\Routing\BuilderExtension.cs" />
     <Compile Include="Navigation\Routing\IConventionRouter.cs" />
+    <Compile Include="Navigation\Routing\ITypesProvider.cs" />
     <Compile Include="Navigation\Routing\Router.cs" />
     <Compile Include="JavascriptFramework\WindowInformation.cs" />
     <Compile Include="Navigation\Routing\FuncionalRouter.cs" />
     <Compile Include="Navigation\Routing\ConventionRouter.cs" />
+    <Compile Include="Navigation\Routing\TypesProviderExtension.cs" />
     <Compile Include="WebBrowserEngine\Control\DebugEventArgs.cs" />
     <Compile Include="WebBrowserEngine\Control\IWebBrowserWindowProvider.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\CreationOption.cs" />

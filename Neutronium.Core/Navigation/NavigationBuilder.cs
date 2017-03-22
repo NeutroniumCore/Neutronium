@@ -12,12 +12,13 @@ namespace Neutronium.Core.Navigation
     {
         private IDictionary<Type, IDictionary<string, Uri>> _Mapper = new Dictionary<Type, IDictionary<string, Uri>>();
 
-        private void Register(Type type, Uri uri, string id)
+        private NavigationBuilder Register(Type type, Uri uri, string id)
         {
             try
             {
                 var res = _Mapper.GetOrAddEntity(type, t => new Dictionary<string, Uri>());
                 res.Add(id ?? string.Empty, uri);
+                return this;
             }
             catch (ArgumentException)
             {
@@ -37,20 +38,30 @@ namespace Neutronium.Core.Navigation
             return new Uri(path);
         }
 
-        public void Register<T>(string path, string id = null)
+        private Uri CreateUriFromLocal(string path)
         {
-            Register(typeof(T), CreateUri($"{Assembly.GetCallingAssembly().GetPath()}\\{path}"), id);
+            return CreateUri($"{Assembly.GetCallingAssembly().GetPath()}\\{path}");
         }
 
-        public void RegisterAbsolute<T>(string path, string id = null)
+        public INavigationBuilder Register(Type type, string path, string id = null)
         {
-            Register(typeof(T), CreateUri(path), id);
+            return Register(type, CreateUriFromLocal(path), id);
         }
 
-        public void Register<T>(Uri path, string id = null)
+        public INavigationBuilder Register<T>(string path, string id = null)
+        {
+            return Register(typeof(T), CreateUriFromLocal(path), id);
+        }
+
+        public INavigationBuilder RegisterAbsolute<T>(string path, string id = null)
+        {
+            return Register(typeof(T), CreateUri(path), id);
+        }
+
+        public INavigationBuilder Register<T>(Uri path, string id = null)
         {
             CheckPath(path.LocalPath);
-            Register(typeof(T), path, id);
+            return Register(typeof(T), path, id);
         }
 
         private Uri SolveType(Type type, string id)
