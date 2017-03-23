@@ -36,7 +36,6 @@ namespace Neutronium.Core.Navigation.Routing
         /// </returns>
         IConventionRouter Register(Type type, string id = null);
 
-
         /// <summary>
         /// register the corresponding types without id based on the current convention
         /// </summary>

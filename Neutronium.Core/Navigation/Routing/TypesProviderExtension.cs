@@ -201,7 +201,7 @@ namespace Neutronium.Core.Navigation.Routing
 
 
         /// <summary>
-        /// Remove ITypesProvider types
+        /// Create a new ITypesProvider without the given types
         /// </summary>
         /// <param name="typeProvider"></param>
         /// <param name="types">
