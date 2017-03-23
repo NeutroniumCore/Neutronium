@@ -11,25 +11,20 @@ namespace Neutronium.Core.Navigation.Routing
             return new TypesProvider(assembly.GetTypes());
         }
 
-        public static ITypesProvider GetAllTypesFromAssembly(this Type type)
+        public static ITypesProvider GetTypesFromSameAssembly(this Type type)
         {
             return GetAllTypes(type.Assembly);
         }
 
-        public static ITypesProvider GetAllTypesFromAssembly(this object @object)
+        public static ITypesProvider GetTypesFromSameAssembly(this object @object)
         {
-            return GetAllTypesFromAssembly(@object.GetType());
+            return GetTypesFromSameAssembly(@object.GetType());
         }
 
         public static ITypesProvider Implementing<T>(this ITypesProvider typeProvider)
         {
             var type = typeof(T);
             return new TypesProvider(typeProvider.Types.Where(t => type != t && type.IsAssignableFrom(t)));
-        }
-
-        public static ITypesProvider WithNameContaining(this ITypesProvider typeProvider, string value)
-        {
-            return new TypesProvider(typeProvider.Types.Where(t => t.Name.Contains(value)));
         }
 
         public static ITypesProvider WithNameEndingWith(this ITypesProvider typeProvider, string value)
@@ -47,19 +42,19 @@ namespace Neutronium.Core.Navigation.Routing
             return new TypesProvider(typeProvider.Types.Concat(typeProvider2.Types));
         }
 
-        public static ITypesProvider Add(this ITypesProvider typeProvider, Assembly assembly)
+        public static ITypesProvider AddTypesFrom(this ITypesProvider typeProvider, Assembly assembly)
         {
             return typeProvider.Add(assembly.GetAllTypes());
         }
 
-        public static ITypesProvider Add(this ITypesProvider typeProvider, Type type)
+        public static ITypesProvider AddTypesOfSameAssembly(this ITypesProvider typeProvider, Type type)
         {
-            return typeProvider.Add(type.GetAllTypesFromAssembly());
+            return typeProvider.Add(type.GetTypesFromSameAssembly());
         }
 
-        public static ITypesProvider Add(this ITypesProvider typeProvider, object @object)
+        public static ITypesProvider AddTypesOfSameAssembly(this ITypesProvider typeProvider, object @object)
         {
-            return typeProvider.Add(@object.GetAllTypesFromAssembly());
+            return typeProvider.Add(@object.GetTypesFromSameAssembly());
         }
 
         public static ITypesProvider Add(this ITypesProvider typeProvider, params Type[] types)
@@ -70,6 +65,16 @@ namespace Neutronium.Core.Navigation.Routing
         public static ITypesProvider Where(this ITypesProvider typeProvider, Func<Type, bool> filter)
         {
             return new TypesProvider(typeProvider.Types.Where(filter));
+        }
+
+        public static ITypesProvider Except(this ITypesProvider typeProvider, Func<Type, bool> filter)
+        {
+            return new TypesProvider(typeProvider.Types.Where(t => !filter(t)));
+        }
+
+        public static ITypesProvider Except(this ITypesProvider typeProvider, params Type[] types)
+        {
+            return new TypesProvider(typeProvider.Types.Except(types));
         }
 
         public static IConventionRouter Register(this IConventionRouter conventionRouter, ITypesProvider typeProvider)
