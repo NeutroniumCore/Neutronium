@@ -128,6 +128,7 @@
     <Compile Include="JavascriptFramework\WindowInformation.cs" />
     <Compile Include="Navigation\Routing\FuncionalRouter.cs" />
     <Compile Include="Navigation\Routing\ConventionRouter.cs" />
+    <Compile Include="Navigation\Routing\TypesProvider.cs" />
     <Compile Include="Navigation\Routing\TypesProviderExtension.cs" />
     <Compile Include="WebBrowserEngine\Control\DebugEventArgs.cs" />
     <Compile Include="WebBrowserEngine\Control\IWebBrowserWindowProvider.cs" />
