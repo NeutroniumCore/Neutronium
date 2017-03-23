@@ -31,7 +31,7 @@ namespace Neutronium.Core.Test.Navigation.Routing
 
         public class WithFunnyNameStarting { }
 
-        private IEnumerable<Type> TestAssemblyTypes => typeof(TypeProviderTest).Assembly.GetTypes();
+        private static IEnumerable<Type> TestAssemblyTypes => typeof(TypeProviderTest).Assembly.GetTypes();
 
         [Fact]
         public void GetTypesFromSameAssembly_object_returns_types_of_assembly()
