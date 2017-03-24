@@ -181,7 +181,6 @@ namespace Neutronium.Core.Navigation.Routing
             return new TypesProvider(typeProvider.Types.Where(filter));
         }
 
-
         /// <summary>
         /// Filter ITypesProvider types based on a given condition
         /// <seealso cref="ITypesProvider"/>
@@ -198,7 +197,6 @@ namespace Neutronium.Core.Navigation.Routing
         {
             return new TypesProvider(typeProvider.Types.Where(t => !filter(t)));
         }
-
 
         /// <summary>
         /// Create a new ITypesProvider without the given types
@@ -226,7 +224,7 @@ namespace Neutronium.Core.Navigation.Routing
         /// type provider 
         /// </param>
         /// <returns>
-        /// the correspoding convention router
+        /// the corresponding convention router
         /// </returns>
         public static IConventionRouter Register(this IConventionRouter conventionRouter, ITypesProvider typeProvider)
         {
