@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Neutronium.JavascriptFramework.Vue</id>
+        <version>0.5.0</version>
+        <authors>David Desmaisons</authors>
+        <owners>David Desmaisons</owners>
+        <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Neutronium is a MVVM HTLM View engine for C# application. This is the javascript binding based on vue.js framework.</description>
+        <releaseNotes>- Update to vue.js 2.2.5
+- Improved debugging using a separated window to host vuedevtools
+- Debug UI for about and tools</releaseNotes>
+        <tags>HTML, C#, Chromium, MVVM, View, WPF, Vue.js</tags>
+        <dependencies>
+            <dependency id="Neutronium.Core" version="0.4.0" />
+            <dependency id="MoreCollection" version="1.0.6" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="build\DebugTools\About\674f50d287a8c48dc19ba404d20fe713.eot" target="build\DebugTools\About\674f50d287a8c48dc19ba404d20fe713.eot" />
+        <file src="build\DebugTools\About\810a1b930979de83478be0f458b51dd8.png" target="build\DebugTools\About\810a1b930979de83478be0f458b51dd8.png" />
+        <file src="build\DebugTools\About\912ec66d7572ff821749319396470bde.svg" target="build\DebugTools\About\912ec66d7572ff821749319396470bde.svg" />
+        <file src="build\DebugTools\About\9c74e172f87984c48ddf5c8108cabe67.png" target="build\DebugTools\About\9c74e172f87984c48ddf5c8108cabe67.png" />
+        <file src="build\DebugTools\About\af7ae505a9eed503f8b8e6982036873e.woff2" target="build\DebugTools\About\af7ae505a9eed503f8b8e6982036873e.woff2" />
+        <file src="build\DebugTools\About\b06871f281fee6b241d60582ae9369b9.ttf" target="build\DebugTools\About\b06871f281fee6b241d60582ae9369b9.ttf" />
+        <file src="build\DebugTools\About\build.js" target="build\DebugTools\About\build.js" />
+        <file src="build\DebugTools\About\fee66e712a8a08eef5805a46892932ad.woff" target="build\DebugTools\About\fee66e712a8a08eef5805a46892932ad.woff" />
+        <file src="build\DebugTools\About\index.html" target="build\DebugTools\About\index.html" />
+        <file src="build\DebugTools\About\styles.css" target="build\DebugTools\About\styles.css" />
+        <file src="build\DebugTools\Toolbar\674f50d287a8c48dc19ba404d20fe713.eot" target="build\DebugTools\Toolbar\674f50d287a8c48dc19ba404d20fe713.eot" />
+        <file src="build\DebugTools\Toolbar\76ec2a09aa20e8a01442f48f046c1a57.png" target="build\DebugTools\Toolbar\76ec2a09aa20e8a01442f48f046c1a57.png" />
+        <file src="build\DebugTools\Toolbar\912ec66d7572ff821749319396470bde.svg" target="build\DebugTools\Toolbar\912ec66d7572ff821749319396470bde.svg" />
+        <file src="build\DebugTools\Toolbar\9c74e172f87984c48ddf5c8108cabe67.png" target="build\DebugTools\Toolbar\9c74e172f87984c48ddf5c8108cabe67.png" />
+        <file src="build\DebugTools\Toolbar\af7ae505a9eed503f8b8e6982036873e.woff2" target="build\DebugTools\Toolbar\af7ae505a9eed503f8b8e6982036873e.woff2" />
+        <file src="build\DebugTools\Toolbar\b06871f281fee6b241d60582ae9369b9.ttf" target="build\DebugTools\Toolbar\b06871f281fee6b241d60582ae9369b9.ttf" />
+        <file src="build\DebugTools\Toolbar\build.js" target="build\DebugTools\Toolbar\build.js" />
+        <file src="build\DebugTools\Toolbar\fee66e712a8a08eef5805a46892932ad.woff" target="build\DebugTools\Toolbar\fee66e712a8a08eef5805a46892932ad.woff" />
+        <file src="build\DebugTools\Toolbar\index.html" target="build\DebugTools\Toolbar\index.html" />
+        <file src="build\DebugTools\Toolbar\styles.css" target="build\DebugTools\Toolbar\styles.css" />
+        <file src="build\DebugTools\Window\dist\backend.js" target="build\DebugTools\Window\dist\backend.js" />
+        <file src="build\DebugTools\Window\dist\devtools.js" target="build\DebugTools\Window\dist\devtools.js" />
+        <file src="build\DebugTools\Window\index.html" target="build\DebugTools\Window\index.html" />
+        <file src="build\Neutronium.JavascriptFramework.Vue.props" target="build\Neutronium.JavascriptFramework.Vue.props" />
+        <file src="lib\Neutronium.JavascriptFramework.Vue.dll" target="lib\Neutronium.JavascriptFramework.Vue.dll" />
+    </files>
+</package>

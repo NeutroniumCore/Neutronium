@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Neutronium.JavascriptFramework.Knockout</id>
+        <version>0.5.0</version>
+        <authors>David Desmaisons</authors>
+        <owners>David Desmaisons</owners>
+        <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Neutronium is a MVVM HTLM View engine for C# application. This is the javascript binding based on knockout.js framework.</description>
+        <tags>HTML, C#, Chromium, MVVM, View, WPF, knockout.js</tags>
+        <dependencies>
+            <dependency id="Neutronium.Core" version="0.4.0" />
+            <dependency id="MoreCollection" version="1.0.6" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="lib\Neutronium.JavascriptFramework.Knockout.dll" target="lib\Neutronium.JavascriptFramework.Knockout.dll" />
+    </files>
+</package>

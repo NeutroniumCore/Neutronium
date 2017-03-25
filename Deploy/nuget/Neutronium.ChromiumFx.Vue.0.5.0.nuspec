@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Neutronium.ChromiumFx.Vue</id>
+        <version>0.5.0</version>
+        <title>Neutronium.ChromiumFx.Vue</title>
+        <authors>David Desmaisons</authors>
+        <owners>David Desmaisons</owners>
+        <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Neutronium is a MVVM HTLM View engine for C# application. This is a standalone package including Vue.js and ChromiumFx.</description>
+        <tags>HTML, C#, Chromium, MVVM, View</tags>
+        <dependencies>
+            <dependency id="Neutronium.WebBrowserEngine.ChromiumFx" version="0.5.0" />
+            <dependency id="Neutronium.JavascriptFramework.Vue" version="0.5.0" />
+        </dependencies>
+    </metadata>
+    <files />
+</package>
