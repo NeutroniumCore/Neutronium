@@ -447,9 +447,6 @@ namespace Neutronium.WPF.Internal
             wpfweb?.Inject(keyToInject);
         }
 
-        public override string ToString()
-        {
-            return UniqueName;
-        }
+        public override string ToString() => UniqueName;
     }
 }
