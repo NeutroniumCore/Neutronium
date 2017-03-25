@@ -8,19 +8,19 @@ namespace Neutronium.MVVMComponents.Relay
         private readonly Func<TIn, Task<TResult>> _ResultBuilder;
         public RelayResultCommand(Func<TIn, TResult> function)
         {
-            _ResultBuilder = (iargument) =>
+            _ResultBuilder = (arg) =>
+            {
+                var tcs = new TaskCompletionSource<TResult>();
+                try
                 {
-                    var tcs = new TaskCompletionSource<TResult>();
-                    try
-                    {
-                        tcs.SetResult(function(iargument));
-                    }
-                    catch(Exception e)
-                    {
-                        tcs.TrySetException(e);
-                    }
-                    return tcs.Task;
-                };
+                    tcs.SetResult(function(arg));
+                }
+                catch (Exception e)
+                {
+                    tcs.TrySetException(e);
+                }
+                return tcs.Task;
+            };
         }
 
         public RelayResultCommand(Func<TIn, Task<TResult>> resultBuilder)
