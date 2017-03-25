@@ -12,7 +12,6 @@ namespace Internal.Test.Namespace
     public class ClassTeste { }
 }
 
-
 namespace Neutronium.Core.Test.Navigation.Routing
 {
     public class TypeProviderTest 

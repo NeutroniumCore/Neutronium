@@ -446,5 +446,10 @@ namespace Neutronium.WPF.Internal
             var wpfweb = wpfacess.WPFWebWindow;
             wpfweb?.Inject(keyToInject);
         }
+
+        public override string ToString()
+        {
+            return UniqueName;
+        }
     }
 }
