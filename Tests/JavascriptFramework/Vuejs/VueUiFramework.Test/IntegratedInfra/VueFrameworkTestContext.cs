@@ -11,7 +11,7 @@ namespace VueFramework.Test.IntegratedInfra
             return new FrameworkTestContext
             {
                 JavascriptFrameworkExtractorBuilder = (webView) => new VueExtractor(webView),
-                FrameworkManager = new VueSessionInjector(),
+                FrameworkManager = new VueSessionInjectorV2(),
                 HtmlProvider = new VueHtmlProvider()
             };
         }
