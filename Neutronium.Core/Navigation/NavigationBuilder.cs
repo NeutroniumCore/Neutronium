@@ -66,6 +66,7 @@ namespace Neutronium.Core.Navigation
 
         private Uri SolveType(Type type, string id)
         {
+            id = id ?? string.Empty;
             foreach (var inType in type.GetBaseTypes())
             {
                 IDictionary<string, Uri> dicres;

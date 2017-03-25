@@ -381,7 +381,7 @@ namespace Neutronium.WPF.Internal
             currentWebControl?.CloseDebugTools();
         }
 
-        protected async Task<IHTMLBinding> NavigateAsyncBase(object iViewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        protected async Task<IHTMLBinding> NavigateAsyncBase(object iViewModel, string Id = "", JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             return await WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, iMode);
         }
