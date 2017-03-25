@@ -217,7 +217,7 @@ namespace Neutronium.Core.Navigation
             }          
         }
 
-        public async Task<IHTMLBinding> NavigateAsync(object viewModel, string id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        public async Task<IHTMLBinding> NavigateAsync(object viewModel, string id = "", JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
             if ((viewModel == null) || (_Navigating))
                 return null;
