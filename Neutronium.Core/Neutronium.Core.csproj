@@ -101,6 +101,7 @@
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
     <Compile Include="JavascriptFramework\BinderBuilder.cs" />
+    <Compile Include="JavascriptFramework\DebugToolsUI.cs" />
     <Compile Include="JavascriptFramework\IJavascriptObjectInternalMapper.cs" />
     <Compile Include="JavascriptFramework\IJavascriptFrameworkManager.cs" />
     <Compile Include="JavascriptFramework\CollectionChangeType.cs" />

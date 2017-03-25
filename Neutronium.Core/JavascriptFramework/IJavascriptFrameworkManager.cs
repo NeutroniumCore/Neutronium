@@ -62,15 +62,9 @@ namespace Neutronium.Core.JavascriptFramework
         string GetMainScript(bool debugContext);
 
         /// <summary>
-        /// return window information for toolbar HTML file if any
-        /// null otherwise.
+        /// Get DebugToolsUI framework specific UI if any
+        /// <seealso cref="DebugToolsUI"/>
         /// </summary>
-        WindowInformation DebugToolbarRelativePath { get;  }
-
-        /// <summary>
-        /// return window information for about screen HTML file if any
-        /// null otherwise.
-        /// </summary>
-        WindowInformation AboutRelativePath { get; }
+        DebugToolsUI DebugToolsUI { get; }
     }
 }

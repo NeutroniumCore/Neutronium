@@ -12,9 +12,8 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         public string FrameworkName => "Vue.js";
         public string Name => _VueVersion.Name;
-        public WindowInformation DebugToolbarRelativePath => _VueVersion.ToolBar;
         public string FrameworkVersion => _VueVersion.FrameworkNameVersion;
-        public WindowInformation AboutRelativePath => _VueVersion.About;
+        public DebugToolsUI DebugToolsUI => _VueVersion.DebugToolsUI;
 
         private readonly IVueVersion _VueVersion;
         private readonly IWebViewCommunication _WebViewCommunication;
@@ -25,7 +24,7 @@ namespace Neutronium.JavascriptFramework.Vue
             _WebViewCommunication = new WebViewCommunication();
         }
 
-        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode) 
+        public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode)
         {
             return new VueVmManager(webView, listener, debugMode ? _WebViewCommunication : null, logger);
         }
@@ -35,7 +34,7 @@ namespace Neutronium.JavascriptFramework.Vue
             openNewWindow(@"DebugTools\Window\index.html", 800, 700, RegisterDebugWindowHook);
         }
 
-        private IDisposable RegisterDebugWindowHook(IWebView current, IWebView debugWebView) 
+        private IDisposable RegisterDebugWindowHook(IWebView current, IWebView debugWebView)
         {
             var disp = _WebViewCommunication.Connect(current, debugWebView);
             var disp2 = _WebViewCommunication.Subscribe(debugWebView, "main:inject", _ => InjectBackend(current));

@@ -9,9 +9,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         string Name { get; }
 
-        WindowInformation ToolBar { get; }
-
-        WindowInformation About { get; }
+        DebugToolsUI DebugToolsUI { get; }
 
         ResourceReader GetVueResource();
     }

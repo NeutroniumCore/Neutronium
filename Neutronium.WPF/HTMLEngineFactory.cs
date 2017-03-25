@@ -112,12 +112,12 @@ namespace Neutronium.WPF
 
         public HTMLWindowInfo ResolveToolbar() 
         {
-            return Resolve(fr => fr.DebugToolbarRelativePath);        
+            return Resolve(fr => fr.DebugToolsUI?.DebugToolbar);        
         }
 
         public HTMLWindowInfo ResolveAboutScreen() 
         {
-            return Resolve(fr => fr.AboutRelativePath);
+            return Resolve(fr => fr.DebugToolsUI?.About);
         }
 
         public HTMLWindowInfo Resolve(Func<IJavascriptFrameworkManager, WindowInformation> windowInfoGetter) {
