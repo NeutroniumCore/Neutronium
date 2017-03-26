@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Neutronium.WebBrowserEngine.ChromiumFx</id>
+        <version>0.5.1</version>
+        <title>Neutronium.WebBrowserEngine.ChromiumFx</title>
+        <authors>David Desmaisons</authors>
+        <owners>David Desmaisons</owners>
+        <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Neutronium is a MVVM HTLM View engine for C# application. This is Webbrowser implementation based on ChromiumFx project.</description>
+        <releaseNotes>- Resolve redraw problem after minimizing
+- Migrate to chromium 56</releaseNotes>
+        <tags>HTML, C#, Chromium, MVVM, View, WPF</tags>
+        <dependencies>
+            <dependency id="Unofficial.Chromiumfx" version="3.2924.0" />
+            <dependency id="Neutronium.WPF" version="0.5.1" />
+            <dependency id="MoreCollection" version="1.0.6" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="lib\ChromiumFXRenderProcess.exe" target="lib\ChromiumFXRenderProcess.exe" />
+        <file src="lib\Neutronium.WebBrowserEngine.ChromiumFx.dll" target="lib\Neutronium.WebBrowserEngine.ChromiumFx.dll" />
+    </files>
+</package>
