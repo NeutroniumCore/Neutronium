@@ -33,6 +33,7 @@ namespace Neutronium.Core.Test.Binding
             _CommandFactory = Substitute.For<IJSCommandFactory>();
             _Logger = Substitute.For<IWebSessionLogger>();
             _IWebBrowserWindow = Substitute.For<IWebBrowserWindow>();
+            _IWebBrowserWindow.IsTypeBasic(typeof(string)).Returns(true);
             _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_IWebBrowserWindow, _Cacher, _CommandFactory, _Logger);
         }
 
@@ -55,7 +56,6 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property2\":null,\"Property3\":null}");
-
         }
 
         [Fact]
@@ -106,6 +106,30 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
+        public void CreateJSGlueObject_WithCorrectToString_TransformingQuote()
+        {
+            var testObject = new StringClass
+            {
+                Value = @"a""quote"""
+            };
+            var res = _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be(@"{""Value"":""a\""quote\""""}");
+        }
+
+        [Fact]
+        public void CreateJSGlueObject_WithCorrectToString_TransformingSlash()
+        {
+            var testObject = new StringClass
+            {
+                Value = @"C:\Users\David\Documents\Source\DiscogsClient\DiscogsClient\bin\Debug\DiscogsClient.dll"
+            };
+            var res = _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be(@"{""Value"":""C:\\Users\\David\\Documents\\Source\\DiscogsClient\\DiscogsClient\\bin\\Debug\\DiscogsClient.dll""}");
+        }
+
+        [Fact]
         public void Map_CreateJSGlueObject_WithCorrectToString_ListProperty()
         {
             var testObject = new TestClass();
@@ -123,6 +147,11 @@ namespace Neutronium.Core.Test.Binding
             public TestClass Property1 { get; set; }
             public TestClass Property2 { get; set; }
             public TestClass Property3 { get; set; }           
+        }
+
+        private class StringClass
+        {
+            public string Value { get; set; }
         }
     }
 }

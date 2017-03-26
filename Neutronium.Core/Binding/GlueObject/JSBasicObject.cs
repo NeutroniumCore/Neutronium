@@ -56,7 +56,7 @@ namespace Neutronium.Core.Binding.GlueObject
             }
             if (CValue is string)
             {
-                return $@"""{((string) CValue).Replace(@"""", @"\""")}""";
+                return $@"""{Normalize((string) CValue)}""";
             }
 
             object unBoxed = CValue;
@@ -79,6 +79,11 @@ namespace Neutronium.Core.Binding.GlueObject
             }
 
             return CValue.ToString();
+        }
+
+        private static string Normalize(string value)
+        {
+            return value.Replace(@"\", @"\\").Replace(@"""", @"\""");
         }
 
         public void BuilString(DescriptionBuilder context)

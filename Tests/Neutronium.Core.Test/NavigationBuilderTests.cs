@@ -14,7 +14,7 @@ namespace Neutronium.Core.Test
         }
 
         [Fact]
-        public void Test_DoubleRegister_Should_Generate_Error()
+        public void Register_Twice_Should_Generate_Error()
         {
             _NavigationBuilder.Register<object>("javascript\\index.html");
 
@@ -24,7 +24,7 @@ namespace Neutronium.Core.Test
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Register_Should_Use_Default_Register_WhenId_NotFound()
+        public void Solve_Should_Use_Default_Register_WhenId_NotFound()
         {
             _NavigationBuilder.Register<object>("javascript\\index.html");
 
@@ -34,7 +34,17 @@ namespace Neutronium.Core.Test
         }
 
         [Fact]
-        public void Test_WPFBrowserNavigator_Register_ShouldNotAceptBadPath()
+        public void Solve_ShoulWork_WithDefaultId()
+        {
+            _NavigationBuilder.Register<object>("javascript\\index.html");
+
+            var Uri = _NavigationBuilder.Solve(new object());
+
+            Uri.LocalPath.Should().EndWith("javascript\\index.html");
+        }
+
+        [Fact]
+        public void Register_ShouldNotAceptBadPath()
         {
 
             _NavigationBuilder.Should().NotBeNull();
