@@ -8,17 +8,17 @@ using Neutronium.JavascriptFramework.Vue.Communication;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
-    public class VueSessionInjectorBase : IJavascriptFrameworkManager
+    public abstract class VueSessionInjectorBase : IJavascriptFrameworkManager
     {
         public string FrameworkName => "Vue.js";
         public string Name => _VueVersion.Name;
         public string FrameworkVersion => _VueVersion.FrameworkNameVersion;
         public DebugToolsUI DebugToolsUI => _VueVersion.DebugToolsUI;
 
-        private readonly IVueVersion _VueVersion;
+        private readonly VueVersion _VueVersion;
         private readonly IWebViewCommunication _WebViewCommunication;
 
-        protected VueSessionInjectorBase(IVueVersion vueVersion)
+        internal VueSessionInjectorBase(VueVersion vueVersion)
         {
             _VueVersion = vueVersion;
             _WebViewCommunication = new WebViewCommunication();

@@ -198,7 +198,10 @@ namespace Neutronium.WPF.Internal
             var windoInfo = HTMLEngineFactory.Engine.ResolveToolbar();
             if (windoInfo != null)
             {
-                _DebugControl = new DebugControlNeutronium(windoInfo.AbsolutePath, windoInfo.Framework.Name);
+                _DebugControl = new DebugControlNeutronium(windoInfo.AbsolutePath, windoInfo.Framework.Name)
+                {
+                    Height = windoInfo.Height
+                };
             }
             else
             {

@@ -1,5 +1,4 @@
-﻿<UserControl
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -7,7 +6,7 @@
              x:Name="Root"
              mc:Ignorable="d" 
              d:DesignWidth="300">
-    <Grid  HorizontalAlignment="Stretch" Height="90">
-        <Wpf:HTMLViewControl x:Name="DebugWindow"  IsDebug="false" JavascriptUIEngine="{Binding ElementName=Root, Path=JavascriptUIEngine}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="69"/>
+    <Grid>
+        <Wpf:HTMLViewControl x:Name="DebugWindow"  IsDebug="false" JavascriptUIEngine="{Binding ElementName=Root, Path=JavascriptUIEngine}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>
 </UserControl>

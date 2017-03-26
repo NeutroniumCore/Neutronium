@@ -67,7 +67,6 @@
     <Compile Include="Communication\MessageEvent.cs" />
     <Compile Include="Communication\WebViewCommunication.cs" />
     <Compile Include="Communication\WebViewListener.cs" />
-    <Compile Include="IVueVersion.cs" />
     <Compile Include="VueJavascriptSessionInjector.cs" />
     <Compile Include="VueJavascriptViewModelUpdater.cs" />
     <Compile Include="VueSessionInjector.cs" />

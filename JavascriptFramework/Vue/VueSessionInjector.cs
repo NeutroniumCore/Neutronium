@@ -1,8 +1,8 @@
 ﻿namespace Neutronium.JavascriptFramework.Vue
 {
-    public class VueSessionInjector : VueSessionInjectorBase 
+    public sealed class VueSessionInjector : VueSessionInjectorBase 
     {
-        public VueSessionInjector(): base(VueVersions.Vue1)
+        public VueSessionInjector(): base(VueVersion.Vue1)
         {
         }
     }

@@ -3,22 +3,23 @@ using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
-    internal class VueVersions : IVueVersion
+    internal class VueVersion
     {
         public string Name { get; }
-        public string VueVersion { get; }
+        public string Version { get; }
         public DebugToolsUI DebugToolsUI { get; }
         public string FrameworkNameVersion { get; }
 
-        internal static VueVersions Vue1 { get; } = new VueVersions("1.0.25", "VueInjector", "vue1", null);
+        internal static VueVersion Vue1 { get; } = new VueVersion("1.0.25", "VueInjector", "vue1", null);
 
-        internal static VueVersions Vue2 { get; } = new VueVersions("2.2.5", "VueInjectorV2", "vue2", Vue2DebugToolsUI);
+        internal static VueVersion Vue2 { get; } = new VueVersion("2.2.5", "VueInjectorV2", "vue2", Vue2DebugToolsUI);
 
         private static DebugToolsUI Vue2DebugToolsUI => new DebugToolsUI(Vue2DebugTools, Vue2About);
 
         private static WindowInformation Vue2DebugTools => new WindowInformation
         {
             RelativePath = "DebugTools\\Toolbar\\index.html",
+            Height = 65
         };
 
         private static WindowInformation Vue2About => new WindowInformation
@@ -30,14 +31,14 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public ResourceReader GetVueResource()
         {
-            return new ResourceReader($"scripts.{VueVersion}", this);
+            return new ResourceReader($"scripts.{Version}", this);
         }
 
-        private VueVersions(string framewokVersion, string name, string version, DebugToolsUI debugToolsUI)
+        private VueVersion(string framewokVersion, string name, string version, DebugToolsUI debugToolsUI)
         {
             FrameworkNameVersion = framewokVersion;
             Name = name;
-            VueVersion = version;
+            Version = version;
             DebugToolsUI = debugToolsUI;
         }
     }
