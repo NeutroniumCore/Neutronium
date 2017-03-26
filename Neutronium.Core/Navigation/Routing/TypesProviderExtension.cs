@@ -213,6 +213,26 @@ namespace Neutronium.Core.Navigation.Routing
             return new TypesProvider(typeProvider.Types.Except(types));
         }
 
+
+        /// <summary>
+        /// Register all the types provided by typeProvider
+        /// using the current convention
+        /// </summary>
+        ///  <param name="typeProvider">
+        /// type provider 
+        /// </param>
+        /// <param name="conventionRouter">
+        /// Convention router
+        /// </param>
+        /// <returns>
+        /// the corresponding convention router
+        /// </returns>
+        public static ITypesProvider Register(this ITypesProvider typeProvider, IConventionRouter conventionRouter)
+        {
+            conventionRouter.Register(typeProvider.Types.Distinct());
+            return typeProvider;
+        }
+
         /// <summary>
         /// Register all the types provided by typeProvider
         /// using the current convention
