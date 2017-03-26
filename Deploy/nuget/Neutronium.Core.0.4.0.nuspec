@@ -11,7 +11,8 @@
         <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Neutronium is a MVVM HTLM View engine for C# application. This is core package without any webbrowser or javascript binding.</description>
-        <releaseNotes>- Added convention routing 
+        <releaseNotes>- Improced performance on open
+- Added convention routing 
 - Added suport to javascript framework UI for debug
 - Improved documentation</releaseNotes>
         <tags>HTML, C#, Chromium, MVVM, View</tags>
