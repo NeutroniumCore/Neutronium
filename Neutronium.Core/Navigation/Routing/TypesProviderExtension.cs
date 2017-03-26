@@ -215,8 +215,7 @@ namespace Neutronium.Core.Navigation.Routing
 
 
         /// <summary>
-        /// Register all the types provided by typeProvider
-        /// using the current convention
+        /// Register all the types provided by typeProvider using the given convention
         /// </summary>
         ///  <param name="typeProvider">
         /// type provider 
@@ -234,8 +233,7 @@ namespace Neutronium.Core.Navigation.Routing
         }
 
         /// <summary>
-        /// Register all the types provided by typeProvider
-        /// using the current convention
+        /// Register all the types provided by typeProvider using the given convention
         /// </summary>
         /// <param name="conventionRouter">
         /// Convention router
