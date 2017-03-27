@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="HTMLEngineFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\VersionHelperTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">

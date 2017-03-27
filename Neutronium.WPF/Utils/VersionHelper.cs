@@ -26,7 +26,7 @@ namespace Neutronium.WPF.Utils
 
         public static string GetDisplayName(this Version version)
         {
-            return $"{version.Major}.{version.Minor}.{version.Revision}";
+            return $"{version.Major}.{version.Minor}.{version.Build}";
         }
     }
 }

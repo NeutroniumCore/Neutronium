@@ -392,7 +392,7 @@ namespace Neutronium.WPF.Internal
         public void Dispose()
         {
             (_DebugControl as IDisposable)?.Dispose();
-            _WPFDoubleBrowserNavigator.Dispose();
+            _WPFDoubleBrowserNavigator?.Dispose();
         }
 
         private void Root_PreviewKeyDown(object sender, KeyEventArgs e)
