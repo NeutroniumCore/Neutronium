@@ -4,7 +4,7 @@ Neutronium provides some hooks when you need to access some low-level Chromium A
 
 Neutronium ChromiumFx application: `ChromiumFxWebBrowserApp` provides a `UpdateLineCommandArg` method that when overrided allow to provide custom command line switch.
 
-This method receives a [CfxOnBeforeCommandLineProcessingEventArgs] (http://chromiumfx.bitbucket.org/api/html/T_Chromium_Event_CfxOnBeforeCommandLineProcessingEventArgs.htm) instance as argument.
+This method receives a [CfxOnBeforeCommandLineProcessingEventArgs](https://chromiumfx.bitbucket.org/api/html/T_Chromium_Event_CfxOnBeforeCommandLineProcessingEventArgs.htm) instance as argument.
 
 
 Exemple to disable same-origin-policy:
