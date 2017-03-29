@@ -6,6 +6,6 @@
 
 * [Debug Tools](./Tools.md)
 
-* [Architecture](.\Architecture.md)
+* [Architecture](./Architecture.md)
 
 * [F.A.Q](./FAQ.md)
