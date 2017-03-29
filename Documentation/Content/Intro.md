@@ -2,10 +2,10 @@
 
 # Neutronium Documentation
 
-* [How to set up a project](.\SetUp.md)
+* [How to set up a project](./SetUp.md)
 
-* [Debug Tools](.\Tools.md)
+* [Debug Tools](./Tools.md)
 
 * [Architecture](.\Architecture.md)
 
-* [F.A.Q](.\FAQ.md)
+* [F.A.Q](./FAQ.md)
