@@ -4,8 +4,8 @@
 
 * Why Neutronium?
 
-        The idea behind Neutronium is to provide a HTML-CSS-Javascript UI engine enpowered with two way bindings supporting all features of WPF MVVM bindings.
-        This way Neutronium can be as "remplacement" of WPF.
+The idea behind Neutronium is to provide a HTML-CSS-Javascript UI engine enpowered with two way bindings supporting all features of WPF MVVM bindings.
+This way Neutronium can be as "remplacement" of WPF.
 
 
 * How Neutronium compares with other libraries?
