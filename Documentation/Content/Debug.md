@@ -1,3 +1,7 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
+# Debug
+
 ## 1. Interactive Debug
 
 ### To activate Debug mode for HTLMLWindow or HTMLViewControl set IsDebug as true

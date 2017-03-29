@@ -1,4 +1,8 @@
-##Important:
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
+# Vue binding 
+
+## Important:
 
 Vue binding will be automatically applyed inside an HTML element with the main id.<br>
 So all HTML depending on vue should be wrapped inside a main div:
@@ -215,4 +219,4 @@ HTML
 
 ### See Next:
 
-[Build large project with Vue.js and Webpack](Build_large_project_with_Vue.js_and_Webpack.md)
+[Build large project with Vue.js and Webpack](./Build_large_project_with_Vue.js_and_Webpack.md)

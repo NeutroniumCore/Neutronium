@@ -1,3 +1,5 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
 # Additional vue.js components
 
 When using Vue.js you may use optional component that are designed to improve productivity.<br>

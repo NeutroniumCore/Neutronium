@@ -1,6 +1,11 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
+# Acessing Chromium API
+
 Neutronium provides some hooks when you need to access some low-level Chromium API
 
-# Chromium command line
+
+## Chromium command line
 
 Neutronium ChromiumFx application: `ChromiumFxWebBrowserApp` provides a `UpdateLineCommandArg` method that when overrided allow to provide custom command line switch.
 
@@ -18,7 +23,7 @@ protected override void UpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEve
 See example solution [Example.ChromiumFX.Vue.SOP](https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Vue.SOP) for complete example.
 
 
-# Chromium settings
+## Chromium settings
 
 `ChromiumFxWebBrowserApp` provides a `UpdateChromiumSettings` method that when overrided allow to update [ChromiumFxSetting](https://chromiumfx.bitbucket.io/api/html/T_Chromium_CfxSettings.htm).
 

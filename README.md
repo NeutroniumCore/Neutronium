@@ -1,4 +1,4 @@
-<p align="center"><img width="100"src="https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png"></p>
+<p align="center"><img <p align="center"><img width="100"src="./Deploy/logo.png"></p>
 <h1 align="center">Neutronium</h1>
 
 [![Build status](https://img.shields.io/appveyor/ci/David-Desmaisons/Neutronium.svg?maxAge=2592000)](https://ci.appveyor.com/project/David-Desmaisons/neutronium)
@@ -72,7 +72,7 @@ Usage - Example
 
 **ViewModel (C#)**
 
-```C#
+```CSharp
 public class ViewModelBase : INotifyPropertyChanged
 {
 	public event PropertyChangedEventHandler PropertyChanged;
@@ -147,32 +147,10 @@ public class Person: ViewModelBase
 	</body>
 </html>
 ```
-
-* **Alternativelly use knockout.js**
-
-```HTML
-<!doctype html>
-<html>
-	<head>
-		<title>knockout.js Example</title>
-	</head>
-	<body>
-		<input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name" >
-		<ul data-bind="foreach: Skills">
-			<li><span data-bind="text:Type"></span>:<span data-bind="text:Name"></span>
-			<button data-bind="command: $root.RemoveSkill">Remove skill</button></li>
-		</ul>
-		<div>
-			<h2><span data-bind="text: Name"></span></h2>
-			<h2><span data-bind="text: LastName"></span></h2>
-		</div>
-	</body>
-</html>
-```
 	
 **Create the component(C# Xaml)**
 
-```XAML
+```HTML
 <Neutronium:HTMLViewControl RelativeSource="src\index.html" />
 ```
 
@@ -184,10 +162,10 @@ Get started
 
 Best way to start with Neutronium is to download template C# solution [from visual studio gallery](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8).
 
-Documentation
--------------
+Complete Documentation
+----------------------
 
-[Here](https://github.com/David-Desmaisons/Neutronium/wiki/)
+[Here](./Documentation/Content/Intro.md)
 
 
 Comparison with other libraries:

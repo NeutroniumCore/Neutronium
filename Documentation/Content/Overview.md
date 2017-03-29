@@ -1,3 +1,7 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
+# Component Overview
+
 ## UserControl
 
 Neutronium exposes two WPF UserControls: **HTMLViewControl** and **HTMLWindow** both are embedding a WebBrowser and share main implementation.

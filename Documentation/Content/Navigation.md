@@ -1,4 +1,8 @@
-# Basic Navigation
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
+# Navigation
+
+## Basic Navigation
 
 To use navigation, you have to use HTMLWindow UserControl  instead of HTMLViewControl.
 
@@ -57,7 +61,7 @@ public interface INavigable
    INavigationSolver Navigation { get; set; }
 } 
 ```
-# Transition
+## Transition
 
 HTMLWindow UserControl embeds two WebBrowser used to ensure smooth transition between view: one is used to display the current view, the other is used when NavigateAsync is called: the next view is then loaded in the second WebControl, the ViewModel is then bound and finally this WebControl becomes visible.
 
@@ -65,7 +69,7 @@ During this process, it is possible to display javascript animation when one vie
 
 This possible due to custom hook implmented by both Vue and knockout binding
 
-## For knockout
+### For knockout
 You can use custom bindings **_onopened_** and **_onclose_**. Ex:
 ```HTML
 <div class="box" data-bind="onopened:OnEnter, onclose:OnClose"></div>
@@ -91,7 +95,7 @@ Full example can be found in the projects:
 * [Example.CefGlue.Ko.Navigation](https://github.com/David-Desmaisons/Neutronium/tree/master/Examples/Example.CefGlue.Ko.Navigation)
 
 
-## For Vue
+### For Vue
 
 Yo can use customand built-in mixins to trigger animations (see [this section](https://github.com/David-Desmaisons/Neutronium/wiki/Vue-Binding#using-built-in-mixin) for more details on Vue mixin in Neutronium)
 

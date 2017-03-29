@@ -1,3 +1,7 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
+# Binding in Depth
+
 ## Basic features
 
  * All CLR types are supported by Neutronium:

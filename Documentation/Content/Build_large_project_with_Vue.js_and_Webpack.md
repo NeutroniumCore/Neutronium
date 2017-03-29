@@ -1,3 +1,5 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
 # Vue cli template
 
 Neutronium provides a vue-cli template [neutronium-vue](https://github.com/NeutroniumCore/neutronium-vue) that provides many advantages to develop large project with Neutronium vue:

@@ -1,22 +1,12 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
 # Getting started
 
-The best way to start with Neutronium is to download template C# solution [from visual studio gallery](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8).
+## Set Up project
 
-Template application will install nuget dependencies and scaffold a very simple solution including simple View HTML and View Model.
+	[See here](./SetUp.md)
 
-![solution](../images/Solution.png)
-
-Neutronium applications are WPF application:
-* App sets-up Chromium initialization and deals with clean-up on closing application
-* MainWindow contains an unique UserControl: Neutronium HTMLViewControl
-```HTML
-<Grid>
-    <WPF:HTMLViewControl IsDebug="True" RelativeSource="View\MainView.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-</Grid>
-```
-RelativeSource reference path to HTML.
-
-**Important**: All files used by Neutronium such as HTML, CSS and javascript should be of type _Content_ with _Copy Always_ as copy to output property.
+	**Important**: All files used by Neutronium such as HTML, CSS and javascript should be of type _Content_ with _Copy Always_ as copy to output property.
 
 
 ## Creating a binding

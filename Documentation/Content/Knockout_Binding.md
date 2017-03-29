@@ -1,3 +1,7 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
+# knockout binding 
+
 See complete example at: [Example.ChromiumFX.Ko.UI](https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Ko.UI)
 
 Knockout binding is provided by the ```Neutronium.JavascriptFramework.Knockout``` assembly that exposes the injector:<br>
