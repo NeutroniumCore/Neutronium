@@ -4,9 +4,9 @@
 
 ## Set Up project
 
-	[See here](./SetUp.md)
+[See here](./SetUp.md)
 
-	**Important**: All files used by Neutronium such as HTML, CSS and javascript should be of type _Content_ with _Copy Always_ as copy to output property.
+**Important**: All files used by Neutronium such as HTML, CSS and javascript should be of type _Content_ with _Copy Always_ as copy to output property.
 
 
 ## Creating a binding
