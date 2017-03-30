@@ -14,6 +14,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             InitializeComponent();
             this.Loaded += ChromiumFxControl_Loaded;
+            ChromiumWebBrowser.BrowserCreated += ChromiumWebBrowser_BrowserCreated;
+        }
+
+        private IntPtr browserWindowHandle;
+        private async void ChromiumWebBrowser_BrowserCreated(object sender, Chromium.WebBrowser.Event.BrowserCreatedEventArgs e)
+        {
+            browserWindowHandle = e.Browser.Host.WindowHandle;
+            await Task.Delay(1000);
+            var chromeWidgetMessageInterceptor = new ChromeWidgetMessageInterceptor(browserWindowHandle);
         }
 
         private void ChromiumFxControl_Loaded(object sender, RoutedEventArgs e)
