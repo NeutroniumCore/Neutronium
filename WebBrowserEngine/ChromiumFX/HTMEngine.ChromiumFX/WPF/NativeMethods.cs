@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
-    internal static class NativeMethods 
+    internal static class NativeMethods
     {
 
         internal static readonly IntPtr TRUE = new IntPtr(1);
@@ -11,14 +11,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         internal static readonly IntPtr MESSAGE_HANDLED = new IntPtr(1);
         internal static readonly IntPtr MESSAGE_PROCESS = new IntPtr(0);
-        public enum Bool 
+        public enum Bool
         {
             False = 0,
             True
         };
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        internal class MONITORINFO {
+        internal class MONITORINFO
+        {
             public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
             public RECT rcMonitor;
             public RECT rcWork;
@@ -31,7 +32,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         [DllImport("User32")]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
         [StructLayout(LayoutKind.Sequential)]
-        internal struct MINMAXINFO {
+        internal struct MINMAXINFO
+        {
             public POINT ptReserved;
             public POINT ptMaxSize;
             public POINT ptMaxPosition;
@@ -40,17 +42,20 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct POINT {
+        internal struct POINT
+        {
             public int x;
             public int y;
-            public POINT(int x, int y) {
+            public POINT(int x, int y)
+            {
                 this.x = x;
                 this.y = y;
             }
         }
 
         [StructLayout(LayoutKind.Explicit)]
-        internal struct RECT {
+        internal struct RECT
+        {
             // Fields
             [FieldOffset(12)]
             internal int Bottom;
@@ -62,61 +67,72 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
             internal int Top;
             // Methods
-            internal RECT(System.Drawing.Rectangle rect) {
+            internal RECT(System.Drawing.Rectangle rect)
+            {
                 this.Left = rect.Left;
                 this.Top = rect.Top;
                 this.Right = rect.Right;
                 this.Bottom = rect.Bottom;
             }
 
-            internal RECT(int left, int top, int right, int bottom) {
+            internal RECT(int left, int top, int right, int bottom)
+            {
                 this.Left = left;
                 this.Top = top;
                 this.Right = right;
                 this.Bottom = bottom;
             }
 
-            internal void Set() {
+            internal void Set()
+            {
                 this.Left = InlineAssignHelper(ref this.Top, InlineAssignHelper(ref this.Right, InlineAssignHelper(ref this.Bottom, 0)));
             }
 
-            internal void Set(System.Drawing.Rectangle rect) {
+            internal void Set(System.Drawing.Rectangle rect)
+            {
                 this.Left = rect.Left;
                 this.Top = rect.Top;
                 this.Right = rect.Right;
                 this.Bottom = rect.Bottom;
             }
 
-            internal void Set(int left, int top, int right, int bottom) {
+            internal void Set(int left, int top, int right, int bottom)
+            {
                 this.Left = left;
                 this.Top = top;
                 this.Right = right;
                 this.Bottom = bottom;
             }
 
-            internal System.Drawing.Rectangle ToRectangle() {
+            internal System.Drawing.Rectangle ToRectangle()
+            {
                 return new System.Drawing.Rectangle(this.Left, this.Top, this.Right - this.Left, this.Bottom - this.Top);
             }
 
             // Properties
-            internal int Height {
+            internal int Height
+            {
                 get { return (this.Bottom - this.Top); }
             }
 
-            internal System.Drawing.Size Size {
+            internal System.Drawing.Size Size
+            {
                 get { return new System.Drawing.Size(this.Width, this.Height); }
             }
 
-            internal int Width {
+            internal int Width
+            {
                 get { return (this.Right - this.Left); }
             }
-            private static T InlineAssignHelper<T>(ref T target, T value) {
+            private static T InlineAssignHelper<T>(ref T target, T value)
+            {
                 target = value;
                 return value;
             }
         }
         [StructLayout(LayoutKind.Sequential)]
-        internal struct NCCALCSIZE_PARAMS {
+        internal struct NCCALCSIZE_PARAMS
+        {
             public RECT rect0;
             public RECT rect1;
             public RECT rect2;
@@ -125,7 +141,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct WINDOWPOS {
+        public struct WINDOWPOS
+        {
             public IntPtr hwnd;
             public IntPtr hwndInsertAfter;
             public int x;
@@ -230,7 +247,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         public static extern Bool DeleteObject(IntPtr hObject);
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        private struct ARGB {
+        private struct ARGB
+        {
             public readonly byte Blue;
             public readonly byte Green;
             public readonly byte Red;
@@ -239,7 +257,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct BLENDFUNCTION {
+        public struct BLENDFUNCTION
+        {
             public byte BlendOp;
             public byte BlendFlags;
             public byte SourceConstantAlpha;
@@ -247,11 +266,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct Point {
+        public struct Point
+        {
             public Int32 x;
             public Int32 y;
 
-            public Point(Int32 x, Int32 y) {
+            public Point(Int32 x, Int32 y)
+            {
                 this.x = x;
                 this.y = y;
             }
@@ -270,17 +291,20 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         public const byte AC_SRC_ALPHA = 0x01;
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct Size {
+        public struct Size
+        {
             public Int32 cx;
             public Int32 cy;
 
-            public Size(Int32 cx, Int32 cy) {
+            public Size(Int32 cx, Int32 cy)
+            {
                 this.cx = cx;
                 this.cy = cy;
             }
         }
 
-        internal static int MAKEPARAM(int l, int h) {
+        internal static int MAKEPARAM(int l, int h)
+        {
             return ((l & 0xffff) | (h << 0x10));
         }
 
@@ -300,33 +324,40 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         internal static extern IntPtr GetDCEx(IntPtr hwnd, IntPtr hrgnclip, uint fdwOptions);
 
 
-        internal static IntPtr MAKEPARAM(IntPtr l, IntPtr h) {
-            return (IntPtr) ((l.ToInt32() & 0xffff) | (h.ToInt32() << 0x10));
+        internal static IntPtr MAKEPARAM(IntPtr l, IntPtr h)
+        {
+            return (IntPtr)((l.ToInt32() & 0xffff) | (h.ToInt32() << 0x10));
         }
 
-        internal static int LoWord(int dwValue) {
+        internal static int LoWord(int dwValue)
+        {
             return dwValue & 0xffff;
         }
 
 
-        internal static int HiWord(int dwValue) {
+        internal static int HiWord(int dwValue)
+        {
             return (dwValue >> 16) & 0xffff;
         }
 
-        internal static int LoWord(IntPtr dwValue) {
-            return (int) dwValue & 0xffff;
+        internal static int LoWord(IntPtr dwValue)
+        {
+            return (int)dwValue & 0xffff;
         }
 
-        internal static void InvalidateWindow(IntPtr hwnd) {
+        internal static void InvalidateWindow(IntPtr hwnd)
+        {
             NativeMethods.RedrawWindow(hwnd, IntPtr.Zero, IntPtr.Zero, NativeMethods.RedrawWindowFlags.RDW_FRAME | NativeMethods.RedrawWindowFlags.RDW_UPDATENOW | NativeMethods.RedrawWindowFlags.RDW_INVALIDATE | NativeMethods.RedrawWindowFlags.RDW_ERASE);
         }
 
 
-        internal static int HiWord(IntPtr dwValue) {
-            return ((int) dwValue >> 16) & 0xffff;
+        internal static int HiWord(IntPtr dwValue)
+        {
+            return ((int)dwValue >> 16) & 0xffff;
         }
 
-        internal struct FDWFlags {
+        internal struct FDWFlags
+        {
             internal const int DCX_CACHE = 0x2;
             internal const int DCX_CLIPCHILDREN = 0x8;
             internal const int DCX_CLIPSIBLINGS = 0x10;
@@ -342,7 +373,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             internal const int DCX_WINDOW = 0x1;
         }
 
-        internal struct DefMessages {
+        internal struct DefMessages
+        {
             internal const int WM_CEF_DRAG_APP = WindowsMessage.WM_USER + 1000;
             internal const int WM_CEF_RESIZE_CLIENT = WindowsMessage.WM_USER + 1001;
             internal const int WM_CEF_EDGE_MOVE = WindowsMessage.WM_USER + 1002;
@@ -350,7 +382,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             internal const int WM_CEF_INVALIDATE_WINDOW = WindowsMessage.WM_USER + 1004;
         }
 
-        internal struct RedrawWindowFlags {
+        internal struct RedrawWindowFlags
+        {
             internal const int RDW_INVALIDATE = 0x0001;
             internal const int RDW_INTERNALPAINT = 0x0002;
             internal const int RDW_ERASE = 0x0004;
@@ -367,7 +400,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
 
-        internal struct SetWindowPosFlags {
+        internal struct SetWindowPosFlags
+        {
             internal const int SWP_NOSIZE = 0x0001;
             internal const int SWP_NOMOVE = 0x0002;
             internal const int SWP_NOZORDER = 0x0004;
@@ -385,7 +419,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
 
 
-        internal struct WindowStyle {
+        internal struct WindowStyle
+        {
             /// <summary>The window has a thin-line border.</summary>
             internal const int WS_BORDER = 0x800000;
 
@@ -439,7 +474,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             internal const int WS_OVERLAPPEDWINDOW = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_SIZEFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 
             /// <summary>The window is a pop-up window. This style cannot be used with the internal const int WS_CHILD style.</summary>
-            internal const int WS_POPUP = unchecked((int) 0x80000000);
+            internal const int WS_POPUP = unchecked((int)0x80000000);
 
             //// <summary>The window is a pop-up window. The internal const int WS_CAPTION and internal const int WS_POPUPWINDOW styles must be combined to make the window menu visible.</summary>
             //internal const int WS_POPUPWINDOW = internal const int WS_POPUP | internal const int WS_BORDER | internal const int WS_SYSMENU;
@@ -466,7 +501,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
 
-        internal struct HitTest {
+        internal struct HitTest
+        {
             internal const int HTNOWHERE = 0;
             internal const int HTCLIENT = 1;
             internal const int HTCAPTION = 2;
@@ -488,7 +524,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             internal const int HTSIZELAST = HTBOTTOMRIGHT;
         }
 
-        internal struct SysCommand {
+        internal struct SysCommand
+        {
             internal const int SC_SIZE = 0xF000;
             internal const int SC_MOVE = 0xF010;
             internal const int SC_MINIMIZE = 0xF020;
@@ -522,7 +559,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         /// ai_productions@verizon.net or osirisgothra@hotmail.com
         /// Obtained on pinvoke.net, please contribute your code to support the wiki!
         /// </summary>
-        internal enum SystemMetric : int {
+        internal enum SystemMetric : int
+        {
             /// <summary>
             /// The flags that specify how the system arranged minimized windows. For more information, see the Remarks section in this topic.
             /// </summary>
@@ -1062,7 +1100,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
 
 
-        internal struct WindowsMessage {
+        internal struct WindowsMessage
+        {
             internal const int WM_ACTIVATE = 0x0006;
 
 
@@ -1760,7 +1799,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         // Nested Types
         [StructLayout(LayoutKind.Sequential)]
-        internal struct DWM_BLURBEHIND {
+        internal struct DWM_BLURBEHIND
+        {
             internal int dwFlags;
             internal int fEnable;
             internal IntPtr hRgnBlur;
@@ -1768,7 +1808,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct DWM_PRESENT_PARAMETERS {
+        internal struct DWM_PRESENT_PARAMETERS
+        {
             internal int cbSize;
             internal int fQueue;
             internal long cRefreshStart;
@@ -1779,14 +1820,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             internal DWM_SOURCE_FRAME_SAMPLING eSampling;
         }
 
-        internal enum DWM_SOURCE_FRAME_SAMPLING {
+        internal enum DWM_SOURCE_FRAME_SAMPLING
+        {
             DWM_SOURCE_FRAME_SAMPLING_POINT,
             DWM_SOURCE_FRAME_SAMPLING_COVERAGE,
             DWM_SOURCE_FRAME_SAMPLING_LAST
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct DWM_THUMBNAIL_PROPERTIES {
+        internal struct DWM_THUMBNAIL_PROPERTIES
+        {
             internal int dwFlags;
             internal RECT rcDestination;
             internal RECT rcSource;
@@ -1796,7 +1839,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct DWM_TIMING_INFO {
+        internal struct DWM_TIMING_INFO
+        {
             internal int cbSize;
             internal UNSIGNED_RATIO rateRefresh;
             internal UNSIGNED_RATIO rateCompose;
@@ -1816,13 +1860,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             internal long cFramesMissed;
         }
 
-        internal enum DWMNCRENDERINGPOLICY {
+        internal enum DWMNCRENDERINGPOLICY
+        {
             DWMNCRP_USEWINDOWSTYLE,
             DWMNCRP_DISABLED,
             DWMNCRP_ENABLED
         }
 
-        internal enum DWMWINDOWATTRIBUTE {
+        internal enum DWMWINDOWATTRIBUTE
+        {
             DWMWA_ALLOW_NCPAINT = 4,
             DWMWA_CAPTION_BUTTON_BOUNDS = 5,
             DWMWA_FLIP3D_POLICY = 8,
@@ -1835,7 +1881,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct UNSIGNED_RATIO {
+        internal struct UNSIGNED_RATIO
+        {
             internal int uiNumerator;
             internal int uiDenominator;
         }
@@ -1843,12 +1890,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct MARGINS {
+        internal struct MARGINS
+        {
             internal int cxLeftWidth;
             internal int cxRightWidth;
             internal int cyTopHeight;
             internal int cyBottomHeight;
-            internal MARGINS(int Left, int Right, int Top, int Bottom) {
+            internal MARGINS(int Left, int Right, int Top, int Bottom)
+            {
                 this.cxLeftWidth = Left;
                 this.cxRightWidth = Right;
                 this.cyTopHeight = Top;
@@ -1878,7 +1927,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         /// The Options of What Attributes to Add/Remove
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
-        internal struct WTA_OPTIONS {
+        internal struct WTA_OPTIONS
+        {
             internal uint Flags;
             internal uint Mask;
         }
@@ -1886,7 +1936,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         /// <summary>
         /// What Type of Attributes? (Only One is Currently Defined)
         /// </summary>
-        internal enum WindowThemeAttributeType {
+        internal enum WindowThemeAttributeType
+        {
             WTA_NONCLIENT = 1
         }
 

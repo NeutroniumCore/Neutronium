@@ -16,33 +16,35 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private const int BORDER_WIDTH = 8;
         public bool Borderless { get; set; } = true;
         public bool Resizable { get; set; } = true;
-        
+
 
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
         private Region draggableRegion = null;
 
-        public ChromiumFxControl() 
+        public ChromiumFxControl()
         {
             InitializeComponent();
             this.Loaded += ChromiumFxControl_Loaded;
             ChromiumWebBrowser.BrowserCreated += ChromiumWebBrowser_BrowserCreated;
-            var dragHandler =ChromiumWebBrowser.DragHandler;
+            var dragHandler = ChromiumWebBrowser.DragHandler;
             dragHandler.OnDragEnter += (o, e) => { e.SetReturnValue(true); };
             dragHandler.OnDraggableRegionsChanged += DragHandler_OnDraggableRegionsChanged;
         }
 
         private void DragHandler_OnDraggableRegionsChanged(object sender, Chromium.Event.CfxOnDraggableRegionsChangedEventArgs args)
         {
-            args.Regions.Aggregate(draggableRegion, (current, region) => 
+            draggableRegion = args.Regions.Aggregate(draggableRegion, (current, region) =>
             {
                 var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
                 if (current == null)
                     return new Region(rect);
 
-                if (region.Draggable) {
+                if (region.Draggable)
+                {
                     current.Union(rect);
                 }
-                else {
+                else
+                {
                     current.Exclude(rect);
                 }
                 return current;
@@ -50,22 +52,22 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
         //if (regions.Length > 0) {
-            //    foreach (var region in regions) {
-            //        var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
+        //    foreach (var region in regions) {
+        //        var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
 
-            //        if (draggableRegion == null) {
-            //            draggableRegion = new Region(rect);
-            //        }
-            //        else {
-            //            if (region.Draggable) {
-            //                draggableRegion.Union(rect);
-            //            }
-            //            else {
-            //                draggableRegion.Exclude(rect);
-            //            }
-            //        }
-            //    }
-            //}
+        //        if (draggableRegion == null) {
+        //            draggableRegion = new Region(rect);
+        //        }
+        //        else {
+        //            if (region.Draggable) {
+        //                draggableRegion.Union(rect);
+        //            }
+        //            else {
+        //                draggableRegion.Exclude(rect);
+        //            }
+        //        }
+        //    }
+        //}
         //}
         private IntPtr _BrowserHandle;
         private async void ChromiumWebBrowser_BrowserCreated(object sender, Chromium.WebBrowser.Event.BrowserCreatedEventArgs e)
@@ -74,8 +76,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             await Task.Delay(1000);
 
             IntPtr chromeWidgetHostHandle;
-            if (ChromeWidgetHandleFinder.TryFindHandle(_BrowserHandle, out chromeWidgetHostHandle)) 
-                _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, chromeWidgetHostHandle, OnWebBroswerMessage);         
+            if (ChromeWidgetHandleFinder.TryFindHandle(_BrowserHandle, out chromeWidgetHostHandle))
+                _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, chromeWidgetHostHandle, OnWebBroswerMessage);
         }
 
         private void ChromiumFxControl_Loaded(object sender, RoutedEventArgs e)
@@ -95,9 +97,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             ChromiumWebBrowser.Refresh();
         }
 
-        private bool OnWebBroswerMessage(Message message) 
+        private bool OnWebBroswerMessage(Message message)
         {
-            if (message.Msg == NativeMethods.WindowsMessage.WM_MOUSEACTIVATE) {
+            if (message.Msg == NativeMethods.WindowsMessage.WM_MOUSEACTIVATE)
+            {
                 var topLevelWindowHandle = message.WParam;
                 NativeMethods.PostMessage(topLevelWindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
             }
@@ -106,7 +109,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             //Action doact = () => formHandle = FormHandle;
             //Dispatcher.Invoke(doact);
 
-            if (message.Msg == NativeMethods.WindowsMessage.WM_LBUTTONDOWN) {
+            if (message.Msg == NativeMethods.WindowsMessage.WM_LBUTTONDOWN)
+            {
 
                 var x = NativeMethods.LoWord(message.LParam.ToInt32());
                 var y = NativeMethods.HiWord(message.LParam.ToInt32());
@@ -118,24 +122,27 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 Action act = () => dir = GetDirection(x, y);
                 Dispatcher.Invoke(act);
 
-                if (dir != NativeMethods.HitTest.HTCLIENT && Borderless) 
+                if (dir != NativeMethods.HitTest.HTCLIENT && Borderless)
                 {
-                    NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_RESIZE_CLIENT, (IntPtr) dir, message.LParam);
+                    NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_RESIZE_CLIENT, (IntPtr)dir, message.LParam);
                     return true;
                 }
-                else if (dragable) {
+                else if (dragable)
+                {
                     NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_DRAG_APP, message.WParam, message.LParam);
                     return true;
                 }
             }
 
-            if (message.Msg == NativeMethods.WindowsMessage.WM_LBUTTONDBLCLK && Resizable) {
+            if (message.Msg == NativeMethods.WindowsMessage.WM_LBUTTONDBLCLK && Resizable)
+            {
                 var x = NativeMethods.LoWord(message.LParam.ToInt32());
                 var y = NativeMethods.HiWord(message.LParam.ToInt32());
 
                 var dragable = (draggableRegion != null && draggableRegion.IsVisible(new System.Drawing.Point(x, y)));
 
-                if (dragable) {
+                if (dragable)
+                {
                     NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_TITLEBAR_LBUTTONDBCLICK, message.WParam, message.LParam);
 
                     return true;
@@ -143,18 +150,20 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
             }
 
-            if (message.Msg == NativeMethods.WindowsMessage.WM_MOUSEMOVE) {
+            if (message.Msg == NativeMethods.WindowsMessage.WM_MOUSEMOVE)
+            {
                 var x = NativeMethods.LoWord(message.LParam.ToInt32());
                 var y = NativeMethods.HiWord(message.LParam.ToInt32());
 
-                if (Resizable && Borderless) 
+                if (Resizable && Borderless)
                 {
                     var direction = 0;
                     Action act = () => direction = GetDirection(x, y);
                     Dispatcher.Invoke(act);
 
-                    if (direction != NativeMethods.HitTest.HTCLIENT) {
-                        NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_EDGE_MOVE, (IntPtr) direction, message.LParam);
+                    if (direction != NativeMethods.HitTest.HTCLIENT)
+                    {
+                        NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_EDGE_MOVE, (IntPtr)direction, message.LParam);
 
                         return true;
                     }
@@ -165,44 +174,53 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return false;
         }
 
-        private int GetDirection(int x, int y) 
+        private int GetDirection(int x, int y)
         {
             var dir = NativeMethods.HitTest.HTCLIENT;
 
             var window = Window.GetWindow(this);
 
-            if (window?.WindowState != WindowState.Normal) {
+            if (window?.WindowState != WindowState.Normal)
+            {
                 return dir;
             }
 
-            if (x < BORDER_WIDTH & y < BORDER_WIDTH) {
+            if (x < BORDER_WIDTH & y < BORDER_WIDTH)
+            {
                 dir = NativeMethods.HitTest.HTTOPLEFT;
             }
-            else if (x < BORDER_WIDTH & y > this.Height - BORDER_WIDTH) {
+            else if (x < BORDER_WIDTH & y > this.Height - BORDER_WIDTH)
+            {
                 dir = NativeMethods.HitTest.HTBOTTOMLEFT;
 
             }
-            else if (x > this.Width - BORDER_WIDTH & y > this.Height - BORDER_WIDTH) {
+            else if (x > this.Width - BORDER_WIDTH & y > this.Height - BORDER_WIDTH)
+            {
                 dir = NativeMethods.HitTest.HTBOTTOMRIGHT;
 
             }
-            else if (x > this.Width - BORDER_WIDTH & y < BORDER_WIDTH) {
+            else if (x > this.Width - BORDER_WIDTH & y < BORDER_WIDTH)
+            {
                 dir = NativeMethods.HitTest.HTTOPRIGHT;
 
             }
-            else if (x < BORDER_WIDTH) {
+            else if (x < BORDER_WIDTH)
+            {
                 dir = NativeMethods.HitTest.HTLEFT;
 
             }
-            else if (x > this.Width - BORDER_WIDTH) {
+            else if (x > this.Width - BORDER_WIDTH)
+            {
                 dir = NativeMethods.HitTest.HTRIGHT;
 
             }
-            else if (y < BORDER_WIDTH) {
+            else if (y < BORDER_WIDTH)
+            {
                 dir = NativeMethods.HitTest.HTTOP;
 
             }
-            else if (y > this.Height - BORDER_WIDTH) {
+            else if (y > this.Height - BORDER_WIDTH)
+            {
                 dir = NativeMethods.HitTest.HTBOTTOM;
             }
             return dir;

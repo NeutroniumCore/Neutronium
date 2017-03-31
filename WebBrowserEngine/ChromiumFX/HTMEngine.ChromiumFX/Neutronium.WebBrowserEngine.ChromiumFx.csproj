@@ -103,7 +103,7 @@
     <Compile Include="Convertion\ChromiumFxJavascriptObjectExtension.cs" />
     <Compile Include="V8Object\ICfxJavascriptObject.cs" />
     <Compile Include="WPF\ChromeWidgetHandleFinder.cs" />
-    <Compile Include="WPF\ChromeWidgetMessageInterceptor.cs" />
+    <Compile Include="WPF\BrowserWidgetMessageInterceptor.cs" />
     <Compile Include="WPF\ChromiumFxControl.xaml.cs">
       <DependentUpon>ChromiumFxControl.xaml</DependentUpon>
     </Compile>
