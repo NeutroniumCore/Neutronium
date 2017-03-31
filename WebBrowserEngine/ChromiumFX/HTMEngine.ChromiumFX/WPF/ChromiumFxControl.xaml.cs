@@ -12,12 +12,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
     {
         internal ChromiumWebBrowser WebBrowser => ChromiumWebBrowser;
         private Window Window { get; set; }
+        private IntPtr WindowHandle { get; set; }
         private IntPtr FormHandle => _BrowserHandle;
-        private const int BORDER_WIDTH = 8;
-        public bool Borderless { get; set; } = true;
-        public bool Resizable { get; set; } = true;
-
-
+        private IntPtr _ChromeWidgetHostHandle;
+        private System.Windows.Point dragOffset = new System.Windows.Point();
+        private bool _Dragging = false;
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
         private Region draggableRegion = null;
 
@@ -40,50 +39,29 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                     return new Region(rect);
 
                 if (region.Draggable)
-                {
                     current.Union(rect);
-                }
                 else
-                {
                     current.Exclude(rect);
-                }
+
                 return current;
             });
         }
 
-        //if (regions.Length > 0) {
-        //    foreach (var region in regions) {
-        //        var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
-
-        //        if (draggableRegion == null) {
-        //            draggableRegion = new Region(rect);
-        //        }
-        //        else {
-        //            if (region.Draggable) {
-        //                draggableRegion.Union(rect);
-        //            }
-        //            else {
-        //                draggableRegion.Exclude(rect);
-        //            }
-        //        }
-        //    }
-        //}
-        //}
         private IntPtr _BrowserHandle;
         private async void ChromiumWebBrowser_BrowserCreated(object sender, Chromium.WebBrowser.Event.BrowserCreatedEventArgs e)
         {
             _BrowserHandle = e.Browser.Host.WindowHandle;
             await Task.Delay(1000);
-
-            IntPtr chromeWidgetHostHandle;
-            if (ChromeWidgetHandleFinder.TryFindHandle(_BrowserHandle, out chromeWidgetHostHandle))
-                _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, chromeWidgetHostHandle, OnWebBroswerMessage);
+            
+            if (ChromeWidgetHandleFinder.TryFindHandle(_BrowserHandle, out _ChromeWidgetHostHandle))
+                _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, _ChromeWidgetHostHandle, OnWebBroswerMessage);
         }
 
         private void ChromiumFxControl_Loaded(object sender, RoutedEventArgs e)
         {
             this.Loaded -= ChromiumFxControl_Loaded;
             Window = Window.GetWindow(this);
+            WindowHandle = new System.Windows.Interop.WindowInteropHelper(Window).Handle;
             Window.StateChanged += Window_StateChanged;
             Window.Closed += Window_Closed;
         }
@@ -99,131 +77,73 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         private bool OnWebBroswerMessage(Message message)
         {
-            if (message.Msg == NativeMethods.WindowsMessage.WM_MOUSEACTIVATE)
+            switch (message.Msg)
             {
-                var topLevelWindowHandle = message.WParam;
-                NativeMethods.PostMessage(topLevelWindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
-            }
+                case NativeMethods.WindowsMessage.WM_MOUSEACTIVATE:
+                    var topLevelWindowHandle = message.WParam;
+                    NativeMethods.PostMessage(topLevelWindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
+                    break;
 
-            //var formHandle = IntPtr.Zero;
-            //Action doact = () => formHandle = FormHandle;
-            //Dispatcher.Invoke(doact);
+                case NativeMethods.WindowsMessage.WM_LBUTTONDOWN:
+                    var point = GetPoint(message.LParam);
+                    var dragable = draggableRegion?.IsVisible(Convert(point)) == true;
 
-            if (message.Msg == NativeMethods.WindowsMessage.WM_LBUTTONDOWN)
-            {
+                    if (!dragable)
+                        break;
 
-                var x = NativeMethods.LoWord(message.LParam.ToInt32());
-                var y = NativeMethods.HiWord(message.LParam.ToInt32());
-
-                var dragable = (draggableRegion != null && draggableRegion.IsVisible(new System.Drawing.Point(x, y)));
-
-                //var dir = GetDirection(x, y);
-                var dir = 0;
-                Action act = () => dir = GetDirection(x, y);
-                Dispatcher.Invoke(act);
-
-                if (dir != NativeMethods.HitTest.HTCLIENT && Borderless)
-                {
-                    NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_RESIZE_CLIENT, (IntPtr)dir, message.LParam);
+                    NativeMethods.PostMessage(FormHandle, NativeMethods.WindowsMessage.WM_LBUTTONDOWN, message.WParam, message.LParam);
+                    Dispatcher.Invoke(() => DragInit(point));
+                    //NativeMethods.SendMessage(_ChromeWidgetHostHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HitTest.HTCAPTION, (IntPtr)0);
                     return true;
-                }
-                else if (dragable)
-                {
-                    NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_DRAG_APP, message.WParam, message.LParam);
-                    return true;
-                }
-            }
 
-            if (message.Msg == NativeMethods.WindowsMessage.WM_LBUTTONDBLCLK && Resizable)
-            {
-                var x = NativeMethods.LoWord(message.LParam.ToInt32());
-                var y = NativeMethods.HiWord(message.LParam.ToInt32());
+                case NativeMethods.WindowsMessage.WM_LBUTTONUP:
+                    _Dragging = false;
+                    break;
 
-                var dragable = (draggableRegion != null && draggableRegion.IsVisible(new System.Drawing.Point(x, y)));
+                case NativeMethods.WindowsMessage.WM_MOUSEMOVE:                  
+                    _Dragging = _Dragging && (int)message.WParam == NativeMethods.windowsParam.MK_LBUTTON;
 
-                if (dragable)
-                {
-                    NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_TITLEBAR_LBUTTONDBCLICK, message.WParam, message.LParam);
+                    if (_Dragging)
+                        Dispatcher.Invoke(() => OnMouseDown(GetPoint(message.LParam)));
 
-                    return true;
-                }
-
-            }
-
-            if (message.Msg == NativeMethods.WindowsMessage.WM_MOUSEMOVE)
-            {
-                var x = NativeMethods.LoWord(message.LParam.ToInt32());
-                var y = NativeMethods.HiWord(message.LParam.ToInt32());
-
-                if (Resizable && Borderless)
-                {
-                    var direction = 0;
-                    Action act = () => direction = GetDirection(x, y);
-                    Dispatcher.Invoke(act);
-
-                    if (direction != NativeMethods.HitTest.HTCLIENT)
-                    {
-                        NativeMethods.PostMessage(FormHandle, NativeMethods.DefMessages.WM_CEF_EDGE_MOVE, (IntPtr)direction, message.LParam);
-
-                        return true;
-                    }
-                }
-
-                NativeMethods.SendMessage(FormHandle, NativeMethods.WindowsMessage.WM_MOUSEMOVE, message.WParam, message.LParam);
+                    NativeMethods.SendMessage(FormHandle, NativeMethods.WindowsMessage.WM_MOUSEMOVE, message.WParam, message.LParam);
+                    break;
             }
             return false;
         }
 
-        private int GetDirection(int x, int y)
+        private System.Windows.Point GetPoint(IntPtr lparam)
         {
-            var dir = NativeMethods.HitTest.HTCLIENT;
+            var x = NativeMethods.LoWord(lparam.ToInt32());
+            var y = NativeMethods.HiWord(lparam.ToInt32());
+            return new System.Windows.Point(x, y);
+        }
 
-            var window = Window.GetWindow(this);
+        private System.Drawing.Point Convert(System.Windows.Point point)
+        {
+            return new System.Drawing.Point((int)point.X, (int)point.Y);
+        }
 
-            if (window?.WindowState != WindowState.Normal)
-            {
-                return dir;
-            }
+        private System.Windows.Point RealPixelsToWpf(System.Windows.Point point)
+        {
+            return Window.PointToScreen(point);
+        }
 
-            if (x < BORDER_WIDTH & y < BORDER_WIDTH)
-            {
-                dir = NativeMethods.HitTest.HTTOPLEFT;
-            }
-            else if (x < BORDER_WIDTH & y > this.Height - BORDER_WIDTH)
-            {
-                dir = NativeMethods.HitTest.HTBOTTOMLEFT;
+        private void DragInit(System.Windows.Point point)
+        {
+            _Dragging = true;
+            var off = RealPixelsToWpf(point);
+            dragOffset = new System.Windows.Point(Window.Left - off.X, Window.Top - off.Y);
+        }
 
-            }
-            else if (x > this.Width - BORDER_WIDTH & y > this.Height - BORDER_WIDTH)
-            {
-                dir = NativeMethods.HitTest.HTBOTTOMRIGHT;
+        protected void OnMouseDown(System.Windows.Point point)
+        {
+            if (!_Dragging)
+                return;
 
-            }
-            else if (x > this.Width - BORDER_WIDTH & y < BORDER_WIDTH)
-            {
-                dir = NativeMethods.HitTest.HTTOPRIGHT;
-
-            }
-            else if (x < BORDER_WIDTH)
-            {
-                dir = NativeMethods.HitTest.HTLEFT;
-
-            }
-            else if (x > this.Width - BORDER_WIDTH)
-            {
-                dir = NativeMethods.HitTest.HTRIGHT;
-
-            }
-            else if (y < BORDER_WIDTH)
-            {
-                dir = NativeMethods.HitTest.HTTOP;
-
-            }
-            else if (y > this.Height - BORDER_WIDTH)
-            {
-                dir = NativeMethods.HitTest.HTBOTTOM;
-            }
-            return dir;
+            var off = RealPixelsToWpf(point);
+            Window.Left = dragOffset.X + off.X;
+            Window.Top = dragOffset.Y + off.Y;
         }
 
         private void Window_Closed(object sender, System.EventArgs e)

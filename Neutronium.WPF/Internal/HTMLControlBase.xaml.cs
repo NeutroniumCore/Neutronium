@@ -137,7 +137,7 @@ namespace Neutronium.WPF.Internal
             if (binding == null)
                 return;
 
-            var savefile = new SaveFileDialog 
+            var savefile = new SaveFileDialog
             {
                 FileName = "vm.cjson",
                 InitialDirectory = ComputeProposedDirectory()
@@ -190,9 +190,9 @@ namespace Neutronium.WPF.Internal
             }
         }
 
-        private void SetUpDebugTool() 
+        private void SetUpDebugTool()
         {
-            if (_DebugControl!=null)
+            if (_DebugControl != null)
                 return;
 
             var windoInfo = HTMLEngineFactory.Engine.ResolveToolbar();
@@ -235,7 +235,7 @@ namespace Neutronium.WPF.Internal
 
             _WPFDoubleBrowserNavigator = GetDoubleBrowserNavigator();
 
-            WebSessionLogger = WebSessionLogger?? engine.WebSessionLogger;
+            WebSessionLogger = WebSessionLogger ?? engine.WebSessionLogger;
 
             if (IsDebug)
                 SetUpDebugTool();
@@ -267,10 +267,10 @@ namespace Neutronium.WPF.Internal
             OnDisplay?.Invoke(this, e);
         }
 
-        private void DoShowInfo() 
+        private void DoShowInfo()
         {
             var windoInfo = HTMLEngineFactory.Engine.ResolveAboutScreen();
-            if (windoInfo != null) 
+            if (windoInfo != null)
             {
                 if (_LoadingAbout)
                     return;
@@ -304,14 +304,14 @@ namespace Neutronium.WPF.Internal
             MessageBox.Show(Window, builder.ToString(), "Neutronium configuration");
         }
 
-        private HTMLSimpleWindow GetWHMLWindow(string path, string title, int width, int height, Func<IWebView, IDisposable> onWebViewCreated = null) 
+        private HTMLSimpleWindow GetWHMLWindow(string path, string title, int width, int height, Func<IWebView, IDisposable> onWebViewCreated = null)
         {
-            return new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, onWebViewCreated) 
+            return new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, onWebViewCreated)
             {
                 Owner = Window,
                 Title = title,
-                Height= height,
-                Width= width
+                Height = height,
+                Width = width
             };
         }
 
@@ -333,7 +333,7 @@ namespace Neutronium.WPF.Internal
                 _VmDebugWindow.Activate();
                 return;
             }
-            _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script), 
+            _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script),
                                 (path, width, height, onCreate) => ShowHTMLWindow(path, width, height, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
 
             if (_VmDebugWindow == null)
@@ -342,7 +342,7 @@ namespace Neutronium.WPF.Internal
                 _DebugInformation.IsDebuggingVm = true;
         }
 
-        private void ShowHTMLWindow(string path, int width, int height, Func<IWebView, IDisposable> injectedCode) 
+        private void ShowHTMLWindow(string path, int width, int height, Func<IWebView, IDisposable> injectedCode)
         {
             _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", width, height, injectedCode);
             _VmDebugWindow.Closed += _VmDebugWindow_Closed;
@@ -371,10 +371,11 @@ namespace Neutronium.WPF.Internal
 
         private void WebControl_DebugToolOpened(object sender, DebugEventArgs eventArgs)
         {
+            var webControl = WPFDoubleBrowserNavigator.WebControl;
             _DebugInformation.IsInspecting = eventArgs.Opening;
-            if (!eventArgs.Opening)
+            if (!eventArgs.Opening && (webControl != null))
             {
-                WPFDoubleBrowserNavigator.WebControl.DebugToolOpened -= WebControl_DebugToolOpened;
+                webControl.DebugToolOpened -= WebControl_DebugToolOpened;
             }
         }
 
@@ -424,11 +425,11 @@ namespace Neutronium.WPF.Internal
             return res;
         }
 
-        private void OnWindowDisposed(object sender, EventArgs e) 
+        private void OnWindowDisposed(object sender, EventArgs e)
         {
             var res = sender as WPFHTMLWindowProvider;
             res.OnDisposed -= OnWindowDisposed;
-            if (_VmDebugWindow != null) 
+            if (_VmDebugWindow != null)
             {
                 _VmDebugWindow.Close();
                 _VmDebugWindow = null;
