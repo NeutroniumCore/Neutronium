@@ -1,6 +1,6 @@
 <template>
 <div id="app" class="fluid container">
-  <div class="jumbotron logo">
+  <div id="main-menu" class="jumbotron logo">
     <img src="./assets/logo.png">
     <p>Neutronium Demo Application</p>
   </div>  
@@ -101,17 +101,21 @@ export default {
 </script>
 
 <style>
-#app .logo{
+  #app .logo{
   text-align: center;
-}
+  }
 
-#app .logo img{
+  #app .logo img{
   width: 100px;
-}
+  }
 
-.panel-body {
-    position: relative;
-    min-height:200px;
-    height:100%;
-}
+  .panel-body {
+  position: relative;
+  min-height:200px;
+  height:100%;
+  }
+
+  #main-menu{
+  -webkit-app-region: drag;
+  }
 </style>
