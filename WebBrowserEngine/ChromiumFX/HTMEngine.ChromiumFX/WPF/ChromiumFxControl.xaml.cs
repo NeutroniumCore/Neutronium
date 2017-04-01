@@ -52,10 +52,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             });
 
             _Rectange = args.Regions.Select(r => r.Bounds).Aggregate(_Rectange, (current, bounds) =>
-                new Rectangle(  Math.Min(current.X, bounds.X), 
-                                Math.Min(current.Y, bounds.Y), 
-                                Math.Max(current.X + current.Size.Width, bounds.X + bounds.Width),
-                                Math.Max(current.Y + current.Size.Height, bounds.X + bounds.Height))
+                new Rectangle( 0, 0, Math.Max(current.X + current.Size.Width, bounds.X + bounds.Width),
+                                     Math.Max(current.Y + current.Size.Height, bounds.X + bounds.Height))
             );
         }
 
