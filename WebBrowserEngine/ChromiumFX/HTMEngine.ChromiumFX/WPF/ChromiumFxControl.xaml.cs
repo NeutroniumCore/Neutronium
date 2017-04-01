@@ -208,8 +208,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private void DragInit(System.Windows.Point point)
         {
             _Dragging = true;
-            var off = RealPixelsToWpf(point);
-            _DragOffset = new System.Windows.Point(Window.Left - off.X, Window.Top - off.Y);
+            ComputeDragOffset(RealPixelsToWpf(point));
         }
 
         protected void OnMouseDown(System.Windows.Point point)
@@ -219,7 +218,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
             var off = RealPixelsToWpf(point);
 
-            if (MinimizeIfNeeded(point))
+            if (MinimizeIfNeeded(off))
                 return;
             
             Window.Left = _DragOffset.X + off.X;
@@ -230,24 +229,29 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             if (Window.WindowState != WindowState.Maximized)
                 return false;
-
-            var width = RealPixelsToWpf(_Rectange.Width, 0).X;
-            var screenWith = SystemParameters.WorkArea.Width;
-            var x = point.X - width / 2;
-            if (x < 0)
-            {
-                x = 0;
-            }
-            else if (x + width > screenWith)
-            {
-                x = screenWith - width;
-            }
+    
             Window.Top = 0;
-            Window.Left = x;
+            Window.Left = GetNormalX(point.X);
             Window.WindowState = WindowState.Normal;
 
-            _DragOffset = new System.Windows.Point(Window.Left - point.X, Window.Top - point.Y);
+            ComputeDragOffset(point);
             return true;
+        }
+
+        private void ComputeDragOffset(System.Windows.Point point)
+        {
+            _DragOffset = new System.Windows.Point(Window.Left - point.X, Window.Top - point.Y);
+        }
+
+        private double GetNormalX(double originalx)
+        {
+            var width = RealPixelsToWpf(_Rectange.Width, 0).X;
+            var screenWith = SystemParameters.WorkArea.Width;
+            var x = originalx - width / 2;
+            if (x < 0)
+                return 0;
+
+            return (x + width > screenWith) ? screenWith - width : x;
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
