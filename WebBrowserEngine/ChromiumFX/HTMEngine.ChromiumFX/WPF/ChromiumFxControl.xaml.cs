@@ -5,6 +5,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Gma.System.MouseKeyHook;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
@@ -19,6 +20,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private bool _Dragging = false;
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
         private Region draggableRegion = null;
+        private bool _Listenning;
+        private IDisposableMouseEvents _listener;
 
         public ChromiumFxControl()
         {
@@ -52,7 +55,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             _BrowserHandle = e.Browser.Host.WindowHandle;
             await Task.Delay(1000);
-            
+
             if (ChromeWidgetHandleFinder.TryFindHandle(_BrowserHandle, out _ChromeWidgetHostHandle))
                 _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, _ChromeWidgetHostHandle, OnWebBroswerMessage);
         }
@@ -86,21 +89,21 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONDOWN:
                     var point = GetPoint(message.LParam);
-                    var dragable = draggableRegion?.IsVisible(Convert(point)) == true;
+                    _Dragging = draggableRegion?.IsVisible(Convert(point)) == true;
 
-                    if (!dragable)
+                    if (!_Dragging)
                         break;
 
                     NativeMethods.PostMessage(FormHandle, NativeMethods.WindowsMessage.WM_LBUTTONDOWN, message.WParam, message.LParam);
                     Dispatcher.Invoke(() => DragInit(point));
-                    //NativeMethods.SendMessage(_ChromeWidgetHostHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HitTest.HTCAPTION, (IntPtr)0);
                     return true;
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONUP:
+                    UnListen();
                     _Dragging = false;
                     break;
 
-                case NativeMethods.WindowsMessage.WM_MOUSEMOVE:                  
+                case NativeMethods.WindowsMessage.WM_MOUSEMOVE:
                     _Dragging = _Dragging && (int)message.WParam == NativeMethods.windowsParam.MK_LBUTTON;
 
                     if (_Dragging)
@@ -108,8 +111,48 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
                     NativeMethods.SendMessage(FormHandle, NativeMethods.WindowsMessage.WM_MOUSEMOVE, message.WParam, message.LParam);
                     break;
+
+                case NativeMethods.WindowsMessage.WM_MOUSELEAVE:
+                    if (_Dragging)
+                        Listen();
+                    break;
             }
             return false;
+        }
+
+        private void Listen()
+        {
+            if (_Listenning)
+                return;
+
+            _Listenning = true;
+            _listener = _listener ?? Hook.GlobalEvents();
+            _listener.MouseMove += Hook_MouseMove;
+        }
+
+        private void UnListen()
+        {
+            if (!_Listenning)
+                return;
+
+            _listener.MouseMove -= Hook_MouseMove;
+            _Listenning = false;
+            return;
+        }
+
+        private void Hook_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_Dragging)
+            {
+                UnListen();
+                return;
+            }            
+
+            Dispatcher.Invoke(() =>
+            {
+                Window.Left = dragOffset.X + e.X;
+                Window.Top = dragOffset.Y + e.Y;
+            });
         }
 
         private System.Windows.Point GetPoint(IntPtr lparam)
@@ -154,6 +197,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _ChromeWidgetMessageInterceptor?.ReleaseHandle();
             _ChromeWidgetMessageInterceptor?.DestroyHandle();
             _ChromeWidgetMessageInterceptor = null;
+
+            _listener?.Dispose();
         }
     }
 }
