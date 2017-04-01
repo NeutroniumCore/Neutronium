@@ -17,10 +17,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private IntPtr WindowHandle { get; set; }
         private IntPtr FormHandle => _BrowserHandle;
         private IntPtr _ChromeWidgetHostHandle;
-        private System.Windows.Point dragOffset = new System.Windows.Point();
+        private System.Windows.Point _DragOffset = new System.Windows.Point();
         private bool _Dragging = false;
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
-        private Region draggableRegion = null;
+        private Region _DraggableRegion = null;
         private bool _Listenning;
         private IDisposableMouseEvents _listener;
 
@@ -36,7 +36,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         private void DragHandler_OnDraggableRegionsChanged(object sender, Chromium.Event.CfxOnDraggableRegionsChangedEventArgs args)
         {
-            draggableRegion = args.Regions.Aggregate(draggableRegion, (current, region) =>
+            _DraggableRegion = args.Regions.Aggregate(_DraggableRegion, (current, region) =>
             {
                 var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
                 if (current == null)
@@ -89,9 +89,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                     NativeMethods.PostMessage(topLevelWindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
                     break;
 
+                case NativeMethods.WindowsMessage.WM_LBUTTONDBLCLK:
+                    if (!IsInDragRegion(GetPoint(message.LParam)))
+                        break;
+
+                    Dispatcher.Invoke(() => ToogleMaximize());
+                    return true;
+
                 case NativeMethods.WindowsMessage.WM_LBUTTONDOWN:
                     var point = GetPoint(message.LParam);
-                    _Dragging = draggableRegion?.IsVisible(Convert(point)) == true;
+                    _Dragging = IsInDragRegion(point);
 
                     if (!_Dragging)
                         break;
@@ -122,6 +129,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return false;
         }
 
+        private bool IsInDragRegion(System.Windows.Point point)
+        {
+            return _DraggableRegion?.IsVisible(Convert(point)) == true;
+        }
+
+        private void ToogleMaximize()
+        {
+            Window.WindowState = (Window.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
+        }
+
         private void Listen()
         {
             if (_Listenning)
@@ -148,12 +165,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             {
                 UnListen();
                 return;
-            }            
+            }
 
             Dispatcher.Invoke(() =>
             {
-                Window.Left = dragOffset.X + e.X;
-                Window.Top = dragOffset.Y + e.Y;
+                Window.Left = _DragOffset.X + e.X;
+                Window.Top = _DragOffset.Y + e.Y;
             });
         }
 
@@ -178,7 +195,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             _Dragging = true;
             var off = RealPixelsToWpf(point);
-            dragOffset = new System.Windows.Point(Window.Left - off.X, Window.Top - off.Y);
+
+            _DragOffset = new System.Windows.Point(Window.Left - off.X, Window.Top - off.Y);
         }
 
         protected void OnMouseDown(System.Windows.Point point)
@@ -187,8 +205,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 return;
 
             var off = RealPixelsToWpf(point);
-            Window.Left = dragOffset.X + off.X;
-            Window.Top = dragOffset.Y + off.Y;
+            Window.Left = _DragOffset.X + off.X;
+            Window.Top = _DragOffset.Y + off.Y;
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
