@@ -21,6 +21,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private bool _Dragging = false;
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
         private Region _DraggableRegion = null;
+        private Rectangle _Rectange = new Rectangle(0,0,0,0);
         private bool _Listenning;
         private IDisposableMouseEvents _listener;
 
@@ -49,6 +50,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
                 return current;
             });
+
+            _Rectange = args.Regions.Select(r => r.Bounds).Aggregate(_Rectange, (current, bounds) =>
+                new Rectangle(  Math.Min(current.X, bounds.X), 
+                                Math.Min(current.Y, bounds.Y), 
+                                Math.Max(current.X + current.Size.Width, bounds.X + bounds.Width),
+                                Math.Max(current.Y + current.Size.Height, bounds.X + bounds.Height))
+            );
         }
 
         private IntPtr _BrowserHandle;
@@ -90,6 +98,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                     break;
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONDBLCLK:
+                    _Dragging = false;
                     if (!IsInDragRegion(GetPoint(message.LParam)))
                         break;
 
@@ -191,11 +200,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return Window.PointToScreen(point);
         }
 
+        private System.Windows.Point RealPixelsToWpf(double x, double y)
+        {
+            return Window.PointToScreen(new System.Windows.Point(x, y));
+        }
+
         private void DragInit(System.Windows.Point point)
         {
             _Dragging = true;
             var off = RealPixelsToWpf(point);
-
             _DragOffset = new System.Windows.Point(Window.Left - off.X, Window.Top - off.Y);
         }
 
@@ -205,8 +218,36 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 return;
 
             var off = RealPixelsToWpf(point);
+
+            if (MinimizeIfNeeded(point))
+                return;
+            
             Window.Left = _DragOffset.X + off.X;
             Window.Top = _DragOffset.Y + off.Y;
+        }
+
+        private bool MinimizeIfNeeded(System.Windows.Point point)
+        {
+            if (Window.WindowState != WindowState.Maximized)
+                return false;
+
+            var width = RealPixelsToWpf(_Rectange.Width, 0).X;
+            var screenWith = SystemParameters.WorkArea.Width;
+            var x = point.X - width / 2;
+            if (x < 0)
+            {
+                x = 0;
+            }
+            else if (x + width > screenWith)
+            {
+                x = screenWith - width;
+            }
+            Window.Top = 0;
+            Window.Left = x;
+            Window.WindowState = WindowState.Normal;
+
+            _DragOffset = new System.Windows.Point(Window.Left - point.X, Window.Top - point.Y);
+            return true;
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
