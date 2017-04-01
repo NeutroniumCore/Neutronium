@@ -5,6 +5,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Neutronium.WebBrowserEngine.ChromiumFx.Util;
 using Gma.System.MouseKeyHook;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
@@ -54,10 +55,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private async void ChromiumWebBrowser_BrowserCreated(object sender, Chromium.WebBrowser.Event.BrowserCreatedEventArgs e)
         {
             _BrowserHandle = e.Browser.Host.WindowHandle;
-            await Task.Delay(1000);
 
-            if (ChromeWidgetHandleFinder.TryFindHandle(_BrowserHandle, out _ChromeWidgetHostHandle))
-                _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, _ChromeWidgetHostHandle, OnWebBroswerMessage);
+            var resilientGetHandle = new Resilient(() => ChromeWidgetHandleFinder.TryFindHandle(_BrowserHandle, out _ChromeWidgetHostHandle));
+
+            await resilientGetHandle.WithTimeOut(100).StartIn(100);
+            _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, _ChromeWidgetHostHandle, OnWebBroswerMessage);
         }
 
         private void ChromiumFxControl_Loaded(object sender, RoutedEventArgs e)
