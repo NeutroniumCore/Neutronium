@@ -243,13 +243,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         private double GetNormalX(double originalx)
         {
-            var width = RealPixelsToWpf(_Rectange.Width, 0).X;
             var screenWith = SystemParameters.WorkArea.Width;
-            var x = originalx - width / 2;
+            var currentWidth = RealPixelsToWpf(_Rectange.Width, 0).X;
+            var futureWidth = currentWidth * Window.RestoreBounds.Width / screenWith;
+            var x = originalx - futureWidth / 2;
             if (x < 0)
                 return 0;
 
-            return (x + width > screenWith) ? screenWith - width : x;
+            
+            return (x + futureWidth > screenWith) ? screenWith - futureWidth : x;
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
