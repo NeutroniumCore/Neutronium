@@ -262,6 +262,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _ChromeWidgetMessageInterceptor = null;
 
             _listener?.Dispose();
+            _listener = null;
         }
     }
 }
