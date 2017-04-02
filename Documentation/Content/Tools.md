@@ -3,3 +3,5 @@
 # Debug Tools
 
 To be done
+
+[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)

@@ -1,5 +1,4 @@
-﻿using Chromium.Event;
-using Neutronium.JavascriptFramework.Vue;
+﻿using Neutronium.JavascriptFramework.Vue;
 using Neutronium.WPF;
 
 namespace Example.ChromiumFX.Vue.UI

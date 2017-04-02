@@ -108,3 +108,5 @@ You can generate a Json from viewModel captured in a Neutronium debug session an
 
 ### [Additional vue.js components](Using_aditional_dedicated_vue.js_component.md)
 
+[How to set up a project](./SetUp.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
+

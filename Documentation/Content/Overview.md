@@ -128,6 +128,9 @@ public class WebBrowserApp : ChromiumFxWebBrowserApp
 [knockout Binding](./Knockout_Binding.md)    
 
 
+[How to set up a project](./SetUp.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
+
+
 
 
 

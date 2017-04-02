@@ -38,6 +38,8 @@ This way Neutronium can be as "remplacement" of WPF.
     [See here](./Accessing_Chromium_API.md)
 
 
+[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md)
+
 
 
 
