@@ -14,14 +14,124 @@ Template application will install nuget dependencies and scaffold a very simple 
 <img src="../images/template/ti1.png"><br>
 2. Install template<br>
 
-<img src="../images/template/ti2.png" height="400px"><br>
+<img src="../images/template/ti2.png"><br>
 3. In Visual Studio, choose new project, Neutronim Template<br>
-<img src="../images/template/tu1.png" height="550px"><br>
-<img src="../images/template/tu2.png" height="550px"><br>
-<img src="../images/template/tu3.png" height="400px"><br>
+<img src="../images/template/tu1.png"><br>
+<img src="../images/template/tu2.png"><br>
+<img src="../images/template/tu3.png"><br>
 
 
 ## From scratch
 
-To be done
+### New project
+
+1. Create a WPF application
+2. Install nuget `Neutronium.ChromiumFx.Vue`
+
+<img src="../images/Set-Up/fs2.png"><br>
+
+3. Update `App.cs` and `App.xaml` to initialize Neutronium engines
+
+`App.cs`
+```CSharp
+using Neutronium.Core.JavascriptFramework;
+using Neutronium.WebBrowserEngine.ChromiumFx;
+using Neutronium.JavascriptFramework.Vue;
+
+namespace NeutronimApplication
+{
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : ChromiumFxWebBrowserApp
+    {
+        protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager()
+        {
+            return new VueSessionInjectorV2();
+        }
+    }
+}
+```
+
+`App.xaml`
+```HTML
+<neutroniumCfx:ChromiumFxWebBrowserApp x:Class="NeutronimApplication.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:NeutronimApplication"
+             xmlns:neutroniumCfx="clr-namespace:Neutronium.WebBrowserEngine.ChromiumFx;assembly=Neutronium.WebBrowserEngine.ChromiumFx"                                 
+             StartupUri="MainWindow.xaml">
+    <neutroniumCfx:ChromiumFxWebBrowserApp.Resources>
+    </neutroniumCfx:ChromiumFxWebBrowserApp.Resources>
+</neutroniumCfx:ChromiumFxWebBrowserApp>
+```
+
+4. Update `MainWindow.cs` and `MainWindow.xaml` to use Neutronium UserControl
+
+`MainWindow.cs`
+```CSharp
+public partial class MainWindow : Window
+{
+	public MainWindow()
+	{
+		InitializeComponent();
+		
+		// Initialize application and set-up a none-null dataContext here
+		// If the data context is null nothing will be displayed
+		DataContext = ..
+	}
+
+	protected override void OnClosed(EventArgs e)
+	{
+		this.HtmlView.Dispose();
+	}
+}
+```
+
+ `MainWindow.xaml`
+```HTML
+<Window x:Class="NeutronimApplication.MainWindow"
+        xmlns:neutronium="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeutronimApplication"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <neutronium:HTMLViewControl x:Name="HtmlView" IsDebug="True" RelativeSource="View\MainView\dist\index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    </Grid>
+</Window>
+```
+
+5. Install HTML/Vue template
+
+It is strongly recommanded to use `vue cli neutronium` to bootstrap the project and develop Neutronium application [described here](./Build_large_project_with_Vue.js_and_Webpack.md).
+
+In this example you should install template under View folder creating a MainView view.
+
+### For an existing WPF project
+
+Follow steps 2 to 5 from new project set-up.
+
+If it is not possible to change App inheritence, Neutronium should be initialized once like this:
+```CSharp
+using Neutronium.Core.JavascriptFramework;
+using Neutronium.WebBrowserEngine.ChromiumFx;
+using Neutronium.JavascriptFramework.Vue;
+
+\\....
+var engine = HTMLEngineFactory.Engine;
+engine.RegisterHTMLEngine(new ChromiumFXWPFWebWindowFactory());
+engine.RegisterJavaScriptFramework(new VueSessionInjectorV2());
+```
+
+In this case, you should call on application shutdown:
+```CSharp
+HTMLEngineFactory.Engine.Dispose();
+```
+
+
+[Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
 

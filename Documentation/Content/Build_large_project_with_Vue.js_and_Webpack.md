@@ -52,7 +52,7 @@ $ vue init David-Desmaisons/neutronium-vue about<br>
 $ cd about
 $ npm install
 ```
-<img src="../images/webpack_03.png" height="550px"><br>
+<img src="../images/webpack_03.png"><br>
 4. Begin developping the view using hot-reload (you may use atom or sublime to edit js files)
 ``` bash
 $ npm run dev
