@@ -12,7 +12,9 @@ In debug mode, a tool bar with 4 buttons will be displayed:
 
 
 * _Inspect_ will open a fully fearured chromium javascript debug windows
+
 ![inspect](../images/Tools/ToolBar-inspect.png)
+
 ![inspect](../images/DebugInspect.png)
 
 
@@ -20,7 +22,8 @@ In debug mode, a tool bar with 4 buttons will be displayed:
 
 ![InspectVM](../images/Tools/ToolBar-vm.png)
 
-* For Vue.js
+- For Vue.js
+
 The [vue chrome debug tool](https://github.com/vuejs/vue-devtools) is opened in new window
 
 ![vue-devtools](../images/Tools/VueTools2.png)
@@ -28,7 +31,8 @@ The [vue chrome debug tool](https://github.com/vuejs/vue-devtools) is opened in 
 ![vue-devtools](../images/Tools/VueTools.png)
 
 
-* For Knockout
+- For Knockout
+
 An adaption of [knockout-view] a debug tool [displaying ViewModel is used](https://github.com/jmeas/knockout-view)
 
 ### _About_ will open a windows displaying information about Neutronium configuration:
@@ -97,3 +101,5 @@ HTMLEngineFactory.Engine.WebSessionLogger = myLogger;
 ```
 
 ### [Binding in Depth](./Binding-in-Depth)
+
+[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)

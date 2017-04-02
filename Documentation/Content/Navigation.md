@@ -2,7 +2,9 @@
 
 # Navigation
 
-## Basic Navigation
+## Creating navigation
+
+### Basic Navigation
 
 To use navigation, you have to use HTMLWindow UserControl  instead of HTMLViewControl.
 
@@ -61,6 +63,31 @@ public interface INavigable
    INavigationSolver Navigation { get; set; }
 } 
 ```
+
+### Convetion Navigation
+
+Since Core version 0.5.0, Neutronium has navigation helper that provides short-cut for navigation based on convention. For example:
+
+```CSharp
+public static void Register(INavigationBuilder builder)
+{
+    // Create a convention for the corresponding builder
+    // Every type will be registered using the template
+    // "View\{vm}\dist\index.HTML" where VM will be the class
+    // name without postfix "ViewModel" if nay
+    var convention = builder.GetTemplateConvention(@"View\{vm}\dist\index.HTML");
+
+    // Use fluent helper to register class from same assembly as RoutingConfiguration
+    // in "NeutoniumDemo.ViewModel" namespace excliding ApplicationMenuViewModel
+    typeof(RoutingConfiguration).GetTypesFromSameAssembly()
+                                .InNamespace("NeutoniumDemo.ViewModel")
+                                .Except(typeof(ApplicationMenuViewModel))
+                                .Register(convention);
+}
+```
+
+See [BuilderExtension.cs](../../Neutronium.Core/Navigation/Routing/BuilderExtension.cs),  [TypesProviderExtension.cs](../../Neutronium.Core/Navigation/Routing/TypesProviderExtension.cs) and [ITypesProvider.cs](../../Neutronium.Core/Navigation/Routing/ITypesProvider.cs) for detailed API desscription.
+
 ## Transition
 
 HTMLWindow UserControl embeds two WebBrowser used to ensure smooth transition between view: one is used to display the current view, the other is used when NavigateAsync is called: the next view is then loaded in the second WebControl, the ViewModel is then bound and finally this WebControl becomes visible.
