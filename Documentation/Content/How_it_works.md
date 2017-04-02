@@ -13,3 +13,5 @@ When creating a binding the following steps are followed:
 You need to dispose the binding to remove all the events listening.
 
 ![](../images/MVVMCG.png)
+
+[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)

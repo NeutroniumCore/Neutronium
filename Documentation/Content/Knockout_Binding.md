@@ -105,3 +105,5 @@ ko.register = function (vm) {
 ```
 
 ### [Debugging](./Debug.md)
+
+[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
