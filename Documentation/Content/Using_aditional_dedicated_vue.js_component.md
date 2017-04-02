@@ -11,7 +11,13 @@ This list may grow over time:
    See [neutronium-main-window](https://github.com/David-Desmaisons/neutronium-main-window) for more.
 
 ## neutronium-vue-command-mixin
-   Provide a reusable mixin to build command component.<br>
+   Provide a reusable mixin to build command component based on ICommand.<br>
    See [neutronium-vue-command-mixin](https://github.com/David-Desmaisons/neutronium-vue-command-mixin) for more.
 
+## neutronium-vue-simple-command-mixin
+   Provide a reusable mixin to build command component based on ISimpleCommand.<br>
+   See [neutronium-vue-simple-command-mixin](https://github.com/David-Desmaisons/neutronium-vue-simple-command-mixin) for more.
+
 ### [Binding in Depth](./Binding_in_Depth.md)
+
+[How to set up a project](./SetUp.md)- [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
