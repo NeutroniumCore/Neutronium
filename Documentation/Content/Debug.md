@@ -6,26 +6,33 @@
 
 ### To activate Debug mode for HTLMLWindow or HTMLViewControl set IsDebug as true
 
-In debug mode, 3 buttons will be displayed:
+In debug mode, a tool bar with 4 buttons will be displayed:
 
-![debug buttons](../images/DebugButtons.png)
+![debug buttons](../images/Tools/DebugToolBar.png)
 
 
-### _Inspect_ will open chromium javascript debug windows
+* _Inspect_ will open a fully fearured chromium javascript debug windows
+![inspect](../images/Tools/ToolBar-inspect.png)
 ![inspect](../images/DebugInspect.png)
 
 
+* _Inspect VM_ will a javascript framework specific window to display information about the binding:
 
-### _Inspect VM_ will a javascript framework specific window to display information about the binding:
-![InspectVM](../images/DebugInspectVM.png)
+![InspectVM](../images/Tools/ToolBar-vm.png)
 
 * For Vue.js
-The [vue chrome debug tool](https://github.com/vuejs/vue-devtools) is opened in the HTML window
+The [vue chrome debug tool](https://github.com/vuejs/vue-devtools) is opened in new window
+
+![vue-devtools](../images/Tools/VueTools2.png)
+
+![vue-devtools](../images/Tools/VueTools.png)
+
+
 * For Knockout
-An adaption of [knockout-view] a debug tool displaying ViewModel is used(https://github.com/jmeas/knockout-view)
+An adaption of [knockout-view] a debug tool [displaying ViewModel is used](https://github.com/jmeas/knockout-view)
 
 ### _About_ will open a windows displaying information about Neutronium configuration:
-![About](../images/About.png)
+![About](../images/Tools/About.png)
 
 
 ## 2. Trace 

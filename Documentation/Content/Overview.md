@@ -44,7 +44,7 @@ Reference the location of the HTML file (properties should be _Content_, _Copy A
 
 * **DataContext**:
 
-As any WPF component, DataConrtext is used to create the binding with the ViewModel.
+As any WPF component, DataConrtext is used to create the binding with the ViewModel. Note that DataContext is not set, the HTML will not be displayed.
 
 
 ### HTMLWindow
