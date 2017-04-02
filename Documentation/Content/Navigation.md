@@ -35,7 +35,7 @@ Once the routing is done, you can navigate from ViewModel to ViewModel using the
 public interface INavigationSolver : IDisposable
 {
    bool UseINavigable { get; set; }
-   Task NavigateAsync(object viewModel, string Id = null, JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay);
+   Task NavigateAsync(object viewModel, string Id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay);
    event EventHandler<NavigationEvent> OnNavigate;
 }
 ```
