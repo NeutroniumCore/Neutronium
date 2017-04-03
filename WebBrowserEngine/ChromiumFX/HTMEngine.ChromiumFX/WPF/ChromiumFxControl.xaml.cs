@@ -24,6 +24,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private Rectangle _Rectange = new Rectangle(0,0,0,0);
         private bool _Listenning;
         private IDisposableMouseEvents _listener;
+        private IntPtr _BrowserHandle;
 
         public ChromiumFxControl()
         {
@@ -57,7 +58,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             );
         }
 
-        private IntPtr _BrowserHandle;
         private async void ChromiumWebBrowser_BrowserCreated(object sender, Chromium.WebBrowser.Event.BrowserCreatedEventArgs e)
         {
             _BrowserHandle = e.Browser.Host.WindowHandle;
@@ -100,7 +100,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                     if (!IsInDragRegion(GetPoint(message.LParam)))
                         break;
 
-                    Dispatcher.Invoke(() => ToogleMaximize());
+                    Dispatcher.Invoke(ToogleMaximize);
                     return true;
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONDOWN:
@@ -198,9 +198,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return Window.PointToScreen(point);
         }
 
-        private System.Windows.Point RealPixelsToWpf(double x, double y)
+        private double RealPixelsWidthToWpf(double x) 
         {
-            return Window.PointToScreen(new System.Windows.Point(x, y));
+            var source = PresentationSource.FromVisual(this);
+            var matrix = source.CompositionTarget.TransformToDevice;
+            return x/matrix.M11;
         }
 
         private void DragInit(System.Windows.Point point)
@@ -243,14 +245,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         private double GetNormalX(double originalx)
         {
-            var screenWith = SystemParameters.WorkArea.Width;
-            var currentWidth = RealPixelsToWpf(_Rectange.Width, 0).X;
+            var screen = WpfScreen.GetScreenFrom(Window).WorkingArea;
+            var screenWith = screen.Width;
+            var currentWidth = RealPixelsWidthToWpf(_Rectange.Width);
             var futureWidth = currentWidth * Window.RestoreBounds.Width / screenWith;
-            var x = originalx - futureWidth / 2;
+            var x = originalx - screen.Left - futureWidth / 2;
             if (x < 0)
-                return 0;
+                return screen.Left;
             
-            return (x + futureWidth > screenWith) ? screenWith - futureWidth : x;
+            return screen.Left + ((x + futureWidth > screenWith) ? screenWith - futureWidth : x);
         }
 
         private void Window_Closed(object sender, System.EventArgs e)

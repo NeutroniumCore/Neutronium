@@ -130,6 +130,7 @@
       <DependentUpon>ChromiumFxControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\NativeMethods.cs" />
+    <Compile Include="WPF\WpfScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj">
