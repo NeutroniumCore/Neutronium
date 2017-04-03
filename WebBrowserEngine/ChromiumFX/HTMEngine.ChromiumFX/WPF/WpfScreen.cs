@@ -8,26 +8,26 @@ using System.Windows.Interop;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF {
     public class WpfScreen {
-        public static WpfScreen Primary => new WpfScreen(System.Windows.Forms.Screen.PrimaryScreen);
+        public static WpfScreen Primary => new WpfScreen(Screen.PrimaryScreen);
 
-        public Rect DeviceBounds => GetRect(this.screen.Bounds);
-        public Rect WorkingArea => GetRect(this.screen.WorkingArea);
-        public bool IsPrimary => screen.Primary;
-        public string DeviceName => screen.DeviceName;
+        public Rect DeviceBounds => GetRect(_Screen.Bounds);
+        public Rect WorkingArea => GetRect(_Screen.WorkingArea);
+        public bool IsPrimary => _Screen.Primary;
+        public string DeviceName => _Screen.DeviceName;
 
-        private readonly Screen screen;
+        private readonly Screen _Screen;
 
-        internal WpfScreen(System.Windows.Forms.Screen screen) {
-            this.screen = screen;
+        internal WpfScreen(Screen screen) {
+            this._Screen = screen;
         }
 
         public static IEnumerable<WpfScreen> AllScreens() {
-            return System.Windows.Forms.Screen.AllScreens.Select(screen => new WpfScreen(screen));
+            return Screen.AllScreens.Select(screen => new WpfScreen(screen));
         }
 
         public static WpfScreen GetScreenFrom(Window window) {
             var windowInteropHelper = new WindowInteropHelper(window);
-            var screen = System.Windows.Forms.Screen.FromHandle(windowInteropHelper.Handle);
+            var screen = Screen.FromHandle(windowInteropHelper.Handle);
             return new WpfScreen(screen);
         }
 
@@ -37,7 +37,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF {
 
             // are x,y device-independent-pixels ??
             var drawingPoint = new System.Drawing.Point(x, y);
-            var screen = System.Windows.Forms.Screen.FromPoint(drawingPoint);
+            var screen = Screen.FromPoint(drawingPoint);
             return new WpfScreen(screen);
         }
 
