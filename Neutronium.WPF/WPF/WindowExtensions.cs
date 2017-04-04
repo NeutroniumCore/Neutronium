@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Neutronium.WPF.WPF
+namespace Neutronium.WPF
 {
     public static class WindowExtensions
     {
