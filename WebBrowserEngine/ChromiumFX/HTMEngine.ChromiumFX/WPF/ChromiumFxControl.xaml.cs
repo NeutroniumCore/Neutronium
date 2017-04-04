@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Neutronium.WebBrowserEngine.ChromiumFx.Util;
 using Gma.System.MouseKeyHook;
+using Neutronium.WPF;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
