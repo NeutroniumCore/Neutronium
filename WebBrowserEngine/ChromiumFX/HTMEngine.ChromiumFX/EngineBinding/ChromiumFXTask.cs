@@ -12,6 +12,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             {
                 perform();
                 Clean?.Invoke();
+                task.Dispose();
             };
             Task = task;
         }
