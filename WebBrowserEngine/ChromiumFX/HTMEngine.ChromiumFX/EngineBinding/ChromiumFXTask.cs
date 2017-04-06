@@ -7,17 +7,17 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
     {
         public ChromiumFxTask(Action perform)
         {
-            var task = new CfrTask();
-            task.Execute += (sender, args) =>
+            Task = new CfrTask();
+            Task.Execute += (sender, args) =>
             {
                 perform();
                 Clean?.Invoke();
-                task.Dispose();
+                Task.Dispose();
+                Task = null;
             };
-            Task = task;
         }
 
-        public CfrTask Task { get;  }
+        public CfrTask Task { get; private set; }
 
         public Action Clean { get; set; }
     }

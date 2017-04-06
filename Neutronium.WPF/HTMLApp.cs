@@ -8,6 +8,11 @@ namespace Neutronium.WPF
 {
     public abstract class HTMLApp : Application
     {
+        protected HTMLApp() 
+        {
+            AddResource();
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             var engine = HTMLEngineFactory.Engine;
@@ -15,8 +20,6 @@ namespace Neutronium.WPF
             engine.RegisterJavaScriptFramework(GetJavascriptUIFrameworkManager());
             OnStartUp(engine);
             base.OnStartup(e);
-
-            AddResource();
         }
 
         private void AddResource()

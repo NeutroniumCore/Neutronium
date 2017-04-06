@@ -13,7 +13,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
         private readonly IWebSessionLogger _Logger;
-        private readonly object _Locker = new object();
+        private static readonly object _Locker = new object();
         private readonly HashSet<ChromiumFxTask> _Tasks = new HashSet<ChromiumFxTask>();
 
         private CfrTaskRunner TaskRunner { get; }
