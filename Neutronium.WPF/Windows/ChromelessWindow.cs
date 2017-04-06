@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Neutronium.WPF.Windows
+namespace Neutronium.WPF
 {
     public class ChromelessWindow : Window
     {
