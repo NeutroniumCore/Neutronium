@@ -72,6 +72,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Windows\ChromelessWindow.cs" />
     <Compile Include="HTMLApp.cs" />
     <Compile Include="HTMLEngineFactory.cs" />
     <Compile Include="HTMLViewControl.cs" />
@@ -102,6 +103,10 @@
     <Compile Include="WPF\BoolToHiddenConverter.cs" />
     <Compile Include="WPF\WindowExtensions.cs" />
     <Compile Include="WPF\WpfScreen.cs" />
+    <EmbeddedResource Include="Windows\ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <Page Include="Internal\DebugTools\DebugControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

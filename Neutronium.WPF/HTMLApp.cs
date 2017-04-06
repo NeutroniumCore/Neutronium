@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.Infra;
+using System.Windows.Markup;
 
 namespace Neutronium.WPF
 {
@@ -12,6 +15,15 @@ namespace Neutronium.WPF
             engine.RegisterJavaScriptFramework(GetJavascriptUIFrameworkManager());
             OnStartUp(engine);
             base.OnStartup(e);
+
+            AddResource();
+        }
+
+        private void AddResource()
+        {
+            var reader = new ResourceReader("Windows", typeof(HTMLApp).Assembly);
+            var myResourceDictionary = (ResourceDictionary)XamlReader.Parse(reader.Load("ResourceDictionary.xaml"));
+            Resources.MergedDictionaries.Add(myResourceDictionary);
         }
 
         protected virtual void OnStartUp(IHTMLEngineFactory factory) 
