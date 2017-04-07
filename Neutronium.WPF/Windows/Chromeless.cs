@@ -10,17 +10,13 @@ namespace Neutronium.WPF
     {
         private Window Window => AssociatedObject;
 
-        public Chromeless()
-        {
-        }
-
         protected override void OnAttached() 
         {
             base.OnAttached();
 
             Window.LocationChanged += ChromelessWindow_LocationChanged;
             ApplyStyle();
-            ChexMaxDimension();
+            CheckMaxDimension();
         }
 
         private void ApplyStyle() 
@@ -40,10 +36,10 @@ namespace Neutronium.WPF
 
         private void ChromelessWindow_LocationChanged(object sender, EventArgs e) 
         {
-            ChexMaxDimension();
+            CheckMaxDimension();
         }
 
-        private void ChexMaxDimension()
+        private void CheckMaxDimension()
         {
             var area = Window.GetCurrentScreenWorkingArea();
             Window.MaxHeight = area.Height;
