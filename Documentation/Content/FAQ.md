@@ -33,6 +33,36 @@ This way Neutronium can be as "remplacement" of WPF.
     Then appeared [Vue.js](http://vuejs.org/) which is also has same prerequesites but quickly with a much larger community. Vue.js beyond reactivity provides great tooling, powerfull template engine, router, etc... As such Vue.js is the preferred option to develop with Neutronium.
 
 
+* **How to display Window only when HTML control is rendering?**
+
+    `HTMLViewControl` and `HTMLWindow` both have a IsHTMLLoaded property that is set to true when HTML is rendered, so it is possible to bind the window visibility to this property.
+
+    Furthermore Neutronium.WPF provide a `BoolToHiddenConverter` that performs adequate conversion from `IsHTMLLoaded` to visibility transforming `false` into `Hidden` (standard `BooleanToVisibility` converts false into `Collapsed`).
+
+    Ex:
+```HTML
+
+<Window x:Class="MainWindow"
+        xmlns:neutronium="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF" 
+...
+</Window>
+
+<Window.Resources>
+    <neutronium:BoolToHiddenConverter x:Key="BoolToHidden"/>
+</Window.Resources>
+    
+<Grid>
+    <neutronium:HTMLViewControl x:Name="HtmlView" RelativeSource="View\index.html" />
+</Grid>
+
+<Window.Visibility>
+    <Binding ElementName="HtmlView" Path="IsHTMLLoaded" Converter="{StaticResource BoolToHidden}"/>
+</Window.Visibility>
+```
+
+
+
+
 *  **Is it possible to configure `same origin policy` or other browser features in a Neutronium application?**
 
     [See here](./Accessing_Chromium_API.md)
