@@ -4,11 +4,15 @@ using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.Windows.Shell;
 
-namespace Neutronium.WPF.Windows 
+namespace Neutronium.WPF 
 {
     public class Chromeless : Behavior<Window>
     {
         private Window Window => AssociatedObject;
+
+        public Chromeless()
+        {
+        }
 
         protected override void OnAttached() 
         {
@@ -16,13 +20,15 @@ namespace Neutronium.WPF.Windows
 
             Window.LocationChanged += ChromelessWindow_LocationChanged;
             ApplyStyle();
+            ChexMaxDimension();
         }
 
         private void ApplyStyle() 
         {
             var style = new Style(typeof(Window));
-            style.Setters.Add(new Setter(Control.BorderThicknessProperty, 1));
-            var windowChrome = new WindowChrome {
+            style.Setters.Add(new Setter(Control.BorderThicknessProperty, new Thickness(1)));
+            var windowChrome = new WindowChrome
+            {
                 ResizeBorderThickness = new Thickness(6),
                 CaptionHeight = 0,
                 CornerRadius = new CornerRadius(2,2,1,1),
@@ -33,6 +39,11 @@ namespace Neutronium.WPF.Windows
         }
 
         private void ChromelessWindow_LocationChanged(object sender, EventArgs e) 
+        {
+            ChexMaxDimension();
+        }
+
+        private void ChexMaxDimension()
         {
             var area = Window.GetCurrentScreenWorkingArea();
             Window.MaxHeight = area.Height;

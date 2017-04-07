@@ -8,11 +8,6 @@ namespace Neutronium.WPF
 {
     public abstract class HTMLApp : Application
     {
-        protected HTMLApp() 
-        {
-            AddResource();
-        }
-
         protected override void OnStartup(StartupEventArgs e)
         {
             var engine = HTMLEngineFactory.Engine;
@@ -20,13 +15,6 @@ namespace Neutronium.WPF
             engine.RegisterJavaScriptFramework(GetJavascriptUIFrameworkManager());
             OnStartUp(engine);
             base.OnStartup(e);
-        }
-
-        private void AddResource()
-        {
-            var reader = new ResourceReader("Windows", typeof(HTMLApp).Assembly);
-            var myResourceDictionary = (ResourceDictionary)XamlReader.Parse(reader.Load("ResourceDictionary.xaml"));
-            Resources.MergedDictionaries.Add(myResourceDictionary);
         }
 
         protected virtual void OnStartUp(IHTMLEngineFactory factory) 
