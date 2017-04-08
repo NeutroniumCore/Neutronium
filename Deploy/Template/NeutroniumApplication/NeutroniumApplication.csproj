@@ -58,7 +58,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChromiumFX, Version=3.2924.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2924.0\lib\ChromiumFX.dll</HintPath>
+      <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2924.1\lib\ChromiumFX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ChromiumFXRenderProcess, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -66,7 +66,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ChromiumWebBrowser, Version=3.2924.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2924.0\lib\ChromiumWebBrowser.dll</HintPath>
+      <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2924.1\lib\ChromiumWebBrowser.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Neutronium.Core, Version=0.1.0.0, Culture=neutral, processorArchitecture=x86">
@@ -172,10 +172,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\Neutronium.JavascriptFramework.Vue.0.1.0\build\Neutronium.JavascriptFramework.Vue.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Neutronium.JavascriptFramework.Vue.0.1.0\build\Neutronium.JavascriptFramework.Vue.props'))" />
     <Error Condition="!Exists('..\..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets'))" />
-    <Error Condition="!Exists('..\..\..\packages\Unofficial.Chromiumfx.3.2924.0\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Chromiumfx.3.2924.0\build\Unofficial.Chromiumfx.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\Unofficial.Chromiumfx.3.2924.1\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Chromiumfx.3.2924.1\build\Unofficial.Chromiumfx.targets'))" />
   </Target>
   <Import Project="..\..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets" Condition="Exists('..\..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets')" />
-  <Import Project="..\..\..\packages\Unofficial.Chromiumfx.3.2924.0\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\..\packages\Unofficial.Chromiumfx.3.2924.0\build\Unofficial.Chromiumfx.targets')" />
+  <Import Project="..\..\..\packages\Unofficial.Chromiumfx.3.2924.1\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\..\packages\Unofficial.Chromiumfx.3.2924.1\build\Unofficial.Chromiumfx.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
