@@ -1,19 +1,19 @@
-﻿using Chromium.WebBrowser;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Neutronium.WebBrowserEngine.ChromiumFx.Util;
 using Gma.System.MouseKeyHook;
+using Chromium.WebBrowser;
+using Chromium.Event;
+using Neutronium.WebBrowserEngine.ChromiumFx.Util;
 using Neutronium.WPF;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
     public partial class ChromiumFxControl
     {
-        internal ChromiumWebBrowser WebBrowser => ChromiumWebBrowser;
         private Window Window { get; set; }
         private IntPtr WindowHandle { get; set; }
         private IntPtr FormHandle => _BrowserHandle;
@@ -32,9 +32,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             InitializeComponent();
             this.Loaded += ChromiumFxControl_Loaded;
             ChromiumWebBrowser.BrowserCreated += ChromiumWebBrowser_BrowserCreated;
+            ChromiumWebBrowser.RequestHandler.OnQuotaRequest += RequestHandler_OnQuotaRequest;
+
             var dragHandler = ChromiumWebBrowser.DragHandler;
             dragHandler.OnDragEnter += (o, e) => { e.SetReturnValue(true); };
             dragHandler.OnDraggableRegionsChanged += DragHandler_OnDraggableRegionsChanged;
+        }
+
+        private void RequestHandler_OnQuotaRequest(object sender, CfxOnQuotaRequestEventArgs e)
+        {
+            e.SetReturnValue(true);
         }
 
         private void DragHandler_OnDraggableRegionsChanged(object sender, Chromium.Event.CfxOnDraggableRegionsChangedEventArgs args)
