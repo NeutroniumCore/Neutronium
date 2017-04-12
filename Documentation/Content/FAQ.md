@@ -71,5 +71,55 @@ This way Neutronium can be as "remplacement" of WPF.
 [How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md)
 
 
+*  **How to implement a frameless HTML window?**
+
+    #### 1. In the HTML markup:
+
+    Since version 0.6.0, Neutronium implements out of the box support for CSS property `-webkit-app-region: drag`:
+
+    ```HTML
+    <div style="-webkit-app-region: drag">
+    </div>
+    ```
+
+    This property make the whole div draggable.
+
+    You have to use `no-drag` value for buttons or other clickable regions with the draggable elements:
+    ```CSS
+    button {
+    -webkit-app-region: no-drag;
+    }
+    ```
+
+    #### 2. Window Buttons:
+
+    In order to help implement window interaction, Neutronium.WPF provides [WindowViewModel](../../Neutronium.WPF/ViewModel/WindowViewModel.cs) that exposes the `Close`, `Minize`, `Maximize` commands so that you can use it as a ViewModel for buttons
+
+    ```CSharp
+    //window is the WPF window
+    var viewModel = new WindowViewModel(window);
+    ```
+
+    #### 3. WPF window:
+
+    To make a WPF window chromeless, Neutronium.WPF provides [Chromeless](../../Neutronium.WPF/Windows/Chromeless.cs) behavior:
+
+```HTML
+<Window x:Class="CodeVizualization.MainWindow"
+        xmlns:neutronium="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"   
+        xmlns:i="clr-namespace:System.Windows.Interactivity; assembly=System.Windows.Interactivity">
+    <i:Interaction.Behaviors>
+        <neutronium:Chromeless />
+    </i:Interaction.Behaviors>
+```
+
+This behaviour creates a frameless window and takes care of expected drag-and-drop behaviour.
+
+See [Codegravity](https://github.com/NeutroniumCore/codegravity) project for a full example of frameless Neutronium Window.
+
+
+[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md)
+
+
 
 
