@@ -35,7 +35,7 @@ Then appeared [Vue.js](http://vuejs.org/) which is also has same prerequesites b
 
 ##  **Is it possible to configure `same origin policy` or other browser features in a Neutronium application?**
 
-    [See here](./Accessing_Chromium_API.md)
+[See here](./Accessing_Chromium_API.md)
 
 
 ## **How to implement a frameless HTML window?**
