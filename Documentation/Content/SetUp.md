@@ -15,10 +15,26 @@ Template application will install nuget dependencies and scaffold a very simple 
 2. Install template<br>
 
 <img src="../images/template/ti2.png"><br>
-3. In Visual Studio, choose new project, Neutronim Template<br>
+3. In Visual Studio, choose new project, Neutronium Template<br>
 <img src="../images/template/tu1.png"><br>
 <img src="../images/template/tu2.png"><br>
 <img src="../images/template/tu3.png"><br>
+
+4. Build the project using restore missing nuget option
+
+5. Build vue files using npm
+
+    In project folder:
+``` bash
+$ cd View
+$ cd Main
+$ npm install
+$ npm run build
+```
+
+    Neutronium template uses [vue-cli](https://github.com/vuejs/vue-cli).
+
+    [See here](./Build_large_project_with_Vue.js_and_Webpack.md) detailed description how to use it.
 
 
 ## From scratch
@@ -38,7 +54,7 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.WebBrowserEngine.ChromiumFx;
 using Neutronium.JavascriptFramework.Vue;
 
-namespace NeutronimApplication
+namespace NeutroniumApplication
 {
     /// <summary>
     /// Interaction logic for App.xaml

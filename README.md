@@ -162,6 +162,8 @@ Get started
 
 Best way to start with Neutronium is to download template C# solution [from visual studio gallery](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8).
 
+[See Here](./Documentation/Content/SetUp.md) for detailed instructions.
+
 Complete Documentation
 ----------------------
 
