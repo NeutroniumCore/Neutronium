@@ -8,7 +8,7 @@ namespace Neutronium.MVVMComponents
     public interface IResultCommand
     {
         /// <summary>
-        /// return asynchroneously a result given a specific argument
+        /// return asynchronously a result given a specific argument
         /// </summary>
         /// <param name="argument"></param>
         /// <returns></returns>
