@@ -5,9 +5,9 @@
 Neutronium provides a vue-cli template [neutronium-vue](https://github.com/NeutroniumCore/neutronium-vue) that provides many advantages to develop large project with Neutronium vue:
 * During development use web-pack-dev-server and chrome to create the UI
 * Use ES6, sass, less...
-* Decompose your project in maintanable vue files during development
+* Decompose your project in easy to maintain vue files during development
 * Use npm to manage your dependencies
-* Use Webpack build to generate all files you need to refence in Neutronium
+* Use Webpack build to generate all files you need to reference in Neutronium
 
 
 To install neutronium  vue template use [vue-cli](https://github.com/vuejs/vue-cli)
@@ -53,7 +53,7 @@ $ cd about
 $ npm install
 ```
 <img src="../images/webpack_03.png"><br>
-4. Begin developping the view using hot-reload (you may use atom or sublime to edit js files)
+4. Begin developing the view using hot-reload (you may use atom or sublime to edit js files)
 ``` bash
 $ npm run dev
 ```
@@ -90,10 +90,10 @@ $ npm run build
 ├── index.hml
 ``` 
 
-Data: contains the data.json which is the viewmodel data used during developement in the browser.
+Data: contains the data.json which is the viewmodel data used during development in the browser.
 Dist: contains generated files to be used in Neutronium
 src: contains assets (folder assets), vue components (folder components), main component: App.vue.
-You should not edit entry.js nor main,js which are bolierplate files needed for the built.
+You should not edit entry.js nor main,js which are boilerplate files needed for the built.
 Both index.html files (fromm root and dist) should not be edited for the same reason.
 
 ## Main file:

@@ -45,7 +45,7 @@ An adaption of [knockout-view] a debug tool [displaying ViewModel is used](https
 
 Allows to save the value of the bound DataContext to a circular JSON (`.cjson`). This is a very interesting feature when coupled with [neutronium vue webpack template](./Build_large_project_with_Vue.js_and_Webpack.md). Indeed neutronium Webpack configuration can use this files as "fake" ViewModel. 
 
-This is very powerfull when coupled with live reload feature as saving a ViewModel will update the corresponding browser when using `npm run dev`.
+This is very powerful when coupled with live reload feature as saving a ViewModel will update the corresponding browser when using `npm run dev`.
 
 ### 1.4 _About_ 
 Opens a windows displaying information about Neutronium configuration:
@@ -97,7 +97,7 @@ If you need to use a different logger to output the Neutronium events you can im
         void Error(Func<string> information);
 
         /// <summary>
-        /// called on each consolo log called by browser 
+        /// called on each console log called by browser 
         /// </summary>
         void LogBrowser(ConsoleMessageArgs iInformation, Uri url);
 

@@ -71,14 +71,14 @@ Note that you need the parathensis as arrays are mapped to observable value wich
 ```HTML
 <button data-bind="command: $data.RemoveSkill"></button>
 ```
-By default the comand will be called if CanExceute is true on click with element context as command argument.
+By default the command will be called if CanExecute is true on click with element context as command argument.
 
 
 ## Bind to a Command with custom binding :
 ```HTML
 <button data-bind="command: $data.RemoveSkill"></button>
 ```
-The comand will be called if CanExcecute is true on click with element context as command argument.
+The command will be called if CanExecute is true on click with element context as command argument.
 
 
 ## Bind to a Command with custom binding on different event:

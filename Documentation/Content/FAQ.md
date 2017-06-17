@@ -28,9 +28,9 @@ Provide react to WPF/UWP bindings. Almost the contrary aproach as Neutronium as 
 
 [Vue.js](http://vuejs.org/) is providing C# to javascript binding in Neutronium application. Neutronium Core provide a generic architecture (see more [here](.\Architecture.md)) where javascript frameworj can be plugged in. This framework should provide reactivity with two way bindings and listeners patterns and should not be to opinionated in order to fit Neutronium MVVM workflow.
 
-First version of neutronium was only using [knockout.js](http://knockoutjs.com/) which is complient with these features.
+First version of neutronium was only using [knockout.js](http://knockoutjs.com/) which is compliant with these features.
 
-Then appeared [Vue.js](http://vuejs.org/) which is also has same prerequesites but quickly with a much larger community. Vue.js beyond reactivity provides great tooling, powerfull template engine, router, etc... As such Vue.js is the preferred option to develop with Neutronium.
+Then appeared [Vue.js](http://vuejs.org/) which is also has same prerequisites but quickly with a much larger community. Vue.js beyond reactivity provides great tooling, powerful template engine, router, etc... As such Vue.js is the preferred option to develop with Neutronium.
 
 
 ##  **Is it possible to configure `same origin policy` or other browser features in a Neutronium application?**
@@ -80,7 +80,7 @@ To make a WPF window chromeless, Neutronium.WPF provides [Chromeless](../../Neut
     </i:Interaction.Behaviors>
 ```
 
-This behaviour creates a frameless window and takes care of expected drag-and-drop behaviour.
+This behavior creates a frameless window and takes care of expected drag-and-drop behavior.
 
 See [Codegravity](https://github.com/NeutroniumCore/codegravity) project for a full example of frameless Neutronium Window.
 

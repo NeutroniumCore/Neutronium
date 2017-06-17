@@ -9,7 +9,7 @@
 
  * C# DateTime type is mapped to javascript dateTime.
 
- * Enum is transfomed to custom javascript object containing two properties: intValue and displayName. intValue is the numeric value of the enum, displayName is the value of the Description attribute if any or the object.ToString() value.
+ * Enum is transformed to custom javascript object containing two properties: intValue and displayName. intValue is the numeric value of the enum, displayName is the value of the Description attribute if any or the object.ToString() value.
 
  * Complex object are mapped to javascript using reflection on public attributes.
 

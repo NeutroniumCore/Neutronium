@@ -50,7 +50,7 @@ To simplify deployment Neutronium provide two main alternative packages:
 * [Neutronium.ChromiumFx.Vue](https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue/)
 * [Neutronium.ChromiumFx.Knockout](https://www.nuget.org/packages/Neutronium.ChromiumFx.Knockout/)
 
-Both includes all dependencies nedded to run a Neutronium project including ChromiumFx web browser binding and vue or knockut framework.
+Both includes all dependencies needed to run a Neutronium project including ChromiumFx web browser binding and vue or knockout framework.
 
 [How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [F.A.Q](./FAQ.md)
 

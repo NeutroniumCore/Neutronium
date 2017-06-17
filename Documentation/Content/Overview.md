@@ -44,7 +44,7 @@ Reference the location of the HTML file (properties should be _Content_, _Copy A
 
 * **DataContext**:
 
-As any WPF component, DataConrtext is used to create the binding with the ViewModel. Note that DataContext is not set, the HTML will not be displayed.
+As any WPF component, DataContext is used to create the binding with the ViewModel. Note that DataContext is not set, the HTML will not be displayed.
 
 
 ### HTMLWindow
@@ -68,7 +68,7 @@ Use **HTMLWindow** if you have various HTML files and DataContext. This control 
 * **UseINavigable**
 If true, Neutronium calls set _INavigable_ property _Navigation_ with corresponding _INavigationSolver_
 
-See [Navigation API](./Navigation.md) to complete description of how to use this compoment.
+See [Navigation API](./Navigation.md) to complete description of how to use this component.
 
 
 ## Important Note
@@ -80,7 +80,7 @@ When **using [templates](https://visualstudiogallery.msdn.microsoft.com/c7679997
 At its core Neutronium is abstracted from javascript library and WebBrowser implementation: this is why you can plug Knockout or Vue engine or use different WebBrowsers.
 
 
-You need to register these abstractions in the static **HTMLEngineFactory.Engine** in order to be abble to use them.
+You need to register these abstractions in the static **HTMLEngineFactory.Engine** in order to be able to use them.
 
 Ex:
 ```CSharp
@@ -107,7 +107,7 @@ HTMLEngineFactory.Engine.Dispose();
 
 ## Built-in WPF Application
 
-Each WebBrowser implementation makes available an asbtract implementation of an WPF application that register the corresponding WebBrowser and dispose the HTMLEngineFactory  when application ended. The only thinks you need is to register the javascript engine.
+Each WebBrowser implementation makes available an abstract implementation of an WPF application that register the corresponding WebBrowser and dispose the HTMLEngineFactory  when application ended. The only thinks you need is to register the javascript engine.
 
 Ex: using ChromiumFx and corresponding ChromiumFxWebBrowserApp :
 

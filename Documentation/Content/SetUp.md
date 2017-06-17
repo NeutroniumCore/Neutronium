@@ -123,7 +123,7 @@ public partial class MainWindow : Window
 
 5. Install HTML/Vue template
 
-It is strongly recommanded to use `vue cli neutronium` to bootstrap the project and develop Neutronium application [described here](./Build_large_project_with_Vue.js_and_Webpack.md).
+It is strongly recommended to use `vue cli neutronium` to bootstrap the project and develop Neutronium application [described here](./Build_large_project_with_Vue.js_and_Webpack.md).
 
 In this example you should install template under View folder creating a MainView view.
 

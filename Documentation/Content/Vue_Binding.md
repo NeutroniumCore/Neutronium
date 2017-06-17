@@ -128,7 +128,7 @@ Vue._vmMixin =[localMixin];
 
 ### Built-in mixin
 Neutronium comes with some built-in plugins to simplify binding.
-There are disponible as properties of object window.glueHelper.
+There are available as properties of object window.glueHelper.
 
 * **glueHelper.enumMixin**
 
@@ -170,7 +170,7 @@ HTML
 
 * **glueHelper.commandMixin**
 This directive can be used to create component based on command.
-It defines two props comand and arg:
+It defines two props command and arg:
 
 ```javascript
 command:{

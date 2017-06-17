@@ -7,12 +7,12 @@ Neutronium provides some hooks when you need to access some low-level Chromium A
 
 ## Chromium command line
 
-Neutronium ChromiumFx application: `ChromiumFxWebBrowserApp` provides a `UpdateLineCommandArg` method that when overrided allow to provide custom command line switch.
+Neutronium ChromiumFx application: `ChromiumFxWebBrowserApp` provides a `UpdateLineCommandArg` method that when overridden allow to provide custom command line switch.
 
 This method receives a [CfxOnBeforeCommandLineProcessingEventArgs](https://chromiumfx.bitbucket.org/api/html/T_Chromium_Event_CfxOnBeforeCommandLineProcessingEventArgs.htm) instance as argument.
 
 
-Exemple to disable same-origin-policy:
+Example to disable same-origin-policy:
 ```CSharp
 protected override void UpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEventArgs beforeLineCommand)
 {
@@ -25,7 +25,7 @@ See example solution [Example.ChromiumFX.Vue.SOP](https://github.com/NeutroniumC
 
 ## Chromium settings
 
-`ChromiumFxWebBrowserApp` provides a `UpdateChromiumSettings` method that when overrided allow to update [ChromiumFxSetting](https://chromiumfx.bitbucket.io/api/html/T_Chromium_CfxSettings.htm).
+`ChromiumFxWebBrowserApp` provides a `UpdateChromiumSettings` method that when overridden allow to update [ChromiumFxSetting](https://chromiumfx.bitbucket.io/api/html/T_Chromium_CfxSettings.htm).
 
 
 ```CSharp

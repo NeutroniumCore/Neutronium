@@ -10,7 +10,7 @@ To use navigation, you have to use HTMLWindow UserControl  instead of HTMLViewCo
 
 The main difference between the two is that HTMLWindow exposes an **_INavigationBuilder_** interface and implements **_INavigationSolver_**.
 
-**_INavigationBuilder_** is meant to build the application routing by associating a viewmodel type to a specific HTML file. HTMLWindow exposes the public property INavigationBuilder NavigationBuilder. If the same ViewModel type can be displayed using diferent View you can use the Id string to discrimate the Views.
+**_INavigationBuilder_** is meant to build the application routing by associating a viewmodel type to a specific HTML file. HTMLWindow exposes the public property INavigationBuilder NavigationBuilder. If the same ViewModel type can be displayed using different View you can use the Id string to discriminate the Views.
 
 ```CSharp
 public interface INavigationBuilder
@@ -40,7 +40,7 @@ public interface INavigationSolver : IDisposable
 }
 ```
 
-The NavigateAsync method will find the HTLM page associated with the viewModel using the INavigationBuilder resolution and apply a binding beetween the View and the ViewModel using the corresponding iMode. 
+The NavigateAsync method will find the HTLM page associated with the viewModel using the INavigationBuilder resolution and apply a binding between the View and the ViewModel using the corresponding iMode. 
 
 
 Ex:
@@ -55,7 +55,7 @@ Ex:
     await myHTMLWindow.NavigateAsync(vm2, "alternative");
 ```
 
-OnNavigate event is called everytime the ViewModel changes.
+OnNavigate event is called every time the ViewModel changes.
 If UseINavigable is set to true and the ViewModel implements the INavigable interface the Navigation setter is called during navigation allowing that a ViewModel knows the INavigationSolver and use it to navigate to another ViewModel.
 ```CSharp
 public interface INavigable
@@ -64,7 +64,7 @@ public interface INavigable
 } 
 ```
 
-### Convetion Navigation
+### Convention Navigation
 
 Since Core version 0.5.0, Neutronium has navigation helper that provides short-cut for navigation based on convention. For example:
 
@@ -78,7 +78,7 @@ public static void Register(INavigationBuilder builder)
     var convention = builder.GetTemplateConvention(@"View\{vm}\dist\index.HTML");
 
     // Use fluent helper to register class from same assembly as RoutingConfiguration
-    // in "NeutoniumDemo.ViewModel" namespace excliding ApplicationMenuViewModel
+    // in "NeutoniumDemo.ViewModel" namespace excluding ApplicationMenuViewModel
     typeof(RoutingConfiguration).GetTypesFromSameAssembly()
                                 .InNamespace("NeutoniumDemo.ViewModel")
                                 .Except(typeof(ApplicationMenuViewModel))
@@ -94,7 +94,7 @@ HTMLWindow UserControl embeds two WebBrowser used to ensure smooth transition be
 
 During this process, it is possible to display javascript animation when one view is closing and when one View is first displayed.
 
-This possible due to custom hook implmented by both Vue and knockout binding
+This possible due to custom hook implemented by both Vue and knockout binding
 
 ### For knockout
 You can use custom bindings **_onopened_** and **_onclose_**. Ex:
@@ -124,11 +124,11 @@ Full example can be found in the projects:
 
 ### For Vue
 
-Yo can use customand built-in mixins to trigger animations (see [this section](https://github.com/David-Desmaisons/Neutronium/wiki/Vue-Binding#using-built-in-mixin) for more details on Vue mixin in Neutronium)
+Yo can use built-in mixins to trigger animations (see [this section](https://github.com/David-Desmaisons/Neutronium/wiki/Vue-Binding#using-built-in-mixin) for more details on Vue mixin in Neutronium)
 
-Once added to Vue instance, **_glueHelper.openMixin_** will triger a call to ViewModel method **_onOpen_** when the view is ready. 
+Once added to Vue instance, **_glueHelper.openMixin_** will trigger a call to ViewModel method **_onOpen_** when the view is ready. 
 
-Once added to Vue instance, **_glueHelper.closeMixin_** will triger a call to ViewModel method **_onClose_** when the view is closing. 
+Once added to Vue instance, **_glueHelper.closeMixin_** will trigger a call to ViewModel method **_onClose_** when the view is closing. 
 
 Ex:
 ```javascript
