@@ -15,7 +15,7 @@ In debug mode, a tool bar with 4 buttons will be displayed:
 
 Opens a fully fearured chromium javascript debug windows
 
-![inspect](../images/Tools/ToolBar-inspect.png)
+![inspect](../images/Tools/Toolbar-inspect.png)
 
 ![inspect](../images/DebugInspect.png)
 
@@ -24,7 +24,7 @@ Opens a fully fearured chromium javascript debug windows
 
 Opens a javascript framework specific window to display information about the binding:
 
-![InspectVM](../images/Tools/ToolBar-vm.png)
+![InspectVM](../images/Tools/Toolbar-vm.png)
 
 - For Vue.js
 
@@ -41,7 +41,7 @@ An adaption of [knockout-view] a debug tool [displaying ViewModel is used](https
 
 ### 1.3 _Save Vm_
 
-![SaveVM](../images/Tools/ToolBar-save.png)
+![SaveVM](../images/Tools/Toolbar-save.png)
 
 Allows to save the value of the bound DataContext to a circular JSON (`.cjson`). This is a very interesting feature when coupled with [neutronium vue webpack template](./Build_large_project_with_Vue.js_and_Webpack.md). Indeed neutronium Webpack configuration can use this files as "fake" ViewModel. 
 
@@ -50,7 +50,7 @@ This is very powerfull when coupled with live reload feature as saving a ViewMod
 ### 1.4 _About_ 
 Opens a windows displaying information about Neutronium configuration:
 
-![About](../images/Tools/ToolBar-about.png)
+![About](../images/Tools/Toolbar-about.png)
 
 ![About](../images/Tools/About.png)
 
