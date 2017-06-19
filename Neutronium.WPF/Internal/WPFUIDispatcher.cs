@@ -56,7 +56,7 @@ namespace Neutronium.WPF.Internal
 
         private void BeginInvoke(Action action) 
         {
-            DoSynchroneIfPossible(action, (d, act) => d.BeginInvoke(act));
+            DoSynchroneIfPossible(action, (d, act) => d.BeginInvoke(act, DispatcherPriority.Send));
         }
 
         private void DoSynchroneIfPossible(Action action, Action<Dispatcher, Action> doAsync) 
