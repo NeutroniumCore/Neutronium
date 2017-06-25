@@ -26,7 +26,7 @@ $ npm run dev
 ```
 
 
-##npm scripts
+## npm scripts
 
 ```bash
 npm run dev
