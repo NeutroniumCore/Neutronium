@@ -86,25 +86,43 @@ $ npm run build
 │   ├── components
 │   ├── App.vue
 │   ├── entry.js
+│   ├── install.js
 │   └── main.js
 ├── index.hml
 ``` 
 
-Data: contains the data.json which is the viewmodel data used during development in the browser.
-Dist: contains generated files to be used in Neutronium
-src: contains assets (folder assets), vue components (folder components), main component: App.vue.
-You should not edit entry.js nor main,js which are boilerplate files needed for the built.
+`Data`: contains the data.json which is the viewmodel data used during development in the browser.
+`Dist`: contains generated files to be used in Neutronium
+`src`: contains assets (folder assets), vue components (folder components), main component: App.vue.
+You should not edit `entry.js` nor `main.js` which are boilerplate files needed for the dev and production build.
 Both index.html files (fromm root and dist) should not be edited for the same reason.
 
 ## Main file:
 
 App.Vue represent the main entry of the vue application, its prop ``mainViewModel``` represent the C# viewModel
 
+### Install.js file
+
+If you need to register globally plugin in Vue instance use install.js.
+Example:
+
+```javascript
+import Notifications from 'vue-notification'
+
+function install(vue) {
+    vue.use(Notifications)
+}
+
+export {
+    install
+} 
+```
+
 ## Tips:
 
-You can generate a Json from viewModel captured in a Neutronium debug session and use it as data.json in order to create the view with a realistic ViewModel. 
+You can generate a Json from viewModel captured in a Neutronium debug session using [Neutronium debug tools](./Debug.md) and use it as data.json in order to create the view with a realistic ViewModel. 
 
-
+![SaveVM](../images/Tools/Toolbar-save.png)
 
 ### [Additional vue.js components](./Using_aditional_dedicated_vue.js_component.md)
 
