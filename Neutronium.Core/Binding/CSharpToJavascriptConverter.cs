@@ -35,6 +35,10 @@ namespace Neutronium.Core.Binding
             if (res != null)
                 return res;
 
+            var type = from.GetType();
+            if (_Context.IsTypeBasic(type))
+                return new JSBasicObject(from);
+
             var command = from as ICommand;
             if (command != null)
                 return _CommandFactory.Build(command);
@@ -46,10 +50,6 @@ namespace Neutronium.Core.Binding
             var resultCommand = from as IResultCommand;
             if (resultCommand != null)
                 return _CommandFactory.Build(resultCommand);
-
-            var type = from.GetType();
-            if (_Context.IsTypeBasic(type))
-                return new JSBasicObject(from);
 
             if (type.IsEnum)
             {

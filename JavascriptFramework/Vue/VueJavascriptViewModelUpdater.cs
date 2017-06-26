@@ -59,14 +59,14 @@ namespace Neutronium.JavascriptFramework.Vue
             });
         }
 
-        public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
+        public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool isBasic)
         {
             _WebView.RunAsync(() =>
             {
                 var silenter = GetOrCreateSilenter(father);
-                if (silenter.IsUndefined)
+                if (silenter == null)
                 {
-                    _Logger.Info(()=> $"UpdateProperty called during an injection process. Property updated {propertyName}");
+                    _Logger.Info(() => $"UpdateProperty called during an injection process. Property updated {propertyName}");
                     //may happen if code being call between register and inject
                     //in this case just set attribute value. The value will be register after
                     father.SetValue(propertyName, value);
@@ -74,7 +74,10 @@ namespace Neutronium.JavascriptFramework.Vue
                 }
                 var forProperty = silenter.GetValue(propertyName);
                 forProperty.Invoke("silence", _WebView, value);
-                InjectUnsafe(value);
+                if (!isBasic)
+                {
+                    InjectUnsafe(value);
+                }               
             });
         }
 
@@ -95,6 +98,7 @@ namespace Neutronium.JavascriptFramework.Vue
             if (candidate.IsUndefined)
             {
                 _Silenters.Remove(father);
+                return null;
             }
             return candidate;
         }

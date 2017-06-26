@@ -80,7 +80,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public void ReRoot(string propertyName, IJSCSGlue glue)
         {
             UpdateCSharpProperty(propertyName, glue);
-            _ViewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue());
+            _ViewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), glue.IsBasic());
         }    
     }
 }
