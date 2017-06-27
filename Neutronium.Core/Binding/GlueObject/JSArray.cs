@@ -89,7 +89,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public BridgeUpdater GetReplaceUpdater(IJSCSGlue glue, int index)
         {
             Items[index] = glue;
-            return new BridgeUpdater( _ => Items[index] = glue);
+            return new BridgeUpdater( viewModelUpdater => Splice(viewModelUpdater, index, 1, glue));
         }
 
         public BridgeUpdater GetMoveUpdater(int oldIndex, int newIndex)
