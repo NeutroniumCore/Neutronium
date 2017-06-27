@@ -80,56 +80,56 @@ namespace Neutronium.Core.Binding.GlueObject
             iCollectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, ilist));
         }
 
-        private void Splice(int index, int number, IJSCSGlue glue)
+        public BridgeUpdater GetAddUpdater(IJSCSGlue glue, int index)
         {
-            _ViewModelUpdater?.SpliceCollection(MappedJSValue, index, number, glue.GetJSSessionValue());
+            Items.Insert(index, glue);
+            return new BridgeUpdater( viewModelUpdater => Splice(viewModelUpdater, index, 0, glue));
         }
 
-        private void Splice(int index, int number)
+        public BridgeUpdater GetReplaceUpdater(IJSCSGlue glue, int index)
         {
-            _ViewModelUpdater?.SpliceCollection(MappedJSValue, index, number);
+            Items[index] = glue;
+            return new BridgeUpdater( _ => Items[index] = glue);
         }
 
-        private void ClearAllJavascriptCollection()
-        {
-            _ViewModelUpdater?.ClearAllCollection(MappedJSValue);
-        }
-
-        public void MoveJavascriptCollection(IJavascriptObject item, int oldIndex, int newIndex)
-        {
-            _ViewModelUpdater?.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
-        }
-
-        public void Add(IJSCSGlue jscBridge, int index)
-        {
-            Splice(index, 0, jscBridge);
-            Items.Insert(index, jscBridge);
-        }
-
-        public void Replace(IJSCSGlue jscBridge, int index)
-        {
-            Splice(index, 1, jscBridge);
-            Items[index] = jscBridge;
-        }
-
-        public void Remove(int index)
-        {
-            Splice(index, 1) ;
-            Items.RemoveAt(index);
-        }
-
-        public void Reset()
-        {
-            ClearAllJavascriptCollection();
-            Items.Clear();
-        }
-
-        public void Move(int oldIndex, int newIndex)
+        public BridgeUpdater GetMoveUpdater(int oldIndex, int newIndex)
         {
             var item = Items[oldIndex];
-            MoveJavascriptCollection(item.GetJSSessionValue(), oldIndex, newIndex);
             Items.RemoveAt(oldIndex);
             Items.Insert(newIndex, item);
+
+            return new BridgeUpdater(viewModelUpdater => MoveJavascriptCollection(viewModelUpdater, item.GetJSSessionValue(), oldIndex, newIndex));
+        }
+
+        public BridgeUpdater GetRemoveUpdater(int index)
+        {
+            Items.RemoveAt(index);
+            return new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, 1));
+        }
+
+        public BridgeUpdater GetResetUpdater()
+        {
+            Items.Clear();
+            return new BridgeUpdater(viewModelUpdater => ClearAllJavascriptCollection(viewModelUpdater));
+        }
+
+        private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number, IJSCSGlue glue)
+        {
+            viewModelUpdater?.SpliceCollection(MappedJSValue, index, number, glue.GetJSSessionValue());
+        }
+
+        private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number)
+        {
+            viewModelUpdater?.SpliceCollection(MappedJSValue, index, number);
+        }
+
+        private void MoveJavascriptCollection(IJavascriptViewModelUpdater viewModelUpdater, IJavascriptObject item, int oldIndex, int newIndex)
+        {
+            viewModelUpdater?.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
+        }
+        private void ClearAllJavascriptCollection(IJavascriptViewModelUpdater viewModelUpdater)
+        {
+            viewModelUpdater?.ClearAllCollection(MappedJSValue);
         }
 
         protected override void ComputeString(DescriptionBuilder context)

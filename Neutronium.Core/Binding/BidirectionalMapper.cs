@@ -9,6 +9,7 @@ using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using System.Threading;
 
 namespace Neutronium.Core.Binding
 {
@@ -179,7 +180,7 @@ namespace Neutronium.Core.Binding
 
                         if (Object.Equals(actualValue, glue.CValue))
                         {
-                            res.UpdateCSharpProperty(propertyName, glue);
+                            res.UpdateGlueProperty(propertyName, glue);
                             return;
                         }
 
@@ -238,7 +239,7 @@ namespace Neutronium.Core.Binding
                 return;
 
             var currentfather = _SessionCache.GetCached(sender) as JsGenericObject;
-            if (currentfather == null) 
+            if (currentfather == null)
                 return;
 
             var nv = propertyAccessor.Get();
@@ -247,7 +248,7 @@ namespace Neutronium.Core.Binding
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            await RegisterAndDo(() => _JSObjectBuilder.Map(nv), (child) => currentfather.ReRoot(pn, child) ).ConfigureAwait(false);
+            await UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(pn, child)).ConfigureAwait(false);
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -264,83 +265,89 @@ namespace Neutronium.Core.Binding
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    await RegisterAndDo(() => _JSObjectBuilder.Map(e.NewItems[0]), (addvalue) => arr.Add(addvalue, e.NewStartingIndex));
+                    await UpdateFromCSharpChanges(e.NewItems[0], (addvalue) => arr.GetAddUpdater(addvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    await RegisterAndDo(() => _JSObjectBuilder.Map(e.NewItems[0]), (newvalue) => arr.Replace(newvalue, e.NewStartingIndex));
+                    await UpdateFromCSharpChanges(e.NewItems[0], (newvalue) => arr.GetReplaceUpdater(newvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    await RegisterAndDo(() => arr.Remove(e.OldStartingIndex));
+                    await UpdateFromCSharpChanges(() => arr.GetRemoveUpdater(e.OldStartingIndex), true);
                     break;
 
                 case NotifyCollectionChangedAction.Reset:
-                    await RegisterAndDo(() => arr.Reset());
+                    await UpdateFromCSharpChanges(() => arr.GetResetUpdater(), true);
                     break;
 
                 case NotifyCollectionChangedAction.Move:
-                    arr.Move(e.OldStartingIndex, e.NewStartingIndex);
+                    await UpdateFromCSharpChanges(() => arr.GetMoveUpdater(e.OldStartingIndex, e.NewStartingIndex), false);
                     break;
             }
         }
 
         public Task<IJSCSGlue> RegisterInSession(object nv)
         {
-            return RegisterAndDo(() => _JSObjectBuilder.Map(nv), (newbridgedchild) => { _UnrootedEntities.Add(newbridgedchild); });
+            return UpdateFromCSharpChanges(nv, GetUnrootedEntitiesUpdater);
         }
 
-        private Task RegisterAndDo(Action Do)
+        private BridgeUpdater GetUnrootedEntitiesUpdater(IJSCSGlue newbridgedchild)
         {
+            _UnrootedEntities.Add(newbridgedchild);
+            return new BridgeUpdater();
+        }
+
+        private Task UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder, bool needToCheckListener)
+        {
+            CheckUIContext();
+
+            BridgeUpdater updater = null;
+            using (needToCheckListener ? ReListen(): null)
+            {
+                updater = updaterBuilder();
+            }
+
             return RunInJavascriptContext(() =>
             {
-                using (ReListen())
-                {
-                    Do();
-                }
-            } );
+                updater.UpdateJavascriptObject(_Context.ViewModelUpdater);
+            });
         }
 
-        private async Task<IJSCSGlue> RegisterAndDo(Func<IJSCSGlue> valueBuilder, Action<IJSCSGlue> Do)
+        private async Task<IJSCSGlue> UpdateFromCSharpChanges(object newCSharpObject, Func<IJSCSGlue, BridgeUpdater> updaterBuilder)
         {
-            var value = await EvaluateInUIContextAsync(valueBuilder);
+            CheckUIContext();
+
+            var value = _JSObjectBuilder.Map(newCSharpObject);
             if (value == null)
-                return null;
+                return null;               
 
-            if (!_IsLoaded) 
+            BridgeUpdater updater = null;
+            using (value.IsBasic()? null : ReListen())
             {
-                if (value.IsBasic()) 
-                {
-                    Do(value);
-                    return value;
-                }
-
-                using (ReListen()) 
-                {
-                    Do(value);
-                }
-                return value;
+                updater = updaterBuilder(value);
             }
-             
+
+            if (!_IsLoaded)
+                return value;
+
             return await RunInJavascriptContext(async () =>
             {
                 value.ComputeJavascriptValue(_Context.WebView.Factory, _Context.ViewModelUpdater, _SessionCache);
-                if (value.IsBasic())
+                if (!value.IsBasic())
                 {
-                    Do(value);
-                    return value;
+                    await InjectInHTMLSession(value);
                 }
-
-                await InjectInHTMLSession(value);
-
-                using (ReListen())
-                {
-                    Do(value);
-                }
-
+                updater.UpdateJavascriptObject(_Context.ViewModelUpdater);
                 return value;
             }).ConfigureAwait(false);
         }
+
+        private void CheckUIContext()
+        {
+            if (!_Context.UIDispatcher.IsInContext())
+                throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
+        }
+
 
         private ReListener _ReListen = null;
 

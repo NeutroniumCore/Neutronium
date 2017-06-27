@@ -54,9 +54,13 @@ namespace Neutronium.Core.Binding.GlueObject
 
             try
             {
-                var task = await UIDispatcher.EvaluateAsync(() => _JSResultCommand.Execute(argument));
-                var res = await task;
-                await SetResult(promise, res);
+                var task = await UIDispatcher.EvaluateAsync(async () =>
+                {
+                    var res = await _JSResultCommand.Execute(argument);
+                    return (res==null) ? null :await _JavascriptToCSharpConverter.RegisterInSession(res);
+                });
+                var bridgevalue = await task;
+                await SetResult(promise, bridgevalue);
             }
             catch (Exception exception)
             {
@@ -76,14 +80,13 @@ namespace Neutronium.Core.Binding.GlueObject
             });
         }
 
-        private async Task SetResult(IJavascriptObject promise, object result)
+        private async Task SetResult(IJavascriptObject promise, IJSCSGlue bridgevalue)
         {
-            if (promise == null)
+            if (bridgevalue == null)
                 return;
 
             await WebView.RunAsync(async () =>
             {
-                var bridgevalue = await _JavascriptToCSharpConverter.RegisterInSession(result);
                 await promise.InvokeAsync("fullfill", WebView, bridgevalue.GetJSSessionValue());
             });
         }

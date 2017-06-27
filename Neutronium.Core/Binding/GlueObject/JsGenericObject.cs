@@ -72,15 +72,16 @@ namespace Neutronium.Core.Binding.GlueObject
             return _Attributes.Values; 
         }
 
-        public void UpdateCSharpProperty(string propertyName, IJSCSGlue glue)
+        public void UpdateGlueProperty(string propertyName, IJSCSGlue glue)
         {
             _Attributes[propertyName] = glue;
         }
 
-        public void ReRoot(string propertyName, IJSCSGlue glue)
+        public BridgeUpdater GetUpdater(string propertyName, IJSCSGlue glue)
         {
-            UpdateCSharpProperty(propertyName, glue);
-            _ViewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), glue.IsBasic());
-        }    
+            UpdateGlueProperty(propertyName, glue);
+
+            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), glue.IsBasic()));
+        }
     }
 }

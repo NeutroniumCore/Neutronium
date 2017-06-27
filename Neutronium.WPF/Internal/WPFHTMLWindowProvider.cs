@@ -2,6 +2,7 @@
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
 using System;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.WPF.Internal
 {
@@ -14,11 +15,7 @@ namespace Neutronium.WPF.Internal
         public IWebBrowserWindow HTMLWindow => _WPFWebWindow.HTMLWindow;
         public IWPFWebWindow WPFWebWindow => _WPFWebWindow;
         public IDispatcher UIDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
-        public event EventHandler<DebugEventArgs> DebugToolOpened
-        {
-            add { _WPFWebWindow.DebugToolOpened += value; }
-            remove { _WPFWebWindow.DebugToolOpened -= value; }
-        }
+        public event EventHandler<DebugEventArgs> DebugToolOpened;
         public event EventHandler OnDisposed;
 
         public WPFHTMLWindowProvider(IWPFWebWindow wpfWebWindow, Neutronium.WPF.Internal.HTMLControlBase htmlControlBase)
@@ -26,6 +23,16 @@ namespace Neutronium.WPF.Internal
             _WPFWebWindow = wpfWebWindow;
             _HTMLControlBase = htmlControlBase;
             _UIElement = _WPFWebWindow.UIElement;
+            _WPFWebWindow.DebugToolOpened += _WPFWebWindow_DebugToolOpened;
+        }
+
+        private void _WPFWebWindow_DebugToolOpened(object sender, DebugEventArgs e)
+        {
+            var debugToolOpened = DebugToolOpened;
+            if (debugToolOpened != null)
+            {
+                UIDispatcher.RunAsync(() => debugToolOpened(this, e)).DoNotWait();
+            }
         }
 
         public void Show()
@@ -56,6 +63,7 @@ namespace Neutronium.WPF.Internal
             _WPFWebWindow.Dispose();
 
             OnDisposed?.Invoke(this, EventArgs.Empty);
+            _WPFWebWindow.DebugToolOpened -= _WPFWebWindow_DebugToolOpened;
         }
     }
 }
