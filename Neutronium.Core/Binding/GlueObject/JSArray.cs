@@ -12,7 +12,6 @@ namespace Neutronium.Core.Binding.GlueObject
     internal class JSArray : GlueBase, IJSObservableBridge
     {  
         private readonly Type _IndividualType;
-        private IJavascriptViewModelUpdater _ViewModelUpdater;
 
         public IJavascriptObject JSValue { get; private set; }
         public object CValue { get; }
@@ -32,7 +31,6 @@ namespace Neutronium.Core.Binding.GlueObject
             if (JSValue!=null)
                 return false;
 
-            _ViewModelUpdater = updater;
             JSValue = factory.CreateArray(Items.Count);
             return true;
         }

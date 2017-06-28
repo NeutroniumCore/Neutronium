@@ -11,7 +11,6 @@ namespace Neutronium.Core.Binding.GlueObject
     {   
         private IJavascriptObject _MappedJSValue;
         private readonly HybridDictionary<string, IJSCSGlue> _Attributes;
-        private IJavascriptViewModelUpdater _ViewModelUpdater;
 
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
         public IJavascriptObject JSValue { get; private set; }
@@ -30,7 +29,6 @@ namespace Neutronium.Core.Binding.GlueObject
             if (JSValue != null)
                 return false;
 
-            _ViewModelUpdater = updater;
             JSValue = factory.CreateObject(true);       
             return true;
         }
