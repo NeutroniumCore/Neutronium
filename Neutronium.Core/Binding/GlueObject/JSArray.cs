@@ -26,7 +26,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _IndividualType = individual; 
         } 
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater)
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
         {
             if (JSValue!=null)
                 return false;

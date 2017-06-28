@@ -5,7 +5,6 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -26,7 +25,7 @@ namespace Neutronium.Core.Binding.GlueObject
             JSValue = jsValue;
         }
 
-        public void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater, IJavascriptSessionCache cache)
+        public void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptSessionCache cache)
         {
             if (CValue == null)
             {

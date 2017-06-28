@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
 using MoreCollection.Dictionary;
@@ -24,7 +23,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes = new HybridDictionary<string, IJSCSGlue>(childrenCount);
         }
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater)
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
         {
             if (JSValue != null)
                 return false;

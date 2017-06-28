@@ -1,5 +1,4 @@
 ﻿using MoreCollection.Extensions;
-using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
 
@@ -9,7 +8,7 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         protected abstract void ComputeString(DescriptionBuilder context);
 
-        protected abstract bool LocalComputeJavascriptValue(IJavascriptObjectFactory context, IJavascriptViewModelUpdater updater);
+        protected abstract bool LocalComputeJavascriptValue(IJavascriptObjectFactory context);
 
         public abstract IEnumerable<IJSCSGlue> GetChildren();
 
@@ -28,11 +27,11 @@ namespace Neutronium.Core.Binding.GlueObject
             ComputeString(context);
         }
 
-        public void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater, IJavascriptSessionCache cache)
+        public void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptSessionCache cache)
         {
-            if (LocalComputeJavascriptValue(factory, updater))
+            if (LocalComputeJavascriptValue(factory))
             {
-                GetChildren().ForEach(child => child.ComputeJavascriptValue(factory, updater, cache));
+                GetChildren().ForEach(child => child.ComputeJavascriptValue(factory, cache));
                 AfterChildrenComputeJavascriptValue();
             }       
         }

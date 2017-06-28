@@ -5,16 +5,20 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     public class BridgeUpdater
     {
-        public Action<IJavascriptViewModelUpdater> UpdateJavascriptObject { get; }
+        private Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject = null;
 
         public BridgeUpdater(Action<IJavascriptViewModelUpdater> update)
         {
-            UpdateJavascriptObject = update;
+            _UpdateJavascriptObject = update;
         }
 
         public BridgeUpdater()
         {
-            UpdateJavascriptObject = _ => { };
+        }
+
+        public void UpdateJavascriptObject(IJavascriptViewModelUpdater javascriptViewModelUpdater)
+        {
+            _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
         }
     }
 }

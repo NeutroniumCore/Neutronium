@@ -72,7 +72,7 @@ namespace Neutronium.Core.Binding
                 _Context.InitOnJsContext(debugMode);
                 _sessionInjector = _Context.JavascriptSessionInjector;
                 RegisterJavascriptHelper();
-                _Root.ComputeJavascriptValue(_Context.WebView.Factory, _Context.ViewModelUpdater, _SessionCache);
+                _Root.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
 
                 var res = await InjectInHTMLSession(_Root);
                 await _sessionInjector.RegisterMainViewModel(res);
@@ -332,7 +332,7 @@ namespace Neutronium.Core.Binding
 
             return await RunInJavascriptContext(async () =>
             {
-                value.ComputeJavascriptValue(_Context.WebView.Factory, _Context.ViewModelUpdater, _SessionCache);
+                value.ComputeJavascriptValue(_Context.WebView.Factory, _SessionCache);
                 if (!value.IsBasic())
                 {
                     await InjectInHTMLSession(value);

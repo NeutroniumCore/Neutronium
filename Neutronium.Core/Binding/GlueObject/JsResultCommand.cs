@@ -7,7 +7,6 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -32,7 +31,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _JSResultCommand = resultCommand;          
         }
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptViewModelUpdater updater)
+        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
         {
             if (JSValue != null)
                 return false;
