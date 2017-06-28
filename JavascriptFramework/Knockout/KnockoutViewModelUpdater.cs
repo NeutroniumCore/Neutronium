@@ -26,11 +26,8 @@ namespace Neutronium.JavascriptFramework.Knockout
                 return;
             }
 
-            _WebView.RunAsync(() =>
-            {
-                silenter = GetOrCreateSilenter(father, propertyName);
-                Silent(silenter, value);
-            });
+            silenter = GetOrCreateSilenter(father, propertyName);
+            Silent(silenter, value);
         }
 
         private IJavascriptObject GetSilenter(IJavascriptObject father, string propertyName)
