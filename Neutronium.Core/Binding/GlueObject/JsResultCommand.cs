@@ -82,7 +82,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private async Task SetResult(IJavascriptObject promise, IJSCSGlue bridgevalue)
         {
-            if (bridgevalue == null)
+            if (promise == null)
                 return;
 
             await WebView.RunAsync(async () =>
