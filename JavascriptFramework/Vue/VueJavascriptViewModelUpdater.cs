@@ -25,11 +25,8 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public void ClearAllCollection(IJavascriptObject array)
         {
-            _WebView.RunAsync(() =>
-            {
-                var length = array.GetArrayLength();
-                array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(0), _WebView.Factory.CreateInt(length));
-            });
+            var length = array.GetArrayLength();
+            array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(0), _WebView.Factory.CreateInt(length));
         }
 
         public void Dispose()
@@ -38,12 +35,9 @@ namespace Neutronium.JavascriptFramework.Vue
         }
 
         public void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex)
-        {
-            _WebView.RunAsync(() =>
-            {
-                array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(oldIndex), _WebView.Factory.CreateInt(1));
-                AddUnsafe(array, newIndex, 0, item);
-            });
+        {   
+            array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(oldIndex), _WebView.Factory.CreateInt(1));
+            AddUnsafe(array, newIndex, 0, item);
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)
@@ -53,10 +47,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added)
         {
-            _WebView.RunAsync(() =>
-            {
-                AddUnsafe(array, index, number, added);
-            });
+            AddUnsafe(array, index, number, added);
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool isBasic)
