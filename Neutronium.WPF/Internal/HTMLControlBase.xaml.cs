@@ -333,7 +333,7 @@ namespace Neutronium.WPF.Internal
                 _VmDebugWindow.Activate();
                 return;
             }
-            _Injector.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script),
+            _Injector?.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script),
                                 (path, width, height, onCreate) => ShowHTMLWindow(path, width, height, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
 
             if (_VmDebugWindow == null)

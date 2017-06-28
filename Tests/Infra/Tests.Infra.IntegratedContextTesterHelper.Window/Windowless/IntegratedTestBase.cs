@@ -8,6 +8,7 @@ using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit.Abstractions;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {
@@ -15,6 +16,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
     {
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private readonly IWindowLessHTMLEngineProvider _WindowLessHTMLEngineProvider;
+        private IDispatcher _UIDispatcher;
 
         protected IntegratedTestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output): base (testEnvironment.WindowBuilder, output) 
         {
@@ -26,6 +28,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             var tester = base.Tester(context);
             var frameworkHelper = _WindowLessHTMLEngineProvider.FrameworkTestContext;
             _ViewEngine = new HTMLViewEngine(tester.HTMLWindowProvider, frameworkHelper.FrameworkManager, _Logger);
+            _UIDispatcher = tester.HTMLWindowProvider.UIDispatcher;
             _JavascriptFrameworkExtractor = frameworkHelper.JavascriptFrameworkExtractorBuilder(_WebView);
             return tester;
         }
@@ -95,6 +98,16 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         protected IJavascriptObject GetRootViewModel()
         {
             return _JavascriptFrameworkExtractor.GetRootViewModel();
+        }
+
+        protected void DoSafeUI(Action doact)
+        {
+            _UIDispatcher.Run(doact);
+        }
+
+        protected async Task DoSafeAsyncUI(Func<Task> doact)
+        {
+            await await _UIDispatcher.EvaluateAsync(doact);
         }
     }
 }

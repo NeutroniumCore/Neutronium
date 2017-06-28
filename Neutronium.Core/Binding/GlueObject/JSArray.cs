@@ -127,6 +127,7 @@ namespace Neutronium.Core.Binding.GlueObject
         {
             viewModelUpdater?.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
         }
+
         private void ClearAllJavascriptCollection(IJavascriptViewModelUpdater viewModelUpdater)
         {
             viewModelUpdater?.ClearAllCollection(MappedJSValue);
