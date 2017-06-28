@@ -1,6 +1,12 @@
 ﻿(function () {
     console.log("VueGlue loaded");
 
+    const silenterProto = {
+        silentChange: function (propertyName, value) {
+            this[propertyName].silence(value)
+        }
+    };
+
     var visited = new Map();
 
     function visitObject(vm, visit, visitArray) {
@@ -99,8 +105,7 @@
             return vm;
 
         visitObject(vm, (father, prop) => {
-            if (!father.__silenter)
-                Object.defineProperty(father, '__silenter', { value: {} });
+            father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto) });
             var silenter = father.__silenter;
             var listenerfunction = onPropertyChange(observer, prop, father);
             var newListener = new Listener(() => vueVm.$watch(() => father[prop], listenerfunction), (value) => father[prop] = value);
@@ -149,22 +154,87 @@
         })
     };
 
-    var openMixin = {
-        ready: function () {
+    const VueAdapter = Vue.adapter
+
+    var openMixin = VueAdapter.addOnReady({},
+        function () {
             listenEventAndDo.call(this, { status: "Opened", command: "EndOpen", inform: "IsListeningOpen", callBack: (cb) => this.onOpen(cb) });
+        });
+
+    var closeMixin = VueAdapter.addOnReady({},
+        function () {
+            listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
+        });
+
+    var promiseMixin = {
+        methods: {
+            asPromise: function asPromise(callback) {
+                return function asPromise(argument) {
+                    return new Promise(function (fullfill, reject) {
+                        var res = { fullfill: function (res) { fullfill(res); }, reject: function (err) { reject(new Error(err)); } };
+                        callback.Execute(argument, res);
+                    });
+                }
+            }
         }
     };
 
-    var closeMixin = {
-        ready: function () {
-            listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
+    var commandMixin = {
+        props: {
+            command: {
+                type: Object,
+                default: null
+            },
+            arg: {
+                type: Object,
+                default: null
+            }
+        },
+        computed: {
+            canExecute: function () {
+                if (this.command === null)
+                    return false;
+                return this.command.CanExecuteValue;
+            }
+        },
+        watch: {
+            'command.CanExecuteCount': function () {
+                this.computeCanExecute();
+            },
+            arg: function () {
+                this.computeCanExecute();
+            }
+        },
+        methods: {
+            computeCanExecute: function () {
+                if (this.command !== null)
+                    this.command.CanExecute(this.arg);
+            },
+            execute: function () {
+                if (this.canExecute) {
+                    var beforeCb = this.beforeCommand;
+                    if (!!beforeCb)
+                        beforeCb();
+                    this.command.Execute(this.arg);
+                }
+            }
         }
     };
+
+    commandMixin = Vue.adapter.addOnReady(commandMixin, function () {
+        var ctx = this;
+        setTimeout(() => {
+            if (!!ctx.arg)
+                ctx.computeCanExecute();
+        });
+    });
 
     var helper = {
         enumMixin: enumMixin,
         openMixin: openMixin,
         closeMixin: closeMixin,
+        promiseMixin: promiseMixin,
+        commandMixin: commandMixin,
         inject: inject,
         register: function (vm, observer) {
             console.log("VueGlue register");
@@ -172,14 +242,16 @@
             if (!!mixin && !Array.isArray(mixin))
                 mixin = [mixin];
 
-            vueVm = new Vue({
+            var vueOption = VueAdapter.addOnReady({
                 el: "#main",
                 mixins: mixin,
-                data: vm,
-                ready: function () {
+                data: vm
+            },
+                function () {
                     fufillOnReady(null);
-                }
-            });
+                });
+
+            vueVm = new Vue(vueOption);
 
             window.vm = vueVm;
 

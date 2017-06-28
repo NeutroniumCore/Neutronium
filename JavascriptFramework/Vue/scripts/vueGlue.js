@@ -1,6 +1,12 @@
 ﻿(function () {
     console.log("VueGlue loaded");
 
+    const silenterProto = {
+        silentChange: function (propertyName, value) {
+            this[propertyName].silence(value)
+        }
+    };
+
     var visited = new Map();
 
     function visitObject(vm, visit, visitArray) {
@@ -99,8 +105,7 @@
             return vm;
 
         visitObject(vm, (father, prop) => {
-            if (!father.__silenter)
-                Object.defineProperty(father, '__silenter', { value: {} });
+            father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto) });
             var silenter = father.__silenter;
             var listenerfunction = onPropertyChange(observer, prop, father);
             var newListener = new Listener(() => vueVm.$watch(() => father[prop], listenerfunction), (value) => father[prop] = value);

@@ -61,12 +61,11 @@ namespace Neutronium.JavascriptFramework.Vue
                 father.SetValue(propertyName, value);
                 return;
             }
-            var forProperty = silenter.GetValue(propertyName);
-            forProperty.Invoke("silence", _WebView, value);
-            if (!isBasic)
-            {
-                InjectUnsafe(value);
-            }
+            silenter.Invoke("silentChange", _WebView, _WebView.Factory.CreateString(propertyName), value);
+            if (isBasic)
+                return;
+
+            InjectUnsafe(value);
         }
 
         private void AddUnsafe(IJavascriptObject array, int index, int number, IJavascriptObject value)
@@ -82,13 +81,16 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father)
         {
-            var candidate = _Silenters.GetOrAddEntity(father, _ => father.GetValue("__silenter"));
-            if (candidate.IsUndefined)
+            var res = _Silenters.GetOrAddEntity(father, _ =>
+            {
+                var candidate = father.GetValue("__silenter");
+                return (candidate.IsUndefined) ? null : candidate;
+            });
+            if (res == null)
             {
                 _Silenters.Remove(father);
-                return null;
             }
-            return candidate;
+            return res;
         }
     }
 }
