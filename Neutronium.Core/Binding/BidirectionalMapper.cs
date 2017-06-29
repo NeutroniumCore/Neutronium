@@ -356,7 +356,7 @@ namespace Neutronium.Core.Binding
                         _ReListen = new ReListener(this, _ListenerRegister, () => _ReListen = null);
         }
 
-        private IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject globalkey, Type targetType)
+        public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject globalkey, Type targetType)
         {
             if (globalkey == null)
                 return null;
