@@ -7,7 +7,7 @@
         }
     };
 
-    var visited = new Map();
+    var visited = new Map(); 
 
     function visitObject(vm, visit, visitArray) {
         "use strict";
