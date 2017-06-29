@@ -11,22 +11,16 @@ namespace Neutronium.Core.Binding.CollectionChanges
         private readonly Type _TargetedType;
         private readonly JavascriptCollectionChanges _Changes;
 
+        public IEnumerable<IndividualCollectionChange> IndividualChanges { get; }
+
         internal CollectionChanges(IJavascriptToCSharpConverter jSCBridgeCache, JavascriptCollectionChanges changes, Type targetedType)
         {
             _IJSCBridgeCache = jSCBridgeCache;
             _TargetedType = targetedType;
-            _Changes = changes;
-        }
 
-
-        public IEnumerable<IndividualCollectionChange> IndividualChanges 
-        {
-            get
-            {
-                return _Changes.Changes
-                            .Select(jvchnage => new IndividualCollectionChange(jvchnage, _IJSCBridgeCache, _TargetedType))
-                            .OrderBy(idc => idc, this);
-            }
+            IndividualChanges = changes.Changes
+                           .Select(jvchnage => new IndividualCollectionChange(jvchnage, _IJSCBridgeCache, _TargetedType))
+                           .OrderBy(idc => idc, this).ToArray();
         }
 
         public int Compare(IndividualCollectionChange x, IndividualCollectionChange y)
