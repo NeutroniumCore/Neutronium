@@ -11,7 +11,7 @@
 
     function visitObject(vm, visit, visitArray) {
         "use strict";
-        if (!vm || !!visited.has(vm._MappedId))
+        if (!vm || visited.has(vm._MappedId))
             return;
 
         if (typeof vm !== "object")
@@ -40,14 +40,19 @@
 
     var vueVm = null;
 
-    function Listener(listener, change) {
-        this.listen = function () {
-            this.subscriber = listener();
-        }
-
-        this.silence = function (value) {
+    const ListenerProp = {
+        init: function (listener, change) {
+            this.listener = listener;
+            this.change = change;
+            return this;
+        },
+        listen: function () {
+            this.subscriber = this.listener();
+            return this;
+        },
+        silence: function (value) {
             this.subscriber();
-            change(value);
+            this.change(value);
             this.listen();
         }
     }
@@ -108,8 +113,9 @@
             father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto) });
             var silenter = father.__silenter;
             var listenerfunction = onPropertyChange(observer, prop, father);
-            var newListener = new Listener(() => vueVm.$watch(() => father[prop], listenerfunction), (value) => father[prop] = value);
-            newListener.listen();
+            var newListener = Object.create(ListenerProp)
+                                    .init(() => vueVm.$watch(() => father[prop]), (value) => father[prop] = value)
+                                    .listen();
             silenter[prop] = newListener;
         }, array => updateArray(array, observer));
         return vm;
@@ -162,9 +168,9 @@
         });
 
     var closeMixin = VueAdapter.addOnReady({},
-        function () {
-            listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
-        });
+      function () {
+          listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
+      });
 
     var promiseMixin = {
         methods: {

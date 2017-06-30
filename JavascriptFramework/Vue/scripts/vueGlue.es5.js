@@ -13,7 +13,7 @@
 
     function visitObject(vm, visit, visitArray) {
         "use strict";
-        if (!vm || !!visited.has(vm._MappedId)) return;
+        if (!vm || visited.has(vm._MappedId)) return;
 
         if (typeof vm !== "object") return;
 
@@ -40,17 +40,22 @@
 
     var vueVm = null;
 
-    function Listener(listener, change) {
-        this.listen = function () {
-            this.subscriber = listener();
-        };
-
-        this.silence = function (value) {
+    var ListenerProp = {
+        init: function init(listener, change) {
+            this.listener = listener;
+            this.change = change;
+            return this;
+        },
+        listen: function listen() {
+            this.subscriber = this.listener();
+            return this;
+        },
+        silence: function silence(value) {
             this.subscriber();
-            change(value);
+            this.change(value);
             this.listen();
-        };
-    }
+        }
+    };
 
     function collectionListener(object, observer) {
         return function (changes) {
@@ -108,14 +113,13 @@
             father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto) });
             var silenter = father.__silenter;
             var listenerfunction = onPropertyChange(observer, prop, father);
-            var newListener = new Listener(function () {
+            var newListener = Object.create(ListenerProp).init(function () {
                 return vueVm.$watch(function () {
                     return father[prop];
-                }, listenerfunction);
+                });
             }, function (value) {
                 return father[prop] = value;
-            });
-            newListener.listen();
+            }).listen();
             silenter[prop] = newListener;
         }, function (array) {
             return updateArray(array, observer);
