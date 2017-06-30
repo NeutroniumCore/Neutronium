@@ -116,7 +116,7 @@
             var newListener = Object.create(ListenerProp).init(function () {
                 return vueVm.$watch(function () {
                     return father[prop];
-                });
+                }, listenerfunction);
             }, function (value) {
                 return father[prop] = value;
             }).listen();

@@ -107,18 +107,18 @@
 
     var inject = function (vm, observer) {
         if (!vueVm)
-            return vm;
+            return vm
 
         visitObject(vm, (father, prop) => {
             father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto) });
             var silenter = father.__silenter;
             var listenerfunction = onPropertyChange(observer, prop, father);
             var newListener = Object.create(ListenerProp)
-                                    .init(() => vueVm.$watch(() => father[prop]), (value) => father[prop] = value)
+                                    .init(() => vueVm.$watch(() => father[prop], listenerfunction), (value) => father[prop] = value)
                                     .listen();
             silenter[prop] = newListener;
         }, array => updateArray(array, observer));
-        return vm;
+        return vm
     };
 
     var fufillOnReady;
