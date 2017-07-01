@@ -95,6 +95,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 _Context = context;
                 _Context.Enter();
             }
+
             public void Dispose() 
             {
                 try

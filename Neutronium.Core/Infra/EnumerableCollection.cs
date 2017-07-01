@@ -7,8 +7,8 @@ namespace Neutronium.Core.Infra
     {
         public static Type GetElementType(this IEnumerable collection)
         {
-            var typeo = collection.GetType();
-            var elementtype = typeo.GetEnumerableBase();
+            var type = collection.GetType();
+            var elementtype = type.GetEnumerableBase();
             if (elementtype == null)
                 return null;
             return elementtype.GetUnderlyingNullableType() ?? elementtype;

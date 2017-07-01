@@ -57,7 +57,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 return false;
             }
 
-            res = conv(ifrom).Convert();
+            res = conv(ifrom).ConvertBasic();
             return true;
         }
 
@@ -68,67 +68,62 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateNull() 
         {
-            return CfrV8Value.CreateNull().Convert();
+            return CfrV8Value.CreateNull().ConvertBasic();
         }
 
-        private int _GlobalCount = 0;
-        public IJavascriptObject CreateObject(bool iLocal) 
+        public IJavascriptObject CreateObject(bool local) 
         {
             var rawResult = CfrV8Value.CreateObject(null, null);
-            if (iLocal)
-                return UpdateConvert(rawResult);
-
-            _CfrV8Context.Global.SetValue($"__ChromiumFX_Object_{_GlobalCount++}__", rawResult, CfxV8PropertyAttribute.DontDelete | CfxV8PropertyAttribute.ReadOnly);
             return UpdateConvert(rawResult);
         }
 
-        public IJavascriptObject CreateObject(string iCreationCode) 
+        public IJavascriptObject CreateObject(string creationCode) 
         {
             CfrV8Value v8Res;
             CfrV8Exception exception;
-            return (_CfrV8Context.Eval(iCreationCode, string.Empty, 1, out v8Res, out exception)) ? UpdateConvert(v8Res) : null;
+            return (_CfrV8Context.Eval(creationCode, string.Empty, 1, out v8Res, out exception)) ? UpdateConvert(v8Res) : null;
         }
 
         public IJavascriptObject CreateUndefined() 
         {
-            return CfrV8Value.CreateUndefined().Convert();
+            return CfrV8Value.CreateUndefined().ConvertBasic();
         }
 
         public IJavascriptObject CreateInt(int value) 
         {
-            return CfrV8Value.CreateInt(value).Convert();
+            return CfrV8Value.CreateInt(value).ConvertBasic();
         }
 
         public IJavascriptObject CreateDouble(double value) 
         {
-            return CfrV8Value.CreateDouble(value).Convert();
+            return CfrV8Value.CreateDouble(value).ConvertBasic();
         }
 
         public IJavascriptObject CreateString(string value) 
         {
-            return CfrV8Value.CreateString(value).Convert();
+            return CfrV8Value.CreateString(value).ConvertBasic();
         }
 
         public IJavascriptObject CreateBool(bool value) 
         {
-            return CfrV8Value.CreateBool(value).Convert();
+            return CfrV8Value.CreateBool(value).ConvertBasic();
         }
 
-        public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCollection) 
+        public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> collection) 
         {
-            var col = iCollection.ToList();
+            var col = collection.ToList();
             var res = CfrV8Value.CreateArray(col.Count);
             col.ForEach((el, i) => res.SetValue(i, el.Convert()));
-            return UpdateConvert(res);
+            return UpdateConvert(res, true);
         }
 
         public IJavascriptObject CreateArray(int size)
         {
             var res = CfrV8Value.CreateArray(size);
-            return UpdateConvert(res);
+            return UpdateConvert(res, true);
         }
 
-        private IJavascriptObject UpdateConvert(CfrV8Value value) 
+        private IJavascriptObject UpdateConvert(CfrV8Value value, bool isArray=false) 
         {
             if (value == null)
                 return null;
@@ -136,7 +131,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             value.SetValue("_MappedId", CfrV8Value.CreateUint(_Count++), CfxV8PropertyAttribute.DontDelete  | CfxV8PropertyAttribute.DontEnum
                         |  CfxV8PropertyAttribute.ReadOnly);
 
-            return value.Convert();
+            return isArray? value.ConvertBasic() : value.ConvertObject();
         }
     }
 }

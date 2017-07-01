@@ -95,7 +95,7 @@ namespace Neutronium.Core.Binding
                 }
 
                 var childres = Map(childvalue);          
-                gres.UpdateGlueProperty(propertyName, childres);
+                gres.AddGlueProperty(propertyName, childres);
             }
         }
 

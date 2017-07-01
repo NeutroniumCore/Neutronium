@@ -69,6 +69,11 @@ namespace Neutronium.Core.Binding.GlueObject
             return _Attributes.Values; 
         }
 
+        public void AddGlueProperty(string propertyName, IJSCSGlue glue)
+        {
+            _Attributes.Add(propertyName, glue);
+        }
+
         public void UpdateGlueProperty(string propertyName, IJSCSGlue glue)
         {
             _Attributes[propertyName] = glue;

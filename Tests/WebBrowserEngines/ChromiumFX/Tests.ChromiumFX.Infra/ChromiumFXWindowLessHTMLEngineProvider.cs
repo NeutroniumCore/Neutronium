@@ -97,8 +97,19 @@ namespace Tests.ChromiumFX.Infra
                     throw;
                 }
             };
-          
-            return CfrRuntime.ExecuteProcess(_CfrApp);
+
+            try
+            {
+                return CfrRuntime.ExecuteProcess(_CfrApp);
+            }
+            catch (CfxRemotingException)
+            {
+                return -1;
+            }
+            catch (IOException)
+            { 
+                return -1;
+            }
         }
 
         public IWindowlessHTMLEngineBuilder GetWindowlessEnvironment() 
