@@ -54,9 +54,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public IJavascriptObject Invoke(string functionName, IWebView context, params IJavascriptObject[] parameters) 
         {
             var function = _CfrV8Value.GetValue(functionName);
-            if (function.IsUndefined)
-                return CfrV8Value.CreateUndefined().Convert();
-            return function.ExecuteFunctionWithContext(context.Convert().V8Context, _CfrV8Value, parameters.Convert()).Convert();
+            try
+            {
+                return function.ExecuteFunctionWithContext(context.Convert().V8Context, _CfrV8Value, parameters.Convert()).Convert();
+            }
+            catch
+            {
+                return CfrV8Value.CreateUndefined().ConvertBasic();
+            }
         }
 
         public Task<IJavascriptObject> InvokeAsync(string functionName, IWebView context, params IJavascriptObject[] parameters) 

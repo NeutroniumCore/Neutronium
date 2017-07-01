@@ -11,7 +11,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion
         public static IJavascriptObject Convert(this CfrV8Value cfrV8Value) 
         {
             if ((cfrV8Value == null) || (!cfrV8Value.IsObject)) 
-                return ConvertBasic(cfrV8Value);
+                return ConvertBasic(cfrV8Value ?? CfrV8Value.CreateUndefined());
 
             return ConvertObject(cfrV8Value); 
         }
