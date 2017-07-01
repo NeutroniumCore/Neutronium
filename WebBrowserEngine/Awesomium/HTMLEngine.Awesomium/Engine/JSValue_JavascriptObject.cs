@@ -30,6 +30,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         public uint GetID()
         {
+            if (!_JSValue.IsObject)
+                return 0;
+
             JSObject jso = _JSValue;
             return jso.RemoteId;
         }

@@ -362,7 +362,7 @@ namespace Neutronium.Core.Binding
                 return null;
 
             //Use local cache for objet not created in javascript session such as enum
-            var res = _SessionCache.GetGlobalCached(globalkey) ?? _SessionCache.GetCachedLocal(globalkey);
+            var res = _SessionCache.GetCached(globalkey);
             if (res != null)
                 return res;
 
