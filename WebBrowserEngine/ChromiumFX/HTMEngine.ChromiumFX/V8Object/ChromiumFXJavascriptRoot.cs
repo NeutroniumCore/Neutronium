@@ -9,7 +9,7 @@ using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object 
 {
-    internal class ChromiumFXJavascriptBase
+    internal abstract class ChromiumFXJavascriptRoot
     {
         protected readonly CfrV8Value _CfrV8Value;
 
@@ -20,8 +20,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public bool IsString => _CfrV8Value.IsString;
         public bool IsNumber => _CfrV8Value.IsDouble || _CfrV8Value.IsUint || _CfrV8Value.IsInt;
         public bool IsBool => _CfrV8Value.IsBool;
+        public CfrV8Value GetRaw() => _CfrV8Value;
 
-        internal ChromiumFXJavascriptBase(CfrV8Value cfrV8Value) 
+        protected ChromiumFXJavascriptRoot(CfrV8Value cfrV8Value) 
         {
             _CfrV8Value = cfrV8Value;
         }
@@ -67,11 +68,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public Task<IJavascriptObject> InvokeAsync(string functionName, IWebView context, params IJavascriptObject[] parameters) 
         {
             return Task.FromResult(Invoke(functionName, context, parameters));
-        }
-
-        public uint GetID() 
-        {
-            return (_CfrV8Value.HasValue("_MappedId")) ? _CfrV8Value.GetValue("_MappedId").UintValue : 0;
         }
 
         public string GetStringValue() 

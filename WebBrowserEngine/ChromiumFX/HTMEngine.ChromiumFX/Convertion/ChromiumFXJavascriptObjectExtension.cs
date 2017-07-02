@@ -21,9 +21,19 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion
             return new ChromiumFXJavascriptSimple(cfrV8Value);
         }
 
+        public static IJavascriptObject ConvertBasic(this CfrV8Value cfrV8Value, uint id)
+        {
+            return new ChromiumFXJavascriptSimpleWithId(cfrV8Value, id);
+        }
+
         public static IJavascriptObject ConvertObject(this CfrV8Value cfrV8Value)
         {
             return new ChromiumFXJavascriptObject(cfrV8Value);
+        }
+
+        public static IJavascriptObject ConvertObject(this CfrV8Value cfrV8Value, uint id)
+        {
+            return new ChromiumFXJavascriptObjectWithId(cfrV8Value, id);
         }
 
         public static CfrV8Value Convert(this IJavascriptObject javascriptObject) 

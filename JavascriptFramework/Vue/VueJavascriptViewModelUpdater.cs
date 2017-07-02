@@ -23,21 +23,21 @@ namespace Neutronium.JavascriptFramework.Vue
             _Logger = logger;
         }
 
+        public void Dispose()
+        {
+            _Silenters.Clear();
+        }
+
         public void ClearAllCollection(IJavascriptObject array)
         {
             var length = array.GetArrayLength();
             array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(0), _WebView.Factory.CreateInt(length));
         }
 
-        public void Dispose()
-        {
-            _Silenters.Clear();
-        }
-
         public void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex)
         {   
             array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(oldIndex), _WebView.Factory.CreateInt(1));
-            AddUnsafe(array, newIndex, 0, item);
+            Add(array, newIndex, 0, item);
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)
@@ -47,7 +47,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added)
         {
-            AddUnsafe(array, index, number, added);
+            Add(array, index, number, added);
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool isBasic)
@@ -65,16 +65,16 @@ namespace Neutronium.JavascriptFramework.Vue
             if (isBasic)
                 return;
 
-            InjectUnsafe(value);
+            Inject(value);
         }
 
-        private void AddUnsafe(IJavascriptObject array, int index, int number, IJavascriptObject value)
+        private void Add(IJavascriptObject array, int index, int number, IJavascriptObject value)
         {
             array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), value);
-            InjectUnsafe(value);
+            Inject(value);
         }
 
-        private void InjectUnsafe(IJavascriptObject value)
+        private void Inject(IJavascriptObject value)
         {
             _VueHelper.Value.Invoke("inject", _WebView, value, _Listener);
         }

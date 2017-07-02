@@ -1,49 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Chromium;
-using Chromium.Remote;
-using MoreCollection.Extensions;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
-using MoreCollection.Set;
+﻿using Chromium.Remote;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
 {
-    internal class  ChromiumFXJavascriptObject : ChromiumFXJavascriptBase, ICfxJavascriptObject
+    internal sealed class ChromiumFXJavascriptObject : ChromiumFXJavascriptObjectBase, ICfxJavascriptObject
     {
-        private ISet<CfrV8Handler> _Functions;
-        private ISet<CfrV8Handler> Functions => _Functions = _Functions ?? new HybridSet<CfrV8Handler>();
-
         internal ChromiumFXJavascriptObject(CfrV8Value cfrV8Value) :base(cfrV8Value)
         {
         }
 
-        CfrV8Value ICfxJavascriptObject.GetRaw() 
+        public uint GetID()
         {
-            return _CfrV8Value;
-        }
-
-        public override void Dispose() 
-        {
-            base.Dispose();
-            _Functions?.ForEach(f => f.Dispose());
-            _Functions?.Clear();
-        }
-
-        public void Bind(string functionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action) 
-        {
-            lock (this) 
-            {
-                 var cfrV8Handler = action.Convert(functionName);
-                Functions.Add(cfrV8Handler);
-                var func = CfrV8Value.CreateFunction(functionName, cfrV8Handler);
-                _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.ReadOnly | CfxV8PropertyAttribute.DontDelete);
-            }           
-        }
-
-        public IJavascriptObject ExecuteFunction(IWebView context) 
-        {
-            return _CfrV8Value.ExecuteFunction(_CfrV8Value, new CfrV8Value[0]).Convert();
+            return (_CfrV8Value.HasValue("_MappedId")) ? _CfrV8Value.GetValue("_MappedId").UintValue : 0;
         }
     }
 }

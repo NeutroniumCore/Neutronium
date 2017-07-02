@@ -119,9 +119,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\ChromiumFxSession.cs" />
     <Compile Include="Util\Resilient.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptObjectBase.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptObjectWithId.cs" />
     <Compile Include="V8Object\ChromiumFXJavascriptObject.cs" />
-    <Compile Include="V8Object\ChromiumFXJavascriptBase.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptRoot.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptSimpleWithId.cs" />
     <Compile Include="V8Object\ChromiumFXJavascriptSimple.cs" />
+    <Compile Include="V8Object\ChromiumFXJavascriptSimpleBase.cs" />
     <Compile Include="Convertion\ChromiumFxJavascriptObjectExtension.cs" />
     <Compile Include="V8Object\ICfxJavascriptObject.cs" />
     <Compile Include="WPF\ChromeWidgetHandleFinder.cs" />

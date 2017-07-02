@@ -128,10 +128,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (value == null)
                 return null;
 
-            value.SetValue("_MappedId", CfrV8Value.CreateUint(_Count++), CfxV8PropertyAttribute.DontDelete  | CfxV8PropertyAttribute.DontEnum
+            var id = _Count++;
+            value.SetValue("_MappedId", CfrV8Value.CreateUint(id), CfxV8PropertyAttribute.DontDelete  | CfxV8PropertyAttribute.DontEnum
                         |  CfxV8PropertyAttribute.ReadOnly);
 
-            return isArray? value.ConvertBasic() : value.ConvertObject();
+            return isArray? value.ConvertBasic(id) : value.ConvertObject(id);
         }
     }
 }
