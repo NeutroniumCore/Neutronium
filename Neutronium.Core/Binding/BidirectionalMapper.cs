@@ -368,7 +368,7 @@ namespace Neutronium.Core.Binding
 
             object targetvalue;
             bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, targetType);
-            if ((!converted) && (!globalkey.IsNull) && (!globalkey.IsUndefined))
+            if (!converted)
             {
                 var message = $"Unable to convert javascript object: {globalkey} to C# session. Value will be default to null. Please check javascript bindings.";
                 _Logger.Info(message);

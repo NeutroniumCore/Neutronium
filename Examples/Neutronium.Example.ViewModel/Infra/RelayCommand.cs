@@ -7,7 +7,7 @@ namespace Neutronium.Example.ViewModel.Infra
    
     public class RelayCommand : ICommand
     {
-        readonly Action<object> _execute;
+        private readonly Action<object> _execute;
 
         public RelayCommand(Action<object> execute)
         {
@@ -37,7 +37,7 @@ namespace Neutronium.Example.ViewModel.Infra
 
     public class RelayCommand<T> : ICommand where T:class
     {
-        readonly Action<T> _execute;
+        private readonly Action<T> _execute;
 
         public RelayCommand(Action<T> execute)
         {
@@ -61,7 +61,7 @@ namespace Neutronium.Example.ViewModel.Infra
 
     public class ToogleRelayCommand : ICommand
     {
-        readonly Action _execute;
+        private readonly Action _execute;
 
         public ToogleRelayCommand(Action execute)
         {
