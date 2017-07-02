@@ -356,26 +356,25 @@ namespace Neutronium.Core.Binding
                         _ReListen = new ReListener(this, _ListenerRegister, () => _ReListen = null);
         }
 
-        public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject globalkey, Type targetType)
+        public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
         {
-            if (globalkey == null)
+            if (javascriptObject == null)
                 return null;
 
-            //Use local cache for objet not created in javascript session such as enum
-            var res = _SessionCache.GetCached(globalkey);
+            object targetvalue;
+            if (_Context.WebView.Converter.GetSimpleValue(javascriptObject, out targetvalue, targetType))
+            {
+                return new JSBasicObject(javascriptObject, targetvalue);
+            }
+
+            //Use local and local cache for objet not created in javascript session such as enum
+            var res = _SessionCache.GetCached(javascriptObject);
             if (res != null)
                 return res;
 
-            object targetvalue;
-            bool converted = _Context.WebView.Converter.GetSimpleValue(globalkey, out targetvalue, targetType);
-            if (!converted)
-            {
-                var message = $"Unable to convert javascript object: {globalkey} to C# session. Value will be default to null. Please check javascript bindings.";
-                _Logger.Info(message);
-                throw new ArgumentException(message);
-            }
-
-            return new JSBasicObject(globalkey, targetvalue);
+            var message = $"Unable to convert javascript object: {javascriptObject} to C# session. Value will be default to null. Please check javascript bindings.";
+            _Logger.Info(message);
+            throw new ArgumentException(message);
         }
     }
 }

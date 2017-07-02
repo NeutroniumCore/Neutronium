@@ -14,10 +14,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _CfrV8Context = context;
         }
 
-        public bool GetSimpleValue(IJavascriptObject decoratedValue, out object res, Type iTargetType = null) 
+        public bool GetSimpleValue(IJavascriptObject decoratedValue, out object res, Type targetType = null) 
         {
             res = null;
             var value = decoratedValue.Convert();
+
+            if (value.IsObject)
+            {
+                return false;
+            }
 
             if ((value.IsUndefined) || (value.IsNull)) 
             {
@@ -36,7 +41,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 return true;
             }
 
-            if (iTargetType.IsUnsigned()) 
+            if (targetType.IsUnsigned()) 
             {
                 if (value.IsUint)
                     res = value.UintValue;
@@ -54,8 +59,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
             if (res != null) 
             {
-                if (iTargetType != null)
-                    res = Convert.ChangeType(res, iTargetType);
+                if (targetType != null)
+                    res = Convert.ChangeType(res, targetType);
 
                 return true;
             }

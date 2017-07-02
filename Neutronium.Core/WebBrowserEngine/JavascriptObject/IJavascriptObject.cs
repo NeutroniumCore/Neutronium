@@ -9,8 +9,6 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
     /// </summary>
     public interface IJavascriptObject : IDisposable
     {
-        bool HasRelevantId();
-
         uint GetID();
 
         /// <summary>

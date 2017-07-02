@@ -69,11 +69,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             return Task.FromResult(Invoke(functionName, context, parameters));
         }
 
-        public bool HasRelevantId() 
-        {
-            return _CfrV8Value.HasValue("_MappedId");
-        }
-
         public uint GetID() 
         {
             return (_CfrV8Value.HasValue("_MappedId")) ? _CfrV8Value.GetValue("_MappedId").UintValue : 0;

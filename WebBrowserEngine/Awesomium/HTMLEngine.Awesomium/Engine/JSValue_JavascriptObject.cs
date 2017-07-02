@@ -19,15 +19,6 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         public JSValue JSValue { get { return _JSValue; } }
 
-        public bool HasRelevantId()
-        {
-            if (!_JSValue.IsObject)
-                return false;
-
-            var jso = (JSObject)_JSValue;
-            return (jso.RemoteId != 0);
-        }
-
         public uint GetID()
         {
             if (!_JSValue.IsObject)
