@@ -116,7 +116,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 
         public IJavascriptObject CreateArray(int size)
         {
-            var res = CefV8Value.CreateArray(size);
+            var res = CefV8Value.CreateArray(0);
             return UpdateObject(res);
         }
 

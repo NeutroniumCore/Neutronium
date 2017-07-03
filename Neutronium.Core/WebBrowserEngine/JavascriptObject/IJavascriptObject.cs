@@ -63,16 +63,30 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <param name="context">
         /// function context
         /// </param>
-        /// <param name="iFunctionName">
+        /// <param name="functionName">
         /// function name
         /// </param>
-        /// <param name="iparam">
+        /// <param name="param">
         /// function parameters
         /// </param>
         /// <returns>
         /// the result of the execution
         ///</returns>
-        IJavascriptObject Invoke(string iFunctionName, IWebView context, params IJavascriptObject[] iparam);
+        IJavascriptObject Invoke(string functionName, IWebView context, params IJavascriptObject[] param);
+
+        /// <summary>
+        /// Execute synchronously the function in the coresponding IWebView context with no result.
+        /// </summary>
+        /// <param name="context">
+        /// function context
+        /// </param>
+        /// <param name="functionName">
+        /// function name
+        /// </param>
+        /// <param name="param">
+        /// function parameters
+        /// </param>
+        void InvokeNoResult(string functionName, IWebView context, params IJavascriptObject[] param);
 
         /// <summary>
         /// Execute asynchronously the function in the coresponding IWebView context.

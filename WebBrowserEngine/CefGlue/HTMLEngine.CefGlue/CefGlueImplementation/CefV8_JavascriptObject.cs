@@ -97,9 +97,14 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return _CefV8Value.HasValue(attributename);
         }
 
-        public IJavascriptObject Invoke(string iFunctionName, IWebView context, params IJavascriptObject[] iparam)
+        public IJavascriptObject Invoke(string functionName, IWebView context, params IJavascriptObject[] parameters)
         {
-            return new CefV8_JavascriptObject(_CefV8Value.Invoke(iFunctionName, context, Convert(iparam)));
+            return new CefV8_JavascriptObject(_CefV8Value.Invoke(functionName, context, Convert(parameters)));
+        }
+
+        public void InvokeNoResult(string functionName, IWebView context, params IJavascriptObject[] parameters)
+        {
+            _CefV8Value.Invoke(functionName, context, Convert(parameters));
         }
 
         public async Task<IJavascriptObject> InvokeAsync(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam)

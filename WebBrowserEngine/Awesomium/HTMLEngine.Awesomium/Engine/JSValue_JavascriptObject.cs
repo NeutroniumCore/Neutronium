@@ -82,6 +82,11 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return res.Convert();
         }
 
+        public void InvokeNoResult(string iFunctionName, IWebView context, params IJavascriptObject[] iparam)
+        {
+            ((JSObject)_JSValue).Invoke(iFunctionName, iparam.Select(c => c.Convert()).ToArray());
+        }
+
         public Task<IJavascriptObject> InvokeAsync(string iFunctionName, IWebView iContext, params IJavascriptObject[] iparam)
         {
             return Task.FromResult(Invoke(iFunctionName, iContext, iparam));
