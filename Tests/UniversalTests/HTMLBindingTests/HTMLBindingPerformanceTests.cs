@@ -11,6 +11,7 @@ using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
 using Xunit.Abstractions;
+using Neutronium.Example.ViewModel.Infra;
 
 namespace Tests.Universal.HTMLBindingTests
 {
@@ -251,6 +252,62 @@ namespace Tests.Universal.HTMLBindingTests
             };
 
             await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Stress_Big_Vm()
+        {
+            var root = new FakeFatherViewModel();
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var bigVm = BuildBigVm();
+                    var js = mb.JSRootObject;
+
+                    var stopWatch = new Stopwatch();
+                    stopWatch.Start();
+
+                    await DoSafeAsyncUI(() => root.Other = bigVm);
+
+                    var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
+
+                    other.IsObject.Should().BeTrue();
+
+                    stopWatch.Stop();
+                    var ts = stopWatch.ElapsedMilliseconds;
+                    _Logger.Info($"Perf: {((double)(ts)) / 1000} sec");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        private FakeViewModel BuildBigVm(int position =3, int leaves= 50)
+        {
+            var children = position == 0 ? null : Enumerable.Range(0, leaves).Select(i => BuildBigVm(position - 1, leaves));
+            return new FakeViewModel(children);
+        }
+
+        private class FakeFatherViewModel : ViewModelBase
+        {
+            private FakeViewModel _FakeViewModel;
+            public FakeViewModel Other
+            {
+                get { return _FakeViewModel; }
+                set { Set(ref _FakeViewModel, value, nameof(Other));  }
+            }
+        }
+
+        private class FakeViewModel
+        {
+            public FakeViewModel[] Children { get; }
+
+            public FakeViewModel(IEnumerable<FakeViewModel> children)
+            {
+                Children = children?.ToArray();
+            }
         }
     }
 }

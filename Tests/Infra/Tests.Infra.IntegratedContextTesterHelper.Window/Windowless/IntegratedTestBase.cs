@@ -105,9 +105,9 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             _UIDispatcher.Run(doact);
         }
 
-        protected async Task DoSafeAsyncUI(Func<Task> doact)
+        protected async Task DoSafeAsyncUI(Action doact)
         {
-            await await _UIDispatcher.EvaluateAsync(doact);
+            await _UIDispatcher.RunAsync(doact);
         }
     }
 }
