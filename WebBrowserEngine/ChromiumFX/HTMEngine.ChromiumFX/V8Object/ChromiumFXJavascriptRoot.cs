@@ -22,29 +22,29 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public bool IsBool => _CfrV8Value.IsBool;
         public CfrV8Value GetRaw() => _CfrV8Value;
 
-        protected ChromiumFXJavascriptRoot(CfrV8Value cfrV8Value) 
+        protected ChromiumFXJavascriptRoot(CfrV8Value cfrV8Value)
         {
             _CfrV8Value = cfrV8Value;
         }
 
-        public virtual void Dispose() 
+        public virtual void Dispose()
         {
             _CfrV8Value.Dispose();
         }
 
-        public int GetArrayLength() 
+        public int GetArrayLength()
         {
             return _CfrV8Value.ArrayLength;
         }
 
-        public bool HasValue(string attributename) 
+        public bool HasValue(string attributename)
         {
             return _CfrV8Value.HasValue(attributename);
         }
 
-        public void SetValue(string attributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None) 
+        public void SetValue(string attributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None)
         {
-            _CfrV8Value.SetValue(attributeName, element.Convert(), (CfxV8PropertyAttribute) ioption);
+            _CfrV8Value.SetValue(attributeName, element.Convert(), (CfxV8PropertyAttribute)ioption);
         }
 
         public void SetValue(int index, IJavascriptObject element)
@@ -52,7 +52,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             _CfrV8Value.SetValue(index, element.Convert());
         }
 
-        public IJavascriptObject Invoke(string functionName, IWebView context, params IJavascriptObject[] parameters) 
+        public IJavascriptObject Invoke(string functionName, IWebView context, params IJavascriptObject[] parameters)
         {
             var function = _CfrV8Value.GetValue(functionName);
             try
@@ -63,6 +63,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             {
                 return CfrV8Value.CreateUndefined().ConvertBasic();
             }
+        }
+
+        public void InvokeNoResult(string functionName, IWebView context, params IJavascriptObject[] parameters)
+        {
+            var function = _CfrV8Value.GetValue(functionName);
+            function.ExecuteFunctionWithContext(context.Convert().V8Context, _CfrV8Value, parameters.Convert());
         }
 
         public Task<IJavascriptObject> InvokeAsync(string functionName, IWebView context, params IJavascriptObject[] parameters) 

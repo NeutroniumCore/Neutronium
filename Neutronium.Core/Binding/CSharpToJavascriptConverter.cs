@@ -17,6 +17,7 @@ namespace Neutronium.Core.Binding
         private readonly IJSCommandFactory _CommandFactory;
         private readonly IWebSessionLogger _Logger;
         private readonly IWebBrowserWindow _Context;
+        private IJSCSGlue _Null;
 
         public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache cacher, IJSCommandFactory commandFactory, IWebSessionLogger logger)
         {
@@ -29,7 +30,7 @@ namespace Neutronium.Core.Binding
         public IJSCSGlue Map(object from, object additional=null)
         {
             if (from == null)
-                return new JSBasicObject(null);
+                return _Null ?? (_Null = new JSBasicObject(null));
 
             var res = _Cacher.GetCached(from);
             if (res != null)

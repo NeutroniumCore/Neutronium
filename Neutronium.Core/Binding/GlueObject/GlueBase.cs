@@ -8,11 +8,11 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         protected abstract void ComputeString(DescriptionBuilder context);
 
-        protected abstract bool LocalComputeJavascriptValue(IJavascriptObjectFactory context);
+        protected abstract bool LocalComputeJavascriptValue(IWebView webView);
 
         public abstract IEnumerable<IJSCSGlue> GetChildren();
 
-        protected virtual void AfterChildrenComputeJavascriptValue()
+        protected virtual void AfterChildrenComputeJavascriptValue(IWebView webView)
         {
         }
 
@@ -27,12 +27,12 @@ namespace Neutronium.Core.Binding.GlueObject
             ComputeString(context);
         }
 
-        public void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptSessionCache cache)
+        public void ComputeJavascriptValue(IWebView webView, IJavascriptSessionCache cache)
         {
-            if (LocalComputeJavascriptValue(factory))
+            if (LocalComputeJavascriptValue(webView))
             {
-                GetChildren().ForEach(child => child.ComputeJavascriptValue(factory, cache));
-                AfterChildrenComputeJavascriptValue();
+                GetChildren().ForEach(child => child.ComputeJavascriptValue(webView, cache));
+                AfterChildrenComputeJavascriptValue(webView);
             }       
         }
 

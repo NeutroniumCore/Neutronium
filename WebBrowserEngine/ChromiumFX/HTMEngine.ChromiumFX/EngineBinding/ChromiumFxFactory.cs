@@ -15,6 +15,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private static UInt32 _Count = 0;
         private readonly CfrV8Context _CfrV8Context;
         private static readonly IDictionary<Type, Func<object, CfrV8Value>> _Converters = new Dictionary<Type, Func<object, CfrV8Value>>();
+        private IJavascriptObject _Null;
 
         internal ChromiumFxFactory(CfrV8Context context) 
         {
@@ -68,20 +69,19 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateNull() 
         {
-            return CfrV8Value.CreateNull().ConvertBasic();
+            return _Null?? (_Null = CfrV8Value.CreateNull().ConvertBasic());
         }
 
         public IJavascriptObject CreateObject(bool local) 
         {
-            var rawResult = CfrV8Value.CreateObject(null, null);
-            return UpdateConvert(rawResult);
+            var res = CfrV8Value.CreateObject(null, null);
+            return UpdateConvert(res, false);
         }
 
         public IJavascriptObject CreateObject(string creationCode) 
         {
-            CfrV8Value v8Res;
-            CfrV8Exception exception;
-            return (_CfrV8Context.Eval(creationCode, string.Empty, 1, out v8Res, out exception)) ? UpdateConvert(v8Res) : null;
+            var v8Res = Eval(creationCode);
+            return (v8Res!=null) ? UpdateConvert(v8Res) : null;
         }
 
         public IJavascriptObject CreateUndefined() 
@@ -119,8 +119,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateArray(int size)
         {
-            var res = CfrV8Value.CreateArray(size);
+            var res = CfrV8Value.CreateArray(0);
             return UpdateConvert(res, true);
+        }
+
+        private CfrV8Value Eval(string code)
+        {
+            CfrV8Value v8Res;
+            CfrV8Exception exception;
+            _CfrV8Context.Eval(code, string.Empty, 1, out v8Res, out exception);
+            return v8Res;
         }
 
         private IJavascriptObject UpdateConvert(CfrV8Value value, bool isArray=false) 

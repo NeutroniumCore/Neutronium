@@ -9,7 +9,6 @@ namespace Neutronium.Core.Binding.CollectionChanges
     {
         private readonly IJavascriptToCSharpConverter _IJSCBridgeCache;
         private readonly Type _TargetedType;
-        private readonly JavascriptCollectionChanges _Changes;
 
         public IEnumerable<IndividualCollectionChange> IndividualChanges { get; }
 

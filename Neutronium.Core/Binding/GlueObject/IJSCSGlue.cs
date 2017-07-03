@@ -15,6 +15,6 @@ namespace Neutronium.Core.Binding.GlueObject
 
         void BuilString(DescriptionBuilder context);
 
-        void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptSessionCache cache);
+        void ComputeJavascriptValue(IWebView factory, IJavascriptSessionCache cache);
     }
 }

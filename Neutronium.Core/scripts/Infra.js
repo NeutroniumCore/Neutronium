@@ -1,4 +1,6 @@
-﻿function Enum(type, intValue, name, displayName) {
+﻿console.log('here')
+
+function Enum(type, intValue, name, displayName) {
     this.intValue = intValue;
     this.displayName = displayName;
     this.name = name;
@@ -6,4 +8,14 @@
 }
 
 function Null_reference() {
+}
+
+function neutroniumIdentifiedObject(id) {
+    this._MappedId = id;
+}
+
+function getNeutroniumIdentifiedArray(size, id) {
+    const res = [];
+    res._MappedId = id;
+    return res;
 }

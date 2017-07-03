@@ -26,19 +26,19 @@ namespace Neutronium.Core.Binding.GlueObject
             _IndividualType = individual; 
         } 
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        protected override bool LocalComputeJavascriptValue(IWebView webView)
         {
             if (JSValue!=null)
                 return false;
 
-            JSValue = factory.CreateArray(Items.Count);
+            JSValue = webView.Factory.CreateArray(Items.Count);
             return true;
         }
 
-        protected override void AfterChildrenComputeJavascriptValue()
+        protected override void AfterChildrenComputeJavascriptValue(IWebView webView)
         {
-            var dest = Items.Select(v => v.JSValue).ToList();
-            dest.ForEach((javascriptObject, index) => JSValue.SetValue(index, javascriptObject));
+            var dest = Items.Select(v => v.JSValue).ToArray();
+           JSValue.InvokeNoResult("push", webView, dest);
         }
 
         public Neutronium.Core.Binding.CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)

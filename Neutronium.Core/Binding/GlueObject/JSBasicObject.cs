@@ -25,8 +25,12 @@ namespace Neutronium.Core.Binding.GlueObject
             JSValue = jsValue;
         }
 
-        public void ComputeJavascriptValue(IJavascriptObjectFactory factory, IJavascriptSessionCache cache)
+        public void ComputeJavascriptValue(IWebView webView, IJavascriptSessionCache cache)
         {
+            if (JSValue != null)
+                return;
+
+            var factory = webView.Factory;
             if (CValue == null)
             {
                 JSValue = factory.CreateNull();

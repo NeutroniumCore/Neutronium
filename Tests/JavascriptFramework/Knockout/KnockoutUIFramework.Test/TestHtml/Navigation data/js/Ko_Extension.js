@@ -10,6 +10,10 @@ function Enum(Type, intValue, name, displayName) {
 function Null_reference() {
 }
 
+function neutroniumIdentifiedObject(id) {
+    this._MappedId = id;
+}
+
 function executeAsPromise(vm,fnname,argument) {
     return new Promise(function (fullfill, reject) {
         var res = { fullfill: function (res) {fullfill(res); }, reject: function(err){reject(new Error(err));}};

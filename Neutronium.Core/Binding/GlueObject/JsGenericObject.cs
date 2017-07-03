@@ -23,16 +23,17 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes = new HybridDictionary<string, IJSCSGlue>(childrenCount);
         }
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        protected override bool LocalComputeJavascriptValue(IWebView webView)
         {
             if (JSValue != null)
                 return false;
 
+            var factory = webView.Factory;
             JSValue = factory.CreateObject(true);       
             return true;
         }
 
-        protected override void AfterChildrenComputeJavascriptValue()
+        protected override void AfterChildrenComputeJavascriptValue(IWebView webView)
         {
             _Attributes.ForEach(attribute => JSValue.SetValue(attribute.Key, attribute.Value.JSValue));
         }

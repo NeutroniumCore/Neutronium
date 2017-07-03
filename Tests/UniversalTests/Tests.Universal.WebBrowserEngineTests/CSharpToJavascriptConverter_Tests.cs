@@ -348,7 +348,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             var res = await _HTMLViewContext.EvaluateOnUIContextAsync(() => _ConverTOJSO.Map(from));
             await _HTMLViewContext.RunOnJavascriptContextAsync(() =>
             {
-                res.ComputeJavascriptValue(_HTMLViewContext.WebView.Factory, cacher);
+                res.ComputeJavascriptValue(_HTMLViewContext.WebView, cacher);
             });
             return res;
         }

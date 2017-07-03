@@ -28,11 +28,12 @@ namespace Neutronium.Core.Binding.GlueObject
             _JSSimpleCommand = simpleCommand;
         }
 
-        protected override bool LocalComputeJavascriptValue(IJavascriptObjectFactory factory)
+        protected override bool LocalComputeJavascriptValue(IWebView webView)
         {
             if (JSValue != null)
                 return false;
 
+            var factory = webView.Factory;
             JSValue = factory.CreateObject(true);
             return true;
         }
