@@ -10,7 +10,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
 
         public uint GetID()
         {
-            return (_CfrV8Value.HasValue("_MappedId")) ? _CfrV8Value.GetValue("_MappedId").UintValue : 0;
+            return (_CfrV8Value.HasValue(IdName)) ? _CfrV8Value.GetValue(IdName).UintValue : 0;
         }
     }
 }

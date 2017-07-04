@@ -7,19 +7,27 @@ using Chromium.Remote;
 using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
+using Neutronium.WebBrowserEngine.ChromiumFx.V8Object;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
     internal class ChromiumFxFactory : IJavascriptObjectFactory 
     {
-        private static UInt32 _Count = 0;
+        private static uint _Count = 0;
         private readonly CfrV8Context _CfrV8Context;
         private static readonly IDictionary<Type, Func<object, CfrV8Value>> _Converters = new Dictionary<Type, Func<object, CfrV8Value>>();
+        private readonly Lazy<CfrV8Value> _Factory;
+        private readonly Lazy<CfrV8Value> _ObjectBuilder;
+        private readonly Lazy<CfrV8Value> _ArrayBuilder;
+
         private IJavascriptObject _Null;
 
         internal ChromiumFxFactory(CfrV8Context context) 
         {
             _CfrV8Context = context;
+            _Factory = new Lazy<CfrV8Value>(FactoryCreator);
+            _ObjectBuilder = new Lazy<CfrV8Value>(ObjectBuilderCreator);
+            _ArrayBuilder = new Lazy<CfrV8Value>(ArrayBuilderCreator);
         }
 
         static ChromiumFxFactory() 
@@ -37,6 +45,49 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             Register<decimal>((source) => CfrV8Value.CreateDouble((double) source));
             Register<bool>(CfrV8Value.CreateBool);
             Register<DateTime>((source) => CfrV8Value.CreateDate(CfrTime.FromUniversalTime(source.ToUniversalTime())));
+        }
+
+        private CfrV8Value FactoryCreator()
+        {
+            var builderScript = @"(function(){
+                function objectWithId(id){
+                    this.{ChromiumFXJavascriptRoot.IdName} = id
+                }
+                function createObject(id){
+                    return new objectWithId(id)
+                }
+                function createArray(id){
+                    const res = []
+                    res.{ChromiumFXJavascriptRoot.IdName} = id
+                    return res
+                }
+                function createBulkObject(id, size){
+                    const array = []
+                    for (var i = 0; i < size; i++) {
+                        array.push(new objectWithId(id++))
+                    }
+                    return array
+                }
+
+                return {
+                    createObject,
+                    createArray,
+                    createBulkObject
+                };
+            }())";
+
+            var finalString = builderScript.Replace("{ChromiumFXJavascriptRoot.IdName}", ChromiumFXJavascriptRoot.IdName);
+            return Eval(finalString);
+        }
+
+        private CfrV8Value ObjectBuilderCreator()
+        {
+            return _Factory.Value.GetValue("createObject");
+        }
+
+        private CfrV8Value ArrayBuilderCreator()
+        {
+            return _Factory.Value.GetValue("createArray");
         }
 
         public static bool IsTypeConvertible(Type itype) 
@@ -74,8 +125,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateObject(bool local) 
         {
-            var res = CfrV8Value.CreateObject(null, null);
-            return UpdateConvert(res, false);
+            var id = _Count++;
+            return _ObjectBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id) }).ConvertObject(id);
         }
 
         public IJavascriptObject CreateObject(string creationCode) 
@@ -119,8 +170,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateArray(int size)
         {
-            var res = CfrV8Value.CreateArray(0);
-            return UpdateConvert(res, true);
+            //var res = CfrV8Value.CreateArray(0);
+            //return UpdateConvert(res, true);
+
+            var id = _Count++;
+            return _ArrayBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id) }).ConvertBasic(id);
         }
 
         private CfrV8Value Eval(string code)
@@ -137,7 +191,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 return null;
 
             var id = _Count++;
-            value.SetValue("_MappedId", CfrV8Value.CreateUint(id), CfxV8PropertyAttribute.DontDelete  | CfxV8PropertyAttribute.DontEnum
+            value.SetValue(ChromiumFXJavascriptRoot.IdName, CfrV8Value.CreateUint(id), CfxV8PropertyAttribute.DontDelete  | CfxV8PropertyAttribute.DontEnum
                         |  CfxV8PropertyAttribute.ReadOnly);
 
             return isArray? value.ConvertBasic(id) : value.ConvertObject(id);

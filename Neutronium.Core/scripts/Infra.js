@@ -9,13 +9,3 @@ function Enum(type, intValue, name, displayName) {
 
 function Null_reference() {
 }
-
-function neutroniumIdentifiedObject(id) {
-    this._MappedId = id;
-}
-
-function getNeutroniumIdentifiedArray(size, id) {
-    const res = [];
-    res._MappedId = id;
-    return res;
-}

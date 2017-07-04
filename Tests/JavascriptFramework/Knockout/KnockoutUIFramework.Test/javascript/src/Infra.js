@@ -7,7 +7,3 @@
 
 function Null_reference() {
 }
-
-function neutroniumIdentifiedObject(id) {
-    this._MappedId = id;
-}
