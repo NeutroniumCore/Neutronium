@@ -132,10 +132,19 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
         public IJavascriptObject ExecuteFunction(IWebView context)
         {
             var webView = context as AwesomiumWebView;
-            if (context == null)
+            if (webView == null)
                 return null;
 
             return new JSValue_JavascriptObject(webView.ExecuteFunction(_JSValue));
+        }
+
+        public IJavascriptObject ExecuteFunction(IWebView webViewGeneric, IJavascriptObject context, params IJavascriptObject[] parameters)
+        {
+            var webView = webViewGeneric as AwesomiumWebView;
+            if (webView == null)
+                return null;
+
+            return new JSValue_JavascriptObject(webView.ExecuteFunction(_JSValue, context.Convert(), parameters.Select(el => el.Convert()).ToArray()));
         }
 
         public IJavascriptObject GetValue(string ivalue)

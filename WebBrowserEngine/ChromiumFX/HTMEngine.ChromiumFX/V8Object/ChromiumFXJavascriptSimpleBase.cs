@@ -15,6 +15,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             throw new NotImplementedException();
         }
 
+        public IJavascriptObject ExecuteFunction(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
         public IJavascriptObject ExecuteFunction(IWebView context) 
         {
             return null;

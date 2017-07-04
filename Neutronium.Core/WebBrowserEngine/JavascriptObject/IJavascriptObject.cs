@@ -163,6 +163,20 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         IJavascriptObject ExecuteFunction(IWebView context);
 
         /// <summary>
+        /// Execute the function with no argument.
+        /// </summary>
+        /// <param name="webView">
+        /// function context
+        /// </param>
+        /// <param name="context">
+        /// function context
+        /// </param>
+        /// <param name="parameters">
+        /// function parameters
+        /// </param>
+        IJavascriptObject ExecuteFunction(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters);
+
+        /// <summary>
         /// Returns the value with the specified identifier on success. Returns NULL
         /// if this method is called incorrectly or an exception is thrown.
         /// </summary>

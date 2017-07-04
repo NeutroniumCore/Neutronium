@@ -118,9 +118,9 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             _CefV8Value.Bind(iFunctionName, iContext, Converted);
         }
 
-        public void SetValue(string AttributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None)
+        public void SetValue(string AttributeName, IJavascriptObject element, CreationOption option = CreationOption.None)
         {
-            _CefV8Value.SetValue(AttributeName, Convert(element),Convert(ioption));
+            _CefV8Value.SetValue(AttributeName, Convert(element),Convert(option));
         }
 
         public void SetValue(int index, IJavascriptObject element)
@@ -166,6 +166,11 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
         public IJavascriptObject ExecuteFunction(IWebView context)
         {
             return Convert(_CefV8Value.ExecuteFunction());
+        }
+
+        public IJavascriptObject ExecuteFunction(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters)
+        {
+            return Convert(_CefV8Value.ExecuteFunction(context.Convert(), Convert(parameters)));
         }
 
         public void Dispose()

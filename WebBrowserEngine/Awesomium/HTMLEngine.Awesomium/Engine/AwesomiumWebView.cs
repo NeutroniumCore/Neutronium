@@ -75,13 +75,19 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return _Dispatcher.IsInContext();
         }
 
+        private JSObject GetExtracter()
+        {
+            return _Extracter ?? ( _Extracter = _IWebView.ExecuteJavascriptWithResult("(function() { return { Extract : function(fn) { return fn(); }, ExtractWithContext : function(fn) { var args = [].slice.call(arguments);  var ctx = args.splice(0,2); return fn.apply(ctx[1], args); } }; })()"));
+        }
+
         internal JSValue ExecuteFunction(JSValue function)
         {
-            if (_Extracter == null)
-            {
-                _Extracter = _IWebView.ExecuteJavascriptWithResult("(function() { return { Extract : function(fn) { return fn(); } }; })()");
-            }
-            return _Extracter.Invoke("Extract", function);
+            return GetExtracter().Invoke("Extract", function);
+        }
+
+        internal JSValue ExecuteFunction(JSValue function, JSValue context, JSValue[] parameters)
+        {
+            return GetExtracter().Invoke("ExtractWithContext", function, context, parameters);
         }
     }
 }
