@@ -162,6 +162,14 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
              return new Awesomium_Core.JSValue(iCount.Select(o => o.Convert()).ToArray()).Convert();
          }
 
+        public IEnumerable<IJavascriptObject> CreateArrays(int number)
+        {
+            for (var i = 0; i < number; i++)
+            {
+                yield return CreateArray(0);
+            }
+        }
+
         public IJavascriptObject CreateArray(int size)
         {
             return new Awesomium_Core.JSValue(new Awesomium_Core.JSValue[0]).Convert();
