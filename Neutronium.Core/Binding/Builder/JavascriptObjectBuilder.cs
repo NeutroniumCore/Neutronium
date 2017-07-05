@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding;
+﻿using MoreCollection.Extensions;
+using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
@@ -49,14 +50,26 @@ namespace Neutronium.Core.Builder
         private void CreateObjects()
         {
             var factory = _WebView.Factory;
-            foreach (var objectRequested in _ObjectsRequested)
+
+            var objectCount = _ObjectsRequested.Count;
+            if (objectCount > 0)
             {
-                objectRequested(factory.CreateObject(true));
+                var objects = factory.CreateObjects(true, objectCount).ToList();
+                for(var i=0; i< objectCount; i++)
+                {
+                    var @object = objects[i];
+                    var @action = _ObjectsRequested[i];
+                    @action(@object);
+                }  
+                
+                _ObjectsRequested.Clear();
             }
+            
             foreach (var arrayRequested in _ArraysRequested)
             {
                 arrayRequested(factory.CreateArray(0));
             }
+            _ArraysRequested.Clear();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly Lazy<CfrV8Value> _Factory;
         private readonly Lazy<CfrV8Value> _ObjectBuilder;
         private readonly Lazy<CfrV8Value> _ArrayBuilder;
+        private readonly Lazy<CfrV8Value> _ObjectBulkBuilder;
 
         private IJavascriptObject _Null;
 
@@ -28,6 +29,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _Factory = new Lazy<CfrV8Value>(FactoryCreator);
             _ObjectBuilder = new Lazy<CfrV8Value>(ObjectBuilderCreator);
             _ArrayBuilder = new Lazy<CfrV8Value>(ArrayBuilderCreator);
+            _ObjectBulkBuilder = new Lazy<CfrV8Value>(ObjectBulkBuilderCreator);
         }
 
         static ChromiumFxFactory() 
@@ -85,6 +87,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return _Factory.Value.GetValue("createObject");
         }
 
+        private CfrV8Value ObjectBulkBuilderCreator()
+        {
+            return _Factory.Value.GetValue("createBulkObject");
+        }
+
         private CfrV8Value ArrayBuilderCreator()
         {
             return _Factory.Value.GetValue("createArray");
@@ -133,6 +140,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             var v8Res = Eval(creationCode);
             return (v8Res!=null) ? UpdateConvert(v8Res) : null;
+        }
+
+        public IEnumerable<IJavascriptObject> CreateObjects(bool local, int number)
+        {
+            var result =  _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)_Count), CfrV8Value.CreateInt(number) });
+            for (var i = 0; i < number; i++)
+            {
+                yield return result.GetValue(i).ConvertObject(_Count++);
+            }
         }
 
         public IJavascriptObject CreateUndefined() 

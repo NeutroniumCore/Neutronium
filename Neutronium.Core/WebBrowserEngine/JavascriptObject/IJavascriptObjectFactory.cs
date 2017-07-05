@@ -54,6 +54,20 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         IJavascriptObject CreateObject(bool local);
 
         /// <summary>
+        /// Create IJavascriptObject objects in bulk
+        /// </summary>   
+        /// <param name="local">
+        /// true if local object, meaning browser context. 
+        /// </param>
+        /// <param name="number">
+        /// number of object to create. 
+        /// </param>
+        /// <returns>
+        /// corresponding collection of IJavascriptObject
+        ///</returns>
+        IEnumerable<IJavascriptObject> CreateObjects(bool local, int number);
+
+        /// <summary>
         /// Create IJavascriptObject object from javascript code
         /// </summary>   
         /// <param name="creationCode">

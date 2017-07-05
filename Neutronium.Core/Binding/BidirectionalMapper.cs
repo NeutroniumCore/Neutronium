@@ -19,6 +19,7 @@ namespace Neutronium.Core.Binding
         private readonly IWebSessionLogger _Logger;
         private readonly JavascriptBindingMode _BindingMode;
         private readonly CSharpToJavascriptConverter _JSObjectBuilder;
+        private JavascriptObjectBuilder _JavascriptObjectBuilder;
         private IJavascriptSessionInjector _sessionInjector;
         private readonly SessionCacher _SessionCache;
         private IJSCSGlue _Root;
@@ -50,6 +51,7 @@ namespace Neutronium.Core.Binding
             var commandFactory = new CommandFactory(_Context, this);
             _JSObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HTMLWindow, _SessionCache, commandFactory, _Logger) ;
             _RootObject = iRoot;
+           
         }
 
         internal async Task IntrospectVm(object addicionalObject) 
@@ -74,8 +76,8 @@ namespace Neutronium.Core.Binding
                 _Context.InitOnJsContext(debugMode);
                 _sessionInjector = _Context.JavascriptSessionInjector;
 
-                var builder = new JavascriptObjectBuilder(_Context.WebView, _SessionCache);
-                builder.UpdateJavascriptValue(_Root);
+                _JavascriptObjectBuilder = new JavascriptObjectBuilder(_Context.WebView, _SessionCache);
+                _JavascriptObjectBuilder.UpdateJavascriptValue(_Root);
 
                 var res = await InjectInHTMLSession(_Root);
                 await _sessionInjector.RegisterMainViewModel(res);
@@ -234,7 +236,7 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private async void CSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void CSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         { 
             var pn = e.PropertyName;
             var propertyAccessor = new PropertyAccessor(sender, pn, _Logger);
@@ -251,7 +253,7 @@ namespace Neutronium.Core.Binding
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            await UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(pn, child)).ConfigureAwait(false);
+            UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(pn, child)).DoNotWait();
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -316,7 +318,7 @@ namespace Neutronium.Core.Binding
             });
         }
 
-        private async Task<IJSCSGlue> UpdateFromCSharpChanges(object newCSharpObject, Func<IJSCSGlue, BridgeUpdater> updaterBuilder)
+        private Task<IJSCSGlue> UpdateFromCSharpChanges(object newCSharpObject, Func<IJSCSGlue, BridgeUpdater> updaterBuilder)
         {
             CheckUIContext();
 
@@ -331,12 +333,11 @@ namespace Neutronium.Core.Binding
             }
 
             if (!_IsLoaded)
-                return value;
+                return Task.FromResult(value);
 
-            return await RunInJavascriptContext(async () =>
+            return RunInJavascriptContext(async () =>
             {
-                var builder = new JavascriptObjectBuilder(_Context.WebView, _SessionCache);
-                builder.UpdateJavascriptValue(value);
+                _JavascriptObjectBuilder.UpdateJavascriptValue(value);
 
                 if (!value.IsBasic())
                 {
@@ -344,7 +345,7 @@ namespace Neutronium.Core.Binding
                 }
                 updater.UpdateJavascriptObject(_Context.ViewModelUpdater);
                 return value;
-            }).ConfigureAwait(false);
+            });
         }
 
         private void CheckUIContext()

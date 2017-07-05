@@ -114,12 +114,12 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
          private static uint _Count = 0;
 
-         public IJavascriptObject CreateObject(bool iLocal)
+         public IJavascriptObject CreateObject(bool local)
          {
              string Name = string.Format("MVVM_HTML_{0}", _Count);
              return _IWebView.EvaluateSafe(() =>
                  {
-                    Awesomium_Core.JSObject res = (iLocal) ? new Awesomium_Core.JSObject() :
+                    Awesomium_Core.JSObject res = (local) ? new Awesomium_Core.JSObject() :
                            (Awesomium_Core.JSObject)_IWebView.CreateGlobalJavascriptObject(Name);
                    
                      res["_MappedId"] = new Awesomium_Core.JSValue(_Count++);
@@ -128,7 +128,16 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
                  });
          }
 
-         public IJavascriptObject CreateInt(int value)
+
+        public IEnumerable<IJavascriptObject> CreateObjects(bool local, int number)
+        {
+            for(var i =0; i<number; i++)
+            {
+                yield return CreateObject(local);
+            }
+        }
+
+        public IJavascriptObject CreateInt(int value)
          {
              return new Awesomium_Core.JSValue(value).Convert();
          }
