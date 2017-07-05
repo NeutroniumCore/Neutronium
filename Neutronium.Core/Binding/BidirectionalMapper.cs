@@ -9,6 +9,7 @@ using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.Builder;
 
 namespace Neutronium.Core.Binding
 {
@@ -72,8 +73,9 @@ namespace Neutronium.Core.Binding
 
                 _Context.InitOnJsContext(debugMode);
                 _sessionInjector = _Context.JavascriptSessionInjector;
-               
-                _Root.ComputeJavascriptValue(_Context.WebView, _SessionCache);
+
+                var builder = new JavascriptObjectBuilder(_Context.WebView, _SessionCache);
+                builder.UpdateJavascriptValue(_Root);
 
                 var res = await InjectInHTMLSession(_Root);
                 await _sessionInjector.RegisterMainViewModel(res);
@@ -333,7 +335,9 @@ namespace Neutronium.Core.Binding
 
             return await RunInJavascriptContext(async () =>
             {
-                value.ComputeJavascriptValue(_Context.WebView, _SessionCache);
+                var builder = new JavascriptObjectBuilder(_Context.WebView, _SessionCache);
+                builder.UpdateJavascriptValue(value);
+
                 if (!value.IsBasic())
                 {
                     await InjectInHTMLSession(value);

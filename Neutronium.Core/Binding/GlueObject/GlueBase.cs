@@ -1,20 +1,12 @@
-﻿using MoreCollection.Extensions;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public abstract class GlueBase
     {
-        protected abstract void ComputeString(DescriptionBuilder context);
-
-        protected abstract bool LocalComputeJavascriptValue(IWebView webView);
-
         public abstract IEnumerable<IJSCSGlue> GetChildren();
 
-        protected virtual void AfterChildrenComputeJavascriptValue(IWebView webView)
-        {
-        }
+        protected abstract void ComputeString(DescriptionBuilder context);
 
         public void BuilString(DescriptionBuilder context)
         {
@@ -25,15 +17,6 @@ namespace Neutronium.Core.Binding.GlueObject
                 return;
             }
             ComputeString(context);
-        }
-
-        public void ComputeJavascriptValue(IWebView webView, IJavascriptSessionCache cache)
-        {
-            if (LocalComputeJavascriptValue(webView))
-            {
-                GetChildren().ForEach(child => child.ComputeJavascriptValue(webView, cache));
-                AfterChildrenComputeJavascriptValue(webView);
-            }       
         }
 
         public override string ToString()

@@ -13,6 +13,7 @@ using Xunit;
 using Xunit.Abstractions;
 using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.Core.Builder;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {
@@ -348,7 +349,8 @@ namespace Tests.Universal.WebBrowserEngineTests
             var res = await _HTMLViewContext.EvaluateOnUIContextAsync(() => _ConverTOJSO.Map(from));
             await _HTMLViewContext.RunOnJavascriptContextAsync(() =>
             {
-                res.ComputeJavascriptValue(_HTMLViewContext.WebView, cacher);
+                var builder = new JavascriptObjectBuilder(_HTMLViewContext.WebView, cacher);
+                builder.UpdateJavascriptValue(res);
             });
             return res;
         }

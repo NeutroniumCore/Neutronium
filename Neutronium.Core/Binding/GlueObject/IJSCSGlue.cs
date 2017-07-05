@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -15,6 +16,6 @@ namespace Neutronium.Core.Binding.GlueObject
 
         void BuilString(DescriptionBuilder context);
 
-        void ComputeJavascriptValue(IWebView factory, IJavascriptSessionCache cache);
+        JSBuilder GetJSBuilder();
     }
 }

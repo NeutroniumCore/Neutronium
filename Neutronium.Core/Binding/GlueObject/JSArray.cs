@@ -6,6 +6,7 @@ using Neutronium.Core.Binding.CollectionChanges;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -24,21 +25,16 @@ namespace Neutronium.Core.Binding.GlueObject
             CValue = collection;
             Items = new List<IJSCSGlue>(values);
             _IndividualType = individual; 
-        } 
-
-        protected override bool LocalComputeJavascriptValue(IWebView webView)
-        {
-            if (JSValue!=null)
-                return false;
-
-            JSValue = webView.Factory.CreateArray(Items.Count);
-            return true;
         }
 
-        protected override void AfterChildrenComputeJavascriptValue(IWebView webView)
+        public JSBuilder GetJSBuilder()
         {
-            var dest = Items.Select(v => v.JSValue).ToArray();
-           JSValue.InvokeNoResult("push", webView, dest);
+            return new JSBuilder( builder => builder.RequestArrayCreation(js => JSValue = js),
+                builder =>
+                {
+                    var dest = Items.Select(v => v.JSValue).ToArray();
+                    JSValue.InvokeNoResult("push", builder.WebView, dest);
+                });
         }
 
         public Neutronium.Core.Binding.CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)

@@ -4,6 +4,7 @@ using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -28,14 +29,9 @@ namespace Neutronium.Core.Binding.GlueObject
             _JSSimpleCommand = simpleCommand;
         }
 
-        protected override bool LocalComputeJavascriptValue(IWebView webView)
+        public JSBuilder GetJSBuilder()
         {
-            if (JSValue != null)
-                return false;
-
-            var factory = webView.Factory;
-            JSValue = factory.CreateObject(true);
-            return true;
+            return new JSBuilder(builder => builder.RequestObjectCreation(js => JSValue = js));
         }
 
         public void SetMappedJSValue(IJavascriptObject jsobject)

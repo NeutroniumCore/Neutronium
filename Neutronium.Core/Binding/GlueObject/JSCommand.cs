@@ -6,6 +6,7 @@ using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -39,16 +40,15 @@ namespace Neutronium.Core.Binding.GlueObject
             catch { }
         }
 
-        protected override bool LocalComputeJavascriptValue(IWebView webView)
+        public JSBuilder GetJSBuilder()
         {
-            if (JSValue != null)
-                return false;
-
-            var factory = webView.Factory;
-            JSValue = factory.CreateObject(true);
-            JSValue.SetValue("CanExecuteValue", factory.CreateBool(_InitialCanExecute));
-            JSValue.SetValue("CanExecuteCount", factory.CreateInt(_Count));
-            return true;
+            return new JSBuilder(builder =>
+            {
+                var factory = builder.Factory;
+                JSValue = factory.CreateObject(true);
+                JSValue.SetValue("CanExecuteValue", factory.CreateBool(_InitialCanExecute));
+                JSValue.SetValue("CanExecuteCount", factory.CreateInt(_Count));
+            });
         }
 
         public void ListenChanges()

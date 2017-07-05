@@ -5,6 +5,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -25,30 +26,30 @@ namespace Neutronium.Core.Binding.GlueObject
             JSValue = jsValue;
         }
 
-        public void ComputeJavascriptValue(IWebView webView, IJavascriptSessionCache cache)
+        public JSBuilder GetJSBuilder()
         {
-            if (JSValue != null)
-                return;
-
-            var factory = webView.Factory;
-            if (CValue == null)
+            return new JSBuilder(builder =>
             {
-                JSValue = factory.CreateNull();
-                return;
-            }
+                var factory = builder.Factory;
+                if (CValue == null)
+                {
+                    JSValue = factory.CreateNull();
+                    return;
+                }
 
-            IJavascriptObject value;
-            if (factory.CreateBasic(CValue, out value))
-            {
-                JSValue = value;
-                return;
-            }
-                
-            if (!CValue.GetType().IsEnum)
-                throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
+                IJavascriptObject value;
+                if (factory.CreateBasic(CValue, out value))
+                {
+                    JSValue = value;
+                    return;
+                }
 
-            JSValue = factory.CreateEnum((Enum)CValue);
-            cache.CacheLocal(CValue, this);
+                if (!CValue.GetType().IsEnum)
+                    throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
+
+                JSValue = factory.CreateEnum((Enum)CValue);
+                builder.Cache(CValue, this);
+            });
         }
 
         public override string ToString()

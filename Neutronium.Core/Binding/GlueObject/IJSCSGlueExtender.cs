@@ -6,19 +6,20 @@ using System.Linq;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
+using System;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public static class IJSCSGlueExtender
     {
-        private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res) 
-        {
-            @this.GetChildren().Where(res.Add).ForEach(direct => direct.GetAllChildren(res));
-        }
-
         public static bool IsBasic(this IJSCSGlue @this)
         {
             return (@this.Type == JsCsGlueType.Basic);
+        }
+
+        private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res)
+        {
+            @this.GetChildren().Where(res.Add).ForEach(direct => direct.GetAllChildren(res));
         }
 
         public static IEnumerable<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf=false)

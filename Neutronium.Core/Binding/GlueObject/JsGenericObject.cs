@@ -3,6 +3,7 @@ using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
 using MoreCollection.Dictionary;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -23,19 +24,12 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes = new HybridDictionary<string, IJSCSGlue>(childrenCount);
         }
 
-        protected override bool LocalComputeJavascriptValue(IWebView webView)
+        public JSBuilder GetJSBuilder()
         {
-            if (JSValue != null)
-                return false;
-
-            var factory = webView.Factory;
-            JSValue = factory.CreateObject(true);       
-            return true;
-        }
-
-        protected override void AfterChildrenComputeJavascriptValue(IWebView webView)
-        {
-            _Attributes.ForEach(attribute => JSValue.SetValue(attribute.Key, attribute.Value.JSValue));
+            return new JSBuilder(builder =>
+            {
+                builder.RequestObjectCreation(js => JSValue = js);
+            }, _ => _Attributes.ForEach(attribute => JSValue.SetValue(attribute.Key, attribute.Value.JSValue)));
         }
 
         protected override void ComputeString(DescriptionBuilder context)

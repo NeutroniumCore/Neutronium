@@ -76,8 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
+    <Compile Include="Binding\Builder\JSBuilder.cs" />
+    <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
+    <Compile Include="Binding\Builder\JavascriptObjectBuilder.cs" />
     <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />
@@ -200,6 +203,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
