@@ -125,7 +125,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateObject(bool local) 
         {
-            var id = _Count++;
+            var id = GetNextId();
             return _ObjectBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id) }).ConvertObject(id);
         }
 
@@ -170,10 +170,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateArray(int size)
         {
-            //var res = CfrV8Value.CreateArray(0);
-            //return UpdateConvert(res, true);
-
-            var id = _Count++;
+            var id = GetNextId();
             return _ArrayBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id) }).ConvertBasic(id);
         }
 
@@ -190,11 +187,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (value == null)
                 return null;
 
-            var id = _Count++;
+            var id = GetNextId();
             value.SetValue(ChromiumFXJavascriptRoot.IdName, CfrV8Value.CreateUint(id), CfxV8PropertyAttribute.DontDelete  | CfxV8PropertyAttribute.DontEnum
                         |  CfxV8PropertyAttribute.ReadOnly);
 
             return isArray? value.ConvertBasic(id) : value.ConvertObject(id);
+        }
+
+        private uint GetNextId()
+        {
+            return _Count++;
         }
     }
 }
