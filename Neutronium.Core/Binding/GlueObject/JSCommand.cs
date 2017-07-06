@@ -42,12 +42,18 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public JSBuilder GetJSBuilder()
         {
+            IJavascriptObject value = null;
+            IJavascriptObject count = null;
             return new JSBuilder(builder =>
             {
-                var factory = builder.Factory;
-                JSValue = factory.CreateObject(true);
-                JSValue.SetValue("CanExecuteValue", factory.CreateBool(_InitialCanExecute));
-                JSValue.SetValue("CanExecuteCount", factory.CreateInt(_Count));
+                builder.RequestObjectCreation(jsvalue => 
+                {
+                    JSValue = jsvalue;
+                    JSValue.SetValue("CanExecuteValue", value);
+                    JSValue.SetValue("CanExecuteCount", count);
+                });
+                builder.RequesBasicObjectCreation(_InitialCanExecute, this, jsvalue => value = jsvalue );
+                builder.RequesBasicObjectCreation(_Count, this, jsvalue => count = jsvalue);
             });
         }
 

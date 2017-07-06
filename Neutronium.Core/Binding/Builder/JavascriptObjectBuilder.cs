@@ -1,5 +1,7 @@
 ﻿using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;
@@ -23,7 +25,7 @@ namespace Neutronium.Core.Builder
             _Cache = cache;
         }
 
-        public void Cache(object @object, IJSCSGlue glueObject)
+        private void Cache(object @object, IJSCSGlue glueObject)
         {
             _Cache.CacheLocal(@object, glueObject);
         }
@@ -67,6 +69,28 @@ namespace Neutronium.Core.Builder
                 @action(@object);
             }
             callBack.Clear();
+        }
+
+        public void RequesBasicObjectCreation(object cValue, IJSCSGlue glueObject, Action<IJavascriptObject> afterBuild)
+        {
+            if (cValue == null)
+            {
+                afterBuild(Factory.CreateNull());
+                return;
+            }
+
+            IJavascriptObject value;
+            if (Factory.CreateBasic(cValue, out value))
+            {
+                afterBuild(value);
+                return;
+            }
+
+            if (!cValue.GetType().IsEnum)
+                throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
+
+            afterBuild(Factory.CreateEnum((Enum)cValue));
+            Cache(cValue, glueObject);
         }
     }
 }

@@ -28,28 +28,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public JSBuilder GetJSBuilder()
         {
-            return new JSBuilder(builder =>
-            {
-                var factory = builder.Factory;
-                if (CValue == null)
-                {
-                    JSValue = factory.CreateNull();
-                    return;
-                }
-
-                IJavascriptObject value;
-                if (factory.CreateBasic(CValue, out value))
-                {
-                    JSValue = value;
-                    return;
-                }
-
-                if (!CValue.GetType().IsEnum)
-                    throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
-
-                JSValue = factory.CreateEnum((Enum)CValue);
-                builder.Cache(CValue, this);
-            });
+            return new JSBuilder(builder => builder.RequesBasicObjectCreation(CValue, this, value => JSValue = value));
         }
 
         public override string ToString()
