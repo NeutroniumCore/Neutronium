@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Neutronium.Core.Binding.CollectionChanges;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -14,7 +13,6 @@ namespace Neutronium.Core.Binding.GlueObject
     {  
         private readonly Type _IndividualType;
 
-        public IJavascriptObject JSValue { get; private set; }
         public object CValue { get; }
         public IList<IJSCSGlue> Items { get; }     
         public JsCsGlueType Type => JsCsGlueType.Array;
@@ -27,14 +25,9 @@ namespace Neutronium.Core.Binding.GlueObject
             _IndividualType = individual; 
         }
 
-        public JSBuilder GetJSBuilder()
+        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            return new JSBuilder( builder => builder.RequestArrayCreation(js => JSValue = js),
-                builder =>
-                {
-                    var dest = Items.Select(v => v.JSValue).ToArray();
-                    JSValue.InvokeNoResult("push", builder.WebView, dest);
-                });
+            builder.RequestArrayCreation(Items);
         }
 
         public Neutronium.Core.Binding.CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)

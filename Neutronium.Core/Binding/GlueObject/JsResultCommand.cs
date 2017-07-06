@@ -18,7 +18,6 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
-        public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue => _JSResultCommand;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
@@ -32,9 +31,9 @@ namespace Neutronium.Core.Binding.GlueObject
             _JSResultCommand = resultCommand;          
         }
 
-        public JSBuilder GetJSBuilder()
+        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            return new JSBuilder(builder => builder.RequestObjectCreation(js => JSValue = js));
+            builder.RequestObjectCreation();
         }
 
         public void SetMappedJSValue(IJavascriptObject jsobject)

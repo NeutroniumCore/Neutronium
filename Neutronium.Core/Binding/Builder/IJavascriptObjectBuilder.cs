@@ -1,17 +1,16 @@
 ﻿using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using System;
+using System.Collections.Generic;
 
-namespace Neutronium.Core.Builder
+namespace Neutronium.Core.Binding.Builder
 {
     public interface IJavascriptObjectBuilder
     {
-        IWebView WebView { get; }
+        void RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children=null);
 
-        void RequestObjectCreation(Action<IJavascriptObject> afterBuild);
+        void RequestArrayCreation(IList<IJSCSGlue> children);
 
-        void RequestArrayCreation(Action<IJavascriptObject> afterBuild);
+        void RequestBasicObjectCreation(object @object);
 
-        void RequesBasicObjectCreation(object @object, IJSCSGlue glueObject, Action<IJavascriptObject> afterBuild);
+        void RequestCommandCreation(bool canExcecute);
     }
 }

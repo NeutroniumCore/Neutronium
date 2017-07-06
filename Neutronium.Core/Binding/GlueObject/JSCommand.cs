@@ -12,27 +12,26 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     public class JSCommand : GlueBase, IJSObservableBridge
     {
-        private readonly HTMLViewContext _HTMLViewContext;       
+        private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly ICommand _Command;
         private IJavascriptObject _MappedJSValue;
         private int _Count = 1;
 
-        public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue => _Command;
         public JsCsGlueType Type => JsCsGlueType.Command;
         private IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
-        private bool _InitialCanExecute=true;
+        private bool _InitialCanExecute = true;
 
         public JSCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command)
         {
             _JavascriptToCSharpConverter = converter;
             _HTMLViewContext = context;
             _Command = command;
-       
+
             try
             {
                 _InitialCanExecute = _Command.CanExecute(null);
@@ -40,21 +39,9 @@ namespace Neutronium.Core.Binding.GlueObject
             catch { }
         }
 
-        public JSBuilder GetJSBuilder()
+        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            IJavascriptObject value = null;
-            IJavascriptObject count = null;
-            return new JSBuilder(builder =>
-            {
-                builder.RequestObjectCreation(jsvalue => 
-                {
-                    JSValue = jsvalue;
-                    JSValue.SetValue("CanExecuteValue", value);
-                    JSValue.SetValue("CanExecuteCount", count);
-                });
-                builder.RequesBasicObjectCreation(_InitialCanExecute, this, jsvalue => value = jsvalue );
-                builder.RequesBasicObjectCreation(_Count, this, jsvalue => count = jsvalue);
-            });
+            builder.RequestCommandCreation(_InitialCanExecute);
         }
 
         public void ListenChanges()

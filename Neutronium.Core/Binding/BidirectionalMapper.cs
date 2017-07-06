@@ -9,7 +9,7 @@ using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.Builder;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding
 {

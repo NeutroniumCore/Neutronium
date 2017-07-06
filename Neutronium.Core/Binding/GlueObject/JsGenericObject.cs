@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using MoreCollection.Extensions;
 using MoreCollection.Dictionary;
 using Neutronium.Core.Binding.Builder;
 
@@ -13,7 +12,6 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly HybridDictionary<string, IJSCSGlue> _Attributes;
 
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
-        public IJavascriptObject JSValue { get; private set; }
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;      
@@ -24,12 +22,9 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes = new HybridDictionary<string, IJSCSGlue>(childrenCount);
         }
 
-        public JSBuilder GetJSBuilder()
+        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            return new JSBuilder(builder =>
-            {
-                builder.RequestObjectCreation(js => JSValue = js);
-            }, _ => _Attributes.ForEach(attribute => JSValue.SetValue(attribute.Key, attribute.Value.JSValue)));
+            builder.RequestObjectCreation(_Attributes);
         }
 
         protected override void ComputeString(DescriptionBuilder context)

@@ -13,7 +13,7 @@ using Xunit;
 using Xunit.Abstractions;
 using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.Core.Builder;
+using Neutronium.Core.Binding.Builder;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {

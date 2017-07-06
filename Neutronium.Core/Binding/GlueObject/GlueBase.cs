@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using System.Collections.Generic;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public abstract class GlueBase
     {
+        public IJavascriptObject JSValue { get; private set; }
+
         public abstract IEnumerable<IJSCSGlue> GetChildren();
+
+        public void SetJSValue(IJavascriptObject value)
+        {
+            JSValue = value;
+        }
 
         protected abstract void ComputeString(DescriptionBuilder context);
 

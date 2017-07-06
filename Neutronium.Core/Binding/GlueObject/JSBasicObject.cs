@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.Extension;
-using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Binding.Builder;
 
@@ -20,15 +18,20 @@ namespace Neutronium.Core.Binding.GlueObject
             CValue = value;
         }
 
+        void IJSCSGlue.SetJSValue(IJavascriptObject value)
+        {
+            JSValue = value;
+        }
+
         internal JSBasicObject(IJavascriptObject jsValue, object value)
         {
             CValue = value;
             JSValue = jsValue;
         }
 
-        public JSBuilder GetJSBuilder()
+        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            return new JSBuilder(builder => builder.RequesBasicObjectCreation(CValue, this, value => JSValue = value));
+            builder.RequestBasicObjectCreation(CValue);
         }
 
         public override string ToString()
