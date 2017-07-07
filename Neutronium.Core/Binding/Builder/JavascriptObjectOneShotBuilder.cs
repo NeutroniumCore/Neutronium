@@ -13,6 +13,7 @@ namespace Neutronium.Core.Binding.Builder
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptSessionCache _Cache;
+        private readonly IBulkPropertyUpdater _BulkPropertyUpdater;
         private readonly IJSCSGlue _Root;
         private IJavascriptObjectFactory Factory => _WebView.Factory;
 
@@ -23,22 +24,13 @@ namespace Neutronium.Core.Binding.Builder
         private readonly List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>
                 _ArraysBuildingRequested = new List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>();
 
-
-        public JavascriptObjectOneShotBuilder(IWebView webView, IJavascriptSessionCache cache, IJSCSGlue root)
+        public JavascriptObjectOneShotBuilder(IWebView webView, IJavascriptSessionCache cache, IBulkPropertyUpdater bulkPropertyUpdater, 
+            IJSCSGlue root)
         {
             _WebView = webView;
             _Cache = cache;
             _Root = root;
-        }
-
-        public void UpdateJavascriptValue()
-        {
-            var builders = _Root.GetAllChildren(true).Where(glue => glue.JSValue == null)
-                                .Select(glue => new JSBuilderAdapter(glue, this)).ToList();
-
-            builders.ForEach(builder => builder.GetBuildRequest());
-            CreateObjects();
-            UpdateDependencies();
+            _BulkPropertyUpdater = bulkPropertyUpdater;
         }
 
         internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children)
@@ -89,22 +81,14 @@ namespace Neutronium.Core.Binding.Builder
             glueObject.SetJSValue(command);
         }
 
-        private void UpdateDependencies()
+        public void UpdateJavascriptValue()
         {
-            foreach(var objectUpdate in _ObjectsBuildingRequested)
-            {
-                var attributes = objectUpdate.Item2;
-                var jsValue = objectUpdate.Item1.JSValue;
-                attributes.ForEach(attribute => jsValue.SetValue(attribute.Key, attribute.Value.JSValue));
-            }
+            var builders = _Root.GetAllChildren(true).Where(glue => glue.JSValue == null)
+                                .Select(glue => new JSBuilderAdapter(glue, this)).ToList();
 
-            foreach (var arrayUpdate in _ArraysBuildingRequested)
-            {
-                var children = arrayUpdate.Item2;
-                var jsValue = arrayUpdate.Item1.JSValue;
-                var dest = children.Select(v => v.JSValue).ToArray();
-                jsValue.InvokeNoResult("push", _WebView, dest);
-            }
+            builders.ForEach(builder => builder.GetBuildRequest());
+            CreateObjects();
+            UpdateDependencies();
         }
 
         private void CreateObjects()
@@ -112,6 +96,32 @@ namespace Neutronium.Core.Binding.Builder
             var factory = _WebView.Factory;
             BulkCreate(count => factory.CreateObjects(true, count), _ObjectsRequested);
             BulkCreate(count => factory.CreateArrays(count), _ArraysRequested);
+        }
+
+        private void UpdateDependencies()
+        {
+            UpdateObjects();
+            UpdateArrays();  
+        }
+
+        private void UpdateObjects()
+        {
+            _BulkPropertyUpdater.BulkUpdateProperty(_ObjectsBuildingRequested);
+        }
+
+        private void UpdateArrays()
+        {
+            if (_ArraysBuildingRequested.Count == 0)
+                return;
+
+            IJavascriptObject pusher = _ArraysBuildingRequested[0].Item1.JSValue.GetValue("push");
+            foreach (var arrayUpdate in _ArraysBuildingRequested)
+            {
+                var children = arrayUpdate.Item2;
+                var jsValue = arrayUpdate.Item1.JSValue;
+                var dest = children.Select(v => v.JSValue).ToArray();
+                pusher.ExecuteFunctionNoResult(_WebView, jsValue, dest);
+            }
         }
 
         private static void BulkCreate(Func<int, IEnumerable<IJavascriptObject>> builder, List<IJSCSGlue> glues)

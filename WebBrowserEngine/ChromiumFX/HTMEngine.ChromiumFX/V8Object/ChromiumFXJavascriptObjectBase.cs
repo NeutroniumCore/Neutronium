@@ -43,7 +43,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
 
         public IJavascriptObject ExecuteFunction(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters)
         {
-            return _CfrV8Value.ExecuteFunction(context.Convert(), parameters.Convert()).Convert();
+            return _CfrV8Value.ExecuteFunction(context?.Convert(), parameters.Convert()).Convert();
+        }
+
+        public void ExecuteFunctionNoResult(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters)
+        {
+            _CfrV8Value.ExecuteFunction(context?.Convert(), parameters.Convert());
         }
     }
 }

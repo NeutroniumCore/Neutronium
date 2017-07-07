@@ -65,7 +65,7 @@ namespace Neutronium.JavascriptFramework.Vue
             if (isBasic)
                 return;
 
-            Inject(value);
+            //Inject(value);
         }
 
         private void Add(IJavascriptObject array, int index, int number, IJavascriptObject value)
