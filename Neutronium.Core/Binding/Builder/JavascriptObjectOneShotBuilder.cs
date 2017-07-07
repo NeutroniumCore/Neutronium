@@ -13,18 +13,18 @@ namespace Neutronium.Core.Binding.Builder
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptSessionCache _Cache;
-        private readonly IBulkPropertyUpdater _BulkPropertyUpdater;
+        private readonly IBulkUpdater _BulkPropertyUpdater;
         private readonly IJSCSGlue _Root;
         private IJavascriptObjectFactory Factory => _WebView.Factory;
 
-        private readonly List<IJSCSGlue> _ObjectsRequested = new List<IJSCSGlue>();
-        private readonly List<IJSCSGlue> _ArraysRequested = new List<IJSCSGlue>();
+        //private readonly List<IJSCSGlue> _ObjectsRequested = new List<IJSCSGlue>();
+        //private readonly List<IJSCSGlue> _ArraysRequested = new List<IJSCSGlue>();
         private readonly List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>>
                 _ObjectsBuildingRequested = new List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>>();
         private readonly List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>
                 _ArraysBuildingRequested = new List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>();
 
-        public JavascriptObjectOneShotBuilder(IWebView webView, IJavascriptSessionCache cache, IBulkPropertyUpdater bulkPropertyUpdater, 
+        public JavascriptObjectOneShotBuilder(IWebView webView, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
             IJSCSGlue root)
         {
             _WebView = webView;
@@ -35,19 +35,12 @@ namespace Neutronium.Core.Binding.Builder
 
         internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children)
         {
-            _ObjectsRequested.Add(glue);
-
-            if ((children!=null) && (children.Count > 0))
-                _ObjectsBuildingRequested.Add(Tuple.Create(glue, children));
+            _ObjectsBuildingRequested.Add(Tuple.Create(glue, children));
         }
 
         internal void RequestArrayCreation(IJSCSGlue glue, IList<IJSCSGlue> children)
         {
-            _ArraysRequested.Add(glue);
-
-            if ((children != null) && (children.Count > 0))
-                _ArraysBuildingRequested.Add(Tuple.Create(glue, children));
-
+            _ArraysBuildingRequested.Add(Tuple.Create(glue, children));
         }
 
         internal void RequestBasicObjectCreation(IJSCSGlue glueObject, object cValue)
@@ -94,8 +87,8 @@ namespace Neutronium.Core.Binding.Builder
         private void CreateObjects()
         {
             var factory = _WebView.Factory;
-            BulkCreate(count => factory.CreateObjects(true, count), _ObjectsRequested);
-            BulkCreate(count => factory.CreateArrays(count), _ArraysRequested);
+            BulkCreate(count => factory.CreateObjects(true, count), _ObjectsBuildingRequested.Select(item =>item.Item1).ToList());
+            BulkCreate(count => factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Item1).ToList());
         }
 
         private void UpdateDependencies()
@@ -106,22 +99,14 @@ namespace Neutronium.Core.Binding.Builder
 
         private void UpdateObjects()
         {
-            _BulkPropertyUpdater.BulkUpdateProperty(_ObjectsBuildingRequested);
+            var toBeUpdated = _ObjectsBuildingRequested.Where(item => item.Item2 != null && item.Item2.Count > 0).ToList();
+            _BulkPropertyUpdater.BulkUpdateProperty(toBeUpdated);
         }
 
         private void UpdateArrays()
         {
-            if (_ArraysBuildingRequested.Count == 0)
-                return;
-
-            IJavascriptObject pusher = _ArraysBuildingRequested[0].Item1.JSValue.GetValue("push");
-            foreach (var arrayUpdate in _ArraysBuildingRequested)
-            {
-                var children = arrayUpdate.Item2;
-                var jsValue = arrayUpdate.Item1.JSValue;
-                var dest = children.Select(v => v.JSValue).ToArray();
-                pusher.ExecuteFunctionNoResult(_WebView, jsValue, dest);
-            }
+            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.Item2 != null && item.Item2.Count > 0).ToList();
+            _BulkPropertyUpdater.BulkUpdateArray(toBeUpdated);
         }
 
         private static void BulkCreate(Func<int, IEnumerable<IJavascriptObject>> builder, List<IJSCSGlue> glues)

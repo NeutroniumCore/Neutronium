@@ -6,20 +6,30 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JavascriptObjectBuilder: IBulkPropertyUpdater
+    internal class JavascriptObjectBuilder: IBulkUpdater
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptSessionCache _Cache;
+        private readonly Lazy<IJavascriptObject> _Helper;
         private readonly Lazy<IJavascriptObject> _BulkPropertyCreator;
+        private readonly Lazy<IJavascriptObject> _BulkPArrayCreator;
 
         public JavascriptObjectBuilder(IWebView webView, IJavascriptSessionCache cache)
         {
             _WebView = webView;
             _Cache = cache;
+            _Helper = new Lazy<IJavascriptObject>(HelperBuilder);
             _BulkPropertyCreator = new Lazy<IJavascriptObject>(BulkPropertyCreatorBuilder);
+            _BulkPArrayCreator = new Lazy<IJavascriptObject>(BulkArrayCreatorBuilder);
         }
 
-        private IJavascriptObject BulkPropertyCreatorBuilder()
+        public void UpdateJavascriptValue(IJSCSGlue root)
+        {
+            var builder = new JavascriptObjectOneShotBuilder(_WebView, _Cache, this, root);
+            builder.UpdateJavascriptValue();
+        }
+
+        private IJavascriptObject HelperBuilder()
         {
             var script =
                 @"(function(){
@@ -34,7 +44,8 @@ namespace Neutronium.Core.Binding.Builder
 		                }
                     }
                     return {
-                        bulkCreateProperty: bulkCreateProperty
+                        bulkCreateProperty: bulkCreateProperty,
+                        pusher: [].push
                     }
                 })()";
 
@@ -44,7 +55,17 @@ namespace Neutronium.Core.Binding.Builder
             return function;
         }
 
-        void IBulkPropertyUpdater.BulkUpdateProperty(List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>> updates)
+        private IJavascriptObject BulkArrayCreatorBuilder()
+        {
+            return _Helper.Value.GetValue("pusher");
+        }
+
+        private IJavascriptObject BulkPropertyCreatorBuilder()
+        {
+            return _Helper.Value.GetValue("bulkCreateProperty");
+        }
+
+        void IBulkUpdater.BulkUpdateProperty(List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>> updates)
         {
             if (updates.Count == 0)
                 return;
@@ -62,10 +83,19 @@ namespace Neutronium.Core.Binding.Builder
             _BulkPropertyCreator.Value.ExecuteFunctionNoResult(_WebView, null, arguments);
         }
 
-        public void UpdateJavascriptValue(IJSCSGlue root)
+        public void BulkUpdateArray(List<Tuple<IJSCSGlue, IList<IJSCSGlue>>> updates)
         {
-            var builder = new JavascriptObjectOneShotBuilder(_WebView, _Cache, this, root);
-            builder.UpdateJavascriptValue();
+            if (updates.Count == 0)
+                return;
+
+            IJavascriptObject pusher = _BulkPArrayCreator.Value;
+            foreach (var arrayUpdate in updates)
+            {
+                var children = arrayUpdate.Item2;
+                var jsValue = arrayUpdate.Item1.JSValue;
+                var dest = children.Select(v => v.JSValue).ToArray();
+                pusher.ExecuteFunctionNoResult(_WebView, jsValue, dest);
+            }
         }
     }
 }
