@@ -25,7 +25,7 @@ namespace Neutronium.Core.Binding.Builder
 
         public void UpdateJavascriptValue(IJSCSGlue root)
         {
-            var builder = new JavascriptObjectOneShotBuilder(_WebView, _Cache, this, root);
+            var builder = new JavascriptObjectOneShotBuilder(_WebView.Factory, _Cache, this, root);
             builder.UpdateJavascriptValue();
         }
 
@@ -51,8 +51,7 @@ namespace Neutronium.Core.Binding.Builder
 
             IJavascriptObject obj;
             _WebView.Eval(script, out obj);
-            var function = obj.GetValue("bulkCreateProperty");
-            return function;
+            return obj;
         }
 
         private IJavascriptObject BulkArrayCreatorBuilder()
@@ -88,7 +87,7 @@ namespace Neutronium.Core.Binding.Builder
             if (updates.Count == 0)
                 return;
 
-            IJavascriptObject pusher = _BulkPArrayCreator.Value;
+            var pusher = _BulkPArrayCreator.Value;
             foreach (var arrayUpdate in updates)
             {
                 var children = arrayUpdate.Item2;

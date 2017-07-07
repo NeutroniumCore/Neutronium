@@ -11,23 +11,20 @@ namespace Neutronium.Core.Binding.Builder
 {
     internal class JavascriptObjectOneShotBuilder
     {
-        private readonly IWebView _WebView;
+        private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
         private readonly IBulkUpdater _BulkPropertyUpdater;
         private readonly IJSCSGlue _Root;
-        private IJavascriptObjectFactory Factory => _WebView.Factory;
 
-        //private readonly List<IJSCSGlue> _ObjectsRequested = new List<IJSCSGlue>();
-        //private readonly List<IJSCSGlue> _ArraysRequested = new List<IJSCSGlue>();
         private readonly List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>>
                 _ObjectsBuildingRequested = new List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>>();
         private readonly List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>
                 _ArraysBuildingRequested = new List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>();
 
-        public JavascriptObjectOneShotBuilder(IWebView webView, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
+        public JavascriptObjectOneShotBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
             IJSCSGlue root)
         {
-            _WebView = webView;
+            _Factory = factory;
             _Cache = cache;
             _Root = root;
             _BulkPropertyUpdater = bulkPropertyUpdater;
@@ -47,12 +44,12 @@ namespace Neutronium.Core.Binding.Builder
         {
             if (cValue == null)
             {
-                glueObject.SetJSValue(Factory.CreateNull());
+                glueObject.SetJSValue(_Factory.CreateNull());
                 return;
             }
 
             IJavascriptObject value;
-            if (Factory.CreateBasic(cValue, out value))
+            if (_Factory.CreateBasic(cValue, out value))
             {
                 glueObject.SetJSValue(value);
                 return;
@@ -61,15 +58,15 @@ namespace Neutronium.Core.Binding.Builder
             if (!cValue.GetType().IsEnum)
                 throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
 
-            glueObject.SetJSValue(Factory.CreateEnum((Enum)cValue));
+            glueObject.SetJSValue(_Factory.CreateEnum((Enum)cValue));
             _Cache.CacheLocal(cValue, glueObject);
         }
 
         internal void RequestCommandCreation(IJSCSGlue glueObject, bool canExcecute)
         {
-            var command = Factory.CreateObject(true);
-            command.SetValue("CanExecuteValue", Factory.CreateBool(canExcecute));
-            command.SetValue("CanExecuteCount", Factory.CreateInt(1));
+            var command = _Factory.CreateObject(true);
+            command.SetValue("CanExecuteValue", _Factory.CreateBool(canExcecute));
+            command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
 
             glueObject.SetJSValue(command);
         }
@@ -86,9 +83,8 @@ namespace Neutronium.Core.Binding.Builder
 
         private void CreateObjects()
         {
-            var factory = _WebView.Factory;
-            BulkCreate(count => factory.CreateObjects(true, count), _ObjectsBuildingRequested.Select(item =>item.Item1).ToList());
-            BulkCreate(count => factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Item1).ToList());
+            BulkCreate(count => _Factory.CreateObjects(true, count), _ObjectsBuildingRequested.Select(item =>item.Item1).ToList());
+            BulkCreate(count => _Factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Item1).ToList());
         }
 
         private void UpdateDependencies()
