@@ -10,6 +10,7 @@ namespace Neutronium.Core.Binding.Builder
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptSessionCache _Cache;
+
         private readonly Lazy<IJavascriptObject> _Helper;
         private readonly Lazy<IJavascriptObject> _BulkPropertyCreator;
         private readonly Lazy<IJavascriptObject> _BulkPArrayCreator;
@@ -49,9 +50,9 @@ namespace Neutronium.Core.Binding.Builder
                     }
                 })()";
 
-            IJavascriptObject obj;
-            _WebView.Eval(script, out obj);
-            return obj;
+            IJavascriptObject helper;
+            _WebView.Eval(script, out helper);           
+            return helper;
         }
 
         private IJavascriptObject BulkArrayCreatorBuilder()

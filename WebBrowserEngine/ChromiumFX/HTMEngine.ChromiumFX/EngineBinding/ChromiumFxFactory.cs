@@ -17,13 +17,17 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly CfrV8Context _CfrV8Context;
         private static readonly IDictionary<Type, Func<object, CfrV8Value>> _Converters = new Dictionary<Type, Func<object, CfrV8Value>>();
         private readonly Lazy<CfrV8Value> _Factory;
+
         private readonly Lazy<CfrV8Value> _ObjectBuilder;
         private readonly Lazy<CfrV8Value> _ArrayBuilder;
         private readonly Lazy<CfrV8Value> _ObjectBulkBuilder;
         private readonly Lazy<CfrV8Value> _ArrayBulkBuilder;
+        private readonly Lazy<CfrV8Value> _ObjectCreationCallbackFunction;
+
+        private readonly ChromiumFxObjectCreationCallBack _ObjectCallback = new ChromiumFxObjectCreationCallBack();
 
         private IJavascriptObject _Null;
-
+        
         internal ChromiumFxFactory(CfrV8Context context) 
         {
             _CfrV8Context = context;
@@ -32,6 +36,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _ArrayBuilder = new Lazy<CfrV8Value>(ArrayBuilderCreator);
             _ObjectBulkBuilder = new Lazy<CfrV8Value>(ObjectBulkBuilderCreator);
             _ArrayBulkBuilder = new Lazy<CfrV8Value>(ArrayBulkBuilderCreator);
+            _ObjectCreationCallbackFunction = new Lazy<CfrV8Value>(ObjectCreationCallbackFunctionCreator);
         }
 
         static ChromiumFxFactory() 
@@ -65,19 +70,19 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     res.{{ChromiumFXJavascriptRoot.IdName}} = id
                     return res
                 }
-                function createBulkObject(id, size){
+                function createBulkObject(id, size, fn){
                     const array = []
                     for (var i = 0; i < size; i++) {
                         array.push(new objectWithId(id++))
                     }
-                    return array
+                    fn.apply(null, array)
                 }
-                function createBulkArray(id, size){
+                function createBulkArray(id, size, fn){
                     const array = []
                     for (var i = 0; i < size; i++) {
                         array.push(createArray(id++))
                     }
-                    return array
+                    fn.apply(null, array)
                 }
                 return {
                     createObject,
@@ -91,24 +96,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return Eval(finalString);
         }
 
-        private CfrV8Value ObjectBuilderCreator()
-        {
-            return _Factory.Value.GetValue("createObject");
-        }
+        private CfrV8Value GetProperty(string atttibute) => _Factory.Value.GetValue(atttibute);
 
-        private CfrV8Value ObjectBulkBuilderCreator()
-        {
-            return _Factory.Value.GetValue("createBulkObject");
-        }
+        private CfrV8Value ObjectBuilderCreator() => GetProperty("createObject");
+        private CfrV8Value ObjectBulkBuilderCreator() => GetProperty("createBulkObject");
+        private CfrV8Value ArrayBuilderCreator() => GetProperty("createArray");
+        private CfrV8Value ArrayBulkBuilderCreator() => GetProperty("createBulkArray");
 
-        private CfrV8Value ArrayBuilderCreator()
+        private CfrV8Value ObjectCreationCallbackFunctionCreator()
         {
-            return _Factory.Value.GetValue("createArray");
-        }
-
-        private CfrV8Value ArrayBulkBuilderCreator()
-        {
-            return _Factory.Value.GetValue("createBulkArray");
+            return CfrV8Value.CreateFunction("objectCallBack", _ObjectCallback.Handler);
         }
 
         public static bool IsTypeConvertible(Type itype) 
@@ -158,11 +155,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IEnumerable<IJavascriptObject> CreateObjects(bool local, int number)
         {
-            var result =  _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)_Count), CfrV8Value.CreateInt(number) });
-            for (var i = 0; i < number; i++)
-            {
-                yield return result.GetValue(i).ConvertObject(_Count++);
-            }
+            _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] {
+                CfrV8Value.CreateInt((int)_Count),
+                CfrV8Value.CreateInt(number),
+                _ObjectCreationCallbackFunction.Value
+            });
+            var results = _ObjectCallback.GetLastArguments();
+            return results.Select(result => result.ConvertObject(_Count++));
         }
 
         public IJavascriptObject CreateUndefined() 
@@ -200,11 +199,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IEnumerable<IJavascriptObject> CreateArrays(int number)
         {
-            var result = _ArrayBulkBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)_Count), CfrV8Value.CreateInt(number) });
-            for (var i = 0; i < number; i++)
-            {
-                yield return result.GetValue(i).ConvertBasic(_Count++);
-            }
+            _ArrayBulkBuilder.Value.ExecuteFunction(null, new[] {
+                CfrV8Value.CreateInt((int)_Count),
+                CfrV8Value.CreateInt(number),
+                _ObjectCreationCallbackFunction.Value
+            });
+            var results = _ObjectCallback.GetLastArguments();
+            return results.Select(result => result.ConvertBasic(_Count++));
         }
 
         public IJavascriptObject CreateArray(int size)

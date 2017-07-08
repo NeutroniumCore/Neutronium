@@ -93,6 +93,7 @@
     <Compile Include="EngineBinding\ChromiumFxTask.cs" />
     <Compile Include="EngineBinding\ChromiumFxWebView.cs" />
     <Compile Include="EngineBinding\ChromiumFxWpfWindow.cs" />
+    <Compile Include="EngineBinding\ChromiumFxObjectCreationCallBack.cs" />
     <Compile Include="GlobalMouseEvent\Hook.cs" />
     <Compile Include="GlobalMouseEvent\IDisposableMouseEvents.cs" />
     <Compile Include="GlobalMouseEvent\IMouseEvents.cs" />
