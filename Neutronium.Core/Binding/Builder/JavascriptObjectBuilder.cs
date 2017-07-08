@@ -35,13 +35,17 @@ namespace Neutronium.Core.Binding.Builder
             var script =
                 @"(function(){
                     function bulkCreateProperty(prop){
-                        var props = eval(prop)
-                        var count = props.length
-		                var args = [].slice.call(arguments)
-		                var objs = args.slice(1, count+1)
-		                var values = args.slice(1+ count, args.length +1)
+                        const propss = eval(prop)
+                        const count = propss.length
+		                const args = Array.from(arguments)
+		                const objs = args.slice(1, count + 1)
+		                const values = args.slice(1 + count, args.length + 1)
+                        var valueCount = 0
 		                for(var i=0; i< count; i ++){
-                             objs[i][props[i]] = values[i]
+                             var props = propss[i]
+                             for (var j = 0, len = props.length; j < len; j++) {
+                                objs[i][props[j]] = values[valueCount++]
+                             }
 		                }
                     }
                     return {
@@ -70,8 +74,8 @@ namespace Neutronium.Core.Binding.Builder
             if (updates.Count == 0)
                 return;
 
-            var properties = $"[{string.Join(",", updates.SelectMany(up => up.Item2.Keys).Select(p => $"'{p}'"))}]";
-            var objects = updates.SelectMany(up => Enumerable.Repeat(up.Item1, up.Item2.Count));
+            var properties = AsArray(string.Join(",", updates.Select(up => AsArray(string.Join(",", up.Item2.Keys.Select(p => $"'{p}'"))))));
+            var objects = updates.Select(up => up.Item1);
             var values = updates.SelectMany(up => up.Item2.Values);
 
             var paramsObjects = objects.Concat(values).Select(glue => glue.JSValue);
@@ -82,6 +86,8 @@ namespace Neutronium.Core.Binding.Builder
 
             _BulkPropertyCreator.Value.ExecuteFunctionNoResult(_WebView, null, arguments);
         }
+
+        private static string AsArray(string value) => $"[{value}]";
 
         public void BulkUpdateArray(List<Tuple<IJSCSGlue, IList<IJSCSGlue>>> updates)
         {
