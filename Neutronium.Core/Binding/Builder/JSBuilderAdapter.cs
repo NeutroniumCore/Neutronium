@@ -6,9 +6,9 @@ namespace Neutronium.Core.Binding.Builder
     internal class JSBuilderAdapter : IJavascriptObjectBuilder
     {
         private readonly IJSCSGlue _Object;
-        private readonly JavascriptObjectOneShotBuilder _JavascriptObjectBuilder;
+        private readonly IJavascriptObjectOneShotBuilder _JavascriptObjectBuilder;
 
-        public JSBuilderAdapter(IJSCSGlue @object, JavascriptObjectOneShotBuilder javascriptObjectBuilder)
+        public JSBuilderAdapter(IJSCSGlue @object, IJavascriptObjectOneShotBuilder javascriptObjectBuilder)
         {
             _Object = @object;
             _JavascriptObjectBuilder = javascriptObjectBuilder;

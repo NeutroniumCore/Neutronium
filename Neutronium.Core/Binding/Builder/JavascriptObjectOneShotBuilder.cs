@@ -1,5 +1,4 @@
-﻿using MoreCollection.Extensions;
-using Neutronium.Core.Binding.GlueObject;
+﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -9,7 +8,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JavascriptObjectOneShotBuilder
+    internal class JavascriptObjectOneShotBuilder : IJavascriptObjectOneShotBuilder
     {
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
@@ -30,17 +29,27 @@ namespace Neutronium.Core.Binding.Builder
             _BulkPropertyUpdater = bulkPropertyUpdater;
         }
 
-        internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children)
+        public void UpdateJavascriptValue()
+        {
+            var builders = _Root.GetAllChildren(true).Where(glue => glue.JSValue == null)
+                                .Select(glue => new JSBuilderAdapter(glue, this)).ToList();
+
+            builders.ForEach(builder => builder.GetBuildRequest());
+            CreateObjects();
+            UpdateDependencies();
+        }
+
+        void IJavascriptObjectOneShotBuilder.RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children)
         {
             _ObjectsBuildingRequested.Add(Tuple.Create(glue, children));
         }
 
-        internal void RequestArrayCreation(IJSCSGlue glue, IList<IJSCSGlue> children)
+        void IJavascriptObjectOneShotBuilder.RequestArrayCreation(IJSCSGlue glue, IList<IJSCSGlue> children)
         {
             _ArraysBuildingRequested.Add(Tuple.Create(glue, children));
         }
 
-        internal void RequestBasicObjectCreation(IJSCSGlue glueObject, object cValue)
+        void IJavascriptObjectOneShotBuilder.RequestBasicObjectCreation(IJSCSGlue glueObject, object cValue)
         {
             if (cValue == null)
             {
@@ -62,23 +71,13 @@ namespace Neutronium.Core.Binding.Builder
             _Cache.CacheLocal(cValue, glueObject);
         }
 
-        internal void RequestCommandCreation(IJSCSGlue glueObject, bool canExcecute)
+        void IJavascriptObjectOneShotBuilder.RequestCommandCreation(IJSCSGlue glueObject, bool canExcecute)
         {
             var command = _Factory.CreateObject(true);
             command.SetValue("CanExecuteValue", _Factory.CreateBool(canExcecute));
             command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
 
             glueObject.SetJSValue(command);
-        }
-
-        public void UpdateJavascriptValue()
-        {
-            var builders = _Root.GetAllChildren(true).Where(glue => glue.JSValue == null)
-                                .Select(glue => new JSBuilderAdapter(glue, this)).ToList();
-
-            builders.ForEach(builder => builder.GetBuildRequest());
-            CreateObjects();
-            UpdateDependencies();
         }
 
         private void CreateObjects()
