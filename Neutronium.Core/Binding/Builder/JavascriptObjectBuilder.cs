@@ -21,8 +21,7 @@ namespace Neutronium.Core.Binding.Builder
             _Cache = cache;
             _Helper = new Lazy<IJavascriptObject>(HelperBuilder);
             _BulkPropertyCreator = new Lazy<IJavascriptObject>(BulkPropertyCreatorBuilder);
-            _BulkPArrayCreator = new Lazy<IJavascriptObject>(BulkArrayCreatorBuilder);
-        }
+            _BulkPArrayCreator = new Lazy<IJavascriptObject>(BulkArrayCreatorBuilder);        }
 
         public void UpdateJavascriptValue(IJSCSGlue root)
         {
@@ -48,9 +47,24 @@ namespace Neutronium.Core.Binding.Builder
                              }
 		                }
                     }
+
+                    function bulkCreateArray(countsString){
+                        const counts = eval(countsString)
+                        const length = counts.length
+		                const args = Array.from(arguments)
+		                const objs = args.slice(1, length + 1)
+		                const values = args.slice(1 + length, args.length + 1)
+                        var valueCount = 0
+                        const push = Array.prototype.push
+		                for(var i=0; i< length; i ++) {
+                            var nextCount = valueCount + counts[i]
+                            push.apply(objs[i], values.slice(valueCount, nextCount))
+                            valueCount = nextCount
+		                }
+                    }
                     return {
-                        bulkCreateProperty: bulkCreateProperty,
-                        pusher: [].push
+                        bulkCreateProperty,
+                        bulkCreateArray
                     }
                 })()";
 
@@ -59,49 +73,46 @@ namespace Neutronium.Core.Binding.Builder
             return helper;
         }
 
-        private IJavascriptObject BulkArrayCreatorBuilder()
-        {
-            return _Helper.Value.GetValue("pusher");
-        }
-
-        private IJavascriptObject BulkPropertyCreatorBuilder()
-        {
-            return _Helper.Value.GetValue("bulkCreateProperty");
-        }
+        private IJavascriptObject GetProperty(string atttibute) => _Helper.Value.GetValue(atttibute);
+        private IJavascriptObject BulkPropertyCreatorBuilder() => GetProperty("bulkCreateProperty");
+        private IJavascriptObject BulkArrayCreatorBuilder() => GetProperty("bulkCreateArray");
 
         void IBulkUpdater.BulkUpdateProperty(List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>> updates)
         {
             if (updates.Count == 0)
                 return;
 
-            var properties = AsArray(string.Join(",", updates.Select(up => AsArray(string.Join(",", up.Item2.Keys.Select(p => $"'{p}'"))))));
+            var properties = AsArray(updates.Select(up => AsArray(up.Item2.Keys.Select(p => $"'{p}'"))));
             var objects = updates.Select(up => up.Item1);
             var values = updates.SelectMany(up => up.Item2.Values);
 
-            var paramsObjects = objects.Concat(values).Select(glue => glue.JSValue);
-
-            var arguments = new[] { _WebView.Factory.CreateString(properties) }
-                            .Concat(paramsObjects)
-                            .ToArray();
-
-            _BulkPropertyCreator.Value.ExecuteFunctionNoResult(_WebView, null, arguments);
+            var arguments = BuildArguments(properties, objects.Concat(values));
+            Execute(_BulkPropertyCreator, arguments);
         }
-
-        private static string AsArray(string value) => $"[{value}]";
 
         public void BulkUpdateArray(List<Tuple<IJSCSGlue, IList<IJSCSGlue>>> updates)
         {
             if (updates.Count == 0)
                 return;
 
-            var pusher = _BulkPArrayCreator.Value;
-            foreach (var arrayUpdate in updates)
-            {
-                var children = arrayUpdate.Item2;
-                var jsValue = arrayUpdate.Item1.JSValue;
-                var dest = children.Select(v => v.JSValue).ToArray();
-                pusher.ExecuteFunctionNoResult(_WebView, jsValue, dest);
-            }
+            var sizes = AsArray(updates.Select(item => item.Item2.Count.ToString()));
+            var objects = updates.Select(up => up.Item1);
+            var values = updates.SelectMany(up => up.Item2);
+
+            var arguments = BuildArguments(sizes, objects.Concat(values));
+            Execute(_BulkPArrayCreator, arguments);
+        }
+
+        private static string AsArray(IEnumerable<string> value) => $"[{string.Join(",", value)}]";
+
+        private IJavascriptObject[] BuildArguments(string paramString, IEnumerable<IJSCSGlue> paramsObjects)
+        {
+            return new[] { _WebView.Factory.CreateString(paramString) }.Concat(paramsObjects.Select(glue => glue.JSValue)).ToArray();
+        }
+
+        private void Execute(Lazy<IJavascriptObject> @function, IJavascriptObject[] arguments)
+        {
+            @function.Value.ExecuteFunctionNoResult(_WebView, null, arguments);
         }
     }
 }
