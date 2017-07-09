@@ -25,7 +25,8 @@ namespace Neutronium.Core.Binding.Builder
 
         public void UpdateJavascriptValue(IJSCSGlue root)
         {
-            var builder = new JavascriptObjectOneShotBuilder(_WebView.Factory, _Cache, this, root);
+            var builder = new JavascriptObjectBulkBuilder(_WebView.Factory, _Cache, this, root);
+            //var builder = new JavascriptObjectSynchroneousBuilder(_WebView.Factory, _Cache, root);
             builder.UpdateJavascriptValue();
         }
 

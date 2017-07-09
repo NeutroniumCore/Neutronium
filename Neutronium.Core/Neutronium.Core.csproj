@@ -77,7 +77,8 @@
   <ItemGroup>
     <Compile Include="Binding\Builder\IBulkUpdater.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectOneShotBuilder.cs" />
-    <Compile Include="Binding\Builder\JavascriptObjectOneShotBuilder.cs" />
+    <Compile Include="Binding\Builder\JavascriptObjectBulkBuilder.cs" />
+    <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />

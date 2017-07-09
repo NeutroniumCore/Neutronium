@@ -12,5 +12,7 @@ namespace Neutronium.Core.Binding.Builder
         void RequestCommandCreation(IJSCSGlue glue, bool canExcecute);
 
         void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children = null);
+
+        void UpdateJavascriptValue();
     }
 }

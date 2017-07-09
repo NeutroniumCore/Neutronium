@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JavascriptObjectOneShotBuilder : IJavascriptObjectOneShotBuilder
+    internal class JavascriptObjectBulkBuilder : IJavascriptObjectOneShotBuilder
     {
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
@@ -20,7 +20,7 @@ namespace Neutronium.Core.Binding.Builder
         private readonly List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>
                 _ArraysBuildingRequested = new List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>();
 
-        public JavascriptObjectOneShotBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
+        public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
             IJSCSGlue root)
         {
             _Factory = factory;

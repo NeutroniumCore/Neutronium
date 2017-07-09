@@ -19,7 +19,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly Lazy<CfrV8Value> _Factory;
 
         private readonly Lazy<CfrV8Value> _ObjectBuilder;
-        private readonly Lazy<CfrV8Value> _ArrayBuilder;
         private readonly Lazy<CfrV8Value> _ObjectBulkBuilder;
         private readonly Lazy<CfrV8Value> _ArrayBulkBuilder;
         private readonly Lazy<CfrV8Value> _ObjectCreationCallbackFunction;
@@ -33,7 +32,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _CfrV8Context = context;
             _Factory = new Lazy<CfrV8Value>(FactoryCreator);
             _ObjectBuilder = new Lazy<CfrV8Value>(ObjectBuilderCreator);
-            _ArrayBuilder = new Lazy<CfrV8Value>(ArrayBuilderCreator);
             _ObjectBulkBuilder = new Lazy<CfrV8Value>(ObjectBulkBuilderCreator);
             _ArrayBulkBuilder = new Lazy<CfrV8Value>(ArrayBulkBuilderCreator);
             _ObjectCreationCallbackFunction = new Lazy<CfrV8Value>(ObjectCreationCallbackFunctionCreator);
@@ -86,7 +84,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
                 return {
                     createObject,
-                    createArray,
                     createBulkObject,
                     createBulkArray
                 };
@@ -100,7 +97,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private CfrV8Value ObjectBuilderCreator() => GetProperty("createObject");
         private CfrV8Value ObjectBulkBuilderCreator() => GetProperty("createBulkObject");
-        private CfrV8Value ArrayBuilderCreator() => GetProperty("createArray");
         private CfrV8Value ArrayBulkBuilderCreator() => GetProperty("createBulkArray");
 
         private CfrV8Value ObjectCreationCallbackFunctionCreator()
@@ -210,8 +206,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateArray(int size)
         {
-            var id = GetNextId();
-            return _ArrayBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id) }).ConvertBasic(id);
+            var res = CfrV8Value.CreateArray(size);
+            return UpdateConvert(res, true);
         }
 
         private CfrV8Value Eval(string code)

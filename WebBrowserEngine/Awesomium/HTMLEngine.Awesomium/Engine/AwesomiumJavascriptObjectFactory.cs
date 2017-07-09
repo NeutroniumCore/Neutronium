@@ -172,7 +172,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         public IJavascriptObject CreateArray(int size)
         {
-            return new Awesomium_Core.JSValue(new Awesomium_Core.JSValue[0]).Convert();
+            return new Awesomium_Core.JSValue(Enumerable.Repeat(new Awesomium_Core.JSValue(), size).ToArray()).Convert();
         }
 
         public IJavascriptObject CreateObject(string iCreationCode)

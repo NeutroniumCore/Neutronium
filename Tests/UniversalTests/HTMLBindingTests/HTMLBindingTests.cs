@@ -537,7 +537,7 @@ namespace Tests.Universal.HTMLBindingTests
                       res5 = GetFirstSkillName(js);
                       res5.Should().Be("Ling");
 
-                      //Teste Two Way
+                      //Test Two Way
                       var stringName = Create(() => _WebView.Factory.CreateString("resName"));
                       SetAttribute(js, "Name", stringName);
 
@@ -606,6 +606,84 @@ namespace Tests.Universal.HTMLBindingTests
                       city2.Should().Be("Paris");
                   }
               };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_to_Nested_Changes_After_Property_Updates_CSharp_Updates()
+        {
+            _DataContext.MainSkill.Should().BeNull();
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var local = new Local
+                    {
+                        City = "JJC"
+                    };
+
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Local = local;
+                    });
+
+                    await Task.Delay(100);
+
+                    DoSafeUI(() =>
+                    {
+                        local.City = "Floripa";
+                    });
+
+                    await Task.Delay(100);
+
+                    var js = mb.JSRootObject;
+
+                    var jsLocal = GetAttribute(js, "Local");
+                    string city = GetStringAttribute(jsLocal, "City");
+                    city.Should().Be("Floripa");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_to_Nested_Changes_After_Property_Updates_Javascript_Updates()
+        {
+            _DataContext.MainSkill.Should().BeNull();
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var local = new Local
+                    {
+                        City = "JJC"
+                    };
+
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Local = local;
+                    });
+
+                    await Task.Delay(100);
+
+                    var js = mb.JSRootObject;
+
+                    var jsLocal = GetAttribute(js, "Local");
+
+                    var stringName = Create(() => _WebView.Factory.CreateString("Floripa"));
+                    SetAttribute(jsLocal, "City", stringName);
+
+                    await Task.Delay(100);
+
+                    _DataContext.Local.City.Should().Be("Floripa");
+                }
+            };
 
             await RunAsync(test);
         }
