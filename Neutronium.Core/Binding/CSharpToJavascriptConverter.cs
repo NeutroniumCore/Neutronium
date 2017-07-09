@@ -38,7 +38,11 @@ namespace Neutronium.Core.Binding
 
             var type = from.GetType();
             if (_Context.IsTypeBasic(type))
-                return new JSBasicObject(from);
+            {
+                res = new JSBasicObject(from);
+                _Cacher.Cache(from, res);
+                return res;
+            }             
 
             var command = from as ICommand;
             if (command != null)

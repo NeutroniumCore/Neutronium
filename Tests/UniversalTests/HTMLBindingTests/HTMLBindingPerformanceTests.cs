@@ -304,6 +304,8 @@ namespace Tests.Universal.HTMLBindingTests
         {
             public FakeViewModel[] Children { get; }
 
+            public int One => 1;
+
             public FakeViewModel(IEnumerable<FakeViewModel> children)
             {
                 Children = children?.ToArray();
