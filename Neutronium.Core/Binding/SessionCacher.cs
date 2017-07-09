@@ -25,7 +25,7 @@ namespace Neutronium.Core.Binding
         private void CacheGlobal(IJavascriptObject jsobject, IJSObservableBridge ibo)
         {
             var id = jsobject.GetID();
-            if (id!=0)
+            if (id != 0)
                 _FromJavascript_Global[id] = ibo;
         }
 

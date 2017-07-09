@@ -40,5 +40,11 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         ///  Evaluate a javascript code without result
         /// </summary>
         void ExecuteJavaScript(string code);
+
+        /// <summary>
+        ///  true if object bulk creation is supported
+        ///  false for awesomium only
+        /// </summary>
+        bool AllowBulkCreation { get; }
     }
 }

@@ -76,15 +76,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\Builder\IBulkUpdater.cs" />
-    <Compile Include="Binding\Builder\IJavascriptObjectOneShotBuilder.cs" />
+    <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectBulkBuilder.cs" />
+    <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
+    <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
-    <Compile Include="Binding\Builder\JavascriptObjectBuilder.cs" />
+    <Compile Include="Binding\Builder\JavascriptObjectBulkBuilderStrategy.cs" />
     <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Binding\Listeners\ReListener.cs" />
     <Compile Include="Binding\CommandFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
+    <Compile Include="Binding\Builder\IWebViewExtesion.cs" />
     <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Infra\AddLoger.cs" />
     <Compile Include="Infra\ComposedDisposable.cs" />

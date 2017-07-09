@@ -349,7 +349,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             var res = await _HTMLViewContext.EvaluateOnUIContextAsync(() => _ConverTOJSO.Map(from));
             await _HTMLViewContext.RunOnJavascriptContextAsync(() =>
             {
-                var builder = new JavascriptObjectBuilder(_HTMLViewContext.WebView, cacher);
+                var builder = new JavascriptObjectBulkBuilderStrategy(_HTMLViewContext.WebView, cacher);
                 builder.UpdateJavascriptValue(res);
             });
             return res;

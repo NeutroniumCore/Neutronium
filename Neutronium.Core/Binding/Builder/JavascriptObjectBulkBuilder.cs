@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JavascriptObjectBulkBuilder : IJavascriptObjectOneShotBuilder
+    internal class JavascriptObjectBulkBuilder
     {
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
@@ -39,17 +39,17 @@ namespace Neutronium.Core.Binding.Builder
             UpdateDependencies();
         }
 
-        void IJavascriptObjectOneShotBuilder.RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children)
+        internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children)
         {
             _ObjectsBuildingRequested.Add(Tuple.Create(glue, children));
         }
 
-        void IJavascriptObjectOneShotBuilder.RequestArrayCreation(IJSCSGlue glue, IList<IJSCSGlue> children)
+        internal void RequestArrayCreation(IJSCSGlue glue, IList<IJSCSGlue> children)
         {
             _ArraysBuildingRequested.Add(Tuple.Create(glue, children));
         }
 
-        void IJavascriptObjectOneShotBuilder.RequestBasicObjectCreation(IJSCSGlue glueObject, object cValue)
+        internal void RequestBasicObjectCreation(IJSCSGlue glueObject, object cValue)
         {
             if (cValue == null)
             {
@@ -71,7 +71,7 @@ namespace Neutronium.Core.Binding.Builder
             _Cache.CacheLocal(cValue, glueObject);
         }
 
-        void IJavascriptObjectOneShotBuilder.RequestCommandCreation(IJSCSGlue glueObject, bool canExcecute)
+        internal void RequestCommandCreation(IJSCSGlue glueObject, bool canExcecute)
         {
             var command = _Factory.CreateObject(true);
             command.SetValue("CanExecuteValue", _Factory.CreateBool(canExcecute));

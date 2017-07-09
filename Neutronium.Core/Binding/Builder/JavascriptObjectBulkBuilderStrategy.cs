@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JavascriptObjectBuilder: IBulkUpdater
+    internal class JavascriptObjectBulkBuilderStrategy : IJavascriptObjectBuilderStrategy, IBulkUpdater
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptSessionCache _Cache;
@@ -15,18 +15,18 @@ namespace Neutronium.Core.Binding.Builder
         private readonly Lazy<IJavascriptObject> _BulkPropertyCreator;
         private readonly Lazy<IJavascriptObject> _BulkPArrayCreator;
 
-        public JavascriptObjectBuilder(IWebView webView, IJavascriptSessionCache cache)
+        public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache)
         {
             _WebView = webView;
             _Cache = cache;
             _Helper = new Lazy<IJavascriptObject>(HelperBuilder);
             _BulkPropertyCreator = new Lazy<IJavascriptObject>(BulkPropertyCreatorBuilder);
-            _BulkPArrayCreator = new Lazy<IJavascriptObject>(BulkArrayCreatorBuilder);        }
+            _BulkPArrayCreator = new Lazy<IJavascriptObject>(BulkArrayCreatorBuilder);
+        }
 
         public void UpdateJavascriptValue(IJSCSGlue root)
         {
             var builder = new JavascriptObjectBulkBuilder(_WebView.Factory, _Cache, this, root);
-            //var builder = new JavascriptObjectSynchroneousBuilder(_WebView.Factory, _Cache, root);
             builder.UpdateJavascriptValue();
         }
 

@@ -17,6 +17,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public IJavascriptObjectConverter Converter { get; }
         public IJavascriptObjectFactory Factory { get; }
         private CfrV8Context V8Context { get; }
+        public bool AllowBulkCreation => true;
 
         public ChromiumFxWebView(CfrBrowser cfrbrowser, IWebSessionLogger logger) 
         {

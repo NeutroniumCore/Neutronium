@@ -16,6 +16,8 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
         private readonly AwesomiumJavascriptObjectFactory _AwesomiumJavascriptObjectFactory;
         private JSObject _Extracter;
 
+        public bool AllowBulkCreation => false;
+
         public AwesomiumWebView(AwesomiumIWebView iwebview)
         {
             _IWebView = iwebview;

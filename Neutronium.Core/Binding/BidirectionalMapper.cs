@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding
         private readonly IWebSessionLogger _Logger;
         private readonly JavascriptBindingMode _BindingMode;
         private readonly CSharpToJavascriptConverter _JSObjectBuilder;
-        private JavascriptObjectBuilder _JavascriptObjectBuilder;
+        private IJavascriptObjectBuilderStrategy _JavascriptObjectBuilder;
         private IJavascriptSessionInjector _sessionInjector;
         private readonly SessionCacher _SessionCache;
         private IJSCSGlue _Root;
@@ -76,7 +76,7 @@ namespace Neutronium.Core.Binding
                 _Context.InitOnJsContext(debugMode);
                 _sessionInjector = _Context.JavascriptSessionInjector;
 
-                _JavascriptObjectBuilder = new JavascriptObjectBuilder(_Context.WebView, _SessionCache);
+                _JavascriptObjectBuilder = _Context.WebView.GetBuildingStrategy(_SessionCache);
                 _JavascriptObjectBuilder.UpdateJavascriptValue(_Root);
 
                 var res = await InjectInHTMLSession(_Root);
