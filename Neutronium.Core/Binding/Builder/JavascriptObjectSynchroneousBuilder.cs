@@ -20,17 +20,17 @@ namespace Neutronium.Core.Binding.Builder
 
         public void UpdateJavascriptValue()
         {
-            VisitUpdate(_Root, new HashSet<IJSCSGlue>());
+            VisitUpdate(_Root);
         }
 
-        private void VisitUpdate(IJSCSGlue glue, HashSet<IJSCSGlue> visited)
+        private void VisitUpdate(IJSCSGlue glue)
         {
-            if ((glue.JSValue != null) || (!visited.Add(glue)))
+            if (glue.JSValue != null)
                 return;
 
             var updater = new JavascriptObjectSynchroneousBuilderAdapter(_Factory, _Cache, glue);
             updater.ApplyLocalChanges();
-            glue.GetChildren()?.ForEach(glueChild => VisitUpdate(glueChild, visited));
+            glue.GetChildren().ForEach(VisitUpdate);
             updater.AfterChildrenUpdates();
         }
     }
