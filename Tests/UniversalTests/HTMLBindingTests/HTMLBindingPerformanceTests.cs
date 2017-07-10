@@ -302,12 +302,18 @@ namespace Tests.Universal.HTMLBindingTests
 
         private class FakeViewModel
         {
+            private static readonly Random Random = new Random();
+
             public FakeViewModel[] Children { get; }
 
             public int One => 1;
+            public int Two => 2;
+
+            public int RandomNumber { get;  }
 
             public FakeViewModel(IEnumerable<FakeViewModel> children)
             {
+                RandomNumber = Random.Next();
                 Children = children?.ToArray();
             }
         }

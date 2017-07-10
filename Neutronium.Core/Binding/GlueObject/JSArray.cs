@@ -14,7 +14,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly Type _IndividualType;
 
         public object CValue { get; }
-        public IList<IJSCSGlue> Items { get; }     
+        public List<IJSCSGlue> Items { get; }     
         public JsCsGlueType Type => JsCsGlueType.Array;
         public IJavascriptObject MappedJSValue { get; private set;  }
 

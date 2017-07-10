@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding.GlueObject;
+﻿using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;
@@ -83,15 +84,43 @@ namespace Neutronium.Core.Binding.Builder
             if (updates.Count == 0)
                 return;
 
+            SplitParameters(updates, dic => dic.Count).Select(GetUpdatePropertyParameters)
+                .ForEach(arguments => Execute(_BulkPropertyCreator, arguments));
+        }
+
+        private IJavascriptObject[] GetUpdatePropertyParameters(List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>> updates)
+        {
             var properties = AsArray(updates.Select(up => AsArray(up.Item2.Keys.Select(p => $"'{p}'"))));
             var objects = updates.Select(up => up.Item1);
             var values = updates.SelectMany(up => up.Item2.Values);
 
-            var arguments = BuildArguments(properties, objects.Concat(values));
-            Execute(_BulkPropertyCreator, arguments);
+            return BuildArguments(properties, objects.Concat(values));
         }
 
-        public void BulkUpdateArray(List<Tuple<IJSCSGlue, IList<IJSCSGlue>>> updates)
+        //private const int MaxCount = 250000;
+        private const int MaxCount = 200000;
+
+        private IEnumerable<List<Tuple<IJSCSGlue,T>>> SplitParameters<T>(List<Tuple<IJSCSGlue,T>> paramBuilder, Func<T,int> counter, int addicionalParameters = 1)
+        {
+            var index = 0;
+            var maxCount = paramBuilder.Count;
+            do
+            {
+                var count = addicionalParameters;
+                var paramsToCompute = paramBuilder.Skip(index);
+                var collection = paramsToCompute.Select(p => counter(p.Item2)).TakeWhile(p => { count += p + 1; return count < MaxCount; });
+                var localCount = collection.Count();
+                if (localCount == 0)
+                    yield break;
+
+                yield return paramBuilder.Skip(index).Take(localCount).ToList();
+
+                index += localCount;
+            }
+            while (index < maxCount);
+        }
+
+        void IBulkUpdater.BulkUpdateArray(List<Tuple<IJSCSGlue, IList<IJSCSGlue>>> updates)
         {
             if (updates.Count == 0)
                 return;
@@ -111,7 +140,7 @@ namespace Neutronium.Core.Binding.Builder
             return new[] { _WebView.Factory.CreateString(paramString) }.Concat(paramsObjects.Select(glue => glue.JSValue)).ToArray();
         }
 
-        private void Execute(Lazy<IJavascriptObject> @function, IJavascriptObject[] arguments)
+        private void Execute(Lazy<IJavascriptObject> @function, params IJavascriptObject[] arguments)
         {
             @function.Value.ExecuteFunctionNoResult(_WebView, null, arguments);
         }
