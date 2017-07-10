@@ -15,10 +15,10 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IBulkUpdater _BulkPropertyUpdater;
         private readonly IJSCSGlue _Root;
 
-        private readonly List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>>
-                _ObjectsBuildingRequested = new List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>>();
-        private readonly List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>
-                _ArraysBuildingRequested = new List<Tuple<IJSCSGlue, IList<IJSCSGlue>>>();
+        private readonly List<ChildrenPropertyDescriptor>
+                _ObjectsBuildingRequested = new List<ChildrenPropertyDescriptor>();
+        private readonly List<ChildrenArrayDescriptor>
+                _ArraysBuildingRequested = new List<ChildrenArrayDescriptor>();
 
         public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
             IJSCSGlue root)
@@ -41,12 +41,12 @@ namespace Neutronium.Core.Binding.Builder
 
         internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children)
         {
-            _ObjectsBuildingRequested.Add(Tuple.Create(glue, children));
+            _ObjectsBuildingRequested.Add(new ChildrenPropertyDescriptor(glue, children));
         }
 
         internal void RequestArrayCreation(IJSCSGlue glue, IList<IJSCSGlue> children)
         {
-            _ArraysBuildingRequested.Add(Tuple.Create(glue, children));
+            _ArraysBuildingRequested.Add(new ChildrenArrayDescriptor(glue, children));
         }
 
         internal void RequestBasicObjectCreation(IJSCSGlue glueObject, object cValue)
@@ -82,8 +82,8 @@ namespace Neutronium.Core.Binding.Builder
 
         private void CreateObjects()
         {
-            BulkCreate(count => _Factory.CreateObjects(true, count), _ObjectsBuildingRequested.Select(item =>item.Item1).ToList());
-            BulkCreate(count => _Factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Item1).ToList());
+            BulkCreate(count => _Factory.CreateObjects(true, count), _ObjectsBuildingRequested.Select(item => item.Father).ToList());
+            BulkCreate(count => _Factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Father).ToList());
         }
 
         private void UpdateDependencies()
@@ -94,13 +94,13 @@ namespace Neutronium.Core.Binding.Builder
 
         private void UpdateObjects()
         {
-            var toBeUpdated = _ObjectsBuildingRequested.Where(item => item.Item2 != null && item.Item2.Count > 0).ToList();
+            var toBeUpdated = _ObjectsBuildingRequested.Where(item => item.ChildrenDescription.Count > 0).ToList();
             _BulkPropertyUpdater.BulkUpdateProperty(toBeUpdated);
         }
 
         private void UpdateArrays()
         {
-            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.Item2 != null && item.Item2.Count > 0).ToList();
+            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Count > 0).ToList();
             _BulkPropertyUpdater.BulkUpdateArray(toBeUpdated);
         }
 

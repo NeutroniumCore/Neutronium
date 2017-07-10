@@ -9,6 +9,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
     public class CefV8_WebView : IWebView 
     {
         public bool AllowBulkCreation => true;
+        public int MaxFunctionArgumentsNumber => 200000;
 
         private CefV8_Converter _CefV8_Converter;
         private CefV8_Factory _CefV8_Factory;

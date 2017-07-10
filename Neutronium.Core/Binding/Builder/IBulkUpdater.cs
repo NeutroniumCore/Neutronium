@@ -6,8 +6,8 @@ namespace Neutronium.Core.Binding.Builder
 {
     internal interface IBulkUpdater
     {
-        void BulkUpdateProperty(List<Tuple<IJSCSGlue, IReadOnlyDictionary<string, IJSCSGlue>>> updates);
+        void BulkUpdateProperty(List<ChildrenPropertyDescriptor> updates);
 
-        void BulkUpdateArray(List<Tuple<IJSCSGlue, IList<IJSCSGlue>>> updates);
+        void BulkUpdateArray(List<ChildrenArrayDescriptor> updates);
     }
 }

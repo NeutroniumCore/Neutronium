@@ -46,5 +46,11 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         ///  false for awesomium only
         /// </summary>
         bool AllowBulkCreation { get; }
+
+        /// <summary>
+        ///  return the max number of arguments 
+        ///  javaScript functions can accept
+        /// </summary>
+        int MaxFunctionArgumentsNumber { get; }
     }
 }

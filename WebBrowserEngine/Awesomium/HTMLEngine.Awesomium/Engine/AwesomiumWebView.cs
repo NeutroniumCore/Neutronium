@@ -17,6 +17,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
         private JSObject _Extracter;
 
         public bool AllowBulkCreation => false;
+        public int MaxFunctionArgumentsNumber => 10000;
 
         public AwesomiumWebView(AwesomiumIWebView iwebview)
         {
