@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    public class ChildDescription<TIdentificator>
+    public struct ChildDescription<TIdentificator>
     {
         public TIdentificator Key { get; }
         public IJSCSGlue Child { get; }
@@ -25,6 +25,17 @@ namespace Neutronium.Core.Binding.Builder
         {
             Father = father;
             ChildrenDescription = (childrenDescription==null) ? new List<ChildDescription<TIdentificator>>() : new List<ChildDescription<TIdentificator>>(childrenDescription);
+        }
+
+        public override int GetHashCode()
+        {
+            return Father?.GetHashCode()?? 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as ChildrenDescriptor<TIdentificator>;
+            return (other == null) ? false : (Father == other.Father) && ChildrenDescription.SequenceEqual(other.ChildrenDescription);
         }
     }
 

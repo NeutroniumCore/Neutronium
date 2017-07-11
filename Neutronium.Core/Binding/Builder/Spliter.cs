@@ -6,13 +6,11 @@ namespace Neutronium.Core.Binding.Builder
 {
     public class Spliter<TIdentifier>
     {
-        public int AddicionalParameterCount { get; set; } = 1;
-        public int MaxCount { get; set; } = 200000;
+        public int MaxCount { get; set; }
 
         internal IEnumerable<List<ChildrenDescriptor<TIdentifier>>> SplitParameters(IEnumerable<ChildrenDescriptor<TIdentifier>> _ParamBuilder) 
         {
             var index = 0;
-            var maxCount = MaxCount - AddicionalParameterCount;
             int parametersCount;
 
             var data = _ParamBuilder.SelectMany(item => item.ChildrenDescription, (item, description) => new { father = item.Father, description }).ToList();
@@ -24,7 +22,7 @@ namespace Neutronium.Core.Binding.Builder
                     parametersCount += 1;
                     if (fathers.Add(entity.father))
                         parametersCount++;
-                    return parametersCount < maxCount;
+                    return parametersCount < MaxCount;
                 }).ToList();
 
                 var localParametersCount = parameters.Count;
@@ -36,7 +34,7 @@ namespace Neutronium.Core.Binding.Builder
 
                 index += localParametersCount;
             }
-            while (parametersCount >= maxCount);
+            while (parametersCount >= MaxCount);
         }
     }
 }

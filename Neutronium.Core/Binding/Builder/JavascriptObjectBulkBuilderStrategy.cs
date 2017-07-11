@@ -69,7 +69,7 @@ namespace Neutronium.Core.Binding.Builder
             if (updates.Count() == 0)
                 return;
 
-            var spliter = new Spliter<T> { MaxCount = _WebView.MaxFunctionArgumentsNumber };
+            var spliter = new Spliter<T> { MaxCount = _WebView.MaxFunctionArgumentsNumber -1 };
 
             spliter.SplitParameters(updates)
                     .Select(param => GetUpdateParameters(param, getKeyDescription))
