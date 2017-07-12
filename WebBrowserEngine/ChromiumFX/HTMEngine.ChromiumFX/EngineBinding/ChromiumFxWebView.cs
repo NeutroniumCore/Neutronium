@@ -18,7 +18,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public IJavascriptObjectFactory Factory { get; }
         private CfrV8Context V8Context { get; }
         public bool AllowBulkCreation => true;
-        public int MaxFunctionArgumentsNumber => 250000;
+        public int MaxFunctionArgumentsNumber => 240000;
 
         public ChromiumFxWebView(CfrBrowser cfrbrowser, IWebSessionLogger logger) 
         {

@@ -57,6 +57,20 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private CfrV8Value FactoryCreator()
         {
             var builderScript = @"(function(){
+                const maxCount = 240000
+
+                function pushResult(fn, array){
+                    const count = array.length
+                    if (count < maxCount) {
+                        fn.apply(null, array)
+                        return;
+                    }
+                    for(var index =0; index< count; index += maxCount) {
+                        const subArray = array.slice(index, index+maxCount)
+                        fn.apply(null, subArray)
+                    }
+                }
+
                 function objectWithId(id){
                     this.{{ChromiumFXJavascriptRoot.IdName}} = id
                 }
@@ -73,14 +87,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     for (var i = 0; i < size; i++) {
                         array.push(new objectWithId(id++))
                     }
-                    fn.apply(null, array)
+                    pushResult(fn, array)
                 }
                 function createBulkArray(id, size, fn){
                     const array = []
                     for (var i = 0; i < size; i++) {
                         array.push(createArray(id++))
                     }
-                    fn.apply(null, array)
+                    pushResult(fn, array)
                 }
                 return {
                     createObject,

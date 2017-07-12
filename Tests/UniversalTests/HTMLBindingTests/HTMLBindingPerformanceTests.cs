@@ -254,6 +254,97 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+        private class BigCollectionVM<T>
+        {
+            public static int Limit { get; } = 300000;
+            public T[] Values { get; }
+
+            public BigCollectionVM(T value): this(Enumerable.Repeat(value, Limit))
+            {
+            }
+
+            public BigCollectionVM(Func<int,T> value) : this(Enumerable.Range(0, 300000).Select(value))
+            {
+            }
+
+            public BigCollectionVM(IEnumerable<T> values)
+            {
+                Values = values.ToArray();
+            }
+        }
+
+        [Fact]
+        public async Task Binding_Can_Create_Collection_With_Count_Greater_Than_Max_Stack()
+        {
+            var value = 3;
+            var dataContext = new BigCollectionVM<int>(value);
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    var res = GetCollectionAttribute(js, "Values");
+                    res.GetArrayLength().Should().Be(BigCollectionVM<int>.Limit);
+
+                    var lastElement = res.GetValue(BigCollectionVM<int>.Limit - 1);
+                    lastElement.GetIntValue().Should().Be(value);
+                }
+            };
+            await RunAsync(test);
+        }
+
+        private class Simple
+        {
+            public int Id { get; } = 23;
+        }
+
+        [Fact]
+        public async Task Binding_Can_Create_More_Array_Relashionship_Than_Max_Stack()
+        {
+            var dataContext = new BigCollectionVM<Simple>(new Simple());
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    var res = GetCollectionAttribute(js, "Values");
+                    res.GetArrayLength().Should().Be(BigCollectionVM<Simple>.Limit);
+
+                    var lastElement = res.GetValue(BigCollectionVM<Simple>.Limit -1);
+                    var id = GetIntAttribute(lastElement, "Id");
+                    id.Should().Be(23);
+                }
+            };
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Binding_Can_Create_More_Object_Than_Max_Stack()
+        {
+            var dataContext = new BigCollectionVM<Simple>( _ => new Simple());
+            var test = new TestInContext()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    var res = GetCollectionAttribute(js, "Values");
+                    res.GetArrayLength().Should().Be(BigCollectionVM<Simple>.Limit);
+
+                    var lastElement = res.GetValue(BigCollectionVM<Simple>.Limit - 1);
+                    var id = GetIntAttribute(lastElement, "Id");
+                    id.Should().Be(23);
+                }
+            };
+            await RunAsync(test);
+        }
+
+
         [Fact]
         public async Task Stress_Big_Vm()
         {
