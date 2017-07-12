@@ -118,9 +118,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return CfrV8Value.CreateFunction("objectCallBack", _ObjectCallback.Handler);
         }
 
-        public static bool IsTypeConvertible(Type itype) 
+        public static bool IsTypeConvertible(Type type) 
         {
-            return itype != null && _Converters.ContainsKey(itype);
+            return type != null && _Converters.ContainsKey(type);
         }
 
         private static void Register<T>(Func<T, CfrV8Value> Factory) 
@@ -139,6 +139,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
             res = conv(ifrom).ConvertBasic();
             return true;
+        }
+
+        public IEnumerable<IJavascriptObject> CreateBasics(IReadOnlyList<object> from)
+        {
+            foreach (var @object in from)
+            {
+                IJavascriptObject res = null;
+                yield return CreateBasic(@object, out res) ? res : null;
+            }
         }
 
         public bool IsTypeBasic(Type type) 

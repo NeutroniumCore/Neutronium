@@ -44,6 +44,15 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
             }
         }
 
+        protected T Test<T>(Func<T> act, TestContext ipath = TestContext.Index)
+        {
+            using (Tester(ipath))
+            {
+                Init();
+                return _WebView.Evaluate(act);
+            }
+        }
+
         protected async Task TestAsync(Func<Task> act, TestContext ipath = TestContext.Index)
         {
             using (Tester(ipath))

@@ -61,6 +61,15 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return true;
         }
 
+        public IEnumerable<IJavascriptObject> CreateBasics(IReadOnlyList<object> from)
+        {
+            foreach (var @object in from)
+            {
+                IJavascriptObject res = null;
+                yield return CreateBasic(@object, out res) ? res : null;
+            }
+        }
+
         public static bool IsTypeConvertible(Type itype) 
         {
             return itype != null && _Converters.ContainsKey(itype);

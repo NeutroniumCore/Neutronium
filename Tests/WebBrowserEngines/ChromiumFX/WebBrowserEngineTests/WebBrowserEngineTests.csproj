@@ -89,6 +89,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cfx_JJavascriptFactoryBulk_Tests.cs" />
     <Compile Include="Infra\ChromiumFXContextFixture.cs" />
     <Compile Include="Infra\ChromiumFXContext.cs" />
     <Compile Include="Cfx_SharpToJavascriptConverter_Tests.cs" />

@@ -80,7 +80,16 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
              return bres;
          }
 
-         public static bool IsTypeConvertible(Type type) 
+        public IEnumerable<IJavascriptObject> CreateBasics(IReadOnlyList<object> from)
+        {
+            foreach(var @object in from)
+            {
+                IJavascriptObject res = null;
+                yield return CreateBasic(@object, out res) ? res : null;
+            }
+        }
+
+        public static bool IsTypeConvertible(Type type) 
          {
              return type != null && _Converters.ContainsKey(type);
          }
