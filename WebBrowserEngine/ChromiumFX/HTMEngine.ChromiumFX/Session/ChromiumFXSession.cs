@@ -4,6 +4,7 @@ using Chromium.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
 using Neutronium.Core.Infra;
+using System.Threading;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 {
@@ -43,6 +44,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             _SettingsBuilder?.Invoke(settings);
          
             settings.LocalesDirPath = GetPath(@"cef\Resources\locales");
+            settings.Locale = Thread.CurrentThread.CurrentCulture.ToString();
             settings.ResourcesDirPath = GetPath(@"cef\Resources");
             settings.BrowserSubprocessPath = GetPath("ChromiumFXRenderProcess.exe");
             settings.SingleProcess = false;

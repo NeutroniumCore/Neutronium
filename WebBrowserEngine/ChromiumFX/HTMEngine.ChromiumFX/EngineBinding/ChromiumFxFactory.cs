@@ -8,10 +8,11 @@ using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 using Neutronium.WebBrowserEngine.ChromiumFx.V8Object;
+using System.Globalization;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
-    internal class ChromiumFxFactory : IJavascriptObjectFactory 
+    internal class ChromiumFxFactory : IJavascriptObjectFactory
     {
         private static uint _Count = 0;
         private readonly CfrV8Context _CfrV8Context;
@@ -21,35 +22,37 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly Lazy<CfrV8Value> _ObjectBuilder;
         private readonly Lazy<CfrV8Value> _ObjectBulkBuilder;
         private readonly Lazy<CfrV8Value> _ArrayBulkBuilder;
+        private readonly Lazy<CfrV8Value> _BasicBulkBuilder;
         private readonly Lazy<CfrV8Value> _ObjectCreationCallbackFunction;
 
         private readonly ChromiumFxObjectCreationCallBack _ObjectCallback = new ChromiumFxObjectCreationCallBack();
 
         private IJavascriptObject _Null;
-        
-        internal ChromiumFxFactory(CfrV8Context context) 
+
+        internal ChromiumFxFactory(CfrV8Context context)
         {
             _CfrV8Context = context;
             _Factory = new Lazy<CfrV8Value>(FactoryCreator);
             _ObjectBuilder = new Lazy<CfrV8Value>(ObjectBuilderCreator);
             _ObjectBulkBuilder = new Lazy<CfrV8Value>(ObjectBulkBuilderCreator);
             _ArrayBulkBuilder = new Lazy<CfrV8Value>(ArrayBulkBuilderCreator);
+            _BasicBulkBuilder = new Lazy<CfrV8Value>(BasicBulkBuilderCreator);
             _ObjectCreationCallbackFunction = new Lazy<CfrV8Value>(ObjectCreationCallbackFunctionCreator);
         }
 
-        static ChromiumFxFactory() 
+        static ChromiumFxFactory()
         {
             Register<string>(CfrV8Value.CreateString);
-            Register<Int64>((source) => CfrV8Value.CreateDouble((double) source));
-            Register<UInt64>((source) => CfrV8Value.CreateDouble((double) source));
-            Register<float>((source) => CfrV8Value.CreateDouble((double) source));
+            Register<Int64>((source) => CfrV8Value.CreateDouble((double)source));
+            Register<UInt64>((source) => CfrV8Value.CreateDouble((double)source));
+            Register<float>((source) => CfrV8Value.CreateDouble((double)source));
             Register<Int32>(CfrV8Value.CreateInt);
-            Register<Int16>((source) => CfrV8Value.CreateInt((int) source));
+            Register<Int16>((source) => CfrV8Value.CreateInt((int)source));
             Register<UInt32>(CfrV8Value.CreateUint);
-            Register<UInt16>((source) => CfrV8Value.CreateUint((UInt32) source));
+            Register<UInt16>((source) => CfrV8Value.CreateUint((UInt32)source));
             Register<char>((source) => CfrV8Value.CreateString(new StringBuilder().Append(source).ToString()));
             Register<double>(CfrV8Value.CreateDouble);
-            Register<decimal>((source) => CfrV8Value.CreateDouble((double) source));
+            Register<decimal>((source) => CfrV8Value.CreateDouble((double)source));
             Register<bool>(CfrV8Value.CreateBool);
             Register<DateTime>((source) => CfrV8Value.CreateDate(CfrTime.FromUniversalTime(source.ToUniversalTime())));
         }
@@ -89,6 +92,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     }
                     pushResult(fn, array)
                 }
+                function createBulkBasic(values, fn){
+                    const array = eval(values)
+                    console.log(array)
+                    pushResult(fn, array)
+                }
                 function createBulkArray(id, size, fn){
                     const array = []
                     for (var i = 0; i < size; i++) {
@@ -99,7 +107,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 return {
                     createObject,
                     createBulkObject,
-                    createBulkArray
+                    createBulkArray,
+                    createBulkBasic
                 };
             }())";
 
@@ -112,26 +121,27 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private CfrV8Value ObjectBuilderCreator() => GetProperty("createObject");
         private CfrV8Value ObjectBulkBuilderCreator() => GetProperty("createBulkObject");
         private CfrV8Value ArrayBulkBuilderCreator() => GetProperty("createBulkArray");
+        private CfrV8Value BasicBulkBuilderCreator() => GetProperty("createBulkBasic");
 
         private CfrV8Value ObjectCreationCallbackFunctionCreator()
         {
             return CfrV8Value.CreateFunction("objectCallBack", _ObjectCallback.Handler);
         }
 
-        public static bool IsTypeConvertible(Type type) 
+        public static bool IsTypeConvertible(Type type)
         {
             return type != null && _Converters.ContainsKey(type);
         }
 
-        private static void Register<T>(Func<T, CfrV8Value> Factory) 
+        private static void Register<T>(Func<T, CfrV8Value> Factory)
         {
-            _Converters.Add(typeof(T), (o) => Factory((T) o));
+            _Converters.Add(typeof(T), (o) => Factory((T)o));
         }
 
-        public bool CreateBasic(object ifrom, out IJavascriptObject res) 
+        public bool CreateBasic(object ifrom, out IJavascriptObject res)
         {
             Func<object, CfrV8Value> conv;
-            if (!_Converters.TryGetValue(ifrom.GetType(), out conv)) 
+            if (!_Converters.TryGetValue(ifrom.GetType(), out conv))
             {
                 res = null;
                 return false;
@@ -143,12 +153,36 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IEnumerable<IJavascriptObject> CreateBasics(IReadOnlyList<object> from)
         {
-            foreach (var @object in from)
-            {
-                IJavascriptObject res = null;
-                yield return CreateBasic(@object, out res) ? res : null;
-            }
+            _BasicBulkBuilder.Value.ExecuteFunction(null, new[] {
+                CfrV8Value.CreateString(CreateStringValue(from)),
+                _ObjectCreationCallbackFunction.Value
+            });
+            var results = _ObjectCallback.GetLastArguments();
+            return results.Select(result => result.ConvertBasic());
         }
+
+        private string CreateStringValue(IReadOnlyList<object> from)
+        {
+            return $"[{string.Join(",", from.Select(v => AsJavascriptExpression(v)))}]";
+        }
+
+        private static string AsJavascriptExpression(object @object)
+        {
+            if (@object.GetType() == typeof(double))
+                return ((double)(@object)).ToString("E16", CultureInfo.InvariantCulture);
+
+            if (@object.GetType() == typeof(int))
+                return @object.ToString();
+
+            if (@object.GetType() == typeof(string))
+                return $"'{@object}'";
+
+            if (@object.GetType() == typeof(bool))
+                return ((bool)@object?  "true": "false") $"'{@object}'";
+
+            return "undefined";
+        }
+
 
         public bool IsTypeBasic(Type type) 
         {

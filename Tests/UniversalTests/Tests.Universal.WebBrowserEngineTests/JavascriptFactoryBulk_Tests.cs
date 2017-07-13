@@ -64,6 +64,10 @@ namespace Tests.Universal.WebBrowserEngineTests
         [InlineData(0.5D)]
         [InlineData(-1)]
         [InlineData(99999.95)]
+        [InlineData(2.333333333)]
+        [InlineData(-0.66666666666666663)]
+        [InlineData(1.3333333333333333)]
+        [InlineData(4.94065645841247E-3240)]
         public void CreateBasics_BasicTypes_Returns_Correct_Value(object value)
         {
             TestConvertion(value);
@@ -75,7 +79,25 @@ namespace Tests.Universal.WebBrowserEngineTests
             if (!SupportStringEmpty)
                 return;
 
-            TestConvertion(string.Empty);
+            TestBasicConvertion(string.Empty);
+        }
+
+        [Fact]
+        public void CreateBasics_Double_Epsilon_Returns_Correct_Value()
+        {
+            var epsilon = Double.Epsilon;
+            TestBasicConvertion(epsilon);
+        }
+
+        private void TestBasicConvertion<T>(T value)
+        {
+            Test(() =>
+            {
+                object res = null;
+                bool ok = Converter.GetSimpleValue(Get(value), out res, typeof(T));
+                ok.Should().BeTrue();
+                res.Should().Be(value);
+            });
         }
 
         private void TestConvertion(object value)
@@ -83,7 +105,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             Test(() =>
             {
                 object res = null;
-                bool ok = Converter.GetSimpleValue(Get(value), out res);
+                bool ok = Converter.GetSimpleValue(Get(value), out res, value.GetType());
                 ok.Should().BeTrue();
                 res.Should().NotBeNull();
                 res.Should().Equals(value);
@@ -116,7 +138,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         [Property]
         public Property CreateBasics_Double_Create_Correct_Objects()
         {
-            return CreateBasics_Returns_Correct_Value<double>();
+            return CreateBasics_Returns_Correct_Value<double>(number => !double.IsInfinity(number));
         }
 
         [Property]
@@ -146,7 +168,9 @@ namespace Tests.Universal.WebBrowserEngineTests
                 Test(() =>
                 {
                     var res = ConvertBack(value);
-                    return EqualityComparer<T>.Default.Equals(res, value);
+                    var equal = EqualityComparer<T>.Default.Equals(res, value);
+                    _Logger.Info($"{value} => {res} : {equal}");
+                    return equal;
                 }).When(when(value))
             );
         }

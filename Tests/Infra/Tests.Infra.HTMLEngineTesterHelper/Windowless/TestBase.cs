@@ -18,6 +18,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         protected IWebView _WebView;
         protected HTMLViewEngine _ViewEngine;
         protected IWebSessionLogger _Logger;
+        protected readonly ITestOutputHelper _TestOutputHelper;
         protected IWebBrowserWindowProvider _WebBrowserWindowProvider;
         private readonly IWindowlessHTMLEngineBuilder _TestEnvironment;
 
@@ -27,6 +28,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         protected TestBase(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output) 
         {
             _TestEnvironment = testEnvironment.GetWindowlessEnvironment();
+            _TestOutputHelper = output;
             var logger = new TestLogger(output);
             _Logger = logger.Add(new BasicLogger());
         }
