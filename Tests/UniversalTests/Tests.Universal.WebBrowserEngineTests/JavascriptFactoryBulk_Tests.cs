@@ -17,26 +17,43 @@ namespace Tests.Universal.WebBrowserEngineTests
         protected JavascriptFactoryBulk_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
                         : base(testEnvironment, output)
         {
-            Arb.Register<DateTimeGenerator>();
+            Arb.Register<TestDataGenerator>();
         }
 
         protected abstract bool SupportStringEmpty { get; }
 
-        public class DateTimeGenerator
+        public class TestDataGenerator
         {
-            public static Arbitrary<DateTime> ArbitraryDateTime()
-            {
-                var generator = Gen.zip3(Gen.Choose(1800, 2020), Gen.Choose(0, 365), Gen.zip(Gen.Choose(0, 24), Gen.Choose(0, 3600)))
-                                          .Select(t => new DateTime(t.Item1, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddDays(t.Item2).AddHours(t.Item3.Item1).AddSeconds(t.Item3.Item2));
+            private static Gen<DateTime> DateTimeGenerator => 
+                Gen.zip3(Gen.Choose(1800, 2020), Gen.Choose(0, 365), Gen.zip(Gen.Choose(0, 24), Gen.Choose(0, 3600)))
+                   .Select(t => new DateTime(t.Item1, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddDays(t.Item2).AddHours(t.Item3.Item1).AddSeconds(t.Item3.Item2));
 
-                return Arb.From(generator);
-            }
+            private static Gen<T> DefaultGenerator<T>() => Arb.From<T>().Generator;
+
+            private static Gen<object> DefaultObjectGenerator<T>() => DefaultGenerator<T>().Select(t => (object)t);
+
+            private static Gen<object> ObjectGenerator 
+                => Gen.OneOf(DefaultObjectGenerator<Boolean>(), DefaultObjectGenerator<int>(), DefaultObjectGenerator<double>(),
+                                    DefaultGenerator<string>().Where(s => s != "" && s != null).Select(t => (object)t),
+                                    DateTimeGenerator.Select(t => (object)t));
+
+            public static Arbitrary<DateTime> ArbitraryDateTime() => Arb.From(DateTimeGenerator);
+
+            public static Arbitrary<object> ArbitraryObject() => Arb.From(ObjectGenerator);
         }
-
 
         private IJavascriptObject Get(object @object)
         {
             return Factory.CreateBasics(new[] { @object }).Single();
+        }
+
+        private List<object> GetBack(List<object> @objects)
+        {
+            return Test(() =>
+            {
+                var jvos = Factory.CreateBasics(@objects);
+                return jvos.Select((jvo, i) => ConvertBack(jvo, @objects[i].GetType())).ToList();
+            });
         }
 
         [Theory]
@@ -47,19 +64,18 @@ namespace Tests.Universal.WebBrowserEngineTests
         [InlineData(0.5D)]
         [InlineData(-1)]
         [InlineData(99999.95)]
-        public void Test_GetSimpleValue(object value)
+        public void CreateBasics_BasicTypes_Returns_Correct_Value(object value)
         {
             TestConvertion(value);
         }
 
-        [Theory]
-        [InlineData("")]
-        public void Test_GetEmptyStringSimpleValue(object value)
+        [Fact]
+        public void CreateBasics_EmptyString_Returns_Correct_Value()
         {
             if (!SupportStringEmpty)
                 return;
 
-            TestConvertion(value);
+            TestConvertion(string.Empty);
         }
 
         private void TestConvertion(object value)
@@ -75,7 +91,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         }
 
         [Fact]
-        public void Test_GetSimpleValue_Decimal()
+        public void CreateBasics_Decimal_Create_Correct_Objects_Fixed_Value()
         {
             decimal value = 7.9228162495817593524129366018M;
             Test(() =>
@@ -86,25 +102,31 @@ namespace Tests.Universal.WebBrowserEngineTests
         }
 
         [Property]
-        public Property CreateBasics_Returns_Correct_Value_Int()
+        public Property CreateBasics_Int_Create_Correct_Objects()
         {
             return CreateBasics_Returns_Correct_Value<int>();
         }
 
         [Property(Skip = "Decimal precision is not supported")]
-        public Property CreateBasics_Returns_Correct_Value_Decimal()
+        public Property CreateBasics_Decimal_Create_Correct_Objects()
         {
             return CreateBasics_Returns_Correct_Value<decimal>();
         }
 
         [Property]
-        public Property CreateBasics_Returns_Correct_Value_Double()
+        public Property CreateBasics_Double_Create_Correct_Objects()
         {
             return CreateBasics_Returns_Correct_Value<double>();
         }
 
         [Property]
-        public Property CreateBasics_Returns_Correct_Value_String()
+        public Property CreateBasics_DateTime_Create_Correct_Objects()
+        {
+            return CreateBasics_Returns_Correct_Value<DateTime>();
+        }
+
+        [Property]
+        public Property CreateBasics_String_Create_Correct_Objects()
         {
             Func<string, bool> when = Always<string>;
             if (!SupportStringEmpty)
@@ -113,11 +135,9 @@ namespace Tests.Universal.WebBrowserEngineTests
             return CreateBasics_Returns_Correct_Value(when);
         }
 
-        [Property]
-        public Property CreateBasics_Returns_Correct_Value_DateTime()
-        {
-            return CreateBasics_Returns_Correct_Value<DateTime>();
-        }
+        private static bool Always<T>(T value) => true;
+
+        private static bool StringIsNotEmpty(string value) => value != String.Empty;
 
         public Property CreateBasics_Returns_Correct_Value<T>(Func<T,bool> when = null)
         {
@@ -131,9 +151,15 @@ namespace Tests.Universal.WebBrowserEngineTests
             );
         }
 
-        private static bool Always<T>(T value) => true;
-
-        private static bool StringIsNotEmpty(string value) => value != String.Empty;
+        [Property]
+        public Property CreateBasics_Returns_Correct_Value_With_List()
+        {
+            return Prop.ForAll<object[]>(value =>
+            {
+                var converted = GetBack(value.ToList());
+                return converted.SequenceEqual(value);
+            });
+        }
 
         private T ConvertBack<T>(T value)
         {
@@ -143,6 +169,13 @@ namespace Tests.Universal.WebBrowserEngineTests
             object res = null;
             Converter.GetSimpleValue(Get(value), out res, typeof(T));
             return (T)res;
+        }
+
+        private object ConvertBack(IJavascriptObject value, Type targetType)
+        {
+            object res = null;
+            Converter.GetSimpleValue(value, out res, targetType);
+            return res;
         }
 
         public static IEnumerable<object> DateTimes 
@@ -160,7 +193,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         [Theory]
         [MemberData(nameof(DateTimes))]
-        public void Test_GetSimpleValue_Date(DateTime date)
+        public void CreateBasics_DateTime_Create_Correct_Objects_Fixed_Values(DateTime date)
         {
             Test(() =>
             {
@@ -173,7 +206,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         }
 
         [Fact]
-        public void Test_GetSimpleValue_Uint_explicit()
+        public void CreateBasics_Uint_Create_Correct_Object()
         {
             Test(() =>
             {
