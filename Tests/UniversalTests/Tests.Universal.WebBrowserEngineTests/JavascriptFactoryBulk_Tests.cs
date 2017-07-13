@@ -24,12 +24,8 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             public static Arbitrary<DateTime> ArbitraryDateTime()
             {
-                //var generator = Gen.zip3(Gen.Choose(0, 2020 * 365 * 24), Gen.Choose(0, 3599), Gen.Choose(0, 9999))
-                //                            .Select(t => new DateTime(t.Item1 * TimeSpan.TicksPerHour).AddSeconds(t.Item2).AddMilliseconds(t.Item3));
-
                 var generator = Gen.zip3(Gen.Choose(1800, 2020), Gen.Choose(0, 365), Gen.zip(Gen.Choose(0, 24), Gen.Choose(0, 3600)))
                                           .Select(t => new DateTime(t.Item1, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddDays(t.Item2).AddHours(t.Item3.Item1).AddSeconds(t.Item3.Item2));
-
 
                 return Arb.From(generator);
             }
@@ -78,11 +74,11 @@ namespace Tests.Universal.WebBrowserEngineTests
             return CreateBasics_Returns_Correct_Value<int>();
         }
 
-        //[Property]
-        //public Property CreateBasics_Returns_Correct_Value_Decimal()
-        //{
-        //    return CreateBasics_Returns_Correct_Value<decimal>();
-        //}
+        [Property(Skip = "Decimal precision is not supported")]
+        public Property CreateBasics_Returns_Correct_Value_Decimal()
+        {
+            return CreateBasics_Returns_Correct_Value<decimal>();
+        }
 
         [Property]
         public Property CreateBasics_Returns_Correct_Value_Double()
