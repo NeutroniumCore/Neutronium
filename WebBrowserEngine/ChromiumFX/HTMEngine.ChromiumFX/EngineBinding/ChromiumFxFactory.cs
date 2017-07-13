@@ -168,17 +168,18 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private static string AsJavascriptExpression(object @object)
         {
-            if (@object.GetType() == typeof(double))
+            var type = @object.GetType();
+            if (type == typeof(double))
                 return ((double)(@object)).ToString("E16", CultureInfo.InvariantCulture);
 
-            if (@object.GetType() == typeof(int))
+            if (type == typeof(int))
                 return @object.ToString();
 
-            if (@object.GetType() == typeof(string))
+            if (type == typeof(string))
                 return $"'{@object}'";
 
-            if (@object.GetType() == typeof(bool))
-                return ((bool)@object?  "true": "false") $"'{@object}'";
+            if (type == typeof(bool))
+                return ((bool)@object?  "true": "false");
 
             return "undefined";
         }
