@@ -12,5 +12,7 @@ namespace Tests.ChromiumFX.WebBrowserEngineTests
                         : base(testEnvironment, output)
         {
         }
+
+        protected override bool SupportStringEmpty => true;
     }
 }

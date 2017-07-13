@@ -1,4 +1,5 @@
-﻿using Tests.CefGlue.WebBrowserEngineTests.Infra;
+﻿using System;
+using Tests.CefGlue.WebBrowserEngineTests.Infra;
 using Tests.Universal.WebBrowserEngineTests;
 using Xunit;
 using Xunit.Abstractions;
@@ -12,5 +13,7 @@ namespace Tests.CefGlue.WebBrowserEngineTests
                         : base(testEnvironment, output)
         {
         }
+
+        protected override bool SupportStringEmpty => false;
     }
 }

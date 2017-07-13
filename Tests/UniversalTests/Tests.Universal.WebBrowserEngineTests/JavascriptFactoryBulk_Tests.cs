@@ -20,6 +20,8 @@ namespace Tests.Universal.WebBrowserEngineTests
             Arb.Register<DateTimeGenerator>();
         }
 
+        protected abstract bool SupportStringEmpty { get; }
+
         public class DateTimeGenerator
         {
             public static Arbitrary<DateTime> ArbitraryDateTime()
@@ -42,19 +44,34 @@ namespace Tests.Universal.WebBrowserEngineTests
         [InlineData(true)]
         [InlineData(10)]
         [InlineData("tititi")]
-        [InlineData("")]
         [InlineData(0.5D)]
         [InlineData(-1)]
         [InlineData(99999.95)]
         public void Test_GetSimpleValue(object value)
         {
+            TestConvertion(value);
+        }
+
+        [Theory]
+        [InlineData("")]
+        public void Test_GetEmptyStringSimpleValue(object value)
+        {
+            if (!SupportStringEmpty)
+                return;
+
+            TestConvertion(value);
+        }
+
+        private void TestConvertion(object value)
+        {
             Test(() =>
-               {
-                   object res = null;
-                   bool ok = Converter.GetSimpleValue(Get(value), out res);
-                   ok.Should().BeTrue();
-                   res.Should().Equals(value);
-               });
+            {
+                object res = null;
+                bool ok = Converter.GetSimpleValue(Get(value), out res);
+                ok.Should().BeTrue();
+                res.Should().NotBeNull();
+                res.Should().Equals(value);
+            });
         }
 
         [Fact]
@@ -89,7 +106,11 @@ namespace Tests.Universal.WebBrowserEngineTests
         [Property]
         public Property CreateBasics_Returns_Correct_Value_String()
         {
-            return CreateBasics_Returns_Correct_Value<string>();
+            Func<string, bool> when = Always<string>;
+            if (!SupportStringEmpty)
+                when = StringIsNotEmpty;
+
+            return CreateBasics_Returns_Correct_Value(when);
         }
 
         [Property]
@@ -98,16 +119,21 @@ namespace Tests.Universal.WebBrowserEngineTests
             return CreateBasics_Returns_Correct_Value<DateTime>();
         }
 
-        public Property CreateBasics_Returns_Correct_Value<T>()
+        public Property CreateBasics_Returns_Correct_Value<T>(Func<T,bool> when = null)
         {
+            when = when ?? Always;
             return Prop.ForAll<T>(value =>
                 Test(() =>
                 {
                     var res = ConvertBack(value);
                     return EqualityComparer<T>.Default.Equals(res, value);
-                })
+                }).When(when(value))
             );
         }
+
+        private static bool Always<T>(T value) => true;
+
+        private static bool StringIsNotEmpty(string value) => value != String.Empty;
 
         private T ConvertBack<T>(T value)
         {
@@ -128,6 +154,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 yield return new object[] { new DateTime(1979, 04, 03, 18, 59, 37, DateTimeKind.Utc)};
                 yield return new object[] { new DateTime(1941, 09, 04, 19, 05, 31, DateTimeKind.Utc)};
                 yield return new object[] { new DateTime(1824, 11, 10, 03, 47, 27, DateTimeKind.Utc)};
+                yield return new object[] { new DateTime(1893, 11, 12, 14, 59, 11, DateTimeKind.Utc) };
             }
         }
 
