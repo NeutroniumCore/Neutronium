@@ -60,14 +60,14 @@ namespace Tests.Universal.WebBrowserEngineTests
         [InlineData(false)]
         [InlineData(true)]
         [InlineData(10)]
-        [InlineData("tititi")]
         [InlineData(0.5D)]
         [InlineData(-1)]
         [InlineData(99999.95)]
         [InlineData(2.333333333)]
         [InlineData(-0.66666666666666663)]
         [InlineData(1.3333333333333333)]
-        [InlineData(4.94065645841247E-3240)]
+        [InlineData("tititi")]
+        [InlineData("\\")]
         public void CreateBasics_BasicTypes_Returns_Correct_Value(object value)
         {
             TestConvertion(value);

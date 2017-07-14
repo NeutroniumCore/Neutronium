@@ -116,6 +116,7 @@
     <Compile Include="NullWatcherTest.cs" />
     <Compile Include="NavigationBuilderTests.cs" />
     <Compile Include="Infra\TypeExtenderTest.cs" />
+    <Compile Include="WebBrowserEngine\JavascriptObject\JavascriptNamerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

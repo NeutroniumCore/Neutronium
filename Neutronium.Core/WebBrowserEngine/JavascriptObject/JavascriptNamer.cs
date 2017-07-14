@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Neutronium.Core.JavascriptFramework
+namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
 {
     public static class JavascriptNamer
     {
@@ -14,7 +14,7 @@ namespace Neutronium.Core.JavascriptFramework
         {
             Register<bool>(b => b ? "true" : "false");
 
-            Register<string>(s => $"'{s}'");
+            Register<string>(s => $"'{s.Replace(@"\", @"\\")}'");
             Register<char>(s => $"'{s}'");
 
             Register<Int64>(Raw);
@@ -38,7 +38,7 @@ namespace Neutronium.Core.JavascriptFramework
 
         private static string Raw<T>(T value) => $"{value}";
 
-        public static string GetBuildExpression(object @object)
+        public static string GetCreateExpression(object @object)
         {
             var type = @object.GetType().GetUnderlyingType();
             var conv = _Builder.GetOrDefault(type, _ => "undefined");

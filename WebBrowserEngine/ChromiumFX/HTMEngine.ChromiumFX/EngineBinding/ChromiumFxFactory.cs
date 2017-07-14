@@ -8,7 +8,6 @@ using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 using Neutronium.WebBrowserEngine.ChromiumFx.V8Object;
-using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
@@ -163,7 +162,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private string CreateStringValue(IReadOnlyList<object> from)
         {
-            return $"[{string.Join(",", from.Select(v => JavascriptNamer.GetBuildExpression(v)))}]";
+            return $"[{string.Join(",", from.Select(v => JavascriptNamer.GetCreateExpression(v)))}]";
         }
 
         public bool IsTypeBasic(Type type) 
