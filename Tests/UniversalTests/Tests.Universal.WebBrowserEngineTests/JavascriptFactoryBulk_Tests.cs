@@ -68,6 +68,10 @@ namespace Tests.Universal.WebBrowserEngineTests
         [InlineData(1.3333333333333333)]
         [InlineData("tititi")]
         [InlineData("\\")]
+        [InlineData("\n")]
+        [InlineData("\r\n")]
+        [InlineData("\r")]
+        [InlineData("'")]
         public void CreateBasics_BasicTypes_Returns_Correct_Value(object value)
         {
             TestConvertion(value);

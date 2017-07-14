@@ -14,7 +14,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         {
             Register<bool>(b => b ? "true" : "false");
 
-            Register<string>(s => $"'{s.Replace(@"\", @"\\")}'");
+            Register<string>(UpdateString);
             Register<char>(s => $"'{s}'");
 
             Register<Int64>(Raw);
@@ -34,6 +34,15 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         private static void Register<T>(Func<T, string> Factory)
         {
             _Builder.Add(typeof(T), (o) => Factory((T)o));
+        }
+
+        private static string UpdateString(string value)
+        {
+            var filtered = value.Replace(@"\", @"\\")
+                                .Replace("\n", "\\n")
+                                .Replace("\r", "\\r")
+                                .Replace("'", @"\'");
+            return $"'{filtered}'";
         }
 
         private static string Raw<T>(T value) => $"{value}";
