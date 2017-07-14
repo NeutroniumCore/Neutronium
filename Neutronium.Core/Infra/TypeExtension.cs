@@ -6,6 +6,12 @@ namespace Neutronium.Core.Infra
 {
     public static class TypeExtender
     {
+        private static readonly Type NullableType = typeof(Nullable<>);
+        private static readonly Type EnumerableType = typeof(IEnumerable<>);
+        private static readonly Type UInt16Type = typeof(UInt16);
+        private static readonly Type UInt32Type = typeof(UInt32);
+        private static readonly Type UInt64Type = typeof(UInt64);
+        
         public static IEnumerable<Type> GetBaseTypes(this Type type) 
         {
             if (type == null) throw new ArgumentNullException();
@@ -25,10 +31,10 @@ namespace Neutronium.Core.Infra
             if (!type.IsGenericType)
                 return null;
 
-            if (type.GetGenericTypeDefinition() == typeof (IEnumerable<>))
+            if (type.GetGenericTypeDefinition() == EnumerableType)
                 return type.GetGenericArguments()[0];
 
-            var types = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof (IEnumerable<>)).ToArray();
+            var types = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == EnumerableType).ToArray();
             // Only support collections that implement IEnumerable<T> once.
             return types.Length == 1 ? types[0].GetGenericArguments()[0] : null;
         }
@@ -41,12 +47,14 @@ namespace Neutronium.Core.Infra
             if (!type.IsGenericType)
                 return null;
 
-            return type.GetGenericTypeDefinition() == typeof (Nullable<>) ? type.GetGenericArguments()[0] : null;
+            return type.GetGenericTypeDefinition() == NullableType ? type.GetGenericArguments()[0] : null;
         }
+
+        public static Type GetUnderlyingType(this Type type) => GetUnderlyingNullableType(type) ?? type;
 
         public static bool IsUnsigned(this Type targetType) 
         {
-            return (targetType != null) && ((targetType == typeof(UInt16)) || (targetType == typeof(UInt32)) || (targetType == typeof(UInt64)));
+            return (targetType != null) && ((targetType == UInt16Type) || (targetType == UInt32Type) || (targetType == UInt64Type));
         }
     }
 }

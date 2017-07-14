@@ -8,7 +8,7 @@ using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 using Neutronium.WebBrowserEngine.ChromiumFx.V8Object;
-using System.Globalization;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
@@ -55,6 +55,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             Register<decimal>((source) => CfrV8Value.CreateDouble((double)source));
             Register<bool>(CfrV8Value.CreateBool);
             Register<DateTime>((source) => CfrV8Value.CreateDate(CfrTime.FromUniversalTime(source.ToUniversalTime())));
+        }
+
+        private static void Register<T>(Func<T, CfrV8Value> Factory)
+        {
+            _Converters.Add(typeof(T), (o) => Factory((T)o));
         }
 
         private CfrV8Value FactoryCreator()
@@ -133,11 +138,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return type != null && _Converters.ContainsKey(type);
         }
 
-        private static void Register<T>(Func<T, CfrV8Value> Factory)
-        {
-            _Converters.Add(typeof(T), (o) => Factory((T)o));
-        }
-
         public bool CreateBasic(object ifrom, out IJavascriptObject res)
         {
             Func<object, CfrV8Value> conv;
@@ -163,27 +163,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private string CreateStringValue(IReadOnlyList<object> from)
         {
-            return $"[{string.Join(",", from.Select(v => AsJavascriptExpression(v)))}]";
+            return $"[{string.Join(",", from.Select(v => JavascriptNamer.GetBuildExpression(v)))}]";
         }
-
-        private static string AsJavascriptExpression(object @object)
-        {
-            var type = @object.GetType();
-            if (type == typeof(double))
-                return ((double)(@object)).ToString("E16", CultureInfo.InvariantCulture);
-
-            if (type == typeof(int))
-                return @object.ToString();
-
-            if (type == typeof(string))
-                return $"'{@object}'";
-
-            if (type == typeof(bool))
-                return ((bool)@object?  "true": "false");
-
-            return "undefined";
-        }
-
 
         public bool IsTypeBasic(Type type) 
         {

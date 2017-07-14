@@ -11,7 +11,7 @@ namespace Neutronium.Core.Infra
             var elementtype = type.GetEnumerableBase();
             if (elementtype == null)
                 return null;
-            return elementtype.GetUnderlyingNullableType() ?? elementtype;
+            return elementtype.GetUnderlyingType();
         }
     }
 }

@@ -34,30 +34,31 @@ namespace Neutronium.Core.Test.Infra
             n.GetEnumerableBase().Should().BeNull();
         }
 
-        [Fact]
-        public void GetUnderlyingNullableType_null()
+        [Theory]
+        [InlineData(typeof(Nullable<int>), typeof(int))]
+        [InlineData(typeof(Nullable<double>), typeof(double))]
+        public void GetUnderlyingNullableType_Returns_Expected_Value(Type type, Type expected)
         {
-            Type n = null;
-            n.GetUnderlyingNullableType().Should().BeNull();
+            type.GetUnderlyingNullableType().Should().Be(expected);
         }
 
-        [Fact]
-        public void GetUnderlyingiliststring_null()
+        [Theory]
+        [InlineData(null)]
+        [InlineData(typeof(IList<string>))]
+        [InlineData(typeof(string))]
+        public void GetUnderlyingNullableType_Returns_Expected_Null_Value(Type type)
         {
-            Type n = typeof(IList<string>);
-            n.GetUnderlyingNullableType().Should().BeNull();
+            type.GetUnderlyingNullableType().Should().BeNull();
         }
 
-        [Fact]
-        public void GetUnderlyingNullableType_int()
+        [Theory]
+        [InlineData(typeof(Nullable<int>), typeof(int))]
+        [InlineData(typeof(Nullable<double>), typeof(double))]
+        [InlineData(typeof(IList<string>), typeof(IList<string>))]
+        [InlineData(typeof(string), typeof(string))]
+        public void GetUnderlyingType_Returns_Expected_Null_Value(Type type, Type expected)
         {
-            typeof(Nullable<int>).GetUnderlyingNullableType().Should().Be(typeof(int));
-        }
-
-        [Fact]
-        public void GetUnderlyingNullableType_string()
-        {
-            typeof(string).GetUnderlyingNullableType().Should().BeNull();
+            type.GetUnderlyingType().Should().Be(expected);
         }
 
         [Theory]

@@ -34,7 +34,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             var elementtype = typeo.GetEnumerableBase();
             if (elementtype == null)
                 return null;
-            var almost = elementtype.GetUnderlyingNullableType() ?? elementtype;
+            var almost = elementtype.GetUnderlyingType();
             return _Converters.ContainsKey(almost) ? almost : null;
         }
 

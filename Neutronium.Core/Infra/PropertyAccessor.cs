@@ -23,7 +23,7 @@ namespace Neutronium.Core.Infra
         public Type GetTargetType()
         {
             var originalType =_PropertyInfo.PropertyType;
-            return originalType.GetUnderlyingNullableType() ?? originalType;
+            return originalType.GetUnderlyingType();
         }
 
         public bool Set(object value)
