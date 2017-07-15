@@ -66,6 +66,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         [InlineData(2.333333333)]
         [InlineData(-0.66666666666666663)]
         [InlineData(1.3333333333333333)]
+        [InlineData(double.NegativeInfinity)]
         [InlineData("tititi")]
         [InlineData("\\")]
         [InlineData("\n")]
@@ -142,7 +143,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         [Property]
         public Property CreateBasics_Double_Create_Correct_Objects()
         {
-            return CreateBasics_Returns_Correct_Value<double>(number => !double.IsInfinity(number));
+            return CreateBasics_Returns_Correct_Value<double>();
         }
 
         [Property]
