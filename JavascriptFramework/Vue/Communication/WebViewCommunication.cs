@@ -63,8 +63,8 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
         {
             return (channel, message) =>
             {
-                var transformed = message.Replace(@"\", @"\\");
-                target.ExecuteJavaScript(codeBuilder($"'{channel}'", $"'{transformed}'"));
+                var transformed = JavascriptNamer.GetCreateExpression(message);
+                target.ExecuteJavaScript(codeBuilder($"'{channel}'", transformed));
             };
         }
     }

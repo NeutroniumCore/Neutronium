@@ -14,9 +14,11 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         {
             Register<bool>(b => b ? "true" : "false");
 
-            Register<string>(UpdateString);
             Register<char>(s => $"'{s}'");
+            Register<string>(GetCreateExpression);
 
+            Register<DateTime>(GetCreateDateTimeString);
+            
             Register<Int64>(Raw);
             Register<UInt64>(Raw);           
             Register<Int32>(Raw);
@@ -24,11 +26,9 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
             Register<UInt32>(Raw);
             Register<UInt16>(Raw);
 
-            Register<double>(d => d.ToString("E16", CultureInfo.InvariantCulture));
-
-            //Register<float>((source) => CfrV8Value.CreateDouble((double)source));       
-            //Register<decimal>((source) => CfrV8Value.CreateDouble((double)source));       
-            //Register<DateTime>((source) => CfrV8Value.CreateDate(CfrTime.FromUniversalTime(source.ToUniversalTime())));
+            Register<double>(GetCreateDoubleString);
+            Register<float>(GetCreateNumberExpression);
+            Register<decimal>(GetCreateNumberExpression);
         }
 
         private static void Register<T>(Func<T, string> Factory)
@@ -36,7 +36,23 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
             _Builder.Add(typeof(T), (o) => Factory((T)o));
         }
 
-        private static string UpdateString(string value)
+        private static string Raw<T>(T value) => $"{value}";
+
+        private static string GetCreateNumberExpression(decimal value) => GetCreateDoubleString((double)value);
+        private static string GetCreateNumberExpression(float value) => GetCreateDoubleString((double)value);
+
+        public static string GetCreateDoubleString(double value)
+        {
+            return value.ToString("E16", CultureInfo.InvariantCulture);
+        }
+
+        public static string GetCreateDateTimeString(DateTime value)
+        {
+            var valueUtc = value.ToUniversalTime();
+            return $"new Date(Date.UTC({valueUtc.Year}, {valueUtc.Month - 1}, {valueUtc.Day}, {valueUtc.Hour}, {valueUtc.Minute}, {valueUtc.Second}, {valueUtc.Millisecond}))";
+        }
+
+        public static string GetCreateExpression(string value)
         {
             var filtered = value.Replace(@"\", @"\\")
                                 .Replace("\n", "\\n")
@@ -45,13 +61,13 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
             return $"'{filtered}'";
         }
 
-        private static string Raw<T>(T value) => $"{value}";
-
         public static string GetCreateExpression(object @object)
         {
             var type = @object.GetType().GetUnderlyingType();
-            var conv = _Builder.GetOrDefault(type, _ => "undefined");
+            var conv = _Builder.GetOrDefault(type, Undefined);
             return conv(@object);
         }
+
+        private static string Undefined(object _) => "undefined";
     }
 }

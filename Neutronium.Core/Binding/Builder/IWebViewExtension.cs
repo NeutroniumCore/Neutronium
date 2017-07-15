@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Binding.Builder
 {
-    public static class WebViewExtesion
+    public static class WebViewExtension
     {
 
         /// <summary>

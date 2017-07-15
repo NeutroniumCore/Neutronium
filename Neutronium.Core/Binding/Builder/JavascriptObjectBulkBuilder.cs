@@ -1,5 +1,4 @@
 ﻿using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Exceptions;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
@@ -15,10 +14,9 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IBulkUpdater _BulkPropertyUpdater;
         private readonly IJSCSGlue _Root;
 
-        private readonly List<ChildrenPropertyDescriptor>
-                _ObjectsBuildingRequested = new List<ChildrenPropertyDescriptor>();
-        private readonly List<ChildrenArrayDescriptor>
-                _ArraysBuildingRequested = new List<ChildrenArrayDescriptor>();
+        private readonly List<ChildrenPropertyDescriptor> _ObjectsBuildingRequested = new List<ChildrenPropertyDescriptor>();
+        private readonly List<ChildrenArrayDescriptor> _ArraysBuildingRequested = new List<ChildrenArrayDescriptor>();
+        private readonly List<IJSCSGlue> _BasicObjectsToCreate = new List<IJSCSGlue>();
 
         public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
             IJSCSGlue root)
@@ -57,18 +55,14 @@ namespace Neutronium.Core.Binding.Builder
                 return;
             }
 
-            IJavascriptObject value;
-            if (_Factory.CreateBasic(cValue, out value))
+            if (cValue.GetType().IsEnum)
             {
-                glueObject.SetJSValue(value);
+                glueObject.SetJSValue(_Factory.CreateEnum((Enum)cValue));
+                _Cache.CacheLocal(cValue, glueObject);
                 return;
             }
 
-            if (!cValue.GetType().IsEnum)
-                throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
-
-            glueObject.SetJSValue(_Factory.CreateEnum((Enum)cValue));
-            _Cache.CacheLocal(cValue, glueObject);
+            _BasicObjectsToCreate.Add(glueObject);
         }
 
         internal void RequestCommandCreation(IJSCSGlue glueObject, bool canExcecute)
@@ -82,6 +76,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void CreateObjects()
         {
+            BulkCreate(_ => _Factory.CreateBasics(_BasicObjectsToCreate.Select(glue => glue.CValue).ToList()), _BasicObjectsToCreate);
             BulkCreate(count => _Factory.CreateObjects(true, count), _ObjectsBuildingRequested.Select(item => item.Father).ToList());
             BulkCreate(count => _Factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Father).ToList());
         }

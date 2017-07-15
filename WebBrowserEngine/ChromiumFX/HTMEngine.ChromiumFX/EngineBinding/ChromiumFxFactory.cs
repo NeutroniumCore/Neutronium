@@ -98,7 +98,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
                 function createBulkBasic(values, fn){
                     const array = eval(values)
-                    console.log(array)
                     pushResult(fn, array)
                 }
                 function createBulkArray(id, size, fn){
