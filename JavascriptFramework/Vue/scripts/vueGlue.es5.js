@@ -9,32 +9,38 @@
         }
     };
 
+    var propId = '_MappedId';
     var visited = new Map();
 
-    function visitObject(vm, visit, visitArray) {
+    function visitObject(vm, visit, visitArray, vmType) {
         "use strict";
         if (!vm || visited.has(vm._MappedId)) return;
 
-        if (typeof vm !== "object") return;
+        var type = vmType || typeof vm;
+
+        if (type !== "object") return;
 
         visited.set(vm._MappedId, vm);
 
         if (Array.isArray(vm)) {
             visitArray(vm);
-            vm.forEach(function (value) {
-                return visitObject(value, visit, visitArray);
-            });
+            var arrayCount = vm.length;
+            for (var i = 0; i < arrayCount; i++) {
+                var _value = vm[i];
+                visitObject(_value, visit, visitArray);
+            }
             return;
         }
 
         for (var property in vm) {
-            if (!vm.hasOwnProperty(property)) continue;
+            if (property === propId) continue;
 
             var value = vm[property];
-            if (typeof value === "function") continue;
+            var typeValue = typeof value;
+            if (typeValue === "function") continue;
 
             visit(vm, property);
-            visitObject(value, visit, visitArray);
+            visitObject(value, visit, visitArray, typeValue);
         }
     }
 
