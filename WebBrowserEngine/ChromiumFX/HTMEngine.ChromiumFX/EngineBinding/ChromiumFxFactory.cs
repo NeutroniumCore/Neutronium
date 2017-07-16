@@ -77,16 +77,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                         fn.apply(null, subArray)
                     }
                 }
-
                 function objectWithId(id){
-                    this.{{ChromiumFXJavascriptRoot.IdName}} = id
+                    Object.defineProperty(this, '{{ChromiumFXJavascriptRoot.IdName}}', {value: id});
                 }
                 function createObject(id){
                     return new objectWithId(id)
                 }
                 function createArray(id){
                     const res = []
-                    res.{{ChromiumFXJavascriptRoot.IdName}} = id
+                    Object.defineProperty(res, '{{ChromiumFXJavascriptRoot.IdName}}', {value: id});
                     return res
                 }
                 function createBulkObject(id, size, fn){

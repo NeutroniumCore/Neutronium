@@ -7,17 +7,12 @@
         }
     };
 
-    const propId = '_MappedId';
-    var visited = new Map(); 
+    var visited = new Map();
+    visited.set(undefined, null);
 
-    function visitObject(vm, visit, visitArray, vmType) {
+    function visitObject(vm, visit, visitArray) {
         "use strict";
         if (!vm || visited.has(vm._MappedId))
-            return;
-
-        const type = vmType || typeof vm
-
-        if (type !== "object")
             return;
 
         visited.set(vm._MappedId, vm);
@@ -33,23 +28,19 @@
         }
 
         for (var property in vm) {
-            if (property === propId)
-                continue;
-
             var value = vm[property];
-            const typeValue = typeof value
-            if (typeValue === "function")
+            if (typeof value === "function")
                 continue;
 
             visit(vm, property);
-            visitObject(value, visit, visitArray, typeValue);
+            visitObject(value, visit, visitArray);
         }
     }
 
     var vueVm = null;
 
     const ListenerProp = {
-        init : function (listener, change) {
+        init: function (listener, change) {
             this.listener = listener;
             this.change = change;
             return this;
@@ -177,7 +168,7 @@
 
     var closeMixin = VueAdapter.addOnReady({},
       function () {
-           listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
+          listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
       });
 
     var promiseMixin = {
@@ -257,10 +248,10 @@
                 mixin = [mixin];
 
             var vueOption = VueAdapter.addOnReady({
-                    el: "#main",
-                    mixins: mixin,
-                    data: vm
-                },
+                el: "#main",
+                mixins: mixin,
+                data: vm
+            },
                 function () {
                     fufillOnReady(null);
                 });

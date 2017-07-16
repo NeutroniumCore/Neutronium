@@ -9,16 +9,12 @@
         }
     };
 
-    var propId = '_MappedId';
     var visited = new Map();
+    visited.set(undefined, null);
 
-    function visitObject(vm, visit, visitArray, vmType) {
+    function visitObject(vm, visit, visitArray) {
         "use strict";
         if (!vm || visited.has(vm._MappedId)) return;
-
-        var type = vmType || typeof vm;
-
-        if (type !== "object") return;
 
         visited.set(vm._MappedId, vm);
 
@@ -33,14 +29,11 @@
         }
 
         for (var property in vm) {
-            if (property === propId) continue;
-
             var value = vm[property];
-            var typeValue = typeof value;
-            if (typeValue === "function") continue;
+            if (typeof value === "function") continue;
 
             visit(vm, property);
-            visitObject(value, visit, visitArray, typeValue);
+            visitObject(value, visit, visitArray);
         }
     }
 
