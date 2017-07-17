@@ -4,8 +4,28 @@
     console.log("VueGlue loaded");
 
     var silenterProto = {
+        init: function init(father) {
+            this.father = father;
+            this.listeners = {};
+            return this;
+        },
+        create: function create(propertyName, callback) {
+            var listener = { callback: callback };
+            this.updateListener(listener, propertyName);
+            this.listeners[propertyName] = listener;
+        },
+        updateListener: function updateListener(listener, propertyName) {
+            var _this = this;
+
+            listener.watch = vueVm.$watch(function () {
+                return _this.father[propertyName];
+            }, listener.callback);
+        },
         silentChange: function silentChange(propertyName, value) {
-            this[propertyName].silence(value);
+            var listener = this.listeners[propertyName];
+            listener.watch();
+            this.father[propertyName] = value;
+            this.updateListener(listener, propertyName);
         }
     };
 
@@ -38,23 +58,6 @@
     }
 
     var vueVm = null;
-
-    var ListenerProp = {
-        init: function init(listener, change) {
-            this.listener = listener;
-            this.change = change;
-            return this;
-        },
-        listen: function listen() {
-            this.subscriber = this.listener();
-            return this;
-        },
-        silence: function silence(value) {
-            this.subscriber();
-            this.change(value);
-            this.listen();
-        }
-    };
 
     function collectionListener(object, observer) {
         return function (changes) {
@@ -100,7 +103,6 @@
                 father[prop] = oldVal;
                 return;
             }
-
             observer.TrackChanges(father, prop, newVal);
         };
     }
@@ -109,17 +111,9 @@
         if (!vueVm) return vm;
 
         visitObject(vm, function (father, prop) {
-            father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto) });
+            father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto).init(father) });
             var silenter = father.__silenter;
-            var listenerfunction = onPropertyChange(observer, prop, father);
-            var newListener = Object.create(ListenerProp).init(function () {
-                return vueVm.$watch(function () {
-                    return father[prop];
-                }, listenerfunction);
-            }, function (value) {
-                return father[prop] = value;
-            }).listen();
-            silenter[prop] = newListener;
+            silenter.create(prop, onPropertyChange(observer, prop, father));
         }, function (array) {
             return updateArray(array, observer);
         });
@@ -152,11 +146,11 @@
         var callBack = options.callBack;
 
         this.$watch("$data.__window__.State", function (newVal) {
-            var _this = this;
+            var _this2 = this;
 
             if (newVal.name == status) {
                 var cb = function cb() {
-                    return _this.$data.__window__[command].Execute();
+                    return _this2.$data.__window__[command].Execute();
                 };
                 callBack(cb);
             }
@@ -170,18 +164,18 @@
     var VueAdapter = Vue.adapter;
 
     var openMixin = VueAdapter.addOnReady({}, function () {
-        var _this2 = this;
+        var _this3 = this;
 
         listenEventAndDo.call(this, { status: "Opened", command: "EndOpen", inform: "IsListeningOpen", callBack: function callBack(cb) {
-                return _this2.onOpen(cb);
+                return _this3.onOpen(cb);
             } });
     });
 
     var closeMixin = VueAdapter.addOnReady({}, function () {
-        var _this3 = this;
+        var _this4 = this;
 
         listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: function callBack(cb) {
-                return _this3.onClose(cb);
+                return _this4.onClose(cb);
             } });
     });
 

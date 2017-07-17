@@ -2,8 +2,24 @@
     console.log("VueGlue loaded");
 
     const silenterProto = {
+        init (father) {
+            this.father = father;
+            this.listeners = {}
+            return this;
+        },
+        create(propertyName, callback) {
+            const listener = { callback };
+            this.updateListener(listener, propertyName);
+            this.listeners[propertyName] = listener;
+        },
+        updateListener(listener, propertyName) {
+            listener.watch = vueVm.$watch(() => this.father[propertyName], listener.callback)
+        },
         silentChange: function (propertyName, value) {
-            this[propertyName].silence(value)
+            const listener = this.listeners[propertyName];
+            listener.watch();
+            this.father[propertyName] = value;
+            this.updateListener(listener, propertyName);
         }
     };
 
@@ -38,23 +54,6 @@
     }
 
     var vueVm = null;
-
-    const ListenerProp = {
-        init: function (listener, change) {
-            this.listener = listener;
-            this.change = change;
-            return this;
-        },
-        listen: function () {
-            this.subscriber = this.listener();
-            return this;
-        },
-        silence: function (value) {
-            this.subscriber();
-            this.change(value);
-            this.listen();
-        }
-    }
 
     function collectionListener(object, observer) {
         return function (changes) {
@@ -99,7 +98,6 @@
                 father[prop] = oldVal;
                 return;
             }
-
             observer.TrackChanges(father, prop, newVal);
         };
     }
@@ -109,13 +107,9 @@
             return vm
 
         visitObject(vm, (father, prop) => {
-            father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto) });
+            father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto).init(father) });
             var silenter = father.__silenter;
-            var listenerfunction = onPropertyChange(observer, prop, father);
-            var newListener = Object.create(ListenerProp)
-                                    .init(() => vueVm.$watch(() => father[prop], listenerfunction), (value) => father[prop] = value)
-                                    .listen();
-            silenter[prop] = newListener;
+            silenter.create(prop, onPropertyChange(observer, prop, father));
         }, array => updateArray(array, observer));
         return vm
     };
