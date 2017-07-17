@@ -17,7 +17,7 @@ namespace Neutronium.JavascriptFramework.Knockout
             _WebView = webView;
         }
 
-        public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool isBasic)
+        public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, UpdateContext context)
         {
             var silenter = GetSilenter(father, propertyName);
             if (silenter != null)

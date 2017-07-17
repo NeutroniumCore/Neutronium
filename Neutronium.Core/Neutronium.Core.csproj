@@ -138,6 +138,7 @@
     <Compile Include="Binding\SessionCacher.cs" />
     <Compile Include="Infra\PropertyAccessor.cs" />
     <Compile Include="Infra\ResourceReader.cs" />
+    <Compile Include="JavascriptFramework\UpdateContext.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\JavascriptNamer.cs" />
     <Compile Include="Navigation\Routing\BuilderExtension.cs" />
     <Compile Include="Navigation\Routing\IConventionRouter.cs" />

@@ -20,11 +20,10 @@ namespace Neutronium.Core.JavascriptFramework
         /// <param name="value">
         /// new value of the property
         /// </param>
-        /// <param name="basicValue">
-        /// true if the value is a basic type
-        /// used to improve performance in some scenario
+        /// <param name="updateContext">
+        /// updateContext for the corresponding father-child couple
         /// </param>
-        void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool basicValue);
+        void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, UpdateContext updateContext);
 
         /// <summary>
         /// Update javascript collection without raising listeners events

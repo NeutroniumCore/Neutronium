@@ -84,7 +84,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
         {
             var newValue = factory(WebView.Factory);
-            ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, newValue, true);
+            ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, newValue, new UpdateContext { ChildAllowWrite = false });
         }
 
         public void SetMappedJSValue(IJavascriptObject jsobject)

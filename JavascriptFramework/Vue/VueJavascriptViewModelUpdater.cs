@@ -31,18 +31,18 @@ namespace Neutronium.JavascriptFramework.Vue
         public void ClearAllCollection(IJavascriptObject array)
         {
             var length = array.GetArrayLength();
-            array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(0), _WebView.Factory.CreateInt(length));
+            array.InvokeNoResult("silentSplice", _WebView, _WebView.Factory.CreateInt(0), _WebView.Factory.CreateInt(length));
         }
 
         public void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex)
         {   
-            array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(oldIndex), _WebView.Factory.CreateInt(1));
+            array.InvokeNoResult("silentSplice", _WebView, _WebView.Factory.CreateInt(oldIndex), _WebView.Factory.CreateInt(1));
             Add(array, newIndex, 0, item);
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)
         {
-            array.InvokeAsync("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
+            array.InvokeNoResult("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number));
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added)
@@ -50,7 +50,7 @@ namespace Neutronium.JavascriptFramework.Vue
             Add(array, index, number, added);
         }
 
-        public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool isBasic)
+        public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, UpdateContext context)
         {
             var silenter = GetOrCreateSilenter(father);
             if (silenter == null)
@@ -61,8 +61,8 @@ namespace Neutronium.JavascriptFramework.Vue
                 father.SetValue(propertyName, value);
                 return;
             }
-            silenter.Invoke("silentChange", _WebView, _WebView.Factory.CreateString(propertyName), value);
-            if (isBasic)
+            silenter.InvokeNoResult("silentChange", _WebView, _WebView.Factory.CreateString(propertyName), value);
+            if (!context.ChildAllowWrite)
                 return;
 
             Inject(value);
@@ -70,13 +70,13 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private void Add(IJavascriptObject array, int index, int number, IJavascriptObject value)
         {
-            array.Invoke("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), value);
+            array.InvokeNoResult("silentSplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), value);
             Inject(value);
         }
 
         private void Inject(IJavascriptObject value)
         {
-            _VueHelper.Value.Invoke("inject", _WebView, value, _Listener);
+            _VueHelper.Value.InvokeNoResult("inject", _WebView, value, _Listener);
         }
 
         private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father)

@@ -3,6 +3,7 @@ using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Dictionary;
 using Neutronium.Core.Binding.Builder;
+using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -72,8 +73,8 @@ namespace Neutronium.Core.Binding.GlueObject
         public BridgeUpdater GetUpdater(string propertyName, IJSCSGlue glue)
         {
             UpdateGlueProperty(propertyName, glue);
-
-            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), glue.IsBasic()));
+            var context = new UpdateContext { ChildAllowWrite = !glue.IsBasic() };
+            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), context));
         }
     }
 }
