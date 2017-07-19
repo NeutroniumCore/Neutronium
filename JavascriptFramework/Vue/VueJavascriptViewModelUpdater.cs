@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Neutronium.Core;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using MoreCollection.Extensions;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
@@ -11,7 +9,6 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptObject _Listener;
-        private readonly IDictionary<IJavascriptObject, IJavascriptObject> _Silenters = new Dictionary<IJavascriptObject, IJavascriptObject>();
         private readonly Lazy<IJavascriptObject> _VueHelper;
         private readonly IWebSessionLogger _Logger;
 
@@ -21,11 +18,6 @@ namespace Neutronium.JavascriptFramework.Vue
             _Listener = listener;
             _VueHelper = vueHelper;
             _Logger = logger;
-        }
-
-        public void Dispose()
-        {
-            _Silenters.Clear();
         }
 
         public void ClearAllCollection(IJavascriptObject array)
@@ -52,16 +44,8 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, UpdateContext context)
         {
-            var silenter = GetOrCreateSilenter(father);
-            if (silenter == null)
-            {
-                _Logger.Info(() => $"UpdateProperty called during an injection process. Property updated {propertyName}");
-                //may happen if code being call between register and inject
-                //in this case just set attribute value. The value will be register after
-                father.SetValue(propertyName, value);
-                return;
-            }
-            silenter.InvokeNoResult("silentChange", _WebView, _WebView.Factory.CreateString(propertyName), value);
+            _VueHelper.Value.InvokeNoResult("silentChange", _WebView, father, _WebView.Factory.CreateString(propertyName), value);
+
             if (!context.ChildAllowWrite)
                 return;
 
@@ -77,20 +61,6 @@ namespace Neutronium.JavascriptFramework.Vue
         private void Inject(IJavascriptObject value)
         {
             _VueHelper.Value.InvokeNoResult("inject", _WebView, value, _Listener);
-        }
-
-        private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father)
-        {
-            var res = _Silenters.GetOrAddEntity(father, _ =>
-            {
-                var candidate = father.GetValue("__silenter");
-                return (candidate.IsUndefined) ? null : candidate;
-            });
-            if (res == null)
-            {
-                _Silenters.Remove(father);
-            }
-            return res;
         }
     }
 }

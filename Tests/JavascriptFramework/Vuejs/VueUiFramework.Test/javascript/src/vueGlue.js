@@ -1,8 +1,19 @@
 ﻿(function () {
     console.log("VueGlue loaded");
 
+    const silenterProperty = '__silenter';
+
+    function silentChange(father, propertyName, value) {
+        const silenter = father[silenterProperty];
+        if (silenter) {
+            silenter.silentChange(propertyName, value);
+            return;
+        }
+        father[propertyName] = value;
+    }
+
     const silenterProto = {
-        init (father) {
+        init(father) {
             this.father = father;
             this.listeners = {}
             return this;
@@ -107,7 +118,7 @@
             return vm
 
         visitObject(vm, (father, prop) => {
-            father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto).init(father) });
+            father.__silenter || Object.defineProperty(father, silenterProperty, { value: Object.create(silenterProto).init(father) });
             var silenter = father.__silenter;
             silenter.create(prop, onPropertyChange(observer, prop, father));
         }, array => updateArray(array, observer));
@@ -161,9 +172,9 @@
         });
 
     var closeMixin = VueAdapter.addOnReady({},
-      function () {
-          listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
-      });
+        function () {
+            listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
+        });
 
     var promiseMixin = {
         methods: {
@@ -229,12 +240,13 @@
     });
 
     var helper = {
-        enumMixin: enumMixin,
-        openMixin: openMixin,
-        closeMixin: closeMixin,
-        promiseMixin: promiseMixin,
-        commandMixin: commandMixin,
-        inject: inject,
+        enumMixin,
+        openMixin,
+        closeMixin,
+        promiseMixin,
+        commandMixin,
+        silentChange,
+        inject,
         register: function (vm, observer) {
             console.log("VueGlue register");
             var mixin = Vue._vmMixin;
@@ -246,9 +258,9 @@
                 mixins: mixin,
                 data: vm
             },
-                function () {
-                    fufillOnReady(null);
-                });
+            function () {
+                fufillOnReady(null);
+            });
 
             vueVm = new Vue(vueOption);
 

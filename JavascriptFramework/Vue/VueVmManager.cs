@@ -44,7 +44,6 @@ namespace Neutronium.JavascriptFramework.Vue
             if (_VueHelperLazy.IsValueCreated)
                 _VueHelperLazy.Value.Dispose();
 
-            _VueJavascriptViewModelUpdater.Dispose();
             _WebViewCommunication?.Disconnect(_WebView);
             _Logger.Debug("VueVmManager disposed");
         }
