@@ -29,19 +29,28 @@ namespace Neutronium.Core.Binding.Builder
         private IJavascriptObject BulkCreatorBuilder()
         {
             var script =
-                @"(function(){
+                 @"(function(){
                     function bulkCreate(prop){
-                        const propss = eval(prop)
-                        const count = propss.length
+                        const propss = JSON.parse(prop)
+                        const count = propss.count
 		                const args = Array.from(arguments)
 		                const objs = args.slice(1, count + 1)
 		                const values = args.slice(1 + count, args.length + 1)
                         var valueCount = 0
+                        var elementCount = 0
+                        var innerCount = 0
+                        const elements = propss.elements
+                        var element = null
 		                for(var i=0; i< count; i ++){
-                             var props = propss[i]
-                             for (var j = 0, len = props.length; j < len; j++) {
+                            if (!element || innerCount > element.c) {
+                                element = elements[elementCount++]
+                                innerCount = 0;
+                            }
+                            var props = element.a
+                            for (var j = 0, len = props.length; j < len; j++) {
                                 objs[i][props[j]] = values[valueCount++]
-                             }
+                            }
+                            innerCount++
 		                }
                     }
                     return {
@@ -56,7 +65,8 @@ namespace Neutronium.Core.Binding.Builder
 
         void IBulkUpdater.BulkUpdateProperty(List<ChildrenPropertyDescriptor> updates)
         {
-            BulkUpdate(updates, key => $"'{key}'");
+            var orderedUpdates = updates.GroupBy(up => up.Father.GetType()).SelectMany(grouped => grouped);
+            BulkUpdate(orderedUpdates, key => $@"""{key}""");
         }
 
         void IBulkUpdater.BulkUpdateArray(List<ChildrenArrayDescriptor> updates)
@@ -78,10 +88,44 @@ namespace Neutronium.Core.Binding.Builder
 
         private IJavascriptObject[] GetUpdateParameters<T>(List<ChildrenDescriptor<T>> updates, Func<T,string> getKeyDescription)
         {
-            var sizes = AsArray(updates.Select(item => AsArray(item.ChildrenDescription.Select(p => getKeyDescription(p.Key)))));
+            var sizes = Pack(updates, getKeyDescription);
             var objects = updates.Select(up => up.Father);
             var values = updates.SelectMany(up => up.ChildrenDescription).Select(desc => desc.Child);
             return BuildArguments(sizes, objects.Concat(values));
+        }
+
+        private static string Pack<T>(List<ChildrenDescriptor<T>> updates, Func<T, string> getKeyDescription)
+        {
+            return $@"{{""count"":{updates.Count},""elements"":{AsArray(PackKeys(updates)
+                                    .Select(pack => $@"{{""c"":{pack.Item1},""a"":{AsArray(pack.Item2.Select(getKeyDescription))}}}"))}}}" ;
+         }
+
+        private static IEnumerable<Tuple<int, IReadOnlyCollection<T>>> PackKeys<T>(List<ChildrenDescriptor<T>> updates)
+        {
+            var count = 0;
+            IReadOnlyCollection<T> childrenKeys = null;
+            foreach (var description in updates.Select(up => up.ChildrenDescription))
+            {
+                var keys = description.Select(desc => desc.Key);
+                if (childrenKeys == null)
+                {
+                    childrenKeys = keys.ToList();
+                    continue;
+                }
+                if (childrenKeys.SequenceEqual(keys))
+                {
+                    count++;
+                    continue;
+                }
+
+                yield return Tuple.Create(count, childrenKeys);
+                childrenKeys = keys.ToList();
+                count = 0;
+            }
+            if (childrenKeys == null)
+                yield break;
+
+            yield return Tuple.Create(count, childrenKeys);
         }
 
         private IJavascriptObject[] BuildArguments(string paramString, IEnumerable<IJSCSGlue> paramsObjects)
