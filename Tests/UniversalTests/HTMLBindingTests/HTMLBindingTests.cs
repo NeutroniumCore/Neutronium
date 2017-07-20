@@ -2086,7 +2086,6 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetSafe(() => GetCollectionAttribute(js, "Items"));
                     col.GetArrayLength().Should().NotBe(0);
 
-
                     DoSafeUI(() => datacontext.Replace.Execute(null));
 
                     datacontext.Items.Should().BeEmpty();
@@ -2246,6 +2245,74 @@ namespace Tests.Universal.HTMLBindingTests
 
                 ex.Should().NotBeNull();
             }
+        }
+
+        public class BasicVm : ViewModelBase
+        {
+            private BasicVm _Child;
+            public BasicVm Child
+            {
+                get { return _Child; }
+                set { Set(ref _Child, value, nameof(Child)); }
+            }
+
+            private int _Value = -1;
+            public int Value
+            {
+                get { return _Value; }
+                set { Set(ref _Value, value, nameof(Value)); }
+            }
+        }
+
+        [Fact]
+        public async Task TwoWay_should_listen_to_all_changes()
+        {
+            var child = new BasicVm();
+            var datacontext = new BasicVm();
+            child.Child = child;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    DoSafeUI(() => datacontext.Child = null);
+
+                    await Task.Delay(300);
+
+                    var third = new BasicVm();
+                    child.Child = third;
+
+                    DoSafeUI(() => datacontext.Child = child);
+
+                    await Task.Delay(300);
+
+                    DoSafeUI(() => third.Value = 3);
+
+                    await Task.Delay(300);
+
+                    var child1 = GetAttribute(js, "Child");
+                    var child2 = GetAttribute(child1, "Child");
+
+                    var value = GetIntAttribute(child2, "Value");
+                    value.Should().Be(3);
+
+                    var newvalue = 44;
+                    var intJS = _WebView.Factory.CreateInt(newvalue);
+                    SetAttribute(child2, "Value", intJS);
+
+                    await Task.Delay(300);
+
+                    DoSafeUI(() =>
+                    {
+                        third.Value.Should().Be(newvalue);
+                    });
+                }
+            };
+
+            await RunAsync(test);
         }
 
         private class SmartVM : ViewModelBase
