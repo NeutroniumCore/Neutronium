@@ -3,6 +3,17 @@
 (function () {
     console.log("VueGlue loaded");
 
+    var silenterProperty = '__silenter';
+
+    function silentChange(father, propertyName, value) {
+        var silenter = father[silenterProperty];
+        if (silenter) {
+            silenter.silentChange(propertyName, value);
+            return;
+        }
+        father[propertyName] = value;
+    }
+
     var silenterProto = {
         init: function init(father) {
             this.father = father;
@@ -111,7 +122,7 @@
         if (!vueVm) return vm;
 
         visitObject(vm, function (father, prop) {
-            father.__silenter || Object.defineProperty(father, '__silenter', { value: Object.create(silenterProto).init(father) });
+            father.__silenter || Object.defineProperty(father, silenterProperty, { value: Object.create(silenterProto).init(father) });
             var silenter = father.__silenter;
             silenter.create(prop, onPropertyChange(observer, prop, father));
         }, function (array) {
@@ -248,6 +259,7 @@
         closeMixin: closeMixin,
         promiseMixin: promiseMixin,
         commandMixin: commandMixin,
+        silentChange: silentChange,
         inject: inject,
         register: function register(vm, observer) {
             console.log("VueGlue register");
