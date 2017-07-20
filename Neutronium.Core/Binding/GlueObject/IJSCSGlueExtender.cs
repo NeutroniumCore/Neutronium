@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public static bool IsBasicNotNull(this IJSCSGlue @this)
         {
-            return (@this.CValue!=null && @this.Type == JsCsGlueType.Basic);
+            return (@this.CValue != null && @this.Type == JsCsGlueType.Basic);
         }
 
         private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res)
@@ -27,7 +27,7 @@ namespace Neutronium.Core.Binding.GlueObject
             @this.GetChildren().Where(res.Add).ForEach(direct => direct.GetAllChildren(res));
         }
 
-        public static IEnumerable<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf=false)
+        public static HashSet<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf = false)
         {
             var res = new HashSet<IJSCSGlue>();
             if (includeMySelf)
@@ -40,33 +40,38 @@ namespace Neutronium.Core.Binding.GlueObject
         public static IJavascriptObject GetJSSessionValue(this IJSCSGlue @this)
         {
             var inj = @this as IJSObservableBridge;
-            return (inj!=null) ?  inj.MappedJSValue : @this.JSValue;    
+            return (inj != null) ? inj.MappedJSValue : @this.JSValue;
         }
 
-        internal static void AutoMap(this IJSObservableBridge @this) 
+        internal static void AutoMap(this IJSObservableBridge @this)
         {
             @this.SetMappedJSValue(@this.JSValue);
         }
 
         public static void ApplyOnListenable(this IJSCSGlue @this, IListenableObjectVisitor visitor)
         {
-            foreach (var child in @this.GetAllChildren(true))
+            @this.GetAllChildren(true).ForEach(child => child.ApplyOnSingleListenable(visitor));
+        }
+
+        public static void ApplyOnSingleListenable(this IJSCSGlue @this, IListenableObjectVisitor visitor)
+        {
+            var value = @this.CValue;
+            var notifyCollectionChanged = value as INotifyCollectionChanged;
+            if (notifyCollectionChanged != null)
             {
-                var childvalue = child.CValue;
-                var notifyCollectionChanged = childvalue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
-                {
-                    visitor.OnCollection(notifyCollectionChanged);
-                    continue;
-                }
-
-                var notifyPropertyChanged = childvalue as INotifyPropertyChanged;
-                if ((notifyPropertyChanged != null) && !(child is IEnumerable))
-                    visitor.OnObject(notifyPropertyChanged);
-
-                if (child.Type==JsCsGlueType.Command)
-                    visitor.OnCommand(child as JSCommand);
+                visitor.OnCollection(notifyCollectionChanged);
+                return;
             }
+
+            var notifyPropertyChanged = value as INotifyPropertyChanged;
+            if (notifyPropertyChanged != null)
+            {
+                visitor.OnObject(notifyPropertyChanged);
+                return;
+            }            
+
+            if (@this.Type == JsCsGlueType.Command)
+                visitor.OnCommand(@this as JSCommand);
         }
     }
 }

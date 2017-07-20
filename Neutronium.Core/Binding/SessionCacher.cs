@@ -17,6 +17,14 @@ namespace Neutronium.Core.Binding
             _FromCSharp.Add(key, value);
         }
 
+        public void Remove(object key)
+        {
+            if (key == null)
+                return;
+
+            _FromCSharp.Remove(key);
+        }
+
         public void CacheLocal(object key, IJSCSGlue value)
         {
             _FromJavascript_Local.Add(value.JSValue.GetID(), value);

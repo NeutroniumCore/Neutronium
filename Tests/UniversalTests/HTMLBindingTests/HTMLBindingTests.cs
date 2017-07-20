@@ -2264,8 +2264,18 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        [Fact]
-        public async Task TwoWay_should_unlisten_when_setting_a_null_property()
+        public static IEnumerable<object> BasicVmData
+        {
+            get
+            {
+                yield return new object[] { new BasicVm() };
+                yield return new object[] { null };
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(BasicVmData))]
+        public async Task TwoWay_should_unlisten_when_changing_property(BasicVm remplacementChild)
         {
             var child = new BasicVm();
             var datacontext = new BasicVm();
@@ -2278,7 +2288,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JSRootObject;
 
-                    DoSafeUI(() => datacontext.Child = null);
+                    DoSafeUI(() => datacontext.Child = remplacementChild);
                     await Task.Delay(300);
 
                     var third = new BasicVm();
@@ -2293,58 +2303,97 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        //[Fact]
-        //public async Task TwoWay_should_listen_to_all_changes()
-        //{
-        //    var child = new BasicVm();
-        //    var datacontext = new BasicVm();
-        //    datacontext.Child = child;
+        [Fact]
+        public async Task TwoWay_should_rebind_with_updated_objects()
+        {
+            var child = new BasicVm();
+            var datacontext = new BasicVm();
+            datacontext.Child = child;
 
-        //    var test = new TestInContextAsync()
-        //    {
-        //        Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-        //        Test = async (mb) =>
-        //        {
-        //            var js = mb.JSRootObject;
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-        //            DoSafeUI(() => datacontext.Child = null);
+                    DoSafeUI(() => datacontext.Child = null);
 
-        //            await Task.Delay(300);
+                    await Task.Delay(300);
 
-        //            var third = new BasicVm();
-        //            child.Child = third;
+                    var third = new BasicVm();
+                    child.Child = third;
 
-        //            DoSafeUI(() => datacontext.Child = child);
+                    DoSafeUI(() => datacontext.Child = child);
 
-        //            await Task.Delay(300);
+                    await Task.Delay(300);
 
-        //            DoSafeUI(() => third.Value = 3);
+                    var child1 = GetAttribute(js, "Child");
+                    var child2 = GetAttribute(child1, "Child");
 
-        //            await Task.Delay(300);
+                    var value = GetIntAttribute(child2, "Value");
+                    value.Should().Be(-1);
+                }
+            };
 
-        //            var child1 = GetAttribute(js, "Child");
-        //            var child2 = GetAttribute(child1, "Child");
+            await RunAsync(test);
+        }
 
-        //            var value = GetIntAttribute(child2, "Value");
-        //            value.Should().Be(3);
 
-        //            var newvalue = 44;
-        //            var intJS = _WebView.Factory.CreateInt(newvalue);
-        //            SetAttribute(child2, "Value", intJS);
 
-        //            await Task.Delay(300);
+    //    [Fact]
+    //    public async Task TwoWay_should_listen_to_all_changes()
+    //    {
+    //        var child = new BasicVm();
+    //        var datacontext = new BasicVm();
+    //        datacontext.Child = child;
 
-        //            DoSafeUI(() =>
-        //            {
-        //                third.Value.Should().Be(newvalue);
-        //            });
-        //        }
-        //    };
+    //        var test = new TestInContextAsync()
+    //        {
+    //            Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+    //            Test = async (mb) =>
+    //            {
+    //                var js = mb.JSRootObject;
 
-        //    await RunAsync(test);
-        //}
+    //                DoSafeUI(() => datacontext.Child = null);
 
-        private class SmartVM : ViewModelBase
+    //                await Task.Delay(300);
+
+    //                var third = new BasicVm();
+    //                child.Child = third;
+
+    //                DoSafeUI(() => datacontext.Child = child);
+
+    //                await Task.Delay(300);
+
+    //                DoSafeUI(() => third.Value = 3);
+
+    //                await Task.Delay(300);
+
+    //                var child1 = GetAttribute(js, "Child");
+    //                var child2 = GetAttribute(child1, "Child");
+
+    //                var value = GetIntAttribute(child2, "Value");
+    //                value.Should().Be(-1);
+
+    //                var newvalue = 44;
+    //                var intJS = _WebView.Factory.CreateInt(newvalue);
+    //                SetAttribute(child2, "Value", intJS);
+
+    //                await Task.Delay(300);
+
+    //                DoSafeUI(() =>
+    //                {
+    //                    third.Value.Should().Be(newvalue);
+    //                });
+    //            }
+    //        }
+    //        };
+
+    //    await RunAsync(test);
+    //}
+
+    private class SmartVM : ViewModelBase
         {
             private int _MagicNumber;
             public int MagicNumber

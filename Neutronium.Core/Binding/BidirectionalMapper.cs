@@ -10,6 +10,7 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
+using System.Linq;
 
 namespace Neutronium.Core.Binding
 {
@@ -128,6 +129,13 @@ namespace Neutronium.Core.Binding
         {
             _Root.ApplyOnListenable(visitor);
             _UnrootedEntities.ForEach(js => js.ApplyOnListenable(visitor));
+        }
+
+        public HashSet<IJSCSGlue> GetAllChildren()
+        {
+            var @glues = _Root.GetAllChildren();
+            @glues.UnionWith(_UnrootedEntities.SelectMany(ent => ent.GetAllChildren()));
+            return @glues;
         }
 
         private void ListenToCSharpChanges()
@@ -360,7 +368,7 @@ namespace Neutronium.Core.Binding
         private IDisposable ReListen()
         {
             return (_ReListen != null) ? _ReListen.AddRef() :
-                        _ReListen = new ReListener(this, _ListenerRegister, () => _ReListen = null);
+                        _ReListen = new ReListener(this, _SessionCache, _ListenerRegister, () => _ReListen = null);
         }
 
         public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
