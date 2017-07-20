@@ -17,6 +17,11 @@ namespace Neutronium.Core.Binding.GlueObject
             return (@this.Type == JsCsGlueType.Basic);
         }
 
+        public static bool IsBasicNotNull(this IJSCSGlue @this)
+        {
+            return (@this.CValue!=null && @this.Type == JsCsGlueType.Basic);
+        }
+
         private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res)
         {
             @this.GetChildren().Where(res.Add).ForEach(direct => direct.GetAllChildren(res));

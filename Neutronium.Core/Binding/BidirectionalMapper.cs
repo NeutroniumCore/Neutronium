@@ -327,7 +327,7 @@ namespace Neutronium.Core.Binding
                 return null;               
 
             BridgeUpdater updater = null;
-            using (value.IsBasic()? null : ReListen())
+            using (value.IsBasicNotNull()? null : ReListen())
             {
                 updater = updaterBuilder(value);
             }

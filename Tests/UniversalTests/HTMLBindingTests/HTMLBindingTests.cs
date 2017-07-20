@@ -2265,11 +2265,11 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_should_listen_to_all_changes()
+        public async Task TwoWay_should_unlisten_when_setting_a_null_property()
         {
             var child = new BasicVm();
             var datacontext = new BasicVm();
-            child.Child = child;
+            datacontext.Child = child;
 
             var test = new TestInContextAsync()
             {
@@ -2279,41 +2279,70 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JSRootObject;
 
                     DoSafeUI(() => datacontext.Child = null);
-
                     await Task.Delay(300);
 
                     var third = new BasicVm();
-                    child.Child = third;
 
-                    DoSafeUI(() => datacontext.Child = child);
-
-                    await Task.Delay(300);
-
-                    DoSafeUI(() => third.Value = 3);
-
-                    await Task.Delay(300);
-
-                    var child1 = GetAttribute(js, "Child");
-                    var child2 = GetAttribute(child1, "Child");
-
-                    var value = GetIntAttribute(child2, "Value");
-                    value.Should().Be(3);
-
-                    var newvalue = 44;
-                    var intJS = _WebView.Factory.CreateInt(newvalue);
-                    SetAttribute(child2, "Value", intJS);
-
-                    await Task.Delay(300);
-
-                    DoSafeUI(() =>
-                    {
-                        third.Value.Should().Be(newvalue);
-                    });
+                    //If still listening to child, this will raise an exception
+                    //for changing property on the wrong thread
+                    Action safe = () => child.Child = third;
+                    AssertionExtensions.ShouldNotThrow(safe);
                 }
             };
 
             await RunAsync(test);
         }
+
+        //[Fact]
+        //public async Task TwoWay_should_listen_to_all_changes()
+        //{
+        //    var child = new BasicVm();
+        //    var datacontext = new BasicVm();
+        //    datacontext.Child = child;
+
+        //    var test = new TestInContextAsync()
+        //    {
+        //        Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+        //        Test = async (mb) =>
+        //        {
+        //            var js = mb.JSRootObject;
+
+        //            DoSafeUI(() => datacontext.Child = null);
+
+        //            await Task.Delay(300);
+
+        //            var third = new BasicVm();
+        //            child.Child = third;
+
+        //            DoSafeUI(() => datacontext.Child = child);
+
+        //            await Task.Delay(300);
+
+        //            DoSafeUI(() => third.Value = 3);
+
+        //            await Task.Delay(300);
+
+        //            var child1 = GetAttribute(js, "Child");
+        //            var child2 = GetAttribute(child1, "Child");
+
+        //            var value = GetIntAttribute(child2, "Value");
+        //            value.Should().Be(3);
+
+        //            var newvalue = 44;
+        //            var intJS = _WebView.Factory.CreateInt(newvalue);
+        //            SetAttribute(child2, "Value", intJS);
+
+        //            await Task.Delay(300);
+
+        //            DoSafeUI(() =>
+        //            {
+        //                third.Value.Should().Be(newvalue);
+        //            });
+        //        }
+        //    };
+
+        //    await RunAsync(test);
+        //}
 
         private class SmartVM : ViewModelBase
         {
