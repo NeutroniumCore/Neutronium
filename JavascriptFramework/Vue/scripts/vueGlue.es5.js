@@ -14,9 +14,9 @@
         father[propertyName] = value;
     }
 
-    function silentChangeAndInject(father, propertyName, value) {
+    function silentChangeAndInject(father, propertyName, value, observer) {
         silentChange(father, propertyName, value);
-        inject(value);
+        inject(value, observer);
     }
 
     var silenterProto = {
