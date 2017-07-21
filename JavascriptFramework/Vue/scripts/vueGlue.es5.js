@@ -14,6 +14,11 @@
         father[propertyName] = value;
     }
 
+    function silentChangeAndInject(father, propertyName, value) {
+        silentChange(father, propertyName, value);
+        inject(value);
+    }
+
     var silenterProto = {
         init: function init(father) {
             this.father = father;
@@ -261,6 +266,7 @@
         commandMixin: commandMixin,
         silentChange: silentChange,
         inject: inject,
+        silentChangeAndInject: silentChangeAndInject,
         register: function register(vm, observer) {
             console.log("VueGlue register");
             var mixin = Vue._vmMixin;

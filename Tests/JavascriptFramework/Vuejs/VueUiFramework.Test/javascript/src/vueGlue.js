@@ -12,8 +12,13 @@
         father[propertyName] = value;
     }
 
+    function silentChangeAndInject(father, propertyName, value) {
+        silentChange(father, propertyName, value);
+        inject(value);
+    }
+
     const silenterProto = {
-        init(father) {
+        init (father) {
             this.father = father;
             this.listeners = {}
             return this;
@@ -172,9 +177,9 @@
         });
 
     var closeMixin = VueAdapter.addOnReady({},
-        function () {
-            listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
-        });
+      function () {
+          listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: (cb) => this.onClose(cb) });
+      });
 
     var promiseMixin = {
         methods: {
@@ -247,6 +252,7 @@
         commandMixin,
         silentChange,
         inject,
+        silentChangeAndInject,
         register: function (vm, observer) {
             console.log("VueGlue register");
             var mixin = Vue._vmMixin;
@@ -258,9 +264,9 @@
                 mixins: mixin,
                 data: vm
             },
-            function () {
-                fufillOnReady(null);
-            });
+                function () {
+                    fufillOnReady(null);
+                });
 
             vueVm = new Vue(vueOption);
 

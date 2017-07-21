@@ -2341,59 +2341,57 @@ namespace Tests.Universal.HTMLBindingTests
 
 
 
-    //    [Fact]
-    //    public async Task TwoWay_should_listen_to_all_changes()
-    //    {
-    //        var child = new BasicVm();
-    //        var datacontext = new BasicVm();
-    //        datacontext.Child = child;
+        [Fact]
+        public async Task TwoWay_should_listen_to_all_changes()
+        {
+            var child = new BasicVm();
+            var datacontext = new BasicVm();
+            datacontext.Child = child;
 
-    //        var test = new TestInContextAsync()
-    //        {
-    //            Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-    //            Test = async (mb) =>
-    //            {
-    //                var js = mb.JSRootObject;
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-    //                DoSafeUI(() => datacontext.Child = null);
+                    DoSafeUI(() => datacontext.Child = null);
 
-    //                await Task.Delay(300);
+                    await Task.Delay(300);
 
-    //                var third = new BasicVm();
-    //                child.Child = third;
+                    var third = new BasicVm();
+                    child.Child = third;
 
-    //                DoSafeUI(() => datacontext.Child = child);
+                    DoSafeUI(() => datacontext.Child = child);
 
-    //                await Task.Delay(300);
+                    await Task.Delay(300);
 
-    //                DoSafeUI(() => third.Value = 3);
+                    DoSafeUI(() => third.Value = 3);
 
-    //                await Task.Delay(300);
+                    await Task.Delay(300);
 
-    //                var child1 = GetAttribute(js, "Child");
-    //                var child2 = GetAttribute(child1, "Child");
+                    var child1 = GetAttribute(js, "Child");
+                    var child2 = GetAttribute(child1, "Child");
 
-    //                var value = GetIntAttribute(child2, "Value");
-    //                value.Should().Be(-1);
+                    var value = GetIntAttribute(child2, "Value");
+                    value.Should().Be(3);
 
-    //                var newvalue = 44;
-    //                var intJS = _WebView.Factory.CreateInt(newvalue);
-    //                SetAttribute(child2, "Value", intJS);
+                    var newvalue = 44;
+                    var intJS = _WebView.Factory.CreateInt(newvalue);
+                    SetAttribute(child2, "Value", intJS);
 
-    //                await Task.Delay(300);
+                    await Task.Delay(300);
 
-    //                DoSafeUI(() =>
-    //                {
-    //                    third.Value.Should().Be(newvalue);
-    //                });
-    //            }
-    //        }
-    //        };
+                    DoSafeUI(() =>
+                    {
+                        third.Value.Should().Be(newvalue);
+                    });
+                }
+            };
+            await RunAsync(test);
+        }
 
-    //    await RunAsync(test);
-    //}
-
-    private class SmartVM : ViewModelBase
+        private class SmartVM : ViewModelBase
         {
             private int _MagicNumber;
             public int MagicNumber
