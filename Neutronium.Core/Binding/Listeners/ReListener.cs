@@ -1,36 +1,26 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
 using MoreCollection.Extensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Neutronium.Core.Binding.Listeners
 {
     internal class ReListener : IDisposable
     {
-        private readonly IJavascriptSessionCache _Cache;
-        private readonly IVisitable _Visitable;
-        private readonly DeltaListener<IJSCSGlue> _DeltaGlues;
+        private readonly IUpdatableJSCSGlueCollection _UpdatableCollection;
         private readonly Action _OnDisposeOk;
-        private readonly FullListenerRegister _FullListenerRegister;
+        private readonly ISet<IJSCSGlue> _Old;
         private int _Count = 1;
 
-        public ReListener(IVisitable visitable, IJavascriptSessionCache cache, FullListenerRegister fullListenerRegister, Action onDispose)
+        private ReListener(IUpdatableJSCSGlueCollection updater, Action onDispose)
         {
-            _Visitable = visitable;
-            _Cache = cache;
-            _FullListenerRegister = fullListenerRegister;
+            _UpdatableCollection = updater;
             _OnDisposeOk = onDispose;
-
-            _DeltaGlues = new DeltaListener<IJSCSGlue>();
-
-            Visit(_DeltaGlues.VisitOld);
+            _Old = _UpdatableCollection.GetAllChildren();
         }
 
-        private void Visit(Action<IJSCSGlue> onGlue)
-        {
-            _Visitable.GetAllChildren().ForEach(onGlue);
-        }
-
-        public ReListener AddRef()
+        private ReListener AddRef()
         {
             _Count++;
             return this;
@@ -42,23 +32,21 @@ namespace Neutronium.Core.Binding.Listeners
                 Clean();
         }
 
+        public static ReListener UpdateOrCreate(ref ReListener listener, IUpdatableJSCSGlueCollection updater, Action onDispose)
+        {
+            return listener = (listener == null) ? new ReListener(updater, onDispose) : listener.AddRef();
+        }
+
+        public void ForExceptDo(ISet<IJSCSGlue> @for, ISet<IJSCSGlue> except, Action<IJSCSGlue> @do)
+        {
+            @for.Where(o => !except.Contains(o)).ForEach(@do);
+        }
+
         private void Clean()
         {
-            Visit(_DeltaGlues.VisitNew);
-
-            var on = _FullListenerRegister.GetOn();
-            var off = _FullListenerRegister.GetOff();
-
-            var listenerRegister = new ListenerRegister<IJSCSGlue>(
-                item => item.ApplyOnSingleListenable(on) ,
-                item =>
-                {
-                    item.ApplyOnSingleListenable(off);
-                    _Cache.Remove(item.CValue);
-                });
-
-            _DeltaGlues.Apply(listenerRegister);
-
+            var @new = _UpdatableCollection.GetAllChildren();
+            ForExceptDo(_Old, @new, _UpdatableCollection.OnExit);
+            ForExceptDo(@new, _Old, _UpdatableCollection.OnEnter);
             _OnDisposeOk();
         }
     }

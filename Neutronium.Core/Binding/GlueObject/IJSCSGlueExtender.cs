@@ -27,7 +27,7 @@ namespace Neutronium.Core.Binding.GlueObject
             @this.GetChildren().Where(res.Add).ForEach(direct => direct.GetAllChildren(res));
         }
 
-        public static HashSet<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf = false)
+        public static ISet<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf = false)
         {
             var res = new HashSet<IJSCSGlue>();
             if (includeMySelf)
@@ -49,11 +49,6 @@ namespace Neutronium.Core.Binding.GlueObject
         }
 
         public static void ApplyOnListenable(this IJSCSGlue @this, IListenableObjectVisitor visitor)
-        {
-            @this.GetAllChildren(true).ForEach(child => child.ApplyOnSingleListenable(visitor));
-        }
-
-        public static void ApplyOnSingleListenable(this IJSCSGlue @this, IListenableObjectVisitor visitor)
         {
             var value = @this.CValue;
             var notifyCollectionChanged = value as INotifyCollectionChanged;

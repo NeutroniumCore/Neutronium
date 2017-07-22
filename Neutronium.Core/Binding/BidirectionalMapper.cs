@@ -11,10 +11,11 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
 using System.Linq;
+using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Binding
 {
-    public class BidirectionalMapper : IDisposable, IVisitable, IJavascriptToCSharpConverter, IJavascriptChangesObserver   
+    public class BidirectionalMapper : IDisposable, IUpdatableJSCSGlueCollection, IJavascriptToCSharpConverter, IJavascriptChangesObserver   
     {
         private HTMLViewContext _Context;
         private readonly IWebSessionLogger _Logger;
@@ -125,28 +126,36 @@ namespace Neutronium.Core.Binding
             _Logger.Debug("BidirectionalMapper disposed");
         }
 
-        public void Visit(IListenableObjectVisitor visitor)
+        private ISet<IJSCSGlue> GetAllChildren()
         {
-            _Root.ApplyOnListenable(visitor);
-            _UnrootedEntities.ForEach(js => js.ApplyOnListenable(visitor));
-        }
-
-        public HashSet<IJSCSGlue> GetAllChildren()
-        {
-            var @glues = _Root.GetAllChildren();
-            @glues.UnionWith(_UnrootedEntities.SelectMany(ent => ent.GetAllChildren()));
+            var @glues = _Root.GetAllChildren(true);
+            @glues.UnionWith(_UnrootedEntities.SelectMany(ent => ent.GetAllChildren(true)));
             return @glues;
         }
 
-        private void ListenToCSharpChanges()
+        private void Visit(Action<IJSCSGlue> onChildren)
         {
-            Visit(_ListenerRegister.GetOn());
+            GetAllChildren().ForEach(onChildren);
         }
 
-        private void UnlistenToCSharpChanges()
+        private void OnEnter(IJSCSGlue item)
         {
-            Visit(_ListenerRegister.GetOff());
+            item.ApplyOnListenable(_ListenerRegister.On);
         }
+
+        private void OnExit(IJSCSGlue item)
+        {
+            item.ApplyOnListenable(_ListenerRegister.Off);
+            _SessionCache.Remove(item.CValue);
+        }
+
+        ISet<IJSCSGlue> IUpdatableJSCSGlueCollection.GetAllChildren() => GetAllChildren();
+        void IUpdatableJSCSGlueCollection.OnEnter(IJSCSGlue item) => OnEnter(item);
+        void IUpdatableJSCSGlueCollection.OnExit(IJSCSGlue item) => OnExit(item);
+
+        private void ListenToCSharpChanges() => Visit(OnEnter);
+
+        private void UnlistenToCSharpChanges() => Visit(OnExit);
 
         private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue iroot)
         {
@@ -367,8 +376,7 @@ namespace Neutronium.Core.Binding
 
         private IDisposable ReListen()
         {
-            return (_ReListen != null) ? _ReListen.AddRef() :
-                        _ReListen = new ReListener(this, _SessionCache, _ListenerRegister, () => _ReListen = null);
+            return ReListener.UpdateOrCreate(ref _ReListen, this,  () => _ReListen = null);          
         }
 
         public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)

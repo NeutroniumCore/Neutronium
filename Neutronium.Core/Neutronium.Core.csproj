@@ -97,7 +97,7 @@
     <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />
     <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
-    <Compile Include="Binding\Listeners\IVisitable.cs" />
+    <Compile Include="Binding\Listeners\IUpdatableJSCSGlueCollection.cs" />
     <Compile Include="Binding\Listeners\IListenableObjectVisitor.cs" />
     <Compile Include="Binding\Listeners\ListenableVisitor.cs" />
     <Compile Include="Binding\GlueObject\JSCommand.cs" />
@@ -132,7 +132,6 @@
     <Compile Include="Binding\IJavascriptToCSharpConverter.cs" />
     <Compile Include="JavascriptFramework\IJavascriptChangesObserver.cs" />
     <Compile Include="Binding\HTMLViewEngine.cs" />
-    <Compile Include="Binding\Listeners\DeltaListener.cs" />
     <Compile Include="Binding\Listeners\ListenerRegister.cs" />
     <Compile Include="Binding\Listeners\Silenter.cs" />
     <Compile Include="Binding\SessionCacher.cs" />
