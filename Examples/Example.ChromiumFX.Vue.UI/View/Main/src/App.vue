@@ -11,7 +11,7 @@
         <input class="form-control" id="name" placeholder="Name" v-model="Name">
       </div>
       <div class="form-group">
-        <label for="lastname">Password</label>
+        <label for="lastname">Last name</label>
         <input class="form-control" id="lastname" placeholder="Last Name" v-model="LastName">
       </div>
       <div class="form-group">
@@ -113,9 +113,5 @@ export default {
   position: relative;
   min-height:200px;
   height:100%;
-  }
-
-  #main-menu{
-  -webkit-app-region: drag;
   }
 </style>

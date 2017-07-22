@@ -161,15 +161,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\images\male.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\images\Sem título.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="View\Main\dist\810a1b930979de83478be0f458b51dd8.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -194,11 +185,6 @@
     <Content Include="View\Main\src\main.js" />
     <Content Include="View\Main\utils.js" />
     <Content Include="View\Main\webpack.config.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="src\js\init.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">
