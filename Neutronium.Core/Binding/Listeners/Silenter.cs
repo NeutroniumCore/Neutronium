@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal class Silenter<T> : IDisposable where T: class
+    internal struct Silenter<T> : IDisposable where T: class
     {
         private readonly ListenerRegister<T> _ListenerRegister;
         private readonly T _Target;
@@ -27,5 +27,7 @@ namespace Neutronium.Core.Binding.Listeners
         {
             return new Silenter<T>(listenerRegister, target);
         }
+
+        public static Silenter<T> Null<T>() where T : class => new Silenter<T>();
     }
 }

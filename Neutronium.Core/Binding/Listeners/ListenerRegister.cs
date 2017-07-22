@@ -4,7 +4,6 @@ namespace Neutronium.Core.Binding.Listeners
 {
     internal struct ListenerRegister<T> where T:class
     {
-
         public Action<T> On { get; }
         public Action<T> Off { get; }
 

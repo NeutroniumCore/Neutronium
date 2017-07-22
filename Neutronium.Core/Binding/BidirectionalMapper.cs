@@ -194,7 +194,7 @@ namespace Neutronium.Core.Binding
 
                 Context.RunOnUIContextAsync(() => 
                 {
-                    using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null) 
+                    using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : Silenter.Null<INotifyPropertyChanged>()) 
                     {
                         var oldValue = propertyAccessor.Get();
                         propertyAccessor.Set(glue.CValue);
