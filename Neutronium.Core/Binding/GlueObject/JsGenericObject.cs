@@ -17,7 +17,11 @@ namespace Neutronium.Core.Binding.GlueObject
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
         public IJavascriptObject MappedJSValue => _MappedJSValue;
         public object CValue { get; }
-        public JsCsGlueType Type => JsCsGlueType.Object;      
+        public JsCsGlueType Type => JsCsGlueType.Object;
+
+        private uint _JsId;
+        public uint JsId => _JsId;
+        void IJSObservableBridge.SetJsId(uint jsId) => _JsId = jsId;
 
         public JsGenericObject(object cValue, int childrenCount)
         {
@@ -46,7 +50,7 @@ namespace Neutronium.Core.Binding.GlueObject
                     it.Value.BuilString(context);
                 }
 
-                first = false;           
+                first = false;
             }
 
             context.Append("}");

@@ -17,12 +17,19 @@ namespace Neutronium.Core.Binding
             _FromCSharp.Add(key, value);
         }
 
-        public void Remove(object key)
+        public void Remove(IJSCSGlue value)
         {
+            var key = value.CValue;
             if (key == null)
                 return;
 
             _FromCSharp.Remove(key);
+
+            var id = value.JsId;
+            if (id == 0)
+                return;
+
+            _FromJavascript_Global.Remove(id);
         }
 
         public void CacheLocal(object key, IJSCSGlue value)
@@ -33,8 +40,11 @@ namespace Neutronium.Core.Binding
         private void CacheGlobal(IJavascriptObject jsobject, IJSObservableBridge ibo)
         {
             var id = jsobject.GetID();
-            if (id != 0)
-                _FromJavascript_Global[id] = ibo;
+            if (id == 0)
+                return;
+
+            ibo.SetJsId(id);
+            _FromJavascript_Global[id] = ibo;
         }
 
         public IJSCSGlue GetCached(object key)

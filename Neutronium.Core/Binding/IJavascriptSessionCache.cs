@@ -7,7 +7,7 @@ namespace Neutronium.Core.Binding
     {
         void Cache(object key, IJSCSGlue value);
 
-        void Remove(object key);
+        void Remove(IJSCSGlue key);
 
         void CacheLocal(object key, IJSCSGlue value);
 

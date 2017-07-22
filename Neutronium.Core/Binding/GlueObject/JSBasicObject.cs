@@ -13,6 +13,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public IJavascriptObject JSValue { get; private set; }
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Basic;
+        public uint JsId => 0;
 
         internal JSBasicObject(object value)
         {

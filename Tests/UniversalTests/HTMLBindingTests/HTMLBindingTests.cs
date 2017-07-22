@@ -2247,6 +2247,30 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
+        public class BasicFatherVm : ViewModelBase
+        {
+            private BasicVm _Child;
+            public BasicVm Child
+            {
+                get { return _Child; }
+                set { Set(ref _Child, value, nameof(Child)); }
+            }
+
+            public ICommand Command { get; }
+
+            internal BasicVm LastCallElement { get; private set; }
+
+            internal int CallCount { get; private set; } = 0;
+
+            public BasicFatherVm()
+            {
+                Command = new RelayCommand<BasicVm>(child => {
+                    CallCount++;
+                    LastCallElement = child;
+                });
+            }
+        }
+
         public class BasicVm : ViewModelBase
         {
             private BasicVm _Child;
@@ -2297,6 +2321,64 @@ namespace Tests.Universal.HTMLBindingTests
                     //for changing property on the wrong thread
                     Action safe = () => child.Child = third;
                     AssertionExtensions.ShouldNotThrow(safe);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Theory]
+        [MemberData(nameof(BasicVmData))]
+        public async Task TwoWay_should_clean_javascriptObject_cache_when_object_is_not_part_of_the_graph(BasicVm remplacementChild)
+        {         
+            var datacontext = new BasicFatherVm();
+            var child = new BasicVm();
+            datacontext.Child = child;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;         
+                    var childJs = GetAttribute(js, "Child");
+
+                    DoSafeUI(() => datacontext.Child = remplacementChild);
+                    await Task.Delay(300);
+
+                    var mycommand = GetAttribute(js, "Command");
+                    DoSafe(() => Call(mycommand, "Execute", childJs));
+                    await Task.Delay(300);
+
+                    datacontext.CallCount.Should().Be(1);
+                    datacontext.LastCallElement.Should().BeNull();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_should_call_comand_with_correct_argument()
+        {
+            var datacontext = new BasicFatherVm();
+            var child = new BasicVm();
+            datacontext.Child = child;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    var childJs = GetAttribute(js, "Child");
+
+                    var mycommand = GetAttribute(js, "Command");
+                    DoSafe(() => Call(mycommand, "Execute", childJs));
+                    await Task.Delay(300);
+
+                    datacontext.CallCount.Should().Be(1);
+                    datacontext.LastCallElement.Should().Be(child);
                 }
             };
 

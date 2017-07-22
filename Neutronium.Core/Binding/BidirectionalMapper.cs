@@ -146,7 +146,7 @@ namespace Neutronium.Core.Binding
         private void OnExit(IJSCSGlue item)
         {
             item.ApplyOnListenable(_ListenerRegister.Off);
-            _SessionCache.Remove(item.CValue);
+            _SessionCache.Remove(item);
         }
 
         ISet<IJSCSGlue> IUpdatableJSCSGlueCollection.GetAllChildren() => GetAllChildren();
@@ -373,7 +373,6 @@ namespace Neutronium.Core.Binding
 
 
         private ReListener _ReListen = null;
-
         private IDisposable ReListen()
         {
             return ReListener.UpdateOrCreate(ref _ReListen, this,  () => _ReListen = null);          

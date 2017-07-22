@@ -13,6 +13,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
         JsCsGlueType Type { get; }
 
+        uint JsId { get;}
+
         IEnumerable<IJSCSGlue> GetChildren();
 
         void BuilString(DescriptionBuilder context);

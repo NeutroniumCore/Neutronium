@@ -25,6 +25,11 @@ namespace Neutronium.Core.Binding.GlueObject
         private IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
+
+        private uint _JsId;
+        public uint JsId => _JsId;
+        void IJSObservableBridge.SetJsId(uint jsId) => _JsId = jsId;
+
         private bool _InitialCanExecute = true;
 
         public JSCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command)

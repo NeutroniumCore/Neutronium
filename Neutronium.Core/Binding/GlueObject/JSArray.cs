@@ -20,6 +20,10 @@ namespace Neutronium.Core.Binding.GlueObject
         public JsCsGlueType Type => JsCsGlueType.Array;
         public IJavascriptObject MappedJSValue { get; private set;  }
 
+        private uint _JsId;
+        public uint JsId => _JsId;
+        void IJSObservableBridge.SetJsId(uint jsId) => _JsId = jsId;
+
         public JSArray(IEnumerable<IJSCSGlue> values, IEnumerable collection, Type individual)
         {
             CValue = collection;
