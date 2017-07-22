@@ -6,6 +6,8 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.Builder;
+using Neutronium.Core.Binding.Listeners;
+using System.Collections.Specialized;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -145,6 +147,15 @@ namespace Neutronium.Core.Binding.GlueObject
         public void SetMappedJSValue(IJavascriptObject jsobject)
         {
             MappedJSValue = jsobject;
+        }
+
+        public void ApplyOnListenable(IObjectChangesListener listener)
+        {
+            var notifyCollectionChanged = CValue as INotifyCollectionChanged;
+            if (notifyCollectionChanged == null)
+                return;
+
+            listener.OnCollection(notifyCollectionChanged);
         }
     }
 }

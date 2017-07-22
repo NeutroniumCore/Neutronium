@@ -1,12 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
-using System;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -46,27 +41,6 @@ namespace Neutronium.Core.Binding.GlueObject
         internal static void AutoMap(this IJSObservableBridge @this)
         {
             @this.SetMappedJSValue(@this.JSValue);
-        }
-
-        public static void ApplyOnListenable(this IJSCSGlue @this, IListenableObjectVisitor visitor)
-        {
-            var value = @this.CValue;
-            var notifyCollectionChanged = value as INotifyCollectionChanged;
-            if (notifyCollectionChanged != null)
-            {
-                visitor.OnCollection(notifyCollectionChanged);
-                return;
-            }
-
-            var notifyPropertyChanged = value as INotifyPropertyChanged;
-            if (notifyPropertyChanged != null)
-            {
-                visitor.OnObject(notifyPropertyChanged);
-                return;
-            }            
-
-            if (@this.Type == JsCsGlueType.Command)
-                visitor.OnCommand(@this as JSCommand);
         }
     }
 }

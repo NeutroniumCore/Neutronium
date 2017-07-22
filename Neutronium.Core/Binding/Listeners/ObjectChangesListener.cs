@@ -5,13 +5,13 @@ using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    public class ListenableVisitor : IListenableObjectVisitor
+    public class ObjectChangesListener : IObjectChangesListener
     {
         private readonly Action<INotifyPropertyChanged> _OnObject;
         private readonly Action<INotifyCollectionChanged> _OnCollection;
         private readonly Action<JSCommand> _OnCommand;
 
-        public ListenableVisitor(Action<INotifyPropertyChanged> onObject,
+        public ObjectChangesListener(Action<INotifyPropertyChanged> onObject,
                             Action<INotifyCollectionChanged> onCollection, Action<JSCommand> onCommand)
         {
             _OnObject = onObject;

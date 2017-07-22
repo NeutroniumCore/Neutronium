@@ -4,6 +4,8 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Dictionary;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.Binding.Listeners;
+using System.ComponentModel;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -75,6 +77,15 @@ namespace Neutronium.Core.Binding.GlueObject
             UpdateGlueProperty(propertyName, glue);
             var context = new UpdateContext { ChildAllowWrite = !glue.IsBasic() };
             return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), context));
+        }
+
+        public void ApplyOnListenable(IObjectChangesListener listener)
+        {
+            var notifyPropertyChanged = CValue as INotifyPropertyChanged;
+            if (notifyPropertyChanged == null)
+                return;
+
+            listener.OnObject(notifyPropertyChanged);
         }
     }
 }

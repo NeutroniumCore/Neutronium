@@ -98,8 +98,8 @@
     <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IUpdatableJSCSGlueCollection.cs" />
-    <Compile Include="Binding\Listeners\IListenableObjectVisitor.cs" />
-    <Compile Include="Binding\Listeners\ListenableVisitor.cs" />
+    <Compile Include="Binding\Listeners\IObjectChangesListener.cs" />
+    <Compile Include="Binding\Listeners\ObjectChangesListener.cs" />
     <Compile Include="Binding\GlueObject\JSCommand.cs" />
     <Compile Include="Binding\GlueObject\JsSimpleCommand.cs" />
     <Compile Include="Binding\GlueObject\JsResultCommand.cs" />

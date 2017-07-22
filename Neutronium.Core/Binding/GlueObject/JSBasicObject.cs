@@ -4,6 +4,7 @@ using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Binding.Builder;
+using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -80,6 +81,10 @@ namespace Neutronium.Core.Binding.GlueObject
         public IEnumerable<IJSCSGlue> GetChildren()
         {
             return Enumerable.Empty<IJSCSGlue>();
+        }
+
+        public void ApplyOnListenable(IObjectChangesListener listener)
+        {
         }
     }
 }

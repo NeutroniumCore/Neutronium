@@ -4,7 +4,7 @@ using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    public interface IListenableObjectVisitor
+    public interface IObjectChangesListener
     {
         void OnObject(INotifyPropertyChanged iobject);
 

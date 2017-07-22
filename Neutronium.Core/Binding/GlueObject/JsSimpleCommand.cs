@@ -5,6 +5,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.Binding.Builder;
+using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -53,6 +54,10 @@ namespace Neutronium.Core.Binding.GlueObject
         protected override void ComputeString(DescriptionBuilder context)
         {
             context.AppendCommandDescription();
+        }
+
+        public void ApplyOnListenable(IObjectChangesListener listener)
+        {
         }
     }
 }
