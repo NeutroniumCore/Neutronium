@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Neutronium.Core.Infra;
 using Xunit;
+using System.Linq;
 
 namespace Neutronium.Core.Test.Infra
 {
     public class TypeExtenderTest
     {
-
         [Fact]
         public void GetEnumerableBase_int_isNotEnumerable()
         {
@@ -73,6 +73,71 @@ namespace Neutronium.Core.Test.Infra
         {
             var isUnsigned = type.IsUnsigned();
             isUnsigned.Should().Be(result);
+        }
+
+        public class ReadOnlyClass
+        {
+            public int Available1 { get; }
+
+            public int Available3 { get; private set; }
+
+            public int Private2 { private get; set; }
+
+            protected int Protected1 { get; set; }
+
+            public int OnlySet { set { } }
+        }
+
+        public class ReadOnlyClass2
+        {
+            public int Property1 { get; private set; }
+
+            public int Property2 { get; private set; }
+        }
+
+        private class FakeClass
+        {
+            public int Available1 { get; }
+
+            public int Available2 { get; set; }
+
+            public int Available3 { get; private set; }
+
+            private int Private1 { get; set; }
+
+            public int Private2 { private get; set; }
+
+            protected int Protected1 { get; set; }
+
+            public int Protected2 { protected get; set; }
+
+            public int OnlySet { set { } }
+        }
+
+        [Theory]
+        [InlineData(typeof(FakeClass), new[] { "Available1", "Available2", "Available3" })]
+        [InlineData(typeof(ReadOnlyClass2), new[] { "Property1", "Property2" })]    
+        public void GetReadProperties_returns_correct_property(Type type, string[] properties)
+        {
+            var res = type.GetReadProperties();
+            res.Select(prop => prop.Name).Should().BeEquivalentTo(properties);
+        }
+
+        [Fact]
+        public void GetReadProperties_returns_null_when_called_with_null()
+        {
+            var res = TypeExtender.GetReadProperties(null);
+            res.Should().BeNull();
+        }
+
+        [Theory]
+        [InlineData(null, false)]
+        [InlineData(typeof(ReadOnlyClass), false)]
+        [InlineData(typeof(FakeClass), true)]
+        public void HasReadWriteProperties_returns_correct_property(Type type, bool expectedHasReadWriteProperties)
+        {
+            var res = type.HasReadWriteProperties();
+            res.Should().Be(expectedHasReadWriteProperties);
         }
     }
 }

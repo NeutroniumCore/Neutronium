@@ -67,27 +67,25 @@ namespace Neutronium.Core.Binding
             if (ienfro!=null)
                 return  Convert(ienfro);
 
-            var propertyInfos = GetPropertyInfos(from).Concat(GetPropertyInfos(additional)).ToList();
+            var propertyInfos = @from.GetType().GetReadProperties();
+            var additionalPropertyInfos = additional?.GetType().GetReadProperties();
 
-            var gres = new JsGenericObject(from, propertyInfos.Count);
+            var gres = new JsGenericObject(from, propertyInfos.Count + (additionalPropertyInfos?.Count ?? 0));
             _Cacher.Cache(from, gres);
 
-            MappNested(gres, propertyInfos);
+            MappNested(gres, @from, propertyInfos);
+            MappNested(gres, additional, additionalPropertyInfos);
             return gres;
         }
 
-        private static IEnumerable<Tuple<PropertyInfo, object>> GetPropertyInfos(object @from) 
+        private void MappNested(JsGenericObject gres, object parentObject, IList<PropertyInfo> properties)
         {
-            return @from?.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead).Select(prop => Tuple.Create(prop, @from)) ?? Enumerable.Empty<Tuple<PropertyInfo, object>>();          
-        }
+            if (parentObject == null)
+                return;
 
-        private void MappNested(JsGenericObject gres, IReadOnlyCollection<Tuple<PropertyInfo, object>> properties)
-        {
-            foreach (var property in properties)
+            foreach (var propertyInfo in properties)
             {
-                var propertyInfo = property.Item1;
                 var propertyName = propertyInfo.Name;
-                var parentObject = property.Item2;
                 object childvalue;
                 try
                 {
