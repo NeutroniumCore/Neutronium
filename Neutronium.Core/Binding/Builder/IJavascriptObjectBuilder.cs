@@ -5,13 +5,12 @@ namespace Neutronium.Core.Binding.Builder
 {
     public interface IJavascriptObjectBuilder
     {
-        void RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children=null);
+        void RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children=null, bool updatableFromJS= false);
 
         void RequestArrayCreation(IList<IJSCSGlue> children);
 
         void RequestBasicObjectCreation(object @object);
 
         void RequestCommandCreation(bool canExcecute);
-
     }
 }

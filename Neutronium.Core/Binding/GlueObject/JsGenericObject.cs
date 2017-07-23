@@ -6,6 +6,7 @@ using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Binding.Listeners;
 using System.ComponentModel;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -31,7 +32,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public void GetBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            builder.RequestObjectCreation(_Attributes);
+            var updatableFromJS = CValue.GetType().HasReadWriteProperties();
+            builder.RequestObjectCreation(_Attributes, updatableFromJS);
         }
 
         protected override void ComputeString(DescriptionBuilder context)

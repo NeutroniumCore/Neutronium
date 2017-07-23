@@ -63,18 +63,18 @@ namespace Neutronium.Core.Binding.Builder
             return helper.GetValue("bulkCreate");
         }
 
-        void IBulkUpdater.BulkUpdateProperty(List<ChildrenPropertyDescriptor> updates)
+        void IBulkUpdater.BulkUpdateProperty(List<EntityDescriptor<string>> updates)
         {
             var orderedUpdates = updates.GroupBy(up => up.Father.GetType()).SelectMany(grouped => grouped);
             BulkUpdate(orderedUpdates, key => $@"""{key}""");
         }
 
-        void IBulkUpdater.BulkUpdateArray(List<ChildrenArrayDescriptor> updates)
+        void IBulkUpdater.BulkUpdateArray(List<EntityDescriptor<int>> updates)
         {
             BulkUpdate(updates, key => $"{key}");
         }
 
-        private void BulkUpdate<T>(IEnumerable<ChildrenDescriptor<T>> updates, Func<T, string> getKeyDescription)
+        private void BulkUpdate<T>(IEnumerable<EntityDescriptor<T>> updates, Func<T, string> getKeyDescription)
         {
             if (updates.Count() == 0)
                 return;
@@ -86,7 +86,7 @@ namespace Neutronium.Core.Binding.Builder
                     .ForEach(arguments => Execute(arguments));
         }
 
-        private IJavascriptObject[] GetUpdateParameters<T>(List<ChildrenDescriptor<T>> updates, Func<T,string> getKeyDescription)
+        private IJavascriptObject[] GetUpdateParameters<T>(List<EntityDescriptor<T>> updates, Func<T,string> getKeyDescription)
         {
             var sizes = Pack(updates, getKeyDescription);
             var objects = updates.Select(up => up.Father);
@@ -94,13 +94,13 @@ namespace Neutronium.Core.Binding.Builder
             return BuildArguments(sizes, objects.Concat(values));
         }
 
-        private static string Pack<T>(List<ChildrenDescriptor<T>> updates, Func<T, string> getKeyDescription)
+        private static string Pack<T>(List<EntityDescriptor<T>> updates, Func<T, string> getKeyDescription)
         {
             return $@"{{""count"":{updates.Count},""elements"":{AsArray(PackKeys(updates)
                                     .Select(pack => $@"{{""c"":{pack.Item1},""a"":{AsArray(pack.Item2.Select(getKeyDescription))}}}"))}}}" ;
          }
 
-        private static IEnumerable<Tuple<int, IReadOnlyCollection<T>>> PackKeys<T>(List<ChildrenDescriptor<T>> updates)
+        private static IEnumerable<Tuple<int, IReadOnlyCollection<T>>> PackKeys<T>(List<EntityDescriptor<T>> updates)
         {
             var count = 0;
             IReadOnlyCollection<T> childrenKeys = null;

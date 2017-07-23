@@ -10,8 +10,10 @@ namespace Neutronium.Core.Infra
         private readonly IWebSessionLogger _Logger;
 
         public bool IsValid => _PropertyInfo != null;
-        public bool IsSettable => IsValid && _PropertyInfo.CanWrite;
-        public bool IsGettable => IsValid && _PropertyInfo.CanRead;
+        private bool? _IsSettable;
+        private bool? _IsGettable;
+        public bool IsSettable => _IsSettable?? (_IsSettable = IsValid && _PropertyInfo.CanWrite && _PropertyInfo.GetSetMethod(false) != null).Value;
+        public bool IsGettable => _IsGettable?? (_IsGettable = IsValid && _PropertyInfo.CanRead && _PropertyInfo.GetGetMethod(false) != null).Value;
 
         public PropertyAccessor(object target, string propertyName, IWebSessionLogger logger)
         {

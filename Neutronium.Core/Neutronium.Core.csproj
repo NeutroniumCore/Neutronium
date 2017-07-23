@@ -76,9 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\Builder\ChildDescription.cs" />
-    <Compile Include="Binding\Builder\ChildrenArrayDescriptor.cs" />
-    <Compile Include="Binding\Builder\ChildrenDescriptor.cs" />
-    <Compile Include="Binding\Builder\ChildrenPropertyDescriptor.cs" />
+    <Compile Include="Binding\Builder\EntityDescriptor.cs" />
     <Compile Include="Binding\Builder\IBulkUpdater.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectBulkBuilder.cs" />

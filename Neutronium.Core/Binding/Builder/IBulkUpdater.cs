@@ -6,8 +6,8 @@ namespace Neutronium.Core.Binding.Builder
 {
     internal interface IBulkUpdater
     {
-        void BulkUpdateProperty(List<ChildrenPropertyDescriptor> updates);
+        void BulkUpdateProperty(List<EntityDescriptor<string>> updates);
 
-        void BulkUpdateArray(List<ChildrenArrayDescriptor> updates);
+        void BulkUpdateArray(List<EntityDescriptor<int>> updates);
     }
 }

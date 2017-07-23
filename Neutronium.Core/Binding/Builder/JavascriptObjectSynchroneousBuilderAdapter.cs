@@ -72,7 +72,7 @@ namespace Neutronium.Core.Binding.Builder
             _Object.SetJSValue(command);
         }
 
-        void IJavascriptObjectBuilder.RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children)
+        void IJavascriptObjectBuilder.RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)
         {
             var value = _Factory.CreateObject(true);
             _Object.SetJSValue(value);

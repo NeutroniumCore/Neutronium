@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.Builder
     {
         public int MaxCount { get; set; }
 
-        internal IEnumerable<List<ChildrenDescriptor<TIdentifier>>> SplitParameters(IEnumerable<ChildrenDescriptor<TIdentifier>> _ParamBuilder) 
+        internal IEnumerable<List<EntityDescriptor<TIdentifier>>> SplitParameters(IEnumerable<EntityDescriptor<TIdentifier>> _ParamBuilder) 
         {
             var index = 0;
             int parametersCount;
@@ -29,7 +29,7 @@ namespace Neutronium.Core.Binding.Builder
                 if (localParametersCount == 0)
                     yield break;
 
-                yield return parameters.GroupBy(item => item.father).Select(item => new ChildrenDescriptor<TIdentifier>(item.Key, item.Select(el => el.description)))
+                yield return parameters.GroupBy(item => item.father).Select(item => new EntityDescriptor<TIdentifier>(item.Key, item.Select(el => el.description)))
                                           .ToList();
 
                 index += localParametersCount;

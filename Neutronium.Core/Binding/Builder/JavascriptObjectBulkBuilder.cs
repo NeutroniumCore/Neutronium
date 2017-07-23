@@ -14,8 +14,8 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IBulkUpdater _BulkPropertyUpdater;
         private readonly IJSCSGlue _Root;
 
-        private readonly List<ChildrenPropertyDescriptor> _ObjectsBuildingRequested = new List<ChildrenPropertyDescriptor>();
-        private readonly List<ChildrenArrayDescriptor> _ArraysBuildingRequested = new List<ChildrenArrayDescriptor>();
+        private readonly List<EntityDescriptor<string>> _ObjectsBuildingRequested = new List<EntityDescriptor<string>>();
+        private readonly List<EntityDescriptor<int>> _ArraysBuildingRequested = new List<EntityDescriptor<int>>();
         private readonly List<IJSCSGlue> _BasicObjectsToCreate = new List<IJSCSGlue>();
 
         public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
@@ -37,14 +37,14 @@ namespace Neutronium.Core.Binding.Builder
             UpdateDependencies();
         }
 
-        internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children)
+        internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)
         {
-            _ObjectsBuildingRequested.Add(new ChildrenPropertyDescriptor(glue, children));
+            _ObjectsBuildingRequested.Add(EntityDescriptor.CreateObjectDescriptor(glue, children, updatableFromJS));
         }
 
         internal void RequestArrayCreation(IJSCSGlue glue, IList<IJSCSGlue> children)
         {
-            _ArraysBuildingRequested.Add(new ChildrenArrayDescriptor(glue, children));
+            _ArraysBuildingRequested.Add(EntityDescriptor.CreateArrayDescriptor(glue, children));
         }
 
         internal void RequestBasicObjectCreation(IJSCSGlue glueObject, object cValue)
@@ -89,13 +89,13 @@ namespace Neutronium.Core.Binding.Builder
 
         private void UpdateObjects()
         {
-            var toBeUpdated = _ObjectsBuildingRequested.Where(item => item.ChildrenDescription.Count > 0).ToList();
+            var toBeUpdated = _ObjectsBuildingRequested.Where(item => item.ChildrenDescription.Length > 0).ToList();
             _BulkPropertyUpdater.BulkUpdateProperty(toBeUpdated);
         }
 
         private void UpdateArrays()
         {
-            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Count > 0).ToList();
+            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Length > 0).ToList();
             _BulkPropertyUpdater.BulkUpdateArray(toBeUpdated);
         }
 

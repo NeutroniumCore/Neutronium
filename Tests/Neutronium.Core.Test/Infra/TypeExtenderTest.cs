@@ -75,45 +75,6 @@ namespace Neutronium.Core.Test.Infra
             isUnsigned.Should().Be(result);
         }
 
-        public class ReadOnlyClass
-        {
-            public int Available1 { get; }
-
-            public int Available3 { get; private set; }
-
-            public int Private2 { private get; set; }
-
-            protected int Protected1 { get; set; }
-
-            public int OnlySet { set { } }
-        }
-
-        public class ReadOnlyClass2
-        {
-            public int Property1 { get; private set; }
-
-            public int Property2 { get; private set; }
-        }
-
-        private class FakeClass
-        {
-            public int Available1 { get; }
-
-            public int Available2 { get; set; }
-
-            public int Available3 { get; private set; }
-
-            private int Private1 { get; set; }
-
-            public int Private2 { private get; set; }
-
-            protected int Protected1 { get; set; }
-
-            public int Protected2 { protected get; set; }
-
-            public int OnlySet { set { } }
-        }
-
         [Theory]
         [InlineData(typeof(FakeClass), new[] { "Available1", "Available2", "Available3" })]
         [InlineData(typeof(ReadOnlyClass2), new[] { "Property1", "Property2" })]    
