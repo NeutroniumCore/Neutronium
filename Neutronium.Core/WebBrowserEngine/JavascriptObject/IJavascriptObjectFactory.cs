@@ -66,17 +66,18 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
 
         /// <summary>
         /// Create IJavascriptObject objects in bulk
-        /// </summary>   
-        /// <param name="local">
-        /// true if local object, meaning browser context. 
+        /// </summary> 
+        /// <param name="readOnlyNumber">
+        /// number of read only objects to create. 
+        /// Readonly object have the property NeutroniumConstants.ReadOnlyFlag ("__readonly__") set to true
         /// </param>
-        /// <param name="number">
-        /// number of object to create. 
+        /// <param name="readWrite">
+        /// number of read write objects to create. 
         /// </param>
         /// <returns>
         /// corresponding collection of IJavascriptObject
         ///</returns>
-        IEnumerable<IJavascriptObject> CreateObjects(bool local, int number);
+        IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber);
 
         /// <summary>
         /// Create IJavascriptObject object from javascript code
@@ -116,7 +117,6 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         ///</returns>
         IJavascriptObject CreateDouble(double value);
 
-
         /// <summary>
         /// Create IJavascriptObject from an string
         /// </summary>
@@ -127,7 +127,6 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// corresponding IJavascriptObject
         ///</returns>
         IJavascriptObject CreateString(string value);
-
 
         /// <summary>
         /// Create IJavascriptObject from a boolean

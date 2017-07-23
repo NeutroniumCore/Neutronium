@@ -114,7 +114,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 };
             }())";
 
-            var finalString = builderScript.Replace("{{ChromiumFXJavascriptRoot.IdName}}", ChromiumFXJavascriptRoot.IdName);
+            var finalString = builderScript.Replace("{{ChromiumFXJavascriptRoot.IdName}}", NeutroniumConstants.ObjectId);
             return Eval(finalString);
         }
 
@@ -185,8 +185,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return (v8Res!=null) ? UpdateConvert(v8Res) : null;
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjects(bool local, int number)
+        public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
         {
+            var number = readWrite + readOnlyNumber;
             _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] {
                 CfrV8Value.CreateInt((int)_Count),
                 CfrV8Value.CreateInt(number),
@@ -260,7 +261,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 return null;
 
             var id = GetNextId();
-            value.SetValue(ChromiumFXJavascriptRoot.IdName, CfrV8Value.CreateUint(id), CfxV8PropertyAttribute.DontDelete  | CfxV8PropertyAttribute.DontEnum
+            value.SetValue(NeutroniumConstants.ObjectId, CfrV8Value.CreateUint(id), CfxV8PropertyAttribute.DontDelete  | CfxV8PropertyAttribute.DontEnum
                         |  CfxV8PropertyAttribute.ReadOnly);
 
             return isArray? value.ConvertBasic(id) : value.ConvertObject(id);

@@ -22,8 +22,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public bool IsBool => _CfrV8Value.IsBool;
         public CfrV8Value GetRaw() => _CfrV8Value;
 
-        public static string IdName { get; } = "_MappedId";
-
         protected ChromiumFXJavascriptRoot(CfrV8Value cfrV8Value)
         {
             _CfrV8Value = cfrV8Value;

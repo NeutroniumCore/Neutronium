@@ -109,7 +109,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
          private Awesomium_Core.JSValue UpdateObject(Awesomium_Core.JSObject ires)
          {
-             ires["_MappedId"] = new Awesomium_Core.JSValue(_Count++);
+             ires[NeutroniumConstants.ObjectId] = new Awesomium_Core.JSValue(_Count++);
              return ires;
          }
 
@@ -131,18 +131,19 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
                     Awesomium_Core.JSObject res = (local) ? new Awesomium_Core.JSObject() :
                            (Awesomium_Core.JSObject)_IWebView.CreateGlobalJavascriptObject(Name);
                    
-                     res["_MappedId"] = new Awesomium_Core.JSValue(_Count++);
+                     res[NeutroniumConstants.ObjectId] = new Awesomium_Core.JSValue(_Count++);
                     
                      return res.Convert();
                  });
          }
 
 
-        public IEnumerable<IJavascriptObject> CreateObjects(bool local, int number)
+        public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
         {
-            for(var i =0; i<number; i++)
+            var count = readWrite + readOnlyNumber;
+            for (var i =0; i< count; i++)
             {
-                yield return CreateObject(local);
+                yield return CreateObject(true);
             }
         }
 

@@ -95,11 +95,12 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return UpdateObject(CefV8Value.CreateObject(null));
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjects(bool local, int number)
+        public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
         {
+            var number = readWrite + readOnlyNumber;
             for (var i = 0; i < number; i++)
             {
-                yield return CreateObject(local);
+                yield return CreateObject(true);
             }
         }
 
@@ -149,7 +150,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
         {
             if (ires != null)
             {
-                ires.SetValue("_MappedId", CefV8Value.CreateUInt(_Count++),
+                ires.SetValue(NeutroniumConstants.ObjectId, CefV8Value.CreateUInt(_Count++),
                     CefV8PropertyAttribute.ReadOnly | CefV8PropertyAttribute.DontEnum | CefV8PropertyAttribute.DontDelete);
             }
         }

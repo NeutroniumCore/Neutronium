@@ -185,12 +185,12 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 
         public bool HasRelevantId()
         {
-            return _CefV8Value.HasValue("_MappedId");
+            return _CefV8Value.HasValue(NeutroniumConstants.ObjectId);
         }
 
         public uint GetID()
         {
-            return (_CefV8Value.HasValue("_MappedId")) ? _CefV8Value.GetValue("_MappedId").GetUIntValue() : 0;
+            return (_CefV8Value.HasValue(NeutroniumConstants.ObjectId)) ? _CefV8Value.GetValue(NeutroniumConstants.ObjectId).GetUIntValue() : 0;
         }
 
         public IEnumerable<string> GetAttributeKeys()

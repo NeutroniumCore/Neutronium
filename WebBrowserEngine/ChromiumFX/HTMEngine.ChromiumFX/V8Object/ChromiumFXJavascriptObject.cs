@@ -1,4 +1,5 @@
 ﻿using Chromium.Remote;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
 {
@@ -10,7 +11,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
 
         public uint GetID()
         {
-            return (_CfrV8Value.HasValue(IdName)) ? _CfrV8Value.GetValue(IdName).UintValue : 0;
+            return (_CfrV8Value.HasValue(NeutroniumConstants.ObjectId)) ? _CfrV8Value.GetValue(NeutroniumConstants.ObjectId).UintValue : 0;
         }
     }
 }

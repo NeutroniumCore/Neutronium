@@ -160,6 +160,7 @@
     <Compile Include="Infra\VM\BasicRelayCommand.cs" />
     <Compile Include="Infra\TypeExtension.cs" />
     <Compile Include="Infra\VM\ViewModelBase.cs" />
+    <Compile Include="WebBrowserEngine\JavascriptObject\NeutroniumConstants.cs" />
     <Compile Include="WebBrowserEngine\Window\BeforeJavascriptExcecutionArgs.cs" />
     <Compile Include="WebBrowserEngine\Window\BrowserCrashedArgs.cs" />
     <Compile Include="WebBrowserEngine\Window\ConsoleMessageArgs.cs" />
