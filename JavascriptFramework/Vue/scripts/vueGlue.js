@@ -17,6 +17,23 @@
         inject(value, observer);
     }
 
+    function disposeSilenters() {
+        setTimeout(disposeSilentersSync.bind(null, Array.from(arguments)), 0);
+    }
+
+    function disposeSilentersSync(args) {
+        const arrayCount = args.length;
+        for (var i = 0; i < arrayCount; i++) {
+            const father = args[i];
+            const silenter = father[silenterProperty];
+            if (!silenter)
+                continue;
+
+            silenter.dispose();
+            delete father[silenterProperty];
+        }
+    }
+
     const silenterProto = {
         init (father) {
             this.father = father;
@@ -36,6 +53,14 @@
             listener.watch();
             this.father[propertyName] = value;
             this.updateListener(listener, propertyName);
+        },
+        dispose() {
+            const listeners = this.listeners;
+            for (var property in listeners) {
+                const listener = listeners[property];
+                listener.watch();
+            }
+            this.listeners = {}
         }
     };
 
@@ -127,8 +152,8 @@
             return vm
 
         visitObject(vm, (father, prop) => {
-            father.__silenter || Object.defineProperty(father, silenterProperty, { value: Object.create(silenterProto).init(father) });
-            var silenter = father.__silenter;
+            father[silenterProperty] || Object.defineProperty(father, silenterProperty, { value: Object.create(silenterProto).init(father), configurable: true });
+            var silenter = father[silenterProperty];
             silenter.create(prop, onPropertyChange(observer, prop, father));
         }, array => updateArray(array, observer));
         return vm
@@ -257,6 +282,7 @@
         silentChange,
         inject,
         silentChangeAndInject,
+        disposeSilenters,
         register: function (vm, observer) {
             console.log("VueGlue register");
             var mixin = Vue._vmMixin;

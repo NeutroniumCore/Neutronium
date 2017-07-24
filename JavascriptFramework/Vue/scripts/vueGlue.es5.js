@@ -19,6 +19,23 @@
         inject(value, observer);
     }
 
+    function disposeSilenters() {
+        setTimeout(disposeSilentersSync.bind(null, Array.from(arguments)), 0);
+    }
+
+    function disposeSilentersSync(args) {
+        const arrayCount = args.length;
+        for (var i = 0; i < arrayCount; i++) {
+            const father = args[i];
+            const silenter = father[silenterProperty];
+            if (!silenter)
+                continue;
+
+            silenter.dispose();
+            delete father[silenterProperty];
+        }
+    }
+
     var silenterProto = {
         init: function init(father) {
             this.father = father;
@@ -42,6 +59,14 @@
             listener.watch();
             this.father[propertyName] = value;
             this.updateListener(listener, propertyName);
+        },
+        dispose() {
+            const listeners = this.listeners;
+            for (var property in listeners) {
+                const listener = listeners[property];
+                listener.watch();
+            }
+            this.listeners = {}
         }
     };
 
@@ -131,8 +156,8 @@
         if (!vueVm) return vm;
 
         visitObject(vm, function (father, prop) {
-            father.__silenter || Object.defineProperty(father, silenterProperty, { value: Object.create(silenterProto).init(father) });
-            var silenter = father.__silenter;
+            father[silenterProperty] || Object.defineProperty(father, silenterProperty, { value: Object.create(silenterProto).init(father), configurable: true });
+            var silenter = father[silenterProperty];
             silenter.create(prop, onPropertyChange(observer, prop, father));
         }, function (array) {
             return updateArray(array, observer);
@@ -271,6 +296,7 @@
         silentChange: silentChange,
         inject: inject,
         silentChangeAndInject: silentChangeAndInject,
+        disposeSilenters: disposeSilenters,
         register: function register(vm, observer) {
             console.log("VueGlue register");
             var mixin = Vue._vmMixin;
