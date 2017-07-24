@@ -20,6 +20,7 @@ using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Universal.HTMLBindingTests.Helper;
+using Neutronium.Core.Binding;
 
 namespace Tests.Universal.HTMLBindingTests
 {
@@ -39,7 +40,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = (binding) =>
                 {
                     var js = binding.JSRootObject;
-                    var res = js.InvokeAsync("NotFound",binding.Context).Result;
+                    var res = js.InvokeAsync("NotFound", binding.Context).Result;
                     res.IsUndefined.Should().BeTrue();
                 }
             };
@@ -73,7 +74,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
                 Test = (binding) =>
                 {
-                    var jsbridge = ((HTML_Binding) binding).JSBrideRootObject;
+                    var jsbridge = ((HTML_Binding)binding).JSBrideRootObject;
 
                     string JSON = JsonConvert.SerializeObject(_DataContext);
                     string alm = jsbridge.ToString();
@@ -140,7 +141,7 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-          [Fact]
+        [Fact]
         public async Task OneTime_CheckContext()
         {
             var test = new TestInContext()
@@ -153,7 +154,7 @@ namespace Tests.Universal.HTMLBindingTests
             };
 
             await RunAsync(test);
-          }
+        }
 
         [Fact]
         public async Task OneTime()
@@ -235,13 +236,13 @@ namespace Tests.Universal.HTMLBindingTests
                     DoSafeUI(() =>
                     {
                         _DataContext.Name = "23";
-                    });            
+                    });
                     await Task.Delay(200);
 
                     string res3 = GetStringAttribute(js, "Name");
                     res3.Should().Be("23");
 
-                    string res4 = GetLocalCity( js);
+                    string res4 = GetLocalCity(js);
                     res4.Should().Be("Florianopolis");
 
                     DoSafeUI(() =>
@@ -303,17 +304,17 @@ namespace Tests.Universal.HTMLBindingTests
             var dt = new Dummy();
 
             var test = new TestInContext()
-             {
-                 Bind = (win) => HTML_Binding.Bind(win, dt, JavascriptBindingMode.OneWay),
-                 Test = (mb) =>
-                 {
-                     var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
-                     var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, dt, JavascriptBindingMode.OneWay),
+                Test = (mb) =>
+                {
+                    var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
+                    var js = mb.JSRootObject;
 
-                     int res = GetIntAttribute(js, "Int");
-                     res.Should().Be(5);
-                 }
-             };
+                    int res = GetIntAttribute(js, "Int");
+                    res.Should().Be(5);
+                }
+            };
 
             await RunAsync(test);
         }
@@ -344,46 +345,46 @@ namespace Tests.Universal.HTMLBindingTests
             _DataContext.MainSkill.Should().BeNull();
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) => {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => {
+                    var js = mb.JSRootObject;
 
-                      var res = GetAttribute(js, "MainSkill");
-                      res.IsNull.Should().BeTrue();
+                    var res = GetAttribute(js, "MainSkill");
+                    res.IsNull.Should().BeTrue();
 
-                      DoSafeUI(() => _DataContext.MainSkill = new Skill() {
-                          Name = "C++",
-                          Type = "Info"
-                      });
+                    DoSafeUI(() => _DataContext.MainSkill = new Skill() {
+                        Name = "C++",
+                        Type = "Info"
+                    });
 
-                      await Task.Delay(200);
+                    await Task.Delay(200);
 
-                      res = GetAttribute(js, "MainSkill");
-                      DoSafe(() => {
-                          res.IsNull.Should().BeFalse();
-                          res.IsObject.Should().BeTrue();
-                      });
-                    
+                    res = GetAttribute(js, "MainSkill");
+                    DoSafe(() => {
+                        res.IsNull.Should().BeFalse();
+                        res.IsObject.Should().BeTrue();
+                    });
 
-                      string inf = GetStringAttribute(res, "Type");
-                      inf.Should().Be("Info");
 
-                      DoSafeUI(() =>
-                      _DataContext.MainSkill = null);
-                      await Task.Delay(200);
+                    string inf = GetStringAttribute(res, "Type");
+                    inf.Should().Be("Info");
 
-                      res = GetAttribute(js, "MainSkill");
+                    DoSafeUI(() =>
+                    _DataContext.MainSkill = null);
+                    await Task.Delay(200);
 
-                      //GetSafe(()=>res.IsNull).Should().BeTrue();
-                      //Awesomium limitation can not test on isnull
-                      //Todo: create specific test
-                      object obj =null;
-                      var boolres = GetSafe( () => _WebView.Converter.GetSimpleValue(res, out obj));
-                      boolres.Should().BeTrue();
-                      obj.Should().BeNull();
-                  }
-              };
+                    res = GetAttribute(js, "MainSkill");
+
+                    //GetSafe(()=>res.IsNull).Should().BeTrue();
+                    //Awesomium limitation can not test on isnull
+                    //Todo: create specific test
+                    object obj = null;
+                    var boolres = GetSafe(() => _WebView.Converter.GetSimpleValue(res, out obj));
+                    boolres.Should().BeTrue();
+                    obj.Should().BeNull();
+                }
+            };
             await RunAsync(test);
         }
 
@@ -402,38 +403,38 @@ namespace Tests.Universal.HTMLBindingTests
             datacontext.One = my;
 
             var test = new TestInContext()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = (mb) =>
-                  {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-                      var One = GetAttribute(js, "One");
+                    var One = GetAttribute(js, "One");
 
-                      string res = GetStringAttribute(One, "Name");
-                      res.Should().Be("O Monstro");
+                    string res = GetStringAttribute(One, "Name");
+                    res.Should().Be("O Monstro");
 
-                      string res2 = GetStringAttribute(One, "LastName");
-                      res2.Should().Be("Desmaisons");
+                    string res2 = GetStringAttribute(One, "LastName");
+                    res2.Should().Be("Desmaisons");
 
-                      //Test no stackoverflow in case of circular refernce
-                      var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
-                      string alm = jsbridge.ToString();
-                      alm.Should().NotBeNull();
-                  }
-              };
+                    //Test no stackoverflow in case of circular refernce
+                    var jsbridge = (mb as HTML_Binding).JSBrideRootObject;
+                    string alm = jsbridge.ToString();
+                    alm.Should().NotBeNull();
+                }
+            };
 
             await RunAsync(test);
         }
 
 
         [Fact]
-        public async Task TwoWay_UpdateJSFromCSharp() 
+        public async Task TwoWay_UpdateJSFromCSharp()
         {
-            var test = new TestInContextAsync() 
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -457,14 +458,14 @@ namespace Tests.Universal.HTMLBindingTests
 
 
         [Fact]
-        public async Task TwoWay_UpdateCSharpFromJS() 
+        public async Task TwoWay_UpdateCSharpFromJS()
         {
-            var datacontext = new SimpleViewModel() {Name = "teste0"};
+            var datacontext = new SimpleViewModel() { Name = "teste0" };
 
-            var test = new TestInContextAsync() 
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -491,74 +492,74 @@ namespace Tests.Universal.HTMLBindingTests
             _DataContext.MainSkill.Should().BeNull();
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-                      string res = GetStringAttribute(js, "Name");
-                      res.Should().Be("O Monstro");
+                    string res = GetStringAttribute(js, "Name");
+                    res.Should().Be("O Monstro");
 
-                      string res2 = GetStringAttribute(js, "LastName");
-                      res2.Should().Be("Desmaisons");
+                    string res2 = GetStringAttribute(js, "LastName");
+                    res2.Should().Be("Desmaisons");
 
-                      DoSafeUI(() =>
-                      {
-                          _DataContext.Name = "23";
-                      });
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Name = "23";
+                    });
 
-                      await Task.Delay(50);
+                    await Task.Delay(50);
 
-                      string res3 = GetStringAttribute(js, "Name");
-                      res3.Should().Be("23");
+                    string res3 = GetStringAttribute(js, "Name");
+                    res3.Should().Be("23");
 
-                      string res4 = GetLocalCity(js);
-                      res4.Should().Be("Florianopolis");
+                    string res4 = GetLocalCity(js);
+                    res4.Should().Be("Florianopolis");
 
-                      DoSafeUI(() =>
-                      {
-                          _DataContext.Local.City = "Paris";
-                      });
-                      await Task.Delay(50);
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Local.City = "Paris";
+                    });
+                    await Task.Delay(50);
 
-                       res4 = GetLocalCity(js);
-                      ((string)res4).Should().Be("Paris");
+                    res4 = GetLocalCity(js);
+                    ((string)res4).Should().Be("Paris");
 
-                      string res5 = GetFirstSkillName(js);
-                      res5.Should().Be("Langage");
+                    string res5 = GetFirstSkillName(js);
+                    res5.Should().Be("Langage");
 
-                      DoSafeUI(() =>
-                      {
-                          _DataContext.Skills[0].Name = "Ling";
-                      });
-                      await Task.Delay(50);
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Skills[0].Name = "Ling";
+                    });
+                    await Task.Delay(50);
 
-                      res5 = GetFirstSkillName(js);
-                      res5.Should().Be("Ling");
+                    res5 = GetFirstSkillName(js);
+                    res5.Should().Be("Ling");
 
                       //Test Two Way
                       var stringName = Create(() => _WebView.Factory.CreateString("resName"));
-                      SetAttribute(js, "Name", stringName);
+                    SetAttribute(js, "Name", stringName);
 
-                      await Task.Delay(150);
-                      string resName = GetStringAttribute(js, "Name");
-                      resName.Should().Be("resName");
+                    await Task.Delay(150);
+                    string resName = GetStringAttribute(js, "Name");
+                    resName.Should().Be("resName");
 
-                      await Task.Delay(150);
+                    await Task.Delay(150);
 
-                      _DataContext.Name.Should().Be("resName");
+                    _DataContext.Name.Should().Be("resName");
 
-                      DoSafeUI(() =>
-                      {
-                          _DataContext.Name = "nnnnvvvvvvv";
-                      });
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Name = "nnnnvvvvvvv";
+                    });
 
-                      await Task.Delay(50);
-                      res3 = GetStringAttribute(js, "Name");
-                      ((string)res3).Should().Be("nnnnvvvvvvv");
-                  }
-              };
+                    await Task.Delay(50);
+                    res3 = GetStringAttribute(js, "Name");
+                    ((string)res3).Should().Be("nnnnvvvvvvv");
+                }
+            };
 
             await RunAsync(test);
         }
@@ -569,43 +570,43 @@ namespace Tests.Universal.HTMLBindingTests
             _DataContext.MainSkill.Should().BeNull();
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-                      string res = GetStringAttribute(js, "Name");
-                      res.Should().Be("O Monstro");
+                    string res = GetStringAttribute(js, "Name");
+                    res.Should().Be("O Monstro");
 
-                      string res2 = GetStringAttribute(js, "LastName");
-                      res2.Should().Be("Desmaisons");
+                    string res2 = GetStringAttribute(js, "LastName");
+                    res2.Should().Be("Desmaisons");
 
-                      var local = GetAttribute(js, "Local");
-                      string city = GetStringAttribute(local, "City");
-                      city.Should().Be("Florianopolis");
+                    var local = GetAttribute(js, "Local");
+                    string city = GetStringAttribute(local, "City");
+                    city.Should().Be("Florianopolis");
 
-                      DoSafeUI(() =>
-                      {
-                          _DataContext.Local.City = "Foz de Iguaçu";
-                      });
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Local.City = "Foz de Iguaçu";
+                    });
 
-                      await Task.Delay(100);
-                      var local3 = GetAttribute(js, "Local");
-                      string city3 = GetStringAttribute(local, "City");
-                      city3.Should().Be("Foz de Iguaçu");
+                    await Task.Delay(100);
+                    var local3 = GetAttribute(js, "Local");
+                    string city3 = GetStringAttribute(local, "City");
+                    city3.Should().Be("Foz de Iguaçu");
 
-                      DoSafeUI(() =>
-                      {
-                          _DataContext.Local = new Local() { City = "Paris" };
-                      });
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Local = new Local() { City = "Paris" };
+                    });
 
-                      await Task.Delay(100);
-                      var local2 = GetAttribute(js, "Local");
-                      string city2 = GetStringAttribute(local2, "City");
-                      city2.Should().Be("Paris");
-                  }
-              };
+                    await Task.Delay(100);
+                    var local2 = GetAttribute(js, "Local");
+                    string city2 = GetStringAttribute(local2, "City");
+                    city2.Should().Be("Paris");
+                }
+            };
 
             await RunAsync(test);
         }
@@ -695,27 +696,27 @@ namespace Tests.Universal.HTMLBindingTests
             _DataContext.MainSkill.Should().BeNull();
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-                      var res = GetAttribute(js, "PersonalState");
-                      string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
-                      dres.Should().Be("Married");
+                    var res = GetAttribute(js, "PersonalState");
+                    string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                    dres.Should().Be("Married");
 
-                      DoSafeUI(() =>
-                      {
-                          _DataContext.PersonalState = PersonalState.Single;
-                      });
-                      await Task.Delay(50);
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.PersonalState = PersonalState.Single;
+                    });
+                    await Task.Delay(50);
 
-                      res = GetAttribute(js, "PersonalState");
-                      dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
-                      dres.Should().Be("Single");
-                  }
-              };
+                    res = GetAttribute(js, "PersonalState");
+                    dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                    dres.Should().Be("Single");
+                }
+            };
 
             await RunAsync(test);
 
@@ -727,38 +728,38 @@ namespace Tests.Universal.HTMLBindingTests
             _DataContext.Name = "toto";
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-                      var res = GetAttribute(js, "PersonalState");
-                      string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
-                      dres.Should().Be("Married");
+                    var res = GetAttribute(js, "PersonalState");
+                    string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                    dres.Should().Be("Married");
 
-                      DoSafeUI(() =>
-                      {
-                          _DataContext.PersonalState = PersonalState.Single;
-                      });
-                      await Task.Delay(50);
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.PersonalState = PersonalState.Single;
+                    });
+                    await Task.Delay(50);
 
-                      res = GetAttribute(js, "PersonalState");
-                      dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
-                      dres.Should().Be("Single");
+                    res = GetAttribute(js, "PersonalState");
+                    dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                    dres.Should().Be("Single");
 
-                      var othervalue = GetCollectionAttribute(js, "States");
+                    var othervalue = GetCollectionAttribute(js, "States");
 
-                      var di = othervalue.GetValue(2);
-                      string name = di.GetValue("displayName").GetStringValue();
-                      name.Should().Be("Divorced");
+                    var di = othervalue.GetValue(2);
+                    string name = di.GetValue("displayName").GetStringValue();
+                    name.Should().Be("Divorced");
 
-                      SetAttribute(js, "PersonalState", di);
-                      await Task.Delay(100);
+                    SetAttribute(js, "PersonalState", di);
+                    await Task.Delay(100);
 
-                      _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
-                  }
-              };
+                    _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
+                }
+            };
 
             await RunAsync(test);
         }
@@ -780,29 +781,29 @@ namespace Tests.Universal.HTMLBindingTests
             datacontext.PersonalState = PersonalState.Single;
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-                      var res = GetAttribute(js, "PersonalState");
-                      string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
-                      dres.Should().Be("Single");
+                    var res = GetAttribute(js, "PersonalState");
+                    string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                    dres.Should().Be("Single");
 
 
-                      DoSafeUI(() =>
-                      {
-                          datacontext.PersonalState = PersonalState.Married;
-                      });
-                      await Task.Delay(50);
+                    DoSafeUI(() =>
+                    {
+                        datacontext.PersonalState = PersonalState.Married;
+                    });
+                    await Task.Delay(50);
 
-                      res = GetAttribute(js, "PersonalState");
-                      dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
-                      dres.Should().Be("Married");
-                  }
+                    res = GetAttribute(js, "PersonalState");
+                    dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                    dres.Should().Be("Married");
+                }
 
-              };
+            };
 
             await RunAsync(test);
         }
@@ -818,45 +819,45 @@ namespace Tests.Universal.HTMLBindingTests
             datacontext.Two = p2;
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-                      var res1 = GetAttribute(js, "One");
-                      string n1 = GetStringAttribute(res1, "Name");
-                      n1.Should().Be("David");
+                    var res1 = GetAttribute(js, "One");
+                    string n1 = GetStringAttribute(res1, "Name");
+                    n1.Should().Be("David");
 
-                      var res2 = GetAttribute(js, "Two");
-                      res2.Should().NotBeNull();
-                      var n2 = GetStringAttribute(res2, "Name");
-                      n2.Should().Be("Claudia");
+                    var res2 = GetAttribute(js, "Two");
+                    res2.Should().NotBeNull();
+                    var n2 = GetStringAttribute(res2, "Name");
+                    n2.Should().Be("Claudia");
 
-                      var jsValue = GetAttribute(js, "Two");
-                      SetAttribute(js, "One", jsValue);
+                    var jsValue = GetAttribute(js, "Two");
+                    SetAttribute(js, "One", jsValue);
 
-                      await Task.Delay(100);
+                    await Task.Delay(100);
 
-                      var res3 = GetAttribute(js, "One");
-                      res3.Should().NotBeNull();
-                      string n3 = GetStringAttribute(res3, "Name");
-                      n3.Should().Be("Claudia");
+                    var res3 = GetAttribute(js, "One");
+                    res3.Should().NotBeNull();
+                    string n3 = GetStringAttribute(res3, "Name");
+                    n3.Should().Be("Claudia");
 
-                      await Task.Delay(100);
+                    await Task.Delay(100);
 
-                      datacontext.One.Should().Be(p2);
+                    datacontext.One.Should().Be(p2);
 
-                      var res4 = GetAttribute(res3, "ChildrenNumber");
-                      res4.IsNull.Should().BeTrue();
+                    var res4 = GetAttribute(res3, "ChildrenNumber");
+                    res4.IsNull.Should().BeTrue();
 
-                      var five = Create(()=> _WebView.Factory.CreateInt(5));
-                      SetAttribute(res3, "ChildrenNumber", five);
-                      await Task.Delay(100);
+                    var five = Create(() => _WebView.Factory.CreateInt(5));
+                    SetAttribute(res3, "ChildrenNumber", five);
+                    await Task.Delay(100);
 
-                      datacontext.One.ChildrenNumber.Should().Be(5);
-                  }
-              };
+                    datacontext.One.ChildrenNumber.Should().Be(5);
+                }
+            };
 
             await RunAsync(test);
         }
@@ -871,36 +872,36 @@ namespace Tests.Universal.HTMLBindingTests
             datacontext.Two = p2;
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
 
-                      var res1 = GetAttribute(js, "One");
-                      res1.Should().NotBeNull();
-                      string n1 = GetStringAttribute(res1, "Name");
-                      n1.Should().Be("David");
+                    var res1 = GetAttribute(js, "One");
+                    res1.Should().NotBeNull();
+                    string n1 = GetStringAttribute(res1, "Name");
+                    n1.Should().Be("David");
 
-                      var res2 = GetAttribute(js, "Two");
-                      res2.Should().NotBeNull();
-                      string n2 = GetStringAttribute(res2, "Name");
-                      n2.Should().Be("Claudia");
+                    var res2 = GetAttribute(js, "Two");
+                    res2.Should().NotBeNull();
+                    string n2 = GetStringAttribute(res2, "Name");
+                    n2.Should().Be("Claudia");
 
-                      var nullSO = Create(() => _WebView.Factory.CreateNull());
-                      SetAttribute(js, "One", nullSO);
+                    var nullSO = Create(() => _WebView.Factory.CreateNull());
+                    SetAttribute(js, "One", nullSO);
 
-                      await Task.Delay(100);
-                      var res3 = GetAttribute(js, "One");
+                    await Task.Delay(100);
+                    var res3 = GetAttribute(js, "One");
                       //GetSafe(() => res3.IsNull).Should().BeTrue();
                       //Init case of awesomium an object is used on JS side
                       //Todo: create specific test
 
                       await Task.Delay(100);
 
-                      datacontext.One.Should().BeNull();
-                  }
-              };
+                    datacontext.One.Should().BeNull();
+                }
+            };
 
             await RunAsync(test);
         }
@@ -915,32 +916,32 @@ namespace Tests.Universal.HTMLBindingTests
             datacontext.Two = p2;
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
-                      var res1 = GetAttribute(js, "One");
-                      res1.Should().NotBeNull();
-                      string n1 = GetStringAttribute(res1, "Name");
-                      n1.Should().Be("David");
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    var res1 = GetAttribute(js, "One");
+                    res1.Should().NotBeNull();
+                    string n1 = GetStringAttribute(res1, "Name");
+                    n1.Should().Be("David");
 
-                      var res2 = GetAttribute(js, "Two");
-                      res2.Should().NotBeNull();
-                      string n2 = GetStringAttribute(res2, "Name");
-                      n2.Should().Be("Claudia");
+                    var res2 = GetAttribute(js, "Two");
+                    res2.Should().NotBeNull();
+                    string n2 = GetStringAttribute(res2, "Name");
+                    n2.Should().Be("Claudia");
 
-                      var StringJS = _WebView.Factory.CreateString("Dede");
-                      SetAttribute(js, "One", StringJS);
+                    var StringJS = _WebView.Factory.CreateString("Dede");
+                    SetAttribute(js, "One", StringJS);
 
-                      string res3 = GetStringAttribute(js, "One");
-                      res3.Should().Be("Dede");
+                    string res3 = GetStringAttribute(js, "One");
+                    res3.Should().Be("Dede");
 
-                      await Task.Delay(100);
+                    await Task.Delay(100);
 
-                      datacontext.One.Should().Be(p1);
-                  }
-              };
+                    datacontext.One.Should().Be(p1);
+                }
+            };
 
             await RunAsync(test);
         }
@@ -955,31 +956,31 @@ namespace Tests.Universal.HTMLBindingTests
             datacontext.Two = p2;
 
             var test = new TestInContextAsync()
-              {
-                  Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                  Test = async (mb) =>
-                  {
-                      var js = mb.JSRootObject;
-                      var res1 = GetAttribute(js, "One");
-                      res1.Should().NotBeNull();
-                      string n1 = GetStringAttribute(res1, "Name");
-                      n1.Should().Be("David");
+            {
+                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    var res1 = GetAttribute(js, "One");
+                    res1.Should().NotBeNull();
+                    string n1 = GetStringAttribute(res1, "Name");
+                    n1.Should().Be("David");
 
-                      var res2 = GetAttribute(js, "Two");
-                      res2.Should().NotBeNull();
-                      string n2 = GetStringAttribute(res2, "Name");
-                      n2.Should().Be("Claudia");
+                    var res2 = GetAttribute(js, "Two");
+                    res2.Should().NotBeNull();
+                    string n2 = GetStringAttribute(res2, "Name");
+                    n2.Should().Be("Claudia");
 
-                      var trueJs = _WebView.Factory.CreateObject(false);
-                      SetAttribute(js, "One", trueJs);
+                    var trueJs = _WebView.Factory.CreateObject(false);
+                    SetAttribute(js, "One", trueJs);
 
-                      var res3 = GetAttribute(js, "One");
-                      res3.IsObject.Should().BeTrue();
+                    var res3 = GetAttribute(js, "One");
+                    res3.IsObject.Should().BeTrue();
 
-                      await Task.Delay(100);
-                      datacontext.One.Should().Be(p1);
-                  }
-              };
+                    await Task.Delay(100);
+                    datacontext.One.Should().Be(p1);
+                }
+            };
             await RunAsync(test);
         }
 
@@ -1045,7 +1046,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HTML_Binding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-                    var js = ((HTML_Binding) mb).JSBrideRootObject as JsGenericObject;
+                    var js = ((HTML_Binding)mb).JSBrideRootObject as JsGenericObject;
 
                     var mycommand = js.Attributes["Command"] as JSCommand;
                     mycommand.Should().NotBeNull();
@@ -1324,35 +1325,35 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(200);
                     datacontext.int64.Should().Be(32);
 
-                    SetAttribute(js, "uint64",  _WebView.Factory.CreateInt(456));
+                    SetAttribute(js, "uint64", _WebView.Factory.CreateInt(456));
                     await Task.Delay(200);
                     datacontext.uint64.Should().Be(456);
 
-                    SetAttribute(js, "int32",  _WebView.Factory.CreateInt(5));
+                    SetAttribute(js, "int32", _WebView.Factory.CreateInt(5));
                     await Task.Delay(200);
                     datacontext.int32.Should().Be(5);
 
-                    SetAttribute(js, "uint32",  _WebView.Factory.CreateInt(67));
+                    SetAttribute(js, "uint32", _WebView.Factory.CreateInt(67));
                     await Task.Delay(200);
                     datacontext.uint32.Should().Be(67);
 
-                    SetAttribute(js, "int16",  _WebView.Factory.CreateInt(-23));
+                    SetAttribute(js, "int16", _WebView.Factory.CreateInt(-23));
                     await Task.Delay(200);
                     datacontext.int16.Should().Be(-23);
 
-                    SetAttribute(js, "uint16",  _WebView.Factory.CreateInt(9));
+                    SetAttribute(js, "uint16", _WebView.Factory.CreateInt(9));
                     await Task.Delay(200);
                     datacontext.uint16.Should().Be(9);
 
-                    SetAttribute(js, "Float",  _WebView.Factory.CreateDouble(888.78));
+                    SetAttribute(js, "Float", _WebView.Factory.CreateDouble(888.78));
                     await Task.Delay(200);
                     datacontext.Float.Should().Be(888.78f);
 
-                    SetAttribute(js, "Double",  _WebView.Factory.CreateDouble(866.76));
+                    SetAttribute(js, "Double", _WebView.Factory.CreateDouble(866.76));
                     await Task.Delay(200);
                     datacontext.Double.Should().Be(866.76);
 
-                    SetAttribute(js, "Decimal",  _WebView.Factory.CreateDouble(0.5));
+                    SetAttribute(js, "Decimal", _WebView.Factory.CreateDouble(0.5));
                     await Task.Delay(200);
                     datacontext.Decimal.Should().Be(0.5m);
                 }
@@ -1402,7 +1403,7 @@ namespace Tests.Universal.HTMLBindingTests
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                Test = async (mb) =>
                 {
                     var js = mb.JSRootObject;
 
@@ -1474,7 +1475,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var mycommand = GetAttribute(js, "TestCommand");
                     Call(mycommand, "Execute", _WebView.Factory.CreateString("titi"));
 
-                     await Task.Delay(150);
+                    await Task.Delay(150);
                     _ICommand.Received().Execute("titi");
                 }
             };
@@ -1491,7 +1492,7 @@ namespace Tests.Universal.HTMLBindingTests
                     _DataContext.MainSkill = new Skill();
                     _DataContext.Skills.Add(_DataContext.MainSkill);
                 });
-       
+
             _DataContext.TestCommand = _ICommand;
             var test = new TestInContextAsync()
             {
@@ -1508,7 +1509,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(150);
 
-                    var res = GetCollectionAttribute(js , "Skills");
+                    var res = GetCollectionAttribute(js, "Skills");
 
                     res.Should().NotBeNull();
                     res.GetArrayLength().Should().Be(3);
@@ -1599,8 +1600,8 @@ namespace Tests.Universal.HTMLBindingTests
                 Path = TestContext.IndexPromise,
                 Bind = (win) => HTML_Binding.Bind(win, dc, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
-                { 
-                  
+                {
+
                     {
                         var glueobj = (mb as HTML_Binding).JSBrideRootObject as JsGenericObject;
                         var mysimplecommand = glueobj.Attributes["CreateObject"] as JsResultCommand;
@@ -1609,7 +1610,7 @@ namespace Tests.Universal.HTMLBindingTests
                         mysimplecommand.Type.Should().Be(JsCsGlueType.ResultCommand);
                         mysimplecommand.MappedJSValue.Should().NotBeNull();
                     }
-                   
+
                     var js = mb.JSRootObject;
                     var mycommand = GetAttribute(js, "CreateObject");
 
@@ -1628,12 +1629,12 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Yield();
 
                     var error = _WebView.GetGlobal().GetValue("err");
-                       error.IsUndefined.Should().BeTrue();
+                    error.IsUndefined.Should().BeTrue();
 
-                       var resvalue = _WebView.GetGlobal().GetValue("res");
-                       int intres = resvalue.GetIntValue();
-                       intres.Should().Be(255);
-                   }
+                    var resvalue = _WebView.GetGlobal().GetValue("res");
+                    int intres = resvalue.GetIntValue();
+                    intres.Should().Be(255);
+                }
             };
 
             await RunAsync(test);
@@ -1936,7 +1937,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var halfJavascript = Create(() => _WebView.Factory.CreateDouble(0.5));
                     SetAttribute(js, "decimalValue", halfJavascript);
                     await Task.Delay(200);
-                   
+
                     datacontext.decimalValue.Should().Be(0.5m);
 
                     double doublev = GetDoubleAttribute(js, "decimalValue");
@@ -1947,7 +1948,6 @@ namespace Tests.Universal.HTMLBindingTests
 
             await RunAsync(test);
         }
-
 
         private class VMwithlong : ViewModelBase
         {
@@ -2288,9 +2288,9 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        public static IEnumerable<object> BasicVmData
+        public static IEnumerable<object> BasicVmData 
         {
-            get
+            get 
             {
                 yield return new object[] { new BasicVm() };
                 yield return new object[] { null };
@@ -2330,7 +2330,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Theory]
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_should_clean_javascriptObject_cache_when_object_is_not_part_of_the_graph(BasicVm remplacementChild)
-        {         
+        {
             var datacontext = new BasicFatherVm();
             var child = new BasicVm();
             datacontext.Child = child;
@@ -2340,7 +2340,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;         
+                    var js = mb.JSRootObject;
                     var childJs = GetAttribute(js, "Child");
 
                     DoSafeUI(() => datacontext.Child = remplacementChild);
@@ -2421,8 +2421,6 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
-
         [Fact]
         public async Task TwoWay_should_listen_to_all_changes()
         {
@@ -2488,6 +2486,11 @@ namespace Tests.Universal.HTMLBindingTests
                     Set(ref _MagicNumber, value, nameof(MagicNumber));
                 }
             }
+        }
+
+        protected Task<IHTMLBinding> Bind(HTMLViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        {
+            return HTML_Binding.Bind(engine, dataContext, JavascriptBindingMode.TwoWay);
         }
 
         [Fact]
