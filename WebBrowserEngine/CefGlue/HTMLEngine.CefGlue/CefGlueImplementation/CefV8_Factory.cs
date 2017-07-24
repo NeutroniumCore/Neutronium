@@ -90,15 +90,23 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return new CefV8_JavascriptObject(CefV8Value.CreateUndefined());
         }
 
-        public IJavascriptObject CreateObject(bool iLocal)
+        public IJavascriptObject CreateObject()
         {
             return UpdateObject(CefV8Value.CreateObject(null));
         }
 
+        public IJavascriptObject CreateObject(bool readOnly)
+        {
+            return UpdateObject(CefV8Value.CreateObject(null), readOnly);
+        }
+
         public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
         {
-            var number = readWrite + readOnlyNumber;
-            for (var i = 0; i < number; i++)
+            for (var i = 0; i < readWrite; i++)
+            {
+                yield return CreateObject(false);
+            }
+            for (var i = 0; i < readOnlyNumber; i++)
             {
                 yield return CreateObject(true);
             }
@@ -146,25 +154,32 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             }
         }
 
-        private void BasicUpdateObject(CefV8Value ires)
+        private static void SetAttribute(CefV8Value value, string name, CefV8Value propertyValue)
         {
-            if (ires != null)
-            {
-                ires.SetValue(NeutroniumConstants.ObjectId, CefV8Value.CreateUInt(_Count++),
-                    CefV8PropertyAttribute.ReadOnly | CefV8PropertyAttribute.DontEnum | CefV8PropertyAttribute.DontDelete);
-            }
+            value.SetValue(name, propertyValue, CefV8PropertyAttribute.ReadOnly | CefV8PropertyAttribute.DontEnum | CefV8PropertyAttribute.DontDelete);
         }
 
-        private CefV8_JavascriptObject UpdateObject(CefV8_JavascriptObject ires)
+        private void BasicUpdateObject(CefV8Value res, bool? readOnly = null)
         {
-            BasicUpdateObject(ires.RawValue);
-            return ires;
+            if (res == null)
+                return;
+            SetAttribute(res, NeutroniumConstants.ObjectId, CefV8Value.CreateUInt(_Count++));
+
+            if (!readOnly.HasValue)
+                return;
+            SetAttribute(res, NeutroniumConstants.ReadOnlyFlag, CefV8Value.CreateBool(readOnly.Value));
         }
 
-        private CefV8_JavascriptObject UpdateObject(CefV8Value ires)
+        private CefV8_JavascriptObject UpdateObject(CefV8_JavascriptObject res, bool? readOnly = null)
         {
-            BasicUpdateObject(ires);
-            return new CefV8_JavascriptObject(ires);
+            BasicUpdateObject(res.RawValue, readOnly);
+            return res;
+        }
+
+        private CefV8_JavascriptObject UpdateObject(CefV8Value res, bool? readOnly = null)
+        {
+            BasicUpdateObject(res, readOnly);
+            return new CefV8_JavascriptObject(res);
         }
 
         public IJavascriptObject CreateObject(string iCreationCode)

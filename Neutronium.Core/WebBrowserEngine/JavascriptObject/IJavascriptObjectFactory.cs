@@ -55,14 +55,23 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
 
         /// <summary>
         /// Create IJavascriptObject object
-        /// </summary>   
-        /// <param name="local">
-        /// true if local object, meaning browser context. 
+        /// </summary>
+        /// <returns>
+        /// corresponding IJavascriptObject
+        ///</returns>
+        IJavascriptObject CreateObject();
+
+        /// <summary>
+        /// Create IJavascriptObject object
+        /// </summary> 
+        /// <param name="readOnly">
+        /// true if local readOnly. 
+        /// Readonly object have the property NeutroniumConstants.ReadOnlyFlag ("__readonly__") set to true
         /// </param>
         /// <returns>
         /// corresponding IJavascriptObject
         ///</returns>
-        IJavascriptObject CreateObject(bool local);
+        IJavascriptObject CreateObject(bool readOnly);
 
         /// <summary>
         /// Create IJavascriptObject objects in bulk

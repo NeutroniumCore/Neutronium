@@ -8,11 +8,9 @@ namespace Neutronium.Core.Binding.Builder
     {
         public IJSCSGlue Father { get; }
         public ChildDescription<TIdentificator>[] ChildrenDescription { get; }
-        public bool IsUpdatableFromJS { get; }
 
-        public EntityDescriptor(IJSCSGlue father, IEnumerable<ChildDescription<TIdentificator>> childrenDescription, bool updatableFromJS = true)
+        public EntityDescriptor(IJSCSGlue father, IEnumerable<ChildDescription<TIdentificator>> childrenDescription)
         {
-            IsUpdatableFromJS = updatableFromJS;
             Father = father;
             ChildrenDescription = (childrenDescription==null) ? new ChildDescription<TIdentificator>[0] : childrenDescription.ToArray();
         }
@@ -38,9 +36,9 @@ namespace Neutronium.Core.Binding.Builder
             return new EntityDescriptor<int>(father, description?.Select((d, index) => new ChildDescription<int>(index, d)));
         }
 
-        public static EntityDescriptor<string> CreateObjectDescriptor(IJSCSGlue father, IReadOnlyDictionary<string, IJSCSGlue> description, bool updatableFromJS)
+        public static EntityDescriptor<string> CreateObjectDescriptor(IJSCSGlue father, IReadOnlyDictionary<string, IJSCSGlue> description)
         {
-            return new EntityDescriptor<string>(father, description?.Select(d => new ChildDescription<string>(d.Key, d.Value)), updatableFromJS);
+            return new EntityDescriptor<string>(father, description?.Select(d => new ChildDescription<string>(d.Key, d.Value)));
         }
     }
 }

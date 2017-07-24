@@ -3,6 +3,7 @@
     this.displayName = displayName;
     this.name = name;
     this.type = type;
+    Object.defineProperty(this, '__readonly__', { value: true });
 }
 
 function Null_reference() {

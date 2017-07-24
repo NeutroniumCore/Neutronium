@@ -970,7 +970,7 @@ namespace Tests.Universal.HTMLBindingTests
                       string n2 = GetStringAttribute(res2, "Name");
                       n2.Should().Be("Claudia");
 
-                      var trueJs = _WebView.Factory.CreateObject(true);
+                      var trueJs = _WebView.Factory.CreateObject(false);
                       SetAttribute(js, "One", trueJs);
 
                       var res3 = GetAttribute(js, "One");

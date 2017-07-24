@@ -77,22 +77,27 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                         fn.apply(null, subArray)
                     }
                 }
-                function objectWithId(id){
-                    Object.defineProperty(this, '{{ChromiumFXJavascriptRoot.IdName}}', {value: id});
+                function objectWithId(id, readOnly){
+                    Object.defineProperty(this, '{{NeutroniumConstants.ObjectId}}', {value: id});
+                    Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: readOnly});
                 }
-                function createObject(id){
-                    return new objectWithId(id)
+                function createObject(id, readOnly){
+                    return new objectWithId(id, readOnly)
                 }
                 function createArray(id){
                     const res = []
-                    Object.defineProperty(res, '{{ChromiumFXJavascriptRoot.IdName}}', {value: id});
+                    Object.defineProperty(res, '{{NeutroniumConstants.ObjectId}}', {value: id});
                     return res
                 }
-                function createBulkObject(id, size, fn){
-                    const array = []
-                    for (var i = 0; i < size; i++) {
-                        array.push(new objectWithId(id++))
+                function pushObjects(array, id, number, readOnly){
+                    for (var i = 0; i < number; i++) {
+                        array.push(new objectWithId(id++, readOnly))
                     }
+                }
+                function createBulkObject(id, readWriteNumber, readOnlyNumber, fn){
+                    const array = []
+                    pushObjects(array, id, readWriteNumber, false)
+                    pushObjects(array, id, readOnlyNumber, true)
                     pushResult(fn, array)
                 }
                 function createBulkBasic(values, fn){
@@ -114,7 +119,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 };
             }())";
 
-            var finalString = builderScript.Replace("{{ChromiumFXJavascriptRoot.IdName}}", NeutroniumConstants.ObjectId);
+            var finalString = builderScript.Replace("{{NeutroniumConstants.ObjectId}}", NeutroniumConstants.ObjectId)
+                                           .Replace("{{NeutroniumConstants.ReadOnlyFlag}}", NeutroniumConstants.ReadOnlyFlag);
             return Eval(finalString);
         }
 
@@ -173,10 +179,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return _Null?? (_Null = CfrV8Value.CreateNull().ConvertBasic());
         }
 
-        public IJavascriptObject CreateObject(bool local) 
+        public IJavascriptObject CreateObject()
+        {
+            return CfrV8Value.CreateObject(null, null).ConvertObject();
+        }
+
+        public IJavascriptObject CreateObject(bool readOnly) 
         {
             var id = GetNextId();
-            return _ObjectBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id) }).ConvertObject(id);
+            return _ObjectBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id), CfrV8Value.CreateBool(readOnly) }).ConvertObject(id);
         }
 
         public IJavascriptObject CreateObject(string creationCode) 
@@ -185,12 +196,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return (v8Res!=null) ? UpdateConvert(v8Res) : null;
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
+        public IEnumerable<IJavascriptObject> CreateObjects(int readWriteNumber, int readOnlyNumber)
         {
-            var number = readWrite + readOnlyNumber;
             _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] {
                 CfrV8Value.CreateInt((int)_Count),
-                CfrV8Value.CreateInt(number),
+                CfrV8Value.CreateInt((int)readWriteNumber),
+                CfrV8Value.CreateInt((int)readOnlyNumber),
                 _ObjectCreationCallbackFunction.Value
             });
             var results = _ObjectCallback.GetLastArguments();

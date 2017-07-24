@@ -17,7 +17,7 @@ namespace Neutronium.Core.JavascriptFramework
 
         public IJavascriptObject BuildListener()
         {
-            var listener = _WebView.Factory.CreateObject(false);
+            var listener = _WebView.Factory.CreateObject();
 
             if (_Observer == null)
                 return listener;

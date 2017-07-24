@@ -59,12 +59,16 @@
             return;
         }
 
+        const needVisitSelf = !vm.__readonly__;
+
         for (var property in vm) {
             var value = vm[property];
             if (typeof value === "function")
                 continue;
 
-            visit(vm, property);
+            if (needVisitSelf) {
+                visit(vm, property);
+            }
             visitObject(value, visit, visitArray);
         }
     }

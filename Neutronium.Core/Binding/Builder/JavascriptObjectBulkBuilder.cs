@@ -14,7 +14,7 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IBulkUpdater _BulkPropertyUpdater;
         private readonly IJSCSGlue _Root;
 
-        private readonly List<EntityDescriptor<string>> _ObjectsBuildingRequested = new List<EntityDescriptor<string>>();
+        private readonly ObjectsCreationRequest _ObjectsCreationRequest = new ObjectsCreationRequest();
         private readonly List<EntityDescriptor<int>> _ArraysBuildingRequested = new List<EntityDescriptor<int>>();
         private readonly List<IJSCSGlue> _BasicObjectsToCreate = new List<IJSCSGlue>();
 
@@ -39,7 +39,7 @@ namespace Neutronium.Core.Binding.Builder
 
         internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)
         {
-            _ObjectsBuildingRequested.Add(EntityDescriptor.CreateObjectDescriptor(glue, children, updatableFromJS));
+            _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, children), updatableFromJS);
         }
 
         internal void RequestArrayCreation(IJSCSGlue glue, IList<IJSCSGlue> children)
@@ -77,7 +77,7 @@ namespace Neutronium.Core.Binding.Builder
         private void CreateObjects()
         {
             BulkCreate(_ => _Factory.CreateBasics(_BasicObjectsToCreate.Select(glue => glue.CValue).ToList()), _BasicObjectsToCreate);
-            BulkCreate(count => _Factory.CreateObjects(count, 0), _ObjectsBuildingRequested.Select(item => item.Father).ToList());
+            BulkCreate(count => _Factory.CreateObjects(_ObjectsCreationRequest.ReadWriteNumber, _ObjectsCreationRequest.ReadOnlyNumber), _ObjectsCreationRequest.GetElements());
             BulkCreate(count => _Factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Father).ToList());
         }
 
@@ -89,7 +89,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void UpdateObjects()
         {
-            var toBeUpdated = _ObjectsBuildingRequested.Where(item => item.ChildrenDescription.Length > 0).ToList();
+            var toBeUpdated = _ObjectsCreationRequest.GetElementWithProperty();          
             _BulkPropertyUpdater.BulkUpdateProperty(toBeUpdated);
         }
 

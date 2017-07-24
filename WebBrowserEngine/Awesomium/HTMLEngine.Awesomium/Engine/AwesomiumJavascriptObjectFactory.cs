@@ -123,20 +123,29 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
          private static uint _Count = 0;
 
-         public IJavascriptObject CreateObject(bool local)
-         {
-             string Name = string.Format("MVVM_HTML_{0}", _Count);
-             return _IWebView.EvaluateSafe(() =>
-                 {
-                    Awesomium_Core.JSObject res = (local) ? new Awesomium_Core.JSObject() :
-                           (Awesomium_Core.JSObject)_IWebView.CreateGlobalJavascriptObject(Name);
-                   
-                     res[NeutroniumConstants.ObjectId] = new Awesomium_Core.JSValue(_Count++);
-                    
-                     return res.Convert();
-                 });
-         }
+        private IJavascriptObject CreateJSObject(bool local)
+        {
+            string Name = string.Format("MVVM_HTML_{0}", _Count);
+            return _IWebView.EvaluateSafe(() =>
+            {
+                Awesomium_Core.JSObject res = (local) ? new Awesomium_Core.JSObject() :
+                       (Awesomium_Core.JSObject)_IWebView.CreateGlobalJavascriptObject(Name);
 
+                res[NeutroniumConstants.ObjectId] = new Awesomium_Core.JSValue(_Count++);
+
+                return res.Convert();
+            });
+        }
+
+        public IJavascriptObject CreateObject()
+        {
+            return CreateJSObject(false);
+        }
+
+        public IJavascriptObject CreateObject(bool readOnly)
+        {
+            return CreateJSObject(true);
+        }
 
         public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
         {

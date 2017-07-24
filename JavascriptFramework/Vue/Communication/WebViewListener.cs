@@ -16,7 +16,7 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
         {
             _WebView = webView;
 
-            _Listener = _WebView.Factory.CreateObject(false);
+            _Listener = _WebView.Factory.CreateObject();
             _Listener.Bind("postMessage", _WebView, (e) => PostMessage(e[0].GetStringValue(), e[1].GetStringValue()));
             _WebView.GetGlobal().SetValue("__neutronium_listener__", _Listener, CreationOption.DontDelete | CreationOption.ReadOnly | CreationOption.DontEnum);
 

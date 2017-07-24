@@ -68,7 +68,7 @@ namespace Neutronium.JavascriptFramework.Knockout
             if (_Mapper != null)
                 return _Mapper;
 
-            _Mapper = _WebView.Factory.CreateObject(false);
+            _Mapper = _WebView.Factory.CreateObject();
 
             _Mapper.Bind("Register", _WebView, (e) =>
             {
