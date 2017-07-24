@@ -61,14 +61,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FluentAssertions.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -86,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntegratedInfra\HTMLVueBindingTests.cs" />
     <Compile Include="IntegratedInfra\VueExtractor.cs" />
     <Compile Include="IntegratedInfra\VueFrameworkTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -235,6 +228,10 @@
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
       <Name>JavascriptFrameworkTesterHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\UniversalTests\HTMLBindingTests\HTMLBindingTests.csproj">
+      <Project>{2001fc2c-5166-4828-a47d-ab6d455a634b}</Project>
+      <Name>HTMLBindingTests</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="javascript\spec\subscribeArray.spec.js">
@@ -244,6 +241,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
