@@ -1,4 +1,5 @@
 ﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using System.Collections.Generic;
 
 namespace Neutronium.Core.JavascriptFramework
 {
@@ -91,6 +92,6 @@ namespace Neutronium.Core.JavascriptFramework
         /// <param name="elementsToUnlisten">
         /// collection of elements to unlisten
         /// </param>
-        void UnListen(IJavascriptObject[] elementsToUnlisten);
+        void UnListen(IList<IJavascriptObject> elementsToUnlisten);
     }
 }

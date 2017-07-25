@@ -2,6 +2,7 @@
 using Neutronium.Core;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using System.Collections.Generic;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
@@ -59,7 +60,7 @@ namespace Neutronium.JavascriptFramework.Vue
             _VueHelper.Value.InvokeNoResult("inject", _WebView, value, _Listener);
         }
 
-        public void UnListen(IJavascriptObject[] elementsToUnlisten)
+        public void UnListen(IList<IJavascriptObject> elementsToUnlisten)
         {
         }
     }
