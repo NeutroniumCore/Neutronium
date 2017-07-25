@@ -150,5 +150,37 @@ namespace VueFramework.Test.IntegratedInfra
 
             await RunAsync(test);
         }
+
+        [Theory(Skip = "TDD: need to implement functionality")]
+        [MemberData(nameof(BasicVmData))]
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicVm remplacementChild)
+        {
+            var datacontext = new BasicFatherVm();
+            var child = new BasicVm();
+            datacontext.Child = child;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
+                    var childJs = GetAttribute(js, "Child");
+
+                    var silenterBeforeClean = GetAttribute(childJs, "__silenter");
+                    silenterBeforeClean.IsObject.Should().Be(true);
+
+                    DoSafeUI(() => datacontext.Child = remplacementChild);
+                    await Task.Delay(150);
+
+                    await Task.Delay(150);
+
+                    var silenterAfterClean = GetAttribute(childJs, "__silenter");
+                    silenterAfterClean.IsUndefined.Should().Be(true);
+                }
+            };
+
+            await RunAsync(test);
+        }
     }
 }

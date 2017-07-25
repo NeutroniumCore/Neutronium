@@ -84,5 +84,13 @@ namespace Neutronium.Core.JavascriptFramework
         /// new index value
         /// </param>
         void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex);
+
+        /// <summary>
+        /// UnListen changes for the given elements
+        /// </summary>
+        /// <param name="elementsToUnlisten">
+        /// collection of elements to unlisten
+        /// </param>
+        void UnListen(IJavascriptObject[] elementsToUnlisten);
     }
 }

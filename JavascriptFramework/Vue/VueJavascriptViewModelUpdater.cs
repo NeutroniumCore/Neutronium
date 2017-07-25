@@ -58,5 +58,9 @@ namespace Neutronium.JavascriptFramework.Vue
         {
             _VueHelper.Value.InvokeNoResult("inject", _WebView, value, _Listener);
         }
+
+        public void UnListen(IJavascriptObject[] elementsToUnlisten)
+        {
+        }
     }
 }
