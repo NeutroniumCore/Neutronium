@@ -33,6 +33,11 @@ namespace Neutronium.Core.Binding.Listeners
             ForExceptDo(_Old, @new, OnExitingGlue);
             ForExceptDo(@new, _Old, _UpdatableCollection.OnEnter);
 
+            UpdateUpdater();
+        }
+
+        private void UpdateUpdater()
+        {
             if ((BridgeUpdater == null) || (_EntityToUnlisten.Count == 0))
                 return;
 

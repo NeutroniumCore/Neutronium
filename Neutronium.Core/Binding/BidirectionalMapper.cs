@@ -150,8 +150,8 @@ namespace Neutronium.Core.Binding
         }
 
         ISet<IJSCSGlue> IUpdatableJSCSGlueCollection.GetAllChildren() => GetAllChildren();
-        void IUpdatableJSCSGlueCollection.OnEnter(IJSCSGlue item) => OnEnter(item);
-        void IUpdatableJSCSGlueCollection.OnExit(IJSCSGlue item) => OnExit(item);
+        void IEntityUpdater<IJSCSGlue>.OnEnter(IJSCSGlue item) => OnEnter(item);
+        void IEntityUpdater<IJSCSGlue>.OnExit(IJSCSGlue item) => OnExit(item);
 
         private void ListenToCSharpChanges() => Visit(OnEnter);
 
@@ -194,7 +194,7 @@ namespace Neutronium.Core.Binding
 
                 Context.RunOnUIContextAsync(() => 
                 {
-                    using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : Silenter.Null<INotifyPropertyChanged>()) 
+                    using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null) 
                     {
                         var oldValue = propertyAccessor.Get();
                         propertyAccessor.Set(glue.CValue);

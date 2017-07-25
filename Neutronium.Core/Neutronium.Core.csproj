@@ -91,6 +91,7 @@
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectBulkBuilderStrategy.cs" />
+    <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
     <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />

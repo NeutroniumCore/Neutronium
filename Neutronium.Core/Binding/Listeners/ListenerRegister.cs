@@ -2,15 +2,19 @@
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal struct ListenerRegister<T> where T:class
+    internal class ListenerRegister<T>: IEntityUpdater<T> where T:class
     {
-        public Action<T> On { get; }
-        public Action<T> Off { get; }
+        private Action<T> _On;
+        private Action<T> _Off;
 
-        public ListenerRegister(Action<T> on, Action<T> off) : this()
+        public ListenerRegister(Action<T> on, Action<T> off)
         {
-            On = on;
-            Off = off;
+            _On = on;
+            _Off = off;
         }
+
+        public void OnEnter(T item) => _On(item);
+
+        public void OnExit(T item) => _Off(item);
     }
 }

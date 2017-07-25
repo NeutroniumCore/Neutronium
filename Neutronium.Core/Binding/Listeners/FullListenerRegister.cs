@@ -20,8 +20,8 @@ namespace Neutronium.Core.Binding.Listeners
             Property = new ListenerRegister<INotifyPropertyChanged>(propertyOn, propertyOff);
             Collection = new ListenerRegister<INotifyCollectionChanged>(collectionOn, collectionOff);
             Command = new ListenerRegister<JSCommand>(jsCommandOn, jsCommandOff);
-            On = new ObjectChangesListener(Property.On, Collection.On, Command.On);
-            Off = new ObjectChangesListener(Property.Off, Collection.Off, Command.Off);
+            On = new ObjectChangesListener(Property.OnEnter, Collection.OnEnter, Command.OnEnter);
+            Off = new ObjectChangesListener(Property.OnExit, Collection.OnExit, Command.OnExit);
         }
 
         public Silenter<INotifyCollectionChanged> GetColllectionSilenter(object target)
