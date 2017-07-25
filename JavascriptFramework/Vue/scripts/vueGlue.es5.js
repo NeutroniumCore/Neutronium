@@ -24,12 +24,11 @@
     }
 
     function disposeSilentersSync(args) {
-        const arrayCount = args.length;
+        var arrayCount = args.length;
         for (var i = 0; i < arrayCount; i++) {
-            const father = args[i];
-            const silenter = father[silenterProperty];
-            if (!silenter)
-                continue;
+            var father = args[i];
+            var silenter = father[silenterProperty];
+            if (!silenter) continue;
 
             silenter.dispose();
             delete father[silenterProperty];
@@ -60,13 +59,13 @@
             this.father[propertyName] = value;
             this.updateListener(listener, propertyName);
         },
-        dispose() {
-            const listeners = this.listeners;
+        dispose: function dispose() {
+            var listeners = this.listeners;
             for (var property in listeners) {
-                const listener = listeners[property];
+                var listener = listeners[property];
                 listener.watch();
             }
-            this.listeners = {}
+            this.listeners = {};
         }
     };
 

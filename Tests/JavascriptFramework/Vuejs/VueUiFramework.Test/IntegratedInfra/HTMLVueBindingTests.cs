@@ -31,7 +31,7 @@ namespace VueFramework.Test.IntegratedInfra
             public void SetReadOnly(int newValue) => ReadOnly = newValue;
         }
 
-        private class ReadWriteClass : ViewModelTestBase
+        private class ReadWriteClass : ReadOnlyClass
         {
             private int _ReadWrite;
             public int ReadWrite 

@@ -371,12 +371,7 @@ namespace Neutronium.Core.Binding
                 throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
 
-
-        private ReListener _ReListen = null;
-        private IDisposable ReListen()
-        {
-            return ReListener.UpdateOrCreate(ref _ReListen, this,  () => _ReListen = null);          
-        }
+        private IDisposable ReListen() => new ReListener(this);
 
         public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
         {
