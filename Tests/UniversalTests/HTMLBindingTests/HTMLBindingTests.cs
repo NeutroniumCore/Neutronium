@@ -984,7 +984,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        private class ViewModelTest : ViewModelBase
+        private class ViewModelTest : ViewModelTestBase
         {
             private ICommand _ICommand;
             public ICommand Command { get { return _ICommand; } set { Set(ref _ICommand, value, "Command"); } }
@@ -1867,7 +1867,7 @@ namespace Tests.Universal.HTMLBindingTests
 
 
 
-        private class VMWithList<T> : ViewModelBase
+        private class VMWithList<T> : ViewModelTestBase
         {
             public VMWithList()
             {
@@ -1876,7 +1876,7 @@ namespace Tests.Universal.HTMLBindingTests
             public ObservableCollection<T> List { get; private set; }
         }
 
-        private class VMWithListNonGeneric : ViewModelBase
+        private class VMWithListNonGeneric : ViewModelTestBase
         {
             public VMWithListNonGeneric()
             {
@@ -1885,7 +1885,7 @@ namespace Tests.Universal.HTMLBindingTests
             public ArrayList List { get; private set; }
         }
 
-        private class VMwithdecimal : ViewModelBase
+        private class VMwithdecimal : ViewModelTestBase
         {
             public VMwithdecimal()
             {
@@ -1895,7 +1895,7 @@ namespace Tests.Universal.HTMLBindingTests
             public decimal decimalValue
             {
                 get { return _DecimalValue; }
-                set { Set(ref _DecimalValue, value, "decimalValue"); }
+                set { Set(ref _DecimalValue, value); }
             }
         }
 
@@ -1949,7 +1949,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        private class VMwithlong : ViewModelBase
+        private class VMwithlong : ViewModelTestBase
         {
             public VMwithlong()
             {
@@ -1959,7 +1959,7 @@ namespace Tests.Universal.HTMLBindingTests
             public long longValue
             {
                 get { return _LongValue; }
-                set { Set(ref _LongValue, value, "decimalValue"); }
+                set { Set(ref _LongValue, value); }
             }
         }
 
@@ -2247,13 +2247,13 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        public class BasicFatherVm : ViewModelBase
+        public class BasicFatherVm : ViewModelTestBase
         {
             private BasicVm _Child;
             public BasicVm Child
             {
                 get { return _Child; }
-                set { Set(ref _Child, value, nameof(Child)); }
+                set { Set(ref _Child, value); }
             }
 
             public ICommand Command { get; }
@@ -2271,20 +2271,20 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        public class BasicVm : ViewModelBase
+        public class BasicVm : ViewModelTestBase
         {
             private BasicVm _Child;
             public BasicVm Child
             {
                 get { return _Child; }
-                set { Set(ref _Child, value, nameof(Child)); }
+                set { Set(ref _Child, value); }
             }
 
             private int _Value = -1;
             public int Value
             {
                 get { return _Value; }
-                set { Set(ref _Value, value, nameof(Value)); }
+                set { Set(ref _Value, value); }
             }
         }
 
@@ -2312,13 +2312,16 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JSRootObject;
 
+                    child.ListenerCount.Should().Be(1);
+
                     DoSafeUI(() => datacontext.Child = remplacementChild);
                     await Task.Delay(300);
-
-                    var third = new BasicVm();
+                    
+                    child.ListenerCount.Should().Be(0);
 
                     //If still listening to child, this will raise an exception
                     //for changing property on the wrong thread
+                    var third = new BasicVm();
                     Action safe = () => child.Child = third;
                     AssertionExtensions.ShouldNotThrow(safe);
                 }
@@ -2471,7 +2474,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        private class SmartVM : ViewModelBase
+        private class SmartVM : ViewModelTestBase
         {
             private int _MagicNumber;
             public int MagicNumber
@@ -2483,7 +2486,7 @@ namespace Tests.Universal.HTMLBindingTests
                     {
                         value = 42;
                     }
-                    Set(ref _MagicNumber, value, nameof(MagicNumber));
+                    Set(ref _MagicNumber, value);
                 }
             }
         }

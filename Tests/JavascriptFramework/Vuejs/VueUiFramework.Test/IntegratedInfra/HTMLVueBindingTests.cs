@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Example.ViewModel.Infra;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Universal.HTMLBindingTests;
+using Tests.Universal.HTMLBindingTests.Helper;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -19,25 +19,25 @@ namespace VueFramework.Test.IntegratedInfra
         {
         }
 
-        private class ReadOnlyClass : ViewModelBase
+        private class ReadOnlyClass : ViewModelTestBase
         {
             private int _ReadOnly;
             public int ReadOnly 
             {
                 get { return _ReadOnly; }
-                private set { Set(ref _ReadOnly, value, nameof(ReadOnly)); }
+                private set { Set(ref _ReadOnly, value); }
             }
 
             public void SetReadOnly(int newValue) => ReadOnly = newValue;
         }
 
-        private class ReadWriteClass : ReadOnlyClass
+        private class ReadWriteClass : ViewModelTestBase
         {
             private int _ReadWrite;
             public int ReadWrite 
             {
                 get { return _ReadWrite; }
-                set { Set(ref _ReadWrite, value, nameof(ReadWrite)); }
+                set { Set(ref _ReadWrite, value); }
             }
         }
         public static IEnumerable<object> ReadWriteTestData 

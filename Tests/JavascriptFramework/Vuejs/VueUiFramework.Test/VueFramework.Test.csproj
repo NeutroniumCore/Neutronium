@@ -219,10 +219,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj">
-      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
-      <Name>Neutronium.Example.ViewModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj">
       <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
       <Name>Neutronium.JavascriptFramework.Vue</Name>
