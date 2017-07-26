@@ -3,24 +3,23 @@ using Neutronium.Core.Binding.GlueObject;
 using MoreCollection.Extensions;
 using System.Collections.Generic;
 using System.Linq;
-using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal class ReListener : IDisposable
+    internal class ReListener : IExitContext, IDisposable
     {
-        private BridgeUpdater BridgeUpdater { get; set; }
+        public BridgeUpdater BridgeUpdater { get; set; }
 
-        private readonly IUpdatableJSCSGlueCollection _UpdatableCollection;
+        private readonly IUpdatableJSCSGlueCollection _UpdatableGlueCollection;
         private readonly ISet<IJSCSGlue> _Old;
         private readonly List<IJavascriptObject> _EntityToUnlisten = new List<IJavascriptObject>();
         private bool _Disposed = false;
 
-        public ReListener(IUpdatableJSCSGlueCollection updater)
+        public ReListener(IUpdatableJSCSGlueCollection updatableGlueCollection)
         {
-            _UpdatableCollection = updater;
-            _Old = _UpdatableCollection.GetAllChildren();
+            _UpdatableGlueCollection = updatableGlueCollection;
+            _Old = _UpdatableGlueCollection.GetAllChildren();
         }
 
         public void Dispose()
@@ -29,9 +28,9 @@ namespace Neutronium.Core.Binding.Listeners
                 return;
 
             _Disposed = true;
-            var @new = _UpdatableCollection.GetAllChildren();
+            var @new = _UpdatableGlueCollection.GetAllChildren();
             ForExceptDo(_Old, @new, OnExitingGlue);
-            ForExceptDo(@new, _Old, _UpdatableCollection.OnEnter);
+            ForExceptDo(@new, _Old, _UpdatableGlueCollection.OnEnter);
 
             UpdateUpdater();
         }
@@ -46,19 +45,17 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void OnExitingGlue(IJSCSGlue exiting)
         {
-            _UpdatableCollection.OnExit(exiting);
-            if (exiting.Type != JsCsGlueType.Object)
-                return;
-
-            if (!exiting.CValue.GetType().HasReadWriteProperties())
-                return;
-
-            _EntityToUnlisten.Add(exiting.JSValue);
+            _UpdatableGlueCollection.OnExit(exiting, this);
         }
 
         private void ForExceptDo(ISet<IJSCSGlue> @for, ISet<IJSCSGlue> except, Action<IJSCSGlue> @do)
         {
             @for.Where(o => !except.Contains(o)).ForEach(@do);
+        }
+
+        public void AddToUnlisten(IJavascriptObject exiting)
+        {
+            _EntityToUnlisten.Add(exiting);
         }
     }
 }

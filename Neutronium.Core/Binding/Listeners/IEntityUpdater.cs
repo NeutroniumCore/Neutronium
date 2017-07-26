@@ -1,7 +1,4 @@
-﻿using Neutronium.Core.Binding.GlueObject;
-using System.Collections.Generic;
-
-namespace Neutronium.Core.Binding.Listeners
+﻿namespace Neutronium.Core.Binding.Listeners
 {
     public interface IEntityUpdater<T>
     {

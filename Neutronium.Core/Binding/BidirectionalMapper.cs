@@ -15,7 +15,7 @@ using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Binding
 {
-    public class BidirectionalMapper : IDisposable, IUpdatableJSCSGlueCollection, IJavascriptToCSharpConverter, IJavascriptChangesObserver   
+    public class BidirectionalMapper : IDisposable, IUpdatableJSCSGlueCollection, IJavascriptToCSharpConverter, IJavascriptChangesObserver
     {
         private HTMLViewContext _Context;
         private readonly IWebSessionLogger _Logger;
@@ -133,29 +133,36 @@ namespace Neutronium.Core.Binding
             return @glues;
         }
 
+        private void OnEnter(IJSCSGlue entering)
+        {
+            entering.ApplyOnListenable(_ListenerRegister.On);
+        }
+
+        private void OnExit(IJSCSGlue exiting, IExitContext context)
+        {
+            exiting.ApplyOnListenable(_ListenerRegister.Off);
+            _SessionCache.Remove(exiting);
+
+            if ((context==null) || (exiting.Type != JsCsGlueType.Object))
+                return;
+
+            if (!exiting.CValue.GetType().HasReadWriteProperties())
+                return;
+
+            context.AddToUnlisten(exiting.JSValue);
+        }
+
         private void Visit(Action<IJSCSGlue> onChildren)
         {
             GetAllChildren().ForEach(onChildren);
         }
 
-        private void OnEnter(IJSCSGlue item)
-        {
-            item.ApplyOnListenable(_ListenerRegister.On);
-        }
-
-        private void OnExit(IJSCSGlue item)
-        {
-            item.ApplyOnListenable(_ListenerRegister.Off);
-            _SessionCache.Remove(item);
-        }
+        private void ListenToCSharpChanges() => Visit(OnEnter);
+        private void UnlistenToCSharpChanges() => Visit(exiting => OnExit(exiting, null));
 
         ISet<IJSCSGlue> IUpdatableJSCSGlueCollection.GetAllChildren() => GetAllChildren();
-        void IEntityUpdater<IJSCSGlue>.OnEnter(IJSCSGlue item) => OnEnter(item);
-        void IEntityUpdater<IJSCSGlue>.OnExit(IJSCSGlue item) => OnExit(item);
-
-        private void ListenToCSharpChanges() => Visit(OnEnter);
-
-        private void UnlistenToCSharpChanges() => Visit(OnExit);
+        void IUpdatableJSCSGlueCollection.OnEnter(IJSCSGlue entering) => OnEnter(entering);
+        void IUpdatableJSCSGlueCollection.OnExit(IJSCSGlue exiting, IExitContext context) => OnExit(exiting, context);
 
         private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue iroot)
         {
@@ -237,7 +244,7 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private void UpdateCollection(JSArray array, Neutronium.Core.Binding.CollectionChanges.CollectionChanges change, object collection)
+        private void UpdateCollection(JSArray array, CollectionChanges.CollectionChanges change, object collection)
         {
             try
             {
