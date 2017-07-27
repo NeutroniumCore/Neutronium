@@ -7,19 +7,25 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal class ReListener : IExitContext, IDisposable
+    internal class ReListener : IExitContext
     {
-        public BridgeUpdater BridgeUpdater { get; set; }
+       
 
         private readonly IUpdatableJSCSGlueCollection _UpdatableGlueCollection;
         private readonly ISet<IJSCSGlue> _Old;
         private readonly List<IJavascriptObject> _EntityToUnlisten = new List<IJavascriptObject>();
         private bool _Disposed = false;
+        private BridgeUpdater _BridgeUpdater;
 
         public ReListener(IUpdatableJSCSGlueCollection updatableGlueCollection)
         {
             _UpdatableGlueCollection = updatableGlueCollection;
             _Old = _UpdatableGlueCollection.GetAllChildren();
+        }
+
+        public void SetBridgeUpdater(BridgeUpdater bridgeUpdater)
+        {
+            _BridgeUpdater = bridgeUpdater;
         }
 
         public void Dispose()
@@ -37,10 +43,10 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void UpdateUpdater()
         {
-            if ((BridgeUpdater == null) || (_EntityToUnlisten.Count == 0))
+            if ((_BridgeUpdater == null) || (_EntityToUnlisten.Count == 0))
                 return;
 
-            BridgeUpdater.AddAction(updater => updater.UnListen(_EntityToUnlisten));
+            _BridgeUpdater.AddAction(updater => updater.UnListen(_EntityToUnlisten));
         }
 
         private void OnExitingGlue(IJSCSGlue exiting)

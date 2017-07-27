@@ -331,9 +331,10 @@ namespace Neutronium.Core.Binding
             CheckUIContext();
 
             BridgeUpdater updater = null;
-            using (needToCheckListener ? ReListen(): null)
+            using (var relisten = needToCheckListener ? ReListen(): null)
             {
                 updater = updaterBuilder();
+                relisten?.SetBridgeUpdater(updater);
             }
 
             return RunInJavascriptContext(() =>
@@ -351,9 +352,10 @@ namespace Neutronium.Core.Binding
                 return null;               
 
             BridgeUpdater updater = null;
-            using (value.IsBasicNotNull()? null : ReListen())
+            using (var relisten = value.IsBasicNotNull()? null : ReListen())
             {
                 updater = updaterBuilder(value);
+                relisten?.SetBridgeUpdater(updater);
             }
 
             if (!_IsLoaded)
@@ -378,7 +380,7 @@ namespace Neutronium.Core.Binding
                 throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
 
-        private IDisposable ReListen() => new ReListener(this);
+        private IExitContext ReListen() => new ReListener(this);
 
         public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
         {
