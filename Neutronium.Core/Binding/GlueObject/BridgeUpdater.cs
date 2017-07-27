@@ -24,14 +24,14 @@ namespace Neutronium.Core.Binding.GlueObject
             _EntityToUnlisten.Add(exiting);
         }
 
-        public void UpdateJavascriptObject(IJavascriptViewModelUpdater javascriptViewModelUpdater)
+        public void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater)
         {
             _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
 
             if (_EntityToUnlisten.Count == 0)
                 return;
 
-            javascriptViewModelUpdater.UnListen(_EntityToUnlisten));
+            javascriptViewModelUpdater.UnListen(_EntityToUnlisten);
         }
     }
 }

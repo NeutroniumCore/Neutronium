@@ -3,6 +3,8 @@ using Neutronium.Core;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
+using MoreCollection.Extensions;
+using System.Linq;
 
 namespace Neutronium.JavascriptFramework.Vue
 {
@@ -62,6 +64,22 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public void UnListen(IList<IJavascriptObject> elementsToUnlisten)
         {
+            var helper = _VueHelper.Value;
+            Slice(elementsToUnlisten, _WebView.MaxFunctionArgumentsNumber).ForEach(elements => helper.InvokeNoResult("disposeSilenters", _WebView, elements));
+        }
+
+        private IEnumerable<IJavascriptObject[]> Slice(IList<IJavascriptObject> elements, int max)
+        {
+            IJavascriptObject[] res = null;
+            var count = 0;
+            do
+            {
+                res = elements.Skip(count).Take(max).ToArray();
+                if (res.Length != 0)
+                    yield return res;
+                count += max;
+            }
+            while (res.Length == max);
         }
     }
 }

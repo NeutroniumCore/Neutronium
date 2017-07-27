@@ -151,7 +151,7 @@ namespace VueFramework.Test.IntegratedInfra
             await RunAsync(test);
         }
 
-        [Theory(Skip = "TDD: need to implement functionality")]
+        [Theory]
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicVm remplacementChild)
         {

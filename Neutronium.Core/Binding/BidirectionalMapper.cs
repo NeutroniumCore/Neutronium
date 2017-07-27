@@ -339,7 +339,7 @@ namespace Neutronium.Core.Binding
 
             return RunInJavascriptContext(() =>
             {
-                updater.UpdateJavascriptObject(_Context.ViewModelUpdater);
+                updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
             });
         }
 
@@ -369,7 +369,7 @@ namespace Neutronium.Core.Binding
                 {
                     await InjectInHTMLSession(value);
                 }
-                updater.UpdateJavascriptObject(_Context.ViewModelUpdater);
+                updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
                 return value;
             });
         }
