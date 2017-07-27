@@ -6,8 +6,6 @@ namespace Neutronium.Core.Binding.Listeners
 {
     internal interface IExitContext : IDisposable
     {
-        void AddToUnlisten(IJavascriptObject exiting);
-
         void SetBridgeUpdater(BridgeUpdater bridgeUpdater);
     }
 }

@@ -138,7 +138,7 @@ namespace Neutronium.Core.Binding
             entering.ApplyOnListenable(_ListenerRegister.On);
         }
 
-        private void OnExit(IJSCSGlue exiting, IExitContext context)
+        private void OnExit(IJSCSGlue exiting, BridgeUpdater context)
         {
             exiting.ApplyOnListenable(_ListenerRegister.Off);
             _SessionCache.Remove(exiting);
@@ -162,7 +162,7 @@ namespace Neutronium.Core.Binding
 
         ISet<IJSCSGlue> IUpdatableJSCSGlueCollection.GetAllChildren() => GetAllChildren();
         void IUpdatableJSCSGlueCollection.OnEnter(IJSCSGlue entering) => OnEnter(entering);
-        void IUpdatableJSCSGlueCollection.OnExit(IJSCSGlue exiting, IExitContext context) => OnExit(exiting, context);
+        void IUpdatableJSCSGlueCollection.OnExit(IJSCSGlue exiting, BridgeUpdater context) => OnExit(exiting, context);
 
         private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue iroot)
         {

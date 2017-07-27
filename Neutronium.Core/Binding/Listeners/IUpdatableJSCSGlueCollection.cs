@@ -9,6 +9,6 @@ namespace Neutronium.Core.Binding.Listeners
 
         void OnEnter(IJSCSGlue entering);
 
-        void OnExit(IJSCSGlue exiting, IExitContext context);
+        void OnExit(IJSCSGlue exiting, BridgeUpdater context);
     }
 }

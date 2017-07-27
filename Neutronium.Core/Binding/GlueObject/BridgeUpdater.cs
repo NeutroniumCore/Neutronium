@@ -1,12 +1,14 @@
 ﻿using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
+using System.Collections.Generic;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public class BridgeUpdater
     {
-        private Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject = null;
-        private Action<IJavascriptViewModelUpdater> _NextUpdateJavascriptObject = null;
+        private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject = null;
+        private readonly List<IJavascriptObject> _EntityToUnlisten = new List<IJavascriptObject>();
 
         public BridgeUpdater(Action<IJavascriptViewModelUpdater> update)
         {
@@ -17,20 +19,19 @@ namespace Neutronium.Core.Binding.GlueObject
         {
         }
 
-        public void AddAction(Action<IJavascriptViewModelUpdater> update)
+        public void AddToUnlisten(IJavascriptObject exiting)
         {
-            if (_UpdateJavascriptObject == null)
-            {
-                _UpdateJavascriptObject = update;
-                return;
-            }
-            _NextUpdateJavascriptObject = update;
+            _EntityToUnlisten.Add(exiting);
         }
 
         public void UpdateJavascriptObject(IJavascriptViewModelUpdater javascriptViewModelUpdater)
         {
             _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
-            _NextUpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
+
+            if (_EntityToUnlisten.Count == 0)
+                return;
+
+            javascriptViewModelUpdater.UnListen(_EntityToUnlisten));
         }
     }
 }
