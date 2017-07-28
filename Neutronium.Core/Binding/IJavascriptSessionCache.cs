@@ -7,7 +7,9 @@ namespace Neutronium.Core.Binding
     {
         void Cache(object key, IJSCSGlue value);
 
-        void Remove(IJSCSGlue key);
+        void RemoveFromCSharpToJs(IJSCSGlue value);
+
+        void RemoveFromJsToCSharp(IJSCSGlue value);
 
         void CacheLocal(object key, IJSCSGlue value);
 

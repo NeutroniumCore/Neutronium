@@ -141,15 +141,17 @@ namespace Neutronium.Core.Binding
         private void OnExit(IJSCSGlue exiting, BridgeUpdater context)
         {
             exiting.ApplyOnListenable(_ListenerRegister.Off);
-            _SessionCache.Remove(exiting);
 
-            if ((context==null) || (exiting.Type != JsCsGlueType.Object))
+            if ((context == null) || (exiting.Type != JsCsGlueType.Object))
                 return;
+
+            _SessionCache.RemoveFromCSharpToJs(exiting);
+            context.RequestJSCacheRemove(exiting);
 
             if (!exiting.CValue.GetType().HasReadWriteProperties())
                 return;
 
-            context.AddToUnlisten(exiting.JSValue);
+            context.RequestUnlisten(exiting.JSValue);
         }
 
         private void Visit(Action<IJSCSGlue> onChildren)
@@ -333,8 +335,7 @@ namespace Neutronium.Core.Binding
             BridgeUpdater updater = null;
             using (var relisten = needToCheckListener ? ReListen(): null)
             {
-                updater = updaterBuilder();
-                relisten?.SetBridgeUpdater(updater);
+                updater = Update(updaterBuilder, relisten);
             }
 
             return RunInJavascriptContext(() =>
@@ -354,8 +355,7 @@ namespace Neutronium.Core.Binding
             BridgeUpdater updater = null;
             using (var relisten = value.IsBasicNotNull()? null : ReListen())
             {
-                updater = updaterBuilder(value);
-                relisten?.SetBridgeUpdater(updater);
+                updater = Update(() => updaterBuilder(value), relisten);
             }
 
             if (!_IsLoaded)
@@ -372,6 +372,14 @@ namespace Neutronium.Core.Binding
                 updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
                 return value;
             });
+        }
+
+        private BridgeUpdater Update(Func<BridgeUpdater> updaterBuilder, IExitContext relisten)
+        {
+            var updater = updaterBuilder();
+            updater.Cache = _SessionCache;
+            relisten?.SetBridgeUpdater(updater);
+            return updater;
         }
 
         private void CheckUIContext()

@@ -17,14 +17,17 @@ namespace Neutronium.Core.Binding
             _FromCSharp.Add(key, value);
         }
 
-        public void Remove(IJSCSGlue value)
+        public void RemoveFromCSharpToJs(IJSCSGlue value)
         {
             var key = value.CValue;
             if (key == null)
                 return;
 
             _FromCSharp.Remove(key);
+        }
 
+        public void RemoveFromJsToCSharp(IJSCSGlue value)
+        {
             var id = value.JsId;
             if (id == 0)
                 return;

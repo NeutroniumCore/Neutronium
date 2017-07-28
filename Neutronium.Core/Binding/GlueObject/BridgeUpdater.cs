@@ -9,6 +9,9 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject = null;
         private readonly List<IJavascriptObject> _EntityToUnlisten = new List<IJavascriptObject>();
+        private readonly List<IJSCSGlue> _ExitingObjects = new List<IJSCSGlue>();
+
+        internal IJavascriptSessionCache Cache { get; set; }
 
         public BridgeUpdater(Action<IJavascriptViewModelUpdater> update)
         {
@@ -19,14 +22,22 @@ namespace Neutronium.Core.Binding.GlueObject
         {
         }
 
-        public void AddToUnlisten(IJavascriptObject exiting)
+        public void RequestUnlisten(IJavascriptObject exiting)
         {
             _EntityToUnlisten.Add(exiting);
+        }
+
+        public void RequestJSCacheRemove(IJSCSGlue exiting)
+        {
+            _ExitingObjects.Add(exiting);
         }
 
         public void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater)
         {
             _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
+
+            if (Cache != null)
+                _ExitingObjects.ForEach(Cache.RemoveFromJsToCSharp);
 
             if (_EntityToUnlisten.Count == 0)
                 return;
