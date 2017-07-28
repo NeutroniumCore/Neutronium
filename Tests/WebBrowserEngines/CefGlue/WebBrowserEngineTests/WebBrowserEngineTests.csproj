@@ -70,7 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CefGlue_JJavascriptFactoryBulk_Tests.cs" />
+    <Compile Include="CefGlue_JavascriptFactoryBulk_Tests.cs" />
     <Compile Include="CefGlue_JavascriptObjectConverter_Tests.cs" />
     <Compile Include="CefGlue_SharpToJavascriptConverter_Tests.cs" />
     <Compile Include="CefGlue_WebViewDispatcher_Tests.cs" />

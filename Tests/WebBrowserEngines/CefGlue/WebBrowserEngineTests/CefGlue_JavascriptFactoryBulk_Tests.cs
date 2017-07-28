@@ -7,9 +7,9 @@ using Xunit.Abstractions;
 namespace Tests.CefGlue.WebBrowserEngineTests
 {
     [Collection("CefGlue Context")]
-    public class CefGlue_JJavascriptFactoryBulk_Tests : JavascriptFactoryBulk_Tests
+    public class CefGlue_JavascriptFactoryBulk_Tests : JavascriptFactoryBulk_Tests
     {
-        public CefGlue_JJavascriptFactoryBulk_Tests(CefGlueContext testEnvironment, ITestOutputHelper output)
+        public CefGlue_JavascriptFactoryBulk_Tests(CefGlueContext testEnvironment, ITestOutputHelper output)
                         : base(testEnvironment, output)
         {
         }
