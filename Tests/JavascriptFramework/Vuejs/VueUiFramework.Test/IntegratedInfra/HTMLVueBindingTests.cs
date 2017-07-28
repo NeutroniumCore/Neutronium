@@ -3,6 +3,7 @@ using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Universal.HTMLBindingTests;
@@ -17,6 +18,11 @@ namespace VueFramework.Test.IntegratedInfra
         public HTMLVueBindingTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
             : base(context, output)
         {
+        }
+
+        private class BasicListVm : ViewModelTestBase
+        {
+            public IList<BasicVm> Children { get; } = new ObservableCollection<BasicVm>();
         }
 
         private class ReadOnlyClass : ViewModelTestBase
@@ -40,6 +46,29 @@ namespace VueFramework.Test.IntegratedInfra
                 set { Set(ref _ReadWrite, value); }
             }
         }
+
+        private void CheckReadOnly(IJavascriptObject javascriptObject, bool isReadOnly)
+        {
+            var readOnly = GetBoolAttribute(javascriptObject, NeutroniumConstants.ReadOnlyFlag);
+            readOnly.Should().Be(isReadOnly);
+
+            CheckHasListener(javascriptObject, !isReadOnly);
+        }
+
+        private void CheckHasListener(IJavascriptObject javascriptObject, bool hasListener)
+        {
+            var silenterRoot = GetAttribute(javascriptObject, "__silenter");
+
+            if (hasListener)
+            {
+                silenterRoot.IsUndefined.Should().BeTrue();
+            }
+            else
+            {
+                silenterRoot.IsObject.Should().BeTrue();
+            }
+        }
+
         public static IEnumerable<object> ReadWriteTestData 
         {
             get 
@@ -61,18 +90,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Test = (mb) =>
                 {
                     var js = mb.JSRootObject;
-                    var isReadOnly = GetBoolAttribute(js, NeutroniumConstants.ReadOnlyFlag);
-                    isReadOnly.Should().Be(readOnly);
-
-                    var silenter = GetAttribute(js, "__silenter");
-                    if (isReadOnly)
-                    {
-                        silenter.IsUndefined.Should().Be(true);
-                    }
-                    else
-                    {
-                        silenter.IsObject.Should().Be(true);
-                    }
+                    CheckReadOnly(js, readOnly);
                 }
             };
 
@@ -167,16 +185,48 @@ namespace VueFramework.Test.IntegratedInfra
                     var js = mb.JSRootObject;
                     var childJs = GetAttribute(js, "Child");
 
-                    var silenterBeforeClean = GetAttribute(childJs, "__silenter");
-                    silenterBeforeClean.IsObject.Should().Be(true);
+                    CheckReadOnly(childJs, false);
 
                     DoSafeUI(() => datacontext.Child = remplacementChild);
                     await Task.Delay(150);
 
                     await Task.Delay(150);
 
-                    var silenterAfterClean = GetAttribute(childJs, "__silenter");
-                    silenterAfterClean.IsUndefined.Should().Be(true);
+                    CheckHasListener(childJs, false);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Theory]
+        [MemberData(nameof(BasicVmData))]
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_context(BasicVm remplacementChild)
+        {
+            var datacontext = new BasicListVm();
+            var child = new BasicVm();
+            datacontext.Children.Add(child);
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CheckReadOnly(js, true);
+
+                    var childrenJs = GetCollectionAttribute(js, "Children");
+                    var childJs = childrenJs.GetValue(0);
+
+                    CheckReadOnly(childJs, false);
+
+                    DoSafeUI(() => datacontext.Children[0] = remplacementChild);
+                    await Task.Delay(150);
+
+                    await Task.Delay(150);
+
+                    CheckHasListener(childJs, false);
                 }
             };
 

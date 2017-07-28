@@ -93,10 +93,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     for (var i = 0; i < number; i++) {
                         array.push(new objectWithId(id++, readOnly))
                     }
+                    return id;
                 }
                 function createBulkObject(id, readWriteNumber, readOnlyNumber, fn){
                     const array = []
-                    pushObjects(array, id, readWriteNumber, false)
+                    id = pushObjects(array, id, readWriteNumber, false)
                     pushObjects(array, id, readOnlyNumber, true)
                     pushResult(fn, array)
                 }
@@ -200,8 +201,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] {
                 CfrV8Value.CreateInt((int)_Count),
-                CfrV8Value.CreateInt((int)readWriteNumber),
-                CfrV8Value.CreateInt((int)readOnlyNumber),
+                CfrV8Value.CreateInt(readWriteNumber),
+                CfrV8Value.CreateInt(readOnlyNumber),
                 _ObjectCreationCallbackFunction.Value
             });
             var results = _ObjectCallback.GetLastArguments();

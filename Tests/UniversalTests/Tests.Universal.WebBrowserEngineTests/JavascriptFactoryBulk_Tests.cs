@@ -246,5 +246,59 @@ namespace Tests.Universal.WebBrowserEngineTests
                 res.Should().Be(uint.MaxValue);
             });
         }
+
+        [Property]
+        public Property CreateObjects_creates_correct_number_of_objecst()
+        {
+            return ForCoupleInt((nbWrite, nbReadOnly) =>
+            {
+                var res = Factory.CreateObjects(nbWrite, nbReadOnly).ToList();
+                return res.Count == nbWrite + nbReadOnly;
+            });
+        }
+
+        [Property]
+        public Property CreateObjects_creates_objects_with_ids()
+        {
+            return ForCoupleInt((nbWrite, nbReadOnly) =>
+            {
+                var res = Factory.CreateObjects(nbWrite, nbReadOnly).ToList();
+                var first = res.FirstOrDefault();
+
+                return (first == null) || res.Select(obj => GetId(obj)).SequenceEqual(Enumerable.Range(GetId(first), res.Count));
+            });
+        }
+
+        [Property]
+        public Property CreateObjects_creates_objects_with_correct_readwrite_flag()
+        {
+            return ForCoupleInt((nbWrite, nbReadOnly) =>
+            {
+                var res = Factory.CreateObjects(nbWrite, nbReadOnly);
+
+                var expectedReadOnlyFlags = Enumerable.Repeat(false, nbWrite).Concat(Enumerable.Repeat(true, nbReadOnly));
+
+                return res.Select(obj => GetReadOnly(obj)).SequenceEqual(expectedReadOnlyFlags);
+            });
+        }
+
+        private Property ForCoupleInt(Func<int, int, bool> assertion)
+        {
+            return Prop.ForAll(SmallRangeIntArb, SmallRangeIntArb, (nbWrite, nbReadOnly) => Test(() => assertion(nbWrite, nbReadOnly)));
+        }
+
+        private static int GetId(IJavascriptObject javascriptObject)
+        {
+            return javascriptObject.GetValue(NeutroniumConstants.ObjectId).GetIntValue();
+        }
+
+        private static bool GetReadOnly(IJavascriptObject javascriptObject)
+        {
+            return javascriptObject.GetValue(NeutroniumConstants.ReadOnlyFlag).GetBoolValue();
+        }
+
+        private static Gen<int> SmallRangeIntGen => Gen.Choose(0, 5);
+
+        public static Arbitrary<int> SmallRangeIntArb => Arb.From(SmallRangeIntGen);
     }
 }
