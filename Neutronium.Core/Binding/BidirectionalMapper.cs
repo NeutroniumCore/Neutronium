@@ -226,7 +226,7 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        public void OnJavaScriptCollectionChanges(JavascriptCollectionChanges changes)
+        public async void OnJavaScriptCollectionChanges(JavascriptCollectionChanges changes)
         {
             try
             {
@@ -235,9 +235,15 @@ namespace Neutronium.Core.Binding
 
                var collectionChanges = res.GetChanger(changes, this);
 
-                Context.RunOnUIContextAsync(() => 
+                var updater = new BridgeUpdater();
+                await Context.RunOnUIContextAsync(() => 
                 {
-                    UpdateCollection(res, collectionChanges, res.CValue);
+                    UpdateCollection(res, res.CValue, collectionChanges, updater);
+                });
+
+                await Context.RunOnJavascriptContextAsync(() =>
+                {
+                    updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
                 });
             }
             catch (Exception e)
@@ -246,11 +252,11 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private void UpdateCollection(JSArray array, CollectionChanges.CollectionChanges change, object collection)
+        private void UpdateCollection(JSArray array, object collection, CollectionChanges.CollectionChanges change, BridgeUpdater updater)
         {
             try
             {
-                using (ReListen())
+                using (ReListen(updater))
                 using (_ListenerRegister.GetColllectionSilenter(collection))
                 {
                     array.UpdateEventArgsFromJavascript(change);
@@ -388,7 +394,7 @@ namespace Neutronium.Core.Binding
                 throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
 
-        private IExitContext ReListen() => new ReListener(this);
+        private IExitContext ReListen(BridgeUpdater updater=null) => new ReListener(this, updater);
 
         public IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
         {

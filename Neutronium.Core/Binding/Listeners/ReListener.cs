@@ -13,10 +13,11 @@ namespace Neutronium.Core.Binding.Listeners
         private bool _Disposed = false;
         private BridgeUpdater _BridgeUpdater;
 
-        public ReListener(IUpdatableJSCSGlueCollection updatableGlueCollection)
+        public ReListener(IUpdatableJSCSGlueCollection updatableGlueCollection, BridgeUpdater updater)
         {
             _UpdatableGlueCollection = updatableGlueCollection;
             _Old = _UpdatableGlueCollection.GetAllChildren();
+            _BridgeUpdater = updater;
         }
 
         public void SetBridgeUpdater(BridgeUpdater bridgeUpdater)

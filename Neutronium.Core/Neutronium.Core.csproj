@@ -84,7 +84,7 @@
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\ObjectsCreationRequest.cs" />
-    <Compile Include="Binding\Builder\Spliter.cs" />
+    <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
@@ -112,11 +112,13 @@
     <Compile Include="Binding\CommandFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="Binding\Builder\IWebViewExtension.cs" />
+    <Compile Include="Extension\IWebViewExtension.cs" />
     <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Infra\AddLoger.cs" />
     <Compile Include="Infra\ComposedDisposable.cs" />
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
+    <Compile Include="Infra\Slicer.cs" />
     <Compile Include="JavascriptFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptFramework\DebugToolsUI.cs" />
     <Compile Include="JavascriptFramework\IJavascriptObjectInternalMapper.cs" />

@@ -61,11 +61,11 @@ namespace VueFramework.Test.IntegratedInfra
 
             if (hasListener)
             {
-                silenterRoot.IsUndefined.Should().BeTrue();
+                silenterRoot.IsObject.Should().BeTrue();              
             }
             else
             {
-                silenterRoot.IsObject.Should().BeTrue();
+                silenterRoot.IsUndefined.Should().BeTrue();
             }
         }
 
@@ -222,6 +222,42 @@ namespace VueFramework.Test.IntegratedInfra
                     CheckReadOnly(childJs, false);
 
                     DoSafeUI(() => datacontext.Children[0] = remplacementChild);
+                    await Task.Delay(150);
+
+                    await Task.Delay(150);
+
+                    CheckHasListener(childJs, false);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_js_context()
+        {
+            var datacontext = new BasicListVm();
+            var child = new BasicVm();
+            datacontext.Children.Add(child);
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JSRootObject;
+
+                    CheckReadOnly(js, true);
+
+                    var childrenJs = GetCollectionAttribute(js, "Children");
+                    var childJs = childrenJs.GetValue(0);
+
+                    CheckReadOnly(childJs, false);
+
+
+                    Call(childrenJs, "pop");
+
                     await Task.Delay(150);
 
                     await Task.Delay(150);

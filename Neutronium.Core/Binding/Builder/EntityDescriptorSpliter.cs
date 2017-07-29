@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    public class Spliter<TIdentifier>
+    public class EntityDescriptorSpliter<TIdentifier>
     {
         public int MaxCount { get; set; }
 
