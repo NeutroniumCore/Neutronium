@@ -5,7 +5,7 @@ namespace Tests.Universal.HTMLBindingTests.Helper
 {
     public class ViewModelTestBase : INotifyPropertyChanged
     {
-        internal int ListenerCount => _PropertyChanged?.GetInvocationList().Length ?? 0;
+        public int ListenerCount => _PropertyChanged?.GetInvocationList().Length ?? 0;
         private event PropertyChangedEventHandler _PropertyChanged;
 
         protected bool Set<T>(ref T property, T value, [CallerMemberName] string propertyName = null)
