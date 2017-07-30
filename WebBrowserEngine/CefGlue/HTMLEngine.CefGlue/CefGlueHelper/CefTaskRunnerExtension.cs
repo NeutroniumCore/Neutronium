@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neutronium.Core.Infra;
+using System;
 using System.Threading.Tasks;
 using Xilium.CefGlue;
 
@@ -11,7 +12,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper
             if (@this.BelongsToCurrentThread)
             {
                 actionToRun();
-                return Task.FromResult<object>(null);
+                return TaskHelper.Ended();
             }
 
             var actiontask = new CefTask_Action(actionToRun);

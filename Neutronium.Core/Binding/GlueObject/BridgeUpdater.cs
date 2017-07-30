@@ -12,6 +12,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly List<IJSCSGlue> _ExitingObjects = new List<IJSCSGlue>();
 
         internal IJavascriptSessionCache Cache { get; set; }
+        internal bool HasUpdatesOnJavascriptContext => (_UpdateJavascriptObject != null) || (_EntityToUnlisten.Count != 0);
 
         public BridgeUpdater(Action<IJavascriptViewModelUpdater> update)
         {

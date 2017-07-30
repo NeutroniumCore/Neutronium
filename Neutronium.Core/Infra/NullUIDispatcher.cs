@@ -9,7 +9,7 @@ namespace Neutronium.Core.Infra
         public Task RunAsync(Action act)
         {
             act();
-            return Task.FromResult<object>(null);
+            return TaskHelper.Ended();
         }
 
         public void Run(Action act)

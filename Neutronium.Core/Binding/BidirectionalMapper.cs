@@ -183,7 +183,7 @@ namespace Neutronium.Core.Binding
             return res;
         }
 
-        public void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string propertyName, IJavascriptObject newValue)
+        public async void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string propertyName, IJavascriptObject newValue)
         {
             try 
             {
@@ -200,9 +200,11 @@ namespace Neutronium.Core.Binding
 
                 var targetType = propertyAccessor.GetTargetType();
                 var glue = GetCachedOrCreateBasic(newValue, targetType);
+                var bridgeUpdater = glue.IsBasicNotNull() ? null : new BridgeUpdater();
 
-                Context.RunOnUIContextAsync(() => 
+                await Context.RunOnUIContextAsync(() => 
                 {
+                    using (var relisten = glue.IsBasicNotNull() ? null : ReListen(bridgeUpdater))
                     using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null) 
                     {
                         var oldValue = propertyAccessor.Get();
@@ -218,6 +220,14 @@ namespace Neutronium.Core.Binding
                         if (!Object.Equals(oldValue, actualValue))
                             CSharpPropertyChanged(res.CValue, new PropertyChangedEventArgs(propertyName));   
                     }
+                });
+
+                if (!(bridgeUpdater?.HasUpdatesOnJavascriptContext == true))
+                    return;
+
+                await Context.RunOnJavascriptContextAsync(() =>
+                {
+                    bridgeUpdater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
                 });
             }
             catch (Exception e)
@@ -240,6 +250,9 @@ namespace Neutronium.Core.Binding
                 {
                     UpdateCollection(res, res.CValue, collectionChanges, updater);
                 });
+
+                if (!updater.HasUpdatesOnJavascriptContext)
+                    return;
 
                 await Context.RunOnJavascriptContextAsync(() =>
                 {
@@ -343,6 +356,9 @@ namespace Neutronium.Core.Binding
             {
                 updater = Update(updaterBuilder, relisten);
             }
+
+            if (!updater.HasUpdatesOnJavascriptContext)
+                return TaskHelper.Ended();
 
             return RunInJavascriptContext(() =>
             {
