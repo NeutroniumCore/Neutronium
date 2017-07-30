@@ -21,10 +21,10 @@ namespace Neutronium.Core.JavascriptFramework
         /// <param name="value">
         /// new value of the property
         /// </param>
-        /// <param name="updateContext">
-        /// updateContext for the corresponding father-child couple
+        /// <param name="childAllowWrite">
+        /// true if child should be listened
         /// </param>
-        void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, UpdateContext updateContext);
+        void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite);
 
         /// <summary>
         /// Update javascript collection without raising listeners events

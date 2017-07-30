@@ -46,9 +46,9 @@ namespace Neutronium.JavascriptFramework.Vue
             Add(array, index, number, added);
         }
 
-        public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, UpdateContext context)
+        public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)
         {
-            var functionName = context.ChildAllowWrite ? "silentChangeAndInject" : "silentChange";
+            var functionName = childAllowWrite ? "silentChangeAndInject" : "silentChange";
             _VueHelper.Value.InvokeNoResult(functionName, _WebView, father, _WebView.Factory.CreateString(propertyName), value, _Listener);
         }
 

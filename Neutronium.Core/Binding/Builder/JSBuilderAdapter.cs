@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.Builder
 
         public void GetBuildRequest()
         {
-            _Object.GetBuildInstruction(this);
+            _Object.RequestBuildInstruction(this);
         }
 
         public void RequestArrayCreation(IList<IJSCSGlue> children)

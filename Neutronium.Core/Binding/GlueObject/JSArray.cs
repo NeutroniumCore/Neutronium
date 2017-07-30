@@ -31,7 +31,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _IndividualType = individual; 
         }
 
-        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
             builder.RequestArrayCreation(Items);
         }

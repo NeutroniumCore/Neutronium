@@ -33,7 +33,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _JSSimpleCommand = simpleCommand;
         }
 
-        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
             builder.RequestObjectCreation();
         }

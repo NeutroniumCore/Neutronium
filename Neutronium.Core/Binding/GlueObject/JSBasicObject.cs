@@ -31,7 +31,7 @@ namespace Neutronium.Core.Binding.GlueObject
             JSValue = jsValue;
         }
 
-        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
             builder.RequestBasicObjectCreation(CValue);
         }

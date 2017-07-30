@@ -45,7 +45,7 @@ namespace Neutronium.Core.Binding.GlueObject
             catch { }
         }
 
-        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
             builder.RequestCommandCreation(_InitialCanExecute);
         }
@@ -90,7 +90,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
         {
             var newValue = factory(WebView.Factory);
-            ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, newValue, new UpdateContext { ChildAllowWrite = false });
+            ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, newValue, false);
         }
 
         public void SetMappedJSValue(IJavascriptObject jsobject)

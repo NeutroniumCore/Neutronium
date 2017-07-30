@@ -3,7 +3,6 @@ using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Dictionary;
 using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Binding.Listeners;
 using System.ComponentModel;
 using Neutronium.Core.Infra;
@@ -30,7 +29,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes = new HybridDictionary<string, IJSCSGlue>(childrenCount);
         }
 
-        public void GetBuildInstruction(IJavascriptObjectBuilder builder)
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
             var updatableFromJS = CValue.GetType().HasReadWriteProperties();
             builder.RequestObjectCreation(_Attributes, updatableFromJS);
@@ -81,8 +80,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public BridgeUpdater GetUpdater(string propertyName, IJSCSGlue glue)
         {
             UpdateGlueProperty(propertyName, glue);
-            var context = new UpdateContext { ChildAllowWrite = !glue.IsBasic() };
-            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), context));
+            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), !glue.IsBasic()));
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

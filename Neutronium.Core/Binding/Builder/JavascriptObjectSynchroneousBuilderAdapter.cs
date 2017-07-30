@@ -24,7 +24,7 @@ namespace Neutronium.Core.Binding.Builder
 
         public void ApplyLocalChanges()
         {
-            _Object.GetBuildInstruction(this);
+            _Object.RequestBuildInstruction(this);
         }
 
         public void AfterChildrenUpdates()
