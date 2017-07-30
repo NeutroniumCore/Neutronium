@@ -36,12 +36,17 @@ namespace Neutronium.Core.Binding
         public HTMLViewContext Context => _Context;
         private readonly object _RootObject;
 
-        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, IWebSessionLogger logger)
+        internal BidirectionalMapper(object root, HTMLViewEngine contextBuilder, JavascriptBindingMode mode, IWebSessionLogger logger):
+            this(root, contextBuilder, null, mode, logger)
         {        
-            _BindingMode = iMode;
+        }
+
+        internal BidirectionalMapper(object root, HTMLViewEngine contextBuilder, IGlueFactory glueFactory, JavascriptBindingMode mode, IWebSessionLogger logger)
+        {
+            _BindingMode = mode;
             _Logger = logger;
-            var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
-            _Context = contextBuilder.GetMainContext(javascriptObjecChanges); 
+            var javascriptObjecChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
+            _Context = contextBuilder.GetMainContext(javascriptObjecChanges);
             _SessionCache = new SessionCacher();
             _ListenerRegister = new FullListenerRegister(
                                         (n) => n.PropertyChanged += CSharpPropertyChanged,
@@ -50,10 +55,9 @@ namespace Neutronium.Core.Binding
                                         (n) => n.CollectionChanged -= CSharpCollectionChanged,
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
-            var commandFactory = new CommandFactory(_Context, this);
-            _JSObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HTMLWindow, _SessionCache, commandFactory, _Logger) ;
-            _RootObject = iRoot;
-           
+            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(_Context, this);
+            _JSObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HTMLWindow, _SessionCache, glueFactory, _Logger);
+            _RootObject = root;
         }
 
         internal async Task IntrospectVm(object addicionalObject) 

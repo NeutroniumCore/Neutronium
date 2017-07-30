@@ -13,7 +13,9 @@ namespace Neutronium.JavascriptFramework.Vue
         private readonly IJavascriptObject _Listener;
         private readonly Lazy<IJavascriptObject> _VueHelper;
         private readonly IWebSessionLogger _Logger;
- 
+
+        public bool IsMappingObject => false;
+
         public VueJavascriptSessionInjector(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper, IWebSessionLogger logger)
         {
             _WebView = webView;

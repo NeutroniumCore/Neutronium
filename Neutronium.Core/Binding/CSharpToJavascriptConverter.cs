@@ -14,15 +14,15 @@ namespace Neutronium.Core.Binding
     internal class CSharpToJavascriptConverter 
     {
         private readonly IJavascriptSessionCache _Cacher;
-        private readonly IJSCommandFactory _CommandFactory;
+        private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private readonly IWebBrowserWindow _Context;
         private IJSCSGlue _Null;
 
-        public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache cacher, IJSCommandFactory commandFactory, IWebSessionLogger logger)
+        public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
             _Context = context;
-            _CommandFactory = commandFactory;
+            _GlueFactory = glueFactory;
             _Logger = logger;
             _Cacher = cacher;
         }
@@ -46,15 +46,15 @@ namespace Neutronium.Core.Binding
 
             var command = from as ICommand;
             if (command != null)
-                return _CommandFactory.Build(command);
+                return _GlueFactory.Build(command);
 
             var simpleCommand = from as ISimpleCommand;
             if (simpleCommand != null)
-                return _CommandFactory.Build(simpleCommand);
+                return _GlueFactory.Build(simpleCommand);
 
             var resultCommand = from as IResultCommand;
             if (resultCommand != null)
-                return _CommandFactory.Build(resultCommand);
+                return _GlueFactory.Build(resultCommand);
 
             if (type.IsEnum)
             {
@@ -70,7 +70,8 @@ namespace Neutronium.Core.Binding
             var propertyInfos = @from.GetType().GetReadProperties();
             var additionalPropertyInfos = additional?.GetType().GetReadProperties();
 
-            var gres = new JsGenericObject(from, propertyInfos.Count + (additionalPropertyInfos?.Count ?? 0));
+            var gres = _GlueFactory.Build(from, propertyInfos.Count + (additionalPropertyInfos?.Count ?? 0));
+
             _Cacher.Cache(from, gres);
 
             MappNested(gres, @from, propertyInfos);

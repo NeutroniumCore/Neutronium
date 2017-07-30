@@ -2,9 +2,7 @@
 using Neutronium.Core.Binding.GlueObject;
 using NSubstitute;
 using Xunit;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.Core.JavascriptFramework;
 using System.Collections.Generic;
 using FluentAssertions;
 using MoreCollection.Extensions;
@@ -15,12 +13,8 @@ namespace Neutronium.Core.Test.Binding
     {
         private CSharpToJavascriptConverter _CSharpToJavascriptConverter;
         private IJavascriptSessionCache _Cacher;
-        private IJSCommandFactory _CommandFactory;
+        private IGlueFactory _GlueFactory;
         private IWebSessionLogger _Logger;
-        private IWebView _WebView;
-        private IDispatcher _UiDispatcher;
-        private IJavascriptFrameworkManager _JavascriptFrameworkManager;
-        private IJavascriptChangesObserver _JavascriptChangesObserver;
         private Dictionary<object, IJSCSGlue> _Cache = new Dictionary<object, IJSCSGlue>();
         private IWebBrowserWindow _IWebBrowserWindow;
 
@@ -30,11 +24,11 @@ namespace Neutronium.Core.Test.Binding
             _Cacher.When(c => c.Cache(Arg.Any<object>(), Arg.Any<IJSCSGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJSCSGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
-            _CommandFactory = Substitute.For<IJSCommandFactory>();
+            _GlueFactory = Substitute.For<IGlueFactory>();
             _Logger = Substitute.For<IWebSessionLogger>();
             _IWebBrowserWindow = Substitute.For<IWebBrowserWindow>();
             _IWebBrowserWindow.IsTypeBasic(typeof(string)).Returns(true);
-            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_IWebBrowserWindow, _Cacher, _CommandFactory, _Logger);
+            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_IWebBrowserWindow, _Cacher, _GlueFactory, _Logger);
         }
 
         [Fact]

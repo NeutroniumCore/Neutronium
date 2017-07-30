@@ -85,6 +85,7 @@
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\ObjectsCreationRequest.cs" />
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
+    <Compile Include="Binding\GlueFactoryFactory.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
     <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
-    <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />
+    <Compile Include="Binding\GlueObject\IGlueFactory.cs" />
     <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IUpdatableJSCSGlueCollection.cs" />
@@ -109,7 +110,7 @@
     <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />
     <Compile Include="Binding\HTMLViewContext.cs" />
     <Compile Include="Binding\Listeners\ReListener.cs" />
-    <Compile Include="Binding\CommandFactory.cs" />
+    <Compile Include="Binding\GlueObject\GlueFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="Binding\Builder\IWebViewExtension.cs" />
     <Compile Include="Extension\IWebViewExtension.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Neutronium.Core;
@@ -19,6 +20,8 @@ namespace Neutronium.JavascriptFramework.Knockout
         private IJavascriptObject _Mapper;
         private bool _PullNextMapper = true;
         private IJavascriptObject _Ko;
+
+        public bool IsMappingObject => true;
 
         public KnockoutSessionInjector(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger)
         {

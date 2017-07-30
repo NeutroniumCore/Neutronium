@@ -10,13 +10,20 @@ namespace Neutronium.Core.JavascriptFramework
     public interface IJavascriptSessionInjector
     {
         /// <summary>
+        /// True if javascript framework as to create new javascript object to map 
+        /// orginal ones
+        /// </summary>
+        bool IsMappingObject { get; }
+
+        /// <summary>
         /// Maps a simple javascript object to an observable javascript object
         /// </summary>
         /// <param name="rawObject">
         /// Simple javascript to be mapped
         /// </param>
         /// <param name="mapper">
-        /// Mapper to be used to map the original object and the observable one
+        /// Mapper to be used to map the original object and the observable one.
+        /// Null if IsMappingObject is false
         /// </param>
         /// <returns>
         /// the corresponding observable javascript object
