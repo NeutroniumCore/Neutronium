@@ -24,7 +24,7 @@ namespace Neutronium.Core.Test.Binding
             _Cacher.When(c => c.Cache(Arg.Any<object>(), Arg.Any<IJSCSGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJSCSGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
-            _GlueFactory = Substitute.For<IGlueFactory>();
+            _GlueFactory = new GlueFactory(null, null);
             _Logger = Substitute.For<IWebSessionLogger>();
             _IWebBrowserWindow = Substitute.For<IWebBrowserWindow>();
             _IWebBrowserWindow.IsTypeBasic(typeof(string)).Returns(true);
