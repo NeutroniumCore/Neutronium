@@ -12,6 +12,7 @@ namespace Neutronium.Core.Binding
         public IDispatcher UIDispatcher { get; }
         public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
         public IJavascriptViewModelUpdater ViewModelUpdater { get; private set; }
+
         private IJavascriptObject _Listener;
         private IJavascriptViewModelManager _VmManager;
         private readonly IWebSessionLogger _logger;

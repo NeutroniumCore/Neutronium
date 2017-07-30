@@ -5,19 +5,19 @@ namespace Neutronium.Core.Infra.VM
 {
     public abstract class NotifyPropertyChangedBase :  INotifyPropertyChanged
     {
-        protected bool Set<T>(ref T ipnv, T value, [CallerMemberName] string ipn=null)
+        protected bool Set<T>(ref T property, T value, [CallerMemberName] string propertyName = null)
         {
-            if (object.Equals(ipnv, value))
+            if (object.Equals(property, value))
                 return false;
 
-            ipnv = value;
-            OnPropertyChanged(ipn);
+            property = value;
+            OnPropertyChanged(propertyName);
             return true;
         }
 
-        protected virtual void OnPropertyChanged(string pn)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pn));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
