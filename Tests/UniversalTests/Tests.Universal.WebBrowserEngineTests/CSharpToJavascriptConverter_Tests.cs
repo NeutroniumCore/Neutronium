@@ -64,6 +64,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _GlueFactory = Substitute.For<IGlueFactory>();
+            _GlueFactory.Build(Arg.Any<object>(), Arg.Any<int>()).Returns(x => new JsGenericObject(x[0], (int)x[1]));
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
             _HTMLViewContext = new HTMLViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
