@@ -21,7 +21,7 @@ namespace Neutronium.Core.Test.Binding
         public CSharpToJavascriptConverterTests()
         {
             _Cacher = Substitute.For<IJavascriptSessionCache>();
-            _Cacher.When(c => c.Cache(Arg.Any<object>(), Arg.Any<IJSCSGlue>()))
+            _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJSCSGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJSCSGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
             _GlueFactory = new GlueFactory(null, null);

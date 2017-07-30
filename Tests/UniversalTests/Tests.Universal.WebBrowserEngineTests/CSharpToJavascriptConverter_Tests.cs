@@ -339,7 +339,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 var res = (await Map(_Test2)).JSValue;
                 res.Should().NotBeNull();
 
-                _ICSharpMapper.Received().Cache(_Test, Arg.Any<IJSCSGlue>());
+                _ICSharpMapper.Received().CacheFromCSharpValue(_Test, Arg.Any<IJSCSGlue>());
             });
         }
 

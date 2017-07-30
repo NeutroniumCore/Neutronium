@@ -10,9 +10,8 @@ namespace Neutronium.Core.Binding
     {
         private readonly IDictionary<object, IJSCSGlue> _FromCSharp = new Dictionary<object, IJSCSGlue>();
         private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Global = new Dictionary<uint, IJSCSGlue>();
-        private readonly IDictionary<uint, IJSCSGlue> _FromJavascript_Local = new Dictionary<uint, IJSCSGlue>();
 
-        public void Cache(object key, IJSCSGlue value)
+        public void CacheFromCSharpValue(object key, IJSCSGlue value)
         {
             _FromCSharp.Add(key, value);
         }
@@ -35,12 +34,30 @@ namespace Neutronium.Core.Binding
             _FromJavascript_Global.Remove(id);
         }
 
-        public void CacheLocal(object key, IJSCSGlue value)
+        public void Cache(IJSCSGlue value)
         {
-            _FromJavascript_Local.Add(value.JSValue.GetID(), value);
+            var cashable = value as IJSCSCachableGlue;
+            if (cashable != null)
+            {
+                Cache(cashable);
+            }
+            else
+            {
+                _FromJavascript_Global.Add(value.JSValue.GetID(), value);
+            } 
         }
 
-        private void CacheGlobal(IJavascriptObject jsobject, IJSObservableBridge ibo)
+        public void Cache(IJSCSCachableGlue cachableGlue)
+        {
+            var id = cachableGlue.CachableJSValue.GetID();
+            if (id == 0)
+                return;
+
+            cachableGlue.SetJsId(id);
+            _FromJavascript_Global[id] = cachableGlue;
+        }
+
+        private void CacheGlobal(IJavascriptObject jsobject, IJSCSMappedBridge ibo)
         {
             var id = jsobject.GetID();
             if (id == 0)
@@ -55,30 +72,18 @@ namespace Neutronium.Core.Binding
             return _FromCSharp.GetOrDefault(key);
         }
 
-        public IJSCSGlue GetCached(IJavascriptObject globalkey)
-        {
-            var id = globalkey.GetID();
-            return (id == 0) ? null : (_FromJavascript_Global.GetOrDefault(id) ?? _FromJavascript_Local.GetOrDefault(id));
-        }
-
-        public IJSCSGlue GetGlobalCached(IJavascriptObject globalkey) 
+        public IJSCSGlue GetCached(IJavascriptObject globalkey) 
         {
             var id = globalkey.GetID();
             return (id == 0) ? null : _FromJavascript_Global.GetOrDefault(id);
         }
 
-        public IJSCSGlue GetCachedLocal(IJavascriptObject localkey) 
-        {
-            var id = localkey.GetID();
-            return (id == 0) ? null : _FromJavascript_Local.GetOrDefault(localkey.GetID());
-        }
-
-        public IJavascriptObjectInternalMapper GetMapper(IJSObservableBridge root)
+        public IJavascriptObjectInternalMapper GetMapper(IJSCSMappedBridge root)
         {
             return new JavascriptMapper(root, CacheGlobal, Update, RegisterMapping, RegisterCollectionMapping);
         }
 
-        internal void Update(IJSObservableBridge observableBridge, IJavascriptObject jsobject)
+        internal void Update(IJSCSMappedBridge observableBridge, IJavascriptObject jsobject)
         {
             observableBridge.SetMappedJSValue(jsobject);
             CacheGlobal(jsobject, observableBridge);
@@ -86,20 +91,20 @@ namespace Neutronium.Core.Binding
 
         internal void RegisterMapping(IJavascriptObject father, string att, IJavascriptObject child)
         {
-            var global = GetGlobalCached(father);
+            var global = GetCached(father);
             if (global is JSCommand)
                 return;
 
             var jso = (JsGenericObject)global;
-            Update(jso.Attributes[att] as IJSObservableBridge, child);
+            Update(jso.Attributes[att] as IJSCSMappedBridge, child);
         }
 
         internal void RegisterCollectionMapping(IJavascriptObject jsFather, string att, int index, IJavascriptObject child)
         {
-            var father = GetGlobalCached(jsFather);
+            var father = GetCached(jsFather);
             var jsos = (att == null) ? father : ((JsGenericObject)father).Attributes[att];
 
-            Update(((JSArray)jsos).Items[index] as IJSObservableBridge, child);
+            Update(((JSArray)jsos).Items[index] as IJSCSMappedBridge, child);
         }
     }
 }

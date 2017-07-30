@@ -60,7 +60,7 @@ namespace Neutronium.Core.Binding.Builder
                 throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
 
             _Object.SetJSValue(_Factory.CreateEnum((Enum)@object));
-            _Cache.CacheLocal(@object, _Object);
+            _Cache.Cache(_Object);
         }
 
         void IJavascriptObjectBuilder.RequestCommandCreation(bool canExcecute)

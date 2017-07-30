@@ -9,14 +9,14 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JsSimpleCommand : GlueBase, IJSObservableBridge
+    public class JsSimpleCommand : GlueBase, IJSCSMappedBridge
     {
         private readonly ISimpleCommand _JSSimpleCommand;
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
-        public IJavascriptObject MappedJSValue => _MappedJSValue;
+        public IJavascriptObject CachableJSValue => _MappedJSValue;
         public object CValue => _JSSimpleCommand;
         public JsCsGlueType Type => JsCsGlueType.SimpleCommand;
         private IWebView WebView => _HTMLViewContext.WebView;
@@ -24,7 +24,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJSObservableBridge.SetJsId(uint jsId) => _JsId = jsId;
+        void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
         public JsSimpleCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
         {

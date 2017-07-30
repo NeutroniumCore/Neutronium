@@ -89,6 +89,7 @@
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
+    <Compile Include="Binding\GlueObject\IJSCSCachableGlue.cs" />
     <Compile Include="Binding\Listeners\IExitContext.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
@@ -105,7 +106,7 @@
     <Compile Include="Binding\GlueObject\JSCommand.cs" />
     <Compile Include="Binding\GlueObject\JsSimpleCommand.cs" />
     <Compile Include="Binding\GlueObject\JsResultCommand.cs" />
-    <Compile Include="Binding\GlueObject\IJSObservableBridge.cs" />
+    <Compile Include="Binding\GlueObject\IJSCSMappedBridge.cs" />
     <Compile Include="Binding\GlueObject\JSBasicObject.cs" />
     <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />
     <Compile Include="Binding\HTMLViewContext.cs" />

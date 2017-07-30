@@ -1052,7 +1052,7 @@ namespace Tests.Universal.HTMLBindingTests
                     mycommand.Should().NotBeNull();
                     mycommand.ToString().Should().Be("{}");
                     mycommand.Type.Should().Be(JsCsGlueType.Command);
-                    mycommand.MappedJSValue.Should().NotBeNull();
+                    mycommand.CachableJSValue.Should().NotBeNull();
                 }
             };
 
@@ -1256,7 +1256,7 @@ namespace Tests.Universal.HTMLBindingTests
                     mysimplecommand.Should().NotBeNull();
                     mysimplecommand.ToString().Should().Be("{}");
                     mysimplecommand.Type.Should().Be(JsCsGlueType.SimpleCommand);
-                    mysimplecommand.MappedJSValue.Should().NotBeNull();
+                    mysimplecommand.CachableJSValue.Should().NotBeNull();
                 }
             };
 
@@ -1608,7 +1608,7 @@ namespace Tests.Universal.HTMLBindingTests
                         mysimplecommand.Should().NotBeNull();
                         mysimplecommand.ToString().Should().Be("{}");
                         mysimplecommand.Type.Should().Be(JsCsGlueType.ResultCommand);
-                        mysimplecommand.MappedJSValue.Should().NotBeNull();
+                        mysimplecommand.CachableJSValue.Should().NotBeNull();
                     }
 
                     var js = mb.JSRootObject;

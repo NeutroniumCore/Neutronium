@@ -58,7 +58,7 @@ namespace Neutronium.Core.Binding.Builder
             if (cValue.GetType().IsEnum)
             {
                 glueObject.SetJSValue(_Factory.CreateEnum((Enum)cValue));
-                _Cache.CacheLocal(cValue, glueObject);
+                _Cache.Cache(glueObject);
                 return;
             }
 

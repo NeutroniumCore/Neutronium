@@ -175,7 +175,7 @@ namespace Neutronium.Core.Binding
             if ( (iroot == null) || (iroot.IsBasic()))
                 return null;
 
-            var jvm = _SessionCache.GetMapper(iroot as IJSObservableBridge);
+            var jvm = _SessionCache.GetMapper(iroot as IJSCSMappedBridge);
             var res = _sessionInjector.Inject(iroot.JSValue, jvm);
 
             if ((iroot.CValue != null) && (res==null))
@@ -191,7 +191,7 @@ namespace Neutronium.Core.Binding
         {
             try 
             {
-                var res = _SessionCache.GetGlobalCached(objectchanged) as JsGenericObject;
+                var res = _SessionCache.GetCached(objectchanged) as JsGenericObject;
                 if (res == null)
                     return;
 
@@ -244,7 +244,7 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                var res = _SessionCache.GetGlobalCached(changes.Collection) as JSArray;
+                var res = _SessionCache.GetCached(changes.Collection) as JSArray;
                 if (res == null) return;
 
                var collectionChanges = res.GetChanger(changes, this);

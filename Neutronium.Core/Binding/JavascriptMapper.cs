@@ -9,15 +9,15 @@ namespace Neutronium.Core.Binding
 {
     internal class JavascriptMapper : IJavascriptObjectInternalMapper
     {
-        private readonly IJSObservableBridge _Root;
+        private readonly IJSCSMappedBridge _Root;
         private readonly TaskCompletionSource<object> _TCS = new TaskCompletionSource<object>();
-        private readonly Action<IJSObservableBridge, IJavascriptObject> _Update;
+        private readonly Action<IJSCSMappedBridge, IJavascriptObject> _Update;
         private readonly Action<IJavascriptObject, string, IJavascriptObject> _RegisterMapping;
         private readonly Action<IJavascriptObject, string, int, IJavascriptObject> _RegisterCollectionMapping;
-        private readonly Action<IJavascriptObject, IJSObservableBridge> _Register;
+        private readonly Action<IJavascriptObject, IJSCSMappedBridge> _Register;
         private bool? _AutoMapMode;
 
-        public JavascriptMapper(IJSObservableBridge root, Action<IJavascriptObject, IJSObservableBridge> register, Action<IJSObservableBridge, IJavascriptObject> update,
+        public JavascriptMapper(IJSCSMappedBridge root, Action<IJavascriptObject, IJSCSMappedBridge> register, Action<IJSCSMappedBridge, IJavascriptObject> update,
             Action<IJavascriptObject, string, IJavascriptObject> registerMapping, Action<IJavascriptObject, string, int, IJavascriptObject> registerCollectionMapping)
         {
             _Root = root;
@@ -42,11 +42,11 @@ namespace Neutronium.Core.Binding
         public void AutoMap()
         {
             CheckMode(true);
-            var observables = _Root.GetAllChildren(true).OfType<IJSObservableBridge>().ToList();
+            var observables = _Root.GetAllChildren(true).OfType<IJSCSMappedBridge>().ToList();
             observables.ForEach(ch =>
             {
                 ch.AutoMap();
-                _Register(ch.MappedJSValue, ch);
+                _Register(ch.CachableJSValue, ch);
             });
             _TCS.TrySetResult(null);
         }

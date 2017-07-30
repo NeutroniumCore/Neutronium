@@ -9,19 +9,19 @@ using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JsGenericObject : GlueBase, IJSObservableBridge
+    public class JsGenericObject : GlueBase, IJSCSMappedBridge
     {   
         private IJavascriptObject _MappedJSValue;
         private readonly HybridDictionary<string, IJSCSGlue> _Attributes;
 
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
-        public IJavascriptObject MappedJSValue => _MappedJSValue;
+        public IJavascriptObject CachableJSValue => _MappedJSValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJSObservableBridge.SetJsId(uint jsId) => _JsId = jsId;
+        void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
         public JsGenericObject(object cValue, int childrenCount)
         {

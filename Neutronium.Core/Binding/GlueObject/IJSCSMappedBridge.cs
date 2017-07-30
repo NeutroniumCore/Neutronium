@@ -2,12 +2,8 @@
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public interface IJSObservableBridge : IJSCSGlue
+    public interface IJSCSMappedBridge : IJSCSCachableGlue
     {
-        IJavascriptObject MappedJSValue { get; }
-
         void SetMappedJSValue(IJavascriptObject jsobject);
-
-        void SetJsId(uint  jsId);
     }
 }

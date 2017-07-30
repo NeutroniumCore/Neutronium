@@ -40,7 +40,7 @@ namespace Neutronium.Core.Binding
             if (_Context.IsTypeBasic(type))
             {
                 res = new JSBasicObject(from);
-                _Cacher.Cache(from, res);
+                _Cacher.CacheFromCSharpValue(from, res);
                 return res;
             }             
 
@@ -59,7 +59,7 @@ namespace Neutronium.Core.Binding
             if (type.IsEnum)
             {
                 var trueres = new JSBasicObject(from);
-                _Cacher.Cache(from, trueres);
+                _Cacher.CacheFromCSharpValue(from, trueres);
                 return trueres;
             }
 
@@ -72,7 +72,7 @@ namespace Neutronium.Core.Binding
 
             var gres = _GlueFactory.Build(from, propertyInfos.Count + (additionalPropertyInfos?.Count ?? 0));
 
-            _Cacher.Cache(from, gres);
+            _Cacher.CacheFromCSharpValue(from, gres);
 
             MappNested(gres, @from, propertyInfos);
             MappNested(gres, additional, additionalPropertyInfos);
@@ -109,7 +109,7 @@ namespace Neutronium.Core.Binding
             var basictype = _Context.IsTypeBasic(type) ? type : null;
 
             var res = new JSArray(source.Cast<object>().Select(s => Map(s)), source, basictype);
-            _Cacher.Cache(source, res);
+            _Cacher.CacheFromCSharpValue(source, res);
             return res;
         }
     }
