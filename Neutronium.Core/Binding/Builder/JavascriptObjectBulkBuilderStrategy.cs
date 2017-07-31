@@ -12,9 +12,11 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IWebView _WebView;
         private readonly IJavascriptSessionCache _Cache;
         private readonly Lazy<IJavascriptObject> _BulkCreator;
+        private readonly bool _NeedToCacheObject;
 
-        public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache)
+        public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool needToCacheObject)
         {
+            _NeedToCacheObject = needToCacheObject;
             _WebView = webView;
             _Cache = cache;
             _BulkCreator = new Lazy<IJavascriptObject>(BulkCreatorBuilder);
@@ -22,7 +24,7 @@ namespace Neutronium.Core.Binding.Builder
 
         public void UpdateJavascriptValue(IJSCSGlue root)
         {
-            var builder = new JavascriptObjectBulkBuilder(_WebView.Factory, _Cache, this, root);
+            var builder = new JavascriptObjectBulkBuilder(_WebView.Factory, _Cache, this, root, _NeedToCacheObject);
             builder.UpdateJavascriptValue();
         }
 

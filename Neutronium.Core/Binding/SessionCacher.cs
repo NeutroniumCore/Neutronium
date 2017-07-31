@@ -38,13 +38,9 @@ namespace Neutronium.Core.Binding
         {
             var cashable = value as IJSCSCachableGlue;
             if (cashable != null)
-            {
                 Cache(cashable);
-            }
             else
-            {
                 _FromJavascript_Global.Add(value.JSValue.GetID(), value);
-            } 
         }
 
         public void Cache(IJSCSCachableGlue cachableGlue)
@@ -80,7 +76,7 @@ namespace Neutronium.Core.Binding
 
         public IJavascriptObjectInternalMapper GetMapper(IJSCSMappedBridge root)
         {
-            return new JavascriptMapper(root, CacheGlobal, Update, RegisterMapping, RegisterCollectionMapping);
+            return new JavascriptMapper(root, Update, RegisterMapping, RegisterCollectionMapping);
         }
 
         internal void Update(IJSCSMappedBridge observableBridge, IJavascriptObject jsobject)

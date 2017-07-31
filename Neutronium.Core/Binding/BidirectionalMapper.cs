@@ -82,7 +82,7 @@ namespace Neutronium.Core.Binding
                 _Context.InitOnJsContext(debugMode);
                 _sessionInjector = _Context.JavascriptSessionInjector;
 
-                _JavascriptObjectBuilder = _Context.WebView.GetBuildingStrategy(_SessionCache);
+                _JavascriptObjectBuilder = _Context.WebView.GetBuildingStrategy(_SessionCache, _Context.JavascriptFrameworkIsMappingObject == false);
                 _JavascriptObjectBuilder.UpdateJavascriptValue(_Root);
 
                 var res = await InjectInHTMLSession(_Root);
@@ -170,15 +170,18 @@ namespace Neutronium.Core.Binding
         void IUpdatableJSCSGlueCollection.OnEnter(IJSCSGlue entering) => OnEnter(entering);
         void IUpdatableJSCSGlueCollection.OnExit(IJSCSGlue exiting, BridgeUpdater context) => OnExit(exiting, context);
 
-        private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue iroot)
+        private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue root)
         {
-            if ( (iroot == null) || (iroot.IsBasic()))
+            if ( (root == null) || (root.IsBasic()))
                 return null;
 
-            var jvm = _SessionCache.GetMapper(iroot as IJSCSMappedBridge);
-            var res = _sessionInjector.Inject(iroot.JSValue, jvm);
+            if (!_Context.JavascriptFrameworkIsMappingObject)
+                return root.JSValue;
 
-            if ((iroot.CValue != null) && (res==null))
+            var jvm = _SessionCache.GetMapper(root as IJSCSMappedBridge);
+            var res = _sessionInjector.Inject(root.JSValue, jvm);
+
+            if ((root.CValue != null) && (res==null))
             {
                 throw ExceptionHelper.GetUnexpected();
             }

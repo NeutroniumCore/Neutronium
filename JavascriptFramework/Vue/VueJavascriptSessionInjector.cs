@@ -14,8 +14,6 @@ namespace Neutronium.JavascriptFramework.Vue
         private readonly Lazy<IJavascriptObject> _VueHelper;
         private readonly IWebSessionLogger _Logger;
 
-        public bool IsMappingObject => false;
-
         public VueJavascriptSessionInjector(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper, IWebSessionLogger logger)
         {
             _WebView = webView;
@@ -26,7 +24,6 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public IJavascriptObject Inject(IJavascriptObject rawObject, IJavascriptObjectMapper mapper)
         {
-            mapper?.AutoMap();   
             return rawObject;
         }
 
