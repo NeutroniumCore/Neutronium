@@ -24,6 +24,12 @@ namespace Neutronium.Core.JavascriptFramework
         string Name { get; }
 
         /// <summary>
+        /// True if javascript framework as to create new javascript object to map 
+        /// orginal ones. False if it use standard objects.
+        /// </summary>
+        bool IsMappingObject { get; }
+
+        /// <summary>
         /// Create an IJavascriptViewModelManager from webview and IJavascriptObserver listner object
         /// </summary>
         /// <param name="webView">

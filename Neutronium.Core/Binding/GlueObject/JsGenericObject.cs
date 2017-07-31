@@ -9,13 +9,12 @@ using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JsGenericObject : GlueBase, IJSCSMappedBridge
-    {   
-        private IJavascriptObject _MappedJSValue;
+    internal class JsGenericObject : GlueBase, IJSCSCachableGlue
+    {
         private readonly HybridDictionary<string, IJSCSGlue> _Attributes;
 
         public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
-        public IJavascriptObject CachableJSValue => _MappedJSValue;
+        public virtual IJavascriptObject CachableJSValue => JSValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;
 
@@ -57,11 +56,6 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        public void SetMappedJSValue(IJavascriptObject jsobject)
-        {
-            _MappedJSValue = jsobject;
-        }
-
         public override IEnumerable<IJSCSGlue> GetChildren()
         {
             return _Attributes.Values; 
@@ -80,7 +74,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public BridgeUpdater GetUpdater(string propertyName, IJSCSGlue glue)
         {
             UpdateGlueProperty(propertyName, glue);
-            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(_MappedJSValue, propertyName, glue.GetJSSessionValue(), !glue.IsBasic()));
+            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(CachableJSValue, propertyName, glue.GetJSSessionValue(), !glue.IsBasic()));
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

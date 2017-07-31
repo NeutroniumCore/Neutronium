@@ -13,14 +13,16 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IJavascriptSessionCache _Cache;
         private readonly IBulkUpdater _BulkPropertyUpdater;
         private readonly IJSCSGlue _Root;
+        private readonly bool _NeedToCacheObject;
 
         private readonly ObjectsCreationRequest _ObjectsCreationRequest = new ObjectsCreationRequest();
         private readonly List<EntityDescriptor<int>> _ArraysBuildingRequested = new List<EntityDescriptor<int>>();
         private readonly List<IJSCSGlue> _BasicObjectsToCreate = new List<IJSCSGlue>();
 
         public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
-            IJSCSGlue root)
+            IJSCSGlue root, bool needToCacheObject)
         {
+            _NeedToCacheObject = needToCacheObject;
             _Factory = factory;
             _Cache = cache;
             _Root = root;
@@ -76,9 +78,9 @@ namespace Neutronium.Core.Binding.Builder
 
         private void CreateObjects()
         {
-            BulkCreate(_ => _Factory.CreateBasics(_BasicObjectsToCreate.Select(glue => glue.CValue).ToList()), _BasicObjectsToCreate);
-            BulkCreate(count => _Factory.CreateObjects(_ObjectsCreationRequest.ReadWriteNumber, _ObjectsCreationRequest.ReadOnlyNumber), _ObjectsCreationRequest.GetElements());
-            BulkCreate(count => _Factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Father).ToList());
+            BulkCreate(_ => _Factory.CreateBasics(_BasicObjectsToCreate.Select(glue => glue.CValue).ToList()), _BasicObjectsToCreate, false);
+            BulkCreate(count => _Factory.CreateObjects(_ObjectsCreationRequest.ReadWriteNumber, _ObjectsCreationRequest.ReadOnlyNumber), _ObjectsCreationRequest.GetElements(), _NeedToCacheObject);
+            BulkCreate(count => _Factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Father).ToList(), _NeedToCacheObject);
         }
 
         private void UpdateDependencies()
@@ -99,7 +101,7 @@ namespace Neutronium.Core.Binding.Builder
             _BulkPropertyUpdater.BulkUpdateArray(toBeUpdated);
         }
 
-        private static void BulkCreate(Func<int, IEnumerable<IJavascriptObject>> builder, List<IJSCSGlue> glues)
+        private void BulkCreate(Func<int, IEnumerable<IJavascriptObject>> builder, List<IJSCSGlue> glues, bool register)
         {
             var objectCount = glues.Count;
             if (objectCount == 0)
@@ -108,7 +110,12 @@ namespace Neutronium.Core.Binding.Builder
             var objects = builder(objectCount).ToList();
             for (var i = 0; i < objectCount; i++)
             {
-                glues[i].SetJSValue(objects[i]);
+                var glue = glues[i];
+                glue.SetJSValue(objects[i]);
+                if (register)
+                {
+                    _Cache.Cache(glue);
+                }
             }
         }
     }

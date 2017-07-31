@@ -9,9 +9,11 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
         private readonly IJSCSGlue _Root;
+        private readonly bool _NeedToCacheObject;
 
-        public JavascriptObjectSynchroneousBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue root)
+        public JavascriptObjectSynchroneousBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue root, bool needToCacheObject)
         {
+            _NeedToCacheObject = needToCacheObject;
             _Factory = factory;
             _Cache = cache;
             _Root = root;
@@ -27,7 +29,7 @@ namespace Neutronium.Core.Binding.Builder
             if (glue.JSValue != null)
                 return;
 
-            var updater = new JavascriptObjectSynchroneousBuilderAdapter(_Factory, _Cache, glue);
+            var updater = new JavascriptObjectSynchroneousBuilderAdapter(_Factory, _Cache, glue, _NeedToCacheObject);
             updater.ApplyLocalChanges();
             glue.GetChildren().ForEach(VisitUpdate);
             updater.AfterChildrenUpdates();

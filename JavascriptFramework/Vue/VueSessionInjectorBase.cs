@@ -14,6 +14,7 @@ namespace Neutronium.JavascriptFramework.Vue
         public string Name => _VueVersion.Name;
         public string FrameworkVersion => _VueVersion.FrameworkNameVersion;
         public DebugToolsUI DebugToolsUI => _VueVersion.DebugToolsUI;
+        public bool IsMappingObject => false;
 
         private readonly VueVersion _VueVersion;
         private readonly IWebViewCommunication _WebViewCommunication;

@@ -11,14 +11,14 @@ using System.Collections.Specialized;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class JSArray : GlueBase, IJSCSMappedBridge
+    internal class JSArray : GlueBase, IJSCSCachableGlue
     {  
         private readonly Type _IndividualType;
 
         public object CValue { get; }
         public List<IJSCSGlue> Items { get; }     
         public JsCsGlueType Type => JsCsGlueType.Array;
-        public IJavascriptObject CachableJSValue { get; private set;  }
+        public virtual IJavascriptObject CachableJSValue => JSValue;
 
         private uint _JsId;
         public uint JsId => _JsId;
@@ -146,11 +146,6 @@ namespace Neutronium.Core.Binding.GlueObject
         public override IEnumerable<IJSCSGlue> GetChildren()
         {
             return Items;
-        }
-
-        public void SetMappedJSValue(IJavascriptObject jsobject)
-        {
-            CachableJSValue = jsobject;
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

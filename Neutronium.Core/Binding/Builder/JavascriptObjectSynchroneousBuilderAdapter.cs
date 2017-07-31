@@ -13,10 +13,12 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IJSCSGlue _Object;
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
+        private readonly bool _NeedToCacheObject;
         private Action _AfterChildrenUpdates;
 
-        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue @object)
+        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue @object, bool needToCacheObject)
         {
+            _NeedToCacheObject = needToCacheObject;
             _Factory = factory;
             _Cache = cache;
             _Object = @object;
@@ -35,7 +37,7 @@ namespace Neutronium.Core.Binding.Builder
         void IJavascriptObjectBuilder.RequestArrayCreation(IList<IJSCSGlue> children)
         {
             var value = _Factory.CreateArray(children?.Count ?? 0);
-            _Object.SetJSValue(value);
+            SetValue(value);
 
             if (children != null)
                 _AfterChildrenUpdates = () => children.ForEach((child, index) => value.SetValue(index, child.JSValue));
@@ -69,16 +71,26 @@ namespace Neutronium.Core.Binding.Builder
             command.SetValue("CanExecuteValue", _Factory.CreateBool(canExcecute));
             command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
 
-            _Object.SetJSValue(command);
+            SetValue(command);
         }
 
         void IJavascriptObjectBuilder.RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)
         {
             var value = _Factory.CreateObject(!updatableFromJS);
-            _Object.SetJSValue(value);
+            SetValue(value);
 
             if (children != null)
                 _AfterChildrenUpdates = () => children.ForEach((child) => value.SetValue(child.Key, child.Value.JSValue));
+        }
+
+        private void SetValue(IJavascriptObject value)
+        {
+            _Object.SetJSValue(value);
+
+            if (!_NeedToCacheObject)
+                return;
+
+            _Cache.Cache(_Object);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.GlueObject.Mapped;
 
 namespace Neutronium.Core.Binding
 {
@@ -6,7 +7,8 @@ namespace Neutronium.Core.Binding
     {
         internal static IGlueFactory GetFactory(HTMLViewContext context, IJavascriptToCSharpConverter converter)
         {
-            return new GlueFactory(context, converter);
+            var isMapping = context.JavascriptFrameworkIsMappingObject;
+            return isMapping ? (IGlueFactory)new GlueMappingFactory(context, converter) : new GlueFactory(context, converter);
         }
     }
 }

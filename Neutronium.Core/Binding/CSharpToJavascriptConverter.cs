@@ -108,7 +108,10 @@ namespace Neutronium.Core.Binding
             var type = source.GetElementType();
             var basictype = _Context.IsTypeBasic(type) ? type : null;
 
-            var res = new JSArray(source.Cast<object>().Select(s => Map(s)), source, basictype);
+            var res = _GlueFactory.BuildArray(source.Cast<object>().Select(s => Map(s)), source, basictype);
+
+
+
             _Cacher.CacheFromCSharpValue(source, res);
             return res;
         }

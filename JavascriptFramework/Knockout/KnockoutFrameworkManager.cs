@@ -16,6 +16,7 @@ namespace Neutronium.JavascriptFramework.Knockout
         public string FrameworkVersion => "3.3.0";
         public string Name => "KnockoutInjector";
         public DebugToolsUI DebugToolsUI => null;
+        public bool IsMappingObject => true;
 
         public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode) 
         {

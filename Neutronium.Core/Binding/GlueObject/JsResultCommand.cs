@@ -12,17 +12,17 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JsResultCommand : GlueBase, IJSCSMappedBridge
+    internal class JsResultCommand : GlueBase, IJSCSCachableGlue
     {
         private readonly IResultCommand _JSResultCommand;
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private IJavascriptObject _MappedJSValue;
 
-        public IJavascriptObject CachableJSValue => _MappedJSValue;
+        public virtual IJavascriptObject CachableJSValue => JSValue;
         public object CValue => _JSResultCommand;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
-        private IWebView WebView => _HTMLViewContext.WebView;
+        protected IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
 
         private uint _JsId;
@@ -41,13 +41,13 @@ namespace Neutronium.Core.Binding.GlueObject
             builder.RequestObjectCreation();
         }
 
-        public void SetMappedJSValue(IJavascriptObject jsobject)
-        {
-            _MappedJSValue = jsobject;
-            _MappedJSValue.Bind("Execute", WebView, Execute);
-        }
+        //public void SetMappedJSValue(IJavascriptObject jsobject)
+        //{
+        //    _MappedJSValue = jsobject;
+        //    _MappedJSValue.Bind("Execute", WebView, Execute);
+        //}
       
-        private async void Execute(IJavascriptObject[] e)
+        protected async void Execute(IJavascriptObject[] e)
         {
             var argument = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             var promise = (e.Length > 1) ? e[1] : null;

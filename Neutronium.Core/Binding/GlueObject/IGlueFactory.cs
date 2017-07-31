@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Windows.Input;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject
@@ -12,5 +15,7 @@ namespace Neutronium.Core.Binding.GlueObject
         JsResultCommand Build(IResultCommand command);
 
         JsGenericObject Build(object from, int childrenCount);
+
+        JSArray BuildArray(IEnumerable<IJSCSGlue> enumerable, IEnumerable source, Type basictype);
     }
 }

@@ -21,8 +21,6 @@ namespace Neutronium.JavascriptFramework.Knockout
         private bool _PullNextMapper = true;
         private IJavascriptObject _Ko;
 
-        public bool IsMappingObject => true;
-
         public KnockoutSessionInjector(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger)
         {
             _WebView = webView;

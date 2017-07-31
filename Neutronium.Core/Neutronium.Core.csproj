@@ -90,6 +90,12 @@
     <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\GlueObject\IJSCSCachableGlue.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\GlueMappingFactory.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JSMappableArray.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JSMappableCommand.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableSimpleCommand.cs" />
     <Compile Include="Binding\Listeners\IExitContext.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
