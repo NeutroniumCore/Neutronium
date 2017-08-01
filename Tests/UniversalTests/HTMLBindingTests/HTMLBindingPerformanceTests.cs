@@ -11,8 +11,8 @@ using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
 using Xunit.Abstractions;
-using Neutronium.Example.ViewModel.Infra;
 using System.Windows.Input;
+using Tests.Universal.HTMLBindingTests.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
 {
@@ -419,13 +419,13 @@ namespace Tests.Universal.HTMLBindingTests
             return new FakeViewModel(children);
         }
 
-        private class FakeFatherViewModel : ViewModelBase
+        private class FakeFatherViewModel : ViewModelTestBase
         {
             private FakeViewModel _FakeViewModel;
             public FakeViewModel Other
             {
                 get { return _FakeViewModel; }
-                set { Set(ref _FakeViewModel, value, nameof(Other));  }
+                set { Set(ref _FakeViewModel, value); }
             }
         }
 
@@ -447,13 +447,13 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        private class FakeViewModelWithCommands : ViewModelBase
+        private class FakeViewModelWithCommands : ViewModelTestBase
         {
             private ICommand[] _Commands;
             public ICommand[] Commands
             {
                 get { return _Commands; }
-                set { Set(ref _Commands, value, nameof(Commands)); }
+                set { Set(ref _Commands, value); }
             }
         }
     }
