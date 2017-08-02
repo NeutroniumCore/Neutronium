@@ -83,6 +83,7 @@
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
+    <Compile Include="Binding\Builder\CommandCreationRequest.cs" />
     <Compile Include="Binding\Builder\ObjectsCreationRequest.cs" />
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />

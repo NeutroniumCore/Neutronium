@@ -89,6 +89,21 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber);
 
         /// <summary>
+        /// Create IJavascriptObject commands in bulk
+        /// </summary> 
+        /// <param name="canExecuteNumber">
+        /// number of read command with canExecutevalue set as true
+        /// </param>
+        /// <param name="cannotExecuteNumber">
+        /// number of read command with canExecutevalue set as false.
+        /// </param>
+        /// <returns>
+        /// corresponding collection of IJavascriptObject
+        ///</returns>
+        IEnumerable<IJavascriptObject> CreateComands(int canExecuteNumber, int cannotExecuteNumber);
+
+
+        /// <summary>
         /// Create IJavascriptObject object from javascript code
         /// </summary>   
         /// <param name="creationCode">

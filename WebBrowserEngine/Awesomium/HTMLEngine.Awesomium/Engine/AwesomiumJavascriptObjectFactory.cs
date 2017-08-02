@@ -203,5 +203,10 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
          {
              return Awesomium_Core.JSValue.Undefined.Convert();
          }
+
+        public IEnumerable<IJavascriptObject> CreateComands(int canExecuteNumber, int cannotExecuteNumber)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

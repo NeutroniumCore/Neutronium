@@ -193,5 +193,10 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
                 return UpdateObject(res as CefV8_JavascriptObject);
             });
         }
+
+        public IEnumerable<IJavascriptObject> CreateComands(int canExecuteNumber, int cannotExecuteNumber)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

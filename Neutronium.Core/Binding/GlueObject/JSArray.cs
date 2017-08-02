@@ -41,36 +41,36 @@ namespace Neutronium.Core.Binding.GlueObject
             return new CollectionChanges.CollectionChanges(bridge, changes, _IndividualType);
         }
 
-        private void ReplayChanges(IndividualCollectionChange change, IList ilist)
+        private void ReplayChanges(IndividualCollectionChange change, IList list)
         {
             switch (change.CollectionChangeType)
             {
                 case CollectionChangeType.Add:
-                if (change.Index == ilist.Count) 
+                if (change.Index == list.Count) 
                 {
-                    ilist.Add(change.Object.CValue);
+                    list.Add(change.Object.CValue);
                     Items.Add(change.Object);
                 }
                 else 
                 {
-                    ilist.Insert(change.Index, change.Object.CValue);
+                    list.Insert(change.Index, change.Object.CValue);
                     Items.Insert(change.Index, change.Object);
                 }
                 break;
 
                 case CollectionChangeType.Remove:
-                    ilist.RemoveAt(change.Index);
+                    list.RemoveAt(change.Index);
                     Items.RemoveAt(change.Index);
                 break;
             }
         }
 
-        public void UpdateEventArgsFromJavascript(Neutronium.Core.Binding.CollectionChanges.CollectionChanges iCollectionChanges)
+        public void UpdateEventArgsFromJavascript(CollectionChanges.CollectionChanges collectionChanges)
         {
-            var ilist = CValue as IList;
-            if (ilist == null) return;
+            var list = CValue as IList;
+            if (list == null) return;
 
-            iCollectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, ilist));
+            collectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, list));
         }
 
         public BridgeUpdater GetAddUpdater(IJSCSGlue glue, int index)

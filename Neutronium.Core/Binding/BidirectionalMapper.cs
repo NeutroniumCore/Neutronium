@@ -181,7 +181,7 @@ namespace Neutronium.Core.Binding
             var jvm = _SessionCache.GetMapper(root as IJSCSMappedBridge);
             var res = _sessionInjector.Inject(root.JSValue, jvm);
 
-            if ((root.CValue != null) && (res==null))
+            if ((root.CValue != null) && (res == null))
             {
                 throw ExceptionHelper.GetUnexpected();
             }
@@ -394,10 +394,8 @@ namespace Neutronium.Core.Binding
             {
                 _JavascriptObjectBuilder.UpdateJavascriptValue(value);
 
-                if (!value.IsBasic())
-                {
-                    await InjectInHTMLSession(value);
-                }
+                await InjectInHTMLSession(value);
+
                 updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
                 return value;
             });

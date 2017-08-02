@@ -7,9 +7,8 @@ using Chromium.Remote;
 using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
-using Neutronium.WebBrowserEngine.ChromiumFx.V8Object;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
     internal class ChromiumFxFactory : IJavascriptObjectFactory
     {
@@ -22,8 +21,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly Lazy<CfrV8Value> _ObjectBulkBuilder;
         private readonly Lazy<CfrV8Value> _ArrayBulkBuilder;
         private readonly Lazy<CfrV8Value> _BasicBulkBuilder;
+        private readonly Lazy<CfrV8Value> _CommandBulkBuilder;
         private readonly Lazy<CfrV8Value> _ObjectCreationCallbackFunction;
-
+        
         private readonly ChromiumFxObjectCreationCallBack _ObjectCallback = new ChromiumFxObjectCreationCallBack();
 
         private IJavascriptObject _Null;
@@ -36,6 +36,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _ObjectBulkBuilder = new Lazy<CfrV8Value>(ObjectBulkBuilderCreator);
             _ArrayBulkBuilder = new Lazy<CfrV8Value>(ArrayBulkBuilderCreator);
             _BasicBulkBuilder = new Lazy<CfrV8Value>(BasicBulkBuilderCreator);
+            _CommandBulkBuilder = new Lazy<CfrV8Value>(CommandBulkBuilderCreator);
+            
             _ObjectCreationCallbackFunction = new Lazy<CfrV8Value>(ObjectCreationCallbackFunctionCreator);
         }
 
@@ -77,6 +79,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                         fn.apply(null, subArray)
                     }
                 }
+                function Command(id, canExecuteValue) {
+                    Object.defineProperty(this, '{{NeutroniumConstants.ObjectId}}', {value: id});
+                    Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: true});
+                    this.CanExecuteCount = 1;
+                    this.CanExecuteValue = canExecuteValue;
+                }
                 function objectWithId(id, readOnly){
                     Object.defineProperty(this, '{{NeutroniumConstants.ObjectId}}', {value: id});
                     Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: readOnly});
@@ -112,11 +120,24 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     }
                     pushResult(fn, array)
                 }
+                function pushCommands(array, id, number, canExecute){
+                    for (var i = 0; i < number; i++) {
+                        array.push(new Command(id++, canExecute))
+                    }
+                    return id;
+                }
+                function createBulkCommand(id, canExecuteNumber, cannotExecuteNumber,  fn){
+                    const array = []
+                    id = pushCommands(array, id, canExecuteNumber, true)
+                    pushCommands(array, id, cannotExecuteNumber, false)
+                    pushResult(fn, array)
+                }
                 return {
                     createObject,
                     createBulkObject,
                     createBulkArray,
-                    createBulkBasic
+                    createBulkBasic,
+                    createBulkCommand
                 };
             }())";
 
@@ -131,6 +152,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private CfrV8Value ObjectBulkBuilderCreator() => GetProperty("createBulkObject");
         private CfrV8Value ArrayBulkBuilderCreator() => GetProperty("createBulkArray");
         private CfrV8Value BasicBulkBuilderCreator() => GetProperty("createBulkBasic");
+        private CfrV8Value CommandBulkBuilderCreator() => GetProperty("createBulkCommand");
 
         private CfrV8Value ObjectCreationCallbackFunctionCreator()
         {
@@ -203,6 +225,18 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 CfrV8Value.CreateInt((int)_Count),
                 CfrV8Value.CreateInt(readWriteNumber),
                 CfrV8Value.CreateInt(readOnlyNumber),
+                _ObjectCreationCallbackFunction.Value
+            });
+            var results = _ObjectCallback.GetLastArguments();
+            return results.Select(result => result.ConvertObject(_Count++));
+        }
+
+        public IEnumerable<IJavascriptObject> CreateComands(int canExecuteNumber, int cannotExecuteNumber)
+        {
+            _CommandBulkBuilder.Value.ExecuteFunction(null, new[] {
+                CfrV8Value.CreateInt((int)_Count),
+                CfrV8Value.CreateInt(canExecuteNumber),
+                CfrV8Value.CreateInt(cannotExecuteNumber),
                 _ObjectCreationCallbackFunction.Value
             });
             var results = _ObjectCallback.GetLastArguments();
