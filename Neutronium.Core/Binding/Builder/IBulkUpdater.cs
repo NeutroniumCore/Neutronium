@@ -6,6 +6,7 @@ namespace Neutronium.Core.Binding.Builder
     internal interface IBulkUpdater
     {
         IJavascriptObject CommandConstructor { get; }
+        IJavascriptObject ExecutableConstructor { get; }
 
         void BulkUpdateProperty(IEnumerable<EntityDescriptor<string>> updates);
 

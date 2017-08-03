@@ -9,7 +9,7 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JsSimpleCommand : GlueBase, IJSCSCachableGlue
+    public class JsSimpleCommand : GlueBase, IJSCSCachableGlue, IExecutableGlue
     {
         private readonly ISimpleCommand _JSSimpleCommand;
         private readonly HTMLViewContext _HTMLViewContext;
@@ -32,12 +32,18 @@ namespace Neutronium.Core.Binding.GlueObject
             _JSSimpleCommand = simpleCommand;
         }
 
+        public void UpdateJsObject(IJavascriptObject javascriptObject)
+        {
+            IExecutableGlue executable = this;
+            javascriptObject.Bind("Execute", WebView, executable.Execute);
+        }
+
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            builder.RequestObjectCreation();
+            builder.RequestExecutableCreation();
         }
     
-        protected void Execute(IJavascriptObject[] e)
+        void IExecutableGlue.Execute(IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             UIDispatcher.RunAsync(() => _JSSimpleCommand.Execute(parameter));

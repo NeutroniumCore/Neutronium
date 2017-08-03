@@ -12,7 +12,7 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class JsResultCommand : GlueBase, IJSCSCachableGlue
+    internal class JsResultCommand : GlueBase, IJSCSCachableGlue, IExecutableGlue
     {
         private readonly IResultCommand _JSResultCommand;
         private readonly HTMLViewContext _HTMLViewContext;
@@ -35,12 +35,18 @@ namespace Neutronium.Core.Binding.GlueObject
             _JSResultCommand = resultCommand;
         }
 
+        public void UpdateJsObject(IJavascriptObject javascriptObject)
+        {
+            IExecutableGlue executable = this;
+            javascriptObject.Bind("Execute", WebView, executable.Execute);
+        }
+
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            builder.RequestObjectCreation();
+            builder.RequestExecutableCreation();
         }
       
-        protected async void Execute(IJavascriptObject[] e)
+        async void IExecutableGlue.Execute(IJavascriptObject[] e)
         {
             var argument = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             var promise = (e.Length > 1) ? e[1] : null;

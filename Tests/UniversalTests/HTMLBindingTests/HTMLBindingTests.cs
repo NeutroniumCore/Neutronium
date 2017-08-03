@@ -1624,7 +1624,8 @@ namespace Tests.Universal.HTMLBindingTests
                     var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
                     await Task.Delay(100);
-                    function.Received(1).Invoke(25);
+
+                    DoSafeUI(() => function.Received(1).Invoke(25));
 
                     await Task.Yield();
 
@@ -1666,7 +1667,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
                     await Task.Delay(100);
-                    function.Received(1).Invoke(25);
+                    DoSafeUI(() => function.Received(1).Invoke(25));
 
                     await Task.Yield();
 
@@ -1681,16 +1682,9 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        //private IJavascriptObject UnWrapCollection(IJavascriptObject root, string att)
-        //{
-        //    return root.Invoke(att, this._WebView).ExecuteFunction(_WebView);
-        //    return 
-        //}
-
         [Fact]
         public async Task TwoWay_Collection()
         {
-
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),

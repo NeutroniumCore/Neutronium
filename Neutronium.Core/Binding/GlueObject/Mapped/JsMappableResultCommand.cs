@@ -1,6 +1,5 @@
 ﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
-using Neutronium.Core.Extension;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
@@ -11,9 +10,9 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
         public override IJavascriptObject CachableJSValue => _MappedJSValue;
 
         public void SetMappedJSValue(IJavascriptObject jsobject)
-        {
+        {         
             _MappedJSValue = jsobject;
-            _MappedJSValue.Bind("Execute", WebView, Execute);
+            UpdateJsObject(_MappedJSValue);
         }
 
         public JsMappableResultCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)

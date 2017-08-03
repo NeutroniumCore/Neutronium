@@ -1,6 +1,5 @@
 ﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Windows.Input;
-using Neutronium.Core.Extension;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
@@ -13,8 +12,7 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
         public void SetMappedJSValue(IJavascriptObject jsobject)
         {
             _MappedJSValue = jsobject;
-            _MappedJSValue.Bind("Execute", WebView, ExecuteCommand);
-            _MappedJSValue.Bind("CanExecute", WebView, CanExecuteCommand);
+            UpdateJsObject(_MappedJSValue);
         }
 
         public JSMappableCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command):

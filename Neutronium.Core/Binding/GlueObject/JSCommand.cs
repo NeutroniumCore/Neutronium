@@ -11,7 +11,7 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JSCommand : GlueBase, IJSCSCachableGlue
+    public class JSCommand : GlueBase, IJSCSCachableGlue, IExecutableGlue
     {
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
@@ -44,6 +44,12 @@ namespace Neutronium.Core.Binding.GlueObject
             catch { }
         }
 
+        public void UpdateJsObject(IJavascriptObject javascriptObject)
+        {
+            javascriptObject.Bind("Execute", WebView, Execute);
+            javascriptObject.Bind("CanExecute", WebView, CanExecuteCommand);
+        }
+
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
             builder.RequestCommandCreation(_InitialCanExecute);
@@ -59,7 +65,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _Command.CanExecuteChanged -= Command_CanExecuteChanged;
         }
 
-        internal void ExecuteCommand(params IJavascriptObject[] e)
+        public void Execute(IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             UIDispatcher.RunAsync(() => _Command.Execute(parameter));

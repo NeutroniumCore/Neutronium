@@ -65,13 +65,31 @@ namespace Neutronium.Core.Binding.Builder
             _Cache.Cache(_Object);
         }
 
-        void IJavascriptObjectBuilder.RequestCommandCreation(bool canExcecute)
+        void IJavascriptObjectBuilder.RequestCommandCreation(bool canExecute)
         {
             var command = _Factory.CreateObject(true);
-            command.SetValue("CanExecuteValue", _Factory.CreateBool(canExcecute));
+            command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));
             command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
-
             SetValue(command);
+
+            UpdateExecutable(command);
+        }
+
+        void IJavascriptObjectBuilder.RequestExecutableCreation()
+        {
+            var executable = _Factory.CreateObject(true);
+            SetValue(executable);
+
+            UpdateExecutable(executable);
+        }
+
+        private void UpdateExecutable(IJavascriptObject @object)
+        {
+            if (_Mapping)
+                return;
+
+            var executable = _Object as IExecutableGlue;
+            executable?.UpdateJsObject(@object);
         }
 
         void IJavascriptObjectBuilder.RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)

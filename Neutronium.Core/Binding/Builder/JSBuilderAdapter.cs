@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core.Binding.Builder
@@ -32,6 +33,11 @@ namespace Neutronium.Core.Binding.Builder
         public void RequestCommandCreation(bool canExcecute)
         {
             _JavascriptObjectBuilder.RequestCommandCreation(_Object, canExcecute);
+        }
+
+        public void RequestExecutableCreation()
+        {
+            _JavascriptObjectBuilder.RequestExecutableCreation(_Object);
         }
 
         public void RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)
