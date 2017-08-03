@@ -31,7 +31,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <returns>
         /// IJavascriptObjects created
         ///</returns>
-        IEnumerable<IJavascriptObject> CreateBasics(IReadOnlyList<object> from);
+        IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from);
 
         /// <summary>
         /// Indicates if a type is a basic CLR type which
@@ -89,18 +89,21 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber);
 
         /// <summary>
-        /// Create IJavascriptObject commands in bulk
+        /// Create IJavascriptObject object from constructor
         /// </summary> 
-        /// <param name="canExecuteNumber">
-        /// number of read command with canExecutevalue set as true
+        /// <param name="number">
+        /// number of objects to create
         /// </param>
-        /// <param name="cannotExecuteNumber">
-        /// number of read command with canExecutevalue set as false.
+        /// <param name="constructor">
+        /// constructor object
+        /// </param>
+        /// <param name="parameters">
+        /// constructor parameters
         /// </param>
         /// <returns>
         /// corresponding collection of IJavascriptObject
         ///</returns>
-        IEnumerable<IJavascriptObject> CreateComands(int canExecuteNumber, int cannotExecuteNumber);
+        IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters);
 
 
         /// <summary>

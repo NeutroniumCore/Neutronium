@@ -59,7 +59,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _Command.CanExecuteChanged -= Command_CanExecuteChanged;
         }
 
-        protected void ExecuteCommand(IJavascriptObject[] e)
+        internal void ExecuteCommand(params IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             UIDispatcher.RunAsync(() => _Command.Execute(parameter));
@@ -74,7 +74,7 @@ namespace Neutronium.Core.Binding.GlueObject
             });
         }
 
-        protected async void CanExecuteCommand(IJavascriptObject[] e)
+        internal async void CanExecuteCommand(params IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             var res = await UIDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));

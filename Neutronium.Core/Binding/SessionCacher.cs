@@ -3,6 +3,7 @@ using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
+using System;
 
 namespace Neutronium.Core.Binding
 {
@@ -72,6 +73,11 @@ namespace Neutronium.Core.Binding
         {
             var id = globalkey.GetID();
             return (id == 0) ? null : _FromJavascript_Global.GetOrDefault(id);
+        }
+
+        public IJSCSGlue GetCached(uint id)
+        {
+            return _FromJavascript_Global.GetOrDefault(id);
         }
 
         public IJavascriptObjectInternalMapper GetMapper(IJSCSMappedBridge root)

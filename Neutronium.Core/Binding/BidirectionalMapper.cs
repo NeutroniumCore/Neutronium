@@ -82,7 +82,7 @@ namespace Neutronium.Core.Binding
                 _Context.InitOnJsContext(debugMode);
                 _sessionInjector = _Context.JavascriptSessionInjector;
 
-                _JavascriptObjectBuilder = _Context.WebView.GetBuildingStrategy(_SessionCache, _Context.JavascriptFrameworkIsMappingObject == false);
+                _JavascriptObjectBuilder = _Context.WebView.GetBuildingStrategy(_SessionCache, _Context.JavascriptFrameworkIsMappingObject);
                 _JavascriptObjectBuilder.UpdateJavascriptValue(_Root);
 
                 var res = await InjectInHTMLSession(_Root);

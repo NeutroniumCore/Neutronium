@@ -7,18 +7,18 @@ namespace Neutronium.Core.Binding.Builder
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptSessionCache _Cache;
-        private readonly bool _NeedToCacheObject;
+        private readonly bool _Mapping;
 
-        public JavascriptObjectSynchroneousBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool needToCacheObject)
+        public JavascriptObjectSynchroneousBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
         {
             _WebView = webView;
             _Cache = cache;
-            _NeedToCacheObject = needToCacheObject;
+            _Mapping = mapping;
         }
 
         public void UpdateJavascriptValue(IJSCSGlue root)
         {
-            var builder = new JavascriptObjectSynchroneousBuilder(_WebView.Factory, _Cache, root, _NeedToCacheObject);
+            var builder = new JavascriptObjectSynchroneousBuilder(_WebView.Factory, _Cache, root, _Mapping);
             builder.UpdateJavascriptValue();
         }
     }

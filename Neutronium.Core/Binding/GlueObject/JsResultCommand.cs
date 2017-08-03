@@ -17,7 +17,6 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly IResultCommand _JSResultCommand;
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
-        private IJavascriptObject _MappedJSValue;
 
         public virtual IJavascriptObject CachableJSValue => JSValue;
         public object CValue => _JSResultCommand;

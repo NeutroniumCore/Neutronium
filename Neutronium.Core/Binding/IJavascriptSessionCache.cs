@@ -18,5 +18,7 @@ namespace Neutronium.Core.Binding
         IJSCSGlue GetCached(object key);
 
         IJSCSGlue GetCached(IJavascriptObject globalkey);
+
+        IJSCSGlue GetCached(uint id);
     }
 }

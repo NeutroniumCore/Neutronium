@@ -92,6 +92,7 @@
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\GlueObject\IJSCSCachableGlue.cs" />
     <Compile Include="Binding\GlueObject\Mapped\GlueMappingFactory.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\IExecutableGlue.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JSMappableArray.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JSMappableCommand.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />

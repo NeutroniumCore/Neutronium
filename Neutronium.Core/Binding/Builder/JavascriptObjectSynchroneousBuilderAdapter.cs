@@ -13,12 +13,12 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IJSCSGlue _Object;
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
-        private readonly bool _NeedToCacheObject;
+        private readonly bool _Mapping;
         private Action _AfterChildrenUpdates;
 
-        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue @object, bool needToCacheObject)
+        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue @object, bool mapping)
         {
-            _NeedToCacheObject = needToCacheObject;
+            _Mapping = mapping;
             _Factory = factory;
             _Cache = cache;
             _Object = @object;
@@ -87,7 +87,7 @@ namespace Neutronium.Core.Binding.Builder
         {
             _Object.SetJSValue(value);
 
-            if (!_NeedToCacheObject)
+            if (_Mapping)
                 return;
 
             _Cache.Cache(_Object);

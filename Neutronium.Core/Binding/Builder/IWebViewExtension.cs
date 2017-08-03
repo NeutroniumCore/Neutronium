@@ -8,10 +8,10 @@ namespace Neutronium.Core.Binding.Builder
         /// <summary>
         ///  returns javascript building strategy
         /// </summary>
-        public static IJavascriptObjectBuilderStrategy GetBuildingStrategy(this IWebView @this, IJavascriptSessionCache cache, bool needToCacheObject)
+        public static IJavascriptObjectBuilderStrategy GetBuildingStrategy(this IWebView @this, IJavascriptSessionCache cache, bool mapping)
         {
-            return @this.AllowBulkCreation ? (IJavascriptObjectBuilderStrategy)new JavascriptObjectBulkBuilderStrategy(@this, cache, needToCacheObject) :
-                                             new JavascriptObjectSynchroneousBuilderStrategy(@this, cache, needToCacheObject);
+            return @this.AllowBulkCreation ? (IJavascriptObjectBuilderStrategy)new JavascriptObjectBulkBuilderStrategy(@this, cache, mapping) :
+                                             new JavascriptObjectSynchroneousBuilderStrategy(@this, cache, mapping);
         }
     }
 }

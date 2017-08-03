@@ -1,31 +1,23 @@
 ﻿using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
-using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
     internal class CommandCreationRequest
     {
-        public int CanExecuteNumber { get; private set; }
-        public int CanNotExecuteNumber => _CommandBuildingRequested.Count - CanExecuteNumber;
-
-        //private readonly List<IJSCSGlue> _CommandExecutableBuildingRequested = new List<IJSCSGlue>();
-        //private readonly List<IJSCSGlue> _CommandNotExecutableBuildingRequested = new List<IJSCSGlue>();
-
-        private readonly LinkedList<IJSCSGlue> _CommandBuildingRequested = new LinkedList<IJSCSGlue>();
+        internal IList<IJSCSGlue> CommandExecutableBuildingRequested { get; } = new List<IJSCSGlue>();
+        internal IList<IJSCSGlue> CommandNotExecutableBuildingRequested { get; } = new List<IJSCSGlue>();
 
         public void AddRequest(IJSCSGlue commandGlue, bool canExecute)
         {
-            if (!canExecute)
+            if (canExecute)
             {
-                _CommandBuildingRequested.AddLast(commandGlue);
-                return;
+                CommandExecutableBuildingRequested.Add(commandGlue);
             }
-
-            _CommandBuildingRequested.AddFirst(commandGlue);
-            CanExecuteNumber += 1;
+            else
+            {
+                CommandNotExecutableBuildingRequested.Add(commandGlue);
+            }
         }
-
-        internal IEnumerable<IJSCSGlue> GetElements() => _CommandBuildingRequested;
     }
 }

@@ -12,9 +12,9 @@ namespace Neutronium.Core.Binding.Builder
     {
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
-        private readonly IBulkUpdater _BulkPropertyUpdater;
+        private readonly IBulkUpdater _BulkUpdater;
         private readonly IJSCSGlue _Root;
-        private readonly bool _NeedToCacheObject;
+        private readonly bool _Mapping;
 
         private readonly ObjectsCreationRequest _ObjectsCreationRequest = new ObjectsCreationRequest();
         private readonly CommandCreationRequest _CommandCreationRequest = new CommandCreationRequest();
@@ -22,13 +22,13 @@ namespace Neutronium.Core.Binding.Builder
         private readonly List<IJSCSGlue> _BasicObjectsToCreate = new List<IJSCSGlue>();
 
         public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
-            IJSCSGlue root, bool needToCacheObject)
+            IJSCSGlue root, bool mapping)
         {
-            _NeedToCacheObject = needToCacheObject;
+            _Mapping = mapping;
             _Factory = factory;
             _Cache = cache;
             _Root = root;
-            _BulkPropertyUpdater = bulkPropertyUpdater;
+            _BulkUpdater = bulkPropertyUpdater;
         }
 
         public void UpdateJavascriptValue()
@@ -71,15 +71,33 @@ namespace Neutronium.Core.Binding.Builder
 
         internal void RequestCommandCreation(IJSCSGlue glueObject, bool canExecute)
         {
-            _CommandCreationRequest.AddRequest(glueObject, canExecute);
+            if (!_Mapping)
+            {
+                _CommandCreationRequest.AddRequest(glueObject, canExecute);
+                return;
+            }
+
+            var command = _Factory.CreateObject(true);
+            command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));
+            command.SetValue("CanExecuteCount", _Factory.CreateInt(1));           
         }
 
         private void CreateObjects()
         {
-            BulkCreate( () => _Factory.CreateBasics(_BasicObjectsToCreate.Select(glue => glue.CValue).ToList()), _BasicObjectsToCreate, false);
-            BulkCreate( () => _Factory.CreateObjects(_ObjectsCreationRequest.ReadWriteNumber, _ObjectsCreationRequest.ReadOnlyNumber), _ObjectsCreationRequest.GetElements(), _NeedToCacheObject);
-            BulkCreate( () => _Factory.CreateArrays(_ArraysBuildingRequested.Count), _ArraysBuildingRequested.Select(item => item.Father), _NeedToCacheObject);
-            BulkCreate( () => _Factory.CreateComands(_CommandCreationRequest.CanExecuteNumber, _CommandCreationRequest.CanNotExecuteNumber), _CommandCreationRequest.GetElements(), _NeedToCacheObject);
+            BulkCreate( () => _Factory.CreateBasics(_BasicObjectsToCreate.Select(glue => glue.CValue)), _BasicObjectsToCreate, false);
+            BulkCreate( () => _Factory.CreateObjects(_ObjectsCreationRequest.ReadWriteNumber, _ObjectsCreationRequest.ReadOnlyNumber), _ObjectsCreationRequest.GetElements(), !_Mapping);
+            BulkCreate( () => _Factory.CreateArrays(_ArraysBuildingRequested.Count), _ArraysBuildingRequested.Select(item => item.Father), !_Mapping);
+
+            if (_Mapping)
+                return;
+
+            BulkCreateCommand( _CommandCreationRequest.CommandExecutableBuildingRequested, true);
+            BulkCreateCommand( _CommandCreationRequest.CommandNotExecutableBuildingRequested, false);
+        }
+
+        private void BulkCreateCommand(IList<IJSCSGlue> commands, bool canExecute)
+        {
+            BulkCreate(() => _Factory.CreateObjectsFromContructor(commands.Count, _BulkUpdater.CommandConstructor, _Factory.CreateBool(canExecute)), commands, true);
         }
 
         private void UpdateDependencies()
@@ -91,32 +109,29 @@ namespace Neutronium.Core.Binding.Builder
         private void UpdateObjects()
         {
             var toBeUpdated = _ObjectsCreationRequest.GetElementWithProperty();          
-            _BulkPropertyUpdater.BulkUpdateProperty(toBeUpdated);
+            _BulkUpdater.BulkUpdateProperty(toBeUpdated);
         }
 
         private void UpdateArrays()
         {
             var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Length > 0);
-            _BulkPropertyUpdater.BulkUpdateArray(toBeUpdated);
+            _BulkUpdater.BulkUpdateArray(toBeUpdated);
         }
 
         private void BulkCreate(Func<IEnumerable<IJavascriptObject>> builder, IEnumerable<IJSCSGlue> glues, bool register)
         {
             var objects = builder();
 
-            if (register)
+            if (!register)
             {
-                glues.ZipForEach(objects, (glue , @object) =>
-                {
-                    glue.SetJSValue(@object);
-                    _Cache.Cache(glue);
-                });
+                glues.ZipForEach(objects, (glue, @object) => glue.SetJSValue(@object));
                 return;
             }
 
             glues.ZipForEach(objects, (glue, @object) =>
             {
                 glue.SetJSValue(@object);
+                _Cache.Cache(glue);
             });
         }
     }
