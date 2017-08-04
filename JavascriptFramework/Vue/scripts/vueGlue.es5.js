@@ -4,11 +4,12 @@
     console.log("VueGlue loaded");
 
     var silenterProperty = '__silenter';
+    var vueVm = null;
 
     function silentChange(father, propertyName, value) {
         var silenter = father[silenterProperty];
         if (silenter) {
-            silenter.silentChange(propertyName, value);
+            silentChangeElement(silenter, propertyName, value);
             return;
         }
         father[propertyName] = value;
@@ -30,44 +31,43 @@
             var silenter = father[silenterProperty];
             if (!silenter) continue;
 
-            silenter.dispose();
+            disposeElement(silenter);
             delete father[silenterProperty];
         }
     }
 
-    var silenterProto = {
-        init: function init(father) {
-            this.father = father;
-            this.listeners = {};
-            return this;
-        },
-        create: function create(propertyName, callback) {
-            var listener = { callback: callback };
-            this.updateListener(listener, propertyName);
-            this.listeners[propertyName] = listener;
-        },
-        updateListener: function updateListener(listener, propertyName) {
-            var _this = this;
+    function silentChangeElement(element, propertyName, value) {
+        var listener = element.listeners[propertyName];
+        listener.watch();
+        element.father[propertyName] = value;
+        updateListenerElement(element, listener, propertyName);
+    }
 
-            listener.watch = vueVm.$watch(function () {
-                return _this.father[propertyName];
-            }, listener.callback);
-        },
-        silentChange: function silentChange(propertyName, value) {
-            var listener = this.listeners[propertyName];
+    function disposeElement(element) {
+        var listeners = element.listeners;
+        for (var property in listeners) {
+            var listener = listeners[property];
             listener.watch();
-            this.father[propertyName] = value;
-            this.updateListener(listener, propertyName);
-        },
-        dispose: function dispose() {
-            var listeners = this.listeners;
-            for (var property in listeners) {
-                var listener = listeners[property];
-                listener.watch();
-            }
-            this.listeners = {};
         }
-    };
+        element.listeners = {};
+    }
+
+    function updateListenerElement(element, listener, propertyName) {
+        listener.watch = vueVm.$watch(function () {
+            return element.father[propertyName];
+        }, listener.callback);
+    }
+
+    function createElement(element, propertyName, callback) {
+        var listener = { callback: callback };
+        updateListenerElement(element, listener, propertyName);
+        element.listeners[propertyName] = listener;
+    }
+
+    function Silenter(father) {
+        this.father = father;
+        this.listeners = {};
+    }
 
     var visited = new Map();
     visited.set(undefined, null);
@@ -100,8 +100,6 @@
             visitObject(value, visit, visitArray);
         }
     }
-
-    var vueVm = null;
 
     function collectionListener(object, observer) {
         return function (changes) {
@@ -155,9 +153,9 @@
         if (!vueVm) return vm;
 
         visitObject(vm, function (father, prop) {
-            father[silenterProperty] || Object.defineProperty(father, silenterProperty, { value: Object.create(silenterProto).init(father), configurable: true });
+            father[silenterProperty] || Object.defineProperty(father, silenterProperty, { value: new Silenter(father), configurable: true });
             var silenter = father[silenterProperty];
-            silenter.create(prop, onPropertyChange(observer, prop, father));
+            createElement(silenter, prop, onPropertyChange(observer, prop, father));
         }, function (array) {
             return updateArray(array, observer);
         });
