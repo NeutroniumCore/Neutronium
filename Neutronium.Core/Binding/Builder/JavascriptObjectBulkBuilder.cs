@@ -1,7 +1,6 @@
 ﻿using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Extension;
-using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;

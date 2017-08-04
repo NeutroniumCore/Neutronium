@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core.Binding.Builder
