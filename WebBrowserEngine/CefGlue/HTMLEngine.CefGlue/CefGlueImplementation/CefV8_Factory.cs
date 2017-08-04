@@ -211,9 +211,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return _CefV8_WebView.Evaluate(() =>
             {
                 IJavascriptObject res;
-
                 _CefV8_WebView.Eval(iCreationCode, out res);
-
                 return UpdateObject(res as CefV8_JavascriptObject);
             });
         }

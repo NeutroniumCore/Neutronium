@@ -49,8 +49,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MoreCollection, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MoreCollection.1.0.6\lib\net45\MoreCollection.dll</HintPath>
+    <Reference Include="MoreCollection, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MoreCollection.1.1.0\lib\net45\MoreCollection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -208,7 +208,6 @@
     <Content Include="DebugTools\About\fee66e712a8a08eef5805a46892932ad.woff">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
     <Content Include="DebugTools\Toolbar\674f50d287a8c48dc19ba404d20fe713.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -221,6 +220,7 @@
     <Content Include="DebugTools\Toolbar\fee66e712a8a08eef5805a46892932ad.woff">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
