@@ -37,15 +37,39 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             Register<DateTime>(CefV8Value.CreateDate);
         }
 
-        
-        private static void Register<T>(Func<T, CefV8Value> Factory)
-        {
-            _Converters.Add(typeof(T), (o) => Factory((T)o));
-        }
+        private readonly Lazy<CefV8Value> _ObjectWithConstructorBuilder;
 
         public CefV8_Factory(IWebView iCefV8_WebView)
         {
             _CefV8_WebView = iCefV8_WebView;
+            _ObjectWithConstructorBuilder = new Lazy<CefV8Value>(GetObjectWithConstructorBuilder);
+        }
+
+        private CefV8Value GetObjectWithConstructorBuilder()
+        {
+            var builderScript = @"(function(){
+                function createObjectWithConstructor(id, constructor){
+                    const allArgs = Array.from(arguments)
+                    const args = allArgs.slice(2)
+                    return new constructor(id, ...args)
+                }
+                return {
+                    createObjectWithConstructor
+                };
+            }())";
+            return Eval(builderScript).GetValue("createObjectWithConstructor");
+        }
+
+        private CefV8Value Eval(string code)
+        {
+            IJavascriptObject res;
+            _CefV8_WebView.Eval(code, out res);
+            return res.Convert();
+        }
+
+        private static void Register<T>(Func<T, CefV8Value> Factory)
+        {
+            _Converters.Add(typeof(T), (o) => Factory((T)o));
         }
 
         public bool CreateBasic(object ifrom, out IJavascriptObject res)
@@ -61,7 +85,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return true;
         }
 
-        public IEnumerable<IJavascriptObject> CreateBasics(IReadOnlyList<object> from)
+        public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
         {
             foreach (var @object in from)
             {
@@ -187,11 +211,24 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return _CefV8_WebView.Evaluate(() =>
             {
                 IJavascriptObject res;
-
                 _CefV8_WebView.Eval(iCreationCode, out res);
-
                 return UpdateObject(res as CefV8_JavascriptObject);
             });
+        }
+
+        public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
+        {
+            var builder = _ObjectWithConstructorBuilder.Value;
+            for (var i = 0; i < number; i++)
+            {
+                var args = new List<CefV8Value>()
+                {
+                    CefV8Value.CreateInt((int)_Count++),
+                    constructor.Convert()
+                };
+                var command = builder.ExecuteFunction(null, args.Concat(parameters.Select(p => p.Convert())).ToArray());
+                yield return UpdateObject(command);
+            }
         }
     }
 }

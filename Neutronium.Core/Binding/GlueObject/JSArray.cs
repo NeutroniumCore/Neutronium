@@ -11,18 +11,18 @@ using System.Collections.Specialized;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class JSArray : GlueBase, IJSObservableBridge
+    internal class JSArray : GlueBase, IJSCSCachableGlue
     {  
         private readonly Type _IndividualType;
 
         public object CValue { get; }
         public List<IJSCSGlue> Items { get; }     
         public JsCsGlueType Type => JsCsGlueType.Array;
-        public IJavascriptObject MappedJSValue { get; private set;  }
+        public virtual IJavascriptObject CachableJSValue => JSValue;
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJSObservableBridge.SetJsId(uint jsId) => _JsId = jsId;
+        void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
         public JSArray(IEnumerable<IJSCSGlue> values, IEnumerable collection, Type individual)
         {
@@ -41,36 +41,36 @@ namespace Neutronium.Core.Binding.GlueObject
             return new CollectionChanges.CollectionChanges(bridge, changes, _IndividualType);
         }
 
-        private void ReplayChanges(IndividualCollectionChange change, IList ilist)
+        private void ReplayChanges(IndividualCollectionChange change, IList list)
         {
             switch (change.CollectionChangeType)
             {
                 case CollectionChangeType.Add:
-                if (change.Index == ilist.Count) 
+                if (change.Index == list.Count) 
                 {
-                    ilist.Add(change.Object.CValue);
+                    list.Add(change.Object.CValue);
                     Items.Add(change.Object);
                 }
                 else 
                 {
-                    ilist.Insert(change.Index, change.Object.CValue);
+                    list.Insert(change.Index, change.Object.CValue);
                     Items.Insert(change.Index, change.Object);
                 }
                 break;
 
                 case CollectionChangeType.Remove:
-                    ilist.RemoveAt(change.Index);
+                    list.RemoveAt(change.Index);
                     Items.RemoveAt(change.Index);
                 break;
             }
         }
 
-        public void UpdateEventArgsFromJavascript(Neutronium.Core.Binding.CollectionChanges.CollectionChanges iCollectionChanges)
+        public void UpdateEventArgsFromJavascript(CollectionChanges.CollectionChanges collectionChanges)
         {
-            var ilist = CValue as IList;
-            if (ilist == null) return;
+            var list = CValue as IList;
+            if (list == null) return;
 
-            iCollectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, ilist));
+            collectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, list));
         }
 
         public BridgeUpdater GetAddUpdater(IJSCSGlue glue, int index)
@@ -108,22 +108,22 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number, IJSCSGlue glue)
         {
-            viewModelUpdater?.SpliceCollection(MappedJSValue, index, number, glue.GetJSSessionValue());
+            viewModelUpdater?.SpliceCollection(CachableJSValue, index, number, glue.GetJSSessionValue());
         }
 
         private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number)
         {
-            viewModelUpdater?.SpliceCollection(MappedJSValue, index, number);
+            viewModelUpdater?.SpliceCollection(CachableJSValue, index, number);
         }
 
         private void MoveJavascriptCollection(IJavascriptViewModelUpdater viewModelUpdater, IJavascriptObject item, int oldIndex, int newIndex)
         {
-            viewModelUpdater?.MoveCollectionItem(MappedJSValue, item, oldIndex, newIndex);
+            viewModelUpdater?.MoveCollectionItem(CachableJSValue, item, oldIndex, newIndex);
         }
 
         private void ClearAllJavascriptCollection(IJavascriptViewModelUpdater viewModelUpdater)
         {
-            viewModelUpdater?.ClearAllCollection(MappedJSValue);
+            viewModelUpdater?.ClearAllCollection(CachableJSValue);
         }
 
         protected override void ComputeString(DescriptionBuilder context)
@@ -146,11 +146,6 @@ namespace Neutronium.Core.Binding.GlueObject
         public override IEnumerable<IJSCSGlue> GetChildren()
         {
             return Items;
-        }
-
-        public void SetMappedJSValue(IJavascriptObject jsobject)
-        {
-            MappedJSValue = jsobject;
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

@@ -16,7 +16,8 @@ namespace Neutronium.Core.JavascriptFramework
         /// Simple javascript to be mapped
         /// </param>
         /// <param name="mapper">
-        /// Mapper to be used to map the original object and the observable one
+        /// Mapper to be used to map the original object and the observable one.
+        /// Null if IsMappingObject is false
         /// </param>
         /// <returns>
         /// the corresponding observable javascript object

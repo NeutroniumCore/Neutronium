@@ -80,7 +80,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
              return bres;
          }
 
-        public IEnumerable<IJavascriptObject> CreateBasics(IReadOnlyList<object> from)
+        public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
         {
             foreach(var @object in from)
             {
@@ -157,9 +157,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
         }
 
         public IJavascriptObject CreateInt(int value)
-         {
-             return new Awesomium_Core.JSValue(value).Convert();
-         }
+        {
+            return new Awesomium_Core.JSValue(value).Convert();
+        }
 
          public IJavascriptObject CreateDouble(double value)
          {
@@ -203,5 +203,10 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
          {
              return Awesomium_Core.JSValue.Undefined.Convert();
          }
+
+        public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

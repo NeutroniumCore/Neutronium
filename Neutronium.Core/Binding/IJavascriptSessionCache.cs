@@ -5,20 +5,20 @@ namespace Neutronium.Core.Binding
 {
     public interface IJavascriptSessionCache
     {
-        void Cache(object key, IJSCSGlue value);
+        void CacheFromCSharpValue(object key, IJSCSGlue value);
+
+        void Cache(IJSCSGlue value);
+
+        void Cache(IJSCSCachableGlue cachableGlue);
 
         void RemoveFromCSharpToJs(IJSCSGlue value);
 
         void RemoveFromJsToCSharp(IJSCSGlue value);
 
-        void CacheLocal(object key, IJSCSGlue value);
-
         IJSCSGlue GetCached(object key);
 
         IJSCSGlue GetCached(IJavascriptObject globalkey);
 
-        IJSCSGlue GetGlobalCached(IJavascriptObject key);
-
-        IJSCSGlue GetCachedLocal(IJavascriptObject localkey);
+        IJSCSGlue GetCached(uint id);
     }
 }

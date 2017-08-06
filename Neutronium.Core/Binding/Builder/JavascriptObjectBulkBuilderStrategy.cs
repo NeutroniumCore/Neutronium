@@ -5,31 +5,57 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Neutronium.Core.Binding.Builder
 {
     internal class JavascriptObjectBulkBuilderStrategy : IJavascriptObjectBuilderStrategy, IBulkUpdater
     {
+        public IJavascriptObject CommandConstructor => _Factory.Value.CommandConstructor;
+        public IJavascriptObject ExecutableConstructor => _Factory.Value.ExecutableConstructor;
+
         private readonly IWebView _WebView;
         private readonly IJavascriptSessionCache _Cache;
-        private readonly Lazy<IJavascriptObject> _BulkCreator;
-
-        public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache)
+        private readonly Lazy<BulkJsHelper> _Factory;
+        private readonly bool _Mapping;
+        private IJavascriptObject _BulkCreator => _Factory.Value.BulkCreator;
+        
+        public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
         {
+            _Mapping = mapping;
             _WebView = webView;
             _Cache = cache;
-            _BulkCreator = new Lazy<IJavascriptObject>(BulkCreatorBuilder);
+            _Factory = new Lazy<BulkJsHelper>(FactoryBuilder);
         }
 
         public void UpdateJavascriptValue(IJSCSGlue root)
         {
-            var builder = new JavascriptObjectBulkBuilder(_WebView.Factory, _Cache, this, root);
+            var builder = new JavascriptObjectBulkBuilder(_WebView.Factory, _Cache, this, root, _Mapping);
             builder.UpdateJavascriptValue();
         }
 
-        private IJavascriptObject BulkCreatorBuilder()
+        private BulkJsHelper FactoryBuilder()
         {
             var script =
                  @"(function(){
+                    function Command(id, canExecute){
+                        Object.defineProperty(this, '{{NeutroniumConstants.ObjectId}}', {value: id});
+                        Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: true});
+                        this.CanExecuteCount = 1;
+                        this.CanExecuteValue = canExecute;
+                    }
+                    Command.prototype.Execute = function() {
+                        this.privateExecute(this.{{NeutroniumConstants.ObjectId}}, ...arguments)
+                    }
+                    Command.prototype.CanExecute = function() {
+                        this.privateCanExecute(this.{{NeutroniumConstants.ObjectId}}, ...arguments)
+                    }
+                    function Executable(id){
+                        Object.defineProperty(this, '{{NeutroniumConstants.ObjectId}}', {value: id});
+                        Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: true});
+                    }
+                    Executable.prototype.Execute = function() {
+                        this.privateExecute(this.{{NeutroniumConstants.ObjectId}}, ...arguments)
+                    }
                     function bulkCreate(prop){
                         const propss = JSON.parse(prop)
                         const count = propss.count
@@ -54,22 +80,26 @@ namespace Neutronium.Core.Binding.Builder
 		                }
                     }
                     return {
-                        bulkCreate
+                        bulkCreate,
+                        Command,
+                        Executable
                     }
                 })()";
 
             IJavascriptObject helper;
+            script = script.Replace("{{NeutroniumConstants.ObjectId}}", NeutroniumConstants.ObjectId)
+                            .Replace("{{NeutroniumConstants.ReadOnlyFlag}}", NeutroniumConstants.ReadOnlyFlag);
             _WebView.Eval(script, out helper);
-            return helper.GetValue("bulkCreate");
+            return new BulkJsHelper(_Cache, _WebView, helper);
         }
 
-        void IBulkUpdater.BulkUpdateProperty(List<EntityDescriptor<string>> updates)
+        void IBulkUpdater.BulkUpdateProperty(IEnumerable<EntityDescriptor<string>> updates)
         {
             var orderedUpdates = updates.GroupBy(up => up.Father.GetType()).SelectMany(grouped => grouped);
             BulkUpdate(orderedUpdates, key => $@"""{key}""");
         }
 
-        void IBulkUpdater.BulkUpdateArray(List<EntityDescriptor<int>> updates)
+        void IBulkUpdater.BulkUpdateArray(IEnumerable<EntityDescriptor<int>> updates)
         {
             BulkUpdate(updates, key => $"{key}");
         }
@@ -137,7 +167,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void Execute(params IJavascriptObject[] arguments)
         {
-            _BulkCreator.Value.ExecuteFunctionNoResult(_WebView, null, arguments);
+            _BulkCreator.ExecuteFunctionNoResult(_WebView, null, arguments);
         }
     }
 }

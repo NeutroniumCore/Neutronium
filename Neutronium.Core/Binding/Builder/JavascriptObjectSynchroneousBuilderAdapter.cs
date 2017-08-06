@@ -13,10 +13,12 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IJSCSGlue _Object;
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
+        private readonly bool _Mapping;
         private Action _AfterChildrenUpdates;
 
-        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue @object)
+        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue @object, bool mapping)
         {
+            _Mapping = mapping;
             _Factory = factory;
             _Cache = cache;
             _Object = @object;
@@ -35,7 +37,7 @@ namespace Neutronium.Core.Binding.Builder
         void IJavascriptObjectBuilder.RequestArrayCreation(IList<IJSCSGlue> children)
         {
             var value = _Factory.CreateArray(children?.Count ?? 0);
-            _Object.SetJSValue(value);
+            SetValue(value);
 
             if (children != null)
                 _AfterChildrenUpdates = () => children.ForEach((child, index) => value.SetValue(index, child.JSValue));
@@ -60,25 +62,53 @@ namespace Neutronium.Core.Binding.Builder
                 throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
 
             _Object.SetJSValue(_Factory.CreateEnum((Enum)@object));
-            _Cache.CacheLocal(@object, _Object);
+            _Cache.Cache(_Object);
         }
 
-        void IJavascriptObjectBuilder.RequestCommandCreation(bool canExcecute)
+        void IJavascriptObjectBuilder.RequestCommandCreation(bool canExecute)
         {
             var command = _Factory.CreateObject(true);
-            command.SetValue("CanExecuteValue", _Factory.CreateBool(canExcecute));
+            command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));
             command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
+            SetValue(command);
 
-            _Object.SetJSValue(command);
+            UpdateExecutable(command);
+        }
+
+        void IJavascriptObjectBuilder.RequestExecutableCreation()
+        {
+            var executable = _Factory.CreateObject(true);
+            SetValue(executable);
+
+            UpdateExecutable(executable);
+        }
+
+        private void UpdateExecutable(IJavascriptObject @object)
+        {
+            if (_Mapping)
+                return;
+
+            var executable = _Object as IExecutableGlue;
+            executable?.UpdateJsObject(@object);
         }
 
         void IJavascriptObjectBuilder.RequestObjectCreation(IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)
         {
             var value = _Factory.CreateObject(!updatableFromJS);
-            _Object.SetJSValue(value);
+            SetValue(value);
 
             if (children != null)
                 _AfterChildrenUpdates = () => children.ForEach((child) => value.SetValue(child.Key, child.Value.JSValue));
+        }
+
+        private void SetValue(IJavascriptObject value)
+        {
+            _Object.SetJSValue(value);
+
+            if (_Mapping)
+                return;
+
+            _Cache.Cache(_Object);
         }
     }
 }

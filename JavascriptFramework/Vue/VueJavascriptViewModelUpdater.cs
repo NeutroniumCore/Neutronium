@@ -4,7 +4,6 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
 using MoreCollection.Extensions;
-using System.Linq;
 using Neutronium.Core.Extension;
 
 namespace Neutronium.JavascriptFramework.Vue
@@ -15,6 +14,8 @@ namespace Neutronium.JavascriptFramework.Vue
         private readonly IJavascriptObject _Listener;
         private readonly Lazy<IJavascriptObject> _VueHelper;
         private readonly IWebSessionLogger _Logger;
+
+        private readonly Dictionary<string, IJavascriptObject> _properties = new Dictionary<string, IJavascriptObject>();
 
         public VueJavascriptViewModelUpdater(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper, IWebSessionLogger logger)
         {
@@ -49,8 +50,11 @@ namespace Neutronium.JavascriptFramework.Vue
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)
         {
             var functionName = childAllowWrite ? "silentChangeAndInject" : "silentChange";
-            _VueHelper.Value.InvokeNoResult(functionName, _WebView, father, _WebView.Factory.CreateString(propertyName), value, _Listener);
+            var property = _properties.GetOrAddEntity(propertyName, CreateProperty);
+            _VueHelper.Value.InvokeNoResult(functionName, _WebView, father, property, value, _Listener);
         }
+
+        private IJavascriptObject CreateProperty(string propertyName) => _WebView.Factory.CreateString(propertyName);
 
         private void Add(IJavascriptObject array, int index, int number, IJavascriptObject value)
         {

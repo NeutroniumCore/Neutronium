@@ -11,6 +11,8 @@ namespace Neutronium.Core.Binding.Builder
 
         void RequestBasicObjectCreation(object @object);
 
-        void RequestCommandCreation(bool canExcecute);
+        void RequestCommandCreation(bool canExecute);
+
+        void RequestExecutableCreation();
     }
 }

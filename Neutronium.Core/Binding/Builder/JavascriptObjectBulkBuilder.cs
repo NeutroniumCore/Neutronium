@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding.GlueObject;
+﻿using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
@@ -11,20 +12,24 @@ namespace Neutronium.Core.Binding.Builder
     {
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
-        private readonly IBulkUpdater _BulkPropertyUpdater;
+        private readonly IBulkUpdater _BulkUpdater;
         private readonly IJSCSGlue _Root;
+        private readonly bool _Mapping;
 
         private readonly ObjectsCreationRequest _ObjectsCreationRequest = new ObjectsCreationRequest();
+        private readonly CommandCreationRequest _CommandCreationRequest = new CommandCreationRequest();
         private readonly List<EntityDescriptor<int>> _ArraysBuildingRequested = new List<EntityDescriptor<int>>();
         private readonly List<IJSCSGlue> _BasicObjectsToCreate = new List<IJSCSGlue>();
+        private readonly List<IJSCSGlue> _ExecutableObjectsToCreate = new List<IJSCSGlue>();
 
         public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
-            IJSCSGlue root)
+            IJSCSGlue root, bool mapping)
         {
+            _Mapping = mapping;
             _Factory = factory;
             _Cache = cache;
             _Root = root;
-            _BulkPropertyUpdater = bulkPropertyUpdater;
+            _BulkUpdater = bulkPropertyUpdater;
         }
 
         public void UpdateJavascriptValue()
@@ -58,27 +63,56 @@ namespace Neutronium.Core.Binding.Builder
             if (cValue.GetType().IsEnum)
             {
                 glueObject.SetJSValue(_Factory.CreateEnum((Enum)cValue));
-                _Cache.CacheLocal(cValue, glueObject);
+                _Cache.Cache(glueObject);
                 return;
             }
 
             _BasicObjectsToCreate.Add(glueObject);
         }
 
-        internal void RequestCommandCreation(IJSCSGlue glueObject, bool canExcecute)
+        internal void RequestCommandCreation(IJSCSGlue glueObject, bool canExecute)
         {
-            var command = _Factory.CreateObject(true);
-            command.SetValue("CanExecuteValue", _Factory.CreateBool(canExcecute));
-            command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
+            if (!_Mapping)
+            {
+                _CommandCreationRequest.AddRequest(glueObject, canExecute);
+                return;
+            }
 
+            var command = _Factory.CreateObject(true);
+            command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));
+            command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
+            glueObject.SetJSValue(command);
+        }
+
+        internal void RequestExecutableCreation(IJSCSGlue glueObject)
+        {
+            if (!_Mapping)
+            {
+                _ExecutableObjectsToCreate.Add(glueObject);
+                return;
+            }
+
+            var command = _Factory.CreateObject(true);
             glueObject.SetJSValue(command);
         }
 
         private void CreateObjects()
         {
-            BulkCreate(_ => _Factory.CreateBasics(_BasicObjectsToCreate.Select(glue => glue.CValue).ToList()), _BasicObjectsToCreate);
-            BulkCreate(count => _Factory.CreateObjects(_ObjectsCreationRequest.ReadWriteNumber, _ObjectsCreationRequest.ReadOnlyNumber), _ObjectsCreationRequest.GetElements());
-            BulkCreate(count => _Factory.CreateArrays(count), _ArraysBuildingRequested.Select(item => item.Father).ToList());
+            BulkCreate( () => _Factory.CreateBasics(_BasicObjectsToCreate.Select(glue => glue.CValue)), _BasicObjectsToCreate, false);
+            BulkCreate( () => _Factory.CreateObjects(_ObjectsCreationRequest.ReadWriteNumber, _ObjectsCreationRequest.ReadOnlyNumber), _ObjectsCreationRequest.GetElements(), !_Mapping);
+            BulkCreate( () => _Factory.CreateArrays(_ArraysBuildingRequested.Count), _ArraysBuildingRequested.Select(item => item.Father), !_Mapping);
+
+            if (_Mapping)
+                return;
+
+            BulkCreateCommand( _CommandCreationRequest.CommandExecutableBuildingRequested, true);
+            BulkCreateCommand( _CommandCreationRequest.CommandNotExecutableBuildingRequested, false);
+            BulkCreate(() => _Factory.CreateObjectsFromContructor(_ExecutableObjectsToCreate.Count, _BulkUpdater.ExecutableConstructor), _ExecutableObjectsToCreate, true);
+        }
+
+        private void BulkCreateCommand(IList<IJSCSGlue> commands, bool canExecute)
+        {
+            BulkCreate(() => _Factory.CreateObjectsFromContructor(commands.Count, _BulkUpdater.CommandConstructor, _Factory.CreateBool(canExecute)), commands, true);
         }
 
         private void UpdateDependencies()
@@ -90,26 +124,30 @@ namespace Neutronium.Core.Binding.Builder
         private void UpdateObjects()
         {
             var toBeUpdated = _ObjectsCreationRequest.GetElementWithProperty();          
-            _BulkPropertyUpdater.BulkUpdateProperty(toBeUpdated);
+            _BulkUpdater.BulkUpdateProperty(toBeUpdated);
         }
 
         private void UpdateArrays()
         {
-            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Length > 0).ToList();
-            _BulkPropertyUpdater.BulkUpdateArray(toBeUpdated);
+            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Length > 0);
+            _BulkUpdater.BulkUpdateArray(toBeUpdated);
         }
 
-        private static void BulkCreate(Func<int, IEnumerable<IJavascriptObject>> builder, List<IJSCSGlue> glues)
+        private void BulkCreate(Func<IEnumerable<IJavascriptObject>> builder, IEnumerable<IJSCSGlue> glues, bool register)
         {
-            var objectCount = glues.Count;
-            if (objectCount == 0)
-                return;
+            var objects = builder();
 
-            var objects = builder(objectCount).ToList();
-            for (var i = 0; i < objectCount; i++)
+            if (!register)
             {
-                glues[i].SetJSValue(objects[i]);
+                glues.ZipForEach(objects, (glue, @object) => glue.SetJSValue(@object));
+                return;
             }
+
+            glues.ZipForEach(objects, (glue, @object) =>
+            {
+                glue.SetJSValue(@object);
+                _Cache.Cache(glue);
+            });
         }
     }
 }

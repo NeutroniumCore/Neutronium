@@ -11,23 +11,23 @@ using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
 using Xunit.Abstractions;
-using Neutronium.Example.ViewModel.Infra;
 using System.Windows.Input;
+using Tests.Universal.HTMLBindingTests.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public abstract class HTMLBindingPerformanceTests : HTMLBindingBase
+    public abstract class HTMLBindingPerformanceTests : HTMLBindingBase 
     {
         private const string PlateformDependant = "Plateform Dependant";
-        private readonly Dictionary<TestPerformanceKind, int> _ExpectedTimeInMilliSeconds;
+        private readonly Dictionary<TestPerformanceKind, int> _ExpectedTimeInMilliSeconds; 
         protected HTMLBindingPerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds) : base(testEnvironment, output)
         {
             _ExpectedTimeInMilliSeconds = expectedTimeInMilliSeconds;
         }
 
-        private class TwoList
+        private class TwoList 
         {
-            public TwoList()
+            public TwoList() 
             {
                 L1 = new List<Skill>();
                 L2 = new List<Skill>();
@@ -36,37 +36,37 @@ namespace Tests.Universal.HTMLBindingTests
             public List<Skill> L2 { get; }
         }
 
-        private void CheckVsExpectation(long value, TestPerformanceKind context)
-        {
+        private void CheckVsExpectation(long value, TestPerformanceKind context) 
+        {           
             var expected = GetExpected(context);
             _Logger.Info($"Time expectation for the task: {expected}");
             TimeSpan.FromMilliseconds(value).Should().BeLessThan(expected);
         }
 
-        private TimeSpan GetExpected(TestPerformanceKind context)
+        private TimeSpan GetExpected(TestPerformanceKind context) 
         {
-            return TimeSpan.FromMilliseconds(_ExpectedTimeInMilliSeconds[context]);
+            return TimeSpan.FromMilliseconds(_ExpectedTimeInMilliSeconds[context]);  
         }
 
         [Fact(Skip = PlateformDependant)]
-        public Task Stress_TwoWay_Collection_CreateBinding()
+        public Task Stress_TwoWay_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.TwoWay, TestPerformanceKind.TwoWay_Collection_CreateBinding, TestContext.Simple);
         }
 
         [Fact(Skip = PlateformDependant)]
-        public Task Stress_OneWay_Collection_CreateBinding()
+        public Task Stress_OneWay_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneWay, TestPerformanceKind.OneWay_Collection_CreateBinding, TestContext.Simple);
         }
 
         [Fact(Skip = PlateformDependant)]
-        public Task Stress_OneTime_Collection_CreateBinding()
+        public Task Stress_OneTime_Collection_CreateBinding() 
         {
             return Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode.OneTime, TestPerformanceKind.OneTime_Collection_CreateBinding, TestContext.Simple);
         }
 
-        public Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, TestPerformanceKind context, TestContext ipath = TestContext.Index)
+        public Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, TestPerformanceKind context, TestContext ipath = TestContext.Index) 
         {
             int r = 100;
             var datacontext = new TwoList();
@@ -75,15 +75,15 @@ namespace Tests.Universal.HTMLBindingTests
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var test = new TestInContext()
+            var test = new TestInContext() 
             {
                 Path = ipath,
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, imode),
-                Test = (mb) =>
+                Test = (mb) => 
                 {
                     stopWatch.Stop();
                     var ts = stopWatch.ElapsedMilliseconds;
-                    _Logger.Info($"Perf: {((double)(ts)) / 1000} sec for {r} iterations");
+                    _Logger.Info($"Perf: {((double) (ts)) / 1000} sec for {r} iterations");
 
                     var js = mb.JSRootObject;
 
@@ -97,33 +97,33 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact(Skip = PlateformDependant)]
-        public async Task Bind_ShouldBeRobust()
+        public async Task Bind_ShouldBeRobust() 
         {
-            var test = new TestInContext()
+            var test = new TestInContext() 
             {
-                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = _ => { }
+                Bind = (win) => HTML_Binding.Bind(win,  _DataContext, JavascriptBindingMode.TwoWay),
+                Test = _ =>  { }
             };
 
-            for (var i = 0; i < 150; i++)
+            for (var i = 0; i < 150; i++) 
             {
                 _Logger.Info($"Runing interaction {i}");
-                await RunAsync(test);
-            }
+                 await RunAsync(test);
+            }    
         }
 
         [Fact(Skip = PlateformDependant)]
-        public async Task Stress_Collection_Update_From_Javascript()
+        public async Task Stress_Collection_Update_From_Javascript() 
         {
             int r = 100;
             var datacontext = new TwoList();
             datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Path = TestContext.Simple,
                 Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JSRootObject;
 
@@ -146,7 +146,7 @@ namespace Tests.Universal.HTMLBindingTests
                     stopWatch.Start();
 
                     DoSafe(() => Call(_WebView.GetGlobal(), "app", col1, l2c));
-                    while (notok)
+                    while (notok) 
                     {
                         await Task.Delay(100);
                         notok = datacontext.L2.Count != r;
@@ -154,7 +154,7 @@ namespace Tests.Universal.HTMLBindingTests
                     stopWatch.Stop();
                     long ts = stopWatch.ElapsedMilliseconds;
 
-                    _Logger.Info($"Perf: {((double)(ts)) / 1000} sec for {r} iterations");
+                    _Logger.Info($"Perf: {((double) (ts)) / 1000} sec for {r} iterations");
                     CheckVsExpectation(ts, TestPerformanceKind.TwoWay_Collection_Update_From_Javascript);
                 }
             };
@@ -163,17 +163,17 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact(Skip = PlateformDependant)]
-        public async Task Stress_TwoWay_Int()
+        public async Task Stress_TwoWay_Int() 
         {
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Path = TestContext.Simple,
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JSRootObject;
                     int iis = 500;
-                    for (int i = 0; i < iis; i++)
+                    for (int i = 0; i < iis; i++) 
                     {
                         _DataContext.Age += 1;
                     }
@@ -185,7 +185,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
-                    while (notok)
+                    while (notok) 
                     {
                         await Task.Delay(100);
                         var doublev = GetIntAttribute(js, "Age");
@@ -193,7 +193,7 @@ namespace Tests.Universal.HTMLBindingTests
                     }
                     stopWatch.Stop();
                     var ts = stopWatch.ElapsedMilliseconds;
-                    _Logger.Info($"Perf: {((double)(ts)) / 1000} sec for {iis} iterations");
+                    _Logger.Info($"Perf: {((double) (ts)) / 1000} sec for {iis} iterations");
 
                     CheckVsExpectation(ts, TestPerformanceKind.TwoWay_Int);
                 }
@@ -203,13 +203,13 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact(Skip = PlateformDependant)]
-        public async Task Stress_TwoWay_Collection()
+        public async Task Stress_TwoWay_Collection() 
         {
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JSRootObject;
 
@@ -226,7 +226,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
                     int iis = 500;
-                    for (int i = 0; i < iis; i++)
+                    for (int i = 0; i < iis; i++) 
                     {
                         _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
                     }
@@ -237,7 +237,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
-                    while (notok)
+                    while (notok) 
                     {
                         await Task.Delay(10);
                         col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
@@ -245,7 +245,7 @@ namespace Tests.Universal.HTMLBindingTests
                     }
                     stopWatch.Stop();
                     var ts = stopWatch.ElapsedMilliseconds;
-                    _Logger.Info($"Perf: {((double)(ts)) / 1000} sec for {iis} iterations");
+                    _Logger.Info($"Perf: {((double) (ts)) / 1000} sec for {iis} iterations");
                     Check(col, _DataContext.Skills);
 
                     CheckVsExpectation(ts, TestPerformanceKind.TwoWay_Collection);
@@ -260,11 +260,11 @@ namespace Tests.Universal.HTMLBindingTests
             public static int Limit { get; } = 300000;
             public T[] Values { get; }
 
-            public BigCollectionVM(T value) : this(Enumerable.Repeat(value, Limit))
+            public BigCollectionVM(T value): this(Enumerable.Repeat(value, Limit))
             {
             }
 
-            public BigCollectionVM(Func<int, T> value) : this(Enumerable.Range(0, 300000).Select(value))
+            public BigCollectionVM(Func<int,T> value) : this(Enumerable.Range(0, 300000).Select(value))
             {
             }
 
@@ -315,7 +315,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetCollectionAttribute(js, "Values");
                     res.GetArrayLength().Should().Be(BigCollectionVM<Simple>.Limit);
 
-                    var lastElement = res.GetValue(BigCollectionVM<Simple>.Limit - 1);
+                    var lastElement = res.GetValue(BigCollectionVM<Simple>.Limit -1);
                     var id = GetIntAttribute(lastElement, "Id");
                     id.Should().Be(23);
                 }
@@ -326,7 +326,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task Binding_Can_Create_More_Object_Than_Max_Stack()
         {
-            var dataContext = new BigCollectionVM<Simple>(_ => new Simple());
+            var dataContext = new BigCollectionVM<Simple>( _ => new Simple());
             var test = new TestInContext()
             {
                 Bind = (win) => HTML_Binding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
@@ -414,19 +414,19 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        private FakeViewModel BuildBigVm(int leaves = 50, int position = 3)
+        private FakeViewModel BuildBigVm(int leaves = 50, int position =3)
         {
             var children = position == 0 ? null : Enumerable.Range(0, leaves).Select(i => BuildBigVm(leaves, position - 1));
             return new FakeViewModel(children);
         }
 
-        private class FakeFatherViewModel : ViewModelBase
+        private class FakeFatherViewModel : ViewModelTestBase
         {
             private FakeViewModel _FakeViewModel;
-            public FakeViewModel Other 
+            public FakeViewModel Other
             {
                 get { return _FakeViewModel; }
-                set { Set(ref _FakeViewModel, value, nameof(Other)); }
+                set { Set(ref _FakeViewModel, value); }
             }
         }
 
@@ -439,7 +439,7 @@ namespace Tests.Universal.HTMLBindingTests
             public int One => 1;
             public int Two => 2;
 
-            public int RandomNumber { get; }
+            public int RandomNumber { get;  }
 
             public FakeViewModel(IEnumerable<FakeViewModel> children)
             {
@@ -448,13 +448,13 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        private class FakeViewModelWithCommands : ViewModelBase
+        private class FakeViewModelWithCommands : ViewModelTestBase
         {
             private ICommand[] _Commands;
-            public ICommand[] Commands 
+            public ICommand[] Commands
             {
                 get { return _Commands; }
-                set { Set(ref _Commands, value, nameof(Commands)); }
+                set { Set(ref _Commands, value); }
             }
         }
     }

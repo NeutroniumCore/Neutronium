@@ -36,12 +36,17 @@ namespace Neutronium.Core.Binding
         public HTMLViewContext Context => _Context;
         private readonly object _RootObject;
 
-        internal BidirectionalMapper(object iRoot, HTMLViewEngine contextBuilder, JavascriptBindingMode iMode, IWebSessionLogger logger)
+        internal BidirectionalMapper(object root, HTMLViewEngine contextBuilder, JavascriptBindingMode mode, IWebSessionLogger logger):
+            this(root, contextBuilder, null, mode, logger)
         {        
-            _BindingMode = iMode;
+        }
+
+        internal BidirectionalMapper(object root, HTMLViewEngine contextBuilder, IGlueFactory glueFactory, JavascriptBindingMode mode, IWebSessionLogger logger)
+        {
+            _BindingMode = mode;
             _Logger = logger;
-            var javascriptObjecChanges = (iMode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
-            _Context = contextBuilder.GetMainContext(javascriptObjecChanges); 
+            var javascriptObjecChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
+            _Context = contextBuilder.GetMainContext(javascriptObjecChanges);
             _SessionCache = new SessionCacher();
             _ListenerRegister = new FullListenerRegister(
                                         (n) => n.PropertyChanged += CSharpPropertyChanged,
@@ -50,10 +55,9 @@ namespace Neutronium.Core.Binding
                                         (n) => n.CollectionChanged -= CSharpCollectionChanged,
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
-            var commandFactory = new CommandFactory(_Context, this);
-            _JSObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HTMLWindow, _SessionCache, commandFactory, _Logger) ;
-            _RootObject = iRoot;
-           
+            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(_Context, this);
+            _JSObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HTMLWindow, _SessionCache, glueFactory, _Logger);
+            _RootObject = root;
         }
 
         internal async Task IntrospectVm(object addicionalObject) 
@@ -78,7 +82,7 @@ namespace Neutronium.Core.Binding
                 _Context.InitOnJsContext(debugMode);
                 _sessionInjector = _Context.JavascriptSessionInjector;
 
-                _JavascriptObjectBuilder = _Context.WebView.GetBuildingStrategy(_SessionCache);
+                _JavascriptObjectBuilder = _Context.WebView.GetBuildingStrategy(_SessionCache, _Context.JavascriptFrameworkIsMappingObject);
                 _JavascriptObjectBuilder.UpdateJavascriptValue(_Root);
 
                 var res = await InjectInHTMLSession(_Root);
@@ -166,15 +170,18 @@ namespace Neutronium.Core.Binding
         void IUpdatableJSCSGlueCollection.OnEnter(IJSCSGlue entering) => OnEnter(entering);
         void IUpdatableJSCSGlueCollection.OnExit(IJSCSGlue exiting, BridgeUpdater context) => OnExit(exiting, context);
 
-        private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue iroot)
+        private async Task<IJavascriptObject> InjectInHTMLSession(IJSCSGlue root)
         {
-            if ( (iroot == null) || (iroot.IsBasic()))
+            if ( (root == null) || (root.IsBasic()))
                 return null;
 
-            var jvm = _SessionCache.GetMapper(iroot as IJSObservableBridge);
-            var res = _sessionInjector.Inject(iroot.JSValue, jvm);
+            if (!_Context.JavascriptFrameworkIsMappingObject)
+                return root.JSValue;
 
-            if ((iroot.CValue != null) && (res==null))
+            var jvm = _SessionCache.GetMapper(root as IJSCSMappedBridge);
+            var res = _sessionInjector.Inject(root.JSValue, jvm);
+
+            if ((root.CValue != null) && (res == null))
             {
                 throw ExceptionHelper.GetUnexpected();
             }
@@ -187,7 +194,7 @@ namespace Neutronium.Core.Binding
         {
             try 
             {
-                var res = _SessionCache.GetGlobalCached(objectchanged) as JsGenericObject;
+                var res = _SessionCache.GetCached(objectchanged) as JsGenericObject;
                 if (res == null)
                     return;
 
@@ -240,7 +247,7 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                var res = _SessionCache.GetGlobalCached(changes.Collection) as JSArray;
+                var res = _SessionCache.GetCached(changes.Collection) as JSArray;
                 if (res == null) return;
 
                var collectionChanges = res.GetChanger(changes, this);
@@ -387,10 +394,8 @@ namespace Neutronium.Core.Binding
             {
                 _JavascriptObjectBuilder.UpdateJavascriptValue(value);
 
-                if (!value.IsBasic())
-                {
-                    await InjectInHTMLSession(value);
-                }
+                await InjectInHTMLSession(value);
+
                 updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
                 return value;
             });

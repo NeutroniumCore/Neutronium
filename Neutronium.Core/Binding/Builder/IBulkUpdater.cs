@@ -1,13 +1,15 @@
-﻿using Neutronium.Core.Binding.GlueObject;
-using System;
+﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
 
 namespace Neutronium.Core.Binding.Builder
 {
     internal interface IBulkUpdater
     {
-        void BulkUpdateProperty(List<EntityDescriptor<string>> updates);
+        IJavascriptObject CommandConstructor { get; }
+        IJavascriptObject ExecutableConstructor { get; }
 
-        void BulkUpdateArray(List<EntityDescriptor<int>> updates);
+        void BulkUpdateProperty(IEnumerable<EntityDescriptor<string>> updates);
+
+        void BulkUpdateArray(IEnumerable<EntityDescriptor<int>> updates);
     }
 }

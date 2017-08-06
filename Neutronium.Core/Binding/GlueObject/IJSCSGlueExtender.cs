@@ -34,11 +34,11 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public static IJavascriptObject GetJSSessionValue(this IJSCSGlue @this)
         {
-            var inj = @this as IJSObservableBridge;
-            return (inj != null) ? inj.MappedJSValue : @this.JSValue;
+            var inj = @this as IJSCSMappedBridge;
+            return (inj != null) ? inj.CachableJSValue : @this.JSValue;
         }
 
-        internal static void AutoMap(this IJSObservableBridge @this)
+        internal static void AutoMap(this IJSCSMappedBridge @this)
         {
             @this.SetMappedJSValue(@this.JSValue);
         }

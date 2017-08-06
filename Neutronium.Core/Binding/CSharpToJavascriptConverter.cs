@@ -14,15 +14,15 @@ namespace Neutronium.Core.Binding
     internal class CSharpToJavascriptConverter 
     {
         private readonly IJavascriptSessionCache _Cacher;
-        private readonly IJSCommandFactory _CommandFactory;
+        private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private readonly IWebBrowserWindow _Context;
         private IJSCSGlue _Null;
 
-        public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache cacher, IJSCommandFactory commandFactory, IWebSessionLogger logger)
+        public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
             _Context = context;
-            _CommandFactory = commandFactory;
+            _GlueFactory = glueFactory;
             _Logger = logger;
             _Cacher = cacher;
         }
@@ -40,26 +40,26 @@ namespace Neutronium.Core.Binding
             if (_Context.IsTypeBasic(type))
             {
                 res = new JSBasicObject(from);
-                _Cacher.Cache(from, res);
+                _Cacher.CacheFromCSharpValue(from, res);
                 return res;
             }             
 
             var command = from as ICommand;
             if (command != null)
-                return _CommandFactory.Build(command);
+                return _GlueFactory.Build(command);
 
             var simpleCommand = from as ISimpleCommand;
             if (simpleCommand != null)
-                return _CommandFactory.Build(simpleCommand);
+                return _GlueFactory.Build(simpleCommand);
 
             var resultCommand = from as IResultCommand;
             if (resultCommand != null)
-                return _CommandFactory.Build(resultCommand);
+                return _GlueFactory.Build(resultCommand);
 
             if (type.IsEnum)
             {
                 var trueres = new JSBasicObject(from);
-                _Cacher.Cache(from, trueres);
+                _Cacher.CacheFromCSharpValue(from, trueres);
                 return trueres;
             }
 
@@ -70,8 +70,9 @@ namespace Neutronium.Core.Binding
             var propertyInfos = @from.GetType().GetReadProperties();
             var additionalPropertyInfos = additional?.GetType().GetReadProperties();
 
-            var gres = new JsGenericObject(from, propertyInfos.Count + (additionalPropertyInfos?.Count ?? 0));
-            _Cacher.Cache(from, gres);
+            var gres = _GlueFactory.Build(from, propertyInfos.Count + (additionalPropertyInfos?.Count ?? 0));
+
+            _Cacher.CacheFromCSharpValue(from, gres);
 
             MappNested(gres, @from, propertyInfos);
             MappNested(gres, additional, additionalPropertyInfos);
@@ -107,8 +108,11 @@ namespace Neutronium.Core.Binding
             var type = source.GetElementType();
             var basictype = _Context.IsTypeBasic(type) ? type : null;
 
-            var res = new JSArray(source.Cast<object>().Select(s => Map(s)), source, basictype);
-            _Cacher.Cache(source, res);
+            var res = _GlueFactory.BuildArray(source.Cast<object>().Select(s => Map(s)), source, basictype);
+
+
+
+            _Cacher.CacheFromCSharpValue(source, res);
             return res;
         }
     }

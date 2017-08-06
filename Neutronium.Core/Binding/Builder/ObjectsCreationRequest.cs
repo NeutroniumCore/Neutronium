@@ -5,31 +5,32 @@ using System.Linq;
 namespace Neutronium.Core.Binding.Builder
 {
     internal class ObjectsCreationRequest
-    {
-        public int ReadOnlyNumber => _ObjectsReadOnlyBuildingRequested.Count;
-        public int ReadWriteNumber => _ObjectsReadWriteBuildingRequested.Count;
+    {       
+        public int ReadWriteNumber { get; set; }
+        public int ReadOnlyNumber => _ObjectBuildingRequested.Count - ReadWriteNumber;
 
-        private readonly List<EntityDescriptor<string>> _ObjectsReadOnlyBuildingRequested = new List<EntityDescriptor<string>>();
-        private readonly List<EntityDescriptor<string>> _ObjectsReadWriteBuildingRequested = new List<EntityDescriptor<string>>();
-
-        private IEnumerable<EntityDescriptor<string>> AllElements => _ObjectsReadWriteBuildingRequested.Concat(_ObjectsReadOnlyBuildingRequested);
+        private readonly LinkedList<EntityDescriptor<string>> _ObjectBuildingRequested = new LinkedList<EntityDescriptor<string>>();
 
         public void AddRequest(EntityDescriptor<string> descriptor, bool updatableFromJS)
         {
-            if (updatableFromJS)
-                _ObjectsReadWriteBuildingRequested.Add(descriptor);
-            else
-                _ObjectsReadOnlyBuildingRequested.Add(descriptor);
+            if (!updatableFromJS)
+            {
+                _ObjectBuildingRequested.AddLast(descriptor);
+                return;
+            }
+
+            ReadWriteNumber += 1;
+            _ObjectBuildingRequested.AddFirst(descriptor);       
         }
 
-        internal List<IJSCSGlue> GetElements()
+        internal IEnumerable<IJSCSGlue> GetElements()
         {
-            return AllElements.Select(item => item.Father).ToList();
+            return _ObjectBuildingRequested.Select(item => item.Father);
         }
 
-        internal List<EntityDescriptor<string>> GetElementWithProperty()
+        internal IEnumerable<EntityDescriptor<string>> GetElementWithProperty()
         {
-            return AllElements.Where(item => item.ChildrenDescription.Length > 0).ToList();
+            return _ObjectBuildingRequested.Where(item => item.ChildrenDescription.Length > 0);
         }
     }
 }

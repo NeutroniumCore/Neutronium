@@ -12,22 +12,21 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JsResultCommand : GlueBase, IJSObservableBridge
+    internal class JsResultCommand : GlueBase, IJSCSCachableGlue, IExecutableGlue
     {
         private readonly IResultCommand _JSResultCommand;
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
-        private IJavascriptObject _MappedJSValue;
 
-        public IJavascriptObject MappedJSValue => _MappedJSValue;
+        public virtual IJavascriptObject CachableJSValue => JSValue;
         public object CValue => _JSResultCommand;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
-        private IWebView WebView => _HTMLViewContext.WebView;
+        protected IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJSObservableBridge.SetJsId(uint jsId) => _JsId = jsId;
+        void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
         public JsResultCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
         {
@@ -36,18 +35,18 @@ namespace Neutronium.Core.Binding.GlueObject
             _JSResultCommand = resultCommand;
         }
 
-        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
+        public void UpdateJsObject(IJavascriptObject javascriptObject)
         {
-            builder.RequestObjectCreation();
+            IExecutableGlue executable = this;
+            javascriptObject.Bind("Execute", WebView, executable.Execute);
         }
 
-        public void SetMappedJSValue(IJavascriptObject jsobject)
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            _MappedJSValue = jsobject;
-            _MappedJSValue.Bind("Execute", WebView, Execute);
+            builder.RequestExecutableCreation();
         }
       
-        private async void Execute(IJavascriptObject[] e)
+        async void IExecutableGlue.Execute(IJavascriptObject[] e)
         {
             var argument = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             var promise = (e.Length > 1) ? e[1] : null;

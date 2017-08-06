@@ -50,7 +50,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         private List<TestClass> _Tests;
         private ArrayList _Tests_NG;
         private HTMLViewContext _HTMLViewContext;
-        private IJSCommandFactory _JSCommandFactory;
+        private IGlueFactory _GlueFactory;
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptFrameworkManager _javascriptFrameworkManager;
         private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HTMLWindow;
@@ -63,11 +63,11 @@ namespace Tests.Universal.WebBrowserEngineTests
         protected override void Init()
         {
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
-            _JSCommandFactory = Substitute.For<IJSCommandFactory>();
+            _GlueFactory = new GlueFactory(null, null);
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
             _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
             _HTMLViewContext = new HTMLViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
-            _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _ICSharpMapper, _JSCommandFactory, _Logger);
+            _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _ICSharpMapper, _GlueFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>
             {
@@ -166,7 +166,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         private CSharpToJavascriptConverter GetCircularBreakerConverter(IJavascriptSessionCache cacher)
         {
-            return new CSharpToJavascriptConverter(WebBrowserWindow, cacher, _JSCommandFactory, _Logger);
+            return new CSharpToJavascriptConverter(WebBrowserWindow, cacher, _GlueFactory, _Logger);
         }
 
         [Fact]
@@ -339,7 +339,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 var res = (await Map(_Test2)).JSValue;
                 res.Should().NotBeNull();
 
-                _ICSharpMapper.Received().Cache(_Test, Arg.Any<IJSCSGlue>());
+                _ICSharpMapper.Received().CacheFromCSharpValue(_Test, Arg.Any<IJSCSGlue>());
             });
         }
 
@@ -349,7 +349,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             var res = await _HTMLViewContext.EvaluateOnUIContextAsync(() => _ConverTOJSO.Map(from));
             await _HTMLViewContext.RunOnJavascriptContextAsync(() =>
             {
-                var builder = _HTMLViewContext.WebView.GetBuildingStrategy(cacher);
+                var builder = _HTMLViewContext.WebView.GetBuildingStrategy(cacher, false);
                 builder.UpdateJavascriptValue(res);
             });
             return res;

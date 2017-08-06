@@ -11,24 +11,23 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JSCommand : GlueBase, IJSObservableBridge
+    public class JSCommand : GlueBase, IJSCSCachableGlue, IExecutableGlue
     {
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly ICommand _Command;
-        private IJavascriptObject _MappedJSValue;
         private int _Count = 1;
 
-        public IJavascriptObject MappedJSValue => _MappedJSValue;
+        public virtual IJavascriptObject CachableJSValue => JSValue;
         public object CValue => _Command;
         public JsCsGlueType Type => JsCsGlueType.Command;
-        private IWebView WebView => _HTMLViewContext.WebView;
+        protected IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJSObservableBridge.SetJsId(uint jsId) => _JsId = jsId;
+        void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
         private bool _InitialCanExecute = true;
 
@@ -43,6 +42,12 @@ namespace Neutronium.Core.Binding.GlueObject
                 _InitialCanExecute = _Command.CanExecute(null);
             }
             catch { }
+        }
+
+        public void UpdateJsObject(IJavascriptObject javascriptObject)
+        {
+            javascriptObject.Bind("Execute", WebView, Execute);
+            javascriptObject.Bind("CanExecute", WebView, CanExecuteCommand);
         }
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
@@ -60,7 +65,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _Command.CanExecuteChanged -= Command_CanExecuteChanged;
         }
 
-        private void ExecuteCommand(IJavascriptObject[] e)
+        public void Execute(IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             UIDispatcher.RunAsync(() => _Command.Execute(parameter));
@@ -75,7 +80,7 @@ namespace Neutronium.Core.Binding.GlueObject
             });
         }
 
-        private async void CanExecuteCommand(IJavascriptObject[] e)
+        internal async void CanExecuteCommand(params IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             var res = await UIDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));
@@ -90,14 +95,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
         {
             var newValue = factory(WebView.Factory);
-            ViewModelUpdater.UpdateProperty(_MappedJSValue, propertyName, newValue, false);
-        }
-
-        public void SetMappedJSValue(IJavascriptObject jsobject)
-        {
-            _MappedJSValue = jsobject;
-            _MappedJSValue.Bind("Execute", WebView, ExecuteCommand);
-            _MappedJSValue.Bind("CanExecute", WebView, CanExecuteCommand);
+            ViewModelUpdater.UpdateProperty(CachableJSValue, propertyName, newValue, false);
         }
 
         public override IEnumerable<IJSCSGlue> GetChildren()

@@ -64,8 +64,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MoreCollection, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MoreCollection.1.0.6\lib\net45\MoreCollection.dll</HintPath>
+    <Reference Include="MoreCollection, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MoreCollection.1.1.0\lib\net45\MoreCollection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -75,6 +75,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binding\Builder\BulkJsHelper.cs" />
     <Compile Include="Binding\Builder\ChildDescription.cs" />
     <Compile Include="Binding\Builder\EntityDescriptor.cs" />
     <Compile Include="Binding\Builder\IBulkUpdater.cs" />
@@ -83,11 +84,21 @@
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
+    <Compile Include="Binding\Builder\CommandCreationRequest.cs" />
     <Compile Include="Binding\Builder\ObjectsCreationRequest.cs" />
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
+    <Compile Include="Binding\GlueFactoryFactory.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
+    <Compile Include="Binding\GlueObject\IJSCSCachableGlue.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\GlueMappingFactory.cs" />
+    <Compile Include="Binding\GlueObject\IExecutableGlue.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JSMappableArray.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JSMappableCommand.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableSimpleCommand.cs" />
     <Compile Include="Binding\Listeners\IExitContext.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
@@ -95,7 +106,7 @@
     <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
     <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
-    <Compile Include="Binding\GlueObject\IJSCommandFactory.cs" />
+    <Compile Include="Binding\GlueObject\IGlueFactory.cs" />
     <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IUpdatableJSCSGlueCollection.cs" />
@@ -104,12 +115,12 @@
     <Compile Include="Binding\GlueObject\JSCommand.cs" />
     <Compile Include="Binding\GlueObject\JsSimpleCommand.cs" />
     <Compile Include="Binding\GlueObject\JsResultCommand.cs" />
-    <Compile Include="Binding\GlueObject\IJSObservableBridge.cs" />
+    <Compile Include="Binding\GlueObject\IJSCSMappedBridge.cs" />
     <Compile Include="Binding\GlueObject\JSBasicObject.cs" />
     <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />
     <Compile Include="Binding\HTMLViewContext.cs" />
     <Compile Include="Binding\Listeners\ReListener.cs" />
-    <Compile Include="Binding\CommandFactory.cs" />
+    <Compile Include="Binding\GlueObject\GlueFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="Binding\Builder\IWebViewExtension.cs" />
     <Compile Include="Extension\IWebViewExtension.cs" />
@@ -219,7 +230,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

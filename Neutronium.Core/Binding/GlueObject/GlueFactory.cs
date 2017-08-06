@@ -1,15 +1,17 @@
-﻿using System.Windows.Input;
-using Neutronium.Core.Binding.GlueObject;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Windows.Input;
 using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding
+namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class CommandFactory : IJSCommandFactory
+    internal class GlueFactory : IGlueFactory
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly HTMLViewContext _HTMLViewContext;
 
-        public CommandFactory(HTMLViewContext context, IJavascriptToCSharpConverter converter)
+        public GlueFactory(HTMLViewContext context, IJavascriptToCSharpConverter converter)
         {
             _HTMLViewContext = context;
             _JavascriptToCSharpConverter = converter;
@@ -28,6 +30,16 @@ namespace Neutronium.Core.Binding
         public JsResultCommand Build(IResultCommand command)
         {
             return new JsResultCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
+        }
+
+        public JsGenericObject Build(object from, int childrenCount)
+        {
+            return new JsGenericObject(from, childrenCount);
+        }
+
+        public JSArray BuildArray(IEnumerable<IJSCSGlue> enumerable, IEnumerable source, Type basictype)
+        {
+            return new JSArray(enumerable, source, basictype);
         }
     }
 }
