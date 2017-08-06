@@ -13,7 +13,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
         private readonly IWebSessionLogger _Logger;
-        private static readonly object _Locker = new object();
         private readonly HashSet<ChromiumFxTask> _Tasks = new HashSet<ChromiumFxTask>();
 
         private CfrTaskRunner TaskRunner { get; }
@@ -132,18 +131,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private ChromiumFxTask AddTask(Action action)
         {
-            lock(_Locker)
-            {
-                var task = new ChromiumFxTask(action);
-                _Tasks.Add(task);
-                return task;
-            }         
+            var task = new ChromiumFxTask(action);
+            _Tasks.Add(task);
+            return task;        
         }
 
         private void RemoveTask(ChromiumFxTask task)
         {
-            lock (_Locker)
-                _Tasks.Remove(task);
+            _Tasks.Remove(task);
         }
     }
 }

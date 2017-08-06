@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Tests.Universal.HTMLBindingTests;
 using Xunit;
 using Xunit.Abstractions;
+using VueFramework.Test.IntegratedInfra;
 
 namespace Vue.Binding.ChromiumFx.Tests
 {
     [Collection("Cfx Vue Windowless Integrated")]
-    public class BindingPerformance_Vue_Cfx_Tests : HTMLBindingPerformanceTests
+    public class BindingPerformance_Vue_Cfx_Tests : HTMLBindingVuePerformanceTests
     {
         public BindingPerformance_Vue_Cfx_Tests(CfxVueContext context, ITestOutputHelper output)
             : base(context, output, GetKoCefPerformanceExpectations())

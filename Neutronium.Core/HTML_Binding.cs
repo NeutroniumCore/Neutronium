@@ -4,6 +4,7 @@ using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core
 {
@@ -50,9 +51,15 @@ namespace Neutronium.Core
             return await builder.CreateBinding(false);
         }
 
-        internal static async Task<IBindingBuilder> GetBindingBuilder(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null) 
+        internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
-            var mapper = viewEngine.GetMapper(viewModel, mode);
+            var builder = await GetBindingBuilder(viewEngine, viewModel, mode, null, strategyFactory);
+            return await builder.CreateBinding(false);
+        }
+
+        internal static async Task<IBindingBuilder> GetBindingBuilder(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
+        {
+            var mapper = viewEngine.GetMapper(viewModel, mode, strategyFactory);
             var bindingBuilder = new BindingBuilder(mapper, viewEngine.Logger, additional);
             await bindingBuilder.Init();
             return bindingBuilder;

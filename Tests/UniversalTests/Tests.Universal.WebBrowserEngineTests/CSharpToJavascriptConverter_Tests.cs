@@ -349,10 +349,17 @@ namespace Tests.Universal.WebBrowserEngineTests
             var res = await _HTMLViewContext.EvaluateOnUIContextAsync(() => _ConverTOJSO.Map(from));
             await _HTMLViewContext.RunOnJavascriptContextAsync(() =>
             {
-                var builder = _HTMLViewContext.WebView.GetBuildingStrategy(cacher, false);
+                var builder = GetStrategy(_HTMLViewContext.WebView, cacher, false);
                 builder.UpdateJavascriptValue(res);
             });
             return res;
+        }
+
+
+        private static IJavascriptObjectBuilderStrategy GetStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        {
+            return webView.AllowBulkCreation ? (IJavascriptObjectBuilderStrategy)new JavascriptObjectBulkBuilderStrategy(webView, cache, mapping) :
+                                             new JavascriptObjectSynchroneousBuilderStrategy(webView, cache, mapping);
         }
     }
 }

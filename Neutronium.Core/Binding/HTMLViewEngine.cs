@@ -3,6 +3,7 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding
 {
@@ -27,9 +28,9 @@ namespace Neutronium.Core.Binding
             return new HTMLViewContext(HTMLWindow, _HTMLWindowProvider.UIDispatcher, _frameworkManager, javascriptChangesObserver, Logger);
         }
 
-        internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode)
+        internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
-            return new BidirectionalMapper(viewModel, this, mode, Logger);
+            return new BidirectionalMapper(viewModel, this, mode, Logger, strategyFactory);
         }
 
         public T Evaluate<T>(Func<T> compute)

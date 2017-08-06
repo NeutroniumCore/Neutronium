@@ -414,13 +414,13 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        private FakeViewModel BuildBigVm(int leaves = 50, int position =3)
+        protected FakeViewModel BuildBigVm(int leaves = 50, int position =3)
         {
             var children = position == 0 ? null : Enumerable.Range(0, leaves).Select(i => BuildBigVm(leaves, position - 1));
             return new FakeViewModel(children);
         }
 
-        private class FakeFatherViewModel : ViewModelTestBase
+        protected class FakeFatherViewModel : ViewModelTestBase
         {
             private FakeViewModel _FakeViewModel;
             public FakeViewModel Other
@@ -430,7 +430,7 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        private class FakeViewModel
+        protected class FakeViewModel
         {
             private static readonly Random Random = new Random();
 
@@ -448,7 +448,7 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        private class FakeViewModelWithCommands : ViewModelTestBase
+        protected class FakeViewModelWithCommands : ViewModelTestBase
         {
             private ICommand[] _Commands;
             public ICommand[] Commands

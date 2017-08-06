@@ -80,7 +80,9 @@
     <Compile Include="Binding\Builder\EntityDescriptor.cs" />
     <Compile Include="Binding\Builder\IBulkUpdater.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategy.cs" />
+    <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategyFactory.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectBulkBuilder.cs" />
+    <Compile Include="Binding\Builder\JavascriptObjectMixtBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
@@ -122,7 +124,7 @@
     <Compile Include="Binding\Listeners\ReListener.cs" />
     <Compile Include="Binding\GlueObject\GlueFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
-    <Compile Include="Binding\Builder\IWebViewExtension.cs" />
+    <Compile Include="Binding\Builder\StandardStrategyFactory.cs" />
     <Compile Include="Extension\IWebViewExtension.cs" />
     <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Infra\AddLoger.cs" />
