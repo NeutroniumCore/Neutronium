@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardViewModel.cs" />
+    <Compile Include="Counter\CounterViewModel.cs" />
     <Compile Include="Couple.cs" />
     <Compile Include="DateInformation.cs" />
     <Compile Include="FakeFactory.cs" />
