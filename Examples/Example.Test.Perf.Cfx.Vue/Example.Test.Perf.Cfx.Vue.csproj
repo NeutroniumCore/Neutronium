@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +36,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ChromiumFX, Version=3.2924.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\..\packages\Unofficial.Chromiumfx.3.2924.1\lib\ChromiumFX.dll</HintPath>
+    </Reference>
+    <Reference Include="ChromiumWebBrowser, Version=3.2924.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\..\packages\Unofficial.Chromiumfx.3.2924.1\lib\ChromiumWebBrowser.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -81,20 +89,123 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="View\Main\dist\810a1b930979de83478be0f458b51dd8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\89889688147bd7575d6327160d64e760.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\912ec66d7572ff821749319396470bde.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\build.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\styles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\index.html" />
+    <Content Include="View\Main\src\entry.js" />
+    <Content Include="View\Main\src\main.js" />
+    <Content Include="View\Main\utils.js" />
+    <Content Include="View\Main\webpack.config.js" />
+    <None Include="View\Main\src\components\command-button.vue" />
+    <Resource Include="View\Main\src\assets\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="View\Main\.babelrc" />
+    <None Include="View\Main\data\vm.cjson" />
+    <Content Include="View\Main\dist\448c34a56d699c29117adc64c43affeb.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\674f50d287a8c48dc19ba404d20fe713.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\af7ae505a9eed503f8b8e6982036873e.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="View\Main\dist\b06871f281fee6b241d60582ae9369b9.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="View\Main\dist\e18bbf611f2a2e43afc071aa2f4e1512.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="View\Main\dist\f4769f9bdb7466be65088239c12046d1.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\fa2772327f55d8198301fdb8bcfc8158.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\fee66e712a8a08eef5805a46892932ad.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\Main\dist\styles.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="View\Main\npm-shrinkwrap.json" />
+    <None Include="View\Main\package.json" />
+    <None Include="View\Main\README.md" />
+    <None Include="View\Main\src\App.vue" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj">
+      <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
+      <Name>Neutronium.JavascriptFramework.Vue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj">
+      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
+      <Name>Neutronium.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">
+      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
+      <Name>Neutronium.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
+      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
+      <Name>ChromiumFXRenderProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj">
+      <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
+      <Name>Neutronium.WebBrowserEngine.ChromiumFx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj">
+      <Project>{c769e3ad-e82e-4e2f-bc4c-c92ca572c2ed}</Project>
+      <Name>Example.ChromiumFX.Vue.Infra</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj">
+      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
+      <Name>Neutronium.Example.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="View\Main\.gitignore" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.3.2924.1\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.3.2924.1\build\Unofficial.Chromiumfx.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\Unofficial.Chromiumfx.3.2924.1\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.3.2924.1\build\Unofficial.Chromiumfx.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

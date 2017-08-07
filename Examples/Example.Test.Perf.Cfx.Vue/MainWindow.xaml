@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
         xmlns:local="clr-namespace:Example.Test.Perf.Cfx.Vue"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <wpf:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="wcBrowser" RelativeSource="View\Main\dist\index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <TextBlock Width="100" Text="{Binding Path=Counter}"/>
+        <StackPanel>
+            <TextBlock Width="100" Text="{Binding Path=Counter}"/>
+            <TextBlock Width="100" Text="{Binding Path=State}"/>
+        </StackPanel>
         <Button Width="100" Height="30" Command="{Binding Path=Count}" Content="Count" />
     </Grid>
 </Window>

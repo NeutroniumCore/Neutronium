@@ -23,6 +23,13 @@ namespace Neutronium.Example.ViewModel.Counter
             }
         }
 
+        private string _State = "Done";
+        public string State
+        {
+            get { return _State;}
+            set { Set(ref _State, value, "State"); }
+        }
+
         public ICommand Count { get; }
 
         public IProgress<int> Progess { get; set; }
@@ -32,15 +39,18 @@ namespace Neutronium.Example.ViewModel.Counter
             Count = new RelayCommand(DoCount);
         }
 
-        private void DoCount()
+        private async void DoCount()
         {
-            Task.Run(() =>
+            State = "Running";
+            var init = _Counter;
+            await Task.Run(() =>
             {
                 for(var i=0; i<10000; i++)
                 {
-                    Progess?.Report(i);
+                    Progess?.Report(i + init);
                 }
             });
+            State = "Done";
         }
     }
 }

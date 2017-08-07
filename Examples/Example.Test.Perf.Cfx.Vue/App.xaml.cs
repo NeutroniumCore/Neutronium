@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Neutronium.JavascriptFramework.Vue;
+using Neutronium.WPF;
 
 namespace Example.Test.Perf.Cfx.Vue
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
+        protected override void OnStartUp(IHTMLEngineFactory factory)
+        {
+            factory.RegisterJavaScriptFramework(new VueSessionInjectorV2());
+            base.OnStartUp(factory);
+        }
     }
 }
