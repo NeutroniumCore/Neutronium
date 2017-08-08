@@ -54,7 +54,7 @@ namespace Neutronium.JavascriptFramework.Vue
             var updater = Updater;
             var function = childAllowWrite ? updater.ChangeAndInject : updater.Change;
             var property = _properties.GetOrAddEntity(propertyName, CreateProperty);
-            function.ExecuteFunction(_WebView, null, father, property, value, _Listener);
+            function.ExecuteFunctionNoResult(_WebView, null, father, property, value, _Listener);
         }
 
         private IJavascriptObject CreateProperty(string propertyName) => _WebView.Factory.CreateString(propertyName);
