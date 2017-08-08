@@ -4,7 +4,7 @@ using Chromium.Remote;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
-    internal class ChromiumFxCRemoteContext : IDisposable 
+    internal struct ChromiumFxCRemoteContext : IDisposable 
     {
         private readonly CfxRemoteCallContext _CfxRemoteCallContext;
 

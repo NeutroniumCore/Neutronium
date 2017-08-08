@@ -90,7 +90,6 @@
     <Compile Include="EngineBinding\ChromiumFxConverter.cs" />
     <Compile Include="EngineBinding\ChromiumFxDispatcher.cs" />
     <Compile Include="EngineBinding\ChromiumFxControlWebBrowserWindow.cs" />
-    <Compile Include="EngineBinding\ChromiumFxTask.cs" />
     <Compile Include="EngineBinding\ChromiumFxWebView.cs" />
     <Compile Include="EngineBinding\ChromiumFxWpfWindow.cs" />
     <Compile Include="EngineBinding\ChromiumFxObjectCreationCallBack.cs" />

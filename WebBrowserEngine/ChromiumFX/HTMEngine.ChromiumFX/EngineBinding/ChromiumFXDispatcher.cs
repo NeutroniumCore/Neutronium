@@ -14,7 +14,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly CfrBrowser _Browser;
         private readonly IWebSessionLogger _Logger;
         private readonly object _Locker = new object();
-        private readonly HashSet<ChromiumFxTask> _Tasks = new HashSet<ChromiumFxTask>();
+        private readonly HashSet<CfrTask> _Tasks = new HashSet<CfrTask>();
 
         private CfrTaskRunner TaskRunner { get; }
 
@@ -82,12 +82,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return result;
         }
 
-        private IDisposable GetContext() 
+        private ChromiumFXContext GetContext() 
         {
             return new ChromiumFXContext(_Context);
         }
 
-        private class ChromiumFXContext : IDisposable 
+        private struct ChromiumFXContext : IDisposable 
         {
             private readonly CfrV8Context _Context;
             public ChromiumFXContext(CfrV8Context context) 
@@ -109,7 +109,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }
         }
 
-        private IDisposable GetRemoteContext() 
+        private ChromiumFxCRemoteContext GetRemoteContext() 
         {
             return new ChromiumFxCRemoteContext(_Browser);
         }
@@ -124,23 +124,28 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
 
                 var task = AddTask(action);
-                task.Clean = () => RemoveTask(task);
-
-                TaskRunner.PostTask(task.Task);
+                TaskRunner.PostTask(task);
             }
         }
 
-        private ChromiumFxTask AddTask(Action action)
+        private CfrTask AddTask(Action action)
         {
-            var task = new ChromiumFxTask(action);
+            var task = new CfrTask();
+            task.Execute += (o, e) =>
+            {
+                action();
+                RemoveTask(task);
+            };
+
             lock (_Locker)
                 _Tasks.Add(task);
 
             return task;
         }
 
-        private void RemoveTask(ChromiumFxTask task)
+        private void RemoveTask(CfrTask task)
         {
+            task.Dispose();
             lock (_Locker)
                 _Tasks.Remove(task);
         }
