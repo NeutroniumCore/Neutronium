@@ -118,7 +118,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             using (var ctx = GetRemoteContext()) 
             {
-                if (TaskRunner.BelongsToCurrentThread()) {
+                if (ctx.IsInContext)
+                {
                     action();
                     return;
                 }

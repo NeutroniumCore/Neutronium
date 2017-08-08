@@ -7,10 +7,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
     internal struct ChromiumFxCRemoteContext : IDisposable 
     {
         private readonly CfxRemoteCallContext _CfxRemoteCallContext;
+        internal bool IsInContext { get; }
 
         public ChromiumFxCRemoteContext(CfrBrowser browser) 
         {
-            _CfxRemoteCallContext = (CfxRemoteCallContext.IsInContext) ? null : browser.CreateRemoteCallContext();
+            IsInContext = CfxRemoteCallContext.IsInContext;
+            _CfxRemoteCallContext = IsInContext ? null : browser.CreateRemoteCallContext();
             _CfxRemoteCallContext?.Enter();
         }
 
