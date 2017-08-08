@@ -170,7 +170,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 
         public IJavascriptObject ExecuteFunction(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters)
         {
-            return Convert(_CefV8Value.ExecuteFunction(context.Convert(), Convert(parameters)));
+            return Convert(_CefV8Value.ExecuteFunction(context?.Convert(), Convert(parameters)));
         }
 
         public void ExecuteFunctionNoResult(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters)

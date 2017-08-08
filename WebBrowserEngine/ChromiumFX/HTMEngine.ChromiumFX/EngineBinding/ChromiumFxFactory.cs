@@ -12,7 +12,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
     internal class ChromiumFxFactory : IJavascriptObjectFactory
     {
-        private static uint _Count = 0;
+        private static uint _Count = 1;
         private readonly CfrV8Context _CfrV8Context;
         private static readonly IDictionary<Type, Func<object, CfrV8Value>> _Converters = new Dictionary<Type, Func<object, CfrV8Value>>();
         private readonly Lazy<CfrV8Value> _Factory;

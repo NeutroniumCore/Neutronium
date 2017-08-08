@@ -13,6 +13,8 @@ namespace Neutronium.JavascriptFramework.Vue
         private readonly IWebView _WebView;
         private readonly IJavascriptObject _Listener;
         private readonly Lazy<IJavascriptObject> _VueHelper;
+        private VueVmUpdater _Updater;
+        private VueVmUpdater Updater => _Updater ?? (_Updater = new VueVmUpdater(_VueHelper.Value));
         private readonly IWebSessionLogger _Logger;
 
         private readonly Dictionary<string, IJavascriptObject> _properties = new Dictionary<string, IJavascriptObject>();
@@ -49,9 +51,10 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)
         {
-            var functionName = childAllowWrite ? "silentChangeAndInject" : "silentChange";
+            var updater = Updater;
+            var function = childAllowWrite ? updater.ChangeAndInject : updater.Change;
             var property = _properties.GetOrAddEntity(propertyName, CreateProperty);
-            _VueHelper.Value.InvokeNoResult(functionName, _WebView, father, property, value, _Listener);
+            function.ExecuteFunction(_WebView, null, father, property, value, _Listener);
         }
 
         private IJavascriptObject CreateProperty(string propertyName) => _WebView.Factory.CreateString(propertyName);

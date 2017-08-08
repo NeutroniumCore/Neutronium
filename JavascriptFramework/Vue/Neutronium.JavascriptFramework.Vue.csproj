@@ -73,6 +73,7 @@
     <Compile Include="VueSessionInjectorV2.cs" />
     <Compile Include="VueSessionInjectorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VueVmUpdater.cs" />
     <Compile Include="VueVersions.cs" />
     <Compile Include="VueVmManager.cs" />
   </ItemGroup>
