@@ -88,7 +88,12 @@ namespace Neutronium.Core.Binding
                 _BuilderStrategy = _BuilderStrategyFactory.GetStrategy(_Context.WebView, _SessionCache, _Context.JavascriptFrameworkIsMappingObject);
                 _BuilderStrategy.UpdateJavascriptValue(_Root);
 
-                var res = await InjectInHTMLSession(_Root);
+                IJavascriptObject res;
+                if (_Context.JavascriptFrameworkIsMappingObject)
+                    res = await InjectInHTMLSession(_Root);
+                else
+                    res = _Root.JSValue;
+
                 await _sessionInjector.RegisterMainViewModel(res);
 
                 _IsLoaded = true;
@@ -397,7 +402,8 @@ namespace Neutronium.Core.Binding
             {
                 _BuilderStrategy.UpdateJavascriptValue(value);
 
-                await InjectInHTMLSession(value);
+                if (_Context.JavascriptFrameworkIsMappingObject)
+                    await InjectInHTMLSession(value);
 
                 updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
                 return value;
