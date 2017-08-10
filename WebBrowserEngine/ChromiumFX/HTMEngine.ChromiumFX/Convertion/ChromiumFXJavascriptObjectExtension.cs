@@ -3,7 +3,6 @@ using System.Linq;
 using Chromium.Remote;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.V8Object;
-using System;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion 
 {
@@ -40,7 +39,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion
         public static CfrV8Value Convert(this IJavascriptObject javascriptObject) 
         {
             var chromiumObject = javascriptObject as ICfxJavascriptObject;
-            return chromiumObject?.GetRaw();
+            return chromiumObject.Raw;
         }
 
         public static IJavascriptObject[] Convert(this IEnumerable<CfrV8Value> cfrV8Values) 
