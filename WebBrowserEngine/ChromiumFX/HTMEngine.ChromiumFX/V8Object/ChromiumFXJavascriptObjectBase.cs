@@ -5,14 +5,12 @@ using Chromium.Remote;
 using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
-using MoreCollection.Set;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
-{
+namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object {
     internal abstract class ChromiumFXJavascriptObjectBase : ChromiumFXJavascriptRoot
     {
         private ISet<CfrV8Handler> _Functions;
-        private ISet<CfrV8Handler> Functions => _Functions ?? (_Functions = new HybridSet<CfrV8Handler>());
+        private ISet<CfrV8Handler> Functions => _Functions ?? (_Functions = new HashSet<CfrV8Handler>());
 
         internal ChromiumFXJavascriptObjectBase(CfrV8Value cfrV8Value): base(cfrV8Value)
         {
