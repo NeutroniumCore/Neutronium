@@ -308,7 +308,7 @@ namespace Neutronium.Core.Binding
                 return;
 
             var nv = propertyAccessor.Get();
-            var oldbridgedchild = currentfather.Attributes[pn];
+            var oldbridgedchild = currentfather.GetAttribute(pn);
 
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;

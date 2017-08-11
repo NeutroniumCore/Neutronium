@@ -98,13 +98,13 @@ namespace Neutronium.Core.Binding
                 return;
 
             var jso = (JsGenericObject)global;
-            Update(jso.Attributes[att] as IJSCSMappedBridge, child);
+            Update(jso.GetAttribute(att) as IJSCSMappedBridge, child);
         }
 
         internal void RegisterCollectionMapping(IJavascriptObject jsFather, string att, int index, IJavascriptObject child)
         {
             var father = GetCached(jsFather);
-            var jsos = (att == null) ? father : ((JsGenericObject)father).Attributes[att];
+            var jsos = (att == null) ? father : ((JsGenericObject)father).GetAttribute(att);
 
             Update(((JSArray)jsos).Items[index] as IJSCSMappedBridge, child);
         }

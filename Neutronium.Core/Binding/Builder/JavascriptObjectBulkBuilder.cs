@@ -42,7 +42,7 @@ namespace Neutronium.Core.Binding.Builder
             UpdateDependencies();
         }
 
-        internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)
+        internal void RequestObjectCreation(IJSCSGlue glue, IEnumerable<KeyValuePair<string, IJSCSGlue>> children, bool updatableFromJS)
         {
             _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, children), updatableFromJS);
         }

@@ -36,7 +36,7 @@ namespace Neutronium.Core.Binding.Builder
             return new EntityDescriptor<int>(father, description?.Select((d, index) => new ChildDescription<int>(index, d)));
         }
 
-        public static EntityDescriptor<string> CreateObjectDescriptor(IJSCSGlue father, IReadOnlyDictionary<string, IJSCSGlue> description)
+        public static EntityDescriptor<string> CreateObjectDescriptor(IJSCSGlue father, IEnumerable<KeyValuePair<string, IJSCSGlue>> description)
         {
             return new EntityDescriptor<string>(father, description?.Select(d => new ChildDescription<string>(d.Key, d.Value)));
         }
