@@ -5,6 +5,10 @@
     var vueVm = null;
 
     function silentChange(father, propertyName, value) {
+        setTimeout(() => silentChangeSync(father, propertyName, value), 0);
+    }
+
+    function silentChangeSync(father, propertyName, value) {
         const silenter = father[silenterProperty];
         if (silenter) {
             silentChangeElement(silenter, propertyName, value);
@@ -14,7 +18,11 @@
     }
 
     function silentChangeAndInject(father, propertyName, value, observer) {
-        silentChange(father, propertyName, value);
+        setTimeout(() => silentChangeAndInjectSync(father, propertyName, value, observer), 0);
+    }
+
+    function silentChangeAndInjectSync(father, propertyName, value, observer) {
+        silentChangeSync(father, propertyName, value);
         inject(value, observer);
     }
 

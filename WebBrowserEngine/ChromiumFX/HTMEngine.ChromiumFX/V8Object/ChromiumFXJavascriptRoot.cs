@@ -57,7 +57,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             var function = _CfrV8Value.GetValue(functionName);
             try
             {
-                return function.ExecuteFunctionWithContext(context.Convert().V8Context, _CfrV8Value, parameters.Convert()).Convert();
+                return function.ExecuteFunction(_CfrV8Value, parameters.Convert()).Convert();
             }
             catch
             {
@@ -68,7 +68,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public void InvokeNoResult(string functionName, IWebView context, params IJavascriptObject[] parameters)
         {
             var function = _CfrV8Value.GetValue(functionName);
-            function.ExecuteFunctionWithContext(context.Convert().V8Context, _CfrV8Value, parameters.Convert());
+            function.ExecuteFunction(_CfrV8Value, parameters.Convert());
         }
 
         public Task<IJavascriptObject> InvokeAsync(string functionName, IWebView context, params IJavascriptObject[] parameters) 

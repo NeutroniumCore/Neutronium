@@ -7,6 +7,12 @@
     var vueVm = null;
 
     function silentChange(father, propertyName, value) {
+        setTimeout(function () {
+            return silentChangeSync(father, propertyName, value);
+        }, 0);
+    }
+
+    function silentChangeSync(father, propertyName, value) {
         var silenter = father[silenterProperty];
         if (silenter) {
             silentChangeElement(silenter, propertyName, value);
@@ -16,7 +22,13 @@
     }
 
     function silentChangeAndInject(father, propertyName, value, observer) {
-        silentChange(father, propertyName, value);
+        setTimeout(function () {
+            return silentChangeAndInjectSync(father, propertyName, value, observer);
+        }, 0);
+    }
+
+    function silentChangeAndInjectSync(father, propertyName, value, observer) {
+        silentChangeSync(father, propertyName, value);
         inject(value, observer);
     }
 
@@ -188,11 +200,11 @@
         var callBack = options.callBack;
 
         this.$watch("$data.__window__.State", function (newVal) {
-            var _this2 = this;
+            var _this = this;
 
             if (newVal.name == status) {
                 var cb = function cb() {
-                    return _this2.$data.__window__[command].Execute();
+                    return _this.$data.__window__[command].Execute();
                 };
                 callBack(cb);
             }
@@ -206,18 +218,18 @@
     var VueAdapter = Vue.adapter;
 
     var openMixin = VueAdapter.addOnReady({}, function () {
-        var _this3 = this;
+        var _this2 = this;
 
         listenEventAndDo.call(this, { status: "Opened", command: "EndOpen", inform: "IsListeningOpen", callBack: function callBack(cb) {
-                return _this3.onOpen(cb);
+                return _this2.onOpen(cb);
             } });
     });
 
     var closeMixin = VueAdapter.addOnReady({}, function () {
-        var _this4 = this;
+        var _this3 = this;
 
         listenEventAndDo.call(this, { status: "Closing", command: "CloseReady", inform: "IsListeningClose", callBack: function callBack(cb) {
-                return _this4.onClose(cb);
+                return _this3.onClose(cb);
             } });
     });
 
