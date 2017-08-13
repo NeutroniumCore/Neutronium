@@ -1,4 +1,5 @@
 ﻿using MoreCollection.Extensions;
+using Neutronium.Core.Infra.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,28 +60,20 @@ namespace Neutronium.Core.Infra
             return (targetType != null) && ((targetType == UInt16Type) || (targetType == UInt32Type) || (targetType == UInt64Type));
         }
 
-        private static Dictionary<Type, TypePropertyInfo> _TypePropertyInfos = new Dictionary<Type, TypePropertyInfo>();
-        private class TypePropertyInfo
+        private static Dictionary<Type, TypePropertyAccessor> _TypePropertyInfos = new Dictionary<Type, TypePropertyAccessor>();
+        private static TypePropertyAccessor GetTypePropertyInfo(this Type @type)
         {
-            public List<PropertyInfo> ReadProperties { get; }
-            public bool HasReadWriteProperties { get; }
-            
-            public TypePropertyInfo(Type type)
-            {
-                ReadProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                    .Where(p => p.CanRead && p.GetGetMethod(false) != null).ToList();
-                HasReadWriteProperties = ReadProperties.Any(p => p.CanWrite && p.GetSetMethod(false) != null);
-            }
+            return _TypePropertyInfos.GetOrAddEntity(@type, t => new TypePropertyAccessor(t));
         }
 
-        private static TypePropertyInfo GetTypePropertyInfo(this Type @type)
+        internal static ICollection<PropertyAccessor> GetReadProperties(this Type @type)
         {
-            return _TypePropertyInfos.GetOrAddEntity(@type, t => new TypePropertyInfo(t));
+            return @type?.GetTypePropertyInfo().ReadProperties;
         }
 
-        public static IList<PropertyInfo> GetReadProperties(this Type @type)
+        internal static PropertyAccessor GetReadProperty(this Type @type, string propertyName)
         {
-            return (@type == null)? null : @type.GetTypePropertyInfo().ReadProperties;
+            return @type.GetTypePropertyInfo().GetAccessor(propertyName);
         }
 
         public static bool HasReadWriteProperties(this Type @type)

@@ -59,8 +59,8 @@
       <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2924.1\lib\ChromiumWebBrowser.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MoreCollection, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MoreCollection.1.2.1\lib\net45\MoreCollection.dll</HintPath>
+    <Reference Include="MoreCollection, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MoreCollection.1.2.2\lib\net45\MoreCollection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />

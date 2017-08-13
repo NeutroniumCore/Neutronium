@@ -64,8 +64,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MoreCollection, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MoreCollection.1.2.1\lib\net45\MoreCollection.dll</HintPath>
+    <Reference Include="MoreCollection, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MoreCollection.1.2.2\lib\net45\MoreCollection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -131,6 +131,8 @@
     <Compile Include="Infra\ComposedDisposable.cs" />
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
+    <Compile Include="Infra\Reflection\PropertyAccessor.cs" />
+    <Compile Include="Infra\Reflection\TypePropertyAccessor.cs" />
     <Compile Include="Infra\Slicer.cs" />
     <Compile Include="JavascriptFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptFramework\DebugToolsUI.cs" />
@@ -151,7 +153,6 @@
     <Compile Include="Binding\Listeners\ListenerRegister.cs" />
     <Compile Include="Binding\Listeners\Silenter.cs" />
     <Compile Include="Binding\SessionCacher.cs" />
-    <Compile Include="Infra\PropertyAccessor.cs" />
     <Compile Include="Infra\ResourceReader.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\JavascriptNamer.cs" />
     <Compile Include="Navigation\Routing\BuilderExtension.cs" />

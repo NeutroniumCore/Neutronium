@@ -206,8 +206,10 @@ namespace Neutronium.Core.Binding
                 if (res == null)
                     return;
 
-                var propertyAccessor = new PropertyAccessor(res.CValue, propertyName, _Logger);
-                if (!propertyAccessor.IsSettable) 
+                var fatherValue = res.CValue;
+                var propertyAccessor = fatherValue.GetType().GetReadProperty(propertyName);
+
+                if (!(propertyAccessor?.IsSettable == true))
                 {
                     _Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
                     return;
@@ -222,9 +224,18 @@ namespace Neutronium.Core.Binding
                     using (var relisten = glue.IsBasicNotNull() ? null : ReListen(bridgeUpdater))
                     using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null) 
                     {
-                        var oldValue = propertyAccessor.Get();
-                        propertyAccessor.Set(glue.CValue);
-                        var actualValue = propertyAccessor.Get();
+                        var oldValue = propertyAccessor.Get(fatherValue);
+
+                        try
+                        {
+                            propertyAccessor.Set(fatherValue, glue.CValue);
+                        }
+                        catch (Exception e)
+                        {
+                            _Logger.Info($"Unable to set C# from javascript object: property: {propertyName} of {targetType}, javascript value {glue.CValue}. Exception {e} was thrown.");
+                        }
+
+                        var actualValue = propertyAccessor.Get(fatherValue);
 
                         if (Object.Equals(actualValue, glue.CValue))
                         {
@@ -298,22 +309,23 @@ namespace Neutronium.Core.Binding
 
         private void CSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         { 
-            var pn = e.PropertyName;
-            var propertyAccessor = new PropertyAccessor(sender, pn, _Logger);
-            if (!propertyAccessor.IsGettable)
+            var propertyName = e.PropertyName;
+
+            var propertyAccessor = sender.GetType().GetReadProperty(propertyName);
+            if (propertyAccessor == null)
                 return;
 
             var currentfather = _SessionCache.GetCached(sender) as JsGenericObject;
             if (currentfather == null)
                 return;
 
-            var nv = propertyAccessor.Get();
-            var oldbridgedchild = currentfather.GetAttribute(pn);
+            var nv = propertyAccessor.Get(sender);
+            var oldbridgedchild = currentfather.GetAttribute(propertyName);
 
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(pn, child)).DoNotWait();
+            UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(propertyName, child)).DoNotWait();
         }
 
         private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

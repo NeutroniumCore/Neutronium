@@ -87,7 +87,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             {
                 try 
                 {
-                    taskCompletionSource.TrySetResult(perform());
+                    var taskResult = perform();
+                    taskCompletionSource.TrySetResult(taskResult);
                 }
                 catch (Exception exception) 
                 {

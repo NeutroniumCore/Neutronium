@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Input;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.MVVMComponents;
 using System.Collections.Generic;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding
 {
@@ -79,7 +79,7 @@ namespace Neutronium.Core.Binding
             return gres;
         }
 
-        private void MappNested(JsGenericObject gres, object parentObject, IList<PropertyInfo> properties)
+        private void MappNested(JsGenericObject gres, object parentObject, ICollection<PropertyAccessor> properties)
         {
             if (parentObject == null)
                 return;
@@ -90,9 +90,9 @@ namespace Neutronium.Core.Binding
                 object childvalue;
                 try
                 {
-                    childvalue = propertyInfo.GetValue(parentObject, null); 
+                    childvalue = propertyInfo.Get(parentObject); 
                 }
-                catch(TargetInvocationException e)
+                catch(Exception e)
                 {
                     _Logger.Info(()=> $"Unable to convert property {propertyName} from {parentObject} of type {parentObject.GetType().FullName} exception {e.InnerException}");
                     continue;
@@ -109,8 +109,6 @@ namespace Neutronium.Core.Binding
             var basictype = _Context.IsTypeBasic(type) ? type : null;
 
             var res = _GlueFactory.BuildArray(source.Cast<object>().Select(s => Map(s)), source, basictype);
-
-
 
             _Cacher.CacheFromCSharpValue(source, res);
             return res;
