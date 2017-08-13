@@ -363,15 +363,15 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        public Task<IJSCSGlue> RegisterInSession(object nv)
+        public Task RegisterInSession(object nv, Action<IJSCSGlue> performAfterBuild)
         {
-            return UpdateFromCSharpChanges(nv, GetUnrootedEntitiesUpdater);
+            return UpdateFromCSharpChanges(nv, (bridge) => GetUnrootedEntitiesUpdater(bridge, performAfterBuild));
         }
 
-        private BridgeUpdater GetUnrootedEntitiesUpdater(IJSCSGlue newbridgedchild)
+        private BridgeUpdater GetUnrootedEntitiesUpdater(IJSCSGlue newbridgedchild, Action<IJSCSGlue> performAfterBuild)
         {
             _UnrootedEntities.Add(newbridgedchild);
-            return new BridgeUpdater();
+            return new BridgeUpdater(_ => performAfterBuild(newbridgedchild));
         }
 
         private Task UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder, bool needToCheckListener)

@@ -53,13 +53,14 @@ namespace Neutronium.Core.Binding.GlueObject
 
             try
             {
-                var task = await UIDispatcher.EvaluateAsync(async () =>
+                await await UIDispatcher.EvaluateAsync(async () =>
                 {
                     var res = await _JSResultCommand.Execute(argument);
-                    return (res==null) ? null :await _JavascriptToCSharpConverter.RegisterInSession(res);
+                    if (res == null)
+                        return;
+
+                    await _JavascriptToCSharpConverter.RegisterInSession(res,bridge => SetResult(promise, bridge));
                 });
-                var bridgevalue = await task;
-                await SetResult(promise, bridgevalue);
             }
             catch (Exception exception)
             {
@@ -79,7 +80,7 @@ namespace Neutronium.Core.Binding.GlueObject
             });
         }
 
-        private async Task SetResult(IJavascriptObject promise, IJSCSGlue bridgevalue)
+        private async void SetResult(IJavascriptObject promise, IJSCSGlue bridgevalue)
         {
             if (promise == null)
                 return;

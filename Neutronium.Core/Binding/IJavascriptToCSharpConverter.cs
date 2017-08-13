@@ -9,6 +9,6 @@ namespace Neutronium.Core.Binding
     {
         IJSCSGlue GetCachedOrCreateBasic(IJavascriptObject key, Type targetType);
 
-        Task<IJSCSGlue> RegisterInSession(object nv);
+        Task RegisterInSession(object nv, Action<IJSCSGlue> performAfterBuild);
     }
 }
