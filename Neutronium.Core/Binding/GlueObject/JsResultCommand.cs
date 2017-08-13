@@ -59,7 +59,7 @@ namespace Neutronium.Core.Binding.GlueObject
                     if (res == null)
                         return;
 
-                    await _JavascriptToCSharpConverter.RegisterInSession(res,bridge => SetResult(promise, bridge));
+                    _JavascriptToCSharpConverter.RegisterInSession(res,bridge => SetResult(promise, bridge));
                 });
             }
             catch (Exception exception)

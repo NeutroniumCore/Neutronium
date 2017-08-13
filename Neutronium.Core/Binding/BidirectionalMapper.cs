@@ -107,9 +107,9 @@ namespace Neutronium.Core.Binding
             _Context.WebView.Eval(resource.Load("Infra.js"), out res);
         }
 
-        private Task RunInJavascriptContext(Action run)
+        private void DispatchInJavascriptContext(Action run)
         {
-            return _Context.WebView.RunAsync(run);
+            _Context.WebView.Dispatch(run);
         }
 
         private Task RunInJavascriptContext(Func<Task> run)
@@ -117,10 +117,9 @@ namespace Neutronium.Core.Binding
             return _Context.WebView.Evaluate(run);
         }
 
-        private async Task<T> RunInJavascriptContext<T>(Func<Task<T>> run)
+        private void DispatchInJavascriptContext(Func<Task> run)
         {
-            var res = await _Context.WebView.EvaluateAsync(run);
-            return await res;
+            _Context.WebView.Dispatch(() => run());
         }
 
         private Task<T> EvaluateInUIContextAsync<T>(Func<T> run)
@@ -325,15 +324,15 @@ namespace Neutronium.Core.Binding
             if (Object.Equals(nv, oldbridgedchild.CValue))
                 return;
 
-            UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(propertyName, child)).DoNotWait();
+            UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(propertyName, child));
         }
 
-        private async void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            await UnsafeCSharpCollectionChanged(sender, e).ConfigureAwait(false);
+            UnsafeCSharpCollectionChanged(sender, e);
         }
 
-        private async Task UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var arr = _SessionCache.GetCached(sender) as JSArray;
             if (arr == null)
@@ -342,30 +341,30 @@ namespace Neutronium.Core.Binding
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    await UpdateFromCSharpChanges(e.NewItems[0], (addvalue) => arr.GetAddUpdater(addvalue, e.NewStartingIndex));
+                    UpdateFromCSharpChanges(e.NewItems[0], (addvalue) => arr.GetAddUpdater(addvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    await UpdateFromCSharpChanges(e.NewItems[0], (newvalue) => arr.GetReplaceUpdater(newvalue, e.NewStartingIndex));
+                    UpdateFromCSharpChanges(e.NewItems[0], (newvalue) => arr.GetReplaceUpdater(newvalue, e.NewStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    await UpdateFromCSharpChanges(() => arr.GetRemoveUpdater(e.OldStartingIndex), true);
+                    UpdateFromCSharpChanges(() => arr.GetRemoveUpdater(e.OldStartingIndex), true);
                     break;
 
                 case NotifyCollectionChangedAction.Reset:
-                    await UpdateFromCSharpChanges(() => arr.GetResetUpdater(), true);
+                    UpdateFromCSharpChanges(() => arr.GetResetUpdater(), true);
                     break;
 
                 case NotifyCollectionChangedAction.Move:
-                    await UpdateFromCSharpChanges(() => arr.GetMoveUpdater(e.OldStartingIndex, e.NewStartingIndex), false);
+                    UpdateFromCSharpChanges(() => arr.GetMoveUpdater(e.OldStartingIndex, e.NewStartingIndex), false);
                     break;
             }
         }
 
-        public Task RegisterInSession(object nv, Action<IJSCSGlue> performAfterBuild)
+        public void RegisterInSession(object nv, Action<IJSCSGlue> performAfterBuild)
         {
-            return UpdateFromCSharpChanges(nv, (bridge) => GetUnrootedEntitiesUpdater(bridge, performAfterBuild));
+            UpdateFromCSharpChanges(nv, (bridge) => GetUnrootedEntitiesUpdater(bridge, performAfterBuild));
         }
 
         private BridgeUpdater GetUnrootedEntitiesUpdater(IJSCSGlue newbridgedchild, Action<IJSCSGlue> performAfterBuild)
@@ -374,7 +373,7 @@ namespace Neutronium.Core.Binding
             return new BridgeUpdater(_ => performAfterBuild(newbridgedchild));
         }
 
-        private Task UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder, bool needToCheckListener)
+        private void UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder, bool needToCheckListener)
         {
             CheckUIContext();
 
@@ -385,21 +384,21 @@ namespace Neutronium.Core.Binding
             }
 
             if (!updater.HasUpdatesOnJavascriptContext)
-                return TaskHelper.Ended();
+                return;
 
-            return RunInJavascriptContext(() =>
+            DispatchInJavascriptContext(() =>
             {
                 updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
             });
         }
 
-        private Task<IJSCSGlue> UpdateFromCSharpChanges(object newCSharpObject, Func<IJSCSGlue, BridgeUpdater> updaterBuilder)
+        private void UpdateFromCSharpChanges(object newCSharpObject, Func<IJSCSGlue, BridgeUpdater> updaterBuilder)
         {
             CheckUIContext();
 
             var value = _JSObjectBuilder.Map(newCSharpObject);
             if (value == null)
-                return null;               
+                return;               
 
             BridgeUpdater updater = null;
             using (var relisten = value.IsBasicNotNull()? null : ReListen())
@@ -408,18 +407,28 @@ namespace Neutronium.Core.Binding
             }
 
             if (!_IsLoaded)
-                return Task.FromResult(value);
+                return;
 
-            return RunInJavascriptContext(async () =>
+            if (_Context.JavascriptFrameworkIsMappingObject)
             {
-                _BuilderStrategy.UpdateJavascriptValue(value);
+                DispatchInJavascriptContext(() => UpdateOnJavascriptContextWithMapping(updater, value));
+                return;
+            }
 
-                if (_Context.JavascriptFrameworkIsMappingObject)
-                    await InjectInHTMLSession(value);
+            DispatchInJavascriptContext(() => UpdateOnJavascriptContext(updater, value));
+        }
 
-                updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
-                return value;
-            });
+        private void UpdateOnJavascriptContext(BridgeUpdater updater, IJSCSGlue value)
+        {
+            _BuilderStrategy.UpdateJavascriptValue(value);
+            updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
+        }
+
+        private async Task UpdateOnJavascriptContextWithMapping(BridgeUpdater updater, IJSCSGlue value)
+        {
+            _BuilderStrategy.UpdateJavascriptValue(value);
+            await InjectInHTMLSession(value);
+            updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
         }
 
         private BridgeUpdater Update(Func<BridgeUpdater> updaterBuilder, IExitContext relisten)

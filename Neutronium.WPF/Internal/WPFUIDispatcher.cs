@@ -25,6 +25,11 @@ namespace Neutronium.WPF.Internal
             return tcs.Task;
         }
 
+        public void Dispatch(Action act)
+        {
+            BeginInvoke(act);
+        }
+
         public void Run(Action act)
         {
             Invoke(act);

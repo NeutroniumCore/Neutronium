@@ -12,6 +12,11 @@ namespace Neutronium.Core.Infra
             return TaskHelper.Ended();
         }
 
+        public void Dispatch(Action act)
+        {
+            act();
+        }
+
         public void Run(Action act)
         {
             act();

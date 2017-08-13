@@ -41,6 +41,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
            return _Dispatcher.RunAsync(act);
         }
 
+        public void Dispatch(Action act)
+        {
+            _Dispatcher.Dispatch(act);
+        }
+
         public void Run(Action act)
         {
             _Dispatcher.Run(act);

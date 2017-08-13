@@ -53,6 +53,23 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return taskCompletionSource.Task;
         }
 
+        public void Dispatch(Action act)
+        {
+            Action safe = () =>
+            {
+                try
+                {
+                   act();
+                }
+                catch (Exception exception)
+                {
+                    _Logger?.Info(() => $"Exception encountred during task dispatch: {exception.Message}");
+                }
+            };
+
+            RunInContext(safe);
+        }
+
         public void Run(Action act) 
         {
             RunAsync(act).Wait();
