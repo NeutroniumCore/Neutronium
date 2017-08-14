@@ -5,15 +5,24 @@
     <p>Neutronium Demo Perf Application</p>
   </div>
 
-  <div>
-    {{Counter}}
+ <div class="list-group col-md-3">
+    <div>
+      {{Counter}}
+    </div>
+
+    <div>
+      {{State}}
+    </div>
+    <command-button :command="Count" name="Run"></command-button>
   </div>
 
-  <div>
-    {{State}}
+  <div class="list-group col-md-3">
+    <pre>{{bigVm}}</pre>
   </div>
 
-  <command-button :command="Count" name="Run"></command-button>
+  
+  <command-button :command="BuildBigModel" name="Build Big Model"></command-button>
+
 </div>
 </template>
 
@@ -34,6 +43,11 @@ export default {
   },
   data () {
     return this.viewModel
+  },
+  computed: {
+    bigVm() {
+        return JSON.stringify(this.viewModel.Big, null, 2);  
+    }
   }
 }
 </script>
