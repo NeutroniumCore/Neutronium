@@ -134,6 +134,8 @@
       <DependentUpon>ChromiumFxControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\NativeMethods.cs" />
+    <Compile Include="WPF\PackUriResourceHandler.cs" />
+    <Compile Include="WPF\PackUriSchemeHandlerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj">

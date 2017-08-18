@@ -41,6 +41,20 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
+
+            //add request interception to handler pack uri request
+            _ChromiumWebBrowser.RequestHandler.GetResourceHandler += (s, e) =>
+            {
+                var uri=new Uri(e.Request.Url);
+                if (uri.Scheme != "pack")
+                {
+                    e.SetReturnValue(null);
+                    return;
+                }
+               
+                e.SetReturnValue(new PackUriResourceHandler(uri));
+            };
+
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
             _chromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, _Logger);         
         }

@@ -5,6 +5,7 @@ using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
 using Neutronium.Core.Infra;
 using System.Threading;
+using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 {
@@ -25,6 +26,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
             ChromiumWebBrowser.Initialize();
+
+            //need this to make request interception work
+            CfxRuntime.RegisterSchemeHandlerFactory("pack", null, new PackUriSchemeHandlerFactory());
         }
 
         private string GetPath(string relativePath) 
