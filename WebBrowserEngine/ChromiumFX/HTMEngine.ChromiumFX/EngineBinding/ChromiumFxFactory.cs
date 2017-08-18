@@ -14,6 +14,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
     {
         private static uint _Count = 1;
         private readonly CfrV8Context _CfrV8Context;
+        private readonly IWebView _WebView;
         private static readonly IDictionary<Type, Func<object, CfrV8Value>> _Converters = new Dictionary<Type, Func<object, CfrV8Value>>();
         private readonly Lazy<CfrV8Value> _Factory;
 
@@ -28,8 +29,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private IJavascriptObject _Null;
 
-        internal ChromiumFxFactory(CfrV8Context context)
+        internal ChromiumFxFactory(CfrV8Context context, IWebView webView)
         {
+            _WebView = webView;
             _CfrV8Context = context;
             _Factory = new Lazy<CfrV8Value>(FactoryCreator);
             _ObjectBuilder = new Lazy<CfrV8Value>(ObjectBuilderCreator);
@@ -66,7 +68,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private CfrV8Value FactoryCreator()
         {
             var builderScript = @"(function(){
-                const maxCount = 240000
+                const maxCount = {{MaxFunctionArgumentsNumber}}
 
                 function pushResult(fn, array){
                     const count = array.length
@@ -132,7 +134,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 };
             }())";
 
-            var finalString = builderScript.Replace("{{NeutroniumConstants.ObjectId}}", NeutroniumConstants.ObjectId)
+            var finalString = builderScript.Replace("{{MaxFunctionArgumentsNumber}}", $"{_WebView.MaxFunctionArgumentsNumber}")
+                                           .Replace("{{NeutroniumConstants.ObjectId}}", NeutroniumConstants.ObjectId)
                                            .Replace("{{NeutroniumConstants.ReadOnlyFlag}}", NeutroniumConstants.ReadOnlyFlag);
             return Eval(finalString);
         }

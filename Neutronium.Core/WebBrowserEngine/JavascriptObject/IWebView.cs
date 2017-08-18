@@ -50,6 +50,8 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <summary>
         ///  return the max number of arguments 
         ///  javaScript functions can accept
+        ///  https://stackoverflow.com/questions/22747068/is-there-a-max-number-of-arguments-javascript-functions-can-accept
+        ///  http://jsfiddle.net/dede89/uxd7bycx/
         /// </summary>
         int MaxFunctionArgumentsNumber { get; }
     }
