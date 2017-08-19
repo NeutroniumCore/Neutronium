@@ -30,7 +30,7 @@ namespace Neutronium.JavascriptFramework.Vue
        public Task RegisterMainViewModel(IJavascriptObject jsObject)
        {
             var tcs = new TaskCompletionSource<object>();
-            _Listener.Bind("fulfill", _WebView, _ => 
+            _Listener.BindArgument("fulfill", _WebView, _ => 
             {
                 _Logger.Debug("Vue ready received");
                 tcs.TrySetResult(null);

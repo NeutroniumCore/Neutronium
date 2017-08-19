@@ -15,6 +15,31 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             throw new NotImplementedException();
         }
 
+        public void Bind(string functionName, IWebView webView, Action<IJavascriptObject[]> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BindArgument(string functionName, IWebView webView, Action<IJavascriptObject> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject, IJavascriptObject> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject, IJavascriptObject, IJavascriptObject> action)
+        {
+            throw new NotImplementedException();
+        }
+
         public IJavascriptObject ExecuteFunction(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters)
         {
             throw new NotImplementedException();

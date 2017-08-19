@@ -25,13 +25,48 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object {
 
         public void Bind(string functionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action) 
         {
-            lock (this) 
+            var cfrV8Handler = action.Convert(functionName);
+            Bind(cfrV8Handler, functionName);       
+        }
+
+        public void Bind(string functionName, IWebView webView, Action<IJavascriptObject[]> action)
+        {
+            var cfrV8Handler = action.Convert();
+            Bind(cfrV8Handler, functionName);
+        }
+
+        public void BindArgument(string functionName, IWebView webView, Action<IJavascriptObject> action)
+        {
+            var cfrV8Handler = action.Convert();
+            Bind(cfrV8Handler, functionName);
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject> action)
+        {
+            var cfrV8Handler = action.Convert();
+            Bind(cfrV8Handler, functionName);
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject, IJavascriptObject> action)
+        {
+            var cfrV8Handler = action.Convert();
+            Bind(cfrV8Handler, functionName);
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject, IJavascriptObject, IJavascriptObject> action)
+        {
+            var cfrV8Handler = action.Convert();
+            Bind(cfrV8Handler, functionName);
+        }
+
+        private void Bind(CfrV8Handler handler, string functionName)
+        {
+            lock (this)
             {
-                 var cfrV8Handler = action.Convert(functionName);
-                Functions.Add(cfrV8Handler);
-                var func = CfrV8Value.CreateFunction(functionName, cfrV8Handler);
+                Functions.Add(handler);
+                var func = CfrV8Value.CreateFunction(functionName, handler);
                 _CfrV8Value.SetValue(functionName, func, CfxV8PropertyAttribute.ReadOnly | CfxV8PropertyAttribute.DontDelete);
-            }           
+            }
         }
 
         public IJavascriptObject ExecuteFunction(IWebView context) 
