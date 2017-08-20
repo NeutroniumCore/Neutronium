@@ -37,9 +37,9 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
             return new JsMappableGenericObject(from, childrenCount);
         }
 
-        public JSArray BuildArray(IEnumerable<IJSCSGlue> enumerable, IEnumerable source, Type basictype)
+        public JSArray BuildArray(List<IJSCSGlue> values, IEnumerable source, Type basictype)
         {
-            return new JSMappableArray(enumerable, source, basictype);
+            return new JSMappableArray(values, source, basictype);
         }
     }
 }

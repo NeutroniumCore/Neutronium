@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using System.Windows.Input;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.MVVMComponents;
@@ -107,9 +106,14 @@ namespace Neutronium.Core.Binding
         {
             var type = source.GetElementType();
             var basictype = _Context.IsTypeBasic(type) ? type : null;
+            var count = (source as ICollection)?.Count;
+            var list = count.HasValue? new List<IJSCSGlue>(count.Value): new List<IJSCSGlue>();
+            foreach (var @object in source)
+            {
+                list.Add(Map(@object));
+            }
 
-            var res = _GlueFactory.BuildArray(source.Cast<object>().Select(s => Map(s)), source, basictype);
-
+            var res = _GlueFactory.BuildArray(list, source, basictype);
             _Cacher.CacheFromCSharpValue(source, res);
             return res;
         }

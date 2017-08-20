@@ -3,20 +3,24 @@ using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JSBuilderAdapter : IJavascriptObjectBuilder
+    internal sealed class JSAllBuilderAdapter : IJavascriptObjectBuilder
     {
-        private readonly IJSCSGlue _Object;
+        private IJSCSGlue _Object;
         private readonly JavascriptObjectBulkBuilder _JavascriptObjectBuilder;
 
-        public JSBuilderAdapter(IJSCSGlue @object, JavascriptObjectBulkBuilder javascriptObjectBuilder)
+        public JSAllBuilderAdapter(JavascriptObjectBulkBuilder javascriptObjectBuilder)
         {
-            _Object = @object;
             _JavascriptObjectBuilder = javascriptObjectBuilder;
         }
 
-        public void GetBuildRequest()
+        public bool Visit(IJSCSGlue @object)
         {
+            if (@object.JSValue != null)
+                return false;
+
+            _Object = @object;
             _Object.RequestBuildInstruction(this);
+            return true;
         }
 
         public void RequestArrayCreation(IList<IJSCSGlue> children)

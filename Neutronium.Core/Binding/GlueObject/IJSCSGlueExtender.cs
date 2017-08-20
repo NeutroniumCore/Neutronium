@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using MoreCollection.Extensions;
+using System;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -17,11 +16,6 @@ namespace Neutronium.Core.Binding.GlueObject
             return (@this.CValue != null && @this.Type == JsCsGlueType.Basic);
         }
 
-        private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res)
-        {
-            @this.GetChildren().Where(res.Add).ForEach(direct => direct.GetAllChildren(res));
-        }
-
         public static ISet<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf = false)
         {
             var res = new HashSet<IJSCSGlue>();
@@ -30,6 +24,38 @@ namespace Neutronium.Core.Binding.GlueObject
 
             @this.GetAllChildren(res);
             return res;
+        }
+
+        private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res)
+        {
+            foreach (var child in @this.GetChildren())
+            {
+                if (res.Add(child))
+                {
+                    child.GetAllChildren(res);
+                }
+            }
+        }
+
+        public static void VisitAllChildren(this IJSCSGlue @this, Func<IJSCSGlue, bool> visit)
+        {
+            var res = new HashSet<IJSCSGlue>();
+            res.Add(@this);
+            if (!visit(@this))
+                return;
+
+            @this.VisitAllChildren(visit, res);
+        }
+
+        private static void VisitAllChildren(this IJSCSGlue @this, Func<IJSCSGlue, bool> visit, ISet<IJSCSGlue> res)
+        {
+            foreach (var child in @this.GetChildren())
+            {
+                if (res.Add(child) && visit(child))
+                {
+                    child.VisitAllChildren(visit, res);
+                }
+            }
         }
 
         public static IJavascriptObject GetJSSessionValue(this IJSCSGlue @this)

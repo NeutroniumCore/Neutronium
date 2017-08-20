@@ -1,8 +1,6 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
-using MoreCollection.Extensions;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Neutronium.Core.Binding.Listeners
 {
@@ -43,7 +41,11 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void ForExceptDo(ISet<IJSCSGlue> @for, ISet<IJSCSGlue> except, Action<IJSCSGlue> @do)
         {
-            @for.Where(o => !except.Contains(o)).ForEach(@do);
+            foreach(var element in @for)
+            {
+                if (!except.Contains(element))
+                    @do(element);
+            }
         }
     }
 }

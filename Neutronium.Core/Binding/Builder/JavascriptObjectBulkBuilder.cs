@@ -34,10 +34,9 @@ namespace Neutronium.Core.Binding.Builder
 
         public void UpdateJavascriptValue()
         {
-            var builders = _Root.GetAllChildren(true).Where(glue => glue.JSValue == null)
-                                .Select(glue => new JSBuilderAdapter(glue, this)).ToList();
+            var allBuilder = new JSAllBuilderAdapter(this);
+            _Root.VisitAllChildren(allBuilder.Visit);
 
-            builders.ForEach(builder => builder.GetBuildRequest());
             CreateObjects();
             UpdateDependencies();
         }

@@ -106,9 +106,6 @@ namespace Neutronium.Core.Binding.Builder
 
         private void BulkUpdate<T>(IEnumerable<EntityDescriptor<T>> updates, Func<T, string> getKeyDescription)
         {
-            if (updates.Count() == 0)
-                return;
-
             var spliter = new EntityDescriptorSpliter<T> { MaxCount = _WebView.MaxFunctionArgumentsNumber -1 };
 
             spliter.SplitParameters(updates)
@@ -134,8 +131,9 @@ namespace Neutronium.Core.Binding.Builder
         {
             var count = 0;
             IReadOnlyCollection<T> childrenKeys = null;
-            foreach (var description in updates.Select(up => up.ChildrenDescription))
+            foreach (var update in updates)
             {
+                var description = update.ChildrenDescription;
                 var keys = description.Select(desc => desc.Key);
                 if (childrenKeys == null)
                 {

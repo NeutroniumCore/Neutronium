@@ -87,11 +87,11 @@
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\CommandCreationRequest.cs" />
+    <Compile Include="Binding\Builder\JSAllBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\ObjectsCreationRequest.cs" />
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
-    <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\GlueObject\IJSCSCachableGlue.cs" />
     <Compile Include="Binding\GlueObject\Mapped\GlueMappingFactory.cs" />
@@ -106,7 +106,6 @@
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectBulkBuilderStrategy.cs" />
     <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
-    <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueObject\IGlueFactory.cs" />
     <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
