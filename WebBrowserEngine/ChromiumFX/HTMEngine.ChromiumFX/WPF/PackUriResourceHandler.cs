@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Windows.Resources;
 using Chromium;
+using Neutronium.Core;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
     public class PackUriResourceHandler : CfxResourceHandler
     {
-        public PackUriResourceHandler(Uri packUri)
+        public PackUriResourceHandler(Uri packUri, IWebSessionLogger logger)
         {
             StreamResourceInfo resInfo = null;
             try
             {
                 resInfo = System.Windows.Application.GetResourceStream(packUri);
             }
-            catch
+            catch(Exception exception)
             {
+                logger?.Error(() => $"Unable to find pack ressource:{packUri} exception:{exception}");
             }
 
             GetResponseHeaders += (s1, e1) =>

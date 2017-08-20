@@ -52,7 +52,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     return;
                 }
                
-                e.SetReturnValue(new PackUriResourceHandler(uri));
+                e.SetReturnValue(new PackUriResourceHandler(uri, _Logger));
             };
 
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);

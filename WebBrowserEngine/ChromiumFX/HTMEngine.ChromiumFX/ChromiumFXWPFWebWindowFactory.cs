@@ -26,7 +26,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
             {
                 settingsUpdater?.Invoke(settings);
                 Settings = settings;
-            }, commadLineHandler);
+            }, commadLineHandler, WebSessionLogger);
         }
 
         public IWPFWebWindow Create()

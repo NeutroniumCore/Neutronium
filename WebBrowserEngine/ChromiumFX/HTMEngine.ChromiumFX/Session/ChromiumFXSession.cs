@@ -6,6 +6,7 @@ using Chromium.WebBrowser.Event;
 using Neutronium.Core.Infra;
 using System.Threading;
 using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
+using Neutronium.Core;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 {
@@ -16,7 +17,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         private readonly Action<CfxOnBeforeCommandLineProcessingEventArgs> _CommandLineHandler;
         private readonly string _CurrentDirectory;
 
-        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler) 
+        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler, IWebSessionLogger webSessionLogger) 
         {
             _CurrentDirectory = this.GetType().Assembly.GetPath();
             _SettingsBuilder = settingsBuilder;
@@ -28,7 +29,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             ChromiumWebBrowser.Initialize();
 
             //need this to make request interception work
-            CfxRuntime.RegisterSchemeHandlerFactory("pack", null, new PackUriSchemeHandlerFactory());
+            CfxRuntime.RegisterSchemeHandlerFactory("pack", null, new PackUriSchemeHandlerFactory(webSessionLogger));
         }
 
         private string GetPath(string relativePath) 
@@ -56,12 +57,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             settings.NoSandbox = true;
         }
 
-        internal static ChromiumFxSession GetSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler)
+        internal static ChromiumFxSession GetSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler, IWebSessionLogger webSessionLogger)
         {
             if (_Session != null)
                 return _Session;
 
-            _Session = new ChromiumFxSession(settingsBuilder, commadLineHandler);
+            _Session = new ChromiumFxSession(settingsBuilder, commadLineHandler, webSessionLogger);
             return _Session;
         }
 
