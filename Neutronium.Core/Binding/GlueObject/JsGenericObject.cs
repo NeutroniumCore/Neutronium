@@ -57,7 +57,7 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        public override IEnumerable<IJSCSGlue> GetChildren()
+        public IEnumerable<IJSCSGlue> GetChildren()
         {
             return _Attributes.Values; 
         }

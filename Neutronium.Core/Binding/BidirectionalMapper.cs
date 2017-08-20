@@ -138,10 +138,12 @@ namespace Neutronium.Core.Binding
 
         private ISet<IJSCSGlue> GetAllChildren()
         {
-            var @glues = _Root.GetAllChildren(true);
-            @glues.UnionWith(_UnrootedEntities.SelectMany(ent => ent.GetAllChildren(true)));
+            var @glues = _Root.GetAllChildren(FilterBasic);
+            @glues.UnionWith(_UnrootedEntities.SelectMany(ent => ent.GetAllChildren(FilterBasic)));
             return @glues;
         }
+
+        private bool FilterBasic(JsCsGlueType type) => type == JsCsGlueType.Basic;
 
         private void OnEnter(IJSCSGlue entering)
         {

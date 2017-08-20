@@ -31,7 +31,7 @@ namespace Neutronium.Core.Binding.Builder
 
             var updater = new JavascriptObjectSynchroneousBuilderAdapter(_Factory, _Cache, glue, _Mapping);
             updater.ApplyLocalChanges();
-            glue.GetChildren().ForEach(VisitUpdate);
+            glue.GetChildren()?.ForEach(VisitUpdate);
             updater.AfterChildrenUpdates();
         }
     }

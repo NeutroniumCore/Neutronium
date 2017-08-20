@@ -108,9 +108,11 @@ namespace Neutronium.Core.Binding.Builder
         {
             var spliter = new EntityDescriptorSpliter<T> { MaxCount = _WebView.MaxFunctionArgumentsNumber -1 };
 
-            spliter.SplitParameters(updates)
-                    .Select(param => GetUpdateParameters(param, getKeyDescription))
-                    .ForEach(arguments => Execute(arguments));
+            foreach(var entityDescriptor in spliter.SplitParameters(updates))
+            {
+                var arguments = GetUpdateParameters(entityDescriptor, getKeyDescription);
+                Execute(arguments);
+            }
         }
 
         private IJavascriptObject[] GetUpdateParameters<T>(List<EntityDescriptor<T>> updates, Func<T,string> getKeyDescription)

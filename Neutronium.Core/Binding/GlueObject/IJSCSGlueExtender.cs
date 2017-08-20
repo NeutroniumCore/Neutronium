@@ -28,7 +28,11 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res)
         {
-            foreach (var child in @this.GetChildren())
+            var children = @this.GetChildren();
+            if (children == null)
+                return;
+
+            foreach (var child in children)
             {
                 if (res.Add(child))
                 {
@@ -39,21 +43,51 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public static void VisitAllChildren(this IJSCSGlue @this, Func<IJSCSGlue, bool> visit)
         {
-            var res = new HashSet<IJSCSGlue>();
-            res.Add(@this);
             if (!visit(@this))
                 return;
 
+            var res = new HashSet<IJSCSGlue>();
+            res.Add(@this);
             @this.VisitAllChildren(visit, res);
         }
 
         private static void VisitAllChildren(this IJSCSGlue @this, Func<IJSCSGlue, bool> visit, ISet<IJSCSGlue> res)
         {
-            foreach (var child in @this.GetChildren())
+            var children = @this.GetChildren();
+            if (children == null)
+                return;
+
+            foreach (var child in children)
             {
                 if (res.Add(child) && visit(child))
                 {
                     child.VisitAllChildren(visit, res);
+                }
+            }
+        }
+
+        public static ISet<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, Func<JsCsGlueType, bool> filter)
+        {
+            var res = new HashSet<IJSCSGlue>();
+            if (filter(@this.Type))
+                return res;
+       
+            res.Add(@this);
+            @this.GetAllChildren(filter, res);
+            return res;
+        }
+
+        private static void GetAllChildren(this IJSCSGlue @this, Func<JsCsGlueType, bool> filter, ISet<IJSCSGlue> res)
+        {
+            var children = @this.GetChildren();
+            if (children == null)
+                return;
+
+            foreach (var child in children)
+            {
+                if (!filter(child.Type) && res.Add(child))
+                {
+                    child.GetAllChildren(filter, res);
                 }
             }
         }
