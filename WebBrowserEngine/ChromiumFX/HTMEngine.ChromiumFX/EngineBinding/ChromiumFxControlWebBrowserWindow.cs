@@ -119,9 +119,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return ChromiumFxFactory.IsTypeConvertible(type);
         }
 
-        public void NavigateTo(Uri path) 
+        public void NavigateTo(Uri path)
         {
-            _ChromiumWebBrowser.LoadUrl(path.AbsolutePath);
+            var url = path.Scheme == "file" ? path.AbsolutePath : path.ToString();
+            _ChromiumWebBrowser.LoadUrl(url);
         } 
 
         public event EventHandler<LoadEndEventArgs> LoadEnd;
