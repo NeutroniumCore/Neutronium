@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.Builder
 
             foreach (var element in data)
             {
-                var childrenCount = element.ChildrenDescription.Length;
+                var childrenCount = element.ChildrenDescription.Count;
                 var tentative = parametersCount + 1 + childrenCount;
                 var delta = tentative - MaxCount;
 
@@ -33,7 +33,7 @@ namespace Neutronium.Core.Binding.Builder
                 if (delta >= 0)
                 {
                     var maxToTake = maxCountInContext - parametersCount;
-                    list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Take(maxToTake)));
+                    list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Take(maxToTake).ToArray()));
                     yield return list;
 
                     var count = childrenCount - maxToTake;
@@ -41,7 +41,7 @@ namespace Neutronium.Core.Binding.Builder
                     for (i = 0; i < count / maxCountInContext; i++)
                     {
                         list = new List<EntityDescriptor<TIdentifier>>();
-                        list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Skip(maxToTake + maxCountInContext * i).Take(maxCountInContext)));
+                        list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Skip(maxToTake + maxCountInContext * i).Take(maxCountInContext).ToArray()));
                         yield return list;
                     }
 
@@ -50,7 +50,7 @@ namespace Neutronium.Core.Binding.Builder
                     parametersCount = childrenCount - skipped;
                     if (skipped < childrenCount)
                     {
-                        list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Skip(skipped)));
+                        list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Skip(skipped).ToArray()));
                         parametersCount++;
                     }
                     continue;

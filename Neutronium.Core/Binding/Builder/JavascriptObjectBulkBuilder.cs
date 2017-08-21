@@ -41,7 +41,7 @@ namespace Neutronium.Core.Binding.Builder
             UpdateDependencies();
         }
 
-        internal void RequestObjectCreation(IJSCSGlue glue, IEnumerable<KeyValuePair<string, IJSCSGlue>> children, bool updatableFromJS)
+        internal void RequestObjectCreation(IJSCSGlue glue, ICollection<KeyValuePair<string, IJSCSGlue>> children, bool updatableFromJS)
         {
             _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, children), updatableFromJS);
         }
@@ -128,7 +128,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void UpdateArrays()
         {
-            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Length > 0);
+            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Count > 0);
             _BulkUpdater.BulkUpdateArray(toBeUpdated);
         }
 

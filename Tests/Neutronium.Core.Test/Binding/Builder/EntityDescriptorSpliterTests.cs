@@ -16,10 +16,10 @@ namespace Neutronium.Core.Test.Binding.Builder
                 var generatorIJSCSGlue = Gen.Constant(0).Select(index => NSubstitute.Substitute.For<IJSCSGlue>());
 
                 var generatorChildDescription = Gen.zip(generatorIJSCSGlue, Gen.Choose(0, 100))
-                                                    .Select(tuple => new ChildDescription<int>(tuple.Item2, tuple.Item1));
+                                                    .Select(tuple => new KeyValuePair<int, IJSCSGlue>(tuple.Item2, tuple.Item1));
 
                 var generator = Gen.zip(generatorIJSCSGlue, Gen.NonEmptyListOf(generatorChildDescription))
-                                    .Select(tuple => new EntityDescriptor<int>(tuple.Item1, tuple.Item2));
+                                    .Select(tuple => new EntityDescriptor<int>(tuple.Item1, tuple.Item2.ToArray()));
 
                 return Arb.From(generator);
             }
@@ -58,7 +58,7 @@ namespace Neutronium.Core.Test.Binding.Builder
 
                 var elements = res.SelectMany(item => item)
                                     .GroupBy(desc => desc.Father)
-                                    .Select(grouping => new EntityDescriptor<int>(grouping.Key, grouping.SelectMany(g => g.ChildrenDescription)));
+                                    .Select(grouping => new EntityDescriptor<int>(grouping.Key, grouping.SelectMany(g => g.ChildrenDescription).ToArray()));
 
                 return elements.SequenceEqual(updates)
                             .Classify(updates.Count <= _Limit, "Single")
@@ -75,7 +75,7 @@ namespace Neutronium.Core.Test.Binding.Builder
                 var res = _Spliter.SplitParameters(updates);
 
                 var sizes = res.Select(coll => coll.Select(item => item.Father)
-                                   .Concat(coll.SelectMany(item => item.ChildrenDescription).Select(item => item.Child))
+                                   .Concat(coll.SelectMany(item => item.ChildrenDescription).Select(item => item.Value))
                                    .Count());
 
                 return sizes.All(size => size<_Limit)
@@ -93,7 +93,7 @@ namespace Neutronium.Core.Test.Binding.Builder
                 var res = _Spliter.SplitParameters(updates);
 
                 var sizes = res.Select(coll => coll.Select(item => item.Father)
-                                   .Concat(coll.SelectMany(item => item.ChildrenDescription).Select(item => item.Child))
+                                   .Concat(coll.SelectMany(item => item.ChildrenDescription).Select(item => item.Value))
                                    .Count());
 
                 var maxSize = _Limit - 1;

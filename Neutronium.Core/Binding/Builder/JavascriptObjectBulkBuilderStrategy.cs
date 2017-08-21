@@ -119,7 +119,7 @@ namespace Neutronium.Core.Binding.Builder
         {
             var sizes = Pack(updates, getKeyDescription);
             var objects = updates.Select(up => up.Father);
-            var values = updates.SelectMany(up => up.ChildrenDescription).Select(desc => desc.Child);
+            var values = updates.SelectMany(up => up.ChildrenDescription).Select(desc => desc.Value);
             return BuildArguments(sizes, objects.Concat(values));
         }
 
