@@ -24,10 +24,10 @@ namespace Neutronium.Core.Binding.GlueObject
         public uint JsId => _JsId;
         void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
-        public JSArray(IEnumerable<IJSCSGlue> values, IEnumerable collection, Type individual)
+        public JSArray(List<IJSCSGlue> values, IEnumerable collection, Type individual)
         {
             CValue = collection;
-            Items = new List<IJSCSGlue>(values);
+            Items = values;
             _IndividualType = individual; 
         }
 
@@ -36,7 +36,7 @@ namespace Neutronium.Core.Binding.GlueObject
             builder.RequestArrayCreation(Items);
         }
 
-        public Neutronium.Core.Binding.CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
+        public CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
         {
             return new CollectionChanges.CollectionChanges(bridge, changes, _IndividualType);
         }
@@ -143,7 +143,7 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("]");
         }
 
-        public override IEnumerable<IJSCSGlue> GetChildren()
+        public IEnumerable<IJSCSGlue> GetChildren()
         {
             return Items;
         }

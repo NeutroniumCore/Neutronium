@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
@@ -49,9 +48,9 @@ namespace Neutronium.Core.Binding.GlueObject
             UIDispatcher.RunAsync(() => _JSSimpleCommand.Execute(parameter));
         }
 
-        public override IEnumerable<IJSCSGlue> GetChildren()
+        public IEnumerable<IJSCSGlue> GetChildren()
         {
-            return Enumerable.Empty<IJSCSGlue>();
+            return null;
         }
 
         protected override void ComputeString(DescriptionBuilder context)

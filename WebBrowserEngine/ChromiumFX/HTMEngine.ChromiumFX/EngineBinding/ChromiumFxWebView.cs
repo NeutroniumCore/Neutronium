@@ -18,7 +18,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public IJavascriptObjectFactory Factory { get; }
         private CfrV8Context V8Context { get; }
         public bool AllowBulkCreation => true;
-        public int MaxFunctionArgumentsNumber => 240000;
+        public int MaxFunctionArgumentsNumber => 120000;
 
         public ChromiumFxWebView(CfrBrowser cfrbrowser, IWebSessionLogger logger) 
         {
@@ -28,7 +28,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             V8Context = _CfrFrame.V8Context;
             _Dispatcher = new ChromiumFxDispatcher(_Browser, V8Context, _Logger);
             Converter = new ChromiumFxConverter(V8Context);
-            Factory = new ChromiumFxFactory(V8Context);
+            Factory = new ChromiumFxFactory(V8Context, this);
         }
 
         internal CfrFrame GetRaw()
@@ -39,6 +39,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public Task RunAsync(Action act)
         {
            return _Dispatcher.RunAsync(act);
+        }
+
+        public void Dispatch(Action act)
+        {
+            _Dispatcher.Dispatch(act);
         }
 
         public void Run(Action act)

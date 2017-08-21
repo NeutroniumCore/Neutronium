@@ -22,18 +22,18 @@ namespace Neutronium.Core.JavascriptFramework
             if (_Observer == null)
                 return listener;
 
-            listener.Bind("TrackChanges", _WebView, (e) => _Observer.OnJavaScriptObjectChanges(e[0], e[1].GetStringValue(), e[2]));
-            listener.Bind("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
+            listener.BindArguments("TrackChanges", _WebView, (first, second, third) => _Observer.OnJavaScriptObjectChanges(first, second.GetStringValue(), third));
+            listener.BindArguments("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
 
             return listener;
         }
 
-        private void JavascriptColectionChanged(IJavascriptObject[] arguments)
+        private void JavascriptColectionChanged(IJavascriptObject collectionArg, IJavascriptObject valuesArg, IJavascriptObject typesArg, IJavascriptObject indexesArg)
         {
-            var values = arguments[1].GetArrayElements();
-            var types = arguments[2].GetArrayElements();
-            var indexes = arguments[3].GetArrayElements();
-            var collectionChange = new JavascriptCollectionChanges(arguments[0], values.Zip(types, indexes, (v, t, i) => new IndividualJavascriptCollectionChange(t.GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove, i.GetIntValue(), v)));
+            var values = valuesArg.GetArrayElements();
+            var types = typesArg.GetArrayElements();
+            var indexes = indexesArg.GetArrayElements();
+            var collectionChange = new JavascriptCollectionChanges(collectionArg, values.Zip(types, indexes, (v, t, i) => new IndividualJavascriptCollectionChange(t.GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove, i.GetIntValue(), v)));
 
             _Observer.OnJavaScriptCollectionChanges(collectionChange);
         }

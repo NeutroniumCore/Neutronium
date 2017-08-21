@@ -21,6 +21,16 @@ namespace Neutronium.Core.WebBrowserEngine.Window
         Task RunAsync(Action act);
 
         /// <summary>
+        /// Run on a safe thread the corresponding action
+        /// in a none-blocking manner.
+        /// No task is return for performance optimization
+        /// </summary>
+        /// <param name="act">
+        /// Action to be executed
+        /// </param>
+        void Dispatch(Action act);
+
+        /// <summary>
         /// Run on a safe thread the corresponding action and block untill completion
         /// </summary>
         /// <param name="act">

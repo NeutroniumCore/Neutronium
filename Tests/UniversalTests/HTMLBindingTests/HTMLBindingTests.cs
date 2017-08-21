@@ -1048,7 +1048,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = ((HTML_Binding)mb).JSBrideRootObject as JsGenericObject;
 
-                    var mycommand = js.Attributes["Command"] as JSCommand;
+                    var mycommand = js.GetAttribute("Command") as JSCommand;
                     mycommand.Should().NotBeNull();
                     mycommand.ToString().Should().Be("{}");
                     mycommand.Type.Should().Be(JsCsGlueType.Command);
@@ -1252,7 +1252,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var js = (mb as HTML_Binding).JSBrideRootObject as JsGenericObject;
 
-                    var mysimplecommand = js.Attributes["SimpleCommand"] as JsSimpleCommand;
+                    var mysimplecommand = js.GetAttribute("SimpleCommand") as JsSimpleCommand;
                     mysimplecommand.Should().NotBeNull();
                     mysimplecommand.ToString().Should().Be("{}");
                     mysimplecommand.Type.Should().Be(JsCsGlueType.SimpleCommand);
@@ -1604,7 +1604,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     {
                         var glueobj = (mb as HTML_Binding).JSBrideRootObject as JsGenericObject;
-                        var mysimplecommand = glueobj.Attributes["CreateObject"] as JsResultCommand;
+                        var mysimplecommand = glueobj.GetAttribute("CreateObject") as JsResultCommand;
                         mysimplecommand.Should().NotBeNull();
                         mysimplecommand.ToString().Should().Be("{}");
                         mysimplecommand.Type.Should().Be(JsCsGlueType.ResultCommand);
@@ -1777,7 +1777,7 @@ namespace Tests.Universal.HTMLBindingTests
                     Check(col, _DataContext.Skills);
 
                     var coll = GetAttribute(js, "Skills");
-                    Call(coll, "push", (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
+                    Call(coll, "push", (root.GetAttribute("Skills") as JSArray).Items[0].GetJSSessionValue());
 
                     await Task.Delay(5000);
                     _DataContext.Skills.Should().HaveCount(3);
@@ -1802,7 +1802,7 @@ namespace Tests.Universal.HTMLBindingTests
 
 
                     Call(coll, "unshift",
-                          (root.Attributes["Skills"] as JSArray).Items[0].GetJSSessionValue());
+                          (root.GetAttribute("Skills") as JSArray).Items[0].GetJSSessionValue());
 
                     await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(2);

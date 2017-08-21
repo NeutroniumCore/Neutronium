@@ -115,10 +115,87 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// function context
         /// </param>
         /// <param name="action">
-        /// action to run when the function is called. Action agrument: 
+        /// action to run when the function is called. Action argument: 
         /// function name, this object, function parameters
         /// </param>
         void Bind(string functionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action);
+
+        /// <summary>
+        /// Bind a function to a javascript object
+        /// </summary>
+        /// <param name="functionName">
+        /// function name
+        /// </param>
+        /// <param name="context">
+        /// function context
+        /// </param>
+        /// <param name="action">
+        /// action to run when the function is called. Action agurment: 
+        /// function name, function parameters
+        /// </param>
+        void Bind(string functionName, IWebView webView, Action<IJavascriptObject[]> action);
+
+        /// <summary>
+        /// Bind a function receiving one argument to a javascript object
+        /// </summary>
+        /// <param name="functionName">
+        /// function name
+        /// </param>
+        /// <param name="context">
+        /// function context
+        /// </param>
+        /// <param name="action">
+        /// action to run when the function is called. Action agurment: 
+        /// function name, function first parameter
+        /// </param>
+        void BindArgument(string functionName, IWebView webView, Action<IJavascriptObject> action);
+
+        /// <summary>
+        /// Bind a function receiving two arguments to a javascript object
+        /// </summary>
+        /// <param name="functionName">
+        /// function name
+        /// </param>
+        /// <param name="context">
+        /// function context
+        /// </param>
+        /// <param name="action">
+        /// action to run when the function is called. Action agurment: 
+        /// function name, function two first parameters
+        /// </param>
+        void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject> action);
+
+
+        /// <summary>
+        /// Bind a function receiving three arguments to a javascript object
+        /// </summary>
+        /// <param name="functionName">
+        /// function name
+        /// </param>
+        /// <param name="context">
+        /// function context
+        /// </param>
+        /// <param name="action">
+        /// action to run when the function is called. Action agurment: 
+        /// function name, function three first parameters
+        /// </param>
+        void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject, IJavascriptObject> action);
+
+
+        /// <summary>
+        /// Bind a function receiving four arguments to a javascript object
+        /// </summary>
+        /// <param name="functionName">
+        /// function name
+        /// </param>
+        /// <param name="context">
+        /// function context
+        /// </param>
+        /// <param name="action">
+        /// action to run when the function is called. Action agurment: 
+        /// function name, function four first parameters
+        /// </param>
+        void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject, IJavascriptObject, IJavascriptObject> action);
 
         /// <summary>
         /// Associates a value with the specified identifier.

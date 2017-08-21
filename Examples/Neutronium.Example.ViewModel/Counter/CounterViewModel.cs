@@ -2,11 +2,14 @@
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 
 namespace Neutronium.Example.ViewModel.Counter
 {
     public class CounterViewModel : ViewModelBase
     {
+        private const int _Leaves = 50;
+        private const int _Position = 3;
         public int CounterRead { get; private set; }
 
         private int _Counter;
@@ -23,20 +26,43 @@ namespace Neutronium.Example.ViewModel.Counter
             }
         }
 
+        private FakeViewModel _Big;
+        public FakeViewModel Big
+        {
+            get { return _Big; }
+            private set
+            {
+                Set(ref _Big, value, "Big");
+            }
+        }
+
         private string _State = "Done";
         public string State
         {
-            get { return _State;}
+            get { return _State; }
             set { Set(ref _State, value, "State"); }
         }
 
         public ICommand Count { get; }
+        public ICommand BuildBigModel { get; }
 
         public IProgress<int> Progess { get; set; }
 
         public CounterViewModel()
         {
             Count = new RelayCommand(DoCount);
+            BuildBigModel = new RelayCommand(DoBuildBigModel);
+        }
+
+        private void DoBuildBigModel()
+        {
+            Big = BuildBigVm(_Leaves, _Position);
+        }
+
+        protected FakeViewModel BuildBigVm(int leaves = 50, int position = 3)
+        {
+            var children = position == 0 ? null : Enumerable.Range(0, leaves).Select(i => BuildBigVm(leaves, position - 1));
+            return new FakeViewModel(children);
         }
 
         private async void DoCount()
@@ -45,7 +71,7 @@ namespace Neutronium.Example.ViewModel.Counter
             var init = _Counter;
             await Task.Run(() =>
             {
-                for(var i=0; i<10000; i++)
+                for (var i = 0; i < 10000; i++)
                 {
                     Progess?.Report(i + init);
                 }

@@ -20,7 +20,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public bool IsString => _CfrV8Value.IsString;
         public bool IsNumber => _CfrV8Value.IsDouble || _CfrV8Value.IsUint || _CfrV8Value.IsInt;
         public bool IsBool => _CfrV8Value.IsBool;
-        public CfrV8Value GetRaw() => _CfrV8Value;
+        public CfrV8Value Raw => _CfrV8Value;
 
         protected ChromiumFXJavascriptRoot(CfrV8Value cfrV8Value)
         {
@@ -57,7 +57,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             var function = _CfrV8Value.GetValue(functionName);
             try
             {
-                return function.ExecuteFunctionWithContext(context.Convert().V8Context, _CfrV8Value, parameters.Convert()).Convert();
+                return function.ExecuteFunction(_CfrV8Value, parameters.Convert()).Convert();
             }
             catch
             {
@@ -68,7 +68,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         public void InvokeNoResult(string functionName, IWebView context, params IJavascriptObject[] parameters)
         {
             var function = _CfrV8Value.GetValue(functionName);
-            function.ExecuteFunctionWithContext(context.Convert().V8Context, _CfrV8Value, parameters.Convert());
+            var res = function.ExecuteFunction(_CfrV8Value, parameters.Convert());
+            res.Dispose();
         }
 
         public Task<IJavascriptObject> InvokeAsync(string functionName, IWebView context, params IJavascriptObject[] parameters) 

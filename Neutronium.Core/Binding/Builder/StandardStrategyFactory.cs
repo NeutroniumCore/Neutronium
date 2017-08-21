@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Binding.Builder
 {
-    public class StandardStrategyFactory : IJavascriptObjectBuilderStrategyFactory
+    public sealed class StandardStrategyFactory : IJavascriptObjectBuilderStrategyFactory
     {
 
         /// <summary>

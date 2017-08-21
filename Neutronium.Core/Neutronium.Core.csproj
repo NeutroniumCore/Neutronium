@@ -64,8 +64,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MoreCollection, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MoreCollection.1.1.0\lib\net45\MoreCollection.dll</HintPath>
+    <Reference Include="MoreCollection, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MoreCollection.1.2.2\lib\net45\MoreCollection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\Builder\BulkJsHelper.cs" />
-    <Compile Include="Binding\Builder\ChildDescription.cs" />
     <Compile Include="Binding\Builder\EntityDescriptor.cs" />
     <Compile Include="Binding\Builder\IBulkUpdater.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategy.cs" />
@@ -87,11 +86,11 @@
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\CommandCreationRequest.cs" />
+    <Compile Include="Binding\Builder\JSAllBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\ObjectsCreationRequest.cs" />
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
-    <Compile Include="Binding\Builder\JSBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\GlueObject\IJSCSCachableGlue.cs" />
     <Compile Include="Binding\GlueObject\Mapped\GlueMappingFactory.cs" />
@@ -106,7 +105,6 @@
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
     <Compile Include="Binding\Builder\JavascriptObjectBulkBuilderStrategy.cs" />
     <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
-    <Compile Include="Extension\IJavascriptObjectExtension.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueObject\IGlueFactory.cs" />
     <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
@@ -131,6 +129,8 @@
     <Compile Include="Infra\ComposedDisposable.cs" />
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
+    <Compile Include="Infra\Reflection\PropertyAccessor.cs" />
+    <Compile Include="Infra\Reflection\TypePropertyAccessor.cs" />
     <Compile Include="Infra\Slicer.cs" />
     <Compile Include="JavascriptFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptFramework\DebugToolsUI.cs" />
@@ -151,7 +151,6 @@
     <Compile Include="Binding\Listeners\ListenerRegister.cs" />
     <Compile Include="Binding\Listeners\Silenter.cs" />
     <Compile Include="Binding\SessionCacher.cs" />
-    <Compile Include="Infra\PropertyAccessor.cs" />
     <Compile Include="Infra\ResourceReader.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\JavascriptNamer.cs" />
     <Compile Include="Navigation\Routing\BuilderExtension.cs" />

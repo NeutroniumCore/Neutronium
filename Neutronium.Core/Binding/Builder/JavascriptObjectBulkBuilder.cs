@@ -34,15 +34,14 @@ namespace Neutronium.Core.Binding.Builder
 
         public void UpdateJavascriptValue()
         {
-            var builders = _Root.GetAllChildren(true).Where(glue => glue.JSValue == null)
-                                .Select(glue => new JSBuilderAdapter(glue, this)).ToList();
+            var allBuilder = new JSAllBuilderAdapter(this);
+            _Root.VisitAllChildren(allBuilder.Visit);
 
-            builders.ForEach(builder => builder.GetBuildRequest());
             CreateObjects();
             UpdateDependencies();
         }
 
-        internal void RequestObjectCreation(IJSCSGlue glue, IReadOnlyDictionary<string, IJSCSGlue> children, bool updatableFromJS)
+        internal void RequestObjectCreation(IJSCSGlue glue, ICollection<KeyValuePair<string, IJSCSGlue>> children, bool updatableFromJS)
         {
             _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, children), updatableFromJS);
         }
@@ -129,7 +128,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void UpdateArrays()
         {
-            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Length > 0);
+            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Count > 0);
             _BulkUpdater.BulkUpdateArray(toBeUpdated);
         }
 

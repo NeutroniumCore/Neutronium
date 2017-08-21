@@ -71,6 +71,7 @@
     <Compile Include="DateInformation.cs" />
     <Compile Include="FakeFactory.cs" />
     <Compile Include="Factory.cs" />
+    <Compile Include="FakeViewModel.cs" />
     <Compile Include="ForNavigation\Couple.cs" />
     <Compile Include="ForNavigation\Person.cs" />
     <Compile Include="ItemViewModel.cs" />

@@ -101,12 +101,12 @@ namespace Neutronium.JavascriptFramework.Knockout
                 }
             });
 
-            _Mapper.Bind("End", _WebView, (e) =>
+            _Mapper.BindArgument("End", _WebView, (e) =>
             {
                 if (_PullNextMapper)
                     _Current = _JavascriptMapper.Dequeue();
 
-                _Current?.EndMapping(e[0]);
+                _Current?.EndMapping(e);
                 _Current = null;
                 _PullNextMapper = true;
             });

@@ -5,6 +5,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
 {
     interface ICfxJavascriptObject : IJavascriptObject
     {
-        CfrV8Value GetRaw();
+        CfrV8Value Raw { get; }
     }
 }

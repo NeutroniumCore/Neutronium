@@ -7,12 +7,12 @@ namespace Neutronium.Core.Binding.Builder
     public struct EntityDescriptor<TIdentificator>
     {
         public IJSCSGlue Father { get; }
-        public ChildDescription<TIdentificator>[] ChildrenDescription { get; }
+        public ICollection<KeyValuePair<TIdentificator, IJSCSGlue>> ChildrenDescription { get; }
 
-        public EntityDescriptor(IJSCSGlue father, IEnumerable<ChildDescription<TIdentificator>> childrenDescription)
+        public EntityDescriptor(IJSCSGlue father, ICollection<KeyValuePair<TIdentificator, IJSCSGlue>> childrenDescription)
         {
             Father = father;
-            ChildrenDescription = (childrenDescription==null) ? new ChildDescription<TIdentificator>[0] : childrenDescription.ToArray();
+            ChildrenDescription = childrenDescription;
         }
 
         public override int GetHashCode()
@@ -33,12 +33,12 @@ namespace Neutronium.Core.Binding.Builder
     {
         public static EntityDescriptor<int> CreateArrayDescriptor(IJSCSGlue father, IList<IJSCSGlue> description)
         {
-            return new EntityDescriptor<int>(father, description?.Select((d, index) => new ChildDescription<int>(index, d)));
+            return new EntityDescriptor<int>(father, description?.Select((d, index) => new KeyValuePair<int, IJSCSGlue>(index, d)).ToArray());
         }
 
-        public static EntityDescriptor<string> CreateObjectDescriptor(IJSCSGlue father, IReadOnlyDictionary<string, IJSCSGlue> description)
+        public static EntityDescriptor<string> CreateObjectDescriptor(IJSCSGlue father, ICollection<KeyValuePair<string, IJSCSGlue>> description)
         {
-            return new EntityDescriptor<string>(father, description?.Select(d => new ChildDescription<string>(d.Key, d.Value)));
+            return new EntityDescriptor<string>(father, description);
         }
     }
 }

@@ -37,6 +37,21 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Internal
             return tcs.Task;
         }
 
+        public void Dispatch(Action act)
+        {
+            Action nact = () =>
+            {
+                try
+                {
+                    act();
+                }
+                catch
+                {
+                }
+            };
+            RunOnContext(nact);
+        }
+
         public void Run(Action act)
         {
             RunAsync(act).Wait();

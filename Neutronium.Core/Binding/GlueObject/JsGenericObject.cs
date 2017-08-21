@@ -11,9 +11,8 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     internal class JsGenericObject : GlueBase, IJSCSCachableGlue
     {
-        private readonly HybridDictionary<string, IJSCSGlue> _Attributes;
+        private readonly IDictionary<string, IJSCSGlue> _Attributes;
 
-        public IReadOnlyDictionary<string, IJSCSGlue> Attributes => _Attributes;
         public virtual IJavascriptObject CachableJSValue => JSValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;
@@ -25,8 +24,10 @@ namespace Neutronium.Core.Binding.GlueObject
         public JsGenericObject(object cValue, int childrenCount)
         {
             CValue = cValue;           
-            _Attributes = new HybridDictionary<string, IJSCSGlue>(childrenCount);
+            _Attributes = DictionaryFactory.Get<string, IJSCSGlue>(childrenCount);
         }
+
+        public IJSCSGlue GetAttribute(string propertyName) => _Attributes[propertyName];
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
@@ -56,7 +57,7 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        public override IEnumerable<IJSCSGlue> GetChildren()
+        public IEnumerable<IJSCSGlue> GetChildren()
         {
             return _Attributes.Values; 
         }

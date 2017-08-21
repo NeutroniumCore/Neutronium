@@ -98,9 +98,9 @@ namespace Neutronium.Core.Binding.GlueObject
             ViewModelUpdater.UpdateProperty(CachableJSValue, propertyName, newValue, false);
         }
 
-        public override IEnumerable<IJSCSGlue> GetChildren()
+        public IEnumerable<IJSCSGlue> GetChildren()
         {
-            return Enumerable.Empty<IJSCSGlue>();
+            return null;
         }
 
         protected override void ComputeString(DescriptionBuilder context)

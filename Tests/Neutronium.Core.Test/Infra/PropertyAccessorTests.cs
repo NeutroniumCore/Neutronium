@@ -1,66 +1,63 @@
 ﻿using FluentAssertions;
 using Neutronium.Core.Infra;
-using NSubstitute;
-using System;
+using Neutronium.Core.Infra.Reflection;
+using System.Diagnostics;
+using System.Reflection;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Neutronium.Core.Test.Infra
 {
     public class PropertyAccessorTests
     {
-        private readonly IWebSessionLogger _Logger;
-        public PropertyAccessorTests()
+        private readonly ITestOutputHelper _Output;
+
+        public PropertyAccessorTests(ITestOutputHelper output)
         {
-            _Logger = Substitute.For<IWebSessionLogger>();
+            _Output = output;
+        }    
+
+        private static PropertyAccessor GetPropertyAccessorFor(string propertyName)
+        {
+            var type = typeof(FakeClass);
+            var propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+            return new PropertyAccessor(typeof(FakeClass), propertyInfo);
         }
 
         [Theory]
-        [InlineData(typeof(FakeClass), "Available1", true)]
-        [InlineData(typeof(FakeClass), "Available2", true)]
-        [InlineData(typeof(FakeClass), "Available3", true)]
-        [InlineData(typeof(FakeClass), "", false)]
-        [InlineData(typeof(FakeClass), "invalid", false)]
-        public void IsValid_returns_correct_false(Type type, string property, bool valid)
+        [InlineData("Protected2", true)]
+        [InlineData("OnlySet", true)]
+        [InlineData("Available2", true)]
+        [InlineData("Private2", true)]
+        [InlineData("Available1", false)]
+        [InlineData("Available3", false)]
+        [InlineData("Private1", false)]    
+        [InlineData("Protected1", false)]
+        [InlineData("", false)]
+        [InlineData("invalid", false)]
+        public void IsSettable_returns_correct_false(string property, bool isSettable)
         {
-            var @object = Activator.CreateInstance(type);
-            var target = new PropertyAccessor(@object, property, _Logger);
-            target.IsValid.Should().Be(valid);
-        }
-
-        [Theory]
-        [InlineData(typeof(FakeClass), "Available1", true)]
-        [InlineData(typeof(FakeClass), "Available2", true)]
-        [InlineData(typeof(FakeClass), "Available3", true)]
-        [InlineData(typeof(FakeClass), "Private1", false)]
-        [InlineData(typeof(FakeClass), "Private2", false)]
-        [InlineData(typeof(FakeClass), "Protected1", false)]
-        [InlineData(typeof(FakeClass), "Protected2", false)]
-        [InlineData(typeof(FakeClass), "OnlySet", false)]
-        [InlineData(typeof(FakeClass), "", false)]
-        [InlineData(typeof(FakeClass), "invalid", false)]
-        public void IsGettable_returns_correct_false(Type type, string property, bool isGettable)
-        {
-            var @object = Activator.CreateInstance(type);
-            var target = new PropertyAccessor(@object, property, _Logger);
-            target.IsGettable.Should().Be(isGettable);
-        }
-
-        [Theory]
-        [InlineData(typeof(FakeClass), "Protected2", true)]
-        [InlineData(typeof(FakeClass), "OnlySet", true)]
-        [InlineData(typeof(FakeClass), "Available2", true)]
-        [InlineData(typeof(FakeClass), "Private2", true)]
-        [InlineData(typeof(FakeClass), "Available1", false)]
-        [InlineData(typeof(FakeClass), "Available3", false)]
-        [InlineData(typeof(FakeClass), "Private1", false)]    
-        [InlineData(typeof(FakeClass), "Protected1", false)]
-        [InlineData(typeof(FakeClass), "", false)]
-        [InlineData(typeof(FakeClass), "invalid", false)]
-        public void IsSettable_returns_correct_false(Type type, string property, bool isSettable)
-        {
-            var @object = Activator.CreateInstance(type);
-            var target = new PropertyAccessor(@object, property, _Logger);
+            var target = GetPropertyAccessorFor(property);
             target.IsSettable.Should().Be(isSettable);
+        }
+
+        [Fact]
+        public void Get_Performance_Test_Stress()
+        {
+            var @object = new FakeClass();
+
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            for (var i = 0; i < 10000000; i++)
+            {
+                var myTypeInstrospector = @object.GetType().GetReadProperty("Available2");
+                var res = myTypeInstrospector.Get(@object);
+            }
+
+            stopWatch.Stop();
+            var ts = stopWatch.ElapsedMilliseconds;
+            _Output.WriteLine($"Perf: {((double)(ts)) / 1000} sec");
         }
     }
 }

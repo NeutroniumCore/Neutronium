@@ -18,6 +18,7 @@ namespace Tests.Universal.HTMLBindingTests
 {
     public abstract class HTMLBindingPerformanceTests : HTMLBindingBase 
     {
+        protected const int _DelayForTimeOut = 100;
         private const string PlateformDependant = "Plateform Dependant";
         private readonly Dictionary<TestPerformanceKind, int> _ExpectedTimeInMilliSeconds; 
         protected HTMLBindingPerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds) : base(testEnvironment, output)
@@ -367,13 +368,18 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => root.Other = bigVm);
 
-                    var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
+                    await Task.Delay(_DelayForTimeOut);
+
+                    var other = await _WebView.EvaluateAsync(() =>
+                    {
+                        return GetAttribute(js, "Other");
+                    });
+                 
+                    stopWatch.Stop();
+                    var ts = stopWatch.ElapsedMilliseconds - _DelayForTimeOut;
+                    _Logger.Info($"Perf: {((double)(ts)) / 1000} sec");
 
                     other.IsObject.Should().BeTrue();
-
-                    stopWatch.Stop();
-                    var ts = stopWatch.ElapsedMilliseconds;
-                    _Logger.Info($"Perf: {((double)(ts)) / 1000} sec");
                 }
             };
 
@@ -401,12 +407,13 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => root.Commands = commands);
 
+                    await Task.Delay(_DelayForTimeOut);
                     var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Commands"));
 
                     other.IsArray.Should().BeTrue();
 
                     stopWatch.Stop();
-                    var ts = stopWatch.ElapsedMilliseconds;
+                    var ts = stopWatch.ElapsedMilliseconds - _DelayForTimeOut;
                     _Logger.Info($"Perf: {((double)(ts)) / 1000} sec");
                 }
             };

@@ -118,6 +118,36 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             _CefV8Value.Bind(iFunctionName, iContext, Converted);
         }
 
+        public void Bind(string functionName, IWebView webView, Action<IJavascriptObject[]> action)
+        {
+            Action<string, IJavascriptObject, IJavascriptObject[]> neededAction = (_, __, arg) => action(arg);
+            Bind(functionName, webView, neededAction);
+        }
+
+        public void BindArgument(string functionName, IWebView webView, Action<IJavascriptObject> action)
+        {
+            Action<string, IJavascriptObject, IJavascriptObject[]> neededAction = (_, __, arg) => action(arg[0]);
+            Bind(functionName, webView, neededAction);
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject> action)
+        {
+            Action<string, IJavascriptObject, IJavascriptObject[]> neededAction = (_, __, arg) => action(arg[0], arg[1]);
+            Bind(functionName, webView, neededAction);
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject, IJavascriptObject> action)
+        {
+            Action<string, IJavascriptObject, IJavascriptObject[]> neededAction = (_, __, arg) => action(arg[0], arg[1], arg[2]);
+            Bind(functionName, webView, neededAction);
+        }
+
+        public void BindArguments(string functionName, IWebView webView, Action<IJavascriptObject, IJavascriptObject, IJavascriptObject, IJavascriptObject> action)
+        {
+            Action<string, IJavascriptObject, IJavascriptObject[]> neededAction = (_, __, arg) => action(arg[0], arg[1], arg[2], arg[3]);
+            Bind(functionName, webView, neededAction);
+        }
+
         public void SetValue(string AttributeName, IJavascriptObject element, CreationOption option = CreationOption.None)
         {
             _CefV8Value.SetValue(AttributeName, Convert(element),Convert(option));

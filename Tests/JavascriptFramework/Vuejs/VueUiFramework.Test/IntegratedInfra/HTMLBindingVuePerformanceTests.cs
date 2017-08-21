@@ -96,13 +96,15 @@ namespace VueFramework.Test.IntegratedInfra
 
                     await DoSafeAsyncUI(() => root.Other = bigVm);
 
+                    await Task.Delay(_DelayForTimeOut);
+
                     var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
 
-                    other.IsObject.Should().BeTrue();
-
                     stopWatch.Stop();
-                    var ts = stopWatch.ElapsedMilliseconds;
+                    var ts = stopWatch.ElapsedMilliseconds - _DelayForTimeOut;
                     _Logger.Info($"Perf: {((double)(ts)) / 1000} sec");
+
+                    other.IsObject.Should().BeTrue();
                 }
             };
 
@@ -124,12 +126,14 @@ namespace VueFramework.Test.IntegratedInfra
 
                     await DoSafeAsyncUI(() => root.Value = value);
 
+                    await Task.Delay(_DelayForTimeOut);
+
                     var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Value"));
 
                     other.GetIntValue().Should().Be(value);
 
                     stopWatch.Stop();
-                    var ts = stopWatch.ElapsedMilliseconds;
+                    var ts = stopWatch.ElapsedMilliseconds - _DelayForTimeOut;
                     _Logger.Info($"Perf: {((double)(ts)) / 1000} sec");
                 }
             };

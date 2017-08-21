@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Chromium.Remote;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Window;
 using System.Diagnostics;
+using System.Collections.Concurrent;
+using Chromium;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
@@ -13,8 +14,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
         private readonly IWebSessionLogger _Logger;
-        private readonly object _Locker = new object();
-        private readonly HashSet<CfrTask> _Tasks = new HashSet<CfrTask>();
+
+        private readonly BlockingCollection<Action> _Actions = new BlockingCollection<Action>(new ConcurrentQueue<Action>());
+        private readonly CfrTask _CfrTask;
+        private bool _IsExecutingActions;
 
         private CfrTaskRunner TaskRunner { get; }
 
@@ -24,6 +27,22 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _Browser = browser;
             _Context = context;
             TaskRunner = _Context.TaskRunner;
+            _CfrTask = new CfrTask();
+            _CfrTask.Execute += CfrTask_Execute;
+        }
+
+        private void CfrTask_Execute(object sender, CfrEventArgs e) 
+        {
+            _IsExecutingActions = true;
+            using (var ctx = GetContext()) 
+            {
+                Action action;
+                while (_Actions.TryTake(out action, 10)) 
+                {
+                    action();
+                }
+                _IsExecutingActions = false;
+            }
         }
 
         public Task RunAsync(Action act) 
@@ -32,6 +51,23 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             var action = ToTaskAction(act, taskCompletionSource);
             RunInContext(action);
             return taskCompletionSource.Task;
+        }
+
+        public void Dispatch(Action act)
+        {
+            Action safe = () =>
+            {
+                try
+                {
+                   act();
+                }
+                catch (Exception exception)
+                {
+                    _Logger?.Info(() => $"Exception encountred during task dispatch: {exception.Message}");
+                }
+            };
+
+            RunInContext(safe);
         }
 
         public void Run(Action act) 
@@ -66,17 +102,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             Action result = () => 
             {
-                using (GetContext()) 
+                try 
                 {
-                    try 
-                    {
-                        taskCompletionSource.TrySetResult(perform());
-                    }
-                    catch (Exception exception) 
-                    {
-                        _Logger?.Info(()=> $"Exception encountred during task dispatch: {exception.Message}");
-                        taskCompletionSource.TrySetException(exception);
-                    }
+                    var taskResult = perform();
+                    taskCompletionSource.TrySetResult(taskResult);
+                }
+                catch (Exception exception) 
+                {
+                    _Logger?.Info(() => $"Exception encountred during task dispatch: {exception.Message}");
+                    taskCompletionSource.TrySetException(exception);
                 }
             };
             return result;
@@ -116,39 +150,21 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private void RunInContext(Action action) 
         {
-            using (var ctx = GetRemoteContext()) 
-            {
-                if (ctx.IsInContext)
-                {
-                    action();
-                    return;
-                }
-
-                var task = AddTask(action);
-                TaskRunner.PostTask(task);
-            }
-        }
-
-        private CfrTask AddTask(Action action)
-        {
-            var task = new CfrTask();
-            task.Execute += (o, e) =>
+            if (CfxRemoteCallContext.IsInContext)    
             {
                 action();
-                RemoveTask(task);
-            };
+                return;
+            }
 
-            lock (_Locker)
-                _Tasks.Add(task);
+            _Actions.Add(action);
 
-            return task;
-        }
+            if (_IsExecutingActions)
+                return;
 
-        private void RemoveTask(CfrTask task)
-        {
-            task.Dispose();
-            lock (_Locker)
-                _Tasks.Remove(task);
+            using (var ctx = GetRemoteContext()) 
+            {
+                TaskRunner.PostTask(_CfrTask);
+            }
         }
     }
 }

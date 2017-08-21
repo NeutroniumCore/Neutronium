@@ -52,6 +52,11 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return Runner.RunAsync(InContext);
         }
 
+        public void Dispatch(Action act)
+        {
+            RunAsync(act);
+        }
+
         public void Run(Action act)
         {
             RunAsync(act).Wait();

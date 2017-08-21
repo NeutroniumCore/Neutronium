@@ -1,5 +1,4 @@
-﻿using Neutronium.Core.Binding.GlueObject;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
@@ -8,33 +7,61 @@ namespace Neutronium.Core.Binding.Builder
     {
         public int MaxCount { get; set; }
 
-        internal IEnumerable<List<EntityDescriptor<TIdentifier>>> SplitParameters(IEnumerable<EntityDescriptor<TIdentifier>> _ParamBuilder) 
+        internal IEnumerable<List<EntityDescriptor<TIdentifier>>> SplitParameters(IEnumerable<EntityDescriptor<TIdentifier>> data)
         {
-            var index = 0;
-            int parametersCount;
+            int parametersCount = 0;
 
-            var data = _ParamBuilder.SelectMany(item => item.ChildrenDescription, (item, description) => new { father = item.Father, description }).ToList();
-            do
+            var list = new List<EntityDescriptor<TIdentifier>>();
+            var maxCountInContext = MaxCount - 2;
+
+            foreach (var element in data)
             {
-                parametersCount = 0;
-                var fathers = new HashSet<IJSCSGlue>();
-                var parameters = data.Skip(index).TakeWhile((entity) => {
-                    parametersCount += 1;
-                    if (fathers.Add(entity.father))
+                var childrenCount = element.ChildrenDescription.Count;
+                var tentative = parametersCount + 1 + childrenCount;
+                var delta = tentative - MaxCount;
+
+                if ((delta == -1) || (delta == -2))
+                {
+                    list.Add(element);
+                    yield return list;
+
+                    list = new List<EntityDescriptor<TIdentifier>>();
+                    parametersCount = 0;
+                    continue;
+                }
+
+                if (delta >= 0)
+                {
+                    var maxToTake = maxCountInContext - parametersCount;
+                    list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Take(maxToTake).ToArray()));
+                    yield return list;
+
+                    var count = childrenCount - maxToTake;
+                    var i = 0;
+                    for (i = 0; i < count / maxCountInContext; i++)
+                    {
+                        list = new List<EntityDescriptor<TIdentifier>>();
+                        list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Skip(maxToTake + maxCountInContext * i).Take(maxCountInContext).ToArray()));
+                        yield return list;
+                    }
+
+                    var skipped = (maxToTake + maxCountInContext * i);
+                    list = new List<EntityDescriptor<TIdentifier>>();
+                    parametersCount = childrenCount - skipped;
+                    if (skipped < childrenCount)
+                    {
+                        list.Add(new EntityDescriptor<TIdentifier>(element.Father, element.ChildrenDescription.Skip(skipped).ToArray()));
                         parametersCount++;
-                    return parametersCount < MaxCount;
-                }).ToList();
+                    }
+                    continue;
+                }
 
-                var localParametersCount = parameters.Count;
-                if (localParametersCount == 0)
-                    yield break;
-
-                yield return parameters.GroupBy(item => item.father).Select(item => new EntityDescriptor<TIdentifier>(item.Key, item.Select(el => el.description)))
-                                          .ToList();
-
-                index += localParametersCount;
+                parametersCount = tentative;
+                list.Add(element);
             }
-            while (parametersCount >= MaxCount);
+
+            if (list.Count != 0)
+                yield return list;
         }
     }
 }
