@@ -77,8 +77,8 @@
   <ItemGroup>
     <Compile Include="Binding\Builder\BulkJsHelper.cs" />
     <Compile Include="Binding\Builder\EntityDescriptor.cs" />
+    <Compile Include="Binding\Builder\EntityArraySpliter.cs" />
     <Compile Include="Binding\Builder\Packer\ArrayChildrenDescriptionPacker.cs" />
-    <Compile Include="Binding\Builder\Packer\IEntityDescriptorChildrenDescriptionPacker.cs" />
     <Compile Include="Binding\Builder\IBulkUpdater.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategyFactory.cs" />

@@ -9,9 +9,9 @@ namespace Neutronium.Core.Binding.Builder
         public int ReadWriteNumber { get; set; }
         public int ReadOnlyNumber => _ObjectBuildingRequested.Count - ReadWriteNumber;
 
-        private readonly LinkedList<EntityDescriptor<string>> _ObjectBuildingRequested = new LinkedList<EntityDescriptor<string>>();
+        private readonly LinkedList<ObjectDescriptor> _ObjectBuildingRequested = new LinkedList<ObjectDescriptor>();
 
-        public void AddRequest(EntityDescriptor<string> descriptor, bool updatableFromJS)
+        public void AddRequest(ObjectDescriptor descriptor, bool updatableFromJS)
         {
             if (!updatableFromJS)
             {
@@ -28,7 +28,7 @@ namespace Neutronium.Core.Binding.Builder
             return _ObjectBuildingRequested.Select(item => item.Father);
         }
 
-        internal IEnumerable<EntityDescriptor<string>> GetElementWithProperty()
+        internal IEnumerable<ObjectDescriptor> GetElementWithProperty()
         {
             return _ObjectBuildingRequested.Where(item => item.ChildrenDescription.Count > 0);
         }

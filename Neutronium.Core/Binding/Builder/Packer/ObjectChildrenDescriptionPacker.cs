@@ -4,20 +4,20 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder.Packer
 {
-    internal class ObjectChildrenDescriptionPacker : IEntityDescriptorChildrenDescriptionPacker<string>
+    internal class ObjectChildrenDescriptionPacker
     {
-        public string Pack(List<EntityDescriptor<string>> updates)
+        public string Pack(List<ObjectDescriptor> updates)
         {
             return KeyPacker.Pack(updates.Count, PackKeys(updates), s => $@"""{s}""");
         }
 
         private struct keyDescription
         {
-            public EntityDescriptor<string> Descritor { get; set; }
+            public ObjectDescriptor Descritor { get; set; }
             public Type Type { get; set; }
             public int Count { get; set; }
 
-            public keyDescription(EntityDescriptor<string> update)
+            public keyDescription(ObjectDescriptor update)
             {
                 Descritor = update;
                 Type = update.Father.CValue.GetType();
@@ -34,7 +34,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
             public bool Empty => Type == null;
         }
 
-        private static IEnumerable<Tuple<int, List<string>>> PackKeys(List<EntityDescriptor<string>> updates)
+        private static IEnumerable<Tuple<int, List<string>>> PackKeys(List<ObjectDescriptor> updates)
         {
             var count = 0;
             var first = true;

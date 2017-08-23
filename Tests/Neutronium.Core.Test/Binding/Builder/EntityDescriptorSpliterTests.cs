@@ -11,33 +11,33 @@ namespace Neutronium.Core.Test.Binding.Builder
     {
         public class MyGenerators
         {
-            public static Arbitrary<EntityDescriptor<int>> ChildDescriptions()
+            public static Arbitrary<ObjectDescriptor> ChildDescriptions()
             {
                 var generatorIJSCSGlue = Gen.Constant(0).Select(index => NSubstitute.Substitute.For<IJSCSGlue>());
 
-                var generatorChildDescription = Gen.zip(generatorIJSCSGlue, Gen.Choose(0, 100))
-                                                    .Select(tuple => new KeyValuePair<int, IJSCSGlue>(tuple.Item2, tuple.Item1));
+                var generatorChildDescription = Gen.zip(generatorIJSCSGlue, Arb.Default.String().Generator)
+                                                    .Select(tuple => new KeyValuePair<string, IJSCSGlue>(tuple.Item2, tuple.Item1));
 
                 var generator = Gen.zip(generatorIJSCSGlue, Gen.NonEmptyListOf(generatorChildDescription))
-                                    .Select(tuple => new EntityDescriptor<int>(tuple.Item1, tuple.Item2.ToArray()));
+                                    .Select(tuple => new ObjectDescriptor(tuple.Item1, tuple.Item2.ToArray()));
 
                 return Arb.From(generator);
             }
         }
 
-        private EntityDescriptorSpliter<int> _Spliter;
+        private EntityDescriptorSpliter _Spliter;
         private const int _Limit = 5;
 
         public EntityDescriptorSpliterTests()
         {
             Arb.Register<MyGenerators>();
-            _Spliter = new EntityDescriptorSpliter<int> { MaxCount = _Limit }; 
+            _Spliter = new EntityDescriptorSpliter { MaxCount = _Limit }; 
         }
 
         [Property]
         public Property Split_Returns_Ordered_All_Original_ChildrenDescriptor()
         {
-            return Prop.ForAll<List<EntityDescriptor<int>>>((updates) => {
+            return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
                 var elements = res.SelectMany(item => item).SelectMany(desc => desc.ChildrenDescription);
@@ -53,12 +53,12 @@ namespace Neutronium.Core.Test.Binding.Builder
         [Property]
         public Property Split_keeps_Father_Child_Relationship()
         {
-            return Prop.ForAll<List<EntityDescriptor<int>>>((updates) => {
+            return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
                 var elements = res.SelectMany(item => item)
                                     .GroupBy(desc => desc.Father)
-                                    .Select(grouping => new EntityDescriptor<int>(grouping.Key, grouping.SelectMany(g => g.ChildrenDescription).ToArray()));
+                                    .Select(grouping => new ObjectDescriptor(grouping.Key, grouping.SelectMany(g => g.ChildrenDescription).ToArray()));
 
                 return elements.SequenceEqual(updates)
                             .Classify(updates.Count <= _Limit, "Single")
@@ -71,7 +71,7 @@ namespace Neutronium.Core.Test.Binding.Builder
         [Property]
         public Property Split_Limit_Size_Of_Returned_Data()
         {
-            return Prop.ForAll<List<EntityDescriptor<int>>>((updates) => {
+            return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
                 var sizes = res.Select(coll => coll.Select(item => item.Father)
@@ -89,7 +89,7 @@ namespace Neutronium.Core.Test.Binding.Builder
         [Property]
         public Property Split_Optimize_Size_Of_Returned_Data()
         {
-            return Prop.ForAll<List<EntityDescriptor<int>>>((updates) => {
+            return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
                 var sizes = res.Select(coll => coll.Select(item => item.Father)

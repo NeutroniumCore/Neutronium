@@ -4,24 +4,24 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder.Packer
 {
-    internal class ArrayChildrenDescriptionPacker : IEntityDescriptorChildrenDescriptionPacker<int>
+    internal class ArrayChildrenDescriptionPacker
     {
-        public string Pack(List<EntityDescriptor<int>> updates)
+        public string Pack(List<ArrayDescriptor> updates)
         {
             return KeyPacker.Pack(updates.Count, PackKeys(updates), t => t.ToString());
         }
 
         private struct keyDescription
         {
-            public EntityDescriptor<int> Descritor { get; set; }
-            public int? Start { get; set; }
+            public ArrayDescriptor Descritor { get; set; }
+            public int Start { get; set; }
             public int Count { get; set; }
 
-            public keyDescription(EntityDescriptor<int> update)
+            public keyDescription(ArrayDescriptor update)
             {
                 Descritor = update;
-                Start = update.ChildrenDescription.First().Key;
-                Count = update.ChildrenDescription.Count;
+                Start = update.OffSet;
+                Count = update.OrdenedChildren.Count;
             }
 
             public bool Similar(keyDescription other)
@@ -29,12 +29,12 @@ namespace Neutronium.Core.Binding.Builder.Packer
                 return Count == other.Count && Start == other.Start;
             }
 
-            public List<int> Keys => Descritor.ChildrenDescription.Select(k => k.Key).ToList();
+            public List<int> Keys => Enumerable.Range(Start, Count).ToList();
 
-            public bool Empty => !Start.HasValue;
+            public bool Empty => Count == 0;
         }
 
-        private static IEnumerable<Tuple<int, List<int>>> PackKeys(List<EntityDescriptor<int>> updates)
+        private static IEnumerable<Tuple<int, List<int>>> PackKeys(List<ArrayDescriptor> updates)
         {
             var count = 0;
             var first = true;

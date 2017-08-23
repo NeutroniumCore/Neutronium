@@ -1,13 +1,11 @@
-﻿using MoreCollection.Extensions;
-using Neutronium.Core.Binding.Builder.Packer;
+﻿using Neutronium.Core.Binding.Builder.Packer;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
-namespace Neutronium.Core.Binding.Builder
+namespace Neutronium.Core.Binding.Builder 
 {
     internal class JavascriptObjectBulkBuilderStrategy : IJavascriptObjectBuilderStrategy, IBulkUpdater
     {
@@ -94,33 +92,54 @@ namespace Neutronium.Core.Binding.Builder
             return new BulkJsHelper(_Cache, _WebView, helper);
         }
 
-        void IBulkUpdater.BulkUpdateProperty(IEnumerable<EntityDescriptor<string>> updates)
+        void IBulkUpdater.BulkUpdateProperty(IEnumerable<ObjectDescriptor> updates)
         {
             var orderedUpdates = updates.GroupBy(up => up.Father.CValue.GetType()).SelectMany(grouped => grouped);
-            BulkUpdate(orderedUpdates, new ObjectChildrenDescriptionPacker());
+            BulkUpdate(orderedUpdates);
         }
 
-        void IBulkUpdater.BulkUpdateArray(IEnumerable<EntityDescriptor<int>> updates)
+        void IBulkUpdater.BulkUpdateArray(IEnumerable<ArrayDescriptor> updates)
         {
-            BulkUpdate(updates, new ArrayChildrenDescriptionPacker());
+            BulkUpdate(updates);
         }
 
-        private void BulkUpdate<T>(IEnumerable<EntityDescriptor<T>> updates, IEntityDescriptorChildrenDescriptionPacker<T> packer)
+        private void BulkUpdate(IEnumerable<ObjectDescriptor> updates)
         {
-            var spliter = new EntityDescriptorSpliter<T> { MaxCount = _WebView.MaxFunctionArgumentsNumber -1 };
+            var spliter = new EntityDescriptorSpliter { MaxCount = _WebView.MaxFunctionArgumentsNumber -1 };
 
-            foreach(var entityDescriptor in spliter.SplitParameters(updates))
+            var packer = new ObjectChildrenDescriptionPacker();
+            foreach (var entityDescriptor in spliter.SplitParameters(updates))
             {
                 var arguments = GetUpdateParameters(entityDescriptor, packer);
                 Execute(arguments);
             }
         }
 
-        private IJavascriptObject[] GetUpdateParameters<T>(List<EntityDescriptor<T>> updates, IEntityDescriptorChildrenDescriptionPacker<T> packer)
+        private void BulkUpdate(IEnumerable<ArrayDescriptor> updates) 
+        {
+            var spliter = new EntityArraySpliter { MaxCount = _WebView.MaxFunctionArgumentsNumber - 1 };
+
+            var packer = new ArrayChildrenDescriptionPacker();
+            foreach (var entityDescriptor in spliter.SplitParameters(updates)) 
+            {
+                var arguments = GetUpdateParameters(entityDescriptor, packer);
+                Execute(arguments);
+            }
+        }
+
+        private IJavascriptObject[] GetUpdateParameters(List<ObjectDescriptor> updates, ObjectChildrenDescriptionPacker packer)
         {
             var sizes = packer.Pack(updates);
             var objects = updates.Select(up => up.Father);
             var values = updates.SelectMany(up => up.ChildrenDescription).Select(desc => desc.Value);
+            return BuildArguments(sizes, objects.Concat(values));
+        }
+
+        private IJavascriptObject[] GetUpdateParameters(List<ArrayDescriptor> updates, ArrayChildrenDescriptionPacker packer) 
+        {
+            var sizes = packer.Pack(updates);
+            var objects = updates.Select(up => up.Father);
+            var values = updates.SelectMany(up => up.OrdenedChildren);
             return BuildArguments(sizes, objects.Concat(values));
         }
 

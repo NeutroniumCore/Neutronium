@@ -3,20 +3,20 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    public class EntityDescriptorSpliter
+    public class EntityArraySpliter
     {
         public int MaxCount { get; set; }
 
-        internal IEnumerable<List<ObjectDescriptor>> SplitParameters(IEnumerable<ObjectDescriptor> data)
+        internal IEnumerable<List<ArrayDescriptor>> SplitParameters(IEnumerable<ArrayDescriptor> data)
         {
             int parametersCount = 0;
 
-            var list = new List<ObjectDescriptor>();
+            var list = new List<ArrayDescriptor>();
             var maxCountInContext = MaxCount - 2;
 
             foreach (var element in data)
             {
-                var childrenCount = element.ChildrenDescription.Count;
+                var childrenCount = element.OrdenedChildren.Count;
                 var tentative = parametersCount + 1 + childrenCount;
                 var delta = tentative - MaxCount;
 
@@ -25,7 +25,7 @@ namespace Neutronium.Core.Binding.Builder
                     list.Add(element);
                     yield return list;
 
-                    list = new List<ObjectDescriptor>();
+                    list = new List<ArrayDescriptor>();
                     parametersCount = 0;
                     continue;
                 }
@@ -33,24 +33,25 @@ namespace Neutronium.Core.Binding.Builder
                 if (delta >= 0)
                 {
                     var maxToTake = maxCountInContext - parametersCount;
-                    list.Add(new ObjectDescriptor(element.Father, element.ChildrenDescription.Take(maxToTake).ToArray()));
+                    list.Add(new ArrayDescriptor(element.Father, element.OrdenedChildren.Take(maxToTake).ToArray()));
                     yield return list;
 
                     var count = childrenCount - maxToTake;
                     var i = 0;
                     for (i = 0; i < count / maxCountInContext; i++)
                     {
-                        list = new List<ObjectDescriptor>();
-                        list.Add(new ObjectDescriptor(element.Father, element.ChildrenDescription.Skip(maxToTake + maxCountInContext * i).Take(maxCountInContext).ToArray()));
+                        list = new List<ArrayDescriptor>();
+                        var skip = maxToTake + maxCountInContext * i;
+                        list.Add(new ArrayDescriptor(element.Father, element.OrdenedChildren.Skip(skip).Take(maxCountInContext).ToArray(), skip));
                         yield return list;
                     }
 
                     var skipped = (maxToTake + maxCountInContext * i);
-                    list = new List<ObjectDescriptor>();
+                    list = new List<ArrayDescriptor>();
                     parametersCount = childrenCount - skipped;
                     if (skipped < childrenCount)
                     {
-                        list.Add(new ObjectDescriptor(element.Father, element.ChildrenDescription.Skip(skipped).ToArray()));
+                        list.Add(new ArrayDescriptor(element.Father, element.OrdenedChildren.Skip(skipped).ToArray(), skipped));
                         parametersCount++;
                     }
                     continue;

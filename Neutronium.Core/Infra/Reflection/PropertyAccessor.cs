@@ -24,7 +24,6 @@ namespace Neutronium.Core.Infra.Reflection
             _Setter = IsSettable ? BuildSet(type, propertyInfo.PropertyType, setterInfo) : Void;
         }
 
-
         public Type GetTargetType()
         {
             var originalType = _PropertyInfo.PropertyType;

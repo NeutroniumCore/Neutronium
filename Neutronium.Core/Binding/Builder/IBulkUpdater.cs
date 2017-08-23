@@ -8,8 +8,8 @@ namespace Neutronium.Core.Binding.Builder
         IJavascriptObject CommandConstructor { get; }
         IJavascriptObject ExecutableConstructor { get; }
 
-        void BulkUpdateProperty(IEnumerable<EntityDescriptor<string>> updates);
+        void BulkUpdateProperty(IEnumerable<ObjectDescriptor> updates);
 
-        void BulkUpdateArray(IEnumerable<EntityDescriptor<int>> updates);
+        void BulkUpdateArray(IEnumerable<ArrayDescriptor> updates);
     }
 }

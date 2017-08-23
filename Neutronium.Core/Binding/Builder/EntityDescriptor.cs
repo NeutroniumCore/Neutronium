@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    public struct EntityDescriptor<TIdentificator>
+    public struct ObjectDescriptor
     {
         public IJSCSGlue Father { get; }
-        public ICollection<KeyValuePair<TIdentificator, IJSCSGlue>> ChildrenDescription { get; }
+        public ICollection<KeyValuePair<string, IJSCSGlue>> ChildrenDescription { get; }
 
-        public EntityDescriptor(IJSCSGlue father, ICollection<KeyValuePair<TIdentificator, IJSCSGlue>> childrenDescription)
+        public ObjectDescriptor(IJSCSGlue father, ICollection<KeyValuePair<string, IJSCSGlue>> childrenDescription)
         {
             Father = father;
             ChildrenDescription = childrenDescription;
@@ -22,23 +22,50 @@ namespace Neutronium.Core.Binding.Builder
 
         public override bool Equals(object obj)
         {
-            if (!(obj is EntityDescriptor<TIdentificator>))
+            if (!(obj is ObjectDescriptor))
                 return false;
-            var other = (EntityDescriptor<TIdentificator>)obj;
+            var other = (ObjectDescriptor)obj;
             return (Father == other.Father) && ChildrenDescription.SequenceEqual(other.ChildrenDescription);
+        }
+    }
+
+    public struct ArrayDescriptor 
+    {
+        public IJSCSGlue Father { get; }
+        public IList<IJSCSGlue> OrdenedChildren { get; }
+        public int OffSet { get; }
+
+        public ArrayDescriptor(IJSCSGlue father, IList<IJSCSGlue> childrenDescription, int offfset=0)
+        {
+            Father = father;
+            OrdenedChildren = childrenDescription;
+            OffSet = offfset;
+        }
+
+        public override int GetHashCode()
+        {
+            return Father?.GetHashCode() ?? 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is ArrayDescriptor))
+                return false;
+            var other = (ArrayDescriptor)obj;
+            return (Father == other.Father) && OrdenedChildren.SequenceEqual(other.OrdenedChildren);
         }
     }
 
     public static class EntityDescriptor
     {
-        public static EntityDescriptor<int> CreateArrayDescriptor(IJSCSGlue father, IList<IJSCSGlue> description)
+        public static ArrayDescriptor CreateArrayDescriptor(IJSCSGlue father, IList<IJSCSGlue> description) 
         {
-            return new EntityDescriptor<int>(father, description?.Select((d, index) => new KeyValuePair<int, IJSCSGlue>(index, d)).ToArray());
+            return new ArrayDescriptor(father, description);
         }
 
-        public static EntityDescriptor<string> CreateObjectDescriptor(IJSCSGlue father, ICollection<KeyValuePair<string, IJSCSGlue>> description)
+        public static ObjectDescriptor CreateObjectDescriptor(IJSCSGlue father, ICollection<KeyValuePair<string, IJSCSGlue>> description)
         {
-            return new EntityDescriptor<string>(father, description);
+            return new ObjectDescriptor(father, description);
         }
     }
 }

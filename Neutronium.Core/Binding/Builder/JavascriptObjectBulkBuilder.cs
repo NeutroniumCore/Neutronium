@@ -18,7 +18,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private readonly ObjectsCreationRequest _ObjectsCreationRequest = new ObjectsCreationRequest();
         private readonly CommandCreationRequest _CommandCreationRequest = new CommandCreationRequest();
-        private readonly List<EntityDescriptor<int>> _ArraysBuildingRequested = new List<EntityDescriptor<int>>();
+        private readonly List<ArrayDescriptor> _ArraysBuildingRequested = new List<ArrayDescriptor>();
         private readonly List<IJSCSGlue> _BasicObjectsToCreate = new List<IJSCSGlue>();
         private readonly List<IJSCSGlue> _ExecutableObjectsToCreate = new List<IJSCSGlue>();
 
@@ -128,7 +128,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void UpdateArrays()
         {
-            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.ChildrenDescription.Count > 0);
+            var toBeUpdated = _ArraysBuildingRequested.Where(item => item.OrdenedChildren.Count > 0);
             _BulkUpdater.BulkUpdateArray(toBeUpdated);
         }
 
