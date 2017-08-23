@@ -25,17 +25,10 @@ namespace Neutronium.Core.Test.Infra
         }
 
         [Theory]
-        [InlineData("Protected2", true)]
-        [InlineData("OnlySet", true)]
         [InlineData("Available2", true)]
-        [InlineData("Private2", true)]
         [InlineData("Available1", false)]
         [InlineData("Available3", false)]
-        [InlineData("Private1", false)]    
-        [InlineData("Protected1", false)]
-        [InlineData("", false)]
-        [InlineData("invalid", false)]
-        public void IsSettable_returns_correct_false(string property, bool isSettable)
+        public void IsSettable_returns_correct_result(string property, bool isSettable)
         {
             var target = GetPropertyAccessorFor(property);
             target.IsSettable.Should().Be(isSettable);
