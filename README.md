@@ -204,3 +204,9 @@ Nuget packages
 [ChromiumFx browser and knockout.js](https://www.nuget.org/packages/Neutronium.ChromiumFx.Knockout/)
 
 This project is a continuation and improvement of [MVVM-for-awesomium.](https://github.com/David-Desmaisons/MVVM-for-awesomium/)
+
+
+Support
+-------
+
+Many thanks to [JetBrains](https://www.jetbrains.com) for support!
