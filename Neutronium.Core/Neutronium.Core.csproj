@@ -77,6 +77,8 @@
   <ItemGroup>
     <Compile Include="Binding\Builder\BulkJsHelper.cs" />
     <Compile Include="Binding\Builder\EntityDescriptor.cs" />
+    <Compile Include="Binding\Builder\Packer\ArrayChildrenDescriptionPacker.cs" />
+    <Compile Include="Binding\Builder\Packer\IEntityDescriptorChildrenDescriptionPacker.cs" />
     <Compile Include="Binding\Builder\IBulkUpdater.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategy.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategyFactory.cs" />
@@ -89,6 +91,8 @@
     <Compile Include="Binding\Builder\JSAllBuilderAdapter.cs" />
     <Compile Include="Binding\Builder\ObjectsCreationRequest.cs" />
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
+    <Compile Include="Binding\Builder\Packer\KeyPacker.cs" />
+    <Compile Include="Binding\Builder\Packer\ObjectChildrenDescriptionPacker.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />

@@ -1,4 +1,5 @@
 ﻿using MoreCollection.Extensions;
+using Neutronium.Core.Binding.Builder.Packer;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
@@ -95,67 +96,32 @@ namespace Neutronium.Core.Binding.Builder
 
         void IBulkUpdater.BulkUpdateProperty(IEnumerable<EntityDescriptor<string>> updates)
         {
-            var orderedUpdates = updates.GroupBy(up => up.Father.GetType()).SelectMany(grouped => grouped);
-            BulkUpdate(orderedUpdates, key => $@"""{key}""");
+            var orderedUpdates = updates.GroupBy(up => up.Father.CValue.GetType()).SelectMany(grouped => grouped);
+            BulkUpdate(orderedUpdates, new ObjectChildrenDescriptionPacker());
         }
 
         void IBulkUpdater.BulkUpdateArray(IEnumerable<EntityDescriptor<int>> updates)
         {
-            BulkUpdate(updates, key => $"{key}");
+            BulkUpdate(updates, new ArrayChildrenDescriptionPacker());
         }
 
-        private void BulkUpdate<T>(IEnumerable<EntityDescriptor<T>> updates, Func<T, string> getKeyDescription)
+        private void BulkUpdate<T>(IEnumerable<EntityDescriptor<T>> updates, IEntityDescriptorChildrenDescriptionPacker<T> packer)
         {
             var spliter = new EntityDescriptorSpliter<T> { MaxCount = _WebView.MaxFunctionArgumentsNumber -1 };
 
             foreach(var entityDescriptor in spliter.SplitParameters(updates))
             {
-                var arguments = GetUpdateParameters(entityDescriptor, getKeyDescription);
+                var arguments = GetUpdateParameters(entityDescriptor, packer);
                 Execute(arguments);
             }
         }
 
-        private IJavascriptObject[] GetUpdateParameters<T>(List<EntityDescriptor<T>> updates, Func<T,string> getKeyDescription)
+        private IJavascriptObject[] GetUpdateParameters<T>(List<EntityDescriptor<T>> updates, IEntityDescriptorChildrenDescriptionPacker<T> packer)
         {
-            var sizes = Pack(updates, getKeyDescription);
+            var sizes = packer.Pack(updates);
             var objects = updates.Select(up => up.Father);
             var values = updates.SelectMany(up => up.ChildrenDescription).Select(desc => desc.Value);
             return BuildArguments(sizes, objects.Concat(values));
-        }
-
-        private static string Pack<T>(List<EntityDescriptor<T>> updates, Func<T, string> getKeyDescription)
-        {
-            return $@"{{""count"":{updates.Count},""elements"":{AsArray(PackKeys(updates)
-                                    .Select(pack => $@"{{""c"":{pack.Item1},""a"":{AsArray(pack.Item2.Select(getKeyDescription))}}}"))}}}" ;
-         }
-
-        private static IEnumerable<Tuple<int, IReadOnlyCollection<T>>> PackKeys<T>(List<EntityDescriptor<T>> updates)
-        {
-            var count = 0;
-            IReadOnlyCollection<T> childrenKeys = null;
-            foreach (var update in updates)
-            {
-                var description = update.ChildrenDescription;
-                var keys = description.Select(desc => desc.Key);
-                if (childrenKeys == null)
-                {
-                    childrenKeys = keys.ToList();
-                    continue;
-                }
-                if (childrenKeys.SequenceEqual(keys))
-                {
-                    count++;
-                    continue;
-                }
-
-                yield return Tuple.Create(count, childrenKeys);
-                childrenKeys = keys.ToList();
-                count = 0;
-            }
-            if (childrenKeys == null)
-                yield break;
-
-            yield return Tuple.Create(count, childrenKeys);
         }
 
         private IJavascriptObject[] BuildArguments(string paramString, IEnumerable<IJSCSGlue> paramsObjects)
