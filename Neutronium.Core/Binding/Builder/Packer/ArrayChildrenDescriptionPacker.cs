@@ -11,20 +11,20 @@ namespace Neutronium.Core.Binding.Builder.Packer
             return KeyPacker.Pack(updates.Count, PackKeys(updates), t => t.ToString());
         }
 
-        private struct keyDescription
+        private struct KeyDescription
         {
-            public ArrayDescriptor Descritor { get; set; }
-            public int Start { get; set; }
-            public int Count { get; set; }
+            public ArrayDescriptor Descritor { get; }
+            public int Start { get; }
+            public int Count { get; }
 
-            public keyDescription(ArrayDescriptor update)
+            public KeyDescription(ArrayDescriptor update)
             {
                 Descritor = update;
                 Start = update.OffSet;
                 Count = update.OrdenedChildren.Count;
             }
 
-            public bool Similar(keyDescription other)
+            public bool Similar(KeyDescription other)
             {
                 return Count == other.Count && Start == other.Start;
             }
@@ -38,10 +38,10 @@ namespace Neutronium.Core.Binding.Builder.Packer
         {
             var count = 0;
             var first = true;
-            var currentDescriptor = new keyDescription();
+            var currentDescriptor = new KeyDescription();
             foreach (var update in updates)
             {
-                var newDesc = new keyDescription(update);
+                var newDesc = new KeyDescription(update);
                 if (first)
                 {
                     currentDescriptor = newDesc;

@@ -13,9 +13,9 @@ namespace Neutronium.Core.Binding.Builder.Packer
 
         private struct keyDescription
         {
-            public ObjectDescriptor Descritor { get; set; }
-            public Type Type { get; set; }
-            public int Count { get; set; }
+            public ObjectDescriptor Descritor { get; }
+            public Type Type { get; }
+            public int Count { get; }
 
             public keyDescription(ObjectDescriptor update)
             {

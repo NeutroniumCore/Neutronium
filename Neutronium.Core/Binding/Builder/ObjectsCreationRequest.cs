@@ -5,32 +5,32 @@ using System.Linq;
 namespace Neutronium.Core.Binding.Builder
 {
     internal class ObjectsCreationRequest
-    {       
-        public int ReadWriteNumber { get; set; }
-        public int ReadOnlyNumber => _ObjectBuildingRequested.Count - ReadWriteNumber;
+    {
+        public int ReadWriteNumber => _ObjectReadWriteBuildingRequested.Count;
+        public int ReadOnlyNumber => _ObjectReadOnlyBuildingRequested.Count;
 
-        private readonly LinkedList<ObjectDescriptor> _ObjectBuildingRequested = new LinkedList<ObjectDescriptor>();
+        private readonly List<ObjectDescriptor> _ObjectReadWriteBuildingRequested = new List<ObjectDescriptor>();
+        private readonly List<ObjectDescriptor> _ObjectReadOnlyBuildingRequested = new List<ObjectDescriptor>();
 
         public void AddRequest(ObjectDescriptor descriptor, bool updatableFromJS)
         {
             if (!updatableFromJS)
             {
-                _ObjectBuildingRequested.AddLast(descriptor);
+                _ObjectReadOnlyBuildingRequested.Add(descriptor);
                 return;
             }
 
-            ReadWriteNumber += 1;
-            _ObjectBuildingRequested.AddFirst(descriptor);       
+            _ObjectReadWriteBuildingRequested.Add(descriptor);       
         }
 
         internal IEnumerable<IJSCSGlue> GetElements()
         {
-            return _ObjectBuildingRequested.Select(item => item.Father);
+            return _ObjectReadWriteBuildingRequested.Concat(_ObjectReadOnlyBuildingRequested).Select(item => item.Father);
         }
 
         internal IEnumerable<ObjectDescriptor> GetElementWithProperty()
         {
-            return _ObjectBuildingRequested.Where(item => item.ChildrenDescription.Count > 0);
+            return _ObjectReadWriteBuildingRequested.Concat(_ObjectReadOnlyBuildingRequested).Where(item => item.ChildrenDescription.Count > 0);
         }
     }
 }

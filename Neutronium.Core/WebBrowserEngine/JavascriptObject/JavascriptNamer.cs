@@ -18,25 +18,28 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
             Register<string>(GetCreateExpression);
 
             Register<DateTime>(GetCreateDateTimeString);
-            
-            Register<Int64>(Raw);
-            Register<UInt64>(Raw);           
-            Register<Int32>(Raw);
-            Register<Int16>(Raw);
-            Register<UInt32>(Raw);
-            Register<UInt16>(Raw);
+
+            RegisterRaw<Int64>();
+            RegisterRaw<UInt64>();
+            RegisterRaw<Int32>();
+            RegisterRaw<Int16>();
+            RegisterRaw<UInt32>();
+            RegisterRaw<UInt16>();
 
             Register<double>(GetCreateDoubleString);
             Register<float>(GetCreateNumberExpression);
             Register<decimal>(GetCreateNumberExpression);
         }
 
-        private static void Register<T>(Func<T, string> Factory)
+        private static void Register<T>(Func<T, string> factory)
         {
-            _Builder.Add(typeof(T), (o) => Factory((T)o));
+            _Builder.Add(typeof(T), (o) => factory((T)o));
         }
 
-        private static string Raw<T>(T value) => $"{value}";
+        private static void RegisterRaw<T>()
+        {
+            _Builder.Add(typeof(T), o => o.ToString());
+        }
 
         private static string GetCreateNumberExpression(decimal value) => GetCreateDoubleString((double)value);
         private static string GetCreateNumberExpression(float value) => GetCreateDoubleString((double)value);
@@ -59,6 +62,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
                                 .Replace("\r", "\\r")
                                 .Replace("'", @"\'");
             return $"'{filtered}'";
+
         }
 
         public static string GetCreateExpression(object @object)
