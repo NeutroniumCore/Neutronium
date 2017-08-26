@@ -41,8 +41,9 @@ namespace Neutronium.Core.Test.Infra
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
+            var operations = 10000000;
 
-            for (var i = 0; i < 10000000; i++)
+            for (var i = 0; i < operations; i++)
             {
                 var myTypeInstrospector = @object.GetType().GetReadProperty("Available2");
                 var res = myTypeInstrospector.Get(@object);
@@ -50,7 +51,7 @@ namespace Neutronium.Core.Test.Infra
 
             stopWatch.Stop();
             var ts = stopWatch.ElapsedMilliseconds;
-            _Output.WriteLine($"Perf: {((double)(ts)) / 1000} sec");
+            _Output.WriteLine($"Perf: {operations* 1000/ts} operations per sec");
         }
     }
 }

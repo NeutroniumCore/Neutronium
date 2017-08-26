@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows;
 using Neutronium.Core.JavascriptFramework;
-using Neutronium.Core.Infra;
-using System.Windows.Markup;
 
 namespace Neutronium.WPF
 {
     public abstract class HTMLApp : Application
     {
+        private bool _Registered;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             var engine = HTMLEngineFactory.Engine;
@@ -17,17 +17,27 @@ namespace Neutronium.WPF
             base.OnStartup(e);
         }
 
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            if (_Registered)
+                return;
+
+            _Registered = true;
+            MainWindow.Closing += Closing;
+        }
+
+        private void Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            HTMLEngineFactory.Engine.Dispose();
+        }
+
         protected virtual void OnStartUp(IHTMLEngineFactory factory) 
         {            
-        }
+        } 
 
         protected abstract IWPFWebWindowFactory GetWindowFactory();
 
         protected abstract IJavascriptFrameworkManager GetJavascriptUIFrameworkManager();
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            HTMLEngineFactory.Engine.Dispose();
-        }
     }
 }

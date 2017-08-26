@@ -1,9 +1,9 @@
 ﻿using MoreCollection.Extensions;
 using Neutronium.Core.Infra.Reflection;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Neutronium.Core.Infra
 {
@@ -60,7 +60,7 @@ namespace Neutronium.Core.Infra
             return (targetType != null) && ((targetType == UInt16Type) || (targetType == UInt32Type) || (targetType == UInt64Type));
         }
 
-        private static Dictionary<Type, TypePropertyAccessor> _TypePropertyInfos = new Dictionary<Type, TypePropertyAccessor>();
+        private static readonly ConcurrentDictionary<Type, TypePropertyAccessor> _TypePropertyInfos = new ConcurrentDictionary<Type, TypePropertyAccessor>();
         private static TypePropertyAccessor GetTypePropertyInfo(this Type @type)
         {
             return _TypePropertyInfos.GetOrAddEntity(@type, t => new TypePropertyAccessor(t));
@@ -78,7 +78,7 @@ namespace Neutronium.Core.Infra
 
         public static bool HasReadWriteProperties(this Type @type)
         {
-            return (@type == null) ? false : @type.GetTypePropertyInfo().HasReadWriteProperties;
+            return (@type != null) && @type.GetTypePropertyInfo().HasReadWriteProperties;
         }
     }
 }
