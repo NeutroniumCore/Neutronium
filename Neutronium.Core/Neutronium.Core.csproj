@@ -104,6 +104,7 @@
     <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableSimpleCommand.cs" />
+    <Compile Include="Binding\ICSharpToJsCache.cs" />
     <Compile Include="Binding\Listeners\IExitContext.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />
     <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />

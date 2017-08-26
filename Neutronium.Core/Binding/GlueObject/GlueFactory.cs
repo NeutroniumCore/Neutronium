@@ -6,7 +6,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class GlueFactory : IGlueFactory
+    internal sealed class GlueFactory : IGlueFactory
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly HTMLViewContext _HTMLViewContext;

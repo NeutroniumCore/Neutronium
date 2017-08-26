@@ -12,13 +12,13 @@ namespace Neutronium.Core.Binding
 {
     internal class CSharpToJavascriptConverter 
     {
-        private readonly IJavascriptSessionCache _Cacher;
+        private readonly ICSharpToJsCache _Cacher;
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private readonly IWebBrowserWindow _Context;
         private IJSCSGlue _Null;
 
-        public CSharpToJavascriptConverter(IWebBrowserWindow context, IJavascriptSessionCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
+        public CSharpToJavascriptConverter(IWebBrowserWindow context, ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
             _Context = context;
             _GlueFactory = glueFactory;

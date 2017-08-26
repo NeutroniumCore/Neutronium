@@ -3,10 +3,8 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding
 {
-    public interface IJavascriptSessionCache
+    public interface IJavascriptSessionCache : ICSharpToJsCache
     {
-        void CacheFromCSharpValue(object key, IJSCSGlue value);
-
         void Cache(IJSCSGlue value);
 
         void Cache(IJSCSCachableGlue cachableGlue);
@@ -14,8 +12,6 @@ namespace Neutronium.Core.Binding
         void RemoveFromCSharpToJs(IJSCSGlue value);
 
         void RemoveFromJsToCSharp(IJSCSGlue value);
-
-        IJSCSGlue GetCached(object key);
 
         IJSCSGlue GetCached(IJavascriptObject globalkey);
 
