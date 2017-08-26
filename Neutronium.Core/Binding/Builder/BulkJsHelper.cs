@@ -1,6 +1,5 @@
 ﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.Extension;
 using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder

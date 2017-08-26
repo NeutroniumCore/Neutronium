@@ -7,7 +7,6 @@ namespace Neutronium.Core.Binding.Builder
     {
         private readonly IJavascriptObjectBuilderStrategy _SynchroneousStrategy;
         private readonly IJavascriptObjectBuilderStrategy _BulkStrategy;
-        private readonly bool _Mapping;
 
         public JavascriptObjectMixtBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
         {

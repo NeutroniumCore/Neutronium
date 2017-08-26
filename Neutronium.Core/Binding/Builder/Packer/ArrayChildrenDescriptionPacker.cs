@@ -13,13 +13,11 @@ namespace Neutronium.Core.Binding.Builder.Packer
 
         private struct KeyDescription
         {
-            public ArrayDescriptor Descritor { get; }
-            public int Start { get; }
-            public int Count { get; }
+            private int Start { get; }
+            private int Count { get; }
 
             public KeyDescription(ArrayDescriptor update)
             {
-                Descritor = update;
                 Start = update.OffSet;
                 Count = update.OrdenedChildren.Count;
             }
@@ -34,7 +32,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
             public bool Empty => Count == 0;
         }
 
-        private static IEnumerable<Tuple<int, List<int>>> PackKeys(List<ArrayDescriptor> updates)
+        private static IEnumerable<Tuple<int, List<int>>> PackKeys(IList<ArrayDescriptor> updates)
         {
             var count = 0;
             var first = true;
