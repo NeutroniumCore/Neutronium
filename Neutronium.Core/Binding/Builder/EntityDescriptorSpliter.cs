@@ -9,7 +9,7 @@ namespace Neutronium.Core.Binding.Builder
 
         internal IEnumerable<List<ObjectDescriptor>> SplitParameters(IEnumerable<ObjectDescriptor> data)
         {
-            int parametersCount = 0;
+            var parametersCount = 0;
 
             var list = new List<ObjectDescriptor>();
             var maxCountInContext = MaxCount - 2;

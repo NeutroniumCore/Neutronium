@@ -12,9 +12,9 @@ namespace Neutronium.Core.Binding.Builder
         private readonly List<ObjectDescriptor> _ObjectReadWriteBuildingRequested = new List<ObjectDescriptor>();
         private readonly List<ObjectDescriptor> _ObjectReadOnlyBuildingRequested = new List<ObjectDescriptor>();
 
-        public void AddRequest(ObjectDescriptor descriptor, bool updatableFromJS)
+        public void AddRequest(ObjectDescriptor descriptor, bool updatableFromJs)
         {
-            if (!updatableFromJS)
+            if (!updatableFromJs)
             {
                 _ObjectReadOnlyBuildingRequested.Add(descriptor);
                 return;
