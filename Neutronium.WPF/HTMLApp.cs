@@ -24,10 +24,10 @@ namespace Neutronium.WPF
                 return;
 
             _Registered = true;
-            MainWindow.Closing += Closing;
+            MainWindow.Closed += Closed;
         }
 
-        private void Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Closed(object sender, EventArgs e)
         {
             HTMLEngineFactory.Engine.Dispose();
         }
