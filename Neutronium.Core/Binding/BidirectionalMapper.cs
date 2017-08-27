@@ -139,7 +139,6 @@ namespace Neutronium.Core.Binding
 
         public void CollectionChanged()
         {
-            throw new NotImplementedException();
         }
 
         private bool FilterBasic(JsCsGlueType type) => type == JsCsGlueType.Basic;
@@ -157,7 +156,7 @@ namespace Neutronium.Core.Binding
                 return;
 
             _SessionCache.RemoveFromCSharpToJs(exiting);
-            context.RequestJSCacheRemove(exiting);
+            context.RequestJsCacheRemove(exiting);
 
             if (!exiting.CValue.GetType().HasReadWriteProperties())
                 return;
@@ -375,7 +374,7 @@ namespace Neutronium.Core.Binding
 
         private void UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder, bool needToCheckListener)
         {
-            CheckUIContext();
+            CheckUiContext();
 
             BridgeUpdater updater = null;
             using (var relisten = needToCheckListener ? ReListen(): null)
@@ -394,7 +393,7 @@ namespace Neutronium.Core.Binding
 
         private void UpdateFromCSharpChanges(object newCSharpObject, Func<IJsCsGlue, BridgeUpdater> updaterBuilder)
         {
-            CheckUIContext();
+            CheckUiContext();
 
             var value = _JsObjectBuilder.Map(newCSharpObject);
             if (value == null)
@@ -439,7 +438,7 @@ namespace Neutronium.Core.Binding
             return updater;
         }
 
-        private void CheckUIContext()
+        private void CheckUiContext()
         {
             if (!Context.UIDispatcher.IsInContext())
                 throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");

@@ -27,8 +27,9 @@ namespace Neutronium.Core.Binding.Listeners
         {
             if (_Disposed)
                 return;
-
+      
             _Disposed = true;
+            _UpdatableGlueCollection.CollectionChanged();
             var @new = _UpdatableGlueCollection.GetAllChildren();
             ForExceptDo(_Old, @new, OnExitingGlue);
             ForExceptDo(@new, _Old, _UpdatableGlueCollection.OnEnter);

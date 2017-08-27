@@ -28,7 +28,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _EntityToUnlisten.Add(exiting);
         }
 
-        public void RequestJSCacheRemove(IJsCsGlue exiting)
+        public void RequestJsCacheRemove(IJsCsGlue exiting)
         {
             _ExitingObjects.Add(exiting);
         }
