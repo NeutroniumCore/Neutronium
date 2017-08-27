@@ -3,18 +3,17 @@ using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Log
 {
-    public class NullLogger : IWebSessionLogger
+    public struct NullLogger : IWebSessionLogger
     {
-
-        void IWebSessionLogger.Debug(Func<string> information)
+        public void Debug(Func<string> information)
         {
         }
 
-        void IWebSessionLogger.Debug(string information) 
+        public void Debug(string information) 
         {          
         }
 
-        void IWebSessionLogger.Info(string information) 
+        public void Info(string information) 
         {
         }
 
@@ -22,7 +21,7 @@ namespace Neutronium.Core.Log
         {
         }
 
-        void IWebSessionLogger.Error(string information)
+        public void Error(string information)
         {
         }
 
@@ -34,19 +33,7 @@ namespace Neutronium.Core.Log
         {
         }
 
-        void IWebSessionLogger.WebBrowserError(Exception exception, Action cancel)
-        {
-        }
-
-        void IWebSessionLogger.Info(Func<string> information)
-        {
-        }
-
-        void IWebSessionLogger.Error(Func<string> information)
-        {
-        }
-
-        void IWebSessionLogger.LogBrowser(ConsoleMessageArgs iInformation, Uri url)
+        public void WebBrowserError(Exception exception, Action cancel)
         {
         }
     }
