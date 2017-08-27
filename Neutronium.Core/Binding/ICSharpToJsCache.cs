@@ -4,9 +4,9 @@ namespace Neutronium.Core.Binding
 {
     public interface ICSharpToJsCache
     {
-        IJSCSGlue GetCached(object key);
+        IJsCsGlue GetCached(object key);
 
-        void CacheFromCSharpValue(object key, IJSCSGlue value);
+        void CacheFromCSharpValue(object key, IJsCsGlue value);
 
     }
 }

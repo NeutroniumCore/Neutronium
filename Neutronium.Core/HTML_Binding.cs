@@ -18,11 +18,11 @@ namespace Neutronium.Core
         private readonly int _Current = _Count++;
 
         public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
-        public IJavascriptObject JSRootObject => _BirectionalMapper.JSValueRoot.GetJSSessionValue();
+        public IJavascriptObject JSRootObject => _BirectionalMapper.JsValueRoot.GetJsSessionValue();
         public JavascriptBindingMode Mode => _BirectionalMapper.Mode;
         public IWebView Context => _Context.WebView;
-        public object Root => _BirectionalMapper.JSValueRoot.CValue;
-        public IJSCSGlue JSBrideRootObject => _BirectionalMapper.JSValueRoot;
+        public object Root => _BirectionalMapper.JsValueRoot.CValue;
+        public IJsCsGlue JSBrideRootObject => _BirectionalMapper.JsValueRoot;
 
         private HTML_Binding(BidirectionalMapper convertToJSO, IWebSessionLogger logger)
         {
@@ -35,7 +35,7 @@ namespace Neutronium.Core
 
         public override string ToString()
         {
-            return _BirectionalMapper.JSValueRoot.ToString();
+            return _BirectionalMapper.JsValueRoot.ToString();
         }
 
         public void Dispose()

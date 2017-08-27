@@ -9,7 +9,7 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject = null;
         private readonly List<IJavascriptObject> _EntityToUnlisten = new List<IJavascriptObject>();
-        private readonly List<IJSCSGlue> _ExitingObjects = new List<IJSCSGlue>();
+        private readonly List<IJsCsGlue> _ExitingObjects = new List<IJsCsGlue>();
 
         internal IJavascriptSessionCache Cache { get; set; }
         internal bool HasUpdatesOnJavascriptContext => (_UpdateJavascriptObject != null) || (_EntityToUnlisten.Count != 0);
@@ -28,7 +28,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _EntityToUnlisten.Add(exiting);
         }
 
-        public void RequestJSCacheRemove(IJSCSGlue exiting)
+        public void RequestJSCacheRemove(IJsCsGlue exiting)
         {
             _ExitingObjects.Add(exiting);
         }

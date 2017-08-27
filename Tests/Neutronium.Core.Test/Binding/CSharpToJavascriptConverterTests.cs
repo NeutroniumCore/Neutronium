@@ -15,14 +15,14 @@ namespace Neutronium.Core.Test.Binding
         private IJavascriptSessionCache _Cacher;
         private IGlueFactory _GlueFactory;
         private IWebSessionLogger _Logger;
-        private Dictionary<object, IJSCSGlue> _Cache = new Dictionary<object, IJSCSGlue>();
+        private Dictionary<object, IJsCsGlue> _Cache = new Dictionary<object, IJsCsGlue>();
         private IWebBrowserWindow _IWebBrowserWindow;
 
         public CSharpToJavascriptConverterTests()
         {
             _Cacher = Substitute.For<IJavascriptSessionCache>();
-            _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJSCSGlue>()))
-                   .Do(callInfo => _Cache.Add(callInfo[0], (IJSCSGlue)callInfo[1]));
+            _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJsCsGlue>()))
+                   .Do(callInfo => _Cache.Add(callInfo[0], (IJsCsGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
             _GlueFactory = new GlueFactory(null, null);
             _Logger = Substitute.For<IWebSessionLogger>();

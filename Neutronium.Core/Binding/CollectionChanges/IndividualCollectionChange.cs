@@ -17,6 +17,6 @@ namespace Neutronium.Core.Binding.CollectionChanges
 
         public int Index { get; }
 
-        public IJSCSGlue Object { get; }
+        public IJsCsGlue Object { get; }
     }
 }

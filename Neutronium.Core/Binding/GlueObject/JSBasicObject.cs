@@ -8,27 +8,28 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class JSBasicObject : IJSCSGlue
+    internal class JSBasicObject : IJsCsGlue
     {
-        public IJavascriptObject JSValue { get; private set; }
+        public IJavascriptObject JsValue { get; private set; }
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Basic;
         public uint JsId => 0;
+        public IEnumerable<IJsCsGlue> Children => null;
 
         internal JSBasicObject(object value)
         {
             CValue = value;
         }
 
-        void IJSCSGlue.SetJSValue(IJavascriptObject value)
+        void IJsCsGlue.SetJsValue(IJavascriptObject value)
         {
-            JSValue = value;
+            JsValue = value;
         }
 
         internal JSBasicObject(IJavascriptObject jsValue, object value)
         {
             CValue = value;
-            JSValue = jsValue;
+            JsValue = jsValue;
         }
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
@@ -77,11 +78,6 @@ namespace Neutronium.Core.Binding.GlueObject
         public void BuilString(DescriptionBuilder context)
         {
             context.Append(ToString());
-        }
-
-        public IEnumerable<IJSCSGlue> GetChildren()
-        {
-            return Enumerable.Empty<IJSCSGlue>();
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

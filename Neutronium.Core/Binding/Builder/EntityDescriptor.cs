@@ -6,10 +6,10 @@ namespace Neutronium.Core.Binding.Builder
 {
     public struct ObjectDescriptor
     {
-        public IJSCSGlue Father { get; }
-        public ICollection<KeyValuePair<string, IJSCSGlue>> ChildrenDescription { get; }
+        public IJsCsGlue Father { get; }
+        public ICollection<KeyValuePair<string, IJsCsGlue>> ChildrenDescription { get; }
 
-        public ObjectDescriptor(IJSCSGlue father, ICollection<KeyValuePair<string, IJSCSGlue>> childrenDescription)
+        public ObjectDescriptor(IJsCsGlue father, ICollection<KeyValuePair<string, IJsCsGlue>> childrenDescription)
         {
             Father = father;
             ChildrenDescription = childrenDescription;
@@ -31,11 +31,11 @@ namespace Neutronium.Core.Binding.Builder
 
     public struct ArrayDescriptor 
     {
-        public IJSCSGlue Father { get; }
-        public IList<IJSCSGlue> OrdenedChildren { get; }
+        public IJsCsGlue Father { get; }
+        public IList<IJsCsGlue> OrdenedChildren { get; }
         public int OffSet { get; }
 
-        public ArrayDescriptor(IJSCSGlue father, IList<IJSCSGlue> childrenDescription, int offfset=0)
+        public ArrayDescriptor(IJsCsGlue father, IList<IJsCsGlue> childrenDescription, int offfset=0)
         {
             Father = father;
             OrdenedChildren = childrenDescription;
@@ -58,12 +58,12 @@ namespace Neutronium.Core.Binding.Builder
 
     public static class EntityDescriptor
     {
-        public static ArrayDescriptor CreateArrayDescriptor(IJSCSGlue father, IList<IJSCSGlue> description) 
+        public static ArrayDescriptor CreateArrayDescriptor(IJsCsGlue father, IList<IJsCsGlue> description) 
         {
             return new ArrayDescriptor(father, description);
         }
 
-        public static ObjectDescriptor CreateObjectDescriptor(IJSCSGlue father, ICollection<KeyValuePair<string, IJSCSGlue>> description)
+        public static ObjectDescriptor CreateObjectDescriptor(IJsCsGlue father, ICollection<KeyValuePair<string, IJsCsGlue>> description)
         {
             return new ObjectDescriptor(father, description);
         }

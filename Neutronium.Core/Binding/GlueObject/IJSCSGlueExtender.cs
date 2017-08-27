@@ -4,31 +4,31 @@ using System;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public static class IJSCSGlueExtender
+    public static class IjsCsGlueExtender
     {
-        public static bool IsBasic(this IJSCSGlue @this)
+        public static bool IsBasic(this IJsCsGlue @this)
         {
             return (@this.Type == JsCsGlueType.Basic);
         }
 
-        public static bool IsBasicNotNull(this IJSCSGlue @this)
+        public static bool IsBasicNotNull(this IJsCsGlue @this)
         {
             return (@this.CValue != null && @this.Type == JsCsGlueType.Basic);
         }
 
-        public static ISet<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, bool includeMySelf = false)
+        public static ISet<IJsCsGlue> GetAllChildren(this IJsCsGlue @this, bool includeMySelf = false)
         {
-            var res = new HashSet<IJSCSGlue>();
+            var res = new HashSet<IJsCsGlue>();
             if (includeMySelf)
                 res.Add(@this);
 
-            @this.GetAllChildren(res);
+            @this.AppendAllChildren(res);
             return res;
         }
 
-        private static void GetAllChildren(this IJSCSGlue @this, ISet<IJSCSGlue> res)
+        public static void AppendAllChildren(this IJsCsGlue @this, ISet<IJsCsGlue> res)
         {
-            var children = @this.GetChildren();
+            var children = @this.Children;
             if (children == null)
                 return;
 
@@ -36,24 +36,23 @@ namespace Neutronium.Core.Binding.GlueObject
             {
                 if (res.Add(child))
                 {
-                    child.GetAllChildren(res);
+                    child.AppendAllChildren(res);
                 }
             }
         }
 
-        public static void VisitAllChildren(this IJSCSGlue @this, Func<IJSCSGlue, bool> visit)
+        public static void VisitAllChildren(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit)
         {
             if (!visit(@this))
                 return;
 
-            var res = new HashSet<IJSCSGlue>();
-            res.Add(@this);
-            @this.VisitAllChildren(visit, res);
+            var res = new HashSet<IJsCsGlue> {@this};
+            @this.AppendAllChildren(visit, res);
         }
 
-        private static void VisitAllChildren(this IJSCSGlue @this, Func<IJSCSGlue, bool> visit, ISet<IJSCSGlue> res)
+        public static void AppendAllChildren(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit, ISet<IJsCsGlue> res)
         {
-            var children = @this.GetChildren();
+            var children = @this.Children;
             if (children == null)
                 return;
 
@@ -61,25 +60,25 @@ namespace Neutronium.Core.Binding.GlueObject
             {
                 if (res.Add(child) && visit(child))
                 {
-                    child.VisitAllChildren(visit, res);
+                    child.AppendAllChildren(visit, res);
                 }
             }
         }
 
-        public static ISet<IJSCSGlue> GetAllChildren(this IJSCSGlue @this, Func<JsCsGlueType, bool> filter)
+        public static ISet<IJsCsGlue> GetAllChildren(this IJsCsGlue @this, Func<JsCsGlueType, bool> filter)
         {
-            var res = new HashSet<IJSCSGlue>();
+            var res = new HashSet<IJsCsGlue>();
             if (filter(@this.Type))
                 return res;
        
             res.Add(@this);
-            @this.GetAllChildren(filter, res);
+            @this.AppendAllChildren(filter, res);
             return res;
         }
 
-        private static void GetAllChildren(this IJSCSGlue @this, Func<JsCsGlueType, bool> filter, ISet<IJSCSGlue> res)
+        public static void AppendAllChildren(this IJsCsGlue @this, Func<JsCsGlueType, bool> filter, ISet<IJsCsGlue> res)
         {
-            var children = @this.GetChildren();
+            var children = @this.Children;
             if (children == null)
                 return;
 
@@ -87,20 +86,15 @@ namespace Neutronium.Core.Binding.GlueObject
             {
                 if (!filter(child.Type) && res.Add(child))
                 {
-                    child.GetAllChildren(filter, res);
+                    child.AppendAllChildren(filter, res);
                 }
             }
         }
 
-        public static IJavascriptObject GetJSSessionValue(this IJSCSGlue @this)
+        public static IJavascriptObject GetJsSessionValue(this IJsCsGlue @this)
         {
-            var inj = @this as IJSCSMappedBridge;
-            return (inj != null) ? inj.CachableJSValue : @this.JSValue;
-        }
-
-        internal static void AutoMap(this IJSCSMappedBridge @this)
-        {
-            @this.SetMappedJSValue(@this.JSValue);
+            var inj = @this as IJsCsMappedBridge;
+            return (inj != null) ? inj.CachableJsValue : @this.JsValue;
         }
     }
 }

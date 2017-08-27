@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private readonly IWebBrowserWindow _Context;
-        private IJSCSGlue _Null;
+        private IJsCsGlue _Null;
 
         public CSharpToJavascriptConverter(IWebBrowserWindow context, ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
@@ -26,7 +26,7 @@ namespace Neutronium.Core.Binding
             _Cacher = cacher;
         }
 
-        public IJSCSGlue Map(object from, object additional=null)
+        public IJsCsGlue Map(object from, object additional=null)
         {
             if (from == null)
                 return _Null ?? (_Null = new JSBasicObject(null));
@@ -102,12 +102,12 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private IJSCSGlue Convert(IEnumerable source)
+        private IJsCsGlue Convert(IEnumerable source)
         {
             var type = source.GetElementType();
             var basictype = _Context.IsTypeBasic(type) ? type : null;
             var count = (source as ICollection)?.Count;
-            var list = count.HasValue? new List<IJSCSGlue>(count.Value): new List<IJSCSGlue>();
+            var list = count.HasValue? new List<IJsCsGlue>(count.Value): new List<IJsCsGlue>();
             foreach (var @object in source)
             {
                 list.Add(Map(@object));

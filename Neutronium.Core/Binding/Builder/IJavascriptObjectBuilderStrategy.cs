@@ -4,6 +4,6 @@ namespace Neutronium.Core.Binding.Builder
 {
     public interface IJavascriptObjectBuilderStrategy
     {
-        void UpdateJavascriptValue(IJSCSGlue root);
+        void UpdateJavascriptValue(IJsCsGlue root);
     }
 }

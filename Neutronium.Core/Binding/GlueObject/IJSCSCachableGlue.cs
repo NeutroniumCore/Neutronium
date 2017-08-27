@@ -2,9 +2,9 @@
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public interface IJSCSCachableGlue : IJSCSGlue
+    public interface IJsCsCachableGlue : IJsCsGlue
     {
-        IJavascriptObject CachableJSValue { get; }
+        IJavascriptObject CachableJsValue { get; }
 
         void SetJsId(uint jsId);
     }

@@ -23,7 +23,7 @@ namespace Neutronium.Core.Binding.Builder
             _ObjectReadWriteBuildingRequested.Add(descriptor);       
         }
 
-        internal IEnumerable<IJSCSGlue> GetElements()
+        internal IEnumerable<IJsCsGlue> GetElements()
         {
             return _ObjectReadWriteBuildingRequested.Concat(_ObjectReadOnlyBuildingRequested).Select(item => item.Father);
         }

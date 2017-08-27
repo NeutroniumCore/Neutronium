@@ -5,9 +5,9 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public interface IJSCSGlue
+    public interface IJsCsGlue
     {
-        IJavascriptObject JSValue { get; }
+        IJavascriptObject JsValue { get; }
 
         object CValue { get;}
 
@@ -15,13 +15,13 @@ namespace Neutronium.Core.Binding.GlueObject
 
         uint JsId { get;}
 
-        IEnumerable<IJSCSGlue> GetChildren();
+        IEnumerable<IJsCsGlue> Children { get; }
 
         void BuilString(DescriptionBuilder context);
 
         void RequestBuildInstruction(IJavascriptObjectBuilder builder);
 
-        void SetJSValue(IJavascriptObject value);
+        void SetJsValue(IJavascriptObject value);
 
         void ApplyOnListenable(IObjectChangesListener listener);
     }

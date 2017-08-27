@@ -4,18 +4,18 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     public abstract class GlueBase
     {
-        public IJavascriptObject JSValue { get; private set; }
+        public IJavascriptObject JsValue { get; private set; }
 
-        public void SetJSValue(IJavascriptObject value)
+        public void SetJsValue(IJavascriptObject value)
         {
-            JSValue = value;
+            JsValue = value;
         }
 
         protected abstract void ComputeString(DescriptionBuilder context);
 
         public void BuilString(DescriptionBuilder context)
         {
-            var contextualName = context.GetContextualName(this as IJSCSGlue);
+            var contextualName = context.GetContextualName(this as IJsCsGlue);
             if (contextualName != null)
             {
                 context.Append(contextualName);

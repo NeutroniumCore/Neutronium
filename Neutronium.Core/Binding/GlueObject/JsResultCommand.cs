@@ -12,13 +12,14 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class JsResultCommand : GlueBase, IJSCSCachableGlue, IExecutableGlue
+    internal class JsResultCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
     {
         private readonly IResultCommand _JSResultCommand;
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
 
-        public virtual IJavascriptObject CachableJSValue => JSValue;
+        public IEnumerable<IJsCsGlue> Children => null;
+        public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue => _JSResultCommand;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
         protected IWebView WebView => _HTMLViewContext.WebView;
@@ -26,7 +27,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
+        void IJsCsCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
         public JsResultCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
         {
@@ -80,18 +81,18 @@ namespace Neutronium.Core.Binding.GlueObject
             });
         }
 
-        private async void SetResult(IJavascriptObject promise, IJSCSGlue bridgevalue)
+        private async void SetResult(IJavascriptObject promise, IJsCsGlue bridgevalue)
         {
             if (promise == null)
                 return;
 
             await WebView.RunAsync(async () =>
             {
-                await promise.InvokeAsync("fullfill", WebView, bridgevalue.GetJSSessionValue());
+                await promise.InvokeAsync("fullfill", WebView, bridgevalue.GetJsSessionValue());
             });
         }
 
-        public IEnumerable<IJSCSGlue> GetChildren()
+        public IEnumerable<IJsCsGlue> GetChildren()
         {
             return null;
         }

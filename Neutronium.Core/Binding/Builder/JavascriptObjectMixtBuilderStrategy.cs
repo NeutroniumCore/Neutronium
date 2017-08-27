@@ -14,9 +14,9 @@ namespace Neutronium.Core.Binding.Builder
             _BulkStrategy = new JavascriptObjectBulkBuilderStrategy(webView, cache, mapping);
         }
 
-        private IJavascriptObjectBuilderStrategy GetStrategy(IJSCSGlue root) => root.IsBasic()? _SynchroneousStrategy : _BulkStrategy;
+        private IJavascriptObjectBuilderStrategy GetStrategy(IJsCsGlue root) => root.IsBasic()? _SynchroneousStrategy : _BulkStrategy;
 
-        public void UpdateJavascriptValue(IJSCSGlue root)
+        public void UpdateJavascriptValue(IJsCsGlue root)
         {
             GetStrategy(root).UpdateJavascriptValue(root);
         }

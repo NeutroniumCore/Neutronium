@@ -10,7 +10,7 @@ namespace Neutronium.Core
         JavascriptBindingMode Mode { get; }
         IWebView Context { get; }
         IJavascriptSessionInjector JavascriptUIFramework { get; }
-        IJSCSGlue JSBrideRootObject { get; }
+        IJsCsGlue JSBrideRootObject { get; }
         IJavascriptObject JSRootObject { get; }
         object Root { get; }
     }

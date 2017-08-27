@@ -64,7 +64,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _GlueFactory = new GlueFactory(null, null);
-            _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJSCSGlue)null);
+            _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
             _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
             _HTMLViewContext = new HTMLViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
             _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _ICSharpMapper, _GlueFactory, _Logger);
@@ -96,7 +96,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await Map(_Test)).JSValue;
+                var res = (await Map(_Test)).JsValue;
 
                 DoSafe(() =>
                 {
@@ -118,7 +118,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 var cacher = new SessionCacher();
                 _ConverTOJSO = GetCircularBreakerConverter(cacher);
 
-                var res = (await Map(_CircularSimple, cacher)).JSValue;
+                var res = (await Map(_CircularSimple, cacher)).JsValue;
 
                 DoSafe(() => {
                     res.Should().NotBeNull();
@@ -145,7 +145,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 var cacher = new SessionCacher();
                 _ConverTOJSO = GetCircularBreakerConverter(cacher);
 
-                var res = (await Map(_CircularComplex, cacher)).JSValue;
+                var res = (await Map(_CircularComplex, cacher)).JsValue;
 
                 DoSafe(() => {
                     res.Should().NotBeNull();
@@ -179,7 +179,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 DoSafe(() =>
                 {
                     ibridgeresult.Type.Should().Be(JsCsGlueType.Array);
-                    IJavascriptObject resv = ibridgeresult.JSValue;
+                    IJavascriptObject resv = ibridgeresult.JsValue;
 
                     resv.Should().NotBeNull();
                     resv.IsArray.Should().BeTrue();
@@ -212,7 +212,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var resv = (await Map(_Tests_NG)).JSValue;
+                var resv = (await Map(_Tests_NG)).JsValue;
 
                 DoSafe(() =>
                 {
@@ -248,7 +248,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await Map(0.2D)).JSValue;
+                var res = (await Map(0.2D)).JsValue;
                 res.Should().NotBeNull();
                 res.IsNumber.Should().BeTrue();
                 double resd = res.GetDoubleValue();
@@ -263,7 +263,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             await TestAsync(async () =>
             {
                 var date = new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc);
-                var res = (await Map(date)).JSValue;
+                var res = (await Map(date)).JsValue;
                 res.Should().NotBeNull();
 
                 object ores = null;
@@ -279,7 +279,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await Map(0.2M)).JSValue;
+                var res = (await Map(0.2M)).JsValue;
                 res.Should().NotBeNull();
                 res.IsNumber.Should().BeTrue();
                 double resd = res.GetDoubleValue();
@@ -294,7 +294,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await Map(true)).JSValue;
+                var res = (await Map(true)).JsValue;
                 res.Should().NotBeNull();
                 res.IsBool.Should().BeTrue();
                 bool resd = res.GetBoolValue();
@@ -308,7 +308,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
                 {
-                    var res = (await Map(false)).JSValue;
+                    var res = (await Map(false)).JsValue;
                     res.Should().NotBeNull();
                     res.IsBool.Should().BeTrue();
                     bool resd = res.GetBoolValue();
@@ -322,7 +322,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
               {
-                  var res = (await Map("toto")).JSValue;
+                  var res = (await Map("toto")).JsValue;
                   res.Should().NotBeNull();
                   res.IsString.Should().BeTrue();
                   string resd = res.GetStringValue();
@@ -336,14 +336,14 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var res = (await Map(_Test2)).JSValue;
+                var res = (await Map(_Test2)).JsValue;
                 res.Should().NotBeNull();
 
-                _ICSharpMapper.Received().CacheFromCSharpValue(_Test, Arg.Any<IJSCSGlue>());
+                _ICSharpMapper.Received().CacheFromCSharpValue(_Test, Arg.Any<IJsCsGlue>());
             });
         }
 
-        private async Task<IJSCSGlue> Map(object from, IJavascriptSessionCache cacher=null)
+        private async Task<IJsCsGlue> Map(object from, IJavascriptSessionCache cacher=null)
         {
             cacher = cacher ?? _ICSharpMapper;
             var res = await _HTMLViewContext.EvaluateOnUIContextAsync(() => _ConverTOJSO.Map(from));

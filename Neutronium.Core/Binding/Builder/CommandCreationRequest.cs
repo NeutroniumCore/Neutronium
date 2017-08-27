@@ -5,10 +5,10 @@ namespace Neutronium.Core.Binding.Builder
 {
     internal class CommandCreationRequest
     {
-        internal IList<IJSCSGlue> CommandExecutableBuildingRequested { get; } = new List<IJSCSGlue>();
-        internal IList<IJSCSGlue> CommandNotExecutableBuildingRequested { get; } = new List<IJSCSGlue>();
+        internal IList<IJsCsGlue> CommandExecutableBuildingRequested { get; } = new List<IJsCsGlue>();
+        internal IList<IJsCsGlue> CommandNotExecutableBuildingRequested { get; } = new List<IJsCsGlue>();
 
-        public void AddRequest(IJSCSGlue commandGlue, bool canExecute)
+        public void AddRequest(IJsCsGlue commandGlue, bool canExecute)
         {
             if (canExecute)
             {

@@ -16,7 +16,7 @@ namespace Neutronium.Core
         public object Root => null;
         public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
         public IWebView Context => _Context.WebView;
-        public IJSCSGlue JSBrideRootObject => null;
+        public IJsCsGlue JSBrideRootObject => null;
 
 
         internal StringBinding(HTMLViewContext context, IJavascriptObject root)

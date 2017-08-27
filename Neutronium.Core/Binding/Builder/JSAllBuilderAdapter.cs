@@ -5,7 +5,7 @@ namespace Neutronium.Core.Binding.Builder
 {
     internal sealed class JSAllBuilderAdapter : IJavascriptObjectBuilder
     {
-        private IJSCSGlue _Object;
+        private IJsCsGlue _Object;
         private readonly JavascriptObjectBulkBuilder _JavascriptObjectBuilder;
 
         public JSAllBuilderAdapter(JavascriptObjectBulkBuilder javascriptObjectBuilder)
@@ -13,9 +13,9 @@ namespace Neutronium.Core.Binding.Builder
             _JavascriptObjectBuilder = javascriptObjectBuilder;
         }
 
-        public bool Visit(IJSCSGlue @object)
+        public bool Visit(IJsCsGlue @object)
         {
-            if (@object.JSValue != null)
+            if (@object.JsValue != null)
                 return false;
 
             _Object = @object;
@@ -23,7 +23,7 @@ namespace Neutronium.Core.Binding.Builder
             return true;
         }
 
-        public void RequestArrayCreation(IList<IJSCSGlue> children)
+        public void RequestArrayCreation(IList<IJsCsGlue> children)
         {
             _JavascriptObjectBuilder.RequestArrayCreation(_Object, children);
         }
@@ -43,7 +43,7 @@ namespace Neutronium.Core.Binding.Builder
             _JavascriptObjectBuilder.RequestExecutableCreation(_Object);
         }
 
-        public void RequestObjectCreation(ICollection<KeyValuePair<string, IJSCSGlue>> children, bool updatableFromJs)
+        public void RequestObjectCreation(ICollection<KeyValuePair<string, IJsCsGlue>> children, bool updatableFromJs)
         {
             _JavascriptObjectBuilder.RequestObjectCreation(_Object, children, updatableFromJs);
         }

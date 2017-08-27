@@ -6,12 +6,12 @@ namespace Neutronium.Core.Binding.Listeners
 {
     internal class ReListener : IExitContext
     {
-        private readonly IUpdatableJSCSGlueCollection _UpdatableGlueCollection;
-        private readonly ISet<IJSCSGlue> _Old;
+        private readonly IUpdatableJsCsGlueCollection _UpdatableGlueCollection;
+        private readonly ISet<IJsCsGlue> _Old;
         private bool _Disposed = false;
         private BridgeUpdater _BridgeUpdater;
 
-        public ReListener(IUpdatableJSCSGlueCollection updatableGlueCollection, BridgeUpdater updater)
+        public ReListener(IUpdatableJsCsGlueCollection updatableGlueCollection, BridgeUpdater updater)
         {
             _UpdatableGlueCollection = updatableGlueCollection;
             _Old = _UpdatableGlueCollection.GetAllChildren();
@@ -34,12 +34,12 @@ namespace Neutronium.Core.Binding.Listeners
             ForExceptDo(@new, _Old, _UpdatableGlueCollection.OnEnter);
         }
 
-        private void OnExitingGlue(IJSCSGlue exiting)
+        private void OnExitingGlue(IJsCsGlue exiting)
         {
             _UpdatableGlueCollection.OnExit(exiting, _BridgeUpdater);
         }
 
-        private void ForExceptDo(ISet<IJSCSGlue> @for, ISet<IJSCSGlue> except, Action<IJSCSGlue> @do)
+        private static void ForExceptDo(ISet<IJsCsGlue> @for, ISet<IJsCsGlue> except, Action<IJsCsGlue> @do)
         {
             foreach(var element in @for)
             {

@@ -26,7 +26,7 @@ namespace Neutronium.Core.Binding.Builder
             _Factory = new Lazy<BulkJsHelper>(FactoryBuilder);
         }
 
-        public void UpdateJavascriptValue(IJSCSGlue root)
+        public void UpdateJavascriptValue(IJsCsGlue root)
         {
             var builder = new JavascriptObjectBulkBuilder(_WebView.Factory, _Cache, this, root, _Mapping);
             builder.UpdateJavascriptValue();
@@ -143,9 +143,9 @@ namespace Neutronium.Core.Binding.Builder
             return BuildArguments(sizes, objects.Concat(values));
         }
 
-        private IJavascriptObject[] BuildArguments(string paramString, IEnumerable<IJSCSGlue> paramsObjects)
+        private IJavascriptObject[] BuildArguments(string paramString, IEnumerable<IJsCsGlue> paramsObjects)
         {
-            return new[] { _WebView.Factory.CreateString(paramString) }.Concat(paramsObjects.Select(glue => glue.JSValue)).ToArray();
+            return new[] { _WebView.Factory.CreateString(paramString) }.Concat(paramsObjects.Select(glue => glue.JsValue)).ToArray();
         }
 
         private static string AsArray(IEnumerable<string> value) => $"[{string.Join(",", value)}]";

@@ -10,13 +10,13 @@ namespace Neutronium.Core.Binding.Builder
 {
     internal class JavascriptObjectSynchroneousBuilderAdapter : IJavascriptObjectBuilder
     {
-        private readonly IJSCSGlue _Object;
+        private readonly IJsCsGlue _Object;
         private readonly IJavascriptObjectFactory _Factory;
         private readonly IJavascriptSessionCache _Cache;
         private readonly bool _Mapping;
         private Action _AfterChildrenUpdates;
 
-        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJSCSGlue @object, bool mapping)
+        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJsCsGlue @object, bool mapping)
         {
             _Mapping = mapping;
             _Factory = factory;
@@ -34,34 +34,34 @@ namespace Neutronium.Core.Binding.Builder
             _AfterChildrenUpdates?.Invoke();
         }
 
-        void IJavascriptObjectBuilder.RequestArrayCreation(IList<IJSCSGlue> children)
+        void IJavascriptObjectBuilder.RequestArrayCreation(IList<IJsCsGlue> children)
         {
             var value = _Factory.CreateArray(children?.Count ?? 0);
             SetValue(value);
 
             if (children != null)
-                _AfterChildrenUpdates = () => children.ForEach((child, index) => value.SetValue(index, child.JSValue));
+                _AfterChildrenUpdates = () => children.ForEach((child, index) => value.SetValue(index, child.JsValue));
         }
 
         void IJavascriptObjectBuilder.RequestBasicObjectCreation(object @object)
         {
             if (@object == null)
             {
-                _Object.SetJSValue(_Factory.CreateNull());
+                _Object.SetJsValue(_Factory.CreateNull());
                 return;
             }
 
             IJavascriptObject value;
             if (_Factory.CreateBasic(@object, out value))
             {
-                _Object.SetJSValue(value);
+                _Object.SetJsValue(value);
                 return;
             }
 
             if (!@object.GetType().IsEnum)
                 throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
 
-            _Object.SetJSValue(_Factory.CreateEnum((Enum)@object));
+            _Object.SetJsValue(_Factory.CreateEnum((Enum)@object));
             _Cache.Cache(_Object);
         }
 
@@ -92,18 +92,18 @@ namespace Neutronium.Core.Binding.Builder
             executable?.UpdateJsObject(@object);
         }
 
-        void IJavascriptObjectBuilder.RequestObjectCreation(ICollection<KeyValuePair<string, IJSCSGlue>> children, bool updatableFromJS)
+        void IJavascriptObjectBuilder.RequestObjectCreation(ICollection<KeyValuePair<string, IJsCsGlue>> children, bool updatableFromJS)
         {
             var value = _Factory.CreateObject(!updatableFromJS);
             SetValue(value);
 
             if (children != null)
-                _AfterChildrenUpdates = () => children.ForEach((child) => value.SetValue(child.Key, child.Value.JSValue));
+                _AfterChildrenUpdates = () => children.ForEach((child) => value.SetValue(child.Key, child.Value.JsValue));
         }
 
         private void SetValue(IJavascriptObject value)
         {
-            _Object.SetJSValue(value);
+            _Object.SetJsValue(value);
 
             if (_Mapping)
                 return;

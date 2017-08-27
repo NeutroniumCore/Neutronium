@@ -5,9 +5,9 @@ namespace Neutronium.Core.Binding.Builder
 {
     public interface IJavascriptObjectBuilder
     {
-        void RequestObjectCreation(ICollection<KeyValuePair<string, IJSCSGlue>> children=null, bool updatableFromJs= false);
+        void RequestObjectCreation(ICollection<KeyValuePair<string, IJsCsGlue>> children=null, bool updatableFromJs= false);
 
-        void RequestArrayCreation(IList<IJSCSGlue> children);
+        void RequestArrayCreation(IList<IJsCsGlue> children);
 
         void RequestBasicObjectCreation(object @object);
 

@@ -79,7 +79,7 @@ namespace Tests.Universal.HTMLBindingTests
                     string JSON = JsonConvert.SerializeObject(_DataContext);
                     string alm = jsbridge.ToString();
 
-                    JSArray arr = (JSArray)jsbridge.GetAllChildren().First(c => c is JSArray);
+                    JsArray arr = (JsArray)jsbridge.GetAllChildren().First(c => c is JsArray);
 
                     string stringarr = arr.ToString();
 
@@ -1052,7 +1052,7 @@ namespace Tests.Universal.HTMLBindingTests
                     mycommand.Should().NotBeNull();
                     mycommand.ToString().Should().Be("{}");
                     mycommand.Type.Should().Be(JsCsGlueType.Command);
-                    mycommand.CachableJSValue.Should().NotBeNull();
+                    mycommand.CachableJsValue.Should().NotBeNull();
                 }
             };
 
@@ -1256,7 +1256,7 @@ namespace Tests.Universal.HTMLBindingTests
                     mysimplecommand.Should().NotBeNull();
                     mysimplecommand.ToString().Should().Be("{}");
                     mysimplecommand.Type.Should().Be(JsCsGlueType.SimpleCommand);
-                    mysimplecommand.CachableJSValue.Should().NotBeNull();
+                    mysimplecommand.CachableJsValue.Should().NotBeNull();
                 }
             };
 
@@ -1608,7 +1608,7 @@ namespace Tests.Universal.HTMLBindingTests
                         mysimplecommand.Should().NotBeNull();
                         mysimplecommand.ToString().Should().Be("{}");
                         mysimplecommand.Type.Should().Be(JsCsGlueType.ResultCommand);
-                        mysimplecommand.CachableJSValue.Should().NotBeNull();
+                        mysimplecommand.CachableJsValue.Should().NotBeNull();
                     }
 
                     var js = mb.JSRootObject;
@@ -1777,7 +1777,7 @@ namespace Tests.Universal.HTMLBindingTests
                     Check(col, _DataContext.Skills);
 
                     var coll = GetAttribute(js, "Skills");
-                    Call(coll, "push", (root.GetAttribute("Skills") as JSArray).Items[0].GetJSSessionValue());
+                    Call(coll, "push", (root.GetAttribute("Skills") as JsArray).Items[0].GetJsSessionValue());
 
                     await Task.Delay(5000);
                     _DataContext.Skills.Should().HaveCount(3);
@@ -1802,7 +1802,7 @@ namespace Tests.Universal.HTMLBindingTests
 
 
                     Call(coll, "unshift",
-                          (root.GetAttribute("Skills") as JSArray).Items[0].GetJSSessionValue());
+                          (root.GetAttribute("Skills") as JsArray).Items[0].GetJsSessionValue());
 
                     await Task.Delay(150);
                     _DataContext.Skills.Should().HaveCount(2);

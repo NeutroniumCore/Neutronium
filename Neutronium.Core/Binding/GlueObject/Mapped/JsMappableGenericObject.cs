@@ -2,10 +2,10 @@
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
-    internal class JsMappableGenericObject : JsGenericObject, IJSCSMappedBridge
+    internal class JsMappableGenericObject : JsGenericObject, IJsCsMappedBridge
     {
         private IJavascriptObject _MappedJSValue;
-        public override IJavascriptObject CachableJSValue => _MappedJSValue;
+        public override IJavascriptObject CachableJsValue => _MappedJSValue;
 
         public JsMappableGenericObject(object cValue, int childrenCount): base (cValue, childrenCount)
         {

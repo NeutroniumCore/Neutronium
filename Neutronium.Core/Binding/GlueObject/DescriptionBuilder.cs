@@ -9,7 +9,7 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     public class DescriptionBuilder
     {
-        private readonly Dictionary<IJSCSGlue,string> _AlreadyComputed = new Dictionary<IJSCSGlue, string>();
+        private readonly Dictionary<IJsCsGlue,string> _AlreadyComputed = new Dictionary<IJsCsGlue, string>();
         private readonly Stack<string> _Context = new Stack<string>();
         private readonly StringBuilder _NameBuilder = new StringBuilder();
         private readonly string _CommandDescription;
@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _CommandDescription = commandDescription;
         }
 
-        public string GetContextualName(IJSCSGlue glue)
+        public string GetContextualName(IJsCsGlue glue)
         {
             var found = _AlreadyComputed.GetOrAdd(glue, _ => $"\"~{(string.Join("~", _Context.Reverse()))}\"");
             return (found.CollectionStatus == CollectionStatus.Found) ? found.Item : null;

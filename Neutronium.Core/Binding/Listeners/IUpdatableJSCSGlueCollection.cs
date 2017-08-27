@@ -3,12 +3,14 @@ using System.Collections.Generic;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal interface IUpdatableJSCSGlueCollection
+    internal interface IUpdatableJsCsGlueCollection
     {
-        ISet<IJSCSGlue> GetAllChildren();
+        ISet<IJsCsGlue> GetAllChildren();
 
-        void OnEnter(IJSCSGlue entering);
+        void CollectionChanged();
 
-        void OnExit(IJSCSGlue exiting, BridgeUpdater context);
+        void OnEnter(IJsCsGlue entering);
+
+        void OnExit(IJsCsGlue exiting, BridgeUpdater context);
     }
 }

@@ -11,25 +11,27 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JSCommand : GlueBase, IJSCSCachableGlue, IExecutableGlue
+    public class JSCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
     {
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly ICommand _Command;
         private int _Count = 1;
 
-        public virtual IJavascriptObject CachableJSValue => JSValue;
+        public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue => _Command;
         public JsCsGlueType Type => JsCsGlueType.Command;
+        public IEnumerable<IJsCsGlue> Children => null;
+
         protected IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
+        void IJsCsCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
-        private bool _InitialCanExecute = true;
+        private readonly bool _InitialCanExecute = true;
 
         public JSCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command)
         {
@@ -95,12 +97,7 @@ namespace Neutronium.Core.Binding.GlueObject
         private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
         {
             var newValue = factory(WebView.Factory);
-            ViewModelUpdater.UpdateProperty(CachableJSValue, propertyName, newValue, false);
-        }
-
-        public IEnumerable<IJSCSGlue> GetChildren()
-        {
-            return null;
+            ViewModelUpdater.UpdateProperty(CachableJsValue, propertyName, newValue, false);
         }
 
         protected override void ComputeString(DescriptionBuilder context)

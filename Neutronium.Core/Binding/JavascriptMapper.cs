@@ -8,13 +8,13 @@ namespace Neutronium.Core.Binding
 {
     internal class JavascriptMapper : IJavascriptObjectInternalMapper
     {
-        private readonly IJSCSMappedBridge _Root;
+        private readonly IJsCsMappedBridge _Root;
         private readonly TaskCompletionSource<object> _TCS = new TaskCompletionSource<object>();
-        private readonly Action<IJSCSMappedBridge, IJavascriptObject> _Update;
+        private readonly Action<IJsCsMappedBridge, IJavascriptObject> _Update;
         private readonly Action<IJavascriptObject, string, IJavascriptObject> _RegisterMapping;
         private readonly Action<IJavascriptObject, string, int, IJavascriptObject> _RegisterCollectionMapping;
 
-        public JavascriptMapper(IJSCSMappedBridge root, Action<IJSCSMappedBridge, IJavascriptObject> update,
+        public JavascriptMapper(IJsCsMappedBridge root, Action<IJsCsMappedBridge, IJavascriptObject> update,
             Action<IJavascriptObject, string, IJavascriptObject> registerMapping, Action<IJavascriptObject, string, int, IJavascriptObject> registerCollectionMapping)
         {
             _Root = root;

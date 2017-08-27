@@ -13,10 +13,10 @@ namespace Neutronium.Core.Test.Binding.Builder
         {
             public static Arbitrary<ObjectDescriptor> ChildDescriptions()
             {
-                var generatorIJSCSGlue = Gen.Constant(0).Select(index => NSubstitute.Substitute.For<IJSCSGlue>());
+                var generatorIJSCSGlue = Gen.Constant(0).Select(index => NSubstitute.Substitute.For<IJsCsGlue>());
 
                 var generatorChildDescription = Gen.zip(generatorIJSCSGlue, Arb.Default.String().Generator)
-                                                    .Select(tuple => new KeyValuePair<string, IJSCSGlue>(tuple.Item2, tuple.Item1));
+                                                    .Select(tuple => new KeyValuePair<string, IJsCsGlue>(tuple.Item2, tuple.Item1));
 
                 var generator = Gen.zip(generatorIJSCSGlue, Gen.NonEmptyListOf(generatorChildDescription))
                                     .Select(tuple => new ObjectDescriptor(tuple.Item1, tuple.Item2.ToArray()));

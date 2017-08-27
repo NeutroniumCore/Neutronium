@@ -3,11 +3,11 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
-    public class JsMappableSimpleCommand: JsSimpleCommand, IJSCSMappedBridge
+    public class JsMappableSimpleCommand: JsSimpleCommand, IJsCsMappedBridge
     {
         private IJavascriptObject _MappedJSValue;
 
-        public override IJavascriptObject CachableJSValue => _MappedJSValue;
+        public override IJavascriptObject CachableJsValue => _MappedJSValue;
 
         public void SetMappedJSValue(IJavascriptObject jsobject)
         {

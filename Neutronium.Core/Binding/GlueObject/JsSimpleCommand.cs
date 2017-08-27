@@ -8,21 +8,23 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JsSimpleCommand : GlueBase, IJSCSCachableGlue, IExecutableGlue
+    public class JsSimpleCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
     {
         private readonly ISimpleCommand _JSSimpleCommand;
         private readonly HTMLViewContext _HTMLViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
 
-        public virtual IJavascriptObject CachableJSValue => JSValue;
+        public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue => _JSSimpleCommand;
+        public IEnumerable<IJsCsGlue> Children => null;
+
         public JsCsGlueType Type => JsCsGlueType.SimpleCommand;
         protected IWebView WebView => _HTMLViewContext.WebView;
         private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJSCSCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
+        void IJsCsCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
         public JsSimpleCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
         {
@@ -48,7 +50,7 @@ namespace Neutronium.Core.Binding.GlueObject
             UIDispatcher.RunAsync(() => _JSSimpleCommand.Execute(parameter));
         }
 
-        public IEnumerable<IJSCSGlue> GetChildren()
+        public IEnumerable<IJsCsGlue> GetChildren()
         {
             return null;
         }
