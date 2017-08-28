@@ -1,8 +1,11 @@
-﻿namespace Neutronium.Core.Binding.GlueObject.Factory 
+﻿using System;
+
+namespace Neutronium.Core.Binding.GlueObject.Factory 
 {
     internal class GlueFactoryBase 
     {
-        private readonly ICSharpToJsCache _Cacher;
+        public event EventHandler<IJsCsGlue> ElementCreated;
+        private readonly ICSharpToJsCache _Cacher; 
 
         public GlueFactoryBase(ICSharpToJsCache cacher)
         {
@@ -18,6 +21,8 @@
         {
             if (key != null)
                 _Cacher.CacheFromCSharpValue(key, glue);
+
+            ElementCreated?.Invoke(this, glue);
             return glue;
         }
     }

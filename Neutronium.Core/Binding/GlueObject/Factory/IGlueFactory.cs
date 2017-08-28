@@ -19,5 +19,7 @@ namespace Neutronium.Core.Binding.GlueObject
         JsArray BuildArray(List<IJsCsGlue> values, IEnumerable source, Type basictype);
 
         JsBasicObject BuildBasic(object basic);
+
+        event EventHandler<IJsCsGlue> ElementCreated;
     }
 }

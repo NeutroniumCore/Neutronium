@@ -112,7 +112,7 @@
     <Compile Include="Binding\Builder\JavascriptObjectBulkBuilderStrategy.cs" />
     <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
-    <Compile Include="Binding\GlueObject\IGlueFactory.cs" />
+    <Compile Include="Binding\GlueObject\Factory\IGlueFactory.cs" />
     <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IUpdatableJSCSGlueCollection.cs" />
