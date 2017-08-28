@@ -57,7 +57,7 @@ namespace Neutronium.Core.Binding
                                         (n) => n.CollectionChanged -= CSharpCollectionChanged,
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
-            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, this);
+            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this);
             _JsObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HtmlWindow, _SessionCache, glueFactory, _Logger);
             _RootObject = root;
         }

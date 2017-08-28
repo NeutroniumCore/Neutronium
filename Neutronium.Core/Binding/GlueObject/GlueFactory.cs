@@ -10,11 +10,13 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly HtmlViewContext _HtmlViewContext;
+        private readonly ICSharpToJsCache _Cacher;
 
-        public GlueFactory(HtmlViewContext context, IJavascriptToCSharpConverter converter)
+        public GlueFactory(HtmlViewContext context, ICSharpToJsCache cacher, IJavascriptToCSharpConverter converter)
         {
             _HtmlViewContext = context;
             _JavascriptToCSharpConverter = converter;
+            _Cacher = cacher;
         }
 
         public JsCommand Build(ICommand command)

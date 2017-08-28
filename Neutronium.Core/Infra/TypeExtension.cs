@@ -1,5 +1,4 @@
-﻿using MoreCollection.Extensions;
-using Neutronium.Core.Infra.Reflection;
+﻿using Neutronium.Core.Infra.Reflection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -63,7 +62,7 @@ namespace Neutronium.Core.Infra
         private static readonly ConcurrentDictionary<Type, TypePropertyAccessor> _TypePropertyInfos = new ConcurrentDictionary<Type, TypePropertyAccessor>();
         private static TypePropertyAccessor GetTypePropertyInfo(this Type @type)
         {
-            return _TypePropertyInfos.GetOrAddEntity(@type, t => new TypePropertyAccessor(t));
+            return _TypePropertyInfos.GetOrAdd(@type, t => new TypePropertyAccessor(t));
         }
 
         internal static ICollection<PropertyAccessor> GetReadProperties(this Type @type)

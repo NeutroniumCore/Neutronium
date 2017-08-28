@@ -198,7 +198,7 @@
     <Compile Include="Infra\TaskHelper.cs" />
     <Compile Include="JavascriptBindingMode.cs" />
     <Compile Include="Binding\GlueObject\JsCsGlueExtender.cs" />
-    <Compile Include="Binding\GlueObject\IJSCSGlue.cs" />
+    <Compile Include="Binding\GlueObject\IJsCsGlue.cs" />
     <Compile Include="JavascriptFramework\IJavascriptObjectMapper.cs" />
     <Compile Include="Binding\GlueObject\JsArray.cs" />
     <Compile Include="Binding\GlueObject\JsGenericObject.cs" />

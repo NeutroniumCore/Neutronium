@@ -9,12 +9,14 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
     internal sealed class GlueMappingFactory : IGlueFactory
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        private readonly ICSharpToJsCache _Cacher;
         private readonly HtmlViewContext _HtmlViewContext;
 
-        public GlueMappingFactory(HtmlViewContext context, IJavascriptToCSharpConverter converter)
+        public GlueMappingFactory(HtmlViewContext context, ICSharpToJsCache cacher, IJavascriptToCSharpConverter converter)
         {
             _HtmlViewContext = context;
             _JavascriptToCSharpConverter = converter;
+            _Cacher = cacher;
         }
 
         public JsCommand Build(ICommand command)

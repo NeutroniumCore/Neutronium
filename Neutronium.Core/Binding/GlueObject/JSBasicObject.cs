@@ -44,13 +44,36 @@ namespace Neutronium.Core.Binding.GlueObject
                 return "null";
             }
 
-            var emumValue = CValue as Enum;
-            if (emumValue != null)
+            if (CValue is string)
             {
+                return $@"""{Normalize((string) CValue)}""";
+            }
+
+            object unBoxed = CValue;
+            if (unBoxed is DateTime) 
+            {
+                var dt = (DateTime)unBoxed;
+                return $@"""{dt.Year:0000}-{dt.Month:00}-{dt.Day:00}T{dt.Hour:00}:{dt.Minute:00}:{dt.Second:00}.{dt.Millisecond:000}Z""";
+            }
+
+            if (unBoxed is Enum)
+            {
+                var emumValue = (Enum)unBoxed;
                 return $"{{\"type\":\"{emumValue.GetType().Name}\",\"intValue\":{Convert.ToInt32(emumValue)},\"name\":\"{emumValue.ToString()}\",\"displayName\":\"{emumValue.GetDescription()}\"}}";
             }
 
-            return JavascriptNamer.GetCreateExpression(CValue);
+            if (unBoxed is bool)
+            {
+                var boolValue = (bool)unBoxed;
+                return $"{(boolValue ? "true" : "false")}";
+            }
+
+            return CValue.ToString();
+        }
+
+        private static string Normalize(string value)
+        {
+            return value.Replace(@"\", @"\\").Replace(@"""", @"\""");
         }
 
         public void BuilString(DescriptionBuilder context)

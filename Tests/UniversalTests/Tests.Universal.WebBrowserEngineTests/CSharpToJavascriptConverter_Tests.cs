@@ -14,6 +14,7 @@ using Xunit.Abstractions;
 using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.Binding.Builder;
+using Neutronium.Core.Test.Infra;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {
@@ -53,6 +54,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         private IGlueFactory _GlueFactory;
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptFrameworkManager _javascriptFrameworkManager;
+        private readonly CSharpToJsCacheFake _CSharpToJsCacheFake = new CSharpToJsCacheFake();
         private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HtmlWindow;
 
         protected CSharpToJavascriptConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
@@ -63,7 +65,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         protected override void Init()
         {
             _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
-            _GlueFactory = new GlueFactory(null, null);
+            _GlueFactory = new GlueFactory(null, _CSharpToJsCacheFake, null);
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
             _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
             _HTMLViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);

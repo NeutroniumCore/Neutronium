@@ -113,6 +113,10 @@
       <Project>{335a20f1-f421-4eb1-9961-ee487350818e}</Project>
       <Name>WebBrowserEngineTesterHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Neutronium.Core.Test\Neutronium.Core.Test.csproj">
+      <Project>{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}</Project>
+      <Name>Neutronium.Core.Test</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
