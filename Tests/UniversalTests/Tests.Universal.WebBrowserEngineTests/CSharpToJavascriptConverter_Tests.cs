@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Test.Infra;
+using Neutronium.Core.Binding.GlueObject.Factory;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {

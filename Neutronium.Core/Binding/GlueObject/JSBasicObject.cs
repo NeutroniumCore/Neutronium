@@ -7,7 +7,7 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class JsBasicObject : IJsCsGlue
+    internal sealed class JsBasicObject : IJsCsGlue
     {
         public IJavascriptObject JsValue { get; private set; }
         public object CValue { get; }

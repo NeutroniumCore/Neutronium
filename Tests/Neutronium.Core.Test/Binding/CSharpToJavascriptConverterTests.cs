@@ -6,6 +6,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using System.Collections.Generic;
 using FluentAssertions;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueObject.Factory;
 
 namespace Neutronium.Core.Test.Binding
 {

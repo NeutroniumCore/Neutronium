@@ -96,8 +96,9 @@
     <Compile Include="Binding\GlueFactoryFactory.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
+    <Compile Include="Binding\GlueObject\Factory\GlueFactoryBase.cs" />
     <Compile Include="Binding\GlueObject\IJsCsCachableGlue.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\GlueMappingFactory.cs" />
+    <Compile Include="Binding\GlueObject\Factory\GlueMappingFactory.cs" />
     <Compile Include="Binding\GlueObject\IExecutableGlue.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableArray.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableCommand.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />
     <Compile Include="Binding\HtmlViewContext.cs" />
     <Compile Include="Binding\Listeners\ReListener.cs" />
-    <Compile Include="Binding\GlueObject\GlueFactory.cs" />
+    <Compile Include="Binding\GlueObject\Factory\GlueFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="Binding\Builder\StandardStrategyFactory.cs" />
     <Compile Include="Extension\IWebViewExtension.cs" />

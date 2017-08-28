@@ -1,5 +1,5 @@
 ﻿using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Binding.GlueObject.Mapped;
+using Neutronium.Core.Binding.GlueObject.Factory;
 
 namespace Neutronium.Core.Binding
 {

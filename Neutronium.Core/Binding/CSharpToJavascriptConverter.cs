@@ -29,7 +29,7 @@ namespace Neutronium.Core.Binding
         public IJsCsGlue Map(object from, object additional=null)
         {
             if (from == null)
-                return _Null ?? (_Null = new JsBasicObject(null));
+                return _Null ?? (_Null = _GlueFactory.BuildBasic(null));
 
             var res = _Cacher.GetCached(from);
             if (res != null)
@@ -37,11 +37,7 @@ namespace Neutronium.Core.Binding
 
             var type = from.GetType();
             if (_Context.IsTypeBasic(type))
-            {
-                res = new JsBasicObject(from);
-                _Cacher.CacheFromCSharpValue(from, res);
-                return res;
-            }             
+                return _GlueFactory.BuildBasic(from);           
 
             var command = from as ICommand;
             if (command != null)
@@ -56,11 +52,7 @@ namespace Neutronium.Core.Binding
                 return _GlueFactory.Build(resultCommand);
 
             if (type.IsEnum)
-            {
-                var trueres = new JsBasicObject(from);
-                _Cacher.CacheFromCSharpValue(from, trueres);
-                return trueres;
-            }
+                return _GlueFactory.BuildBasic(from);
 
             var ienfro = from as IEnumerable;
             if (ienfro!=null)
@@ -71,14 +63,12 @@ namespace Neutronium.Core.Binding
 
             var gres = _GlueFactory.Build(from, propertyInfos.Count + (additionalPropertyInfos?.Count ?? 0));
 
-            _Cacher.CacheFromCSharpValue(from, gres);
-
-            MappNested(gres, @from, propertyInfos);
-            MappNested(gres, additional, additionalPropertyInfos);
+            MapNested(gres, @from, propertyInfos);
+            MapNested(gres, additional, additionalPropertyInfos);
             return gres;
         }
 
-        private void MappNested(JsGenericObject gres, object parentObject, ICollection<PropertyAccessor> properties)
+        private void MapNested(JsGenericObject gres, object parentObject, ICollection<PropertyAccessor> properties)
         {
             if (parentObject == null)
                 return;
@@ -113,9 +103,7 @@ namespace Neutronium.Core.Binding
                 list.Add(Map(@object));
             }
 
-            var res = _GlueFactory.BuildArray(list, source, basictype);
-            _Cacher.CacheFromCSharpValue(source, res);
-            return res;
+            return _GlueFactory.BuildArray(list, source, basictype);
         }
     }
 }

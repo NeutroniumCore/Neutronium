@@ -17,5 +17,7 @@ namespace Neutronium.Core.Binding.GlueObject
         JsGenericObject Build(object from, int childrenCount);
 
         JsArray BuildArray(List<IJsCsGlue> values, IEnumerable source, Type basictype);
+
+        JsBasicObject BuildBasic(object basic);
     }
 }
