@@ -17,13 +17,13 @@ namespace CefGlue.TestInfra
         private CefBrowser _CefBrowser;
 
         public IWebView WebView { get; private set; }
-        public IWebBrowserWindow HTMLWindow => _TestCefGlueHTMLWindowProvider.HTMLWindow;
+        public IWebBrowserWindow HTMLWindow => _TestCefGlueHTMLWindowProvider.HtmlWindow;
         public IWebBrowserWindowProvider HTMLWindowProvider => _TestCefGlueHTMLWindowProvider;
 
         public void Init(string path, IWebSessionLogger logger)
         {
             var cc = InitTask(path, logger).Result;
-            WebView = cc.HTMLWindow.MainFrame;
+            WebView = cc.HtmlWindow.MainFrame;
         }
 
         private Task<IWebBrowserWindowProvider> InitTask(string fullpath, IWebSessionLogger logger)

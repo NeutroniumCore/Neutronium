@@ -13,7 +13,7 @@ namespace Neutronium.Core
         private static int _Count;
         private static readonly HashSet<IHTMLBinding> _Bindings = new HashSet<IHTMLBinding>();
         private readonly BidirectionalMapper _BirectionalMapper;
-        private readonly HTMLViewContext _Context;
+        private readonly HtmlViewContext _Context;
         private readonly IWebSessionLogger _Logger;
         private readonly int _Current = _Count++;
 
@@ -45,19 +45,19 @@ namespace Neutronium.Core
             _Logger.Debug(() => $"HTML_Binding {_Current} disposed");
         }
 
-        internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null)
+        internal static async Task<IHTMLBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null)
         {
             var builder = await GetBindingBuilder(viewEngine, viewModel, mode, additional);
             return await builder.CreateBinding(false);
         }
 
-        internal static async Task<IHTMLBinding> Bind(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
+        internal static async Task<IHTMLBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
             var builder = await GetBindingBuilder(viewEngine, viewModel, mode, null, strategyFactory);
             return await builder.CreateBinding(false);
         }
 
-        internal static async Task<IBindingBuilder> GetBindingBuilder(HTMLViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
+        internal static async Task<IBindingBuilder> GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
         {
             var mapper = viewEngine.GetMapper(viewModel, mode, strategyFactory);
             var bindingBuilder = new BindingBuilder(mapper, viewEngine.Logger, additional);

@@ -29,7 +29,7 @@ namespace Neutronium.Core.Binding
         public IJsCsGlue Map(object from, object additional=null)
         {
             if (from == null)
-                return _Null ?? (_Null = new JSBasicObject(null));
+                return _Null ?? (_Null = new JsBasicObject(null));
 
             var res = _Cacher.GetCached(from);
             if (res != null)
@@ -38,7 +38,7 @@ namespace Neutronium.Core.Binding
             var type = from.GetType();
             if (_Context.IsTypeBasic(type))
             {
-                res = new JSBasicObject(from);
+                res = new JsBasicObject(from);
                 _Cacher.CacheFromCSharpValue(from, res);
                 return res;
             }             
@@ -57,7 +57,7 @@ namespace Neutronium.Core.Binding
 
             if (type.IsEnum)
             {
-                var trueres = new JSBasicObject(from);
+                var trueres = new JsBasicObject(from);
                 _Cacher.CacheFromCSharpValue(from, trueres);
                 return trueres;
             }

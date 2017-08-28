@@ -9,27 +9,27 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
     internal sealed class GlueMappingFactory : IGlueFactory
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
-        private readonly HTMLViewContext _HTMLViewContext;
+        private readonly HtmlViewContext _HtmlViewContext;
 
-        public GlueMappingFactory(HTMLViewContext context, IJavascriptToCSharpConverter converter)
+        public GlueMappingFactory(HtmlViewContext context, IJavascriptToCSharpConverter converter)
         {
-            _HTMLViewContext = context;
+            _HtmlViewContext = context;
             _JavascriptToCSharpConverter = converter;
         }
 
-        public JSCommand Build(ICommand command)
+        public JsCommand Build(ICommand command)
         {
-            return new JSMappableCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
+            return new JsMappableCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command);
         }
 
         public JsSimpleCommand Build(ISimpleCommand command)
         {
-            return new JsMappableSimpleCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
+            return new JsMappableSimpleCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command);
         }
 
         public JsResultCommand Build(IResultCommand command)
         {
-            return new JsMappableResultCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
+            return new JsMappableResultCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command);
         }
 
         public JsGenericObject Build(object from, int childrenCount)
@@ -39,7 +39,7 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
 
         public JsArray BuildArray(List<IJsCsGlue> values, IEnumerable source, Type basictype)
         {
-            return new JSMappableArray(values, source, basictype);
+            return new JsMappableArray(values, source, basictype);
         }
     }
 }

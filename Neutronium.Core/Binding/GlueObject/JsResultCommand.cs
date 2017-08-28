@@ -14,26 +14,26 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     internal class JsResultCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
     {
-        private readonly IResultCommand _JSResultCommand;
-        private readonly HTMLViewContext _HTMLViewContext;
+        private readonly IResultCommand _JsResultCommand;
+        private readonly HtmlViewContext _HtmlViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
 
         public IEnumerable<IJsCsGlue> Children => null;
         public virtual IJavascriptObject CachableJsValue => JsValue;
-        public object CValue => _JSResultCommand;
+        public object CValue => _JsResultCommand;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
-        protected IWebView WebView => _HTMLViewContext.WebView;
-        private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
+        protected IWebView WebView => _HtmlViewContext.WebView;
+        private IDispatcher UiDispatcher => _HtmlViewContext.UiDispatcher;
 
         private uint _JsId;
         public uint JsId => _JsId;
         void IJsCsCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
 
-        public JsResultCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
+        public JsResultCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
         {
-            _HTMLViewContext = context;
+            _HtmlViewContext = context;
             _JavascriptToCSharpConverter = converter;
-            _JSResultCommand = resultCommand;
+            _JsResultCommand = resultCommand;
         }
 
         public void UpdateJsObject(IJavascriptObject javascriptObject)
@@ -54,9 +54,9 @@ namespace Neutronium.Core.Binding.GlueObject
 
             try
             {
-                await await UIDispatcher.EvaluateAsync(async () =>
+                await await UiDispatcher.EvaluateAsync(async () =>
                 {
-                    var res = await _JSResultCommand.Execute(argument);
+                    var res = await _JsResultCommand.Execute(argument);
                     if (res == null)
                         return;
 
@@ -90,11 +90,6 @@ namespace Neutronium.Core.Binding.GlueObject
             {
                 await promise.InvokeAsync("fullfill", WebView, bridgevalue.GetJsSessionValue());
             });
-        }
-
-        public IEnumerable<IJsCsGlue> GetChildren()
-        {
-            return null;
         }
 
         protected override void ComputeString(DescriptionBuilder context)

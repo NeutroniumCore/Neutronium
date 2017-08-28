@@ -12,9 +12,9 @@ namespace Neutronium.WPF.Internal
         private readonly Neutronium.WPF.Internal.HTMLControlBase _HTMLControlBase;
         private readonly IWPFWebWindow _WPFWebWindow;
 
-        public IWebBrowserWindow HTMLWindow => _WPFWebWindow.HTMLWindow;
+        public IWebBrowserWindow HtmlWindow => _WPFWebWindow.HTMLWindow;
         public IWPFWebWindow WPFWebWindow => _WPFWebWindow;
-        public IDispatcher UIDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
+        public IDispatcher UiDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
         public event EventHandler<DebugEventArgs> DebugToolOpened;
         public event EventHandler OnDisposed;
 
@@ -31,7 +31,7 @@ namespace Neutronium.WPF.Internal
             var debugToolOpened = DebugToolOpened;
             if (debugToolOpened != null)
             {
-                UIDispatcher.RunAsync(() => debugToolOpened(this, e)).DoNotWait();
+                UiDispatcher.RunAsync(() => debugToolOpened(this, e)).DoNotWait();
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptFramework;
@@ -11,9 +10,9 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class JSCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
+    public class JsCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
     {
-        private readonly HTMLViewContext _HTMLViewContext;
+        private readonly HtmlViewContext _HtmlViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly ICommand _Command;
         private int _Count = 1;
@@ -23,9 +22,9 @@ namespace Neutronium.Core.Binding.GlueObject
         public JsCsGlueType Type => JsCsGlueType.Command;
         public IEnumerable<IJsCsGlue> Children => null;
 
-        protected IWebView WebView => _HTMLViewContext.WebView;
-        private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
-        private IJavascriptViewModelUpdater ViewModelUpdater => _HTMLViewContext.ViewModelUpdater;
+        protected IWebView WebView => _HtmlViewContext.WebView;
+        private IDispatcher UiDispatcher => _HtmlViewContext.UiDispatcher;
+        private IJavascriptViewModelUpdater ViewModelUpdater => _HtmlViewContext.ViewModelUpdater;
 
         private uint _JsId;
         public uint JsId => _JsId;
@@ -33,10 +32,10 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private readonly bool _InitialCanExecute = true;
 
-        public JSCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command)
+        public JsCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand command)
         {
             _JavascriptToCSharpConverter = converter;
-            _HTMLViewContext = context;
+            _HtmlViewContext = context;
             _Command = command;
 
             try
@@ -70,7 +69,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public void Execute(IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            UIDispatcher.RunAsync(() => _Command.Execute(parameter));
+            UiDispatcher.RunAsync(() => _Command.Execute(parameter));
         }
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)
@@ -85,7 +84,7 @@ namespace Neutronium.Core.Binding.GlueObject
         internal async void CanExecuteCommand(params IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            var res = await UIDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));
+            var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));
             if (WebView == null)
                 return;
             await WebView.RunAsync(() =>

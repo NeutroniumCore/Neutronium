@@ -5,17 +5,17 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
     public class JsMappableSimpleCommand: JsSimpleCommand, IJsCsMappedBridge
     {
-        private IJavascriptObject _MappedJSValue;
+        private IJavascriptObject _MappedJsValue;
 
-        public override IJavascriptObject CachableJsValue => _MappedJSValue;
+        public override IJavascriptObject CachableJsValue => _MappedJsValue;
 
-        public void SetMappedJSValue(IJavascriptObject jsobject)
+        public void SetMappedJsValue(IJavascriptObject jsobject)
         {
-            _MappedJSValue = jsobject;
-            UpdateJsObject(_MappedJSValue);
+            _MappedJsValue = jsobject;
+            UpdateJsObject(_MappedJsValue);
         }
 
-        public JsMappableSimpleCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand resultCommand)
+        public JsMappableSimpleCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand resultCommand)
             :base(context, converter, resultCommand)
         {
         }

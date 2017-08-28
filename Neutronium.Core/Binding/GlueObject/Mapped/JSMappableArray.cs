@@ -5,18 +5,18 @@ using System.Collections.Generic;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
-    internal class JSMappableArray: JsArray, IJsCsMappedBridge
+    internal class JsMappableArray: JsArray, IJsCsMappedBridge
     {
-        private IJavascriptObject _MappedJSValue;
+        private IJavascriptObject _MappedJsValue;
 
-        public override IJavascriptObject CachableJsValue => _MappedJSValue;
+        public override IJavascriptObject CachableJsValue => _MappedJsValue;
 
-        public void SetMappedJSValue(IJavascriptObject jsobject)
+        public void SetMappedJsValue(IJavascriptObject jsobject)
         {
-            _MappedJSValue = jsobject;
+            _MappedJsValue = jsobject;
         }
 
-        public JSMappableArray(List<IJsCsGlue> values, IEnumerable collection, Type individual):
+        public JsMappableArray(List<IJsCsGlue> values, IEnumerable collection, Type individual):
             base(values, collection, individual)
         {
         }

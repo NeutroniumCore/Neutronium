@@ -32,16 +32,16 @@ namespace Neutronium.Core.Binding
         public IJsCsGlue JsValueRoot => _Root;
         public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
         public JavascriptBindingMode Mode { get; }
-        public HTMLViewContext Context { get; }
+        public HtmlViewContext Context { get; }
 
         private readonly object _RootObject;
 
-        internal BidirectionalMapper(object root, HTMLViewEngine contextBuilder, JavascriptBindingMode mode, IWebSessionLogger logger, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
+        internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, JavascriptBindingMode mode, IWebSessionLogger logger, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
             this(root, contextBuilder, null, strategyFactory,  mode, logger)
         {        
         }
 
-        internal BidirectionalMapper(object root, HTMLViewEngine contextBuilder, IGlueFactory glueFactory,
+        internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, IGlueFactory glueFactory,
             IJavascriptObjectBuilderStrategyFactory strategyFactory, JavascriptBindingMode mode, IWebSessionLogger logger)
         {
             _BuilderStrategyFactory = strategyFactory?? new StandardStrategyFactory();
@@ -58,7 +58,7 @@ namespace Neutronium.Core.Binding
                                         (c) => c.ListenChanges(),
                                         (c) => c.UnListenChanges());
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, this);
-            _JsObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HTMLWindow, _SessionCache, glueFactory, _Logger);
+            _JsObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HtmlWindow, _SessionCache, glueFactory, _Logger);
             _RootObject = root;
         }
 
@@ -440,7 +440,7 @@ namespace Neutronium.Core.Binding
 
         private void CheckUiContext()
         {
-            if (!Context.UIDispatcher.IsInContext())
+            if (!Context.UiDispatcher.IsInContext())
                 throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
 
@@ -454,7 +454,7 @@ namespace Neutronium.Core.Binding
             object targetvalue;
             if (Context.WebView.Converter.GetSimpleValue(javascriptObject, out targetvalue, targetType))
             {
-                return new JSBasicObject(javascriptObject, targetvalue);
+                return new JsBasicObject(javascriptObject, targetvalue);
             }
 
             //Use local and local cache for objet not created in javascript session such as enum

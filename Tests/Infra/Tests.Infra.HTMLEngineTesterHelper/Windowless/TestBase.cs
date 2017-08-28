@@ -16,7 +16,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
     public abstract class TestBase 
     {
         protected IWebView _WebView;
-        protected HTMLViewEngine _ViewEngine;
+        protected HtmlViewEngine _ViewEngine;
         protected IWebSessionLogger _Logger;
         protected readonly ITestOutputHelper _TestOutputHelper;
         protected IWebBrowserWindowProvider _WebBrowserWindowProvider;

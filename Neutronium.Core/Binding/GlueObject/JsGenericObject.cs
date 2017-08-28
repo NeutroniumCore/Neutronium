@@ -32,8 +32,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            var updatableFromJS = CValue.GetType().HasReadWriteProperties();
-            builder.RequestObjectCreation(_Attributes, updatableFromJS);
+            var updatableFromJs = CValue.GetType().HasReadWriteProperties();
+            builder.RequestObjectCreation(_Attributes, updatableFromJs);
         }
 
         protected override void ComputeString(DescriptionBuilder context)

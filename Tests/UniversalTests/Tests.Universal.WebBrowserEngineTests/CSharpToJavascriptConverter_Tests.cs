@@ -49,11 +49,11 @@ namespace Tests.Universal.WebBrowserEngineTests
         private Circular2 _CircularComplex;
         private List<TestClass> _Tests;
         private ArrayList _Tests_NG;
-        private HTMLViewContext _HTMLViewContext;
+        private HtmlViewContext _HTMLViewContext;
         private IGlueFactory _GlueFactory;
         private IJavascriptSessionCache _ICSharpMapper;
         private IJavascriptFrameworkManager _javascriptFrameworkManager;
-        private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HTMLWindow;
+        private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HtmlWindow;
 
         protected CSharpToJavascriptConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
@@ -66,7 +66,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             _GlueFactory = new GlueFactory(null, null);
             _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
             _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
-            _HTMLViewContext = new HTMLViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
+            _HTMLViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
             _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _ICSharpMapper, _GlueFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>

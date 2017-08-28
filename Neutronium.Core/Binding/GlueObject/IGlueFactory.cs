@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     internal interface IGlueFactory
     {
-        JSCommand Build(ICommand command);
+        JsCommand Build(ICommand command);
 
         JsSimpleCommand Build(ISimpleCommand command);
 

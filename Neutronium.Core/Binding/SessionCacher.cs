@@ -3,14 +3,13 @@ using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
-using System;
 
 namespace Neutronium.Core.Binding
 {
     internal class SessionCacher : IJavascriptSessionCache
     {
         private readonly IDictionary<object, IJsCsGlue> _FromCSharp = new Dictionary<object, IJsCsGlue>();
-        private readonly IDictionary<uint, IJsCsGlue> _FromJavascript_Global = new Dictionary<uint, IJsCsGlue>();
+        private readonly IDictionary<uint, IJsCsGlue> _FromJavascriptGlobal = new Dictionary<uint, IJsCsGlue>();
 
         public void CacheFromCSharpValue(object key, IJsCsGlue value)
         {
@@ -32,7 +31,7 @@ namespace Neutronium.Core.Binding
             if (id == 0)
                 return;
 
-            _FromJavascript_Global.Remove(id);
+            _FromJavascriptGlobal.Remove(id);
         }
 
         public void Cache(IJsCsGlue value)
@@ -41,7 +40,7 @@ namespace Neutronium.Core.Binding
             if (cashable != null)
                 Cache(cashable);
             else
-                _FromJavascript_Global.Add(value.JsValue.GetID(), value);
+                _FromJavascriptGlobal.Add(value.JsValue.GetID(), value);
         }
 
         public void Cache(IJsCsCachableGlue cachableGlue)
@@ -51,7 +50,7 @@ namespace Neutronium.Core.Binding
                 return;
 
             cachableGlue.SetJsId(id);
-            _FromJavascript_Global[id] = cachableGlue;
+            _FromJavascriptGlobal[id] = cachableGlue;
         }
 
         private void CacheGlobal(IJavascriptObject jsobject, IJsCsMappedBridge ibo)
@@ -61,7 +60,7 @@ namespace Neutronium.Core.Binding
                 return;
 
             ibo.SetJsId(id);
-            _FromJavascript_Global[id] = ibo;
+            _FromJavascriptGlobal[id] = ibo;
         }
 
         public IJsCsGlue GetCached(object key)
@@ -72,12 +71,12 @@ namespace Neutronium.Core.Binding
         public IJsCsGlue GetCached(IJavascriptObject globalkey) 
         {
             var id = globalkey.GetID();
-            return (id == 0) ? null : _FromJavascript_Global.GetOrDefault(id);
+            return (id == 0) ? null : _FromJavascriptGlobal.GetOrDefault(id);
         }
 
         public IJsCsGlue GetCached(uint id)
         {
-            return _FromJavascript_Global.GetOrDefault(id);
+            return _FromJavascriptGlobal.GetOrDefault(id);
         }
 
         public IJavascriptObjectInternalMapper GetMapper(IJsCsMappedBridge root)
@@ -87,14 +86,14 @@ namespace Neutronium.Core.Binding
 
         internal void Update(IJsCsMappedBridge observableBridge, IJavascriptObject jsobject)
         {
-            observableBridge.SetMappedJSValue(jsobject);
+            observableBridge.SetMappedJsValue(jsobject);
             CacheGlobal(jsobject, observableBridge);
         }
 
         internal void RegisterMapping(IJavascriptObject father, string att, IJavascriptObject child)
         {
             var global = GetCached(father);
-            if (global is JSCommand)
+            if (global is JsCommand)
                 return;
 
             var jso = (JsGenericObject)global;

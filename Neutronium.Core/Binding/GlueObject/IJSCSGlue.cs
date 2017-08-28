@@ -15,6 +15,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
         uint JsId { get;}
 
+        bool Marked { get; set; }
+
         IEnumerable<IJsCsGlue> Children { get; }
 
         void BuilString(DescriptionBuilder context);

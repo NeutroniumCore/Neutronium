@@ -27,7 +27,7 @@ namespace Neutronium.Core.Navigation
 
         public Uri Url { get; private set; }
         public IWebBrowserWindowProvider WebControl => _CurrentWebControl;
-        public IWebBrowserWindow HTMLWindow => _CurrentWebControl?.HTMLWindow;
+        public IWebBrowserWindow HTMLWindow => _CurrentWebControl?.HtmlWindow;
         public bool UseINavigable 
         {
             get { return _UseINavigable; }
@@ -88,7 +88,7 @@ namespace Neutronium.Core.Navigation
           
             if (_CurrentWebControl!=null)
             {
-                _CurrentWebControl.HTMLWindow.ConsoleMessage -= ConsoleMessage;
+                _CurrentWebControl.HtmlWindow.ConsoleMessage -= ConsoleMessage;
                 _CurrentWebControl.Dispose();
             }
             else 
@@ -98,7 +98,7 @@ namespace Neutronium.Core.Navigation
 
             _CurrentWebControl = _NextWebControl;     
             _NextWebControl = null;
-            _CurrentWebControl.HTMLWindow.Crashed += Crashed;
+            _CurrentWebControl.HtmlWindow.Crashed += Crashed;
 
             _CurrentWebControl.Show();
     
@@ -129,7 +129,7 @@ namespace Neutronium.Core.Navigation
 
         private void Crashed(object sender, BrowserCrashedArgs e)
         {
-            var dest = _CurrentWebControl.HTMLWindow.Url;
+            var dest = _CurrentWebControl.HtmlWindow.Url;
             var vm = Binding.Root;
             var mode = Binding.Mode;
 
@@ -158,17 +158,17 @@ namespace Neutronium.Core.Navigation
             var wh = new WindowHelper(new HTMLLogicWindow());
 
             if (_CurrentWebControl != null)
-                _CurrentWebControl.HTMLWindow.Crashed -= Crashed;
+                _CurrentWebControl.HtmlWindow.Crashed -= Crashed;
 
             var closetask = ( _CurrentWebControl!=null) ? _Window.CloseAsync() : TaskHelper.Ended();
 
             _NextWebControl = _WebViewLifeCycleManager.Create();
-            _NextWebControl.HTMLWindow.ConsoleMessage += ConsoleMessage;
+            _NextWebControl.HtmlWindow.ConsoleMessage += ConsoleMessage;
 
-            var moderWindow = _NextWebControl.HTMLWindow as IModernWebBrowserWindow;
+            var moderWindow = _NextWebControl.HtmlWindow as IModernWebBrowserWindow;
 
             var injectorFactory = GetInjectorFactory(uri);
-            var engine = new HTMLViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
+            var engine = new HtmlViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
             var initVm = HTML_Binding.GetBindingBuilder(engine, viewModel, mode, wh);
 
             if (moderWindow!=null)
@@ -187,15 +187,15 @@ namespace Neutronium.Core.Navigation
             EventHandler<LoadEndEventArgs> sourceupdate = null;
             sourceupdate = async (o, e) =>
             {
-                _NextWebControl.HTMLWindow.LoadEnd -= sourceupdate;
+                _NextWebControl.HtmlWindow.LoadEnd -= sourceupdate;
 
                 var builder = await initVm;
                 await builder.CreateBinding(_WebViewLifeCycleManager.DebugContext).WaitWith(closetask, t => Switch(t, wh.__window__, tcs)).ConfigureAwait(false);
             };
 
             Url = uri;
-            _NextWebControl.HTMLWindow.LoadEnd += sourceupdate;
-            _NextWebControl.HTMLWindow.NavigateTo(uri);
+            _NextWebControl.HtmlWindow.LoadEnd += sourceupdate;
+            _NextWebControl.HtmlWindow.NavigateTo(uri);
 
             return tcs.Task;
         }
@@ -209,7 +209,7 @@ namespace Neutronium.Core.Navigation
         {
             try 
             {
-                _CurrentWebControl?.HTMLWindow.MainFrame.ExecuteJavaScript(code);
+                _CurrentWebControl?.HtmlWindow.MainFrame.ExecuteJavaScript(code);
             }
             catch(Exception e)
             {
@@ -244,8 +244,8 @@ namespace Neutronium.Core.Navigation
             if (WebControl == null)
                 return;
 
-            WebControl.HTMLWindow.Crashed -= Crashed;
-            WebControl.HTMLWindow.ConsoleMessage -= ConsoleMessage;
+            WebControl.HtmlWindow.Crashed -= Crashed;
+            WebControl.HtmlWindow.ConsoleMessage -= ConsoleMessage;
             WebControl.Dispose();
             WebControl = null;
         }

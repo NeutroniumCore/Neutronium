@@ -9,7 +9,7 @@ namespace Neutronium.Core
     public class StringBinding :  IHTMLBinding
     {
         private readonly IJavascriptObject _Root;
-        private readonly HTMLViewContext _Context;
+        private readonly HtmlViewContext _Context;
 
         public JavascriptBindingMode Mode => JavascriptBindingMode.OneTime;
         public IJavascriptObject JSRootObject => _Root;
@@ -19,7 +19,7 @@ namespace Neutronium.Core
         public IJsCsGlue JSBrideRootObject => null;
 
 
-        internal StringBinding(HTMLViewContext context, IJavascriptObject root)
+        internal StringBinding(HtmlViewContext context, IJavascriptObject root)
         {
             _Context = context;
             _Root = root;
@@ -33,7 +33,7 @@ namespace Neutronium.Core
             });
         }
 
-        public static async Task<IHTMLBinding> Bind(HTMLViewEngine engine, string viewModel)
+        public static async Task<IHTMLBinding> Bind(HtmlViewEngine engine, string viewModel)
         {
             var context = engine.GetMainContext(null);
             var mainView = context.WebView;

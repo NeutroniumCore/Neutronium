@@ -40,7 +40,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void CanExecuteCommand(IJavascriptObject[] arguments)
         {
-            var jsCommand = GetFromArgument<JSCommand>(arguments);
+            var jsCommand = GetFromArgument<JsCommand>(arguments);
             jsCommand?.CanExecuteCommand(arguments.Skip(1).ToArray());
         }
 

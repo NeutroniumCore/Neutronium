@@ -11,8 +11,8 @@ namespace Tests.ChromiumFX.Infra {
     {
         private readonly IWebView _webview;
         private readonly CfxClient _CfxClient;
-        public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
-        public IWebBrowserWindow HTMLWindow { get; }
+        public IDispatcher UiDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
+        public IWebBrowserWindow HtmlWindow { get; }
         event EventHandler<DebugEventArgs> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
         public event EventHandler OnDisposed;
 
@@ -20,7 +20,7 @@ namespace Tests.ChromiumFX.Infra {
         {
             _webview = webview;
             _CfxClient = cfxClient;
-            HTMLWindow = new FakeHTMLWindow(cfxClient, webview, url);
+            HtmlWindow = new FakeHTMLWindow(cfxClient, webview, url);
         }     
 
         public void Show() 

@@ -9,14 +9,14 @@ namespace Tests.Awesomium.Infra
 {
     internal class AwesomiumTestHTMLWindowProvider : IWebBrowserWindowProvider
     {
-        public IWebBrowserWindow HTMLWindow { get; }
-        public IDispatcher UIDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
+        public IWebBrowserWindow HtmlWindow { get; }
+        public IDispatcher UiDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
         event EventHandler<DebugEventArgs> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
         public event EventHandler OnDisposed;
 
         internal AwesomiumTestHTMLWindowProvider(IWebView webView, Uri path)
         {
-            HTMLWindow = new AwesomiumTestHTMLWindow(webView, path);
+            HtmlWindow = new AwesomiumTestHTMLWindow(webView, path);
         }
 
         public void Show()

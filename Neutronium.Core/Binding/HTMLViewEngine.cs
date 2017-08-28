@@ -7,25 +7,25 @@ using Neutronium.Core.Binding.Builder;
 
 namespace Neutronium.Core.Binding
 {
-    public class HTMLViewEngine
+    public class HtmlViewEngine
     {
-        private readonly IWebBrowserWindowProvider _HTMLWindowProvider;
-        private readonly IJavascriptFrameworkManager _frameworkManager;
+        private readonly IWebBrowserWindowProvider _HtmlWindowProvider;
+        private readonly IJavascriptFrameworkManager _FrameworkManager;
         public IWebSessionLogger Logger { get; }
 
-        private IWebView MainView => HTMLWindow.MainFrame;
-        public IWebBrowserWindow HTMLWindow => _HTMLWindowProvider.HTMLWindow;
+        private IWebView MainView => HtmlWindow.MainFrame;
+        public IWebBrowserWindow HtmlWindow => _HtmlWindowProvider.HtmlWindow;
 
-        public HTMLViewEngine(IWebBrowserWindowProvider hTMLWindowProvider, IJavascriptFrameworkManager frameworkManager, IWebSessionLogger logger)
+        public HtmlViewEngine(IWebBrowserWindowProvider htmlWindowProvider, IJavascriptFrameworkManager frameworkManager, IWebSessionLogger logger)
         {
-            _HTMLWindowProvider = hTMLWindowProvider;
-            _frameworkManager = frameworkManager;
+            _HtmlWindowProvider = htmlWindowProvider;
+            _FrameworkManager = frameworkManager;
             Logger = logger;
         }
 
-        public HTMLViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
+        public HtmlViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
         {
-            return new HTMLViewContext(HTMLWindow, _HTMLWindowProvider.UIDispatcher, _frameworkManager, javascriptChangesObserver, Logger);
+            return new HtmlViewContext(HtmlWindow, _HtmlWindowProvider.UiDispatcher, _FrameworkManager, javascriptChangesObserver, Logger);
         }
 
         internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)

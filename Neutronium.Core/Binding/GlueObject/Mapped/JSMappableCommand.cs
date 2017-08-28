@@ -3,19 +3,19 @@ using System.Windows.Input;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
-    internal class JSMappableCommand: JSCommand, IJsCsMappedBridge
+    internal class JsMappableCommand: JsCommand, IJsCsMappedBridge
     {
-        private IJavascriptObject _MappedJSValue;
+        private IJavascriptObject _MappedJsValue;
 
-        public override IJavascriptObject CachableJsValue => _MappedJSValue;
+        public override IJavascriptObject CachableJsValue => _MappedJsValue;
 
-        public void SetMappedJSValue(IJavascriptObject jsobject)
+        public void SetMappedJsValue(IJavascriptObject jsobject)
         {
-            _MappedJSValue = jsobject;
-            UpdateJsObject(_MappedJSValue);
+            _MappedJsValue = jsobject;
+            UpdateJsObject(_MappedJsValue);
         }
 
-        public JSMappableCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ICommand command):
+        public JsMappableCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand command):
             base(context, converter, command)
         {
         }

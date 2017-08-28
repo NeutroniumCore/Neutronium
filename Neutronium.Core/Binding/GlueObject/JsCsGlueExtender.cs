@@ -4,7 +4,7 @@ using System;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public static class IjsCsGlueExtender
+    public static class JsCsGlueExtender
     {
         public static bool IsBasic(this IJsCsGlue @this)
         {

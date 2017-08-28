@@ -9,17 +9,17 @@ namespace Neutronium.Core.Binding.Listeners
     {
         public IEntityUpdater<INotifyPropertyChanged> Property { get; }
         public IEntityUpdater<INotifyCollectionChanged> Collection { get; }
-        public IEntityUpdater<JSCommand> Command { get; }
+        public IEntityUpdater<JsCommand> Command { get; }
         public ObjectChangesListener On { get; }
         public ObjectChangesListener Off { get; }
 
         public FullListenerRegister(Action<INotifyPropertyChanged> propertyOn, Action<INotifyPropertyChanged> propertyOff,
                         Action<INotifyCollectionChanged> collectionOn, Action<INotifyCollectionChanged> collectionOff,
-                        Action<JSCommand> jsCommandOn, Action<JSCommand> jsCommandOff)
+                        Action<JsCommand> jsCommandOn, Action<JsCommand> jsCommandOff)
         {
             Property = new ListenerRegister<INotifyPropertyChanged>(propertyOn, propertyOff);
             Collection = new ListenerRegister<INotifyCollectionChanged>(collectionOn, collectionOff);
-            Command = new ListenerRegister<JSCommand>(jsCommandOn, jsCommandOff);
+            Command = new ListenerRegister<JsCommand>(jsCommandOn, jsCommandOff);
             On = new ObjectChangesListener(Property.OnEnter, Collection.OnEnter, Command.OnEnter);
             Off = new ObjectChangesListener(Property.OnExit, Collection.OnExit, Command.OnExit);
         }

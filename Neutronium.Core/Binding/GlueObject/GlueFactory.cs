@@ -9,27 +9,27 @@ namespace Neutronium.Core.Binding.GlueObject
     internal sealed class GlueFactory : IGlueFactory
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
-        private readonly HTMLViewContext _HTMLViewContext;
+        private readonly HtmlViewContext _HtmlViewContext;
 
-        public GlueFactory(HTMLViewContext context, IJavascriptToCSharpConverter converter)
+        public GlueFactory(HtmlViewContext context, IJavascriptToCSharpConverter converter)
         {
-            _HTMLViewContext = context;
+            _HtmlViewContext = context;
             _JavascriptToCSharpConverter = converter;
         }
 
-        public JSCommand Build(ICommand command)
+        public JsCommand Build(ICommand command)
         {
-            return new JSCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
+            return new JsCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command);
         }
 
         public JsSimpleCommand Build(ISimpleCommand command)
         {
-            return new JsSimpleCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
+            return new JsSimpleCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command);
         }
 
         public JsResultCommand Build(IResultCommand command)
         {
-            return new JsResultCommand(_HTMLViewContext, _JavascriptToCSharpConverter, command);
+            return new JsResultCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command);
         }
 
         public JsGenericObject Build(object from, int childrenCount)

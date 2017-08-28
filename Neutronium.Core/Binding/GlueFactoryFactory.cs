@@ -5,7 +5,7 @@ namespace Neutronium.Core.Binding
 {
     internal static class GlueFactoryFactory
     {
-        internal static IGlueFactory GetFactory(HTMLViewContext context, IJavascriptToCSharpConverter converter)
+        internal static IGlueFactory GetFactory(HtmlViewContext context, IJavascriptToCSharpConverter converter)
         {
             var isMapping = context.JavascriptFrameworkIsMappingObject;
             return isMapping ? (IGlueFactory)new GlueMappingFactory(context, converter) : new GlueFactory(context, converter);

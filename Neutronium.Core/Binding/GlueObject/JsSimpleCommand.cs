@@ -10,27 +10,27 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     public class JsSimpleCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
     {
-        private readonly ISimpleCommand _JSSimpleCommand;
-        private readonly HTMLViewContext _HTMLViewContext;
+        private readonly ISimpleCommand _JsSimpleCommand;
+        private readonly HtmlViewContext _HtmlViewContext;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
 
         public virtual IJavascriptObject CachableJsValue => JsValue;
-        public object CValue => _JSSimpleCommand;
+        public object CValue => _JsSimpleCommand;
         public IEnumerable<IJsCsGlue> Children => null;
 
         public JsCsGlueType Type => JsCsGlueType.SimpleCommand;
-        protected IWebView WebView => _HTMLViewContext.WebView;
-        private IDispatcher UIDispatcher => _HTMLViewContext.UIDispatcher;
+        protected IWebView WebView => _HtmlViewContext.WebView;
+        private IDispatcher UiDispatcher => _HtmlViewContext.UiDispatcher;
 
-        private uint _JsId;
-        public uint JsId => _JsId;
-        void IJsCsCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
+        public uint JsId { get; private set; }
 
-        public JsSimpleCommand(HTMLViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
+        void IJsCsCachableGlue.SetJsId(uint jsId) => JsId = jsId;
+
+        public JsSimpleCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand)
         {
-            _HTMLViewContext = context;
+            _HtmlViewContext = context;
             _JavascriptToCSharpConverter = converter;
-            _JSSimpleCommand = simpleCommand;
+            _JsSimpleCommand = simpleCommand;
         }
 
         public void UpdateJsObject(IJavascriptObject javascriptObject)
@@ -47,12 +47,7 @@ namespace Neutronium.Core.Binding.GlueObject
         void IExecutableGlue.Execute(IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            UIDispatcher.RunAsync(() => _JSSimpleCommand.Execute(parameter));
-        }
-
-        public IEnumerable<IJsCsGlue> GetChildren()
-        {
-            return null;
+            UiDispatcher.RunAsync(() => _JsSimpleCommand.Execute(parameter));
         }
 
         protected override void ComputeString(DescriptionBuilder context)

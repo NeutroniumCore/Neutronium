@@ -9,10 +9,10 @@ namespace Neutronium.Core.Binding.Listeners
     {
         private readonly Action<INotifyPropertyChanged> _OnObject;
         private readonly Action<INotifyCollectionChanged> _OnCollection;
-        private readonly Action<JSCommand> _OnCommand;
+        private readonly Action<JsCommand> _OnCommand;
 
         public ObjectChangesListener(Action<INotifyPropertyChanged> onObject,
-                            Action<INotifyCollectionChanged> onCollection, Action<JSCommand> onCommand)
+                            Action<INotifyCollectionChanged> onCollection, Action<JsCommand> onCommand)
         {
             _OnObject = onObject;
             _OnCollection = onCollection;
@@ -29,7 +29,7 @@ namespace Neutronium.Core.Binding.Listeners
             _OnCollection(collection);
         }
 
-        public void OnCommand(JSCommand command)
+        public void OnCommand(JsCommand command)
         {
             _OnCommand(command);
         }

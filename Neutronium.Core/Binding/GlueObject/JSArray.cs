@@ -19,10 +19,9 @@ namespace Neutronium.Core.Binding.GlueObject
         public List<IJsCsGlue> Items { get; }     
         public JsCsGlueType Type => JsCsGlueType.Array;
         public virtual IJavascriptObject CachableJsValue => JsValue;
+        public uint JsId { get; private set; }
 
-        private uint _JsId;
-        public uint JsId => _JsId;
-        void IJsCsCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
+        void IJsCsCachableGlue.SetJsId(uint jsId) => JsId = jsId;
 
         public JsArray(List<IJsCsGlue> values, IEnumerable collection, Type individual)
         {

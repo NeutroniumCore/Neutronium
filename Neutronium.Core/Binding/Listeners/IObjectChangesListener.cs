@@ -10,6 +10,6 @@ namespace Neutronium.Core.Binding.Listeners
 
         void OnCollection(INotifyCollectionChanged icollection);
 
-        void OnCommand(JSCommand icommand);
+        void OnCommand(JsCommand icommand);
     }
 }

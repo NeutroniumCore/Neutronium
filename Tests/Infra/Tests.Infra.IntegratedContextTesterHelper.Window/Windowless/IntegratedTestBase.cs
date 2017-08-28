@@ -27,8 +27,8 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         {
             var tester = base.Tester(context);
             var frameworkHelper = _WindowLessHTMLEngineProvider.FrameworkTestContext;
-            _ViewEngine = new HTMLViewEngine(tester.HTMLWindowProvider, frameworkHelper.FrameworkManager, _Logger);
-            _UIDispatcher = tester.HTMLWindowProvider.UIDispatcher;
+            _ViewEngine = new HtmlViewEngine(tester.HTMLWindowProvider, frameworkHelper.FrameworkManager, _Logger);
+            _UIDispatcher = tester.HTMLWindowProvider.UiDispatcher;
             _JavascriptFrameworkExtractor = frameworkHelper.JavascriptFrameworkExtractorBuilder(_WebView);
             return tester;
         }

@@ -11,12 +11,12 @@ namespace Neutronium.Core.WebBrowserEngine.Control
         /// <summary>
         /// Return the IHTMLWindow
         /// </summary>
-        IWebBrowserWindow HTMLWindow { get; }
+        IWebBrowserWindow HtmlWindow { get; }
 
         /// <summary>
         /// Return the UI dispatcher
         /// </summary>
-        IDispatcher UIDispatcher { get; }
+        IDispatcher UiDispatcher { get; }
 
         /// <summary>
         /// Show the control on the screen

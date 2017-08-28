@@ -1048,7 +1048,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = ((HTML_Binding)mb).JSBrideRootObject as JsGenericObject;
 
-                    var mycommand = js.GetAttribute("Command") as JSCommand;
+                    var mycommand = js.GetAttribute("Command") as JsCommand;
                     mycommand.Should().NotBeNull();
                     mycommand.ToString().Should().Be("{}");
                     mycommand.Type.Should().Be(JsCsGlueType.Command);
@@ -2485,7 +2485,7 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        protected Task<IHTMLBinding> Bind(HTMLViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        protected Task<IHTMLBinding> Bind(HtmlViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
             return HTML_Binding.Bind(engine, dataContext, JavascriptBindingMode.TwoWay);
         }

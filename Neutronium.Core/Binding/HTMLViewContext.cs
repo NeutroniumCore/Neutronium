@@ -6,27 +6,27 @@ using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding
 {
-    public class HTMLViewContext : IDisposable
+    public class HtmlViewContext : IDisposable
     {
         public IWebView WebView => _IWebBrowserWindow.MainFrame;
-        public IDispatcher UIDispatcher { get; }
+        public IDispatcher UiDispatcher { get; }
         public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
         public IJavascriptViewModelUpdater ViewModelUpdater { get; private set; }
         public bool JavascriptFrameworkIsMappingObject => _JavascriptFrameworkManager.IsMappingObject;
 
         private IJavascriptObject _Listener;
         private IJavascriptViewModelManager _VmManager;
-        private readonly IWebSessionLogger _logger;
+        private readonly IWebSessionLogger _Logger;
         private readonly IJavascriptChangesObserver _JavascriptChangesObserver;
         private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private readonly IWebBrowserWindow _IWebBrowserWindow;
 
-        public HTMLViewContext(IWebBrowserWindow webBrowserWindow, IDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
+        public HtmlViewContext(IWebBrowserWindow webBrowserWindow, IDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
                                 IJavascriptChangesObserver javascriptChangesObserver, IWebSessionLogger logger)
         {
             _IWebBrowserWindow = webBrowserWindow;
-            _logger = logger;
-            UIDispatcher = uiDispatcher;
+            _Logger = logger;
+            UiDispatcher = uiDispatcher;
             _JavascriptChangesObserver = javascriptChangesObserver;
             _JavascriptFrameworkManager = javascriptFrameworkManager;
         }
@@ -35,14 +35,14 @@ namespace Neutronium.Core.Binding
         {
             var builder = new BinderBuilder(WebView, _JavascriptChangesObserver);
             _Listener = builder.BuildListener();
-            _VmManager = _JavascriptFrameworkManager.CreateManager(WebView, _Listener, _logger, debugMode);
+            _VmManager = _JavascriptFrameworkManager.CreateManager(WebView, _Listener, _Logger, debugMode);
             ViewModelUpdater = _VmManager.ViewModelUpdater;
             JavascriptSessionInjector = _VmManager.Injector;
         }
 
         public Task RunOnUIContextAsync(Action act) 
         {
-            return UIDispatcher.RunAsync(act);
+            return UiDispatcher.RunAsync(act);
         }
 
         public Task RunOnJavascriptContextAsync(Action act)
@@ -52,7 +52,7 @@ namespace Neutronium.Core.Binding
 
         public Task<T> EvaluateOnUIContextAsync<T>(Func<T> act)
         {
-            return UIDispatcher.EvaluateAsync(act);
+            return UiDispatcher.EvaluateAsync(act);
         }
 
         public bool IsTypeBasic(Type type) 
@@ -64,7 +64,7 @@ namespace Neutronium.Core.Binding
         {
             _VmManager.Dispose();
             _Listener.Dispose();
-            _logger.Debug("HTMLViewContext Disposed");
+            _Logger.Debug("HTMLViewContext Disposed");
         }
     }
 }

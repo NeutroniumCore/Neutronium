@@ -16,7 +16,7 @@ namespace Tests.Awesomium.Infra
         private AwesomiumTestHTMLWindowProvider _AwesomiumTestHTMLWindowProvider;
 
         public Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView WebView { get; private set; }
-        public IWebBrowserWindow HTMLWindow => _AwesomiumTestHTMLWindowProvider.HTMLWindow;
+        public IWebBrowserWindow HTMLWindow => _AwesomiumTestHTMLWindowProvider.HtmlWindow;
         public IWebBrowserWindowProvider HTMLWindowProvider => _AwesomiumTestHTMLWindowProvider;
 
         public void Init(string path, IWebSessionLogger logger)

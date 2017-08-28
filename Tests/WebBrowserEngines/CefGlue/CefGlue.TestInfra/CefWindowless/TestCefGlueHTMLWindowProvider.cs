@@ -12,13 +12,13 @@ namespace CefGlue.TestInfra.CefWindowless
 
         event EventHandler<DebugEventArgs> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
         public event EventHandler OnDisposed;
-        public IWebBrowserWindow HTMLWindow { get; }
-        public IDispatcher UIDispatcher => new NullUIDispatcher();
+        public IWebBrowserWindow HtmlWindow { get; }
+        public IDispatcher UiDispatcher => new NullUIDispatcher();
 
         public TestCefGlueHTMLWindowProvider(CefFrame iFrame, TestCefClient cefClient)
         {
             _TestCefClient = cefClient;
-            HTMLWindow = new TestCefGlueWindow(iFrame, cefClient);
+            HtmlWindow = new TestCefGlueWindow(iFrame, cefClient);
         }
 
         public void Show()

@@ -20,7 +20,7 @@ namespace Tests.ChromiumFX.Infra
         private ChromiumFXHTMLWindowProvider _ChromiumFXHTMLWindowProvider;
 
         public IWebView WebView { get; private set; }
-        public IWebBrowserWindow HTMLWindow => _ChromiumFXHTMLWindowProvider.HTMLWindow;
+        public IWebBrowserWindow HTMLWindow => _ChromiumFXHTMLWindowProvider.HtmlWindow;
         public IWebBrowserWindowProvider HTMLWindowProvider => _ChromiumFXHTMLWindowProvider;
 
         internal ChromiumFxWindowlessHtmlEngine(WpfThread wpfThread, Task<ChromiumFxWebView> chromiumFxWebViewTask) 
