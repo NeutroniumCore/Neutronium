@@ -18,7 +18,7 @@ namespace Neutronium.Core.Navigation
         private readonly IUrlSolver _UrlSolver;        
         private IWebBrowserWindowProvider _CurrentWebControl;
         private IWebBrowserWindowProvider _NextWebControl;
-        private IHTMLBinding _HTMLBinding;
+        private IHtmlBinding _HTMLBinding;
         private IWebSessionLogger _webSessionLogger;
         private bool _Disposed = false;
         private bool _Navigating = false;
@@ -56,7 +56,7 @@ namespace Neutronium.Core.Navigation
             catch { }
         }
 
-        public IHTMLBinding Binding
+        public IHtmlBinding Binding
         {
             get { return _HTMLBinding; }
             private set
@@ -80,7 +80,7 @@ namespace Neutronium.Core.Navigation
             OnDisplay?.Invoke(this, new DisplayEvent(loadedVm));
         }
 
-        private void Switch(Task<IHTMLBinding> binding, HTMLLogicWindow window, TaskCompletionSource<IHTMLBinding> tcs)
+        private void Switch(Task<IHtmlBinding> binding, HTMLLogicWindow window, TaskCompletionSource<IHtmlBinding> tcs)
         {
             var oldvm = Binding?.Root;
             var fireFirstLoad = false;
@@ -141,7 +141,7 @@ namespace Neutronium.Core.Navigation
             Navigate(dest, vm, mode);
         }
 
-        private Task<IHTMLBinding> Navigate(Uri uri, object viewModel, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        private Task<IHtmlBinding> Navigate(Uri uri, object viewModel, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
             if (uri == null)
                 throw ExceptionHelper.GetArgument($"ViewModel not registered: {viewModel.GetType()}");
@@ -169,7 +169,7 @@ namespace Neutronium.Core.Navigation
 
             var injectorFactory = GetInjectorFactory(uri);
             var engine = new HtmlViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
-            var initVm = HTML_Binding.GetBindingBuilder(engine, viewModel, mode, wh);
+            var initVm = HtmlBinding.GetBindingBuilder(engine, viewModel, mode, wh);
 
             if (moderWindow!=null)
             {
@@ -182,7 +182,7 @@ namespace Neutronium.Core.Navigation
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
             }
-            var tcs = new TaskCompletionSource<IHTMLBinding>();
+            var tcs = new TaskCompletionSource<IHtmlBinding>();
 
             EventHandler<LoadEndEventArgs> sourceupdate = null;
             sourceupdate = async (o, e) =>
@@ -217,7 +217,7 @@ namespace Neutronium.Core.Navigation
             }          
         }
 
-        public async Task<IHTMLBinding> NavigateAsync(object viewModel, string id = "", JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        public async Task<IHtmlBinding> NavigateAsync(object viewModel, string id = "", JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
             if ((viewModel == null) || (_Navigating))
                 return null;

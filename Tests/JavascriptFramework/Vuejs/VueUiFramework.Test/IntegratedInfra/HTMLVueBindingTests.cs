@@ -89,7 +89,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
                     CheckReadOnly(js, readOnly);
                 }
             };
@@ -108,7 +108,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
                     var newValue = 55;
                     DoSafeUI(() => datacontext.SetReadOnly(newValue));
                     
@@ -132,7 +132,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
                     var newValue = 550;
                     DoSafeUI(() => datacontext.ReadWrite = newValue);
 
@@ -156,7 +156,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
                     var newValue = 1200;
                     var jsValue = _WebView.Factory.CreateInt(newValue);
                     SetAttribute(js, "ReadWrite", jsValue);
@@ -182,7 +182,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
 
                     CheckReadOnly(childJs, false);
@@ -209,7 +209,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
 
                     CheckReadOnly(childJs, false);
@@ -242,7 +242,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     CheckReadOnly(js, true);
 
@@ -274,7 +274,7 @@ namespace VueFramework.Test.IntegratedInfra
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     CheckReadOnly(js, true);
 

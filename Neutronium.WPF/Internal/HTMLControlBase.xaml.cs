@@ -133,7 +133,7 @@ namespace Neutronium.WPF.Internal
 
         private void DoSaveVm()
         {
-            var binding = _WPFDoubleBrowserNavigator?.Binding?.JSBrideRootObject;
+            var binding = _WPFDoubleBrowserNavigator?.Binding?.JsBrideRootObject;
             if (binding == null)
                 return;
 
@@ -296,7 +296,7 @@ namespace Neutronium.WPF.Internal
             }
 
             var builder = new StringBuilder();
-            builder.AppendLine($"Neutronium.Core { VersionHelper.GetVersion(typeof(IHTMLBinding)).GetDisplayName()}")
+            builder.AppendLine($"Neutronium.Core { VersionHelper.GetVersion(typeof(IHtmlBinding)).GetDisplayName()}")
                    .AppendLine($"WebBrowser: {_WPFWebWindowFactory.EngineName}")
                    .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
                    .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")
@@ -385,7 +385,7 @@ namespace Neutronium.WPF.Internal
             currentWebControl?.CloseDebugTools();
         }
 
-        protected async Task<IHTMLBinding> NavigateAsyncBase(object iViewModel, string Id = "", JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
+        protected async Task<IHtmlBinding> NavigateAsyncBase(object iViewModel, string Id = "", JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
             return await WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, iMode);
         }

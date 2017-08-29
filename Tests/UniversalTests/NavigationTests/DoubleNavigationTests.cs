@@ -351,7 +351,7 @@ namespace Tests.Universal.NavigationTests
                 wpfnav.IsHTMLLoaded.Should().BeTrue();
                 a.Navigation.Should().NotBeNull();
 
-                var js = bind.JSRootObject;
+                var js = bind.JsRootObject;
                 var command = js.Invoke("Change", bind.Context);
                 command.Invoke("Execute", bind.Context);
 

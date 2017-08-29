@@ -10,6 +10,6 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
     {
         public TestContext Path { get; set; }
 
-        public Func<HtmlViewEngine, Task<IHTMLBinding>> Bind { get; set; }
+        public Func<HtmlViewEngine, Task<IHtmlBinding>> Bind { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace  Neutronium.Core.Navigation
         /// <param name="mode">
         /// Binding mode
         /// </param>
-        Task<IHTMLBinding> NavigateAsync(object viewModel, string id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay);
+        Task<IHtmlBinding> NavigateAsync(object viewModel, string id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay);
 
         /// <summary>
         /// Event fired when navigation ended <seealso cref="NavigationEvent"/> 

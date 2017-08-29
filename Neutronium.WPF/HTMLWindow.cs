@@ -22,19 +22,19 @@ namespace Neutronium.WPF
       
         public INavigationBuilder NavigationBuilder { get; }
 
-        public Task<IHTMLBinding> NavigateAsync(object viewModel, string id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        public Task<IHtmlBinding> NavigateAsync(object viewModel, string id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
             if (this.IsInitialized)
             {
                 return NavigateAsyncBase(viewModel, id, mode);
             }
 
-            var taskCompletion = new TaskCompletionSource<IHTMLBinding>();
+            var taskCompletion = new TaskCompletionSource<IHtmlBinding>();
             this.Initialized += (o,e) => HTMLWindow_Initialized(taskCompletion, viewModel, id, mode);
             return taskCompletion.Task;
         }
 
-        private async void HTMLWindow_Initialized(TaskCompletionSource<IHTMLBinding> taskCompletion, object viewModel, string id, JavascriptBindingMode mode)
+        private async void HTMLWindow_Initialized(TaskCompletionSource<IHtmlBinding> taskCompletion, object viewModel, string id, JavascriptBindingMode mode)
         {
             try
             {

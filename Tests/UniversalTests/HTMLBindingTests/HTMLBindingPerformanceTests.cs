@@ -88,14 +88,14 @@ namespace Tests.Universal.HTMLBindingTests
             var test = new TestInContext()
             {
                 Path = ipath,
-                Bind = (win) => HTML_Binding.Bind(win, datacontext, imode),
+                Bind = (win) => HtmlBinding.Bind(win, datacontext, imode),
                 Test = (mb) =>
                 {
                     stopWatch.Stop();
                     var ts = stopWatch.ElapsedMilliseconds;
                     _Logger.Info($"Perf: {((double)(ts)) / 1000} sec for {r} iterations");
 
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var col = GetSafe(() => GetCollectionAttribute(js, "L1"));
                     col.GetArrayLength().Should().Be(r);
@@ -111,7 +111,7 @@ namespace Tests.Universal.HTMLBindingTests
         {
             var test = new TestInContext()
             {
-                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = _ => { }
             };
 
@@ -132,10 +132,10 @@ namespace Tests.Universal.HTMLBindingTests
             var test = new TestInContextAsync()
             {
                 Path = TestContext.Simple,
-                Bind = (win) => HTML_Binding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var col1 = GetCollectionAttribute(js, "L1");
                     col1.GetArrayLength().Should().Be(r);
@@ -178,10 +178,10 @@ namespace Tests.Universal.HTMLBindingTests
             var test = new TestInContextAsync()
             {
                 Path = TestContext.Simple,
-                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
                     int iis = 500;
                     for (int i = 0; i < iis; i++)
                     {
@@ -218,10 +218,10 @@ namespace Tests.Universal.HTMLBindingTests
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HTML_Binding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.GetArrayLength().Should().Be(2);
@@ -291,10 +291,10 @@ namespace Tests.Universal.HTMLBindingTests
             var dataContext = new BigCollectionVM<int>(value);
             var test = new TestInContext()
             {
-                Bind = (win) => HTML_Binding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var res = GetCollectionAttribute(js, "Values");
                     res.GetArrayLength().Should().Be(BigCollectionVM<int>.Limit);
@@ -317,10 +317,10 @@ namespace Tests.Universal.HTMLBindingTests
             var dataContext = new BigCollectionVM<Simple>(new Simple());
             var test = new TestInContext()
             {
-                Bind = (win) => HTML_Binding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var res = GetCollectionAttribute(js, "Values");
                     res.GetArrayLength().Should().Be(BigCollectionVM<Simple>.Limit);
@@ -339,10 +339,10 @@ namespace Tests.Universal.HTMLBindingTests
             var dataContext = new BigCollectionVM<Simple>(_ => new Simple());
             var test = new TestInContext()
             {
-                Bind = (win) => HTML_Binding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var res = GetCollectionAttribute(js, "Values");
                     res.GetArrayLength().Should().Be(BigCollectionVM<Simple>.Limit);
@@ -366,11 +366,11 @@ namespace Tests.Universal.HTMLBindingTests
             var root = new FakeFatherViewModel();
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HTML_Binding.Bind(win, root, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var bigVm = BuildBigVm(childrenCount);
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
                     IJavascriptObject other;
 
                     using (var perf = GetPerformanceCounter("Perf to bind Vm"))
@@ -384,7 +384,7 @@ namespace Tests.Universal.HTMLBindingTests
                     }
 
                     other.IsObject.Should().BeTrue();
-                    var rootJs = mb.JSBrideRootObject;
+                    var rootJs = mb.JsBrideRootObject;
 
                     using (GetPerformanceCounter("Perf to VisitAllChildren"))
                     {
@@ -416,10 +416,10 @@ namespace Tests.Universal.HTMLBindingTests
             var root = new FakeViewModelWithCommands();
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HTML_Binding.Bind(win, root, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var commands = Enumerable.Range(0, commandsCount).Select(_ => NSubstitute.Substitute.For<ICommand>()).ToArray();
 

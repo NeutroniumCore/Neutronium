@@ -5,6 +5,6 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {
     public class TestInContext : TestContextBase
     {
-        public Action<IHTMLBinding> Test { get; set; }
+        public Action<IHtmlBinding> Test { get; set; }
     }
 }

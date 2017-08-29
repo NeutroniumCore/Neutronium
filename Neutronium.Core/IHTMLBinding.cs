@@ -5,13 +5,13 @@ using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core
 {
-    public interface IHTMLBinding : IDisposable
+    public interface IHtmlBinding : IDisposable
     {
         JavascriptBindingMode Mode { get; }
         IWebView Context { get; }
-        IJavascriptSessionInjector JavascriptUIFramework { get; }
-        IJsCsGlue JSBrideRootObject { get; }
-        IJavascriptObject JSRootObject { get; }
+        IJavascriptSessionInjector JavascriptUiFramework { get; }
+        IJsCsGlue JsBrideRootObject { get; }
+        IJavascriptObject JsRootObject { get; }
         object Root { get; }
     }
 }

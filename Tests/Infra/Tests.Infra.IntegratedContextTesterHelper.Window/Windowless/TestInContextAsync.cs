@@ -6,6 +6,6 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {
     public class TestInContextAsync : TestContextBase
     {
-        public Func<IHTMLBinding, Task> Test { get; set; }
+        public Func<IHtmlBinding, Task> Test { get; set; }
     }
 }

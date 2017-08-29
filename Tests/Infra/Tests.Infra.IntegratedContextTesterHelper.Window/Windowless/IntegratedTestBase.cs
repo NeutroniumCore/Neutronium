@@ -33,7 +33,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return tester;
         }
 
-        private async Task RunAsync(TestContextBase test, Func<IHTMLBinding, Task> Run, string memberName)
+        private async Task RunAsync(TestContextBase test, Func<IHtmlBinding, Task> Run, string memberName)
         {
             _Logger.Info($"Starting {memberName}");
             using (Tester(test.Path))

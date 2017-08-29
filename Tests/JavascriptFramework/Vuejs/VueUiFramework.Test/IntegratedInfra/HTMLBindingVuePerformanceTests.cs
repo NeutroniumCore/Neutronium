@@ -85,11 +85,11 @@ namespace VueFramework.Test.IntegratedInfra
             var root = new FakeFatherViewModel();
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HTML_Binding.Bind(win, root, JavascriptBindingMode.TwoWay, strategyFactory),
+                Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay, strategyFactory),
                 Test = async (mb) =>
                 {
                     var bigVm = BuildBigVm(childrenCount, rank);
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
@@ -116,10 +116,10 @@ namespace VueFramework.Test.IntegratedInfra
             var root = new FakeIntViewModel();
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HTML_Binding.Bind(win, root, JavascriptBindingMode.TwoWay, strategyFactory),
+                Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay, strategyFactory),
                 Test = async (mb) =>
                 {
-                    var js = mb.JSRootObject;
+                    var js = mb.JsRootObject;
 
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();

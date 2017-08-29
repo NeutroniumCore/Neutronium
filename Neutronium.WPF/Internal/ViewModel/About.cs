@@ -23,7 +23,7 @@ namespace Neutronium.WPF.Internal.DebugTools
         public About(IWPFWebWindowFactory WindowFactory, IJavascriptFrameworkManager framework)
         {
             BrowserBinding = WindowFactory.Name;
-            CoreVersion = VersionHelper.GetVersionDisplayName(typeof(IHTMLBinding));
+            CoreVersion = VersionHelper.GetVersionDisplayName(typeof(IHtmlBinding));
             WPFVersion = VersionHelper.GetVersionDisplayName(this);
             WebBrowser = WindowFactory.EngineName;
             WebBrowserVersion = WindowFactory.EngineVersion;

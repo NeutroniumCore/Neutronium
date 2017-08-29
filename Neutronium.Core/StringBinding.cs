@@ -6,17 +6,17 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core
 {
-    public class StringBinding :  IHTMLBinding
+    public class StringBinding :  IHtmlBinding
     {
         private readonly IJavascriptObject _Root;
         private readonly HtmlViewContext _Context;
 
         public JavascriptBindingMode Mode => JavascriptBindingMode.OneTime;
-        public IJavascriptObject JSRootObject => _Root;
+        public IJavascriptObject JsRootObject => _Root;
         public object Root => null;
-        public IJavascriptSessionInjector JavascriptUIFramework => _Context.JavascriptSessionInjector;
+        public IJavascriptSessionInjector JavascriptUiFramework => _Context.JavascriptSessionInjector;
         public IWebView Context => _Context.WebView;
-        public IJsCsGlue JSBrideRootObject => null;
+        public IJsCsGlue JsBrideRootObject => null;
 
 
         internal StringBinding(HtmlViewContext context, IJavascriptObject root)
@@ -33,7 +33,7 @@ namespace Neutronium.Core
             });
         }
 
-        public static async Task<IHTMLBinding> Bind(HtmlViewEngine engine, string viewModel)
+        public static async Task<IHtmlBinding> Bind(HtmlViewEngine engine, string viewModel)
         {
             var context = engine.GetMainContext(null);
             var mainView = context.WebView;
