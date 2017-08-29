@@ -64,7 +64,7 @@ namespace Neutronium.Core.Binding
 
         internal async Task IntrospectVm(object addicionalObject) 
         {
-            await Context.RunOnUIContextAsync(() => 
+            await Context.RunOnUiContextAsync(() => 
             {
                 _Root = _JsObjectBuilder.Map(_RootObject, addicionalObject);
 
@@ -141,18 +141,23 @@ namespace Neutronium.Core.Binding
         {
         }
 
-        private bool FilterBasic(JsCsGlueType type) => type == JsCsGlueType.Basic;
+        private static bool FilterBasic(JsCsGlueType type) => type == JsCsGlueType.Basic;
 
         private void OnEnter(IJsCsGlue entering)
         {
             entering.ApplyOnListenable(_ListenerRegister.On);
         }
 
+        private void OnExit(IJsCsGlue exiting)
+        {
+            exiting.ApplyOnListenable(_ListenerRegister.Off);
+        }
+
         private void OnExit(IJsCsGlue exiting, BridgeUpdater context)
         {
             exiting.ApplyOnListenable(_ListenerRegister.Off);
 
-            if ((context == null) || (exiting.Type != JsCsGlueType.Object))
+            if (exiting.Type != JsCsGlueType.Object)
                 return;
 
             _SessionCache.RemoveFromCSharpToJs(exiting);
@@ -166,11 +171,11 @@ namespace Neutronium.Core.Binding
 
         private void Visit(Action<IJsCsGlue> onChildren)
         {
-            GetAllChildren().ForEach(onChildren);
+            _SessionCache.AllElements.ForEach(onChildren);
         }
 
         private void ListenToCSharpChanges() => Visit(OnEnter);
-        private void UnlistenToCSharpChanges() => Visit(exiting => OnExit(exiting, null));
+        private void UnlistenToCSharpChanges() => Visit(OnExit);
 
         ISet<IJsCsGlue> IUpdatableJsCsGlueCollection.GetAllChildren() => GetAllChildren();
         void IUpdatableJsCsGlueCollection.OnEnter(IJsCsGlue entering) => OnEnter(entering);
@@ -217,7 +222,7 @@ namespace Neutronium.Core.Binding
                 var glue = GetCachedOrCreateBasic(newValue, targetType);
                 var bridgeUpdater = glue.IsBasicNotNull() ? null : new BridgeUpdater();
 
-                await Context.RunOnUIContextAsync(() =>
+                await Context.RunOnUiContextAsync(() =>
                 {
                     using (glue.IsBasicNotNull() ? null : ReListen(bridgeUpdater))
                     using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null)
@@ -270,7 +275,7 @@ namespace Neutronium.Core.Binding
                var collectionChanges = res.GetChanger(changes, this);
 
                 var updater = new BridgeUpdater();
-                await Context.RunOnUIContextAsync(() => 
+                await Context.RunOnUiContextAsync(() => 
                 {
                     UpdateCollection(res, res.CValue, collectionChanges, updater);
                 });

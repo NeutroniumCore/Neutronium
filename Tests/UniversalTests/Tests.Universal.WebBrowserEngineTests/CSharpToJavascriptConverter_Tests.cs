@@ -349,7 +349,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         private async Task<IJsCsGlue> Map(object from, IJavascriptSessionCache cacher=null)
         {
             cacher = cacher ?? _ICSharpMapper;
-            var res = await _HTMLViewContext.EvaluateOnUIContextAsync(() => _ConverTOJSO.Map(from));
+            var res = await _HTMLViewContext.EvaluateOnUiContextAsync(() => _ConverTOJSO.Map(from));
             await _HTMLViewContext.RunOnJavascriptContextAsync(() =>
             {
                 var builder = GetStrategy(_HTMLViewContext.WebView, cacher, false);

@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IJavascriptSessionCache _Cache;
         private readonly Lazy<BulkJsHelper> _Factory;
         private readonly bool _Mapping;
-        private IJavascriptObject _BulkCreator => _Factory.Value.BulkCreator;
+        private IJavascriptObject BulkCreator => _Factory.Value.BulkCreator;
         
         public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
         {
@@ -148,11 +148,9 @@ namespace Neutronium.Core.Binding.Builder
             return new[] { _WebView.Factory.CreateString(paramString) }.Concat(paramsObjects.Select(glue => glue.JsValue)).ToArray();
         }
 
-        private static string AsArray(IEnumerable<string> value) => $"[{string.Join(",", value)}]";
-
         private void Execute(params IJavascriptObject[] arguments)
         {
-            _BulkCreator.ExecuteFunctionNoResult(_WebView, null, arguments);
+            BulkCreator.ExecuteFunctionNoResult(_WebView, null, arguments);
         }
     }
 }

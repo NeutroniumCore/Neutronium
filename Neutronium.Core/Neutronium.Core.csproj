@@ -175,7 +175,7 @@
     <Compile Include="WebBrowserEngine\JavascriptObject\IJavascriptObjectConverter.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\IJavascriptObjectFactory.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\IWebView.cs" />
-    <Compile Include="IHTMLBinding.cs" />
+    <Compile Include="IHtmlBinding.cs" />
     <Compile Include="Exceptions\NeutroniumException.cs" />
     <Compile Include="Exceptions\ExceptionHelper.cs" />
     <Compile Include="Infra\NullUIDispatcher.cs" />
@@ -206,7 +206,7 @@
     <Compile Include="Binding\BidirectionalMapper.cs" />
     <Compile Include="Infra\AssemblyExtension.cs" />
     <Compile Include="Infra\EnumerableCollection.cs" />
-    <Compile Include="HTML_Binding.cs" />
+    <Compile Include="HtmlBinding.cs" />
     <Compile Include="Binding\CSharpToJavascriptConverter.cs" />
     <Compile Include="StringBinding.cs" />
     <Compile Include="WebSessionLoggerExtension.cs" />

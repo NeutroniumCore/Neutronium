@@ -16,6 +16,8 @@ namespace Neutronium.Core.Binding
             _FromCSharp.Add(key, value);
         }
 
+        public IEnumerable<IJsCsGlue> AllElements => _FromCSharp.Values;
+
         public void RemoveFromCSharpToJs(IJsCsGlue value)
         {
             var key = value.CValue;

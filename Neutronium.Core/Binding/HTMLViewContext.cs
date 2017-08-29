@@ -40,7 +40,7 @@ namespace Neutronium.Core.Binding
             JavascriptSessionInjector = _VmManager.Injector;
         }
 
-        public Task RunOnUIContextAsync(Action act) 
+        public Task RunOnUiContextAsync(Action act) 
         {
             return UiDispatcher.RunAsync(act);
         }
@@ -50,7 +50,7 @@ namespace Neutronium.Core.Binding
             return WebView.RunAsync(act);
         }
 
-        public Task<T> EvaluateOnUIContextAsync<T>(Func<T> act)
+        public Task<T> EvaluateOnUiContextAsync<T>(Func<T> act)
         {
             return UiDispatcher.EvaluateAsync(act);
         }
