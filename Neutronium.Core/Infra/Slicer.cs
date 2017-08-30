@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace Neutronium.Core.Infra
 {
-    public class Slicer<T>
+    public struct Slicer<T>
     {
-        private readonly IList<T> _Collection;
+        private readonly IEnumerable<T> _Collection;
         private readonly int _MaxCount;
 
-        public Slicer(IList<T> collection, int maxCount)
+        public Slicer(IEnumerable<T> collection, int maxCount)
         {
             _Collection = collection;
             _MaxCount = maxCount;

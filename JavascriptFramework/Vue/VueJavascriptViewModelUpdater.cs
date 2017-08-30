@@ -17,7 +17,7 @@ namespace Neutronium.JavascriptFramework.Vue
         private VueVmUpdater Updater => _Updater ?? (_Updater = new VueVmUpdater(_VueHelper.Value));
         private readonly IWebSessionLogger _Logger;
 
-        private readonly Dictionary<string, IJavascriptObject> _properties = new Dictionary<string, IJavascriptObject>();
+        private readonly Dictionary<string, IJavascriptObject> _Properties = new Dictionary<string, IJavascriptObject>();
 
         public VueJavascriptViewModelUpdater(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper, IWebSessionLogger logger)
         {
@@ -53,7 +53,7 @@ namespace Neutronium.JavascriptFramework.Vue
         {
             var updater = Updater;
             var function = childAllowWrite ? updater.ChangeAndInject : updater.Change;
-            var property = _properties.GetOrAddEntity(propertyName, CreateProperty);
+            var property = _Properties.GetOrAddEntity(propertyName, CreateProperty);
             function.ExecuteFunctionNoResult(_WebView, null, father, property, value, _Listener);
         }
 
@@ -70,7 +70,7 @@ namespace Neutronium.JavascriptFramework.Vue
             _VueHelper.Value.InvokeNoResult("inject", _WebView, value, _Listener);
         }
 
-        public void UnListen(IList<IJavascriptObject> elementsToUnlisten)
+        public void UnListen(IEnumerable<IJavascriptObject> elementsToUnlisten)
         {
             var helper = _VueHelper.Value;
             _WebView.Slice(elementsToUnlisten).ForEach(elements => helper.InvokeNoResult("disposeSilenters", _WebView, elements));

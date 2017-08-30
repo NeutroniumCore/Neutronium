@@ -15,7 +15,7 @@ using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Binding
 {
-    public class BidirectionalMapper : IDisposable, IUpdatableJsCsGlueCollection, IJavascriptToCSharpConverter, IJavascriptChangesObserver
+    public class BidirectionalMapper : IDisposable, IJavascriptToCSharpConverter, IJavascriptChangesObserver
     {
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _JsObjectBuilder;
@@ -25,7 +25,7 @@ namespace Neutronium.Core.Binding
         private readonly SessionCacher _SessionCache;
         private IJsCsGlue _Root;
         private readonly FullListenerRegister _ListenerRegister;
-        private readonly List<IJsCsGlue> _UnrootedEntities= new List<IJsCsGlue>();
+        private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
         private bool _IsListening = false;
         private bool _IsLoaded = false;
 
@@ -37,14 +37,14 @@ namespace Neutronium.Core.Binding
         private readonly object _RootObject;
 
         internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, JavascriptBindingMode mode, IWebSessionLogger logger, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
-            this(root, contextBuilder, null, strategyFactory,  mode, logger)
-        {        
+            this(root, contextBuilder, null, strategyFactory, mode, logger)
+        {
         }
 
         internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, IGlueFactory glueFactory,
             IJavascriptObjectBuilderStrategyFactory strategyFactory, JavascriptBindingMode mode, IWebSessionLogger logger)
         {
-            _BuilderStrategyFactory = strategyFactory?? new StandardStrategyFactory();
+            _BuilderStrategyFactory = strategyFactory ?? new StandardStrategyFactory();
             Mode = mode;
             _Logger = logger;
             var javascriptObjecChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
@@ -62,9 +62,9 @@ namespace Neutronium.Core.Binding
             _RootObject = root;
         }
 
-        internal async Task IntrospectVm(object addicionalObject) 
+        internal async Task IntrospectVm(object addicionalObject)
         {
-            await Context.RunOnUiContextAsync(() => 
+            await Context.RunOnUiContextAsync(() =>
             {
                 _Root = _JsObjectBuilder.Map(_RootObject, addicionalObject);
 
@@ -75,9 +75,9 @@ namespace Neutronium.Core.Binding
             });
         }
 
-        internal async Task UpdateJavascriptObjects(bool debugMode) 
+        internal async Task UpdateJavascriptObjects(bool debugMode)
         {
-            await RunInJavascriptContext(async () => 
+            await RunInJavascriptContext(async () =>
             {
                 RegisterJavascriptHelper();
 
@@ -130,18 +130,45 @@ namespace Neutronium.Core.Binding
             _Logger.Debug("BidirectionalMapper disposed");
         }
 
-        private ISet<IJsCsGlue> GetAllChildren()
+        private void UpdateAfterChanges(BridgeUpdater updater)
         {
-            var @glues = _Root.GetAllChildren(FilterBasic);
-            @glues.UnionWith(_UnrootedEntities.SelectMany(ent => ent.GetAllChildren(FilterBasic)));
-            return @glues;
+            ListenOnNew();
+            CleanAfterChanges(updater);
         }
 
-        public void CollectionChanged()
+        private void ListenOnNew()
         {
+            _SessionCache.AllElements.Where(glue => glue.JsValue == null).ForEach(OnEnter);
         }
 
-        private static bool FilterBasic(JsCsGlueType type) => type == JsCsGlueType.Basic;
+        private void CleanAfterChanges(BridgeUpdater updater)
+        {
+            //GC tracing -1: Marking
+            _Root.UnsafeVisitAllChildren(Mark);
+            _UnrootedEntities.ForEach(root => root.UnsafeVisitAllChildren(Mark));
+
+            //2 cleaning
+            var toBeCleaned = _SessionCache.AllElements.Where(glue => IsNotMarked(glue) && glue.Type != JsCsGlueType.Basic).ToList();
+            toBeCleaned.ForEach(exiting =>
+            {
+                exiting.ApplyOnListenable(_ListenerRegister.Off);
+                _SessionCache.RemoveFromCSharpToJs(exiting);
+            });
+
+            updater.RequestCleanUp(toBeCleaned);
+        }
+
+        private static bool Mark(IJsCsGlue glue)
+        {
+            return (!glue.Marked) && (glue.Marked = true);
+        }
+
+        private static bool IsNotMarked(IJsCsGlue glue)
+        {
+            var result = !glue.Marked;
+            glue.Marked = false;
+            return result;
+        }
 
         private void OnEnter(IJsCsGlue entering)
         {
@@ -153,22 +180,6 @@ namespace Neutronium.Core.Binding
             exiting.ApplyOnListenable(_ListenerRegister.Off);
         }
 
-        private void OnExit(IJsCsGlue exiting, BridgeUpdater context)
-        {
-            exiting.ApplyOnListenable(_ListenerRegister.Off);
-
-            if (exiting.Type != JsCsGlueType.Object)
-                return;
-
-            _SessionCache.RemoveFromCSharpToJs(exiting);
-            context.RequestJsCacheRemove(exiting);
-
-            if (!exiting.CValue.GetType().HasReadWriteProperties())
-                return;
-
-            context.RequestUnlisten(exiting.JsValue);
-        }
-
         private void Visit(Action<IJsCsGlue> onChildren)
         {
             _SessionCache.AllElements.ForEach(onChildren);
@@ -177,16 +188,12 @@ namespace Neutronium.Core.Binding
         private void ListenToCSharpChanges() => Visit(OnEnter);
         private void UnlistenToCSharpChanges() => Visit(OnExit);
 
-        ISet<IJsCsGlue> IUpdatableJsCsGlueCollection.GetAllChildren() => GetAllChildren();
-        void IUpdatableJsCsGlueCollection.OnEnter(IJsCsGlue entering) => OnEnter(entering);
-        void IUpdatableJsCsGlueCollection.OnExit(IJsCsGlue exiting, BridgeUpdater context) => OnExit(exiting, context);
-
         private async Task<IJavascriptObject> InjectInHtmlSession(IJsCsGlue root)
         {
             if (!Context.JavascriptFrameworkIsMappingObject)
                 return root?.JsValue;
 
-            if ( (root == null) || (root.IsBasic()))
+            if ((root == null) || (root.IsBasic()))
                 return null;
 
             var jvm = _SessionCache.GetMapper(root as IJsCsMappedBridge);
@@ -203,7 +210,7 @@ namespace Neutronium.Core.Binding
 
         public async void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string propertyName, IJavascriptObject newValue)
         {
-            try 
+            try
             {
                 var res = _SessionCache.GetCached(objectchanged) as JsGenericObject;
                 if (res == null)
@@ -220,11 +227,11 @@ namespace Neutronium.Core.Binding
 
                 var targetType = propertyAccessor.GetTargetType();
                 var glue = GetCachedOrCreateBasic(newValue, targetType);
-                var bridgeUpdater = glue.IsBasicNotNull() ? null : new BridgeUpdater();
+                var needCheckCollection = !glue.IsBasicNotNull();
+                var bridgeUpdater = needCheckCollection ? new BridgeUpdater(_SessionCache) : null;
 
                 await Context.RunOnUiContextAsync(() =>
                 {
-                    using (glue.IsBasicNotNull() ? null : ReListen(bridgeUpdater))
                     using (_IsListening ? _ListenerRegister.GetPropertySilenter(res.CValue) : null)
                     {
                         var oldValue = propertyAccessor.Get(fatherValue);
@@ -243,11 +250,15 @@ namespace Neutronium.Core.Binding
                         if (Object.Equals(actualValue, glue.CValue))
                         {
                             res.UpdateGlueProperty(propertyName, glue);
+                            if (needCheckCollection)
+                                CleanAfterChanges(bridgeUpdater);
                             return;
                         }
 
                         if (!Object.Equals(oldValue, actualValue))
+                        {
                             CSharpPropertyChanged(res.CValue, new PropertyChangedEventArgs(propertyName));
+                        }                        
                     }
                 });
 
@@ -261,7 +272,7 @@ namespace Neutronium.Core.Binding
             }
             catch (Exception e)
             {
-                _Logger.Error(() =>$"Unable to update ViewModel from View, exception raised: {e.Message}");
+                _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {e.Message}");
             }
         }
 
@@ -272,10 +283,10 @@ namespace Neutronium.Core.Binding
                 var res = _SessionCache.GetCached(changes.Collection) as JsArray;
                 if (res == null) return;
 
-               var collectionChanges = res.GetChanger(changes, this);
+                var collectionChanges = res.GetChanger(changes, this);
 
-                var updater = new BridgeUpdater();
-                await Context.RunOnUiContextAsync(() => 
+                var updater = new BridgeUpdater(_SessionCache);
+                await Context.RunOnUiContextAsync(() =>
                 {
                     UpdateCollection(res, res.CValue, collectionChanges, updater);
                 });
@@ -290,7 +301,7 @@ namespace Neutronium.Core.Binding
             }
             catch (Exception e)
             {
-                _Logger.Error(() =>$"Unable to update ViewModel from View, exception raised: {e.Message}");
+                _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {e.Message}");
             }
         }
 
@@ -298,11 +309,12 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                using (ReListen(updater))
                 using (_ListenerRegister.GetColllectionSilenter(collection))
                 {
                     array.UpdateEventArgsFromJavascript(change);
                 }
+
+                CleanAfterChanges(updater);
             }
             catch (Exception e)
             {
@@ -311,7 +323,7 @@ namespace Neutronium.Core.Binding
         }
 
         private void CSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
-        { 
+        {
             var propertyName = e.PropertyName;
 
             var propertyAccessor = sender.GetType().GetReadProperty(propertyName);
@@ -381,11 +393,9 @@ namespace Neutronium.Core.Binding
         {
             CheckUiContext();
 
-            BridgeUpdater updater = null;
-            using (var relisten = needToCheckListener ? ReListen(): null)
-            {
-                updater = Update(updaterBuilder, relisten);
-            }
+            var updater = Update(updaterBuilder);
+            if (needToCheckListener)
+                CleanAfterChanges(updater);
 
             if (!updater.HasUpdatesOnJavascriptContext)
                 return;
@@ -402,13 +412,11 @@ namespace Neutronium.Core.Binding
 
             var value = _JsObjectBuilder.Map(newCSharpObject);
             if (value == null)
-                return;               
+                return;
 
-            BridgeUpdater updater;
-            using (var relisten = value.IsBasicNotNull()? null : ReListen())
-            {
-                updater = Update(() => updaterBuilder(value), relisten);
-            }
+            var updater = Update(() => updaterBuilder(value));
+            if (!value.IsBasicNotNull())
+                UpdateAfterChanges(updater);
 
             if (!_IsLoaded)
                 return;
@@ -435,11 +443,10 @@ namespace Neutronium.Core.Binding
             updater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
         }
 
-        private BridgeUpdater Update(Func<BridgeUpdater> updaterBuilder, IExitContext relisten)
+        private BridgeUpdater Update(Func<BridgeUpdater> updaterBuilder)
         {
             var updater = updaterBuilder();
             updater.Cache = _SessionCache;
-            relisten?.SetBridgeUpdater(updater);
             return updater;
         }
 
@@ -448,8 +455,6 @@ namespace Neutronium.Core.Binding
             if (!Context.UiDispatcher.IsInContext())
                 throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
-
-        private IExitContext ReListen(BridgeUpdater updater=null) => new ReListener(this, updater);
 
         public IJsCsGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
         {

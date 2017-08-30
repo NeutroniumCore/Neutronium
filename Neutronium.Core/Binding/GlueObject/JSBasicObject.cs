@@ -14,7 +14,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public JsCsGlueType Type => JsCsGlueType.Basic;
         public uint JsId => 0;
         public IEnumerable<IJsCsGlue> Children => null;
-        public bool Marked { get; set; } = true;
+        public bool Marked { get; set; }
 
         internal JsBasicObject(object value)
         {

@@ -92,6 +92,6 @@ namespace Neutronium.Core.JavascriptFramework
         /// <param name="elementsToUnlisten">
         /// collection of elements to unlisten
         /// </param>
-        void UnListen(IList<IJavascriptObject> elementsToUnlisten);
+        void UnListen(IEnumerable<IJavascriptObject> elementsToUnlisten);
     }
 }

@@ -222,6 +222,9 @@ namespace VueFramework.Test.IntegratedInfra
                     DoSafeUI(() => datacontext.Child.Should().BeNull());
 
                     child.ListenerCount.Should().Be(0);
+
+                    await Task.Delay(100);
+
                     CheckHasListener(childJs, false);
                 }
             };

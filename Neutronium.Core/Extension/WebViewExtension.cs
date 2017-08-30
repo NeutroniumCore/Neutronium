@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Neutronium.Core.Extension
 {
-    public static class IWebViewExtension
+    public static class WebViewExtension
     {
-        public static IEnumerable<IJavascriptObject[]> Slice(this IWebView webView, IList<IJavascriptObject> elements)
+        public static IEnumerable<IJavascriptObject[]> Slice(this IWebView webView, IEnumerable<IJavascriptObject> elements)
         {
             var slicer = new Slicer<IJavascriptObject>(elements, webView.MaxFunctionArgumentsNumber);
             return slicer.Slice();

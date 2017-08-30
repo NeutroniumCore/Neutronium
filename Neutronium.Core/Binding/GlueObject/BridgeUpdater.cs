@@ -1,49 +1,42 @@
 ﻿using Neutronium.Core.JavascriptFramework;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     public class BridgeUpdater
     {
-        private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject = null;
-        private readonly List<IJavascriptObject> _EntityToUnlisten = new List<IJavascriptObject>();
-        private readonly List<IJsCsGlue> _ExitingObjects = new List<IJsCsGlue>();
+        private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject;
+        private List<IJsCsGlue> _ExitingObjects;
 
         internal IJavascriptSessionCache Cache { get; set; }
-        internal bool HasUpdatesOnJavascriptContext => (_UpdateJavascriptObject != null) || (_EntityToUnlisten.Count != 0);
+        internal bool HasUpdatesOnJavascriptContext => (_UpdateJavascriptObject != null) || (_ExitingObjects?.Count > 0);
 
         public BridgeUpdater(Action<IJavascriptViewModelUpdater> update)
         {
             _UpdateJavascriptObject = update;
         }
 
-        public BridgeUpdater()
+        public BridgeUpdater(IJavascriptSessionCache cache)
         {
-        }
-
-        public void RequestUnlisten(IJavascriptObject exiting)
-        {
-            _EntityToUnlisten.Add(exiting);
-        }
-
-        public void RequestJsCacheRemove(IJsCsGlue exiting)
-        {
-            _ExitingObjects.Add(exiting);
+            Cache = cache;
         }
 
         public void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater)
         {
             _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
-
-            if (Cache != null)
-                _ExitingObjects.ForEach(Cache.RemoveFromJsToCSharp);
-
-            if (_EntityToUnlisten.Count == 0)
+            if (_ExitingObjects == null)
                 return;
 
-            javascriptViewModelUpdater.UnListen(_EntityToUnlisten);
+           _ExitingObjects.ForEach(Cache.RemoveFromJsToCSharp);
+            javascriptViewModelUpdater.UnListen(_ExitingObjects.Where(exiting => exiting.Type == JsCsGlueType.Object && exiting.CValue.GetType().HasReadWriteProperties()).Select(glue => glue.JsValue));
+        }
+
+        internal void RequestCleanUp(List<IJsCsGlue> toBeCleaned)
+        {
+            _ExitingObjects = toBeCleaned;
         }
     }
 }

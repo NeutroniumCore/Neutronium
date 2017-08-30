@@ -72,7 +72,7 @@ namespace Neutronium.JavascriptFramework.Knockout
             _Silenters.Clear();
         }
 
-        public void UnListen(IList<IJavascriptObject> elementsToUnlisten)
+        public void UnListen(IEnumerable<IJavascriptObject> inClassName)
         {
         }
     }

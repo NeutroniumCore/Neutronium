@@ -370,8 +370,7 @@ namespace Tests.Universal.HTMLBindingTests
                     string inf = GetStringAttribute(res, "Type");
                     inf.Should().Be("Info");
 
-                    DoSafeUI(() =>
-                    _DataContext.MainSkill = null);
+                    DoSafeUI(() => _DataContext.MainSkill = null);
                     await Task.Delay(200);
 
                     res = GetAttribute(js, "MainSkill");

@@ -47,10 +47,10 @@ namespace Neutronium.Core.Binding.GlueObject
                 return;
 
             var res = new HashSet<IJsCsGlue> {@this};
-            @this.AppendAllChildren(visit, res);
+            @this.VisitAllChildren(visit, res);
         }
 
-        public static void AppendAllChildren(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit, ISet<IJsCsGlue> res)
+        public static void VisitAllChildren(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit, ISet<IJsCsGlue> res)
         {
             var children = @this.Children;
             if (children == null)
@@ -60,7 +60,25 @@ namespace Neutronium.Core.Binding.GlueObject
             {
                 if (res.Add(child) && visit(child))
                 {
-                    child.AppendAllChildren(visit, res);
+                    child.VisitAllChildren(visit, res);
+                }
+            }
+        }
+
+        public static void UnsafeVisitAllChildren(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit, bool check=true)
+        {
+            if (check && !visit(@this))
+                return;
+
+            var children = @this.Children;
+            if (children == null)
+                return;
+
+            foreach (var child in children)
+            {
+                if (visit(child))
+                {
+                    child.UnsafeVisitAllChildren(visit, false);
                 }
             }
         }
