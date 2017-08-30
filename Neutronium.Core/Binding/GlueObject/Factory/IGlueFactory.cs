@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject.Factory
 {
     internal interface IGlueFactory
     {

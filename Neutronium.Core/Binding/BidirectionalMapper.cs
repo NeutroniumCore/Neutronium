@@ -12,6 +12,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
 using System.Linq;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueObject.Factory;
 
 namespace Neutronium.Core.Binding
 {
