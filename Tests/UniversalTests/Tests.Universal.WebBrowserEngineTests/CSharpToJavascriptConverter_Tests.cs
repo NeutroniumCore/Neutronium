@@ -34,12 +34,12 @@ namespace Tests.Universal.WebBrowserEngineTests
             public TestClass T2 { get; set; }
         }
 
-        private class Circular1 
+        private class Circular1
         {
             public Circular1 Reference { get; set; }
         }
 
-        private class Circular2 
+        private class Circular2
         {
             public Circular2 Reference { get; set; }
             public List<Circular2> List { get; } = new List<Circular2>();
@@ -56,7 +56,6 @@ namespace Tests.Universal.WebBrowserEngineTests
         private IGlueFactory _GlueFactory;
         private IJavascriptSessionCache _CSharpMapper;
         private IJavascriptFrameworkManager _JavascriptFrameworkManager;
-        private readonly CSharpToJsCacheFake _CSharpToJsCacheFake = new CSharpToJsCacheFake();
         private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HtmlWindow;
         private ObjectChangesListener _ObjectChangesListener;
 
@@ -70,7 +69,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             _CSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { });
-            _GlueFactory = new GlueFactory(null, _CSharpToJsCacheFake, null, _ObjectChangesListener);
+            _GlueFactory = new GlueFactory(null, _CSharpMapper, null, _ObjectChangesListener);
             _CSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
             _JavascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
             _HtmlViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _JavascriptFrameworkManager, null, _Logger);
@@ -119,15 +118,17 @@ namespace Tests.Universal.WebBrowserEngineTests
         }
 
         [Fact]
-        public async Task Test_Circular_Reference_Simple() {    
-            await TestAsync(async () => 
+        public async Task Test_Circular_Reference_Simple()
+        {
+            await TestAsync(async () =>
             {
                 var cacher = new SessionCacher();
                 _ConverTOJSO = GetCircularBreakerConverter(cacher);
 
                 var res = (await Map(_CircularSimple, cacher)).JsValue;
 
-                DoSafe(() => {
+                DoSafe(() =>
+                {
                     res.Should().NotBeNull();
                     var res1 = res.GetValue("Reference");
                     res1.Should().NotBeNull();
@@ -147,14 +148,15 @@ namespace Tests.Universal.WebBrowserEngineTests
         [Fact]
         public async Task Test_Circular_Reference_In_List()
         {
-            await TestAsync(async () => 
+            await TestAsync(async () =>
             {
                 var cacher = new SessionCacher();
                 _ConverTOJSO = GetCircularBreakerConverter(cacher);
 
                 var res = (await Map(_CircularComplex, cacher)).JsValue;
 
-                DoSafe(() => {
+                DoSafe(() =>
+                {
                     res.Should().NotBeNull();
 
                     var res0 = res.GetValue("List");
@@ -173,6 +175,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         private CSharpToJavascriptConverter GetCircularBreakerConverter(IJavascriptSessionCache cacher)
         {
+            _GlueFactory = new GlueFactory(null, cacher, null, _ObjectChangesListener);
             return new CSharpToJavascriptConverter(WebBrowserWindow, cacher, _GlueFactory, _Logger);
         }
 
@@ -350,7 +353,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             });
         }
 
-        private async Task<IJsCsGlue> Map(object from, IJavascriptSessionCache cacher=null)
+        private async Task<IJsCsGlue> Map(object from, IJavascriptSessionCache cacher = null)
         {
             cacher = cacher ?? _CSharpMapper;
             var res = await _HtmlViewContext.EvaluateOnUiContextAsync(() => _ConverTOJSO.Map(from));

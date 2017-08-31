@@ -106,7 +106,6 @@
   <ItemGroup>
     <Compile Include="Binding\Builder\EntityDescriptorSpliterTests.cs" />
     <Compile Include="Binding\CSharpToJavascriptConverterTests.cs" />
-    <Compile Include="Infra\CSharpToJsCacheFake.cs" />
     <Compile Include="Infra\EnumExtenderTest.cs" />
     <Compile Include="Infra\FakeClasses.cs" />
     <Compile Include="Infra\PropertyAccessorTests.cs" />
