@@ -7,17 +7,19 @@ using System.Collections.Generic;
 using FluentAssertions;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject.Factory;
+using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Test.Binding
 {
     public class CSharpToJavascriptConverterTests
     {
-        private CSharpToJavascriptConverter _CSharpToJavascriptConverter;
-        private IJavascriptSessionCache _Cacher;
-        private IGlueFactory _GlueFactory;
-        private IWebSessionLogger _Logger;
-        private Dictionary<object, IJsCsGlue> _Cache = new Dictionary<object, IJsCsGlue>();
-        private IWebBrowserWindow _IWebBrowserWindow;
+        private readonly CSharpToJavascriptConverter _CSharpToJavascriptConverter;
+        private readonly IJavascriptSessionCache _Cacher;
+        private readonly IGlueFactory _GlueFactory;
+        private readonly IWebSessionLogger _Logger;
+        private readonly Dictionary<object, IJsCsGlue> _Cache = new Dictionary<object, IJsCsGlue>();
+        private readonly IWebBrowserWindow _WebBrowserWindow;
+        private readonly ObjectChangesListener _ObjectChangesListener;
 
         public CSharpToJavascriptConverterTests()
         {
@@ -25,11 +27,12 @@ namespace Neutronium.Core.Test.Binding
             _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJsCsGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJsCsGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
-            _GlueFactory = new GlueFactory(null, _Cacher, null);
+            _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => {}, _ => { });
+            _GlueFactory = new GlueFactory(null, _Cacher, null, _ObjectChangesListener);
             _Logger = Substitute.For<IWebSessionLogger>();
-            _IWebBrowserWindow = Substitute.For<IWebBrowserWindow>();
-            _IWebBrowserWindow.IsTypeBasic(typeof(string)).Returns(true);
-            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_IWebBrowserWindow, _Cacher, _GlueFactory, _Logger);
+            _WebBrowserWindow = Substitute.For<IWebBrowserWindow>();
+            _WebBrowserWindow.IsTypeBasic(typeof(string)).Returns(true);
+            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_WebBrowserWindow, _Cacher, _GlueFactory, _Logger);
         }
 
         [Fact]

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FluentAssertions;
+using MoreCollection.Extensions;
 using Newtonsoft.Json;
 using NSubstitute;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
@@ -347,13 +348,15 @@ namespace Tests.Universal.HTMLBindingTests
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => {
+                Test = async (mb) =>
+                {
                     var js = mb.JsRootObject;
 
                     var res = GetAttribute(js, "MainSkill");
                     res.IsNull.Should().BeTrue();
 
-                    DoSafeUI(() => _DataContext.MainSkill = new Skill() {
+                    DoSafeUI(() => _DataContext.MainSkill = new Skill()
+                    {
                         Name = "C++",
                         Type = "Info"
                     });
@@ -361,7 +364,8 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(200);
 
                     res = GetAttribute(js, "MainSkill");
-                    DoSafe(() => {
+                    DoSafe(() =>
+                    {
                         res.IsNull.Should().BeFalse();
                         res.IsObject.Should().BeTrue();
                     });
@@ -537,8 +541,8 @@ namespace Tests.Universal.HTMLBindingTests
                     res5 = GetFirstSkillName(js);
                     res5.Should().Be("Ling");
 
-                      //Test Two Way
-                      var stringName = Create(() => _WebView.Factory.CreateString("resName"));
+                    //Test Two Way
+                    var stringName = Create(() => _WebView.Factory.CreateString("resName"));
                     SetAttribute(js, "Name", stringName);
 
                     await Task.Delay(150);
@@ -892,11 +896,11 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(100);
                     var res3 = GetAttribute(js, "One");
-                      //GetSafe(() => res3.IsNull).Should().BeTrue();
-                      //Init case of awesomium an object is used on JS side
-                      //Todo: create specific test
+                    //GetSafe(() => res3.IsNull).Should().BeTrue();
+                    //Init case of awesomium an object is used on JS side
+                    //Todo: create specific test
 
-                      await Task.Delay(100);
+                    await Task.Delay(100);
 
                     datacontext.One.Should().BeNull();
                 }
@@ -1502,7 +1506,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     _DataContext.Skills.Should().HaveCount(2);
 
-                    DoSafeUI(() => {
+                    DoSafeUI(() =>
+                    {
                         _ICommand.Execute(null);
                     });
 
@@ -2188,13 +2193,13 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task stringBinding()
+        public async Task StringBinding()
         {
             var datacontext = new VMWithList<decimal>();
 
             var test = new TestInContext()
             {
-                Bind = (win) => StringBinding.Bind(win, "{\"LastName\":\"Desmaisons\",\"Name\":\"O Monstro\",\"BirthDay\":\"0001-01-01T00:00:00.000Z\",\"PersonalState\":\"Married\",\"Age\":0,\"Local\":{\"City\":\"Florianopolis\",\"Region\":\"SC\"},\"MainSkill\":{},\"States\":[\"Single\",\"Married\",\"Divorced\"],\"Skills\":[{\"Type\":\"French\",\"Name\":\"Langage\"},{\"Type\":\"C++\",\"Name\":\"Info\"}]}"),
+                Bind = (win) => Neutronium.Core.StringBinding.Bind(win, "{\"LastName\":\"Desmaisons\",\"Name\":\"O Monstro\",\"BirthDay\":\"0001-01-01T00:00:00.000Z\",\"PersonalState\":\"Married\",\"Age\":0,\"Local\":{\"City\":\"Florianopolis\",\"Region\":\"SC\"},\"MainSkill\":{},\"States\":[\"Single\",\"Married\",\"Divorced\"],\"Skills\":[{\"Type\":\"French\",\"Name\":\"Langage\"},{\"Type\":\"C++\",\"Name\":\"Info\"}]}"),
                 Test = (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -2257,7 +2262,8 @@ namespace Tests.Universal.HTMLBindingTests
 
             public BasicFatherVm()
             {
-                Command = new RelayCommand<BasicVm>(child => {
+                Command = new RelayCommand<BasicVm>(child =>
+                {
                     CallCount++;
                     LastCallElement = child;
                 });
@@ -2281,9 +2287,9 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        public static IEnumerable<object> BasicVmData 
+        public static IEnumerable<object> BasicVmData
         {
-            get 
+            get
             {
                 yield return new object[] { new BasicVm() };
                 yield return new object[] { null };
@@ -2309,7 +2315,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     DoSafeUI(() => datacontext.Child = remplacementChild);
                     await Task.Delay(300);
-                    
+
                     child.ListenerCount.Should().Be(0);
 
                     //If still listening to child, this will raise an exception
@@ -2323,9 +2329,84 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+        public static IEnumerable<object> CircularData
+        {
+            get
+            {
+                var root = new BasicVm { Child = new BasicVm() };
+                yield return new object[] { root, new[] { root, root.Child } };
+
+                var root2 = new BasicVm { Child = new BasicVm { Child = new BasicVm() } };
+                yield return new object[] { root2, new[] { root2, root2.Child, root2.Child.Child } };
+
+                var circular1 = new BasicVm();
+                circular1.Child = circular1;
+
+                yield return new object[] { circular1, new[] { circular1 } };
+
+                var circular2 = new BasicVm { Child = new BasicVm() };
+                circular2.Child.Child = circular2;
+
+                yield return new object[] { circular2, new[] { circular2, circular2.Child } };
+            }
+        }
+
+
+        [Theory]
+        [MemberData(nameof(CircularData))]
+        public async Task OneTime_does_not_listens_to_any_object(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
+        {
+            var test = new TestInContext()
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.OneTime),
+                Test = (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    children.ForEach(child => child.ListenerCount.Should().Be(0));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Theory]
+        [MemberData(nameof(CircularData))]
+        public async Task TwoWay_listens_only_once_to_any_object(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
+        {
+            var test = new TestInContext()
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    children.ForEach(child => child.ListenerCount.Should().Be(1));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Theory]
+        [MemberData(nameof(CircularData))]
+        public async Task TwoWay_unlistens_after_dipose(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
+        {
+            var test = new TestInContext()
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    mb.Dispose();
+                    children.ForEach(child => child.ListenerCount.Should().Be(0));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_should_clean_javascriptObject_cache_when_object_is_not_part_of_the_graph(BasicVm remplacementChild)
+        public async Task TwoWay_cleans_javascriptObject_cache_when_object_is_not_part_of_the_graph(BasicVm remplacementChild)
         {
             var datacontext = new BasicFatherVm();
             var child = new BasicVm();
@@ -2355,7 +2436,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_should_call_comand_with_correct_argument()
+        public async Task TwoWay_calls_comand_with_correct_argument()
         {
             var datacontext = new BasicFatherVm();
             var child = new BasicVm();
@@ -2382,7 +2463,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_should_rebind_with_updated_objects()
+        public async Task TwoWay_rebinds_with_updated_objects()
         {
             var child = new BasicVm();
             var datacontext = new BasicVm();
@@ -2418,7 +2499,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_should_listen_to_all_changes()
+        public async Task TwoWay_listens_to_all_changes()
         {
             var child = new BasicVm();
             var datacontext = new BasicVm();
@@ -2486,11 +2567,11 @@ namespace Tests.Universal.HTMLBindingTests
 
         protected Task<IHtmlBinding> Bind(HtmlViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
-            return HtmlBinding.Bind(engine, dataContext, JavascriptBindingMode.TwoWay);
+            return HtmlBinding.Bind(engine, dataContext, mode);
         }
 
         [Fact]
-        public async Task TwoWay_ShouldRespectPropertyValidation()
+        public async Task TwoWay_RespectsPropertyValidation()
         {
             var datacontext = new SmartVM
             {

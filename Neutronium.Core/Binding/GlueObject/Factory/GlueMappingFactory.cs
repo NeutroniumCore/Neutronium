@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System;
 using Neutronium.Core.Binding.GlueObject.Mapped;
+using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject.Factory
 {
@@ -12,8 +13,8 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly HtmlViewContext _HtmlViewContext;
 
-        public GlueMappingFactory(HtmlViewContext context, ICSharpToJsCache cacher, IJavascriptToCSharpConverter converter):
-            base(cacher)
+        public GlueMappingFactory(HtmlViewContext context, ICSharpToJsCache cacher, IJavascriptToCSharpConverter converter, ObjectChangesListener onListener) :
+            base(cacher, onListener)
         {
             _HtmlViewContext = context;
             _JavascriptToCSharpConverter = converter;

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using MoreCollection.Extensions;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Universal.HTMLBindingTests;
 using Tests.Universal.HTMLBindingTests.Helper;
@@ -15,7 +16,7 @@ namespace VueFramework.Test.IntegratedInfra
 {
     public abstract class HTMLVueBindingTests : HTMLBindingTests
     {
-        public HTMLVueBindingTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
+        protected HTMLVueBindingTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
             : base(context, output)
         {
         }
@@ -28,7 +29,7 @@ namespace VueFramework.Test.IntegratedInfra
         private class ReadOnlyClass : ViewModelTestBase
         {
             private int _ReadOnly;
-            public int ReadOnly 
+            public int ReadOnly
             {
                 get { return _ReadOnly; }
                 private set { Set(ref _ReadOnly, value); }
@@ -40,7 +41,7 @@ namespace VueFramework.Test.IntegratedInfra
         private class ReadWriteClass : ReadOnlyClass
         {
             private int _ReadWrite;
-            public int ReadWrite 
+            public int ReadWrite
             {
                 get { return _ReadWrite; }
                 set { Set(ref _ReadWrite, value); }
@@ -61,7 +62,7 @@ namespace VueFramework.Test.IntegratedInfra
 
             if (hasListener)
             {
-                silenterRoot.IsObject.Should().BeTrue();              
+                silenterRoot.IsObject.Should().BeTrue();
             }
             else
             {
@@ -69,9 +70,9 @@ namespace VueFramework.Test.IntegratedInfra
             }
         }
 
-        public static IEnumerable<object> ReadWriteTestData 
+        public static IEnumerable<object> ReadWriteTestData
         {
-            get 
+            get
             {
                 yield return new object[] { typeof(ReadOnlyClass), true };
                 yield return new object[] { typeof(ReadWriteClass), false };
@@ -111,7 +112,7 @@ namespace VueFramework.Test.IntegratedInfra
                     var js = mb.JsRootObject;
                     var newValue = 55;
                     DoSafeUI(() => datacontext.SetReadOnly(newValue));
-                    
+
                     await Task.Delay(150);
                     var readOnlyValue = GetIntAttribute(js, "ReadOnly");
 

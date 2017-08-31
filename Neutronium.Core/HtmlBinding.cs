@@ -79,7 +79,7 @@ namespace Neutronium.Core
 
             public Task Init() 
             {
-                return _Mapper.IntrospectVm(_AdditionalVm);
+                return _Mapper.MapRootVm(_AdditionalVm);
             }
 
             async Task<IHtmlBinding> IBindingBuilder.CreateBinding(bool debugMode) 

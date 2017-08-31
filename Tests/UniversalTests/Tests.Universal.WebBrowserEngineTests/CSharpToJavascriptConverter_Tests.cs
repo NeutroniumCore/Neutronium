@@ -16,6 +16,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Test.Infra;
 using Neutronium.Core.Binding.GlueObject.Factory;
+using Neutronium.Core.Binding.Listeners;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {
@@ -50,13 +51,15 @@ namespace Tests.Universal.WebBrowserEngineTests
         private Circular1 _CircularSimple;
         private Circular2 _CircularComplex;
         private List<TestClass> _Tests;
-        private ArrayList _Tests_NG;
-        private HtmlViewContext _HTMLViewContext;
+        private ArrayList _TestsNg;
+        private HtmlViewContext _HtmlViewContext;
         private IGlueFactory _GlueFactory;
-        private IJavascriptSessionCache _ICSharpMapper;
-        private IJavascriptFrameworkManager _javascriptFrameworkManager;
+        private IJavascriptSessionCache _CSharpMapper;
+        private IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private readonly CSharpToJsCacheFake _CSharpToJsCacheFake = new CSharpToJsCacheFake();
         private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HtmlWindow;
+        private ObjectChangesListener _ObjectChangesListener;
+
 
         protected CSharpToJavascriptConverter_Tests(IBasicWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
@@ -65,12 +68,13 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         protected override void Init()
         {
-            _ICSharpMapper = Substitute.For<IJavascriptSessionCache>();
-            _GlueFactory = new GlueFactory(null, _CSharpToJsCacheFake, null);
-            _ICSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
-            _javascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
-            _HTMLViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _javascriptFrameworkManager, null, _Logger);
-            _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _ICSharpMapper, _GlueFactory, _Logger);
+            _CSharpMapper = Substitute.For<IJavascriptSessionCache>();
+            _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { });
+            _GlueFactory = new GlueFactory(null, _CSharpToJsCacheFake, null, _ObjectChangesListener);
+            _CSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
+            _JavascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
+            _HtmlViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _JavascriptFrameworkManager, null, _Logger);
+            _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _CSharpMapper, _GlueFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>
             {
@@ -79,9 +83,9 @@ namespace Tests.Universal.WebBrowserEngineTests
             };
             _Test2 = new Test2() { T1 = _Test, T2 = _Test };
 
-            _Tests_NG = new ArrayList();
-            _Tests_NG.Add(_Tests[0]);
-            _Tests_NG.Add(_Tests[0]);
+            _TestsNg = new ArrayList();
+            _TestsNg.Add(_Tests[0]);
+            _TestsNg.Add(_Tests[0]);
 
             _CircularSimple = new Circular1();
             _CircularSimple.Reference = _CircularSimple;
@@ -215,7 +219,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var resv = (await Map(_Tests_NG)).JsValue;
+                var resv = (await Map(_TestsNg)).JsValue;
 
                 DoSafe(() =>
                 {
@@ -342,17 +346,17 @@ namespace Tests.Universal.WebBrowserEngineTests
                 var res = (await Map(_Test2)).JsValue;
                 res.Should().NotBeNull();
 
-                _ICSharpMapper.Received().CacheFromCSharpValue(_Test, Arg.Any<IJsCsGlue>());
+                _CSharpMapper.Received().CacheFromCSharpValue(_Test, Arg.Any<IJsCsGlue>());
             });
         }
 
         private async Task<IJsCsGlue> Map(object from, IJavascriptSessionCache cacher=null)
         {
-            cacher = cacher ?? _ICSharpMapper;
-            var res = await _HTMLViewContext.EvaluateOnUiContextAsync(() => _ConverTOJSO.Map(from));
-            await _HTMLViewContext.RunOnJavascriptContextAsync(() =>
+            cacher = cacher ?? _CSharpMapper;
+            var res = await _HtmlViewContext.EvaluateOnUiContextAsync(() => _ConverTOJSO.Map(from));
+            await _HtmlViewContext.RunOnJavascriptContextAsync(() =>
             {
-                var builder = GetStrategy(_HTMLViewContext.WebView, cacher, false);
+                var builder = GetStrategy(_HtmlViewContext.WebView, cacher, false);
                 builder.UpdateJavascriptValue(res);
             });
             return res;

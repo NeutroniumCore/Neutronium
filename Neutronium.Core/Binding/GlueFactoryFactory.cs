@@ -1,14 +1,14 @@
-﻿using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Binding.GlueObject.Factory;
+﻿using Neutronium.Core.Binding.GlueObject.Factory;
+using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding
 {
     internal static class GlueFactoryFactory
     {
-        internal static IGlueFactory GetFactory(HtmlViewContext context, ICSharpToJsCache cacher, IJavascriptToCSharpConverter converter)
+        internal static IGlueFactory GetFactory(HtmlViewContext context, ICSharpToJsCache cacher, IJavascriptToCSharpConverter converter, ObjectChangesListener onListener)
         {
             var isMapping = context.JavascriptFrameworkIsMappingObject;
-            return isMapping ? (IGlueFactory)new GlueMappingFactory(context, cacher, converter) : new GlueFactory(context, cacher, converter);
+            return isMapping ? (IGlueFactory)new GlueMappingFactory(context, cacher, converter, onListener) : new GlueFactory(context, cacher, converter, onListener);
         }
     }
 }
