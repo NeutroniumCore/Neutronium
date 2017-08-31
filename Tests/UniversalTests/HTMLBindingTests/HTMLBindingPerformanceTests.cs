@@ -401,6 +401,11 @@ namespace Tests.Universal.HTMLBindingTests
                     {
                         await DoSafeAsyncUI(() => allChildren.ForEach(_ => { }));
                     }
+
+                    using (GetPerformanceCounter("Perf Foreach GetAllChildren"))
+                    {
+                        await DoSafeAsyncUI(() => rootJs.UnsafeVisitAllChildren(glue => (!glue.Marked) && (glue.Marked = true)));
+                    }
                 }
             };
 
