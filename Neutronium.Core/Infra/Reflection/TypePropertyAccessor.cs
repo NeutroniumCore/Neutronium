@@ -14,11 +14,9 @@ namespace Neutronium.Core.Infra.Reflection
 
         public TypePropertyAccessor(Type type)
         {
-            var readProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                .Where(p => p.CanRead && p.GetGetMethod(false) != null).ToList();
-
-            _ReadProperties = new Dictionary<string, PropertyAccessor>(readProperties.Count);
-            readProperties.ForEach(prop => _ReadProperties.Add(prop.Name, new PropertyAccessor(type, prop)));
+            _ReadProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                .Where(p => p.CanRead && p.GetGetMethod(false) != null)
+                                .ToDictionary(prop => prop.Name, prop => new PropertyAccessor(type, prop));
 
             HasReadWriteProperties = ReadProperties.Any(p => p.IsSettable);
         }

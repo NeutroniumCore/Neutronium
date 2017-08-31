@@ -402,9 +402,25 @@ namespace Tests.Universal.HTMLBindingTests
                         await DoSafeAsyncUI(() => allChildren.ForEach(_ => { }));
                     }
 
-                    using (GetPerformanceCounter("Perf UnsafeVisitAllChildren"))
+                    using (GetPerformanceCounter("Perf Marking with UnsafeVisitAllChildren"))
                     {
                         await DoSafeAsyncUI(() => rootJs.UnsafeVisitAllChildren(glue => (!glue.Marked) && (glue.Marked = true)));
+                    }
+
+                    using (GetPerformanceCounter("Perf UnsafeVisitAllChildren on root")) 
+                    {
+                        await DoSafeAsyncUI(() => rootJs.UnsafeVisitAllChildren(glue => (!glue.Marked) && (glue.Marked = true)));
+                    }
+
+                    List<object> basics = null;
+                    using (GetPerformanceCounter("Perf Collecting basics")) 
+                    {
+                        basics = allChildren.Where(g => g.Type == JsCsGlueType.Basic && g.CValue != null).Select(g => g.CValue).ToList();
+                    }
+
+                    using (GetPerformanceCounter("Creating string")) 
+                    {
+                        var bigstring =  $"[{string.Join(",", basics.Select(v => JavascriptNamer.GetCreateExpression(v)))}]";
                     }
                 }
             };
