@@ -202,7 +202,7 @@
     <Compile Include="Binding\GlueObject\JsGenericObject.cs" />
     <Compile Include="Binding\BidirectionalMapper.cs" />
     <Compile Include="Infra\AssemblyExtension.cs" />
-    <Compile Include="Infra\EnumerableCollection.cs" />
+    <Compile Include="Infra\EnumerableExtension.cs" />
     <Compile Include="HtmlBinding.cs" />
     <Compile Include="Binding\CSharpToJavascriptConverter.cs" />
     <Compile Include="StringBinding.cs" />

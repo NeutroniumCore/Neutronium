@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions;
 using Neutronium.Core.Infra;
@@ -8,30 +9,25 @@ using System.Linq;
 namespace Neutronium.Core.Test.Infra
 {
     public class TypeExtenderTest
-    {
-        [Fact]
-        public void GetEnumerableBase_int_isNotEnumerable()
+    {   
+        [Theory]
+        [InlineData(typeof(IEnumerable<int>), typeof(int))]
+        [InlineData(typeof(List<object>), typeof(object))]
+        [InlineData(typeof(IList<string>), typeof(string))]
+        [InlineData(typeof(int[]), typeof(int))]
+        public void GetEnumerableBase_returns_collection_item_type(Type source, Type expected)
         {
-            typeof(int).GetEnumerableBase().Should().BeNull();
+            source.GetEnumerableBase().Should().Be(expected);
         }
 
-        [Fact]
-        public void GetEnumerableBase_IEnumerable_int_isNotEnumerable()
+        [Theory]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(IList))]
+        [InlineData(null)]
+        public void GetEnumerableBase_returns_null_when_no_match(Type source)
         {
-            typeof(IEnumerable<int>).GetEnumerableBase().Should().Be(typeof(int));
-        }
-
-        [Fact]
-        public void GetEnumerableBase_IList_int_isNotEnumerable()
-        {
-            typeof(IList<int>).GetEnumerableBase().Should().Be(typeof(int));
-        }
-
-        [Fact]
-        public void GetEnumerableBase_null_int_isNotEnumerable()
-        {
-            Type n = null;
-            n.GetEnumerableBase().Should().BeNull();
+            source.GetEnumerableBase().Should().BeNull();
         }
 
         [Theory]

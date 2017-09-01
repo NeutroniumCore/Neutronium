@@ -407,11 +407,6 @@ namespace Tests.Universal.HTMLBindingTests
                         await DoSafeAsyncUI(() => rootJs.UnsafeVisitAllChildren(glue => (!glue.Marked) && (glue.Marked = true)));
                     }
 
-                    using (GetPerformanceCounter("Perf UnsafeVisitAllChildren on root")) 
-                    {
-                        await DoSafeAsyncUI(() => rootJs.UnsafeVisitAllChildren(glue => (!glue.Marked) && (glue.Marked = true)));
-                    }
-
                     List<object> basics = null;
                     using (GetPerformanceCounter("Perf Collecting basics")) 
                     {
@@ -420,7 +415,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     using (GetPerformanceCounter("Creating string")) 
                     {
-                        var bigstring =  $"[{string.Join(",", basics.Select(v => JavascriptNamer.GetCreateExpression(v)))}]";
+                        var bigstring =  $"[{string.Join(",", basics.Select(JavascriptNamer.GetCreateExpression))}]";
                     }
                 }
             };
