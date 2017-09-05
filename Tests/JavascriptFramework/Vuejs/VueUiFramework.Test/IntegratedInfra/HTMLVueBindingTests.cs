@@ -21,11 +21,6 @@ namespace VueFramework.Test.IntegratedInfra
         {
         }
 
-        private class BasicListVm : ViewModelTestBase
-        {
-            public IList<BasicVm> Children { get; } = new ObservableCollection<BasicVm>();
-        }
-
         private class ReadOnlyClass : ViewModelTestBase
         {
             private int _ReadOnly;

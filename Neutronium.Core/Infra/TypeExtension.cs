@@ -69,7 +69,7 @@ namespace Neutronium.Core.Infra
             return _TypePropertyInfos.GetOrAdd(@type, t => new TypePropertyAccessor(t));
         }
 
-        internal static ICollection<PropertyAccessor> GetReadProperties(this Type @type)
+        internal static ICollection<KeyValuePair<string, PropertyAccessor>> GetReadProperties(this Type @type)
         {
             return @type?.GetTypePropertyInfo().ReadProperties;
         }

@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreCollection.Extensions;
+using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
@@ -9,7 +11,7 @@ namespace Neutronium.Core.Binding.GlueObject
     public class BridgeUpdater
     {
         private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject;
-        private List<IJsCsGlue> _ExitingObjects;
+        private HashSet<IJsCsGlue> _ExitingObjects;
 
         internal IJavascriptSessionCache Cache { get; set; }
         internal bool HasUpdatesOnJavascriptContext => (_UpdateJavascriptObject != null) || (_ExitingObjects?.Count > 0);
@@ -30,13 +32,39 @@ namespace Neutronium.Core.Binding.GlueObject
             if (_ExitingObjects == null)
                 return;
 
-           _ExitingObjects.ForEach(Cache.RemoveFromJsToCSharp);
+            _ExitingObjects.ForEach(Cache.RemoveFromJsToCSharp);
             javascriptViewModelUpdater.UnListen(_ExitingObjects.Where(exiting => exiting.Type == JsCsGlueType.Object && exiting.CValue.GetType().HasReadWriteProperties()).Select(glue => glue.JsValue));
         }
 
-        internal void RequestCleanUp(List<IJsCsGlue> toBeCleaned)
+        internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener)
         {
-            _ExitingObjects = toBeCleaned;
+            _ExitingObjects?.ForEach(exiting =>
+            {
+                exiting.ApplyOnListenable(offListener);
+                Cache.RemoveFromCSharpToJs(exiting);
+            });
+        }
+
+        internal BridgeUpdater Remove(IJsCsGlue old)
+        {
+            if (old == null)
+                return this;
+
+            _ExitingObjects = _ExitingObjects ?? new HashSet<IJsCsGlue>();
+            CollectAllRemoved(old, _ExitingObjects);
+            return this;
+        }
+
+        private static void CollectAllRemoved(IJsCsGlue old, ISet<IJsCsGlue> toRemove)
+        {
+            if (!toRemove.Add(old))
+                return;
+
+            old.Children?.ForEach(child =>
+            {
+                if (child.Release())
+                    CollectAllRemoved(child, toRemove);
+            });
         }
     }
 }

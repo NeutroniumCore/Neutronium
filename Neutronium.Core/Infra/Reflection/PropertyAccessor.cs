@@ -1,33 +1,26 @@
 ﻿using System;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Neutronium.Core.Infra.Reflection
 {
     internal class PropertyAccessor
     {
-        private readonly PropertyInfo _PropertyInfo;
         private readonly Func<object,object> _Getter;
         private readonly Action<object, object> _Setter;
-        public string Name => _PropertyInfo.Name;
 
+        public Type TargetType { get; }
         public bool IsSettable { get; }
  
-        private static readonly MethodInfo _BuildGet = typeof(PropertyAccessor).GetMethod(nameof(BuildGetGeneric), BindingFlags.Static | BindingFlags.NonPublic);
-        private static readonly MethodInfo _BuildSet = typeof(PropertyAccessor).GetMethod(nameof(BuildSetGeneric), BindingFlags.Static | BindingFlags.NonPublic);
-
         public PropertyAccessor(Type type, PropertyInfo propertyInfo)
         {
-            _PropertyInfo = propertyInfo;
             _Getter = BuildGet(type, propertyInfo);
             var setterInfo = (propertyInfo.CanRead) ? propertyInfo.GetSetMethod(false) : null;
             IsSettable = (setterInfo != null);
-            _Setter = IsSettable ? BuildSet(type, propertyInfo.PropertyType, setterInfo) : Void;
-        }
+            _Setter = IsSettable ? BuildSet(type, propertyInfo) : Void;
 
-        public Type GetTargetType()
-        {
-            var originalType = _PropertyInfo.PropertyType;
-            return originalType.GetUnderlyingType();
+            var originalType = propertyInfo.PropertyType;
+            TargetType = originalType.GetUnderlyingType();
         }
 
         private static void Void(object _, object __)
@@ -36,26 +29,39 @@ namespace Neutronium.Core.Infra.Reflection
 
         private static Func<object, object> BuildGet(Type type, PropertyInfo propertyInfo)
         {
-            var buildMethod = _BuildGet.MakeGenericMethod(type, propertyInfo.PropertyType);
-            return (Func<object, object>)buildMethod.Invoke(null, new[] { propertyInfo });
+            var dynamicMethod = new DynamicMethod("Get" + propertyInfo.Name, typeof(object), new[] { typeof(object)}, propertyInfo.DeclaringType, true);
+            var generator = dynamicMethod.GetILGenerator();
+
+            GenerateCreateGetPropertyIL(propertyInfo, generator);
+
+            return (Func<object, object>)dynamicMethod.CreateDelegate(typeof(Func<object, object>));
         }
 
-        private static Func<object, object> BuildGetGeneric<TObject,TValue>(PropertyInfo propertyInfo)
+        private static void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
         {
-            var getDelegate = (Func<TObject, TValue>)Delegate.CreateDelegate(typeof(Func<TObject, TValue>), propertyInfo.GetGetMethod(nonPublic: false));
-            return (@object) => getDelegate((TObject)@object);
+            var getMethod = propertyInfo.GetGetMethod(true);
+            generator.PushInstance(propertyInfo.DeclaringType);
+            generator.CallMethod(getMethod);
+            generator.BoxIfNeeded(propertyInfo.PropertyType);
+            generator.Return();
         }
 
-        private static Action<object, object> BuildSet(Type type, Type targetType, MethodInfo propertysetInfo)
+        public Action<object, object> BuildSet(Type type, PropertyInfo propertyInfo)
         {
-            var buildMethod = _BuildSet.MakeGenericMethod(type, targetType);
-            return (Action<object, object>)buildMethod.Invoke(null, new[] { propertysetInfo });
+            var dynamicMethod = new DynamicMethod("Set" + propertyInfo.Name, null, new[] { typeof(object), typeof(object) }, propertyInfo.DeclaringType, true);
+            var generator = dynamicMethod.GetILGenerator();
+            GenerateCreateSetPropertyIL(propertyInfo, generator);
+            return (Action<object, object>)dynamicMethod.CreateDelegate(typeof(Action<object, object>));
         }
 
-        private static Action<object, object> BuildSetGeneric<TObject, TValue>(MethodInfo propertysetInfo)
+        private static void GenerateCreateSetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
         {
-            var getDelegate = (Action<TObject, TValue>)Delegate.CreateDelegate(typeof(Action<TObject, TValue>), propertysetInfo);
-            return (@object, value) => getDelegate((TObject)@object, (TValue)value);
+            var setMethod = propertyInfo.GetSetMethod(true);
+            generator.PushInstance(propertyInfo.DeclaringType);
+            generator.Emit(OpCodes.Ldarg_1);
+            generator.UnboxIfNeeded(propertyInfo.PropertyType);
+            generator.CallMethod(setMethod);
+            generator.Return();
         }
 
         public void Set(object target, object value)

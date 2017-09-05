@@ -94,7 +94,20 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void CreateJSGlueObject_WithCorrectToString_ListSimple()
+        public void Map_CreateJSGlueObject_WithCorrectToString_CircularListProperty()
+        {
+            var testObject = new TestClass();
+            var tesObject2 = new TestClass();
+            var children = new List<TestClass> { tesObject2 };
+            testObject.Children = children;
+            tesObject2.Children = children;
+            var res = _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be("{\"Children\":[{\"Children\":\"~Children\",\"Property1\":null,\"Property2\":null,\"Property3\":null}],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
+        }
+
+        [Fact]
+        public void Map_CreateJSGlueObject_WithCorrectToString_ListSimple()
         {
             var testObject = new TestClass();
             testObject.Children.Add(testObject);
@@ -104,7 +117,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void CreateJSGlueObject_WithCorrectToString_TransformingQuote()
+        public void Map_CreateJSGlueObject_WithCorrectToString_TransformingQuote()
         {
             var testObject = new StringClass
             {
@@ -116,7 +129,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void CreateJSGlueObject_WithCorrectToString_TransformingSlash()
+        public void Map_CreateJSGlueObject_WithCorrectToString_TransformingSlash()
         {
             var testObject = new StringClass
             {
@@ -141,7 +154,7 @@ namespace Neutronium.Core.Test.Binding
 
         private class TestClass
         {
-            public List<TestClass> Children { get; } = new List<TestClass>();
+            public List<TestClass> Children { get; set; } = new List<TestClass>();
             public TestClass Property1 { get; set; }
             public TestClass Property2 { get; set; }
             public TestClass Property3 { get; set; }           

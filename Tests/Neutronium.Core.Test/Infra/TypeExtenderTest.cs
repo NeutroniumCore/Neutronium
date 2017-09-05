@@ -77,7 +77,7 @@ namespace Neutronium.Core.Test.Infra
         public void GetReadProperties_returns_correct_property(Type type, string[] properties)
         {
             var res = type.GetReadProperties();
-            res.Select(prop => prop.Name).Should().BeEquivalentTo(properties);
+            res.Select(prop => prop.Key).Should().BeEquivalentTo(properties);
         }
 
         [Fact]

@@ -56,6 +56,11 @@ namespace Neutronium.Core.Binding.GlueObject
             builder.RequestCommandCreation(_InitialCanExecute);
         }
 
+        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        {
+            visit(this);
+        }
+
         public void ListenChanges()
         {
             _Command.CanExecuteChanged += Command_CanExecuteChanged;

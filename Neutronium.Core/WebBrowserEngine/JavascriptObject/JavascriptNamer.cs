@@ -60,7 +60,11 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
             var filtered = value.Replace(@"\", @"\\")
                                 .Replace("\n", "\\n")
                                 .Replace("\r", "\\r")
+                                .Replace("\b", "\\b")
+                                .Replace("\f", "\\f")
+                                .Replace("\t", "\\t")
                                 .Replace("'", @"\'");
+
             return $"'{filtered}'";
 
         }

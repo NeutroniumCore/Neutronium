@@ -50,7 +50,7 @@ namespace Neutronium.Core.Infra
             return Load(fileNames, file => LoadJavascript(file, es5, minified));
         }
 
-        private string Load(IEnumerable<string> fileNames, Func<string,string> loader) 
+        private static string Load(IEnumerable<string> fileNames, Func<string,string> loader) 
         {
             var builder = new StringBuilder();
             fileNames.Select(loader).ForEach(s => builder.Append(s));

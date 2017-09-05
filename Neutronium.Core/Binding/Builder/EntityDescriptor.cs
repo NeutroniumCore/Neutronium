@@ -7,9 +7,9 @@ namespace Neutronium.Core.Binding.Builder
     public struct ObjectDescriptor
     {
         public IJsCsGlue Father { get; }
-        public ICollection<KeyValuePair<string, IJsCsGlue>> ChildrenDescription { get; }
+        public AttributeDescription[] ChildrenDescription { get; }
 
-        public ObjectDescriptor(IJsCsGlue father, ICollection<KeyValuePair<string, IJsCsGlue>> childrenDescription)
+        public ObjectDescriptor(IJsCsGlue father, AttributeDescription[] childrenDescription)
         {
             Father = father;
             ChildrenDescription = childrenDescription;
@@ -63,7 +63,7 @@ namespace Neutronium.Core.Binding.Builder
             return new ArrayDescriptor(father, description);
         }
 
-        public static ObjectDescriptor CreateObjectDescriptor(IJsCsGlue father, ICollection<KeyValuePair<string, IJsCsGlue>> description)
+        public static ObjectDescriptor CreateObjectDescriptor(IJsCsGlue father, AttributeDescription[] description)
         {
             return new ObjectDescriptor(father, description);
         }

@@ -111,14 +111,14 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <param name="functionName">
         /// function name
         /// </param>
-        /// <param name="context">
+        /// <param name="webView">
         /// function context
         /// </param>
         /// <param name="action">
         /// action to run when the function is called. Action argument: 
         /// function name, this object, function parameters
         /// </param>
-        void Bind(string functionName, IWebView context, Action<string, IJavascriptObject, IJavascriptObject[]> action);
+        void Bind(string functionName, IWebView webView, Action<string, IJavascriptObject, IJavascriptObject[]> action);
 
         /// <summary>
         /// Bind a function to a javascript object
@@ -126,7 +126,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <param name="functionName">
         /// function name
         /// </param>
-        /// <param name="context">
+        /// <param name="webView">
         /// function context
         /// </param>
         /// <param name="action">
@@ -141,7 +141,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <param name="functionName">
         /// function name
         /// </param>
-        /// <param name="context">
+        /// <param name="webView">
         /// function context
         /// </param>
         /// <param name="action">
@@ -156,7 +156,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <param name="functionName">
         /// function name
         /// </param>
-        /// <param name="context">
+        /// <param name="webView">
         /// function context
         /// </param>
         /// <param name="action">
@@ -172,7 +172,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <param name="functionName">
         /// function name
         /// </param>
-        /// <param name="context">
+        /// <param name="webView">
         /// function context
         /// </param>
         /// <param name="action">
@@ -188,7 +188,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <param name="functionName">
         /// function name
         /// </param>
-        /// <param name="context">
+        /// <param name="webView">
         /// function context
         /// </param>
         /// <param name="action">

@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.Builder
 
             foreach (var element in data)
             {
-                var childrenCount = element.ChildrenDescription.Count;
+                var childrenCount = element.ChildrenDescription.Length;
                 var tentative = parametersCount + 1 + childrenCount;
                 var delta = tentative - MaxCount;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
@@ -9,15 +10,17 @@ namespace Neutronium.Core.Binding.GlueObject
     {
         IJavascriptObject JsValue { get; }
 
-        object CValue { get;}
+        object CValue { get; }
 
         JsCsGlueType Type { get; }
 
-        uint JsId { get;}
-
-        bool Marked { get; set; }
+        uint JsId { get; }
 
         IEnumerable<IJsCsGlue> Children { get; }
+
+        IJsCsGlue AddRef();
+
+        bool Release();
 
         void BuilString(DescriptionBuilder context);
 
@@ -26,5 +29,7 @@ namespace Neutronium.Core.Binding.GlueObject
         void SetJsValue(IJavascriptObject value);
 
         void ApplyOnListenable(IObjectChangesListener listener);
+
+        void VisitChildren(Func<IJsCsGlue, bool> visit);
     }
 }

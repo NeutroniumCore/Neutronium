@@ -92,13 +92,21 @@ namespace Neutronium.Core.Binding.Builder
             executable?.UpdateJsObject(@object);
         }
 
-        void IJavascriptObjectBuilder.RequestObjectCreation(ICollection<KeyValuePair<string, IJsCsGlue>> children, bool updatableFromJS)
+        void IJavascriptObjectBuilder.RequestObjectCreation(AttributeDescription[] children, bool updatableFromJs)
         {
-            var value = _Factory.CreateObject(!updatableFromJS);
+            var value = _Factory.CreateObject(!updatableFromJs);
             SetValue(value);
 
-            if (children != null)
-                _AfterChildrenUpdates = () => children.ForEach((child) => value.SetValue(child.Key, child.Value.JsValue));
+            if (children == null)
+                return;
+
+            _AfterChildrenUpdates = () =>
+            {
+                foreach (var child in children)
+                {
+                    value.SetValue(child.Name, child.Glue.JsValue);
+                }
+            };
         }
 
         private void SetValue(IJavascriptObject value)

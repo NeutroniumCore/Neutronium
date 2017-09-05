@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,7 +14,9 @@ using Xunit.Abstractions;
 using System.Windows.Input;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
+using Newtonsoft.Json;
 using Tests.Universal.HTMLBindingTests.Helper;
+using System.Text;
 
 namespace Tests.Universal.HTMLBindingTests
 {
@@ -367,61 +368,106 @@ namespace Tests.Universal.HTMLBindingTests
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
-                {
-                    var bigVm = BuildBigVm(childrenCount);
-                    var js = mb.JsRootObject;
-                    IJavascriptObject other;
-
-                    using (var perf = GetPerformanceCounter("Perf to bind Vm"))
-                    {
-                        await DoSafeAsyncUI(() => root.Other = bigVm);
-
-                        await Task.Delay(_DelayForTimeOut);
-                        perf.DiscountTime = _DelayForTimeOut;
-
-                        other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
-                    }
-
-                    other.IsObject.Should().BeTrue();
-                    var rootJs = mb.JsBrideRootObject;
-
-                    using (GetPerformanceCounter("Perf to VisitAllChildren"))
-                    {
-                        await DoSafeAsyncUI(() => rootJs.VisitAllChildren(_ => true));
-                    }
-
-                    ISet<IJsCsGlue> allChildren = null;
-                    using (GetPerformanceCounter("Perf to GetAllChildren"))
-                    {
-                        await DoSafeAsyncUI(() => allChildren = rootJs.GetAllChildren(true));
-                    }
-
-                    using (GetPerformanceCounter("Perf Foreach GetAllChildren"))
-                    {
-                        await DoSafeAsyncUI(() => allChildren.ForEach(_ => { }));
-                    }
-
-                    using (GetPerformanceCounter("Perf Marking with UnsafeVisitAllChildren"))
-                    {
-                        await DoSafeAsyncUI(() => rootJs.UnsafeVisitAllChildren(glue => (!glue.Marked) && (glue.Marked = true)));
-                    }
-
-                    List<object> basics = null;
-                    using (GetPerformanceCounter("Perf Collecting basics")) 
-                    {
-                        basics = allChildren.Where(g => g.Type == JsCsGlueType.Basic && g.CValue != null).Select(g => g.CValue).ToList();
-                    }
-
-                    using (GetPerformanceCounter("Creating string")) 
-                    {
-                        var bigstring =  $"[{string.Join(",", basics.Select(JavascriptNamer.GetCreateExpression))}]";
-                    }
-                }
+                Test = async mb => await StressVm(root, mb, BuildBigVm(childrenCount))
             };
 
             await RunAsync(test);
-        }    
+        }
+
+        private async Task StressVm(FakeFatherViewModel root, IHtmlBinding mb, FakeViewModel bigVm)
+        {
+            var js = mb.JsRootObject;
+            IJavascriptObject other;
+
+            using (var perf = GetPerformanceCounter("Perf to bind Vm"))
+            {
+                await DoSafeAsyncUI(() => root.Other = bigVm);
+
+                await Task.Delay(_DelayForTimeOut);
+                perf.DiscountTime = _DelayForTimeOut;
+
+                other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
+            }
+
+            other.IsObject.Should().BeTrue();
+            var rootJs = mb.JsBrideRootObject;
+            ISet<IJsCsGlue> allChildren = new HashSet<IJsCsGlue>();
+
+            using (GetPerformanceCounter("Perf to VisitAllChildren"))
+            {
+                await DoSafeAsyncUI(() => rootJs.VisitAllChildren(glue => allChildren.Add(glue)));
+            }
+
+            using (GetPerformanceCounter("Perf Foreach GetAllChildren"))
+            {
+                await DoSafeAsyncUI(() => allChildren.ForEach(_ => { }));
+            }
+
+            List<object> basics = null;
+            using (GetPerformanceCounter("Perf Collecting basics"))
+            {
+                basics = allChildren.Where(g => g.Type == JsCsGlueType.Basic && g.CValue != null).Select(g => g.CValue).ToList();
+            }
+
+            string string1, string2, string3, string4;
+
+            using (GetPerformanceCounter("Creating string"))
+            {
+                string1 = $"[{string.Join(",", basics.Select(JavascriptNamer.GetCreateExpression))}]";
+            }
+
+            using (GetPerformanceCounter("Creating string parralel"))
+            {
+                var builder = new StringBuilder("[");
+                var first = true;
+                Parallel.ForEach(basics, () => new Builder() , (basic, _, sb) =>
+                {
+                    if (!sb.First)
+                        sb.String.Append(",");
+                    sb.String.Append(basic);
+                    sb.First = false;
+                    return sb;
+                }, 
+                (sb) =>
+                {
+                    lock (builder)
+                    {
+                        if (!first)
+                        {
+                            builder.Append(",");
+                        }
+                        first = false;
+                        builder.Append(sb.String);
+                    }
+                });
+                builder.Append("]");
+
+                string2 = builder.ToString();
+            }
+
+            var array = basics.ToArray();
+
+            using (GetPerformanceCounter("Creating JSON string"))
+            {
+                string3 = JsonConvert.SerializeObject(array);
+            }
+
+            using (GetPerformanceCounter("Creating JSON string bigVm"))
+            {
+                string4 = JsonConvert.SerializeObject(bigVm);
+            }
+        }
+
+        private class Builder
+        {
+            public StringBuilder String { get; }
+            public bool First { get; set; } = true;
+
+            public Builder()
+            {
+                String = new StringBuilder();
+            }
+        }
 
         [Theory]
         [InlineData(2000)]
@@ -475,7 +521,7 @@ namespace Tests.Universal.HTMLBindingTests
         {
             private static readonly Random _Random = new Random();
 
-            public FakeViewModel[] Children { get; }
+            public FakeViewModel[] Children { get;}
 
             public int One => 1;
             public int Two => 2;

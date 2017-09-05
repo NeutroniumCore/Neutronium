@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
@@ -43,7 +44,12 @@ namespace Neutronium.Core.Binding.GlueObject
         {
             builder.RequestExecutableCreation();
         }
-    
+
+        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        {
+            visit(this);
+        }
+
         void IExecutableGlue.Execute(IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);

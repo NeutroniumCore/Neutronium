@@ -10,7 +10,6 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
-using System.Linq;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject.Factory;
 
@@ -68,6 +67,7 @@ namespace Neutronium.Core.Binding
             await Context.RunOnUiContextAsync(() =>
             {
                 _Root = _JsObjectBuilder.Map(_RootObject, addicionalObject);
+                _Root.AddRef();
             });
         }
 
@@ -126,35 +126,6 @@ namespace Neutronium.Core.Binding
             _Logger.Debug("BidirectionalMapper disposed");
         }
 
-        private void CleanAfterChanges(BridgeUpdater updater)
-        {
-            //GC tracing -1: Marking
-            _Root.UnsafeVisitAllChildren(Mark);
-            _UnrootedEntities.ForEach(root => root.UnsafeVisitAllChildren(Mark));
-
-            //2 cleaning
-            var toBeCleaned = _SessionCache.AllElements.Where(glue => IsNotMarked(glue) && glue.Type != JsCsGlueType.Basic).ToList();
-            toBeCleaned.ForEach(exiting =>
-            {
-                exiting.ApplyOnListenable(_ListenerRegister.Off);
-                _SessionCache.RemoveFromCSharpToJs(exiting);
-            });
-
-            updater.RequestCleanUp(toBeCleaned);
-        }
-
-        private static bool Mark(IJsCsGlue glue)
-        {
-            return (!glue.Marked) && (glue.Marked = true);
-        }
-
-        private static bool IsNotMarked(IJsCsGlue glue)
-        {
-            var result = !glue.Marked;
-            glue.Marked = false;
-            return result;
-        }
-
         private void OnExit(IJsCsGlue exiting)
         {
             exiting.ApplyOnListenable(_ListenerRegister.Off);
@@ -202,10 +173,9 @@ namespace Neutronium.Core.Binding
                     return;
                 }
 
-                var targetType = propertyAccessor.GetTargetType();
+                var targetType = propertyAccessor.TargetType;
                 var glue = GetCachedOrCreateBasic(newValue, targetType);
-                var needCheckCollection = !glue.IsBasicNotNull();
-                var bridgeUpdater = needCheckCollection ? new BridgeUpdater(_SessionCache) : null;
+                var bridgeUpdater = new BridgeUpdater(_SessionCache);
 
                 await Context.RunOnUiContextAsync(() =>
                 {
@@ -226,9 +196,9 @@ namespace Neutronium.Core.Binding
 
                         if (Object.Equals(actualValue, glue.CValue))
                         {
-                            res.UpdateGlueProperty(propertyName, glue);
-                            if (needCheckCollection)
-                                CleanAfterChanges(bridgeUpdater);
+                            var old = res.UpdateGlueProperty(propertyName, glue);
+                            bridgeUpdater.Remove(old);
+                            bridgeUpdater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
                             return;
                         }
 
@@ -239,7 +209,7 @@ namespace Neutronium.Core.Binding
                     }
                 });
 
-                if (bridgeUpdater?.HasUpdatesOnJavascriptContext != true)
+                if (!bridgeUpdater.HasUpdatesOnJavascriptContext)
                     return;
 
                 await Context.RunOnJavascriptContextAsync(() =>
@@ -288,10 +258,10 @@ namespace Neutronium.Core.Binding
             {
                 using (_ListenerRegister.GetColllectionSilenter(collection))
                 {
-                    array.UpdateEventArgsFromJavascript(change);
+                    array.UpdateEventArgsFromJavascript(change, updater);
                 }
 
-                CleanAfterChanges(updater);
+                updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
             }
             catch (Exception e)
             {
@@ -342,15 +312,15 @@ namespace Neutronium.Core.Binding
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    UpdateFromCSharpChanges(() => arr.GetRemoveUpdater(e.OldStartingIndex), true);
+                    UpdateFromCSharpChanges(() => arr.GetRemoveUpdater(e.OldStartingIndex));
                     break;
 
                 case NotifyCollectionChangedAction.Reset:
-                    UpdateFromCSharpChanges(() => arr.GetResetUpdater(), true);
+                    UpdateFromCSharpChanges(() => arr.GetResetUpdater());
                     break;
 
                 case NotifyCollectionChangedAction.Move:
-                    UpdateFromCSharpChanges(() => arr.GetMoveUpdater(e.OldStartingIndex, e.NewStartingIndex), false);
+                    UpdateFromCSharpChanges(() => arr.GetMoveUpdater(e.OldStartingIndex, e.NewStartingIndex));
                     break;
             }
         }
@@ -362,17 +332,16 @@ namespace Neutronium.Core.Binding
 
         private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newbridgedchild, Action<IJsCsGlue> performAfterBuild)
         {
-            _UnrootedEntities.Add(newbridgedchild);
+            _UnrootedEntities.Add(newbridgedchild.AddRef());
             return new BridgeUpdater(_ => performAfterBuild(newbridgedchild));
         }
 
-        private void UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder, bool needToCheckListener)
+        private void UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder)
         {
             CheckUiContext();
 
             var updater = Update(updaterBuilder);
-            if (needToCheckListener)
-                CleanAfterChanges(updater);
+            updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
 
             if (!updater.HasUpdatesOnJavascriptContext)
                 return;
@@ -392,8 +361,7 @@ namespace Neutronium.Core.Binding
                 return;
 
             var updater = Update(() => updaterBuilder(value));
-            if (!value.IsBasicNotNull())
-                CleanAfterChanges(updater);
+            updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
 
             if (!_IsLoaded)
                 return;

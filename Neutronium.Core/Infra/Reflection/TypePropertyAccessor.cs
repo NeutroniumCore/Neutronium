@@ -8,17 +8,19 @@ namespace Neutronium.Core.Infra.Reflection
 {
     internal class TypePropertyAccessor
     {
-        public ICollection<PropertyAccessor> ReadProperties => _ReadProperties.Values;
-        public readonly IDictionary<string, PropertyAccessor> _ReadProperties;
+        public ICollection<KeyValuePair<string, PropertyAccessor>> ReadProperties => _ReadProperties;
         public bool HasReadWriteProperties { get; }
+        private readonly IDictionary<string, PropertyAccessor> _ReadProperties;
 
         public TypePropertyAccessor(Type type)
         {
-            _ReadProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                .Where(p => p.CanRead && p.GetGetMethod(false) != null)
-                                .ToDictionary(prop => prop.Name, prop => new PropertyAccessor(type, prop));
+            _ReadProperties = new SortedDictionary<string, PropertyAccessor>();
 
-            HasReadWriteProperties = ReadProperties.Any(p => p.IsSettable);
+            type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(p => p.CanRead && p.GetGetMethod(false) != null)
+                .ForEach(prop => _ReadProperties.Add(prop.Name, new PropertyAccessor(type, prop)));
+
+            HasReadWriteProperties = ReadProperties.Any(p => p.Value.IsSettable);
         }
 
         public PropertyAccessor GetAccessor(string propertyName)

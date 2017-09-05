@@ -16,8 +16,8 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
             _MappedJsValue = jsobject;
         }
 
-        public JsMappableArray(List<IJsCsGlue> values, IEnumerable collection, Type individual):
-            base(values, collection, individual)
+        public JsMappableArray(IEnumerable collection, Type individual):
+            base(collection, individual)
         {
         }
     }

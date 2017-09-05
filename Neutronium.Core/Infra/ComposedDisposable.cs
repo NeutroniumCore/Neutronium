@@ -5,7 +5,7 @@ namespace Neutronium.Core.Infra
 {
     public class ComposedDisposable : IDisposable
     {
-        private IDisposable[] _Disposables;
+        private readonly IDisposable[] _Disposables;
         public ComposedDisposable(params IDisposable[] disposables)
         {
             _Disposables = disposables;

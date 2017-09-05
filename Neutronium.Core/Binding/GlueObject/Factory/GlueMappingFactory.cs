@@ -35,14 +35,14 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
             return Cache(command, new JsMappableResultCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command));
         }
 
-        public JsGenericObject Build(object from, int childrenCount)
+        public JsGenericObject Build(object from)
         {
-            return Cache(from, new JsMappableGenericObject(from, childrenCount));
+            return Cache(from, new JsMappableGenericObject(from));
         }
 
-        public JsArray BuildArray(List<IJsCsGlue> values, IEnumerable source, Type basictype)
+        public JsArray BuildArray(IEnumerable source, Type basictype)
         {
-            return Cache(source, new JsMappableArray(values, source, basictype));
+            return Cache(source, new JsMappableArray(source, basictype));
         }
     }
 }

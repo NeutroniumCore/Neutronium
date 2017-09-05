@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Neutronium.Core.Test.Infra
+﻿namespace Neutronium.Core.Test.Infra
 {
     public class ReadOnlyClass
     {

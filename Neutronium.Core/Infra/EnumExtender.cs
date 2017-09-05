@@ -9,7 +9,7 @@ namespace Neutronium.Core.Infra
         {
             if (o == null) return string.Empty;
 
-            string valuename = o.ToString();
+            var valuename = o.ToString();
             var enumType = o.GetType();
             var fi = enumType.GetField(valuename);
             if (fi == null)

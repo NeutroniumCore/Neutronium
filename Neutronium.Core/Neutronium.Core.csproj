@@ -94,6 +94,7 @@
     <Compile Include="Binding\Builder\Packer\KeyPacker.cs" />
     <Compile Include="Binding\Builder\Packer\ObjectChildrenDescriptionPacker.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />
+    <Compile Include="Binding\GlueObject\AttributeDescription.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\GlueObject\Factory\GlueFactoryBase.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueObject\Factory\IGlueFactory.cs" />
-    <Compile Include="Extension\IJavascriptToCSharpConverterExtension.cs" />
+    <Compile Include="Extension\JavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IObjectChangesListener.cs" />
     <Compile Include="Binding\Listeners\ObjectChangesListener.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Infra\ComposedDisposable.cs" />
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
+    <Compile Include="Infra\Reflection\ILExtension.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessor.cs" />
     <Compile Include="Infra\Reflection\TypePropertyAccessor.cs" />
     <Compile Include="Infra\Slicer.cs" />
@@ -146,7 +148,7 @@
     <Compile Include="JavascriptFramework\IJavascriptViewModelUpdater.cs" />
     <Compile Include="JavascriptFramework\IndividualJavascriptCollectionChange.cs" />
     <Compile Include="JavascriptFramework\JavascriptCollectionChanges.cs" />
-    <Compile Include="Extension\IJavascriptObjectFactoryExtension.cs" />
+    <Compile Include="Extension\JavascriptObjectFactoryExtension.cs" />
     <Compile Include="JavascriptFramework\IJavascriptSessionInjector.cs" />
     <Compile Include="Binding\IJavascriptToCSharpConverter.cs" />
     <Compile Include="JavascriptFramework\IJavascriptChangesObserver.cs" />

@@ -14,9 +14,9 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
 
         JsResultCommand Build(IResultCommand command);
 
-        JsGenericObject Build(object from, int childrenCount);
+        JsGenericObject Build(object from);
 
-        JsArray BuildArray(List<IJsCsGlue> values, IEnumerable source, Type basictype);
+        JsArray BuildArray(IEnumerable source, Type basictype);
 
         JsBasicObject BuildBasic(object basic);
 

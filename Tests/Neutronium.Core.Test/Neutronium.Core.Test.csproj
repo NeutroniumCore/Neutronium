@@ -108,7 +108,7 @@
     <Compile Include="Binding\CSharpToJavascriptConverterTests.cs" />
     <Compile Include="Infra\EnumExtenderTest.cs" />
     <Compile Include="Infra\FakeClasses.cs" />
-    <Compile Include="Infra\PropertyAccessorTests.cs" />
+    <Compile Include="Infra\Reflection\PropertyAccessorTests.cs" />
     <Compile Include="Infra\SlicerTest.cs" />
     <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />
     <Compile Include="Infra\NullUIDispatcherTest.cs" />

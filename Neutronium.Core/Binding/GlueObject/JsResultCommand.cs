@@ -46,7 +46,12 @@ namespace Neutronium.Core.Binding.GlueObject
         {
             builder.RequestExecutableCreation();
         }
-      
+
+        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        {
+            visit(this);
+        }
+
         async void IExecutableGlue.Execute(IJavascriptObject[] e)
         {
             var argument = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);

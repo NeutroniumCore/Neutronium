@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using MoreCollection.Dictionary;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
 using System.ComponentModel;
@@ -11,24 +11,36 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     internal class JsGenericObject : GlueBase, IJsCsCachableGlue
     {
-        private readonly IDictionary<string, IJsCsGlue> _Attributes;
+        private AttributeDescription[] _Attributes;
 
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;
-        public IEnumerable<IJsCsGlue> Children => _Attributes.Values;
+        public IEnumerable<IJsCsGlue> Children => _Attributes.Select(at => at.Glue);
 
-        private uint _JsId;
-        public uint JsId => _JsId;
-        void IJsCsCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
+        public uint JsId { get; private set; }
 
-        public JsGenericObject(object cValue, int childrenCount)
+        void IJsCsCachableGlue.SetJsId(uint jsId) => JsId = jsId;
+
+        public JsGenericObject(object cValue)
         {
-            CValue = cValue;           
-            _Attributes = DictionaryFactory.Get<string, IJsCsGlue>(childrenCount);
+            CValue = cValue;
         }
 
-        public IJsCsGlue GetAttribute(string propertyName) => _Attributes[propertyName];
+        internal void SetAttributes(AttributeDescription[] attributes)
+        {
+            if (_Attributes == null)
+            {
+                _Attributes = attributes;
+            }
+            else
+            {
+                var newAttributes = _Attributes.Concat(attributes).OrderBy(at => at.Name).ToArray();
+                _Attributes = newAttributes;
+            }
+        }
+
+        public IJsCsGlue GetAttribute(string propertyName) => Get(propertyName).Glue;
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
@@ -36,20 +48,31 @@ namespace Neutronium.Core.Binding.GlueObject
             builder.RequestObjectCreation(_Attributes, updatableFromJs);
         }
 
+        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        {
+            if (!visit(this))
+                return;
+
+            foreach (var attribute in _Attributes)
+            {
+                attribute.Glue.VisitChildren(visit);
+            }
+        }
+
         protected override void ComputeString(DescriptionBuilder context)
         {
             context.Append("{");
             var first = true;
-            foreach (var it in _Attributes.OrderBy(kvp =>kvp.Key))
+            foreach (var it in _Attributes)
             {
                 if (!first)
                     context.Append(",");
 
-                context.Append($@"""{it.Key}"":");
+                context.Append($@"""{it.Name}"":");
 
-                using (context.PushContext(it.Key))
-                {                   
-                    it.Value.BuilString(context);
+                using (context.PushContext(it.Name))
+                {
+                    it.Glue.BuilString(context);
                 }
 
                 first = false;
@@ -58,20 +81,26 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        public void AddGlueProperty(string propertyName, IJsCsGlue glue)
+        internal IJsCsGlue UpdateGlueProperty(string propertyName, IJsCsGlue glue)
         {
-            _Attributes.Add(propertyName, glue);
+            glue.AddRef();
+            var oldGlue = Get(propertyName).Glue;      
+            Get(propertyName).Glue = glue;
+            return oldGlue.Release()? oldGlue : null;
         }
 
-        public void UpdateGlueProperty(string propertyName, IJsCsGlue glue)
+        private AttributeDescription Get(string name)
         {
-            _Attributes[propertyName] = glue;
+            var index = Array.BinarySearch(_Attributes, new AttributeDescription(name));
+            return (index == -1) ? null : _Attributes[index];
         }
 
         public BridgeUpdater GetUpdater(string propertyName, IJsCsGlue glue)
         {
-            UpdateGlueProperty(propertyName, glue);
-            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(CachableJsValue, propertyName, glue.GetJsSessionValue(), !glue.IsBasic()));
+            var old = UpdateGlueProperty(propertyName, glue);
+            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(CachableJsValue, propertyName,
+                    glue.GetJsSessionValue(), !glue.IsBasic()))
+                        .Remove(old);
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

@@ -5,7 +5,19 @@ namespace Neutronium.Core.Binding.GlueObject
     public abstract class GlueBase
     {
         public IJavascriptObject JsValue { get; private set; }
-        public bool Marked { get; set; }
+
+        private uint _Count = 0;
+
+        public IJsCsGlue AddRef()
+        {
+            _Count++;
+            return (IJsCsGlue)this;
+        }
+
+        public bool Release()
+        {
+            return (--_Count == 0);
+        }
 
         public void SetJsValue(IJavascriptObject value)
         {

@@ -76,13 +76,16 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = (binding) =>
                 {
                     var jsbridge = ((HtmlBinding)binding).JsBrideRootObject;
+                    var alm = jsbridge.ToString();
 
-                    string JSON = JsonConvert.SerializeObject(_DataContext);
-                    string alm = jsbridge.ToString();
+                    JsArray arr = null;
+                    jsbridge.VisitAllChildren(glue =>
+                        {
+                            arr = arr ?? glue as JsArray;
+                            return glue != null;
+                        });
 
-                    JsArray arr = (JsArray)jsbridge.GetAllChildren().First(c => c is JsArray);
-
-                    string stringarr = arr.ToString();
+                    var stringarr = arr.ToString();
 
                     dynamic m = JsonConvert.DeserializeObject<dynamic>(jsbridge.ToString());
                     ((string)m.LastName).Should().Be("Desmaisons");
@@ -2287,6 +2290,11 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
+        public class BasicListVm : ViewModelTestBase
+        {
+            public IList<BasicVm> Children { get; } = new ObservableCollection<BasicVm>();
+        }
+
         public static IEnumerable<object> BasicVmData
         {
             get
@@ -2361,7 +2369,6 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.OneTime),
                 Test = (mb) =>
                 {
-                    var js = mb.JsRootObject;
                     children.ForEach(child => child.ListenerCount.Should().Be(0));
                 }
             };
@@ -2378,7 +2385,6 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-                    var js = mb.JsRootObject;
                     children.ForEach(child => child.ListenerCount.Should().Be(1));
                 }
             };
@@ -2395,7 +2401,6 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-                    var js = mb.JsRootObject;
                     mb.Dispose();
                     children.ForEach(child => child.ListenerCount.Should().Be(0));
                 }
@@ -2429,6 +2434,147 @@ namespace Tests.Universal.HTMLBindingTests
 
                     datacontext.CallCount.Should().Be(1);
                     datacontext.LastCallElement.Should().BeNull();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        public static IEnumerable<object> CircularDataBreaker
+        {
+            get
+            {
+                var auto = new BasicVm { };
+                auto.Child = auto;
+
+                yield return new object[] { auto, auto, new[] { auto }, new BasicVm[0] };
+
+                var circular = new BasicVm { Child = new BasicVm() };
+                circular.Child.Child = circular;
+
+                yield return new object[] { circular, circular, new[] { circular }, new[] { circular.Child } };
+
+                var circularLong = BuildLongCircular();
+                yield return new object[] { circularLong, circularLong, new[] { circularLong }, new[] { circularLong.Child, circularLong.Child.Child } };
+
+                var circularLong2 = BuildLongCircular();
+                yield return new object[] { circularLong2, circularLong2.Child, new[] { circularLong2, circularLong2.Child }, new[] { circularLong2.Child.Child } };
+            }
+        }
+
+        private static BasicVm BuildLongCircular()
+        {
+            var circularLong = new BasicVm { Child = new BasicVm { Child = new BasicVm() } };
+            circularLong.Child.Child.Child = circularLong;
+            return circularLong;
+        }
+
+        [Theory]
+        [MemberData(nameof(CircularDataBreaker))]
+        public async Task TwoWay_unlistens_when_object_is_not_part_of_the_graph_respecting_cycle(BasicVm root, BasicVm breaker, BasicVm[] survivores, BasicVm[] cleaned)
+        {
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    await DoSafeAsyncUI(() => breaker.Child = null);
+
+                    survivores.ForEach(sur => sur.ListenerCount.Should().Be(1));
+                    cleaned.ForEach(sur => sur.ListenerCount.Should().Be(0));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        private static BasicListVm BuildList()
+        {
+            var root = new BasicListVm
+            {
+                Children =
+                {
+                    new BasicVm(),
+                    new BasicVm(),
+                    new BasicVm()
+                }
+            };
+            return root;
+        }
+
+        [Fact]
+        public async Task Two_listens_to_elements_in_list()
+        {
+            var root = BuildList();
+            var list = root.Children.ToList();
+            var test = new TestInContext()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+               {
+                   list.ForEach(child => child.ListenerCount.Should().Be(1));
+               }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Two_unlistens_to_elements_removed_from_list_be_clean()
+        {
+            var root = BuildList();
+            var list = root.Children.ToList();
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    await DoSafeAsyncUI(() => root.Children.Clear());
+                    list.ForEach(child => child.ListenerCount.Should().Be(0));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Two_unlistens_to_elements_removed_from_list_by_remove()
+        {
+            var root = BuildList();
+            var list = root.Children.ToList();
+            var removed = list[0];
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    await DoSafeAsyncUI(() => root.Children.RemoveAt(0));
+
+                    removed.ListenerCount.Should().Be(0);
+                    list.Skip(1).ForEach(child => child.ListenerCount.Should().Be(1));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Two_unlistens_to_elements_removed_from_list_by_set()
+        {
+            var root = BuildList();
+            var list = root.Children.ToList();
+            var removed = list[0];
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var newChild = new BasicVm();
+                    await DoSafeAsyncUI(() => root.Children[0] = newChild);
+
+                    removed.ListenerCount.Should().Be(0);
+                    list.Skip(1).ForEach(child => child.ListenerCount.Should().Be(1));
+                    newChild.ListenerCount.Should().Be(1);
                 }
             };
 

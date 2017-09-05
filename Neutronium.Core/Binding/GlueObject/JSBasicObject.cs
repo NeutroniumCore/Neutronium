@@ -14,7 +14,10 @@ namespace Neutronium.Core.Binding.GlueObject
         public JsCsGlueType Type => JsCsGlueType.Basic;
         public uint JsId => 0;
         public IEnumerable<IJsCsGlue> Children => null;
-        public bool Marked { get; set; }
+
+        public IJsCsGlue AddRef() => this;
+
+        public bool Release() => false;
 
         internal JsBasicObject(object value)
         {
@@ -35,6 +38,11 @@ namespace Neutronium.Core.Binding.GlueObject
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
             builder.RequestBasicObjectCreation(CValue);
+        }
+
+        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        {
+            visit(this);
         }
 
         public override string ToString()

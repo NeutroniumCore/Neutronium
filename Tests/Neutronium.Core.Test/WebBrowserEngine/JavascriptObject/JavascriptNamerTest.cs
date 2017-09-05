@@ -13,6 +13,9 @@ namespace Neutronium.Core.Test.WebBrowserEngine.JavascriptObject
         [InlineData("\n", @"'\n'")]
         [InlineData("\n", @"'\n'")]
         [InlineData("\r", @"'\r'")]
+        [InlineData("\b", @"'\b'")]
+        [InlineData("\f", @"'\f'")]
+        [InlineData("\t", @"'\t'")]
         [InlineData("'", @"'\''")]
         public void GetCreateExpression_Returns_Correct_Information(string value, string expected)
         {

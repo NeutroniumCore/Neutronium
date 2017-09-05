@@ -21,7 +21,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
             {
                 Descritor = update;
                 Type = update.Father.CValue.GetType();
-                Count = update.ChildrenDescription.Count;
+                Count = update.ChildrenDescription.Length;
             }
 
             public bool Similar(KeyDescription other)
@@ -29,7 +29,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
                 return Count == other.Count && Type == other.Type;
             }
 
-            public List<string> Keys => Descritor.ChildrenDescription.Select(k => k.Key).ToList();
+            public List<string> Keys => Descritor.ChildrenDescription.Select(k => k.Name).ToList();
 
             public bool Empty => Type == null;
         }
