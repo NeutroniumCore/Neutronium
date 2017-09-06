@@ -26,7 +26,7 @@ using Neutronium.Core.Test.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public abstract class HtmlBindingTests : HTMLBindingBase
+    public abstract class HtmlBindingTests : HtmlBindingBase
     {
         protected HtmlBindingTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)

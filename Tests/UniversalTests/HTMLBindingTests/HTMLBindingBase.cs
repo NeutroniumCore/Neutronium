@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
 using FluentAssertions;
+using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
 using NSubstitute;
@@ -9,12 +10,12 @@ using Xunit.Abstractions;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public class HTMLBindingBase : IntegratedTestBase 
+    public class HtmlBindingBase : IntegratedTestBase 
     {
         protected readonly Person _DataContext;
         protected ICommand _ICommand;
 
-        protected HTMLBindingBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+        protected HtmlBindingBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
             _ICommand = Substitute.For<ICommand>();
@@ -28,6 +29,8 @@ namespace Tests.Universal.HTMLBindingTests
             _DataContext.Skills.Add(new Skill() { Name = "Langage", Type = "French" });
             _DataContext.Skills.Add(new Skill() { Name = "Info", Type = "C++" });
         }
+
+        protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);
 
         protected void Check(IJavascriptObject coll, IList<Skill> iskill) 
         {

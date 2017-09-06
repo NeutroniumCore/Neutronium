@@ -20,7 +20,7 @@ using Neutronium.Core.Test.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public abstract class HtmlBindingPerformanceTests : HTMLBindingBase
+    public abstract class HtmlBindingPerformanceTests : HtmlBindingBase
     {
         protected const int DelayForTimeOut = 100;
         private const string PlateformDependant = "Plateform Dependant";
@@ -30,11 +30,8 @@ namespace Tests.Universal.HTMLBindingTests
             _ExpectedTimeInMilliSeconds = expectedTimeInMilliSeconds;
         }
 
-        protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);
-
         protected PerformanceHelper GetPerformanceCounter(string description, int numberOfOperations)
             => new PerformanceHelper(_TestOutputHelper, description, numberOfOperations);
-
 
         private class TwoList
         {

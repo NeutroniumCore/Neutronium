@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding;
+﻿using System;
+using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using NSubstitute;
 using Xunit;
@@ -8,6 +9,9 @@ using FluentAssertions;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Test.Helper;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Xunit.Abstractions;
 
 namespace Neutronium.Core.Test.Binding
 {
@@ -20,9 +24,11 @@ namespace Neutronium.Core.Test.Binding
         private readonly Dictionary<object, IJsCsGlue> _Cache = new Dictionary<object, IJsCsGlue>();
         private readonly IWebBrowserWindow _WebBrowserWindow;
         private readonly ObjectChangesListener _ObjectChangesListener;
+        private readonly ITestOutputHelper _TestOutputHelper;
 
-        public CSharpToJavascriptConverterTests()
+        public CSharpToJavascriptConverterTests(ITestOutputHelper testOutputHelper)
         {
+            _TestOutputHelper = testOutputHelper;
             _Cacher = Substitute.For<IJavascriptSessionCache>();
             _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJsCsGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJsCsGlue)callInfo[1]));
@@ -151,6 +157,53 @@ namespace Neutronium.Core.Test.Binding
 
             res.ToString().Should().Be("{\"Children\":[{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}],\"Property1\":null,\"Property2\":null,\"Property3\":\"~Children~0\"}");
         }
+
+
+        [Fact]
+        public void Map_performance_test()
+        {
+            var converter = GetCSharpToJavascriptConverterForPerformance();
+            var vm = SimpleReadOnlyTestViewModel.BuildBigVm();
+
+            using (GetPerformanceCounter("Map large Vm"))
+            {
+                var res = converter.Map(vm);
+            }
+        }
+
+        protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);
+
+
+        private CSharpToJavascriptConverter GetCSharpToJavascriptConverterForPerformance()
+        {
+            var cacher = new SessionCacher();
+            var factory = new GlueFactory(null, cacher, null, _ObjectChangesListener);
+            return new CSharpToJavascriptConverter(new WebBrowserWindowFakde(), cacher, factory, _Logger);
+        }
+
+        private class WebBrowserWindowFakde : IWebBrowserWindow
+        {
+            private readonly HashSet<Type> _BasicTypes = new HashSet<Type>
+            {
+                typeof(string),
+                typeof(int),
+                typeof(char),
+                typeof(double),
+                typeof(DateTime)
+            };
+            public IWebView MainFrame { get; }
+            public bool IsTypeBasic(Type type) => _BasicTypes.Contains(type);
+            public void NavigateTo(Uri path)
+            {
+            }
+
+            public Uri Url { get; }
+            public bool IsLoaded { get; }
+            public event EventHandler<LoadEndEventArgs> LoadEnd;
+            public event EventHandler<ConsoleMessageArgs> ConsoleMessage;
+            public event EventHandler<BrowserCrashedArgs> Crashed;
+        }
+
 
         private class TestClass
         {
