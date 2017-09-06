@@ -15,17 +15,17 @@ using System.Windows.Input;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
 using Newtonsoft.Json;
-using Tests.Universal.HTMLBindingTests.Helper;
 using System.Text;
+using Neutronium.Core.Test.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public abstract class HTMLBindingPerformanceTests : HTMLBindingBase
+    public abstract class HtmlBindingPerformanceTests : HTMLBindingBase
     {
-        protected const int _DelayForTimeOut = 100;
+        protected const int DelayForTimeOut = 100;
         private const string PlateformDependant = "Plateform Dependant";
         private readonly Dictionary<TestPerformanceKind, int> _ExpectedTimeInMilliSeconds;
-        protected HTMLBindingPerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds) : base(testEnvironment, output)
+        protected HtmlBindingPerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds) : base(testEnvironment, output)
         {
             _ExpectedTimeInMilliSeconds = expectedTimeInMilliSeconds;
         }
@@ -364,17 +364,17 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(50)]
         public async Task Stress_Big_Vm(int childrenCount)
         {
-            var root = new FakeFatherViewModel();
+            var root = new SimpleFatherTestViewModel();
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay),
-                Test = async mb => await StressVm(root, mb, BuildBigVm(childrenCount))
+                Test = async mb => await StressVm(root, mb, SimpleReadOnlyTestViewModel.BuildBigVm(childrenCount))
             };
 
             await RunAsync(test);
         }
 
-        private async Task StressVm(FakeFatherViewModel root, IHtmlBinding mb, FakeViewModel bigVm)
+        private async Task StressVm(SimpleFatherTestViewModel root, IHtmlBinding mb, SimpleReadOnlyTestViewModel bigVm)
         {
             var js = mb.JsRootObject;
             IJavascriptObject other;
@@ -383,8 +383,8 @@ namespace Tests.Universal.HTMLBindingTests
             {
                 await DoSafeAsyncUI(() => root.Other = bigVm);
 
-                await Task.Delay(_DelayForTimeOut);
-                perf.DiscountTime = _DelayForTimeOut;
+                await Task.Delay(DelayForTimeOut);
+                perf.DiscountTime = DelayForTimeOut;
 
                 other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
             }
@@ -475,7 +475,7 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(100000)]
         public async Task Stress_Big_Vm_Commands(int commandsCount)
         {
-            var root = new FakeViewModelWithCommands();
+            var root = new CommandsTestViewModel();
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay),
@@ -487,10 +487,10 @@ namespace Tests.Universal.HTMLBindingTests
 
                     using (var perf = GetPerformanceCounter($"Perf to create Vm with {commandsCount} commands"))
                     {
-                        perf.DiscountTime = _DelayForTimeOut;
+                        perf.DiscountTime = DelayForTimeOut;
                         await DoSafeAsyncUI(() => root.Commands = commands);
 
-                        await Task.Delay(_DelayForTimeOut);
+                        await Task.Delay(DelayForTimeOut);
                         var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Commands"));
 
                         other.IsArray.Should().BeTrue();
@@ -499,50 +499,6 @@ namespace Tests.Universal.HTMLBindingTests
             };
 
             await RunAsync(test);
-        }
-
-        protected FakeViewModel BuildBigVm(int leaves = 50, int position = 3)
-        {
-            var children = position == 0 ? null : Enumerable.Range(0, leaves).Select(i => BuildBigVm(leaves, position - 1));
-            return new FakeViewModel(children);
-        }
-
-        protected class FakeFatherViewModel : ViewModelTestBase
-        {
-            private FakeViewModel _FakeViewModel;
-            public FakeViewModel Other
-            {
-                get { return _FakeViewModel; }
-                set { Set(ref _FakeViewModel, value); }
-            }
-        }
-
-        protected class FakeViewModel
-        {
-            private static readonly Random _Random = new Random();
-
-            public FakeViewModel[] Children { get;}
-
-            public int One => 1;
-            public int Two => 2;
-
-            public int RandomNumber { get; }
-
-            public FakeViewModel(IEnumerable<FakeViewModel> children)
-            {
-                RandomNumber = _Random.Next();
-                Children = children?.ToArray();
-            }
-        }
-
-        protected class FakeViewModelWithCommands : ViewModelTestBase
-        {
-            private ICommand[] _Commands;
-            public ICommand[] Commands
-            {
-                get { return _Commands; }
-                set { Set(ref _Commands, value); }
-            }
         }
     }
 }

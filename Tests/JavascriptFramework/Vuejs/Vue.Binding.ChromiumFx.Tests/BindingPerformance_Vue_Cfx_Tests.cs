@@ -8,7 +8,7 @@ using VueFramework.Test.IntegratedInfra;
 namespace Vue.Binding.ChromiumFx.Tests
 {
     [Collection("Cfx Vue Windowless Integrated")]
-    public class BindingPerformance_Vue_Cfx_Tests : HTMLBindingVuePerformanceTests
+    public class BindingPerformance_Vue_Cfx_Tests : HtmlBindingVuePerformanceTests
     {
         public BindingPerformance_Vue_Cfx_Tests(CfxVueContext context, ITestOutputHelper output)
             : base(context, output, GetKoCefPerformanceExpectations())

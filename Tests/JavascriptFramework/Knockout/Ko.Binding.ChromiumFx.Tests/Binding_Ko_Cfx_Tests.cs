@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 namespace Ko.Binding.ChromiumFx.Tests
 {
     [Collection("Cfx Ko Windowless Integrated")]
-    public class Binding_Ko_Cfx_Tests : HTMLBindingTests
+    public class Binding_Ko_Cfx_Tests : HtmlBindingTests
     {
         public Binding_Ko_Cfx_Tests(CfxKoContext context, ITestOutputHelper output)
             : base(context, output)

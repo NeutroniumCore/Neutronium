@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Tests.Universal.HTMLBindingTests.Helper
+namespace Neutronium.Core.Test.Helper
 {
     public class ViewModelTestBase : INotifyPropertyChanged
     {

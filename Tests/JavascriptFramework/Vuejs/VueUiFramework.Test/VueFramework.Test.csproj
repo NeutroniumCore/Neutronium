@@ -248,6 +248,10 @@
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
       <Name>JavascriptFrameworkTesterHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Neutronium.Core.Test\Neutronium.Core.Test.csproj">
+      <Project>{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}</Project>
+      <Name>Neutronium.Core.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\UniversalTests\HTMLBindingTests\HTMLBindingTests.csproj">
       <Project>{2001fc2c-5166-4828-a47d-ab6d455a634b}</Project>
       <Name>HTMLBindingTests</Name>

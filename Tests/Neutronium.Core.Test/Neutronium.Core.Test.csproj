@@ -106,6 +106,13 @@
   <ItemGroup>
     <Compile Include="Binding\Builder\EntityDescriptorSpliterTests.cs" />
     <Compile Include="Binding\CSharpToJavascriptConverterTests.cs" />
+    <Compile Include="Helper\CommandsTestViewModel.cs" />
+    <Compile Include="Helper\PerformanceHelper.cs" />
+    <Compile Include="Helper\ReadOnlyTestViewModel.cs" />
+    <Compile Include="Helper\ReadWriteTestViewModel.cs" />
+    <Compile Include="Helper\SimpleFatherTestViewModel.cs" />
+    <Compile Include="Helper\SimpleReadOnlyTestViewModel.cs" />
+    <Compile Include="Helper\ViewModelTestBase.cs" />
     <Compile Include="Infra\EnumExtenderTest.cs" />
     <Compile Include="Infra\FakeClasses.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessorTests.cs" />

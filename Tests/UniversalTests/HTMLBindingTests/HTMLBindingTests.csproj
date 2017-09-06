@@ -95,10 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\ChangingCollectionViewModel.cs" />
-    <Compile Include="Helper\PerformanceHelper.cs" />
     <Compile Include="Helper\SimpleViewModel.cs" />
     <Compile Include="Helper\ViewModelCLRTypes.cs" />
-    <Compile Include="Helper\ViewModelTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestPerformanceKind.cs" />
     <Compile Include="HTMLBindingPerformanceTests.cs" />
@@ -129,6 +127,10 @@
     <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj">
       <Project>{25ec8826-104c-4346-b648-cf7ab591399a}</Project>
       <Name>JavascriptFrameworkTesterHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Neutronium.Core.Test\Neutronium.Core.Test.csproj">
+      <Project>{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}</Project>
+      <Name>Neutronium.Core.Test</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

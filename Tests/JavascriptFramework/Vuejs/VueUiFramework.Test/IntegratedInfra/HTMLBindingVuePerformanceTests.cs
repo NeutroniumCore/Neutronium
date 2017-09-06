@@ -12,14 +12,14 @@ using MoreCollection.Extensions;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Tests.Universal.HTMLBindingTests.Helper;
 using System.Linq;
+using Neutronium.Core.Test.Helper;
 
 namespace VueFramework.Test.IntegratedInfra
 {
-    public abstract class HTMLBindingVuePerformanceTests : HTMLBindingPerformanceTests
+    public abstract class HtmlBindingVuePerformanceTests : HtmlBindingPerformanceTests
     {
-        public HTMLBindingVuePerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds)
+        protected HtmlBindingVuePerformanceTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output, Dictionary<TestPerformanceKind, int> expectedTimeInMilliSeconds)
             : base(testEnvironment, output, expectedTimeInMilliSeconds)
         {
         }
@@ -82,13 +82,13 @@ namespace VueFramework.Test.IntegratedInfra
 
         public async Task Stress_Vm_FromStrategy(int childrenCount, int rank, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
-            var root = new FakeFatherViewModel();
+            var root = new SimpleFatherTestViewModel();
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay, strategyFactory),
                 Test = async (mb) =>
                 {
-                    var bigVm = BuildBigVm(childrenCount, rank);
+                    var bigVm = SimpleReadOnlyTestViewModel.BuildBigVm(childrenCount, rank);
                     var js = mb.JsRootObject;
 
                     var stopWatch = new Stopwatch();
@@ -96,12 +96,12 @@ namespace VueFramework.Test.IntegratedInfra
 
                     await DoSafeAsyncUI(() => root.Other = bigVm);
 
-                    await Task.Delay(_DelayForTimeOut);
+                    await Task.Delay(DelayForTimeOut);
 
                     var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
 
                     stopWatch.Stop();
-                    var ts = stopWatch.ElapsedMilliseconds - _DelayForTimeOut;
+                    var ts = stopWatch.ElapsedMilliseconds - DelayForTimeOut;
                     _Logger.Info($"Perf: {((double)(ts)) / 1000} sec");
 
                     other.IsObject.Should().BeTrue();
@@ -126,14 +126,14 @@ namespace VueFramework.Test.IntegratedInfra
 
                     await DoSafeAsyncUI(() => root.Value = value);
 
-                    await Task.Delay(_DelayForTimeOut);
+                    await Task.Delay(DelayForTimeOut);
 
                     var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Value"));
 
                     other.GetIntValue().Should().Be(value);
 
                     stopWatch.Stop();
-                    var ts = stopWatch.ElapsedMilliseconds - _DelayForTimeOut;
+                    var ts = stopWatch.ElapsedMilliseconds - DelayForTimeOut;
                     _Logger.Info($"Perf: {((double)(ts)) / 1000} sec");
                 }
             };

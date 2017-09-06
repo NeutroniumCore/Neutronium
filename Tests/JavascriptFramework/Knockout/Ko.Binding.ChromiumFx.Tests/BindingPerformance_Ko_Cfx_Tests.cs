@@ -7,7 +7,7 @@ using Xunit.Abstractions;
 namespace Ko.Binding.ChromiumFx.Tests
 {
     [Collection("Cfx Ko Windowless Integrated")]
-    public class BindingPerformance_Ko_Cfx_Tests : HTMLBindingPerformanceTests
+    public class BindingPerformance_Ko_Cfx_Tests : HtmlBindingPerformanceTests
     {
         public BindingPerformance_Ko_Cfx_Tests(CfxKoContext context, ITestOutputHelper output)
             : base(context, output, GetKoCefPerformanceExpectations())

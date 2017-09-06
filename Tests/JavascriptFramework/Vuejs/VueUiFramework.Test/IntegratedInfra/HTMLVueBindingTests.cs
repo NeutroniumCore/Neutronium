@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using MoreCollection.Extensions;
+using Neutronium.Core.Test.Helper;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Universal.HTMLBindingTests;
 using Tests.Universal.HTMLBindingTests.Helper;
@@ -14,33 +15,11 @@ using Xunit.Abstractions;
 
 namespace VueFramework.Test.IntegratedInfra
 {
-    public abstract class HTMLVueBindingTests : HTMLBindingTests
+    public abstract class HtmlVueBindingTests : HtmlBindingTests
     {
-        protected HTMLVueBindingTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
+        protected HtmlVueBindingTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
             : base(context, output)
         {
-        }
-
-        private class ReadOnlyClass : ViewModelTestBase
-        {
-            private int _ReadOnly;
-            public int ReadOnly
-            {
-                get { return _ReadOnly; }
-                private set { Set(ref _ReadOnly, value); }
-            }
-
-            public void SetReadOnly(int newValue) => ReadOnly = newValue;
-        }
-
-        private class ReadWriteClass : ReadOnlyClass
-        {
-            private int _ReadWrite;
-            public int ReadWrite
-            {
-                get { return _ReadWrite; }
-                set { Set(ref _ReadWrite, value); }
-            }
         }
 
         private void CheckReadOnly(IJavascriptObject javascriptObject, bool isReadOnly)
@@ -69,8 +48,8 @@ namespace VueFramework.Test.IntegratedInfra
         {
             get
             {
-                yield return new object[] { typeof(ReadOnlyClass), true };
-                yield return new object[] { typeof(ReadWriteClass), false };
+                yield return new object[] { typeof(ReadOnlyTestViewModel), true };
+                yield return new object[] { typeof(ReadWriteTestViewModel), false };
             }
         }
 
@@ -97,7 +76,7 @@ namespace VueFramework.Test.IntegratedInfra
         [MemberData(nameof(ReadWriteTestData))]
         public async Task TwoWay_should_update_from_csharp_readonly_property(Type type, bool readOnly)
         {
-            var datacontext = Activator.CreateInstance(type) as ReadOnlyClass;
+            var datacontext = Activator.CreateInstance(type) as ReadOnlyTestViewModel;
 
             var test = new TestInContextAsync()
             {
@@ -121,7 +100,7 @@ namespace VueFramework.Test.IntegratedInfra
         [Fact]
         public async Task TwoWay_should_update_from_csharp_readwrite_property()
         {
-            var datacontext = new ReadWriteClass();
+            var datacontext = new ReadWriteTestViewModel();
 
             var test = new TestInContextAsync()
             {
@@ -145,7 +124,7 @@ namespace VueFramework.Test.IntegratedInfra
         [Fact]
         public async Task TwoWay_should_update_from_js_readwrite_property()
         {
-            var datacontext = new ReadWriteClass();
+            var datacontext = new ReadWriteTestViewModel();
 
             var test = new TestInContextAsync()
             {

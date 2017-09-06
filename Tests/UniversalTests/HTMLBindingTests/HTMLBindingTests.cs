@@ -22,12 +22,13 @@ using Neutronium.MVVMComponents;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Universal.HTMLBindingTests.Helper;
 using Neutronium.Core.Binding;
+using Neutronium.Core.Test.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public abstract class HTMLBindingTests : HTMLBindingBase
+    public abstract class HtmlBindingTests : HTMLBindingBase
     {
-        protected HTMLBindingTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
+        protected HtmlBindingTests(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
         }
@@ -84,8 +85,6 @@ namespace Tests.Universal.HTMLBindingTests
                             arr = arr ?? glue as JsArray;
                             return glue != null;
                         });
-
-                    var stringarr = arr.ToString();
 
                     dynamic m = JsonConvert.DeserializeObject<dynamic>(jsbridge.ToString());
                     ((string)m.LastName).Should().Be("Desmaisons");
@@ -312,7 +311,6 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HtmlBinding.Bind(win, dt, JavascriptBindingMode.OneWay),
                 Test = (mb) =>
                 {
-                    var jsbridge = (mb as HtmlBinding).JsBrideRootObject;
                     var js = mb.JsRootObject;
 
                     int res = GetIntAttribute(js, "Int");

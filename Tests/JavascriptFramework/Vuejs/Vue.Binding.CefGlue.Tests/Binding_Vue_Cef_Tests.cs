@@ -6,7 +6,7 @@ using VueFramework.Test.IntegratedInfra;
 namespace Vue.Binding.CefGlue.Tests
 {
     [Collection("Cef Vue Windowless Integrated")]
-    public class Binding_Vue_Cef_Tests : HTMLVueBindingTests
+    public class Binding_Vue_Cef_Tests : HtmlVueBindingTests
     {
         public Binding_Vue_Cef_Tests(CefGlueVueContext context, ITestOutputHelper output)
             : base(context, output)

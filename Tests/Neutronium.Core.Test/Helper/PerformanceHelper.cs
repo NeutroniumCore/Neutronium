@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Xunit.Abstractions;
 
-namespace Tests.Universal.HTMLBindingTests.Helper
+namespace Neutronium.Core.Test.Helper
 {
     public class PerformanceHelper : IDisposable
     {
