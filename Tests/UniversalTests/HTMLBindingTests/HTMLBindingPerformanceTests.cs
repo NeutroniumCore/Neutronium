@@ -31,7 +31,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         protected PerformanceHelper GetPerformanceCounter(string description, int numberOfOperations)
-            => new PerformanceHelper(_TestOutputHelper, description, numberOfOperations);
+            => PerformanceHelper.OperationPerSec(_TestOutputHelper, description, numberOfOperations);
 
         private class TwoList
         {

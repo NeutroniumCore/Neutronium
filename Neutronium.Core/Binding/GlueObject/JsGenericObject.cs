@@ -27,17 +27,17 @@ namespace Neutronium.Core.Binding.GlueObject
             CValue = cValue;
         }
 
-        internal void SetAttributes(AttributeDescription[] attributes)
+        internal void SetAttributes(AttributeDescription[] attributes) 
         {
-            if (_Attributes == null)
-            {
-                _Attributes = attributes;
-            }
-            else
-            {
-                var newAttributes = _Attributes.Concat(attributes).OrderBy(at => at.Name).ToArray();
-                _Attributes = newAttributes;
-            }
+            _Attributes = attributes;
+        }
+
+        internal void Merge(JsGenericObject other) 
+        {
+            if (other == null)
+                return;
+            var newAttributes = _Attributes.Concat(other._Attributes).OrderBy(at => at.Name).ToArray();
+            _Attributes = newAttributes;
         }
 
         public IJsCsGlue GetAttribute(string propertyName) => Get(propertyName).Glue;

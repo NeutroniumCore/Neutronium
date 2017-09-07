@@ -12,6 +12,7 @@ using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xunit.Abstractions;
+using Newtonsoft.Json;
 
 namespace Neutronium.Core.Test.Binding
 {
@@ -164,6 +165,11 @@ namespace Neutronium.Core.Test.Binding
         {
             var converter = GetCSharpToJavascriptConverterForPerformance();
             var vm = SimpleReadOnlyTestViewModel.BuildBigVm();
+
+            using (GetPerformanceCounter("ToJson large Vm")) 
+            {
+                var res = JsonConvert.SerializeObject(vm);
+            }
 
             using (GetPerformanceCounter("Map large Vm"))
             {

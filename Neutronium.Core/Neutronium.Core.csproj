@@ -93,7 +93,16 @@
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
     <Compile Include="Binding\Builder\Packer\KeyPacker.cs" />
     <Compile Include="Binding\Builder\Packer\ObjectChildrenDescriptionPacker.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueBasicBuilder.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueCollectionsBuilder.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueCommandsBuilder.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueObjectBuilder.cs" />
+    <Compile Include="Binding\GlueBuilder\ICsToGlueConverter.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueAllCollectionBuilder.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueListBuilder.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueEnumerableBuilder.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueCollectionBuilder.cs" />
     <Compile Include="Binding\GlueObject\AttributeDescription.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
@@ -204,9 +213,8 @@
     <Compile Include="Binding\GlueObject\JsGenericObject.cs" />
     <Compile Include="Binding\BidirectionalMapper.cs" />
     <Compile Include="Infra\AssemblyExtension.cs" />
-    <Compile Include="Infra\EnumerableExtension.cs" />
     <Compile Include="HtmlBinding.cs" />
-    <Compile Include="Binding\CSharpToJavascriptConverter.cs" />
+    <Compile Include="Binding\GlueBuilder\CSharpToJavascriptConverter.cs" />
     <Compile Include="StringBinding.cs" />
     <Compile Include="WebSessionLoggerExtension.cs" />
   </ItemGroup>
@@ -236,6 +244,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
