@@ -7,6 +7,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using System.Collections.Generic;
 using FluentAssertions;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Test.Helper;
@@ -23,7 +24,6 @@ namespace Neutronium.Core.Test.Binding
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private readonly Dictionary<object, IJsCsGlue> _Cache = new Dictionary<object, IJsCsGlue>();
-        private readonly IWebBrowserWindow _WebBrowserWindow;
         private readonly ObjectChangesListener _ObjectChangesListener;
         private readonly ITestOutputHelper _TestOutputHelper;
 
@@ -37,9 +37,7 @@ namespace Neutronium.Core.Test.Binding
             _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => {}, _ => { });
             _GlueFactory = new GlueFactory(null, _Cacher, null, _ObjectChangesListener);
             _Logger = Substitute.For<IWebSessionLogger>();
-            _WebBrowserWindow = Substitute.For<IWebBrowserWindow>();
-            _WebBrowserWindow.IsTypeBasic(typeof(string)).Returns(true);
-            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_WebBrowserWindow, _Cacher, _GlueFactory, _Logger);
+            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_Cacher, _GlueFactory, _Logger);
         }
 
         [Fact]
@@ -159,6 +157,22 @@ namespace Neutronium.Core.Test.Binding
             res.ToString().Should().Be("{\"Children\":[{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}],\"Property1\":null,\"Property2\":null,\"Property3\":\"~Children~0\"}");
         }
 
+        [Fact]
+        public void Map_maps_nullable_value()
+        {
+            var vm = new NullableTestViewModel
+            {
+                Bool = true,
+                Decimal = 0.01m,
+                Double = 0.9221,          
+                Int32 = 1
+            };
+
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            res.ToString().Should().Be("{\"Bool\":true,\"Decimal\":0,01,\"Double\":0,9221,\"Int32\":1}");
+        }
+
 
         [Fact]
         public void Map_performance_test()
@@ -184,32 +198,8 @@ namespace Neutronium.Core.Test.Binding
         {
             var cacher = new SessionCacher();
             var factory = new GlueFactory(null, cacher, null, _ObjectChangesListener);
-            return new CSharpToJavascriptConverter(new WebBrowserWindowFakde(), cacher, factory, _Logger);
-        }
-
-        private class WebBrowserWindowFakde : IWebBrowserWindow
-        {
-            private readonly HashSet<Type> _BasicTypes = new HashSet<Type>
-            {
-                typeof(string),
-                typeof(int),
-                typeof(char),
-                typeof(double),
-                typeof(DateTime)
-            };
-            public IWebView MainFrame { get; }
-            public bool IsTypeBasic(Type type) => _BasicTypes.Contains(type);
-            public void NavigateTo(Uri path)
-            {
-            }
-
-            public Uri Url { get; }
-            public bool IsLoaded { get; }
-            public event EventHandler<LoadEndEventArgs> LoadEnd;
-            public event EventHandler<ConsoleMessageArgs> ConsoleMessage;
-            public event EventHandler<BrowserCrashedArgs> Crashed;
-        }
-
+            return new CSharpToJavascriptConverter(cacher, factory, _Logger);
+        }     
 
         private class TestClass
         {

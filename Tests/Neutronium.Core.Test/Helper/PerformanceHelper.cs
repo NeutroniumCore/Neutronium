@@ -5,14 +5,16 @@ using Xunit.Abstractions;
 
 namespace Neutronium.Core.Test.Helper
 {
-    public class PerformanceHelper : IDisposable {
+    public class PerformanceHelper : IDisposable
+    {
         private readonly Stopwatch _Stopwatch;
         private readonly ITestOutputHelper _Output;
         private readonly Func<double, string> _DescriptionBuilder;
         public double DiscountTime { get; set; }
 
         public PerformanceHelper(ITestOutputHelper output, string description) :
-            this(output, ts => $"{description}: {ts / 1000} sec") {
+            this(output, ts => $"{description}: {ts / 1000} sec")
+        {
         }
 
         public static PerformanceHelper OperationPerSec(ITestOutputHelper output, string description, int operationNumber) =>
@@ -21,7 +23,7 @@ namespace Neutronium.Core.Test.Helper
         public static PerformanceHelper TimePerOperation(ITestOutputHelper output, string description, int operationNumber) =>
             new PerformanceHelper(output, ts => $"{description}: {ts / 1000 / operationNumber} sec per operations");
 
-        public IDisposable Stop() 
+        public IDisposable Stop()
         {
             _Stopwatch.Stop();
             return new DisposableAction(() => _Stopwatch.Start());

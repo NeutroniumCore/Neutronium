@@ -13,7 +13,15 @@ namespace Neutronium.Core.Binding.Listeners
         public ObjectChangesListener On { get; }
         public ObjectChangesListener Off { get; }
 
-        public FullListenerRegister(Action<INotifyPropertyChanged> propertyOn, Action<INotifyPropertyChanged> propertyOff,
+        public FullListenerRegister(PropertyChangedEventHandler propertyHandler,
+            NotifyCollectionChangedEventHandler collectionHandler) :
+            this(n => n.PropertyChanged += propertyHandler, n => n.PropertyChanged -= propertyHandler,
+                n => n.CollectionChanged += collectionHandler, n => n.CollectionChanged -= collectionHandler,
+                c => c.ListenChanges(), c => c.UnListenChanges())
+        {        
+        }
+
+        private FullListenerRegister(Action<INotifyPropertyChanged> propertyOn, Action<INotifyPropertyChanged> propertyOff,
                         Action<INotifyCollectionChanged> collectionOn, Action<INotifyCollectionChanged> collectionOff,
                         Action<JsCommand> jsCommandOn, Action<JsCommand> jsCommandOff)
         {

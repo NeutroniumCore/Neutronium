@@ -14,7 +14,7 @@ using Xunit.Abstractions;
 using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Test.Infra;
+using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Binding.Listeners;
 
@@ -73,7 +73,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             _CSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
             _JavascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
             _HtmlViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _JavascriptFrameworkManager, null, _Logger);
-            _ConverTOJSO = new CSharpToJavascriptConverter(WebBrowserWindow, _CSharpMapper, _GlueFactory, _Logger);
+            _ConverTOJSO = new CSharpToJavascriptConverter(_CSharpMapper, _GlueFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>
             {
@@ -176,7 +176,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         private CSharpToJavascriptConverter GetCircularBreakerConverter(IJavascriptSessionCache cacher)
         {
             _GlueFactory = new GlueFactory(null, cacher, null, _ObjectChangesListener);
-            return new CSharpToJavascriptConverter(WebBrowserWindow, cacher, _GlueFactory, _Logger);
+            return new CSharpToJavascriptConverter( cacher, _GlueFactory, _Logger);
         }
 
         [Fact]

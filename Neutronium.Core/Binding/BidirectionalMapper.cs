@@ -11,6 +11,7 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject.Factory;
 
 namespace Neutronium.Core.Binding
@@ -50,15 +51,9 @@ namespace Neutronium.Core.Binding
             var javascriptObjecChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
             Context = contextBuilder.GetMainContext(javascriptObjecChanges);
             _SessionCache = new SessionCacher();
-            _ListenerRegister = ListenToCSharp ? new FullListenerRegister(
-                                        (n) => n.PropertyChanged += CSharpPropertyChanged,
-                                        (n) => n.PropertyChanged -= CSharpPropertyChanged,
-                                        (n) => n.CollectionChanged += CSharpCollectionChanged,
-                                        (n) => n.CollectionChanged -= CSharpCollectionChanged,
-                                        (c) => c.ListenChanges(),
-                                        (c) => c.UnListenChanges()) : null;
+            _ListenerRegister = ListenToCSharp ? new FullListenerRegister(CSharpPropertyChanged, CSharpCollectionChanged): null;
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _ListenerRegister?.On);
-            _JsObjectBuilder = new CSharpToJavascriptConverter(contextBuilder.HtmlWindow, _SessionCache, glueFactory, _Logger);
+            _JsObjectBuilder = new CSharpToJavascriptConverter(_SessionCache, glueFactory, _Logger);
             _RootObject = root;
         }
 

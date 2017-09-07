@@ -1284,7 +1284,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_CLR_Type_FromCtojavascript()
         {
             var command = Substitute.For<ISimpleCommand>();
-            var datacontext = new ViewModelCLRTypes();
+            var datacontext = new ClrTypesTestViewModel();
 
             var test = new TestInContext()
             {
@@ -1294,13 +1294,13 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     js.Should().NotBeNull();
 
-                    CheckIntValue(js, "int64", 0);
-                    CheckIntValue(js, "int32", 0);
-                    CheckIntValue(js, "int16", 0);
+                    CheckIntValue(js, "Int64", 0);
+                    CheckIntValue(js, "Int32", 0);
+                    CheckIntValue(js, "Int16", 0);
 
-                    CheckIntValue(js, "uint16", 0);
-                    CheckIntValue(js, "uint32", 0);
-                    CheckIntValue(js, "uint64", 0);
+                    CheckIntValue(js, "Uint16", 0);
+                    CheckIntValue(js, "Uint32", 0);
+                    CheckIntValue(js, "Uint64", 0);
 
                     CheckIntValue(js, "Double", 0);
                     CheckIntValue(js, "Decimal", 0);
@@ -1315,7 +1315,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_CLR_Type_FromjavascripttoCto()
         {
             var command = Substitute.For<ISimpleCommand>();
-            var datacontext = new ViewModelCLRTypes();
+            var datacontext = new ClrTypesTestViewModel();
 
             var test = new TestInContextAsync()
             {
@@ -1325,29 +1325,29 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     js.Should().NotBeNull();
 
-                    SetAttribute(js, "int64", _WebView.Factory.CreateInt(32));
+                    SetAttribute(js, "Int64", _WebView.Factory.CreateInt(32));
                     await Task.Delay(200);
-                    datacontext.int64.Should().Be(32);
+                    datacontext.Int64.Should().Be(32);
 
-                    SetAttribute(js, "uint64", _WebView.Factory.CreateInt(456));
+                    SetAttribute(js, "Uint64", _WebView.Factory.CreateInt(456));
                     await Task.Delay(200);
-                    datacontext.uint64.Should().Be(456);
+                    datacontext.Uint64.Should().Be(456);
 
-                    SetAttribute(js, "int32", _WebView.Factory.CreateInt(5));
+                    SetAttribute(js, "Int32", _WebView.Factory.CreateInt(5));
                     await Task.Delay(200);
-                    datacontext.int32.Should().Be(5);
+                    datacontext.Int32.Should().Be(5);
 
-                    SetAttribute(js, "uint32", _WebView.Factory.CreateInt(67));
+                    SetAttribute(js, "Uint32", _WebView.Factory.CreateInt(67));
                     await Task.Delay(200);
-                    datacontext.uint32.Should().Be(67);
+                    datacontext.Uint32.Should().Be(67);
 
-                    SetAttribute(js, "int16", _WebView.Factory.CreateInt(-23));
+                    SetAttribute(js, "Int16", _WebView.Factory.CreateInt(-23));
                     await Task.Delay(200);
-                    datacontext.int16.Should().Be(-23);
+                    datacontext.Int16.Should().Be(-23);
 
-                    SetAttribute(js, "uint16", _WebView.Factory.CreateInt(9));
+                    SetAttribute(js, "Uint16", _WebView.Factory.CreateInt(9));
                     await Task.Delay(200);
-                    datacontext.uint16.Should().Be(9);
+                    datacontext.Uint16.Should().Be(9);
 
                     SetAttribute(js, "Float", _WebView.Factory.CreateDouble(888.78));
                     await Task.Delay(200);

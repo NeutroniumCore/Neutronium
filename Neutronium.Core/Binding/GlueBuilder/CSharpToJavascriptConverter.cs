@@ -1,37 +1,53 @@
 ﻿using System;
 using System.Collections;
-using System.Windows.Input;
-using Neutronium.Core.Binding.GlueObject;
-using Neutronium.MVVMComponents;
 using System.Collections.Generic;
-using Neutronium.Core.Binding.GlueObject.Factory;
-using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.Core.Binding.GlueBuilder;
+using System.Windows.Input;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.GlueObject.Factory;
+using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding
+namespace Neutronium.Core.Binding.GlueBuilder
 {
-    internal class CSharpToJavascriptConverter 
+    internal class CSharpToJavascriptConverter
     {
         private readonly ICSharpToJsCache _Cacher;
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
-        private readonly IWebBrowserWindow _Context;
         private IJsCsGlue _Null;
+
         private readonly Dictionary<Type, ICsToGlueConverter> _Converters;
+
+        private static readonly HashSet<Type> _BasicTypes = new HashSet<Type>
+        {
+            typeof(string),
+            typeof(Int64),
+            typeof(Int32),
+            typeof(Int16),
+            typeof(UInt64),
+            typeof(UInt32),
+            typeof(UInt16),
+            typeof(float),
+            typeof(char),
+            typeof(double),
+            typeof(decimal),
+            typeof(bool),
+            typeof(DateTime)
+        };
+
         private readonly GlueBasicBuilder _BasicConverter;
         private readonly GlueCommandsBuilder _CommandsBuilder;
         private readonly GlueCollectionsBuilder _GlueCollectionsBuilder;
 
-        public CSharpToJavascriptConverter(IWebBrowserWindow context, ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger) {
-            _Context = context;
+        public CSharpToJavascriptConverter(ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
+        {
             _GlueFactory = glueFactory;
             _Logger = logger;
             _Cacher = cacher;
             _BasicConverter = new GlueBasicBuilder(_GlueFactory);
             _CommandsBuilder = new GlueCommandsBuilder(_GlueFactory);
-            _GlueCollectionsBuilder = new GlueCollectionsBuilder(_GlueFactory, _Context, this);
-            _Converters = new Dictionary<Type, ICsToGlueConverter> 
+            _GlueCollectionsBuilder = new GlueCollectionsBuilder(_GlueFactory, this);
+            _Converters = new Dictionary<Type, ICsToGlueConverter>
             {
                 [typeof(string)] = _BasicConverter,
                 [typeof(Int64)] = _BasicConverter,
@@ -49,7 +65,7 @@ namespace Neutronium.Core.Binding
             };
         }
 
-        public IJsCsGlue Map(object from, object additional) 
+        public IJsCsGlue Map(object from, object additional)
         {
             var result = Map(from);
             var root = result as JsGenericObject;
@@ -61,7 +77,7 @@ namespace Neutronium.Core.Binding
             return root;
         }
 
-        public IJsCsGlue Map(object from) 
+        public IJsCsGlue Map(object from)
         {
             if (from == null)
                 return _Null ?? (_Null = _GlueFactory.BuildBasic(null));
@@ -72,7 +88,7 @@ namespace Neutronium.Core.Binding
 
             var type = from.GetType();
             var converter = _Converters.GetOrDefault(type);
-            if (converter == null) 
+            if (converter == null)
             {
                 converter = GetConverter(type, from);
                 _Converters.Add(type, converter);
@@ -81,7 +97,9 @@ namespace Neutronium.Core.Binding
             return converter.Convert(from);
         }
 
-        private ICsToGlueConverter GetConverter(Type type, object @object) 
+        internal bool IsBasicType(Type type) => _BasicTypes.Contains(type);
+
+        private ICsToGlueConverter GetConverter(Type type, object @object)
         {
             if (type.IsEnum)
                 return _BasicConverter;
