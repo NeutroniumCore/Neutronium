@@ -1,21 +1,27 @@
-﻿using System;
+﻿using System.Collections;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class AttributeDescription : IComparable<AttributeDescription>
+    public class AttributeDescription 
     {
         public string Name { get; }
         public IJsCsGlue Glue { get; set; }
+        public static IComparer Comparer { get; } = new AttributeDescriptionAsymetricComparer();
 
-        public AttributeDescription(string name, IJsCsGlue glue = null)
+        public AttributeDescription(string name, IJsCsGlue glue = null) 
         {
             Name = name;
             Glue = glue;
         }
 
-        public int CompareTo(AttributeDescription other)
+        private class AttributeDescriptionAsymetricComparer : IComparer
         {
-            return Name.CompareTo(other.Name);
+            int IComparer.Compare(object x, object y) 
+            {
+                var stringX = ((AttributeDescription)x).Name;
+                var stringY = (string)y;
+                return stringX.CompareTo(stringY);
+            }
         }
     }
 }

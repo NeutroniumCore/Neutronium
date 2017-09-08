@@ -91,8 +91,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private AttributeDescription Get(string name)
         {
-            var index = Array.BinarySearch(_Attributes, new AttributeDescription(name));
-            return (index == -1) ? null : _Attributes[index];
+            var index = Array.BinarySearch(_Attributes, name, AttributeDescription.Comparer);
+            return (index < 0) ? null : _Attributes[index];
         }
 
         public BridgeUpdater GetUpdater(string propertyName, IJsCsGlue glue)
