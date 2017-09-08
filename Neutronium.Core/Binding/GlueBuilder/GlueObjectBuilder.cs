@@ -18,7 +18,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
         {
             _Converter = converter;
             _Logger = logger;
-            _Properties = objectType.GetReadProperties().ToArray();
+            _Properties = objectType.GetReadProperties().OrderBy(prop => prop.Key).ToArray();
         }
 
         public IJsCsGlue Convert(IGlueFactory factory, object @object) 

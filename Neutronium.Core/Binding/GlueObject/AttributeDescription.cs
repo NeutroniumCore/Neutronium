@@ -14,9 +14,9 @@ namespace Neutronium.Core.Binding.GlueObject
             Glue = glue;
         }
 
-        private class AttributeDescriptionAsymetricComparer : IComparer
+        private struct AttributeDescriptionAsymetricComparer : IComparer
         {
-            int IComparer.Compare(object x, object y) 
+            public int Compare(object x, object y) 
             {
                 var stringX = ((AttributeDescription)x).Name;
                 var stringY = (string)y;

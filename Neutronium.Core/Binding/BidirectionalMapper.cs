@@ -287,12 +287,12 @@ namespace Neutronium.Core.Binding
                 return;
 
             var nv = propertyAccessor.Get(sender);
-            var oldbridgedchild = currentfather.GetAttribute(propertyName);
+            var currentAttributeDescription = currentfather.GetAttributeDescription(propertyName);
 
-            if (Object.Equals(nv, oldbridgedchild.CValue))
+            if (Object.Equals(nv, currentAttributeDescription.Glue.CValue))
                 return;
 
-            UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(propertyName, child));
+            UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(currentAttributeDescription, child));
         }
 
         private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

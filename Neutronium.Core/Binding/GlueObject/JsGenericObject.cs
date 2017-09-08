@@ -40,7 +40,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes = newAttributes;
         }
 
-        public IJsCsGlue GetAttribute(string propertyName) => Get(propertyName).Glue;
+        public IJsCsGlue GetAttribute(string propertyName) => GetAttributeDescription(propertyName).Glue;
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
@@ -81,24 +81,29 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        internal IJsCsGlue UpdateGlueProperty(string propertyName, IJsCsGlue glue)
+        private static IJsCsGlue UpdateGlueProperty(AttributeDescription attributeDescription, IJsCsGlue glue)
         {
-            glue.AddRef();
-            var oldGlue = Get(propertyName).Glue;      
-            Get(propertyName).Glue = glue;
+            var oldGlue = attributeDescription.Glue;
+            attributeDescription.Glue = glue.AddRef();
             return oldGlue.Release()? oldGlue : null;
         }
 
-        private AttributeDescription Get(string name)
+        internal IJsCsGlue UpdateGlueProperty(string name, IJsCsGlue glue) 
+        {
+            var description = GetAttributeDescription(name);
+            return UpdateGlueProperty(description, glue);
+        }
+
+        internal AttributeDescription GetAttributeDescription(string name)
         {
             var index = Array.BinarySearch(_Attributes, name, AttributeDescription.Comparer);
             return (index < 0) ? null : _Attributes[index];
         }
 
-        public BridgeUpdater GetUpdater(string propertyName, IJsCsGlue glue)
+        public BridgeUpdater GetUpdater(AttributeDescription attributeDescription, IJsCsGlue glue)
         {
-            var old = UpdateGlueProperty(propertyName, glue);
-            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(CachableJsValue, propertyName,
+            var old = UpdateGlueProperty(attributeDescription, glue);
+            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(CachableJsValue, attributeDescription.Name,
                     glue.GetJsSessionValue(), !glue.IsBasic()))
                         .Remove(old);
         }
