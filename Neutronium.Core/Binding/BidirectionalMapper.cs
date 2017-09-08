@@ -51,7 +51,7 @@ namespace Neutronium.Core.Binding
             var javascriptObjecChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
             Context = contextBuilder.GetMainContext(javascriptObjecChanges);
             _SessionCache = new SessionCacher();
-            _ListenerRegister = ListenToCSharp ? new FullListenerRegister(CSharpPropertyChanged, CSharpCollectionChanged): null;
+            _ListenerRegister = ListenToCSharp ? new FullListenerRegister(OnCSharpPropertyChanged, OnCSharpCollectionChanged): null;
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _ListenerRegister?.On);
             _JsObjectBuilder = new CSharpToJavascriptConverter(_SessionCache, glueFactory, _Logger);
             _RootObject = root;
@@ -164,7 +164,7 @@ namespace Neutronium.Core.Binding
 
                 if (propertyAccessor?.IsSettable != true)
                 {
-                    _Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
+                    LogReadOnlyProperty(propertyName);
                     return;
                 }
 
@@ -199,7 +199,7 @@ namespace Neutronium.Core.Binding
 
                         if (!Object.Equals(oldValue, actualValue))
                         {
-                            CSharpPropertyChanged(res.CValue, new PropertyChangedEventArgs(propertyName));
+                            OnCSharpPropertyChanged(res.CValue, new PropertyChangedEventArgs(propertyName));
                         }                        
                     }
                 });
@@ -212,10 +212,20 @@ namespace Neutronium.Core.Binding
                     bridgeUpdater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
                 });
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {e.Message}");
+                LogJavascriptSetException(exception);
             }
+        }
+
+        private void LogReadOnlyProperty(string propertyName) 
+        {
+            _Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
+        }
+
+        private void LogJavascriptSetException(Exception exception) 
+        {
+            _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {exception.Message}");
         }
 
         public async void OnJavaScriptCollectionChanges(JavascriptCollectionChanges changes)
@@ -241,9 +251,9 @@ namespace Neutronium.Core.Binding
                     updater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
                 });
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {e.Message}");
+                LogJavascriptSetException(exception);
             }
         }
 
@@ -258,13 +268,13 @@ namespace Neutronium.Core.Binding
 
                 updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {e.Message}");
+                LogJavascriptSetException(exception);
             }
         }
 
-        private void CSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var propertyName = e.PropertyName;
 
@@ -285,7 +295,7 @@ namespace Neutronium.Core.Binding
             UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(propertyName, child));
         }
 
-        private void CSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             UnsafeCSharpCollectionChanged(sender, e);
         }
