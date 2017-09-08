@@ -41,15 +41,20 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 {
                     childvalue = propertyInfo.Value.Get(parentObject);
                 }
-                catch (Exception e) 
+                catch (Exception exception)
                 {
-                    _Logger.Info(() => $"Unable to convert property {propertyName} from {parentObject} of type {parentObject.GetType().FullName} exception {e.InnerException}");
+                    LogIntrospectionError(propertyName, parentObject, exception);
                 }
 
                 var child = _Converter.Map(childvalue).AddRef();
                 attributes[index++] = new AttributeDescription(propertyName, child);
             }
             return attributes;
+        }
+
+        private void LogIntrospectionError(string propertyName, object parentObject, Exception exception) 
+        {
+            _Logger.Info(() => $"Unable to convert property {propertyName} from {parentObject} of type {parentObject.GetType().FullName} exception {exception.InnerException}");
         }
     }
 }
