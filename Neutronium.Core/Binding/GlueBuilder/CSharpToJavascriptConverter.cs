@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private readonly IWebSessionLogger _Logger;
         private IJsCsGlue _Null;
 
-        private readonly Dictionary<Type, ICsToGlueConverter> _Converters;
+        private readonly Dictionary<Type, Func<IGlueFactory, object, IJsCsGlue>> _Converters;
 
         private static readonly HashSet<Type> _BasicTypes = new HashSet<Type>
         {
@@ -35,33 +35,26 @@ namespace Neutronium.Core.Binding.GlueBuilder
             typeof(DateTime)
         };
 
-        private readonly GlueBasicBuilder _BasicConverter;
-        private readonly GlueCommandsBuilder _CommandsBuilder;
-        private readonly GlueCollectionsBuilder _GlueCollectionsBuilder;
-
         public CSharpToJavascriptConverter(ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
             _GlueFactory = glueFactory;
             _Logger = logger;
             _Cacher = cacher;
-            _BasicConverter = new GlueBasicBuilder(_GlueFactory);
-            _CommandsBuilder = new GlueCommandsBuilder(_GlueFactory);
-            _GlueCollectionsBuilder = new GlueCollectionsBuilder(_GlueFactory, this);
-            _Converters = new Dictionary<Type, ICsToGlueConverter>
+            _Converters = new Dictionary<Type, Func<IGlueFactory, object, IJsCsGlue>>
             {
-                [typeof(string)] = _BasicConverter,
-                [typeof(Int64)] = _BasicConverter,
-                [typeof(Int32)] = _BasicConverter,
-                [typeof(Int16)] = _BasicConverter,
-                [typeof(UInt64)] = _BasicConverter,
-                [typeof(UInt32)] = _BasicConverter,
-                [typeof(UInt16)] = _BasicConverter,
-                [typeof(float)] = _BasicConverter,
-                [typeof(char)] = _BasicConverter,
-                [typeof(double)] = _BasicConverter,
-                [typeof(decimal)] = _BasicConverter,
-                [typeof(bool)] = _BasicConverter,
-                [typeof(DateTime)] = _BasicConverter
+                [typeof(string)] = BuildBasic,
+                [typeof(Int64)] = BuildBasic,
+                [typeof(Int32)] = BuildBasic,
+                [typeof(Int16)] = BuildBasic,
+                [typeof(UInt64)] = BuildBasic,
+                [typeof(UInt32)] = BuildBasic,
+                [typeof(UInt16)] = BuildBasic,
+                [typeof(float)] = BuildBasic,
+                [typeof(char)] = BuildBasic,
+                [typeof(double)] = BuildBasic,
+                [typeof(decimal)] = BuildBasic,
+                [typeof(bool)] = BuildBasic,
+                [typeof(DateTime)] = BuildBasic
             };
         }
 
@@ -93,36 +86,44 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 converter = GetConverter(type, from);
                 _Converters.Add(type, converter);
             }
-
-            return converter.Convert(from);
+            return converter(_GlueFactory, from);
         }
 
         internal bool IsBasicType(Type type) => _BasicTypes.Contains(type);
 
-        private ICsToGlueConverter GetConverter(Type type, object @object)
+        private static IJsCsGlue BuildBasic(IGlueFactory factory, object @object) => factory.BuildBasic(@object);
+
+        private static IJsCsGlue BuildCommand(IGlueFactory factory, object @object) => factory.Build((ICommand)@object);
+
+        private static IJsCsGlue BuildSimpleCommand(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand)@object);
+
+        private static IJsCsGlue BuildResultCommand(IGlueFactory factory, object @object) => factory.Build((IResultCommand)@object);
+
+        private Func<IGlueFactory, object, IJsCsGlue> GetConverter(Type type, object @object)
         {
             if (type.IsEnum)
-                return _BasicConverter;
+                return BuildBasic;
 
             if (@object is ICommand)
-                return _CommandsBuilder.Command;
+                return BuildCommand;
 
             if (@object is ISimpleCommand)
-                return _CommandsBuilder.SimpleCommand;
+                return BuildSimpleCommand;
 
             if (@object is IResultCommand)
-                return _CommandsBuilder.ResultCommand;
+                return BuildResultCommand;
 
             if (@object is IList)
-                return _GlueCollectionsBuilder.GetList(type);
+                return new GlueCollectionsBuilder(this, type).ConvertList;
 
             if (@object is ICollection)
-                return _GlueCollectionsBuilder.GetCollection(type);
+                return new GlueCollectionsBuilder(this, type).ConvertCollection;
 
             if (@object is IEnumerable)
-                return _GlueCollectionsBuilder.GetEnumerable(type);
+                return new GlueCollectionsBuilder(this, type).ConvertEnumerable;
 
-            return new GlueObjectBuilder(_GlueFactory, this, _Logger, type);
+            var objectBuilder = new GlueObjectBuilder(this, _Logger, type);
+            return objectBuilder.Convert;
         }
     }
 }

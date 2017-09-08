@@ -1,32 +1,89 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Factory;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueBuilder 
 {
-    internal class GlueCollectionsBuilder 
+    internal sealed class GlueCollectionsBuilder
     {
-        private readonly IGlueFactory _Factory;
+        private readonly Type _BasicType;
         private readonly CSharpToJavascriptConverter _Converter;
 
-        public GlueCollectionsBuilder(IGlueFactory factory, CSharpToJavascriptConverter converter) 
+        internal GlueCollectionsBuilder(CSharpToJavascriptConverter converter, Type collectionType)
         {
-            _Factory = factory;
             _Converter = converter;
+
+            var elementType = collectionType.GetEnumerableBase();
+            elementType = elementType?.GetUnderlyingType();
+            _BasicType = converter.IsBasicType(elementType) ? elementType : null;
         }
 
-        public ICsToGlueConverter GetCollection(Type collectionType) 
+        internal IJsCsGlue ConvertList(IGlueFactory factory, object @object)
         {
-            return new GlueCollectionBuilder(_Factory, _Converter, collectionType);
+            var collection = (IList)@object;
+            var arrayResult = Build(factory, collection);
+            arrayResult.SetChildren(Convert(collection));
+            return arrayResult;
         }
 
-        public ICsToGlueConverter GetList(Type collectionType)
+        internal IJsCsGlue ConvertCollection(IGlueFactory factory, object @object) 
         {
-            return new GlueListBuilder(_Factory, _Converter, collectionType);
+            var collection = (ICollection)@object;
+            var arrayResult = Build(factory, collection);
+            arrayResult.SetChildren(Convert(collection));
+            return arrayResult;
         }
 
-        public ICsToGlueConverter GetEnumerable(Type collectionType)
+        internal IJsCsGlue ConvertEnumerable(IGlueFactory factory, object @object)
         {
-            return new GlueEnumerableBuilder(_Factory, _Converter, collectionType);
+            var enumerable = (IEnumerable)@object;
+            var arrayResult = Build(factory, enumerable);
+            arrayResult.SetChildren(Convert(enumerable));
+            return arrayResult;
+        }
+
+        private List<IJsCsGlue> Convert(IList collection)
+        {
+            var list = new List<IJsCsGlue>(collection.Count);
+            return AppendToList(list, collection);
+        }
+
+        private List<IJsCsGlue> Convert(ICollection collection) 
+        {
+            var list = new List<IJsCsGlue>(collection.Count);
+            return AppendToList(list, collection);
+        }
+
+        private List<IJsCsGlue> Convert(IEnumerable collection)
+        {
+            var list = new List<IJsCsGlue>();
+            return AppendToList(list, collection);
+        }
+
+        private JsArray Build(IGlueFactory factory, IEnumerable enumerable)
+        {
+            return factory.BuildArray(enumerable, _BasicType);
+        }
+
+        private List<IJsCsGlue> AppendToList(List<IJsCsGlue> childrenList, IEnumerable enumerable)
+        {
+            foreach (var @object in enumerable)
+            {
+                childrenList.Add(_Converter.Map(@object).AddRef());
+            }
+            return childrenList;
+        }
+
+        private List<IJsCsGlue> AppendToList(List<IJsCsGlue> childrenList, IList list)
+        {
+            for (var i = 0; i < list.Count; i++)
+            {
+                childrenList.Add(_Converter.Map(list[i]).AddRef());
+            }
+            return childrenList;
         }
     }
 }

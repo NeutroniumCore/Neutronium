@@ -7,6 +7,5 @@ namespace Neutronium.Core.Binding
         IJsCsGlue GetCached(object key);
 
         void CacheFromCSharpValue(object key, IJsCsGlue value);
-
     }
 }

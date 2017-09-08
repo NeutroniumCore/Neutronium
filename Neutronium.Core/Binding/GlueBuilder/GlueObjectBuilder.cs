@@ -8,24 +8,22 @@ using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.GlueBuilder 
 {
-    internal sealed class GlueObjectBuilder : ICsToGlueConverter
+    internal sealed class GlueObjectBuilder
     {
-        private readonly IGlueFactory _GlueFactory;
         private readonly KeyValuePair<string, PropertyAccessor>[] _Properties;
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _Converter;
 
-        public GlueObjectBuilder(IGlueFactory factory, CSharpToJavascriptConverter converter, IWebSessionLogger logger, Type objectType) 
+        public GlueObjectBuilder(CSharpToJavascriptConverter converter, IWebSessionLogger logger, Type objectType) 
         {
-            _GlueFactory = factory;
             _Converter = converter;
             _Logger = logger;
             _Properties = objectType.GetReadProperties().ToArray();
         }
 
-        public IJsCsGlue Convert(object @object) 
+        public IJsCsGlue Convert(IGlueFactory factory, object @object) 
         {
-            var result = _GlueFactory.Build(@object);
+            var result = factory.Build(@object);
             result.SetAttributes(MapNested(@object));
             return result;
         }
