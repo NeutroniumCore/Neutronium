@@ -84,7 +84,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public void ExecuteJavaScript(string code) 
         {
-            RunAsync(() => _CfrFrame.ExecuteJavaScript(code, String.Empty, 0));
+            Dispatch(() => _CfrFrame.ExecuteJavaScript(code, String.Empty, 0));
         }
     }
 }
