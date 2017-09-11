@@ -15,7 +15,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly CfrBrowser _Browser;
         private readonly IWebSessionLogger _Logger;
 
-        private readonly BlockingCollection<Action> _Actions = new BlockingCollection<Action>(new ConcurrentQueue<Action>());
+        private readonly ConcurrentQueue<Action> _Actions = new ConcurrentQueue<Action>();
         private readonly CfrTask _CfrTask;
         private bool _IsExecutingActions;
 
@@ -34,10 +34,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private void CfrTask_Execute(object sender, CfrEventArgs e) 
         {
             _IsExecutingActions = true;
-            using (var ctx = GetContext()) 
+            using (GetContext()) 
             {
                 Action action;
-                while (_Actions.TryTake(out action, 10)) 
+                while (_Actions.TryDequeue(out action)) 
                 {
                     action();
                 }
@@ -63,7 +63,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
                 catch (Exception exception)
                 {
-                    _Logger?.Info(() => $"Exception encountred during task dispatch: {exception.Message}");
+                    _Logger?.Info($"Exception encountred during task dispatch: {exception.Message}");
                 }
             };
 
@@ -109,23 +109,26 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
                 catch (Exception exception) 
                 {
-                    _Logger?.Info(() => $"Exception encountred during task dispatch: {exception.Message}");
+                    _Logger?.Info($"Exception encountred during task dispatch: {exception.Message}");
                     taskCompletionSource.TrySetException(exception);
                 }
             };
             return result;
         }
 
-        private ChromiumFXContext GetContext() 
+        private ChromiumFxContext GetContext() 
         {
-            return new ChromiumFXContext(_Context);
+            return new ChromiumFxContext(_Context, _Logger);
         }
 
-        private struct ChromiumFXContext : IDisposable 
+        private struct ChromiumFxContext : IDisposable 
         {
             private readonly CfrV8Context _Context;
-            public ChromiumFXContext(CfrV8Context context) 
+            private readonly IWebSessionLogger _Logger;
+
+            public ChromiumFxContext(CfrV8Context context, IWebSessionLogger logger) 
             {
+                _Logger = logger;
                 _Context = context;
                 _Context.Enter();
             }
@@ -138,7 +141,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine($"Problem in exiting chromiumFx context {ex}");
+                    _Logger?.Info($"Problem in exiting chromiumFx context {ex}");
                 }
             }
         }
@@ -156,12 +159,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 return;
             }
 
-            _Actions.Add(action);
+            _Actions.Enqueue(action);
 
             if (_IsExecutingActions)
                 return;
 
-            using (var ctx = GetRemoteContext()) 
+            using (GetRemoteContext()) 
             {
                 TaskRunner.PostTask(_CfrTask);
             }

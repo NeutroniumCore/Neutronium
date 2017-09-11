@@ -18,6 +18,7 @@ using Neutronium.WPF.Utils;
 using Microsoft.Win32;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.WPF.Internal.ViewModel;
 
 namespace Neutronium.WPF.Internal
 {

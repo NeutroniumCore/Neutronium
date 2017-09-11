@@ -119,6 +119,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Content Include="src\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="src\js\Ko_Extension.min.js.map">
       <DependentUpon>Ko_Extension.min.js</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -163,9 +166,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="src\index_awe.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="src\js\Enum.js">

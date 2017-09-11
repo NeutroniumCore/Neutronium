@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.Builder
 {
@@ -43,9 +44,9 @@ namespace Neutronium.Core.Binding.Builder
             _JavascriptObjectBuilder.RequestExecutableCreation(_Object);
         }
 
-        public void RequestObjectCreation(AttributeDescription[] children, bool updatableFromJs)
+        public void RequestObjectCreation(TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue)
         {
-            _JavascriptObjectBuilder.RequestObjectCreation(_Object, children, updatableFromJs);
+            _JavascriptObjectBuilder.RequestObjectCreation(_Object, attributeDescription, attributeValue);
         }
     }
 }

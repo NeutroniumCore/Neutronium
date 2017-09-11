@@ -11,7 +11,12 @@ namespace Example.CefGlue.Ko.Navigation
     {
         public Nav()
         {
-            DoNav = new RelayCommand(() => { Navigation?.NavigateAsync(this); });
+            DoNav = new RelayCommand(Navigate);
+        }
+
+        private void Navigate()
+        {
+            Navigation?.NavigateAsync(this);
         }
 
         public ICommand DoNav { get; }

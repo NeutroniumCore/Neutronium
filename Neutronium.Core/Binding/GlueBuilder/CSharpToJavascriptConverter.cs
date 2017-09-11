@@ -58,18 +58,6 @@ namespace Neutronium.Core.Binding.GlueBuilder
             };
         }
 
-        public IJsCsGlue Map(object from, object additional)
-        {
-            var result = Map(from);
-            var root = result as JsGenericObject;
-            if ((root == null) || (additional == null))
-                return result;
-
-            var other = Map(additional) as JsGenericObject;
-            root.Merge(other);
-            return root;
-        }
-
         public IJsCsGlue Map(object from)
         {
             if (from == null)

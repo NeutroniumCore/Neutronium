@@ -11,13 +11,14 @@ using Neutronium.WPF;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Tests.Universal.NavigationTests
 {
     public abstract class HTMLViewControlTests : WpfComponentTest_Base<HTMLViewControl>
     {
-        protected HTMLViewControlTests(IWindowContextProvider windowTestEnvironment) :
-            base(windowTestEnvironment)
+        protected HTMLViewControlTests(IWindowContextProvider windowTestEnvironment, ITestOutputHelper testOutputHelper) :
+            base(windowTestEnvironment, testOutputHelper)
         {
         }
 

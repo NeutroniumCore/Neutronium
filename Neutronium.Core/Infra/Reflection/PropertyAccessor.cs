@@ -4,16 +4,20 @@ using System.Reflection.Emit;
 
 namespace Neutronium.Core.Infra.Reflection
 {
-    internal class PropertyAccessor
+    public class PropertyAccessor
     {
         private readonly Func<object,object> _Getter;
         private readonly Action<object, object> _Setter;
 
         public Type TargetType { get; }
         public bool IsSettable { get; }
+        public int Position { get; }
+        public string Name { get; }
  
-        public PropertyAccessor(Type type, PropertyInfo propertyInfo)
+        public PropertyAccessor(Type type, PropertyInfo propertyInfo, int position)
         {
+            Position = position;
+            Name = propertyInfo.Name;
             _Getter = BuildGet(type, propertyInfo);
             var setterInfo = (propertyInfo.CanRead) ? propertyInfo.GetSetMethod(false) : null;
             IsSettable = (setterInfo != null);

@@ -8,7 +8,7 @@
         methods: {
             click: function () {
                 var self = this;
-                this.asPromise(this.CreateObject)(this.inputName)
+                this.asPromise(this.ViewModel.CreateObject)(this.ViewModel.inputName)
                     .then(function (res) {
                         alert(res.LastName);
                         self.factoryresult = res;

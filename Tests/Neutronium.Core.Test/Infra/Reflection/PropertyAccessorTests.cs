@@ -20,7 +20,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
         {
             var type = typeof(FakeClass);
             var propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-            return new PropertyAccessor(typeof(FakeClass), propertyInfo);
+            return new PropertyAccessor(typeof(FakeClass), propertyInfo, 0);
         }
 
         [Theory]
@@ -68,7 +68,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var operations = 100000000;
-            var myTypeInstrospector = new PropertyAccessor(typeof(FakeClass), typeof(FakeClass).GetProperty("Available2", BindingFlags.Public | BindingFlags.Instance));
+            var myTypeInstrospector = new PropertyAccessor(typeof(FakeClass), typeof(FakeClass).GetProperty("Available2", BindingFlags.Public | BindingFlags.Instance), 0);
 
             for (var i = 0; i < operations; i++)
             {         

@@ -5,6 +5,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Extension;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.Builder
 {
@@ -92,19 +93,17 @@ namespace Neutronium.Core.Binding.Builder
             executable?.UpdateJsObject(@object);
         }
 
-        void IJavascriptObjectBuilder.RequestObjectCreation(AttributeDescription[] children, bool updatableFromJs)
+        void IJavascriptObjectBuilder.RequestObjectCreation(TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue)
         {
-            var value = _Factory.CreateObject(!updatableFromJs);
+            var value = _Factory.CreateObject(!attributeDescription.HasReadWriteProperties);
             SetValue(value);
-
-            if (children == null)
-                return;
 
             _AfterChildrenUpdates = () =>
             {
-                foreach (var child in children)
+                var properties = attributeDescription.ReadProperties;
+                for (var i = 0; i < properties.Length; i++)
                 {
-                    value.SetValue(child.Name, child.Glue.JsValue);
+                    value.SetValue(properties[i].Name, attributeValue[i].JsValue);
                 }
             };
         }

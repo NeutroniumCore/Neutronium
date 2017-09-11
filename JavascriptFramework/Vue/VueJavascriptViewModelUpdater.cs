@@ -15,16 +15,14 @@ namespace Neutronium.JavascriptFramework.Vue
         private readonly Lazy<IJavascriptObject> _VueHelper;
         private VueVmUpdater _Updater;
         private VueVmUpdater Updater => _Updater ?? (_Updater = new VueVmUpdater(_VueHelper.Value));
-        private readonly IWebSessionLogger _Logger;
 
         private readonly Dictionary<string, IJavascriptObject> _Properties = new Dictionary<string, IJavascriptObject>();
 
-        public VueJavascriptViewModelUpdater(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper, IWebSessionLogger logger)
+        public VueJavascriptViewModelUpdater(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper)
         {
             _WebView = webView;
             _Listener = listener;
             _VueHelper = vueHelper;
-            _Logger = logger;
         }
 
         public void ClearAllCollection(IJavascriptObject array)

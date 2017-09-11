@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Infra;
@@ -10,7 +8,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal sealed class GlueObjectBuilder
     {
-        private readonly KeyValuePair<string, PropertyAccessor>[] _Properties;
+        private readonly TypePropertyAccessor _TypePropertyAccessor;
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _Converter;
 
@@ -18,28 +16,29 @@ namespace Neutronium.Core.Binding.GlueBuilder
         {
             _Converter = converter;
             _Logger = logger;
-            _Properties = objectType.GetReadProperties().OrderBy(prop => prop.Key).ToArray();
+            _TypePropertyAccessor = objectType.GetTypePropertyInfo();
         }
 
         public IJsCsGlue Convert(IGlueFactory factory, object @object) 
         {
-            var result = factory.Build(@object);
+            var result = factory.Build(@object, _TypePropertyAccessor);
             result.SetAttributes(MapNested(@object));
             return result;
         }
 
-        private AttributeDescription[] MapNested(object parentObject) 
+        private IJsCsGlue[] MapNested(object parentObject)
         {
-            var attributes = new AttributeDescription[_Properties.Length];
+            var properties = _TypePropertyAccessor.ReadProperties;
+            var attributes = new IJsCsGlue[properties.Length];
             var index = 0;
 
-            foreach (var propertyInfo in _Properties) 
+            foreach (var propertyInfo in properties) 
             {
-                var propertyName = propertyInfo.Key;
+                var propertyName = propertyInfo.Name;
                 object childvalue = null;
                 try 
                 {
-                    childvalue = propertyInfo.Value.Get(parentObject);
+                    childvalue = propertyInfo.Get(parentObject);
                 }
                 catch (Exception exception)
                 {
@@ -47,7 +46,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 }
 
                 var child = _Converter.Map(childvalue).AddRef();
-                attributes[index++] = new AttributeDescription(propertyName, child);
+                attributes[index++] = child;
             }
             return attributes;
         }

@@ -17,7 +17,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Threading
         [SecurityCritical]
         protected override void QueueTask(Task task) 
         {
-            _Dispatcher.RunAsync(() => TryExecuteTask(task));
+            _Dispatcher.Dispatch(() => TryExecuteTask(task));
         }
 
         [SecurityCritical]

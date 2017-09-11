@@ -1,22 +1,25 @@
 <!doctype html>
 <html>
-	<head>
-        <title></title>
-	</head>
+<head>
+    <title></title>
+</head>
 <body>
 
-    <!--ko with:One-->
-    <input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name">
-    <input type="text" data-bind="value: LastName, valueUpdate:'afterkeydown'" placeholder="First name">
-    <!--/ko -->
-    <!--ko with:Two-->
-    <input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name">
-    <input type="text" data-bind="value: LastName, valueUpdate:'afterkeydown'" placeholder="First name">
-    <!--/ko -->
+    <!-- ko with:$data.ViewModel()-->
+        <!--ko with:One-->
+        <input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name">
+        <input type="text" data-bind="value: LastName, valueUpdate:'afterkeydown'" placeholder="First name">
+        <!--/ko -->
+        <!--ko with:Two-->
+        <input type="text" data-bind="value: Name, valueUpdate:'afterkeydown'" placeholder="First name">
+        <input type="text" data-bind="value: LastName, valueUpdate:'afterkeydown'" placeholder="First name">
+        <!--/ko -->
 
-    <button data-bind="command: MakeSelf">MakeSelf</button>
-    <button data-bind="command: Duplicate">Duplicate</button>
+        <button data-bind="command: MakeSelf">MakeSelf</button>
+        <button data-bind="command: Duplicate">Duplicate</button>
+    <!--/ko-->
+
 </body>
 
-    
+
 </html>

@@ -13,13 +13,14 @@ using NSubstitute;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Tests.Universal.NavigationTests
 {
     public abstract class DoubleNavigationTests : WpfComponentTest_Base<HTMLWindow>
     {
-        protected DoubleNavigationTests(IWindowContextProvider windowTestEnvironment) :
-            base(windowTestEnvironment)
+        protected DoubleNavigationTests(IWindowContextProvider windowTestEnvironment, ITestOutputHelper testOutputHelper) :
+            base(windowTestEnvironment, testOutputHelper)
         {
         }
 

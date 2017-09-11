@@ -24,10 +24,10 @@ namespace Neutronium.Core
         public object Root => _BirectionalMapper.JsValueRoot.CValue;
         public IJsCsGlue JsBrideRootObject => _BirectionalMapper.JsValueRoot;
 
-        private HtmlBinding(BidirectionalMapper convertToJSO, IWebSessionLogger logger)
+        private HtmlBinding(BidirectionalMapper convertToJso, IWebSessionLogger logger)
         {
-            _Context = convertToJSO.Context;
-            _BirectionalMapper = convertToJSO;
+            _Context = convertToJso.Context;
+            _BirectionalMapper = convertToJso;
             _Logger = logger;           
             _Bindings.Add(this);
             _Logger.Debug(() => $"HTML_Binding {_Current} created");
@@ -45,22 +45,22 @@ namespace Neutronium.Core
             _Logger.Debug(() => $"HTML_Binding {_Current} disposed");
         }
 
-        internal static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null)
+        internal static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode)
         {
-            var builder = await GetBindingBuilder(viewEngine, viewModel, mode, additional);
+            var builder = await GetBindingBuilder(viewEngine, viewModel, mode);
             return await builder.CreateBinding(false);
         }
 
         internal static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
-            var builder = await GetBindingBuilder(viewEngine, viewModel, mode, null, strategyFactory);
+            var builder = await GetBindingBuilder(viewEngine, viewModel, mode, strategyFactory);
             return await builder.CreateBinding(false);
         }
 
-        internal static async Task<IBindingBuilder> GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, object additional = null, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
+        internal static async Task<IBindingBuilder> GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
         {
             var mapper = viewEngine.GetMapper(viewModel, mode, strategyFactory);
-            var bindingBuilder = new BindingBuilder(mapper, viewEngine.Logger, additional);
+            var bindingBuilder = new BindingBuilder(mapper, viewEngine.Logger);
             await bindingBuilder.Init();
             return bindingBuilder;
         }
@@ -69,17 +69,16 @@ namespace Neutronium.Core
         {
             private readonly HtmlBinding _Binding;
             private readonly BidirectionalMapper _Mapper;
-            private readonly object _AdditionalVm;
-            public BindingBuilder(BidirectionalMapper mapper, IWebSessionLogger logger, object additionalVm) 
+
+            public BindingBuilder(BidirectionalMapper mapper, IWebSessionLogger logger) 
             {
                 _Binding = new HtmlBinding(mapper, logger);
                 _Mapper = mapper;
-                _AdditionalVm = additionalVm;
             }
 
             public Task Init() 
             {
-                return _Mapper.MapRootVm(_AdditionalVm);
+                return _Mapper.MapRootVm();
             }
 
             async Task<IHtmlBinding> IBindingBuilder.CreateBinding(bool debugMode) 

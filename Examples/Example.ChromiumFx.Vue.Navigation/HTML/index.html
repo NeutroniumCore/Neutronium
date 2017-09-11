@@ -19,9 +19,9 @@
 
     <div id="main">
         <p>Welcome</p>
-        <p>Window state:{{$data.__window__.State.name}}</p>
+        <p>Window state:{{$data.Window.State.name}}</p>
         <div id="BB" class="box"></div>
-        <button v-command="DoNav">Go To 1</button>
+        <button v-command="$data.ViewModel.DoNav">Go To 1</button>
     </div>
 
 </body>

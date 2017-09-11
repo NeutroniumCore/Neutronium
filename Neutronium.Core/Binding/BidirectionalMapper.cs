@@ -27,10 +27,9 @@ namespace Neutronium.Core.Binding
 
         private IJavascriptObjectBuilderStrategy _BuilderStrategy;
         private IJavascriptSessionInjector _SessionInjector;
-        private IJsCsGlue _Root;
         private bool _IsLoaded = false;
 
-        public IJsCsGlue JsValueRoot => _Root;
+        public IJsCsGlue JsValueRoot { get; private set; }
         public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
         public JavascriptBindingMode Mode { get; }
         public HtmlViewContext Context { get; }
@@ -57,12 +56,12 @@ namespace Neutronium.Core.Binding
             _RootObject = root;
         }
 
-        internal async Task MapRootVm(object addicionalObject)
+        internal async Task MapRootVm()
         {
             await Context.RunOnUiContextAsync(() =>
             {
-                _Root = _JsObjectBuilder.Map(_RootObject, addicionalObject);
-                _Root.AddRef();
+                JsValueRoot = _JsObjectBuilder.Map(_RootObject);
+                JsValueRoot.AddRef();
             });
         }
 
@@ -76,13 +75,13 @@ namespace Neutronium.Core.Binding
                 _SessionInjector = Context.JavascriptSessionInjector;
 
                 _BuilderStrategy = _BuilderStrategyFactory.GetStrategy(Context.WebView, _SessionCache, Context.JavascriptFrameworkIsMappingObject);
-                _BuilderStrategy.UpdateJavascriptValue(_Root);
+                _BuilderStrategy.UpdateJavascriptValue(JsValueRoot);
 
                 IJavascriptObject res;
                 if (Context.JavascriptFrameworkIsMappingObject)
-                    res = await InjectInHtmlSession(_Root);
+                    res = await InjectInHtmlSession(JsValueRoot);
                 else
-                    res = _Root.JsValue;
+                    res = JsValueRoot.JsValue;
 
                 await _SessionInjector.RegisterMainViewModel(res);
 
@@ -155,43 +154,41 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                var res = _SessionCache.GetCached(objectchanged) as JsGenericObject;
-                if (res == null)
+                var currentfather = _SessionCache.GetCached(objectchanged) as JsGenericObject;
+                if (currentfather == null)
                     return;
 
-                var fatherValue = res.CValue;
-                var propertyAccessor = fatherValue.GetType().GetReadProperty(propertyName);
-
-                if (propertyAccessor?.IsSettable != true)
+                var propertyUpdater = currentfather.GetPropertyUpdater(propertyName);
+                if (!propertyUpdater.IsSettable)
                 {
                     LogReadOnlyProperty(propertyName);
                     return;
                 }
 
-                var targetType = propertyAccessor.TargetType;
+                var targetType = propertyUpdater.TargetType;
                 var glue = GetCachedOrCreateBasic(newValue, targetType);
                 var bridgeUpdater = new BridgeUpdater(_SessionCache);
 
                 await Context.RunOnUiContextAsync(() =>
                 {
-                    using (_ListenerRegister.GetPropertySilenter(res.CValue))
+                    using (_ListenerRegister.GetPropertySilenter(currentfather.CValue))
                     {
-                        var oldValue = propertyAccessor.Get(fatherValue);
+                        var oldValue = propertyUpdater.GetCurrentChildValue();
 
                         try
                         {
-                            propertyAccessor.Set(fatherValue, glue.CValue);
+                            propertyUpdater.Set(glue.CValue);
                         }
-                        catch (Exception e)
+                        catch (Exception exception)
                         {
-                            _Logger.Info($"Unable to set C# from javascript object: property: {propertyName} of {targetType}, javascript value {glue.CValue}. Exception {e} was thrown.");
+                            LogSetError(propertyName, targetType, glue.CValue, exception);
                         }
 
-                        var actualValue = propertyAccessor.Get(fatherValue);
+                        var actualValue = propertyUpdater.GetCurrentChildValue();
 
                         if (Object.Equals(actualValue, glue.CValue))
                         {
-                            var old = res.UpdateGlueProperty(propertyName, glue);
+                            var old = currentfather.UpdateGlueProperty(propertyUpdater, glue);
                             bridgeUpdater.Remove(old);
                             bridgeUpdater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
                             return;
@@ -199,7 +196,7 @@ namespace Neutronium.Core.Binding
 
                         if (!Object.Equals(oldValue, actualValue))
                         {
-                            OnCSharpPropertyChanged(res.CValue, new PropertyChangedEventArgs(propertyName));
+                            OnCSharpPropertyChanged(currentfather.CValue, new PropertyChangedEventArgs(propertyName));
                         }                        
                     }
                 });
@@ -216,6 +213,11 @@ namespace Neutronium.Core.Binding
             {
                 LogJavascriptSetException(exception);
             }
+        }
+
+        private void LogSetError(string propertyName, Type targetType, object @object, Exception exception)
+        {
+            _Logger.Info($"Unable to set C# from javascript object: property: {propertyName} of {targetType}, javascript value {@object}. Exception {exception} was thrown.");
         }
 
         private void LogReadOnlyProperty(string propertyName) 
@@ -276,23 +278,20 @@ namespace Neutronium.Core.Binding
 
         private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var propertyName = e.PropertyName;
-
-            var propertyAccessor = sender.GetType().GetReadProperty(propertyName);
-            if (propertyAccessor == null)
-                return;
-
             var currentfather = _SessionCache.GetCached(sender) as JsGenericObject;
             if (currentfather == null)
                 return;
 
-            var nv = propertyAccessor.Get(sender);
-            var currentAttributeDescription = currentfather.GetAttributeDescription(propertyName);
-
-            if (Object.Equals(nv, currentAttributeDescription.Glue.CValue))
+            var propertyUpdater = currentfather.GetPropertyUpdater(e.PropertyName);
+            if (!propertyUpdater.IsValid)
                 return;
 
-            UpdateFromCSharpChanges(nv, (child) => currentfather.GetUpdater(currentAttributeDescription, child));
+            var newValue = propertyUpdater.GetCurrentChildValue();
+            var currentValue = propertyUpdater.CachedChildValue;
+            if (Equals(newValue, currentValue))
+                return;
+
+            UpdateFromCSharpChanges(newValue, (child) => currentfather.GetUpdater(propertyUpdater, child));
         }
 
         private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -345,7 +344,7 @@ namespace Neutronium.Core.Binding
         {
             CheckUiContext();
 
-            var updater = Update(updaterBuilder);
+            var updater = Update(_ => updaterBuilder(), null);
             updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
 
             if (!updater.HasUpdatesOnJavascriptContext)
@@ -365,7 +364,7 @@ namespace Neutronium.Core.Binding
             if (value == null)
                 return;
 
-            var updater = Update(() => updaterBuilder(value));
+            var updater = Update(updaterBuilder, value);
             updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
 
             if (!_IsLoaded)
@@ -393,9 +392,9 @@ namespace Neutronium.Core.Binding
             updater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
         }
 
-        private BridgeUpdater Update(Func<BridgeUpdater> updaterBuilder)
+        private BridgeUpdater Update(Func<IJsCsGlue, BridgeUpdater> updaterBuilder, IJsCsGlue glue)
         {
-            var updater = updaterBuilder();
+            var updater = updaterBuilder(glue);
             updater.Cache = _SessionCache;
             return updater;
         }

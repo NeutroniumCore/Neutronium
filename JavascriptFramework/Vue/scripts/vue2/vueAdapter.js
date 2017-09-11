@@ -11,14 +11,8 @@
         return element;
     }
 
-    function dynamicAppend(component, innerComponent, father) {
-        father.appendChild(innerComponent);
-        var v = new Vue({ el: innerComponent });
-    }
-
     Vue.adapter = {
-        addOnReady: addOnReady,
-        dynamicAppend: dynamicAppend
+        addOnReady: addOnReady
     };
 
 })();

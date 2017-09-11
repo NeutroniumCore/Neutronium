@@ -98,9 +98,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             ob.Bind(iFunctionName, false, (o, e) => { action(iFunctionName, null, e.Arguments.Select(el => el.Convert()).ToArray()); });
         }
 
-        public void SetValue(string AttributeName, IJavascriptObject element, CreationOption ioption = CreationOption.None)
+        public void SetValue(string attributeName, IJavascriptObject element, CreationOption option = CreationOption.None)
         {
-            ((JSObject)_JSValue)[AttributeName] = element.Convert();
+            ((JSObject)_JSValue)[attributeName] = element.Convert();
         }
 
 

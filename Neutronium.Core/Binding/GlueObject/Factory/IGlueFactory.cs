@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Windows.Input;
+using Neutronium.Core.Infra.Reflection;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Factory
@@ -14,7 +14,7 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
 
         JsResultCommand Build(IResultCommand command);
 
-        JsGenericObject Build(object from);
+        JsGenericObject Build(object from, TypePropertyAccessor typePropertyAccessor);
 
         JsArray BuildArray(IEnumerable source, Type basictype);
 

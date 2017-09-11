@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Neutronium.Core.Binding;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
+using Neutronium.Core.Infra.VM;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.Navigation.Window;
 using Neutronium.Core.WebBrowserEngine.Control;
@@ -23,7 +24,7 @@ namespace Neutronium.Core.Navigation
         private bool _Disposed = false;
         private bool _Navigating = false;
         private bool _UseINavigable = false;
-        private HTMLLogicWindow _Window;
+        private HtmlLogicWindow _Window;
 
         public Uri Url { get; private set; }
         public IWebBrowserWindowProvider WebControl => _CurrentWebControl;
@@ -80,9 +81,9 @@ namespace Neutronium.Core.Navigation
             OnDisplay?.Invoke(this, new DisplayEvent(loadedVm));
         }
 
-        private void Switch(Task<IHtmlBinding> binding, HTMLLogicWindow window, TaskCompletionSource<IHtmlBinding> tcs)
+        private void Switch(Task<IHtmlBinding> binding, HtmlLogicWindow window, TaskCompletionSource<IHtmlBinding> tcs)
         {
-            var oldvm = Binding?.Root;
+            var oldvm = GetMainViewModel(Binding);
             var fireFirstLoad = false;
             Binding = binding.Result;
           
@@ -102,35 +103,41 @@ namespace Neutronium.Core.Navigation
 
             _CurrentWebControl.Show();
     
-            _Window = window; 
+            _Window = window;
 
-            var inav = _UseINavigable ? Binding.Root as INavigable : null;
+            var rootVm = GetMainViewModel(Binding);
+
+            var inav = _UseINavigable ? rootVm as INavigable : null;
             if (inav != null)
                 inav.Navigation = this;
             _Window.State = WindowLogicalState.Opened;
 
-            _Window.OpenAsync().ContinueWith(t => EndAnimation(Binding.Root));
+            _Window.OpenAsync().ContinueWith(t => EndAnimation(rootVm));
 
             _Navigating = false;
 
-            FireNavigate(Binding.Root, oldvm);
+            FireNavigate(rootVm, oldvm);
 
             tcs?.SetResult(Binding);
 
             if (fireFirstLoad)
                 OnFirstLoad?.Invoke(this, EventArgs.Empty);        
-        }    
+        }
+
+        private static object GetMainViewModel(IHtmlBinding binding)
+        {
+            return ((DataContextViewModel) (binding?.Root))?.ViewModel;
+        }
 
         private void EndAnimation(object navigable)
         {
-            _WebViewLifeCycleManager.GetDisplayDispatcher()
-                .RunAsync( () => FireLoaded(navigable) );
+            _WebViewLifeCycleManager.GetDisplayDispatcher().Dispatch( () => FireLoaded(navigable) );
         }
 
         private void Crashed(object sender, BrowserCrashedArgs e)
         {
             var dest = _CurrentWebControl.HtmlWindow.Url;
-            var vm = Binding.Root;
+            var vm = GetMainViewModel(Binding);
             var mode = Binding.Mode;
 
             _webSessionLogger.Error("WebView crashed trying recover");
@@ -148,14 +155,12 @@ namespace Neutronium.Core.Navigation
 
             _Navigating = true;
 
-            var oldvm = Binding?.Root as INavigable;
+            var oldvm = GetMainViewModel(Binding) as INavigable;
 
             if (_UseINavigable && (oldvm!=null))
             {
                 oldvm.Navigation = null;
             }
-
-            var wh = new WindowHelper(new HTMLLogicWindow());
 
             if (_CurrentWebControl != null)
                 _CurrentWebControl.HtmlWindow.Crashed -= Crashed;
@@ -169,7 +174,9 @@ namespace Neutronium.Core.Navigation
 
             var injectorFactory = GetInjectorFactory(uri);
             var engine = new HtmlViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
-            var initVm = HtmlBinding.GetBindingBuilder(engine, viewModel, mode, wh);
+
+            var dataContext = new DataContextViewModel(viewModel);
+            var initVm = HtmlBinding.GetBindingBuilder(engine, dataContext, mode);
 
             if (moderWindow!=null)
             {
@@ -190,7 +197,7 @@ namespace Neutronium.Core.Navigation
                 _NextWebControl.HtmlWindow.LoadEnd -= sourceupdate;
 
                 var builder = await initVm;
-                await builder.CreateBinding(_WebViewLifeCycleManager.DebugContext).WaitWith(closetask, t => Switch(t, wh.__window__, tcs)).ConfigureAwait(false);
+                await builder.CreateBinding(_WebViewLifeCycleManager.DebugContext).WaitWith(closetask, t => Switch(t, dataContext.Window, tcs)).ConfigureAwait(false);
             };
 
             Url = uri;

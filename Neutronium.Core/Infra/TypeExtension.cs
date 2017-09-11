@@ -64,24 +64,9 @@ namespace Neutronium.Core.Infra
         }
 
         private static readonly ConcurrentDictionary<Type, TypePropertyAccessor> _TypePropertyInfos = new ConcurrentDictionary<Type, TypePropertyAccessor>();
-        private static TypePropertyAccessor GetTypePropertyInfo(this Type @type)
+        internal static TypePropertyAccessor GetTypePropertyInfo(this Type @type)
         {
             return _TypePropertyInfos.GetOrAdd(@type, t => new TypePropertyAccessor(t));
-        }
-
-        internal static ICollection<KeyValuePair<string, PropertyAccessor>> GetReadProperties(this Type @type)
-        {
-            return @type?.GetTypePropertyInfo().ReadProperties;
-        }
-
-        internal static PropertyAccessor GetReadProperty(this Type @type, string propertyName)
-        {
-            return @type.GetTypePropertyInfo().GetAccessor(propertyName);
-        }
-
-        public static bool HasReadWriteProperties(this Type @type)
-        {
-            return (@type != null) && @type.GetTypePropertyInfo().HasReadWriteProperties;
         }
     }
 }

@@ -7,13 +7,13 @@
 <body>
     <div id="main">
 
-        <input id="first" type="text" v-model="inputName" placeholder="First name">
+        <input id="first" type="text" v-model="ViewModel.inputName" placeholder="First name">
 
         <button @click="click">Call Factory 1</button>
 
-        <button @click="asPromise(CreateObject)(inputName).then(result).catch(error)">Call Factory 2</button>
+        <button @click="asPromise(ViewModel.CreateObject)(ViewModel.inputName).then(result).catch(error)">Call Factory 2</button>
 
-        <p>{{factoryresult.LastName}}</p>
+        <p>{{ViewModel.factoryresult.LastName}}</p>
 
     </div>
    

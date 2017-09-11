@@ -199,19 +199,19 @@
         var inform = options.inform;
         var callBack = options.callBack;
 
-        this.$watch("$data.__window__.State", function (newVal) {
+        this.$watch("$data.Window.State", function (newVal) {
             var _this = this;
 
-            if (newVal.name == status) {
+            if (newVal.name === status) {
                 var cb = function cb() {
-                    return _this.$data.__window__[command].Execute();
+                    return _this.$data.Window[command].Execute();
                 };
                 callBack(cb);
             }
         });
 
         this.$nextTick(function () {
-            this.$data.__window__[inform] = true;
+            this.$data.Window[inform] = true;
         });
     };
 

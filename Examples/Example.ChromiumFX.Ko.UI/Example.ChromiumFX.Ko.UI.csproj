@@ -166,9 +166,6 @@
     <Content Include="src\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="src\index_awe.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="src\js\Enum.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

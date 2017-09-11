@@ -8,14 +8,8 @@
         return element;
     }
 
-    function dynamicAppend(component, innerComponent, father) {
-        var v = new component({ el: innerComponent });
-        v.$appendTo(father);
-    }
-
     Vue.adapter = {
-        addOnReady: addOnReady,
-        dynamicAppend: dynamicAppend
+        addOnReady: addOnReady
     };
 })();
 

@@ -70,31 +70,5 @@ namespace Neutronium.Core.Test.Infra
             var isUnsigned = type.IsUnsigned();
             isUnsigned.Should().Be(result);
         }
-
-        [Theory]
-        [InlineData(typeof(FakeClass), new[] { "Available1", "Available2", "Available3" })]
-        [InlineData(typeof(ReadOnlyClass2), new[] { "Property1", "Property2" })]    
-        public void GetReadProperties_returns_correct_property(Type type, string[] properties)
-        {
-            var res = type.GetReadProperties();
-            res.Select(prop => prop.Key).Should().BeEquivalentTo(properties);
-        }
-
-        [Fact]
-        public void GetReadProperties_returns_null_when_called_with_null()
-        {
-            var res = TypeExtender.GetReadProperties(null);
-            res.Should().BeNull();
-        }
-
-        [Theory]
-        [InlineData(null, false)]
-        [InlineData(typeof(ReadOnlyClass), false)]
-        [InlineData(typeof(FakeClass), true)]
-        public void HasReadWriteProperties_returns_correct_property(Type type, bool expectedHasReadWriteProperties)
-        {
-            var res = type.HasReadWriteProperties();
-            res.Should().Be(expectedHasReadWriteProperties);
-        }
     }
 }

@@ -4,7 +4,7 @@
         },
         computed : {
             count : function() {
-                return this.Skills.length;
+                return this.ViewModel.Skills.length;
             }
         }
     }

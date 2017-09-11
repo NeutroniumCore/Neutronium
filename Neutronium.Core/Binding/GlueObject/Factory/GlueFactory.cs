@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Windows.Input;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Infra.Reflection;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Factory
@@ -34,9 +34,9 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
             return Cache(command, new JsResultCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command));
         }
 
-        public JsGenericObject Build(object from)
+        public JsGenericObject Build(object from, TypePropertyAccessor typePropertyAccessor)
         {
-            return Cache(from, new JsGenericObject(from));
+            return Cache(from, new JsGenericObject(from, typePropertyAccessor));
         }
 
         public JsArray BuildArray(IEnumerable source, Type basictype)

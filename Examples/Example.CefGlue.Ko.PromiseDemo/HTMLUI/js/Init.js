@@ -4,19 +4,19 @@
         vm.factotyresult = ko.observable(null);
         vm.lastError = ko.observable(null);
 
-        vm.result = function (res) {
+        vm.ViewModel().result = function (res) {
             alert(res.LastName());
             vm.factotyresult(res);
         };
 
-        vm.error = function (err) {
+        vm.ViewModel().error = function (err) {
             vm.lastError(err);
             console.log(err);
             alert(err);
         };
 
-        vm.click = function () {
-            executeAsPromise(vm, 'CreateObject',vm.Name()).then(
+        vm.ViewModel().click = function () {
+            executeAsPromise(vm.ViewModel(), 'CreateObject', vm.ViewModel().Name()).then(
                 function (res) {
                     alert(res.LastName());
                     vm.factotyresult(res);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder.Packer
 {
@@ -21,7 +20,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
             {
                 Descritor = update;
                 Type = update.Father.CValue.GetType();
-                Count = update.ChildrenDescription.Length;
+                Count = update.AttributeValues.Length;
             }
 
             public bool Similar(KeyDescription other)
@@ -29,12 +28,12 @@ namespace Neutronium.Core.Binding.Builder.Packer
                 return Count == other.Count && Type == other.Type;
             }
 
-            public List<string> Keys => Descritor.ChildrenDescription.Select(k => k.Name).ToList();
+            public string[] Keys => Descritor.AttributeNames;
 
             public bool Empty => Type == null;
         }
 
-        private static IEnumerable<Tuple<int, List<string>>> PackKeys(List<ObjectDescriptor> updates)
+        private static IEnumerable<Tuple<int, string[]>> PackKeys(List<ObjectDescriptor> updates)
         {
             var count = 0;
             var first = true;

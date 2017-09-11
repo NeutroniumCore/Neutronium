@@ -73,7 +73,8 @@ import 'font-awesome/less/font-awesome.less';
 import commandButton from './components/command-button'
 
 const props={
-  viewModel: Object,
+    viewModel: Object,
+    __window__: Object
 };
 
 export default {

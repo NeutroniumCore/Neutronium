@@ -122,6 +122,7 @@
     <Compile Include="Infra\FakeClasses.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessorTests.cs" />
     <Compile Include="Infra\SlicerTest.cs" />
+    <Compile Include="Infra\Reflection\TypePropertyAccessorTests.cs" />
     <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />
     <Compile Include="Infra\NullUIDispatcherTest.cs" />
     <Compile Include="Navigation\Routing\ConventionRouterTests.cs" />

@@ -31,7 +31,7 @@ namespace Neutronium.WPF.Internal
             var debugToolOpened = DebugToolOpened;
             if (debugToolOpened != null)
             {
-                UiDispatcher.RunAsync(() => debugToolOpened(this, e)).DoNotWait();
+                UiDispatcher.Dispatch(() => debugToolOpened(this, e));
             }
         }
 

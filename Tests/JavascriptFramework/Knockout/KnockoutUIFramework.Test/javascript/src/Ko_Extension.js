@@ -419,11 +419,11 @@ function executeAsPromise(vm,fnname,argument) {
 
     ko.bindingHandlers.onclose = {
         preprocess: function (value) {
-            return '{when: $root.__window__().State, act: ' + value + '}';
+            return '{when: $root.Window().State, act: ' + value + '}';
         },
 
         init: function (element, valueAccessor,allBindings,viewModel,bindingContext) {
-            bindingContext.$root.__window__().IsListeningClose(true);
+            bindingContext.$root.Window().IsListeningClose(true);
         },
 
         update: function (element, valueAccessor,allBindings,viewModel,bindingContext) {
@@ -431,17 +431,17 @@ function executeAsPromise(vm,fnname,argument) {
             if (v.when().name !== 'Closing')
                 return;
 
-            v.act(function () { bindingContext.$root.__window__().CloseReady().Execute(); }, element);
+            v.act(function () { bindingContext.$root.Window().CloseReady().Execute(); }, element);
         }
     };
 
     ko.bindingHandlers.onopened= {
         preprocess: function (value) {
-            return '{when:  $root.__window__().State, act: ' + value + '}';
+            return '{when:  $root.Window().State, act: ' + value + '}';
         },
 
         init: function (element, valueAccessor,allBindings,viewModel,bindingContext) {
-            bindingContext.$root.__window__().IsListeningOpen(true);
+            bindingContext.$root.Window().IsListeningOpen(true);
         },
 
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -449,7 +449,7 @@ function executeAsPromise(vm,fnname,argument) {
             if (v.when().name !== 'Opened')
                 return;
 
-            v.act(element, function () { bindingContext.$root.__window__().EndOpen().Execute(); });
+            v.act(element, function () { bindingContext.$root.Window().EndOpen().Execute(); });
         }
     };
 

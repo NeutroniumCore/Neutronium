@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.Listeners;
-using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
@@ -33,7 +32,7 @@ namespace Neutronium.Core.Binding.GlueObject
                 return;
 
             _ExitingObjects.ForEach(Cache.RemoveFromJsToCSharp);
-            javascriptViewModelUpdater.UnListen(_ExitingObjects.Where(exiting => exiting.Type == JsCsGlueType.Object && exiting.CValue.GetType().HasReadWriteProperties()).Select(glue => glue.JsValue));
+            javascriptViewModelUpdater.UnListen(_ExitingObjects.Where(exiting => (exiting as JsGenericObject)?.HasReadWriteProperties == true).Select(glue => glue.JsValue));
         }
 
         internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener)

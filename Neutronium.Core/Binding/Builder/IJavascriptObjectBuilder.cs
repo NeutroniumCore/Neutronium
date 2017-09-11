@@ -1,11 +1,12 @@
 ﻿using Neutronium.Core.Binding.GlueObject;
 using System.Collections.Generic;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.Builder
 {
     public interface IJavascriptObjectBuilder
     {
-        void RequestObjectCreation(AttributeDescription[] children =null, bool updatableFromJs= false);
+        void RequestObjectCreation(TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue);
 
         void RequestArrayCreation(IList<IJsCsGlue> children);
 

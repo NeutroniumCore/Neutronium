@@ -96,7 +96,7 @@
     <Compile Include="Binding\GlueBuilder\GlueObjectBuilder.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />
     <Compile Include="Binding\GlueBuilder\GlueCollectionsBuilder.cs" />
-    <Compile Include="Binding\GlueObject\AttributeDescription.cs" />
+    <Compile Include="Binding\GlueObject\AttibuteUpdater.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\GlueObject\Factory\GlueFactoryBase.cs" />
@@ -139,6 +139,7 @@
     <Compile Include="Infra\Reflection\PropertyAccessor.cs" />
     <Compile Include="Infra\Reflection\TypePropertyAccessor.cs" />
     <Compile Include="Infra\Slicer.cs" />
+    <Compile Include="Infra\VM\DataContextViewModel.cs" />
     <Compile Include="JavascriptFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptFramework\DebugToolsUI.cs" />
     <Compile Include="JavascriptFramework\IJavascriptObjectInternalMapper.cs" />
@@ -218,8 +219,7 @@
     <Compile Include="WebBrowserEngine\Control\IWebViewLifeCycleManager.cs" />
     <Compile Include="Navigation\NavigationEvent.cs" />
     <Compile Include="Navigation\NavigationBuilder.cs" />
-    <Compile Include="Navigation\Window\HTMLWindow.cs" />
-    <Compile Include="Navigation\Window\WindowHelper.cs" />
+    <Compile Include="Navigation\Window\HtmlLogicWindow.cs" />
     <Compile Include="Navigation\Window\WindowLogicalState.cs" />
     <Compile Include="Navigation\DoubleBrowserNavigator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

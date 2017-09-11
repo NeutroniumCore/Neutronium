@@ -30,6 +30,7 @@ import rawDisplay from './components/RawDisplay'
 
     const props={
         viewModel: Object,
+        __window__: Object
     };
 
 export default {

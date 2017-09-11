@@ -18,9 +18,12 @@
 <body>
 
     <p>Welcome</p>
-    <p>Window state:<!--ko text: __window__().State().name--><!--/ko--></p>
+    <p>Window state:<!--ko text: Window().State().name--><!--/ko--></p>
+    
+    <!-- ko with:$data.ViewModel()-->
     <div id="BB" class="box" data-bind="onopened:OnEnter, onclose:OnClose"></div>
     <button data-bind="command:DoNav">Navigate</button>
+    <!--/ko-->
    
 </body>
 

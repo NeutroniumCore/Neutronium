@@ -5,12 +5,12 @@ using Neutronium.Core.Infra.VM;
 
 namespace Neutronium.Core.Navigation.Window
 {
-    public class HTMLLogicWindow : NotifyPropertyChangedBase
+    public class HtmlLogicWindow : NotifyPropertyChangedBase
     {
         private static int _GId = 0;
         private readonly int _Id;
-        private TaskCompletionSource<object> _OpenTask = new TaskCompletionSource<object>();
-        private TaskCompletionSource<object> _CloseTask = new TaskCompletionSource<object>();
+        private readonly TaskCompletionSource<object> _OpenTask = new TaskCompletionSource<object>();
+        private readonly TaskCompletionSource<object> _CloseTask = new TaskCompletionSource<object>();
 
         private WindowLogicalState _State;
         public WindowLogicalState State
@@ -36,23 +36,23 @@ namespace Neutronium.Core.Navigation.Window
         public ICommand CloseReady { get; }
         public ICommand EndOpen { get; }
 
-        internal HTMLLogicWindow()
+        internal HtmlLogicWindow()
         {
             _Id = _GId++;
             _State = WindowLogicalState.Loading;
             _IsListeningClose = false;
-            CloseReady = new BasicRelayCommand(() => EnTask(_CloseTask));
-            EndOpen = new BasicRelayCommand(() => EnTask(_OpenTask));
+            CloseReady = new BasicRelayCommand(() => EndTask(_CloseTask));
+            EndOpen = new BasicRelayCommand(() => EndTask(_OpenTask));
         }
 
-        private void EnTask(TaskCompletionSource<object> completionSource)
+        private static void EndTask(TaskCompletionSource<object> completionSource)
         {
             completionSource.TrySetResult(null);
         }
 
         public Task OpenAsync() 
         {
-            return !IsListeningClose ? TaskHelper.Ended() : _OpenTask.Task;
+            return !IsListeningOpen ? TaskHelper.Ended() : _OpenTask.Task;
         }
 
         public Task CloseAsync()

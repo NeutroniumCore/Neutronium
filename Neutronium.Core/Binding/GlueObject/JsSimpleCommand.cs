@@ -53,7 +53,7 @@ namespace Neutronium.Core.Binding.GlueObject
         void IExecutableGlue.Execute(IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            UiDispatcher.RunAsync(() => _JsSimpleCommand.Execute(parameter));
+            UiDispatcher.Dispatch(() => _JsSimpleCommand.Execute(parameter));
         }
 
         protected override void ComputeString(DescriptionBuilder context)

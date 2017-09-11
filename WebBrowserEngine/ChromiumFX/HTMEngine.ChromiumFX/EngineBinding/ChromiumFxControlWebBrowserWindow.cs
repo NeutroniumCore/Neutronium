@@ -50,7 +50,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             var crashed = Crashed;
             if (crashed != null)
-                _dispatcher.RunAsync(() => crashed(this, new BrowserCrashedArgs()));
+                _dispatcher.Dispatch(() => crashed(this, new BrowserCrashedArgs()));
         }
 
         private void OnBeforeContextMenu(object sender, CfxOnBeforeContextMenuEventArgs e) 
@@ -111,7 +111,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }
 
             _SendLoadOnContextCreated = false;
-            _dispatcher.RunAsync(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
+            _dispatcher.Dispatch(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
         }
 
         public bool IsTypeBasic(Type type) 

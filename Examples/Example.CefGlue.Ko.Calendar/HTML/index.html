@@ -7,18 +7,20 @@
 
 </head>
 <body>
+    <!-- ko with:$data.ViewModel()-->
     <div id="example">
-        <input type="text" data-bind="kendoDatePicker: Date" />
+        <input type="text" data-bind="kendoDatePicker: Date"/>
 
-        <hr />
+        <hr/>
 
         <div data-bind="text: ko.toJSON(Date)"></div>
 
     </div>
+    <!--/ko-->
 
-    <script src="src/jquery-1.7.1.min.js"></script>
-    <script src="src/kendo.all.min.js"></script>
-    <script src="src/ko.bindinghandlers.kendodatepicker.js"></script>
+<script src="src/jquery-1.7.1.min.js"></script>
+<script src="src/kendo.all.min.js"></script>
+<script src="src/ko.bindinghandlers.kendodatepicker.js"></script>
 
 </body>
 

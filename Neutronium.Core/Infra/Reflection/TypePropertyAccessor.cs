@@ -6,19 +6,26 @@ using System.Reflection;
 
 namespace Neutronium.Core.Infra.Reflection
 {
-    internal class TypePropertyAccessor
+    public class TypePropertyAccessor
     {
-        public ICollection<KeyValuePair<string, PropertyAccessor>> ReadProperties => _ReadProperties;
+        public PropertyAccessor[] ReadProperties { get; }
+        public string[] AttributeNames { get; }
         public bool HasReadWriteProperties { get; }
         private readonly IDictionary<string, PropertyAccessor> _ReadProperties;
 
         public TypePropertyAccessor(Type type)
         {
-            _ReadProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            var rank = 0;
+            ReadProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(p => p.CanRead && p.GetGetMethod(false) != null)
-                .ToDictionary(prop => prop.Name, prop => new PropertyAccessor(type, prop));
+                .OrderBy(p => p.Name).Select(prop => new PropertyAccessor(type, prop, rank++))
+                .ToArray();
 
-            HasReadWriteProperties = ReadProperties.Any(p => p.Value.IsSettable);
+            AttributeNames = ReadProperties.Select(p => p.Name).ToArray();
+
+            _ReadProperties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
+
+            HasReadWriteProperties = _ReadProperties.Any(p => p.Value.IsSettable);
         }
 
         public PropertyAccessor GetAccessor(string propertyName)

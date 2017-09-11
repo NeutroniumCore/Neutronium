@@ -1,10 +1,10 @@
 ﻿using System.Windows.Input;
 using Neutronium.MVVMComponents;
-using System.Collections.Generic;
 using System.Collections;
 using System;
 using Neutronium.Core.Binding.GlueObject.Mapped;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.GlueObject.Factory
 {
@@ -35,9 +35,9 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
             return Cache(command, new JsMappableResultCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command));
         }
 
-        public JsGenericObject Build(object from)
+        public JsGenericObject Build(object from, TypePropertyAccessor typePropertyAccessor)
         {
-            return Cache(from, new JsMappableGenericObject(from));
+            return Cache(from, new JsMappableGenericObject(from, typePropertyAccessor));
         }
 
         public JsArray BuildArray(IEnumerable source, Type basictype)

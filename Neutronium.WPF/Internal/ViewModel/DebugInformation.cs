@@ -1,7 +1,7 @@
-﻿using Neutronium.Core.Infra.VM;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using Neutronium.Core.Infra.VM;
 
-namespace Neutronium.WPF.Internal.DebugTools
+namespace Neutronium.WPF.Internal.ViewModel
 {
     public class DebugInformation : NotifyPropertyChangedBase
     {

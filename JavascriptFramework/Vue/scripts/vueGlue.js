@@ -196,15 +196,15 @@
         const inform = options.inform;
         const callBack = options.callBack;
 
-        this.$watch("$data.__window__.State", function (newVal) {
-            if (newVal.name == status) {
-                const cb = () => this.$data.__window__[command].Execute();
+        this.$watch("$data.Window.State", function (newVal) {
+            if (newVal.name === status) {
+                const cb = () => this.$data.Window[command].Execute();
                 callBack(cb);
             }
         });
 
         this.$nextTick(function () {
-            this.$data.__window__[inform] = true;
+            this.$data.Window[inform] = true;
         })
     };
 

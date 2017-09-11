@@ -15,11 +15,10 @@ namespace Neutronium.Core.Test.Binding.Builder
             {
                 var generatorIjsCsGlue = Gen.Constant(0).Select(index => NSubstitute.Substitute.For<IJsCsGlue>());
 
-                var generatorChildDescription = Gen.zip(generatorIjsCsGlue, Arb.Default.String().Generator)
-                                                    .Select(tuple => new AttributeDescription(tuple.Item2, tuple.Item1));
+                var generatorChildDescription = Gen.zip(Arb.Default.String().Generator, generatorIjsCsGlue);
 
                 var generator = Gen.zip(generatorIjsCsGlue, Gen.NonEmptyListOf(generatorChildDescription))
-                                    .Select(tuple => new ObjectDescriptor(tuple.Item1, tuple.Item2.ToArray()));
+                                    .Select(tuple => new ObjectDescriptor(tuple.Item1, tuple.Item2.Select(t => t.Item1).ToArray(), tuple.Item2.Select(t => t.Item2).ToArray()));
 
                 return Arb.From(generator);
             }
@@ -40,9 +39,9 @@ namespace Neutronium.Core.Test.Binding.Builder
             return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
-                var elements = res.SelectMany(item => item).SelectMany(desc => desc.ChildrenDescription);
+                var elements = res.SelectMany(item => item).SelectMany(desc => desc.AttributeNames);
 
-                return elements.SequenceEqual(updates.SelectMany(desc => desc.ChildrenDescription))
+                return elements.SequenceEqual(updates.SelectMany(desc => desc.AttributeNames))
                             .Classify(updates.Count <= Limit, "Single")
                             .Classify(updates.Count > Limit && updates.Count<= Limit * 2, "Splitted")
                             .Classify(updates.Count > Limit * 2 && updates.Count <= Limit * 3, "Double Splitted")
@@ -58,7 +57,7 @@ namespace Neutronium.Core.Test.Binding.Builder
 
                 var elements = res.SelectMany(item => item)
                                     .GroupBy(desc => desc.Father)
-                                    .Select(grouping => new ObjectDescriptor(grouping.Key, grouping.SelectMany(g => g.ChildrenDescription).ToArray()));
+                                    .Select(grouping => new ObjectDescriptor(grouping.Key, grouping.SelectMany(g => g.AttributeNames).ToArray(), grouping.SelectMany(g => g.AttributeValues).ToArray()));
 
                 return elements.SequenceEqual(updates)
                             .Classify(updates.Count <= Limit, "Single")
@@ -75,7 +74,7 @@ namespace Neutronium.Core.Test.Binding.Builder
                 var res = _Spliter.SplitParameters(updates);
 
                 var sizes = res.Select(coll => coll.Select(item => item.Father)
-                                   .Concat(coll.SelectMany(item => item.ChildrenDescription).Select(item => item.Glue))
+                                   .Concat(coll.SelectMany(item => item.AttributeValues))
                                    .Count());
 
                 return sizes.All(size => size<Limit)
@@ -93,7 +92,7 @@ namespace Neutronium.Core.Test.Binding.Builder
                 var res = _Spliter.SplitParameters(updates);
 
                 var sizes = res.Select(coll => coll.Select(item => item.Father)
-                                   .Concat(coll.SelectMany(item => item.ChildrenDescription).Select(item => item.Glue))
+                                   .Concat(coll.SelectMany(item => item.AttributeValues))
                                    .Count());
 
                 var maxSize = Limit - 1;

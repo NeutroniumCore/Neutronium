@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Neutronium.Core;
-using Neutronium.Core.Infra;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 using HTMLControlBase = Neutronium.WPF.Internal.HTMLControlBase;
 using Neutronium.Core.Log;
+using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
+using Xunit.Abstractions;
 
 namespace Tests.Universal.NavigationTests
 {
@@ -16,9 +17,9 @@ namespace Tests.Universal.NavigationTests
         protected readonly WindowTestContext _WindowTestEnvironment;
         protected readonly IWebSessionLogger _Logger;
 
-        protected WpfComponentTest_Base(IWindowContextProvider windowTestEnvironment) 
+        protected WpfComponentTest_Base(IWindowContextProvider windowTestEnvironment, ITestOutputHelper testOutputHelper) 
         {
-            _Logger = new BasicLogger();
+            _Logger = new TestLogger(testOutputHelper).Add(new BasicLogger());
             _WindowTestEnvironment = windowTestEnvironment.WindowTestContext;
         }
 

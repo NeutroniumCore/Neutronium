@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
@@ -7,7 +8,8 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
         private IJavascriptObject _MappedJsValue;
         public override IJavascriptObject CachableJsValue => _MappedJsValue;
 
-        public JsMappableGenericObject(object cValue): base (cValue)
+        public JsMappableGenericObject(object cValue, TypePropertyAccessor typePropertyAccessor) : 
+            base (cValue, typePropertyAccessor)
         {
         }
 

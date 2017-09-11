@@ -7,17 +7,17 @@
     <div id="main">
         <p>Collection demo</p>
 
-        <select multiple="multiple" v-model="SelectedSkills">
-            <option v-for="item in Skills" :value="item">
+        <select multiple="multiple" v-model="ViewModel.SelectedSkills">
+            <option v-for="item in ViewModel.Skills" :value="item">
                 {{item.Type}} {{item.Name}}
             </option>
         </select>
 
-        <button id="add" @click="AddSkill.Execute()">Add Skill</button>
+        <button id="add" @click="ViewModel.AddSkill.Execute()">Add Skill</button>
 
-        <template v-if="MainSkill">
-            <input v-model="MainSkill.Type" placeholder="Type" />
-            <input v-model="MainSkill.Name" placeholder="Name" />
+        <template v-if="ViewModel.MainSkill">
+            <input v-model="ViewModel.MainSkill.Type" placeholder="Type" />
+            <input v-model="ViewModel.MainSkill.Name" placeholder="Name" />
         </template>
 
         <div>

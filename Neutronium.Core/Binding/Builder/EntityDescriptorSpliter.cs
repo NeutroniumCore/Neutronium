@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
@@ -16,7 +15,7 @@ namespace Neutronium.Core.Binding.Builder
 
             foreach (var element in data)
             {
-                var childrenCount = element.ChildrenDescription.Length;
+                var childrenCount = element.AttributeValues.Length;
                 var tentative = parametersCount + 1 + childrenCount;
                 var delta = tentative - MaxCount;
 
@@ -33,15 +32,17 @@ namespace Neutronium.Core.Binding.Builder
                 if (delta >= 0)
                 {
                     var maxToTake = maxCountInContext - parametersCount;
-                    list.Add(new ObjectDescriptor(element.Father, element.ChildrenDescription.Take(maxToTake).ToArray()));
+                    list.Add(element.Take(maxToTake));
                     yield return list;
 
                     var count = childrenCount - maxToTake;
                     var i = 0;
                     for (i = 0; i < count / maxCountInContext; i++)
                     {
-                        list = new List<ObjectDescriptor>();
-                        list.Add(new ObjectDescriptor(element.Father, element.ChildrenDescription.Skip(maxToTake + maxCountInContext * i).Take(maxCountInContext).ToArray()));
+                        list = new List<ObjectDescriptor>
+                        {
+                            element.Split(maxToTake + maxCountInContext * i, maxCountInContext)
+                        };
                         yield return list;
                     }
 
@@ -50,7 +51,7 @@ namespace Neutronium.Core.Binding.Builder
                     parametersCount = childrenCount - skipped;
                     if (skipped < childrenCount)
                     {
-                        list.Add(new ObjectDescriptor(element.Father, element.ChildrenDescription.Skip(skipped).ToArray()));
+                        list.Add(element.Skip(skipped));
                         parametersCount++;
                     }
                     continue;

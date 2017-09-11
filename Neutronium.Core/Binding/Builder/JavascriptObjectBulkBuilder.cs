@@ -5,6 +5,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.Builder
 {
@@ -41,9 +42,10 @@ namespace Neutronium.Core.Binding.Builder
             UpdateDependencies();
         }
 
-        internal void RequestObjectCreation(IJsCsGlue glue, AttributeDescription[] children, bool updatableFromJS)
+        internal void RequestObjectCreation(IJsCsGlue glue, TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue)
         {
-            _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, children), updatableFromJS);
+            var updatableFromJs = attributeDescription.HasReadWriteProperties;
+            _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, attributeDescription, attributeValue), updatableFromJs);
         }
 
         internal void RequestArrayCreation(IJsCsGlue glue, IList<IJsCsGlue> children)

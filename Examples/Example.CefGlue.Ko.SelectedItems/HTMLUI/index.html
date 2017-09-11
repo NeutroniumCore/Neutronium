@@ -1,17 +1,14 @@
 <!doctype html>
 <html>
-	<head>
-        <title></title>
-	</head>
-	<body>
+<head>
+    <title></title>
+</head>
+<body>
 
-        <!--<script type="text/html" id="skill-template">
-            <li><span data-bind="text:Type"></span>:<span data-bind="text:Name"></span><button data-bind="click: function (){$root.RemoveSkill($data)}">Remove skill</button></li>
-        </script>-->
-        <!--, template: { name: 'skill-template'}-->
+    <!-- ko with:$data.ViewModel()-->
 
-        <select  multiple="multiple"data-bind="options:Skills(),  
-                                                        optionsText: function(item) { return item.Type() + ' ' + item.Name()},selectedOptions:SelectedSkills()"></select>
+        <select multiple="multiple" data-bind="options:Skills(),
+                                                            optionsText: function(item) { return item.Type() + ' ' + item.Name()},selectedOptions:SelectedSkills()"></select>
 
         <button data-bind="command: AddSkill">Add Skill</button>
 
@@ -19,9 +16,9 @@
         <input data-bind="value:Type" placeholder="Type" />
         <input data-bind="value:Name" placeholder="Name" />
         <!--/ko-->
-  
-        <!--<button data-bind="click: MakeSelf">Click me</button>-->
-	</body>
-        
-    
+    <!--/ko-->
+
+</body>
+
+
 </html>

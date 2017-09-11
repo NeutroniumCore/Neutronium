@@ -74,7 +74,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public void Execute(IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            UiDispatcher.RunAsync(() => _Command.Execute(parameter));
+            UiDispatcher.Dispatch(() => _Command.Execute(parameter));
         }
 
         private void Command_CanExecuteChanged(object sender, EventArgs e)

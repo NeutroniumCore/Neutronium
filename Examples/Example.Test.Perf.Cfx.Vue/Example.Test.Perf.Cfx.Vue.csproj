@@ -142,12 +142,12 @@
     <Content Include="View\Main\dist\af7ae505a9eed503f8b8e6982036873e.woff2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="View\Main\dist\b06871f281fee6b241d60582ae9369b9.ttf">
+    <Content Include="View\Main\dist\b06871f281fee6b241d60582ae9369b9.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="View\Main\dist\e18bbf611f2a2e43afc071aa2f4e1512.ttf">
+    </Content>
+    <Content Include="View\Main\dist\e18bbf611f2a2e43afc071aa2f4e1512.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Content Include="View\Main\dist\f4769f9bdb7466be65088239c12046d1.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

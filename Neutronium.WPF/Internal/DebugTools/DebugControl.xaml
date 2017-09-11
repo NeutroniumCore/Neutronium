@@ -22,7 +22,7 @@
     <Grid>
         
         <UniformGrid Rows="1" HorizontalAlignment="Center">
-            <Button Visibility="{Binding Path=VmDebug,Converter={StaticResource BoolToVis}}"  Content="{Binding Path=DebugButtonLabel}" Command="{Binding Path=DebugWindow}"/>
+            <Button  Content="{Binding Path=DebugButtonLabel}" Command="{Binding Path=DebugWindow}"/>
             <Button Content="Inspect" Command="{Binding Path=DebugBrowser}"/>
             <Button Width="50" Content="About" Command="{Binding Path=ShowInfo}"/>
         </UniformGrid>

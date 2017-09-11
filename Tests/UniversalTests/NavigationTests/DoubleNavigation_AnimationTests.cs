@@ -7,6 +7,7 @@ using Neutronium.WPF;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Tests.Universal.NavigationTests
 {
@@ -14,8 +15,8 @@ namespace Tests.Universal.NavigationTests
     {
         private readonly NavigationBuilder _NavigationBuilder;
 
-        protected DoubleNavigation_AnimationTests(IWindowContextProvider windowTestEnvironment):
-            base(windowTestEnvironment)
+        protected DoubleNavigation_AnimationTests(IWindowContextProvider windowTestEnvironment, ITestOutputHelper testOutputHelper) :
+            base(windowTestEnvironment, testOutputHelper)
         {
             _NavigationBuilder = new NavigationBuilder();
         }
