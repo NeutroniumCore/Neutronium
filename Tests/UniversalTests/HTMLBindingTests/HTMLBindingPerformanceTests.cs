@@ -392,6 +392,11 @@ namespace Tests.Universal.HTMLBindingTests
 
             using (GetPerformanceCounter("Perf to VisitAllChildren"))
             {
+                await DoSafeAsyncUI(() => rootJs.VisitAllChildren(glue => true));
+            }
+
+            using (GetPerformanceCounter("Perf to VisitAllChildren Collect"))
+            {
                 await DoSafeAsyncUI(() => rootJs.VisitAllChildren(glue => allChildren.Add(glue)));
             }
 
