@@ -26,7 +26,7 @@ namespace Neutronium.JavascriptFramework.Vue
             _WebViewCommunication = webViewCommunication;
             _VueHelperLazy = new Lazy<IJavascriptObject>(GetVueHelper);
             _VueJavascriptSessionInjector =  new VueJavascriptSessionInjector(webView, listener, _VueHelperLazy, _Logger);
-            _VueJavascriptViewModelUpdater = new VueJavascriptViewModelUpdater(webView, listener, _VueHelperLazy);
+            _VueJavascriptViewModelUpdater = new VueJavascriptViewModelUpdater(webView, _VueHelperLazy);
         }
 
         private IJavascriptObject GetVueHelper() 

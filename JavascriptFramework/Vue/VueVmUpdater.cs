@@ -4,8 +4,8 @@ namespace Neutronium.JavascriptFramework.Vue
 {
     internal class VueVmUpdater
     {
-        internal IJavascriptObject ChangeAndInject { get; private set; }
-        internal IJavascriptObject Change { get; private set; }
+        internal IJavascriptObject ChangeAndInject { get; }
+        internal IJavascriptObject Change { get; }
 
         internal VueVmUpdater(IJavascriptObject helper)
         {

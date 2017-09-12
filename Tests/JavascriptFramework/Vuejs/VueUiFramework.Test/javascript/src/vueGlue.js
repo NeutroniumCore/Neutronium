@@ -5,6 +5,7 @@
 
     var silenterProperty = '__silenter';
     var vueVm = null;
+    var globalListener = null;
 
     function silentChange(father, propertyName, value) {
         setTimeout(function () {
@@ -21,15 +22,15 @@
         father[propertyName] = value;
     }
 
-    function silentChangeAndInject(father, propertyName, value, observer) {
+    function silentChangeAndInject(father, propertyName, value) {
         setTimeout(function () {
-            return silentChangeAndInjectSync(father, propertyName, value, observer);
+            return silentChangeAndInjectSync(father, propertyName, value);
         }, 0);
     }
 
-    function silentChangeAndInjectSync(father, propertyName, value, observer) {
+    function silentChangeAndInjectSync(father, propertyName, value) {
         silentChangeSync(father, propertyName, value);
-        inject(value, observer);
+        inject(value);
     }
 
     function disposeSilenters() {
@@ -113,7 +114,7 @@
         }
     }
 
-    function collectionListener(object, observer) {
+    function collectionListener(object) {
         return function (changes) {
             var arg_value = [],
                 arg_status = [],
@@ -124,12 +125,12 @@
                 arg_status.push(changes[i].status);
                 arg_index.push(changes[i].index);
             }
-            observer.TrackCollectionChanges(object, arg_value, arg_status, arg_index);
+            globalListener.TrackCollectionChanges(object, arg_value, arg_status, arg_index);
         };
     }
 
-    function updateArray(array, observer) {
-        var changelistener = collectionListener(array, observer);
+    function updateArray(array) {
+        var changelistener = collectionListener(array);
         var listener = array.subscribe(changelistener);
         array.silentSplice = function () {
             listener();
@@ -139,7 +140,7 @@
         };
     }
 
-    function onPropertyChange(observer, prop, father) {
+    function onPropertyChange(prop, father) {
         var blocked = false;
 
         return function (newVal, oldVal) {
@@ -157,19 +158,19 @@
                 father[prop] = oldVal;
                 return;
             }
-            observer.TrackChanges(father, prop, newVal);
+            globalListener.TrackChanges(father, prop, newVal);
         };
     }
 
-    var inject = function inject(vm, observer) {
+    var inject = function inject(vm) {
         if (!vueVm) return vm;
 
         visitObject(vm, function (father, prop) {
             father[silenterProperty] || Object.defineProperty(father, silenterProperty, { value: new Silenter(father), configurable: true });
             var silenter = father[silenterProperty];
-            createElement(silenter, prop, onPropertyChange(observer, prop, father));
+            createElement(silenter, prop, onPropertyChange(prop, father));
         }, function (array) {
-            return updateArray(array, observer);
+            return updateArray(array);
         });
         return vm;
     };
@@ -202,7 +203,7 @@
         this.$watch("$data.Window.State", function (newVal) {
             var _this = this;
 
-            if (newVal.name == status) {
+            if (newVal.name === status) {
                 var cb = function cb() {
                     return _this.$data.Window[command].Execute();
                 };
@@ -314,6 +315,7 @@
         disposeSilenters: disposeSilenters,
         register: function register(vm, observer) {
             console.log("VueGlue register");
+            globalListener = observer;
             var mixin = Vue._vmMixin;
             if (!!mixin && !Array.isArray(mixin)) mixin = [mixin];
 
@@ -329,7 +331,7 @@
 
             window.vm = vueVm;
 
-            return inject(vm, observer);
+            return inject(vm);
         },
         ready: ready
     };

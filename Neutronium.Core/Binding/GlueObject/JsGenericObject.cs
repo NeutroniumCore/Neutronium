@@ -76,7 +76,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
                 using (context.PushContext(name))
                 {
-                    _Attributes[i++].BuilString(context);
+                    _Attributes[i].BuilString(context);
                 }
             }
 

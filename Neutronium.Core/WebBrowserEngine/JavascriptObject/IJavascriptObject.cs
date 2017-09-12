@@ -251,7 +251,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <param name="parameters">
         /// function parameters
         /// </param>
-        // <returns>
+        /// <returns>
         /// the result of the execution
         ///</returns>
         IJavascriptObject ExecuteFunction(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters);

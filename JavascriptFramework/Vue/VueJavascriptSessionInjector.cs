@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Neutronium.Core;
-using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 

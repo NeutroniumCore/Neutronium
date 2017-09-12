@@ -1,5 +1,4 @@
 ﻿using System;
-using Neutronium.Core;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Collections.Generic;
@@ -11,17 +10,15 @@ namespace Neutronium.JavascriptFramework.Vue
     internal class VueJavascriptViewModelUpdater : IJavascriptViewModelUpdater
     {
         private readonly IWebView _WebView;
-        private readonly IJavascriptObject _Listener;
         private readonly Lazy<IJavascriptObject> _VueHelper;
         private VueVmUpdater _Updater;
         private VueVmUpdater Updater => _Updater ?? (_Updater = new VueVmUpdater(_VueHelper.Value));
 
         private readonly Dictionary<string, IJavascriptObject> _Properties = new Dictionary<string, IJavascriptObject>();
 
-        public VueJavascriptViewModelUpdater(IWebView webView, IJavascriptObject listener, Lazy<IJavascriptObject> vueHelper)
+        public VueJavascriptViewModelUpdater(IWebView webView, Lazy<IJavascriptObject> vueHelper)
         {
             _WebView = webView;
-            _Listener = listener;
             _VueHelper = vueHelper;
         }
 
@@ -52,7 +49,7 @@ namespace Neutronium.JavascriptFramework.Vue
             var updater = Updater;
             var function = childAllowWrite ? updater.ChangeAndInject : updater.Change;
             var property = _Properties.GetOrAddEntity(propertyName, CreateProperty);
-            function.ExecuteFunctionNoResult(_WebView, null, father, property, value, _Listener);
+            function.ExecuteFunctionNoResult(_WebView, null, father, property, value);
         }
 
         private IJavascriptObject CreateProperty(string propertyName) => _WebView.Factory.CreateString(propertyName);
@@ -65,7 +62,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private void Inject(IJavascriptObject value)
         {
-            _VueHelper.Value.InvokeNoResult("inject", _WebView, value, _Listener);
+            _VueHelper.Value.InvokeNoResult("inject", _WebView, value);
         }
 
         public void UnListen(IEnumerable<IJavascriptObject> elementsToUnlisten)
