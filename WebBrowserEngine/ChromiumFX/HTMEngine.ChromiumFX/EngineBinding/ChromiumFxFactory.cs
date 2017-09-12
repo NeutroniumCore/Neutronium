@@ -177,8 +177,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 CfrV8Value.CreateString(CreateStringValue(from)),
                 _ObjectCreationCallbackFunction.Value
             });
-            var results = _ObjectCallback.GetLastArguments();
-            return results.Select(result => result.ConvertBasic());
+            return _ObjectCallback.GetLastArguments().Select(jso => jso.ConvertBasic());
         }
 
         private string CreateStringValue(IEnumerable<object> from)
@@ -221,8 +220,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 CfrV8Value.CreateInt(readOnlyNumber),
                 _ObjectCreationCallbackFunction.Value
             });
-            var results = _ObjectCallback.GetLastArguments();
-            return results.Select(result => result.ConvertObject(_Count++));
+            return _ObjectCallback.GetLastArguments().Select(js => js.ConvertObject(_Count++));
         }
 
         public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
@@ -236,8 +234,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             args.AddRange(parameters.Convert());
 
             _ObjectWithConstructorBulkBuilder.Value.ExecuteFunction(null, args.ToArray());
-            var results = _ObjectCallback.GetLastArguments();
-            return results.Select(result => result.ConvertObject(_Count++));
+            return _ObjectCallback.GetLastArguments().Select(js => js.ConvertObject(_Count++));
         }
 
         public IJavascriptObject CreateUndefined() 
@@ -280,8 +277,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 CfrV8Value.CreateInt(number),
                 _ObjectCreationCallbackFunction.Value
             });
-            var results = _ObjectCallback.GetLastArguments();
-            return results.Select(result => result.ConvertBasic(_Count++));
+            return _ObjectCallback.GetLastArguments().Select(js => js.ConvertBasic(_Count++));
         }
 
         public IJavascriptObject CreateArray(int size)

@@ -47,9 +47,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion
             return cfrV8Values.Select(v8 => v8.Convert()).ToArray();
         }
 
-        public static CfrV8Value[] Convert(this IEnumerable<IJavascriptObject> javascriptObjects) 
+        public static CfrV8Value[] Convert(this IJavascriptObject[] javascriptObjects) 
         {
-            return javascriptObjects.Select(jo => jo.Convert()).ToArray();
+            var result = new CfrV8Value[javascriptObjects.Length];
+            var i = 0;
+            foreach(var javascriptObject in javascriptObjects) 
+            {
+                result[i++] = javascriptObject.Convert();
+            }
+            return result;
         }
     }
 }
