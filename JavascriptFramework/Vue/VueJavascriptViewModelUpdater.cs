@@ -11,6 +11,7 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         private readonly IWebView _WebView;
         private readonly Lazy<IJavascriptObject> _VueHelper;
+        private readonly IJavascriptObject[] _ArgumentsforUpdate = new IJavascriptObject[3];
         private VueVmUpdater _Updater;
         private VueVmUpdater Updater => _Updater ?? (_Updater = new VueVmUpdater(_VueHelper.Value));
 
@@ -49,7 +50,15 @@ namespace Neutronium.JavascriptFramework.Vue
             var updater = Updater;
             var function = childAllowWrite ? updater.ChangeAndInject : updater.Change;
             var property = _Properties.GetOrAddEntity(propertyName, CreateProperty);
-            function.ExecuteFunctionNoResult(_WebView, null, father, property, value);
+            function.ExecuteFunctionNoResult(_WebView, null, GetArgumentsforUpdate(father, property, value));
+        }
+
+        private IJavascriptObject[] GetArgumentsforUpdate(IJavascriptObject father, IJavascriptObject property, IJavascriptObject value)
+        {
+            _ArgumentsforUpdate[0] = father;
+            _ArgumentsforUpdate[1] = property;
+            _ArgumentsforUpdate[2] = value;
+            return _ArgumentsforUpdate;
         }
 
         private IJavascriptObject CreateProperty(string propertyName) => _WebView.Factory.CreateString(propertyName);
