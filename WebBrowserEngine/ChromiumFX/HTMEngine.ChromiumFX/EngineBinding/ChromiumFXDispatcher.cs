@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Chromium.Remote;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.Window;
-using System.Diagnostics;
 using System.Collections.Concurrent;
 using Chromium;
 
@@ -14,11 +13,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
         private readonly IWebSessionLogger _Logger;
-
         private readonly ConcurrentQueue<Action> _Actions = new ConcurrentQueue<Action>();
         private readonly CfrTask _CfrTask;
-        private bool _IsExecutingActions;
 
+        private bool _IsExecutingActions;
         private CfrTaskRunner TaskRunner { get; }
 
         public ChromiumFxDispatcher(CfrBrowser browser, CfrV8Context context, IWebSessionLogger logger) 
@@ -39,7 +37,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 Action action;
                 while (_Actions.TryDequeue(out action)) 
                 {
-                    action();
+                    try
+                    {
+                        action();
+                    }
+                    catch (Exception exception)
+                    {
+                        LogException(exception);
+                    }
                 }
                 _IsExecutingActions = false;
             }
@@ -55,19 +60,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public void Dispatch(Action act)
         {
-            Action safe = () =>
-            {
-                try
-                {
-                   act();
-                }
-                catch (Exception exception)
-                {
-                    _Logger?.Info($"Exception encountred during task dispatch: {exception.Message}");
-                }
-            };
+            RunInContext(act);
+        }
 
-            RunInContext(safe);
+        private void LogException(Exception exception)
+        {
+            _Logger?.Info($"Exception encountred during task dispatch: {exception.Message}");
         }
 
         public void Run(Action act) 
@@ -109,7 +107,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
                 catch (Exception exception) 
                 {
-                    _Logger?.Info($"Exception encountred during task dispatch: {exception.Message}");
+                    LogException(exception);
                     taskCompletionSource.TrySetException(exception);
                 }
             };

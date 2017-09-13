@@ -8,7 +8,6 @@ namespace Neutronium.Core.Test.Infra.Reflection
 {
     public class TypePropertyAccessorTest
     {
-
         [Theory]
         [InlineData(typeof(FakeClass), new[] { "Available1", "Available2", "Available3" })]
         [InlineData(typeof(ReadOnlyClass2), new[] { "Property1", "Property2" })]
