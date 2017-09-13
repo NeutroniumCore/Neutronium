@@ -6,7 +6,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
     internal class ChromiumFxObjectCreationCallBack 
     {
-        private List<CfrV8Value[]> _Result = new List<CfrV8Value[]>();
+        private readonly List<CfrV8Value[]> _Result = new List<CfrV8Value[]>();
 
         internal CfrV8Handler Handler { get; }
 

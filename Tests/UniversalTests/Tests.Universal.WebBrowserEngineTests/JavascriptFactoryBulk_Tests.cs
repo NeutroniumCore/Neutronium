@@ -34,7 +34,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
             private static Gen<object> ObjectGenerator 
                 => Gen.OneOf(DefaultObjectGenerator<Boolean>(), DefaultObjectGenerator<int>(), DefaultObjectGenerator<double>(),
-                                    DefaultGenerator<string>().Where(s => s != "" && s != null).Select(t => (object)t),
+                                    DefaultGenerator<string>().Where(s => !string.IsNullOrEmpty(s)).Select(t => (object)t),
                                     DateTimeGenerator.Select(t => (object)t));
 
             public static Arbitrary<DateTime> ArbitraryDateTime() => Arb.From(DateTimeGenerator);
@@ -278,7 +278,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
                 var expectedReadOnlyFlags = Enumerable.Repeat(false, nbWrite).Concat(Enumerable.Repeat(true, nbReadOnly));
 
-                return res.Select(obj => GetReadOnly(obj)).SequenceEqual(expectedReadOnlyFlags);
+                return res.Select(GetReadOnly).SequenceEqual(expectedReadOnlyFlags);
             });
         }
 

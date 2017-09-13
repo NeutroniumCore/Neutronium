@@ -173,8 +173,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
         {
+            var stringEval = CreateStringValue(from);
+            if (stringEval.Length == 2)
+                return Enumerable.Empty<IJavascriptObject>();
+
             _BasicBulkBuilder.Value.ExecuteFunction(null, new[] {
-                CfrV8Value.CreateString(CreateStringValue(from)),
+                CfrV8Value.CreateString(stringEval),
                 _ObjectCreationCallbackFunction.Value
             });
             return _ObjectCallback.GetLastArguments().Select(jso => jso.ConvertBasic());
@@ -182,7 +186,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private string CreateStringValue(IEnumerable<object> from)
         {
-            return $"[{string.Join(",", from.Select(v => JavascriptNamer.GetCreateExpression(v)))}]";
+            return $"[{string.Join(",", from.Select(JavascriptNamer.GetCreateExpression))}]";
         }
 
         public bool IsTypeBasic(Type type) 
@@ -214,6 +218,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IEnumerable<IJavascriptObject> CreateObjects(int readWriteNumber, int readOnlyNumber)
         {
+            if (readWriteNumber + readOnlyNumber == 0)
+                return Enumerable.Empty<IJavascriptObject>();
+
             _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] {
                 CfrV8Value.CreateInt((int)_Count),
                 CfrV8Value.CreateInt(readWriteNumber),
@@ -225,6 +232,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
         {
+            if (number == 0)
+                return Enumerable.Empty<IJavascriptObject>();
+
             var args = new List<CfrV8Value> {
                 CfrV8Value.CreateInt((int)_Count),
                 CfrV8Value.CreateInt(number),
@@ -272,6 +282,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IEnumerable<IJavascriptObject> CreateArrays(int number)
         {
+            if (number == 0)
+                return Enumerable.Empty<IJavascriptObject>();
+
             _ArrayBulkBuilder.Value.ExecuteFunction(null, new[] {
                 CfrV8Value.CreateInt((int)_Count),
                 CfrV8Value.CreateInt(number),
