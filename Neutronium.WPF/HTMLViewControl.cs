@@ -14,12 +14,12 @@ namespace Neutronium.WPF
 {
     public class HTMLViewControl : HTMLControlBase
     {
-        public static readonly DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(Uri), 
+        public static readonly DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(Uri),
                                                     typeof(HTMLViewControl), new PropertyMetadata(OnUriChanged));
 
-        private static int _count=0;
-        public override string UniqueName { get; } = $"HTML ViewControl {_count++}";
-            
+        private static int _Count = 0;
+        public override string UniqueName { get; } = $"HTML ViewControl {_Count++}";
+
         public Uri Uri
         {
             get { return (Uri)GetValue(UriProperty); }
@@ -28,7 +28,7 @@ namespace Neutronium.WPF
 
         public string RelativeSource
         {
-            set 
+            set
             {
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return;
@@ -49,16 +49,13 @@ namespace Neutronium.WPF
             set { SetValue(ModeProperty, value); }
         }
 
-        private UrlSolver _UrlSolver;
-
         public HTMLViewControl() : this(new UrlSolver())
         {
         }
 
-        private HTMLViewControl(UrlSolver urlSolver): base(urlSolver)
+        private HTMLViewControl(UrlSolver urlSolver) : base(urlSolver)
         {
-            _UrlSolver = urlSolver;
-            _UrlSolver.Solver = this;
+            urlSolver.Solver = this;
             DataContextChanged += HTMLViewControl_DataContextChanged;
         }
 
