@@ -37,11 +37,14 @@ namespace Neutronium.Core.Binding.GlueObject
 
         internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener)
         {
-            _ExitingObjects?.ForEach(exiting =>
+            if (_ExitingObjects==null)
+                return;
+
+            foreach (var exiting in _ExitingObjects)
             {
                 exiting.ApplyOnListenable(offListener);
                 Cache.RemoveFromCSharpToJs(exiting);
-            });
+            }
         }
 
         internal BridgeUpdater Remove(IJsCsGlue old)
