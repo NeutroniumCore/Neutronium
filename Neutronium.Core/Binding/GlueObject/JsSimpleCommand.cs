@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
@@ -17,7 +16,6 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue => _JsSimpleCommand;
-        public IEnumerable<IJsCsGlue> Children => null;
 
         public JsCsGlueType Type => JsCsGlueType.SimpleCommand;
         protected IWebView WebView => _HtmlViewContext.WebView;
@@ -45,10 +43,12 @@ namespace Neutronium.Core.Binding.GlueObject
             builder.RequestExecutableCreation();
         }
 
-        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        public void VisitDescendants(Func<IJsCsGlue, bool> visit)
         {
             visit(this);
         }
+
+        public void VisitChildren(Action<IJsCsGlue> visit) { }
 
         void IExecutableGlue.Execute(IJavascriptObject[] e)
         {

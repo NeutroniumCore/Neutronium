@@ -21,7 +21,6 @@ namespace Neutronium.Core.Binding.GlueObject
         public JsCsGlueType Type => JsCsGlueType.Array;
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public uint JsId { get; private set; }
-        public IEnumerable<IJsCsGlue> Children => Items;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => JsId = jsId;
 
@@ -36,15 +35,21 @@ namespace Neutronium.Core.Binding.GlueObject
             Items = values;
         }
 
-        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        public void VisitDescendants(Func<IJsCsGlue, bool> visit)
         {
             if (!visit(this))
                 return;
 
             foreach (var item in Items)
             {
-                item.VisitChildren(visit);
+                item.VisitDescendants(visit);
             }
+        }
+
+        public void VisitChildren(Action<IJsCsGlue> visit) 
+        {
+            foreach (var item in Items)
+                visit(item);
         }
 
 

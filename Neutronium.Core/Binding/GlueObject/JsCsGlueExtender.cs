@@ -11,16 +11,11 @@ namespace Neutronium.Core.Binding.GlueObject
             return (@this.Type == JsCsGlueType.Basic);
         }
 
-        public static bool IsBasicNotNull(this IJsCsGlue @this)
-        {
-            return (@this.CValue != null && @this.Type == JsCsGlueType.Basic);
-        }
-
-        public static void VisitAllChildren(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit)
+        public static void VisitDescendants(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit)
         {
             var res = new HashSet<IJsCsGlue>();
             Func<IJsCsGlue, bool> newVisitor = (glue) => (res.Add(glue)) && visit(glue);
-            @this.VisitChildren(newVisitor);
+            @this.VisitDescendants(newVisitor);
         }
 
         public static IJavascriptObject GetJsSessionValue(this IJsCsGlue @this)

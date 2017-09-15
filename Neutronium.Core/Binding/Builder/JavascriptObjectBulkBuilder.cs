@@ -36,7 +36,7 @@ namespace Neutronium.Core.Binding.Builder
         public void UpdateJavascriptValue()
         {
             var allBuilder = new JSAllBuilderAdapter(this);
-            _Root.VisitAllChildren(allBuilder.Visit);
+            _Root.VisitDescendants(allBuilder.Visit);
 
             CreateObjects();
             UpdateDependencies();
@@ -78,6 +78,7 @@ namespace Neutronium.Core.Binding.Builder
                 _CommandCreationRequest.AddRequest(glueObject, canExecute);
                 return;
             }
+
 
             var command = _Factory.CreateObject(true);
             command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));

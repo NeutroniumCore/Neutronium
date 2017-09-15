@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
@@ -16,7 +15,6 @@ namespace Neutronium.Core.Binding.GlueObject
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;
-        public IEnumerable<IJsCsGlue> Children => _Attributes;
         public bool HasReadWriteProperties => _TypePropertyAccessor.HasReadWriteProperties;
         public uint JsId { get; private set; }
 
@@ -52,15 +50,21 @@ namespace Neutronium.Core.Binding.GlueObject
             builder.RequestObjectCreation(_TypePropertyAccessor, _Attributes);
         }
 
-        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        public void VisitDescendants(Func<IJsCsGlue, bool> visit)
         {
             if (!visit(this))
                 return;
 
             foreach (var attribute in _Attributes)
             {
-                attribute.VisitChildren(visit);
+                attribute.VisitDescendants(visit);
             }
+        }
+
+        public void VisitChildren(Action<IJsCsGlue> visit) 
+        {
+            foreach (var item in _Attributes)
+                visit(item);
         }
 
         protected override void ComputeString(DescriptionBuilder context)

@@ -1,8 +1,7 @@
-﻿using MoreCollection.Extensions;
-using Neutronium.Core.Binding.GlueObject;
+﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding.Builder
+namespace Neutronium.Core.Binding.Builder 
 {
     internal class JavascriptObjectSynchroneousBuilder
     {
@@ -31,7 +30,7 @@ namespace Neutronium.Core.Binding.Builder
 
             var updater = new JavascriptObjectSynchroneousBuilderAdapter(_Factory, _Cache, glue, _Mapping);
             updater.ApplyLocalChanges();
-            glue.Children?.ForEach(VisitUpdate);
+            glue.VisitChildren(VisitUpdate);
             updater.AfterChildrenUpdates();
         }
     }

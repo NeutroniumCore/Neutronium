@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Binding.Builder;
@@ -13,7 +12,6 @@ namespace Neutronium.Core.Binding.GlueObject
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Basic;
         public uint JsId => 0;
-        public IEnumerable<IJsCsGlue> Children => null;
 
         public IJsCsGlue AddRef() => this;
 
@@ -40,10 +38,12 @@ namespace Neutronium.Core.Binding.GlueObject
             builder.RequestBasicObjectCreation(CValue);
         }
 
-        public void VisitChildren(Func<IJsCsGlue, bool> visit)
+        public void VisitDescendants(Func<IJsCsGlue, bool> visit)
         {
             visit(this);
         }
+
+        public void VisitChildren(Action<IJsCsGlue> visit) { }
 
         public override string ToString()
         {

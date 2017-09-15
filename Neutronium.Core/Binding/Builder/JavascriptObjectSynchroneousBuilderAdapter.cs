@@ -9,7 +9,7 @@ using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JavascriptObjectSynchroneousBuilderAdapter : IJavascriptObjectBuilder
+    internal struct JavascriptObjectSynchroneousBuilderAdapter : IJavascriptObjectBuilder
     {
         private readonly IJsCsGlue _Object;
         private readonly IJavascriptObjectFactory _Factory;
@@ -23,6 +23,7 @@ namespace Neutronium.Core.Binding.Builder
             _Factory = factory;
             _Cache = cache;
             _Object = @object;
+            _AfterChildrenUpdates = null;
         }
 
         public void ApplyLocalChanges()

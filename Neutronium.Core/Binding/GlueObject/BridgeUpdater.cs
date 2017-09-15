@@ -62,7 +62,7 @@ namespace Neutronium.Core.Binding.GlueObject
             if (!toRemove.Add(old))
                 return;
 
-            old.Children?.ForEach(child =>
+            old.VisitChildren(child =>
             {
                 if (child.Release())
                     CollectAllRemoved(child, toRemove);
