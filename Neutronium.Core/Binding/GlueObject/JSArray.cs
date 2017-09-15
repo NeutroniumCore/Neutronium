@@ -52,7 +52,6 @@ namespace Neutronium.Core.Binding.GlueObject
                 visit(item);
         }
 
-
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
             builder.RequestArrayCreation(Items);
