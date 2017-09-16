@@ -16,7 +16,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly ConcurrentQueue<Action> _Actions = new ConcurrentQueue<Action>();
         private readonly CfrTask _CfrTask;
 
-        private bool _IsExecutingActions;
+        private volatile bool _IsExecutingActions;
         private CfrTaskRunner TaskRunner { get; }
 
         public ChromiumFxDispatcher(CfrBrowser browser, CfrV8Context context, IWebSessionLogger logger) 
