@@ -181,10 +181,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 CfrV8Value.CreateString(stringEval),
                 _ObjectCreationCallbackFunction.Value
             });
-            return _ObjectCallback.GetLastArguments().Select(jso => jso.ConvertBasic());
+            return _ObjectCallback.GetLastArguments().Select(ChromiumFxJavascriptObjectExtension.ConvertBasic);
         }
 
-        private string CreateStringValue(IEnumerable<object> from)
+        private static string CreateStringValue(IEnumerable<object> from)
         {
             return $"[{string.Join(",", from.Select(JavascriptNamer.GetCreateExpression))}]";
         }
@@ -227,7 +227,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 CfrV8Value.CreateInt(readOnlyNumber),
                 _ObjectCreationCallbackFunction.Value
             });
-            return _ObjectCallback.GetLastArguments().Select(js => js.ConvertObject(_Count++));
+            return _ObjectCallback.GetLastArguments().Select(ConvertObject);
         }
 
         public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
@@ -244,8 +244,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             args.AddRange(parameters.Convert());
 
             _ObjectWithConstructorBulkBuilder.Value.ExecuteFunction(null, args.ToArray());
-            return _ObjectCallback.GetLastArguments().Select(js => js.ConvertObject(_Count++));
+            return _ObjectCallback.GetLastArguments().Select(ConvertObject);
         }
+
+        private IJavascriptObject ConvertObject(CfrV8Value cfrV8Value) => cfrV8Value.ConvertObject(_Count++);
+
+        private IJavascriptObject ConvertBasic(CfrV8Value cfrV8Value) => cfrV8Value.ConvertBasic(_Count++);
+
 
         public IJavascriptObject CreateUndefined() 
         {
@@ -290,7 +295,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 CfrV8Value.CreateInt(number),
                 _ObjectCreationCallbackFunction.Value
             });
-            return _ObjectCallback.GetLastArguments().Select(js => js.ConvertBasic(_Count++));
+            return _ObjectCallback.GetLastArguments().Select(ConvertBasic);
         }
 
         public IJavascriptObject CreateArray(int size)
