@@ -171,6 +171,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return true;
         }
 
+        public IJavascriptObject CreateBasic(int @from) => CfrV8Value.CreateInt(@from).Convert();
+
         public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
         {
             var stringEval = CreateStringValue(from);

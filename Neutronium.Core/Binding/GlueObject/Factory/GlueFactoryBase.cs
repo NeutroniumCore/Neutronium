@@ -20,6 +20,11 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
             return CacheWithoutListen(basic, new JsBasicObject(basic));
         }
 
+        public JsInt BuildInt(int value)
+        {
+            return CacheWithoutListen(value, new JsInt(value));
+        }
+
         private T CacheWithoutListen<T>(object key, T glue) where T : IJsCsGlue 
         {
             if (key != null)

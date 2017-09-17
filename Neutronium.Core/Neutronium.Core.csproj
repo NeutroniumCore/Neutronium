@@ -103,6 +103,8 @@
     <Compile Include="Binding\GlueObject\IJsCsCachableGlue.cs" />
     <Compile Include="Binding\GlueObject\Factory\GlueMappingFactory.cs" />
     <Compile Include="Binding\GlueObject\IExecutableGlue.cs" />
+    <Compile Include="Binding\GlueObject\JsNumber.cs" />
+    <Compile Include="Binding\GlueObject\JsNumbers.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableArray.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableCommand.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />

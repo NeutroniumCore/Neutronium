@@ -85,6 +85,8 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return true;
         }
 
+        public IJavascriptObject CreateBasic(int @from) => new CefV8_JavascriptObject(CefV8Value.CreateInt(@from));
+
         public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
         {
             foreach (var @object in from)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Awesomium.Core.Data;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -53,8 +54,8 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             Register<decimal>((source, b) => new Awesomium_Core.JSValue((double)source));
             Register<bool>((source, b) => new Awesomium_Core.JSValue(source));
             Register<DateTime>((source, builder) => builder.EvaluateSafe(() =>
-                        builder.ExecuteJavascriptWithResult(string.Format("new Date({0})",
-                        string.Join(",", source.Year, source.Month - 1, source.Day, source.Hour, source.Minute, source.Second, source.Millisecond)))));
+                        builder.ExecuteJavascriptWithResult(
+                            $"new Date({string.Join(",", source.Year, source.Month - 1, source.Day, source.Hour, source.Minute, source.Second, source.Millisecond)})")));
         }
 
         public bool Solve(object ifrom, out Awesomium_Core.JSValue res)
@@ -79,6 +80,8 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
                  res = jsres.Convert();
              return bres;
          }
+
+        public IJavascriptObject CreateBasic(int @from) => new Awesomium_Core.JSValue(@from).Convert();
 
         public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
         {

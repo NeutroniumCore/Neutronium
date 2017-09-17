@@ -44,7 +44,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
             {
                 [typeof(string)] = BuildBasic,
                 [typeof(Int64)] = BuildBasic,
-                [typeof(Int32)] = BuildBasic,
+                [typeof(Int32)] = BuildInt,
                 [typeof(Int16)] = BuildBasic,
                 [typeof(UInt64)] = BuildBasic,
                 [typeof(UInt32)] = BuildBasic,
@@ -80,6 +80,8 @@ namespace Neutronium.Core.Binding.GlueBuilder
         internal bool IsBasicType(Type type) => _BasicTypes.Contains(type);
 
         private static IJsCsGlue BuildBasic(IGlueFactory factory, object @object) => factory.BuildBasic(@object);
+
+        private static IJsCsGlue BuildInt(IGlueFactory factory, object @object) => factory.BuildInt((int)@object);
 
         private static IJsCsGlue BuildCommand(IGlueFactory factory, object @object) => factory.Build((ICommand)@object);
 
