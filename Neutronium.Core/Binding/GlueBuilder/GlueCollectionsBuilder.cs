@@ -79,9 +79,9 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         private List<IJsCsGlue> AppendToList(List<IJsCsGlue> childrenList, IList list)
         {
-            for (var i = 0; i < list.Count; i++)
+            foreach (var @object in list)
             {
-                childrenList.Add(_Converter.Map(list[i]).AddRef());
+                childrenList.Add(_Converter.Map(@object).AddRef());
             }
             return childrenList;
         }

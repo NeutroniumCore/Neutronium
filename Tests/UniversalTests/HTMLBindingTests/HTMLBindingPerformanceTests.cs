@@ -392,12 +392,12 @@ namespace Tests.Universal.HTMLBindingTests
 
             using (GetPerformanceCounter("Perf to VisitAllChildren"))
             {
-                await DoSafeAsyncUI(() => JsCsGlueExtender.VisitDescendants(rootJs, glue => true));
+                await DoSafeAsyncUI(() => rootJs.VisitDescendantsSafe(glue => true));
             }
 
             using (GetPerformanceCounter("Perf to VisitAllChildren Collect"))
             {
-                await DoSafeAsyncUI(() => JsCsGlueExtender.VisitDescendants(rootJs, glue => allChildren.Add(glue)));
+                await DoSafeAsyncUI(() => rootJs.VisitDescendantsSafe(glue => allChildren.Add(glue)));
             }
 
             using (GetPerformanceCounter("Perf Foreach GetAllChildren"))

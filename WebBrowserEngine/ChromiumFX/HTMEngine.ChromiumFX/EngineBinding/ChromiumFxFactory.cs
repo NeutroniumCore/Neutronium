@@ -171,11 +171,22 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return true;
         }
 
-        public IJavascriptObject CreateBasic(int @from) => CfrV8Value.CreateInt(@from).Convert();
-
         public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
         {
             var stringEval = CreateStringValue(from);
+            if (stringEval.Length == 2)
+                return Enumerable.Empty<IJavascriptObject>();
+
+            _BasicBulkBuilder.Value.ExecuteFunction(null, new[] {
+                CfrV8Value.CreateString(stringEval),
+                _ObjectCreationCallbackFunction.Value
+            });
+            return _ObjectCallback.GetLastArguments().Select(ChromiumFxJavascriptObjectExtension.ConvertBasic);
+        }
+
+        public IEnumerable<IJavascriptObject> CreateFromExcecutionCode(IEnumerable<string> @from)
+        {
+            var stringEval = $"[{string.Join(",", from)}]";
             if (stringEval.Length == 2)
                 return Enumerable.Empty<IJavascriptObject>();
 

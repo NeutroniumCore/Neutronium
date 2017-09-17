@@ -11,7 +11,7 @@ namespace Neutronium.Core.Binding.GlueObject
             return (@this.Type == JsCsGlueType.Basic);
         }
 
-        public static void VisitDescendants(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit)
+        public static void VisitDescendantsSafe(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit)
         {
             var res = new HashSet<IJsCsGlue>();
             Func<IJsCsGlue, bool> newVisitor = (glue) => (res.Add(glue)) && visit(glue);

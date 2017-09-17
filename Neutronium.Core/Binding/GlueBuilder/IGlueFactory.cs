@@ -22,6 +22,8 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
 
         JsInt BuildInt(int value);
 
+        JsString BuildString(string value);
+
         event EventHandler<IJsCsGlue> ElementCreated;
     }
 }

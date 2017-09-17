@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Awesomium.Core.Data;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -13,8 +12,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 {
     internal class AwesomiumJavascriptObjectFactory : IJavascriptObjectFactory
     {
-        private static readonly IDictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>> _Converters =
-         new Dictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>>();
+        private static readonly IDictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>>
+            _Converters =
+                new Dictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>>();
 
         private readonly Awesomium_Core.IWebView _IWebView;
         private IJavascriptObject _JSNull = null;
@@ -26,7 +26,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         private static void Register<T>(Func<T, Awesomium_Core.IWebView, Awesomium_Core.JSValue> Factory)
         {
-            _Converters.Add(typeof(T), (o, b) => Factory((T)o,b));
+            _Converters.Add(typeof(T), (o, b) => Factory((T) o, b));
         }
 
         public Type GetElementType(IEnumerable collection)
@@ -51,17 +51,17 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             Register<float>((source, b) => new Awesomium_Core.JSValue(source));
             Register<char>((source, b) => new Awesomium_Core.JSValue(source));
             Register<double>((source, b) => new Awesomium_Core.JSValue(source));
-            Register<decimal>((source, b) => new Awesomium_Core.JSValue((double)source));
+            Register<decimal>((source, b) => new Awesomium_Core.JSValue((double) source));
             Register<bool>((source, b) => new Awesomium_Core.JSValue(source));
             Register<DateTime>((source, builder) => builder.EvaluateSafe(() =>
-                        builder.ExecuteJavascriptWithResult(
-                            $"new Date({string.Join(",", source.Year, source.Month - 1, source.Day, source.Hour, source.Minute, source.Second, source.Millisecond)})")));
+                builder.ExecuteJavascriptWithResult(
+                    $"new Date({string.Join(",", source.Year, source.Month - 1, source.Day, source.Hour, source.Minute, source.Second, source.Millisecond)})")));
         }
 
         public bool Solve(object ifrom, out Awesomium_Core.JSValue res)
         {
             Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue> conv = null;
-            if (!_Converters.TryGetValue(ifrom.GetType(),out conv))
+            if (!_Converters.TryGetValue(ifrom.GetType(), out conv))
             {
                 res = new Awesomium_Core.JSValue();
                 return false;
@@ -71,68 +71,69 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return true;
         }
 
-         public bool CreateBasic(object ifrom, out IJavascriptObject res)
-         {
-             res = null;
-             Awesomium_Core.JSValue jsres;  
-             bool bres = Solve(ifrom, out jsres);
-             if (bres)
-                 res = jsres.Convert();
-             return bres;
-         }
-
-        public IJavascriptObject CreateBasic(int @from) => new Awesomium_Core.JSValue(@from).Convert();
+        public bool CreateBasic(object ifrom, out IJavascriptObject res)
+        {
+            res = null;
+            Awesomium_Core.JSValue jsres;
+            bool bres = Solve(ifrom, out jsres);
+            if (bres)
+                res = jsres.Convert();
+            return bres;
+        }
 
         public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
         {
-            foreach(var @object in from)
+            foreach (var @object in from)
             {
                 IJavascriptObject res = null;
                 yield return CreateBasic(@object, out res) ? res : null;
             }
         }
 
-        public static bool IsTypeConvertible(Type type) 
-         {
-             return type != null && _Converters.ContainsKey(type);
-         }
+        public static bool IsTypeConvertible(Type type)
+        {
+            return type != null && _Converters.ContainsKey(type);
+        }
 
-        public bool IsTypeBasic(Type type) 
+        public bool IsTypeBasic(Type type)
         {
             return IsTypeConvertible(type);
         }
 
         private Awesomium_Core.JSValue Check(Awesomium_Core.JSObject ires)
-         {
-             if (ires == null)
-                 throw ExceptionHelper.GetUnexpected();
+        {
+            if (ires == null)
+                throw ExceptionHelper.GetUnexpected();
 
-             return ires;
-         }
+            return ires;
+        }
 
-         private Awesomium_Core.JSValue UpdateObject(Awesomium_Core.JSObject ires)
-         {
-             ires[NeutroniumConstants.ObjectId] = new Awesomium_Core.JSValue(_Count++);
-             return ires;
-         }
+        private Awesomium_Core.JSValue UpdateObject(Awesomium_Core.JSObject ires)
+        {
+            ires[NeutroniumConstants.ObjectId] = new Awesomium_Core.JSValue(_Count++);
+            return ires;
+        }
 
-         public IJavascriptObject CreateNull()
-         {
-             if (_JSNull==null)
-                 _JSNull = Check(_IWebView.EvaluateSafe(() => _IWebView.ExecuteJavascriptWithResult("new Null_reference()"))).Convert() ;
+        public IJavascriptObject CreateNull()
+        {
+            if (_JSNull == null)
+                _JSNull = Check(
+                        _IWebView.EvaluateSafe(() => _IWebView.ExecuteJavascriptWithResult("new Null_reference()")))
+                    .Convert();
 
-             return _JSNull;
-         }
+            return _JSNull;
+        }
 
-         private static uint _Count = 0;
+        private static uint _Count = 0;
 
         private IJavascriptObject CreateJSObject(bool local)
         {
             string Name = string.Format("MVVM_HTML_{0}", _Count);
             return _IWebView.EvaluateSafe(() =>
             {
-                Awesomium_Core.JSObject res = (local) ? new Awesomium_Core.JSObject() :
-                       (Awesomium_Core.JSObject)_IWebView.CreateGlobalJavascriptObject(Name);
+                Awesomium_Core.JSObject res = (local)
+                    ? new Awesomium_Core.JSObject()
+                    : (Awesomium_Core.JSObject) _IWebView.CreateGlobalJavascriptObject(Name);
 
                 res[NeutroniumConstants.ObjectId] = new Awesomium_Core.JSValue(_Count++);
 
@@ -153,7 +154,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
         public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
         {
             var count = readWrite + readOnlyNumber;
-            for (var i =0; i< count; i++)
+            for (var i = 0; i < count; i++)
             {
                 yield return CreateObject(true);
             }
@@ -164,25 +165,25 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return new Awesomium_Core.JSValue(value).Convert();
         }
 
-         public IJavascriptObject CreateDouble(double value)
-         {
-             return new Awesomium_Core.JSValue(value).Convert();
-         }
+        public IJavascriptObject CreateDouble(double value)
+        {
+            return new Awesomium_Core.JSValue(value).Convert();
+        }
 
-         public IJavascriptObject CreateString(string value)
-         {
-             return new Awesomium_Core.JSValue(value).Convert();
-         }
+        public IJavascriptObject CreateString(string value)
+        {
+            return new Awesomium_Core.JSValue(value).Convert();
+        }
 
-         public IJavascriptObject CreateBool(bool value)
-         {
-             return new Awesomium_Core.JSValue(value).Convert();
-         }
+        public IJavascriptObject CreateBool(bool value)
+        {
+            return new Awesomium_Core.JSValue(value).Convert();
+        }
 
-         public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCount)
-         {
-             return new Awesomium_Core.JSValue(iCount.Select(o => o.Convert()).ToArray()).Convert();
-         }
+        public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCount)
+        {
+            return new Awesomium_Core.JSValue(iCount.Select(o => o.Convert()).ToArray()).Convert();
+        }
 
         public IEnumerable<IJavascriptObject> CreateArrays(int number)
         {
@@ -194,22 +195,33 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         public IJavascriptObject CreateArray(int size)
         {
-            return new Awesomium_Core.JSValue(Enumerable.Repeat(new Awesomium_Core.JSValue(), size).ToArray()).Convert();
+            return new Awesomium_Core.JSValue(Enumerable.Repeat(new Awesomium_Core.JSValue(), size).ToArray())
+                .Convert();
         }
 
         public IJavascriptObject CreateObject(string iCreationCode)
-         {
-             return _IWebView.EvaluateSafe(() => UpdateObject(_IWebView.ExecuteJavascriptWithResult(iCreationCode))).Convert();
-         }
+        {
+            return _IWebView.EvaluateSafe(() => UpdateObject(_IWebView.ExecuteJavascriptWithResult(iCreationCode)))
+                .Convert();
+        }
 
-         public IJavascriptObject CreateUndefined()
-         {
-             return Awesomium_Core.JSValue.Undefined.Convert();
-         }
+        public IJavascriptObject CreateUndefined()
+        {
+            return Awesomium_Core.JSValue.Undefined.Convert();
+        }
 
-        public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
+        public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor,
+            params IJavascriptObject[] parameters)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<IJavascriptObject> CreateFromExcecutionCode(IEnumerable<string> from)
+        {
+            foreach (var code in from)
+            {
+                yield return CreateObject(code);
+            }
         }
     }
 }

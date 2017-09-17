@@ -1,7 +1,8 @@
 ﻿using System;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 
-namespace Neutronium.Core.Binding.GlueObject.Factory 
+namespace Neutronium.Core.Binding.GlueBuilder 
 {
     internal class GlueFactoryBase 
     {
@@ -23,6 +24,11 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
         public JsInt BuildInt(int value)
         {
             return CacheWithoutListen(value, new JsInt(value));
+        }
+
+        public JsString BuildString(string value)
+        {
+            return CacheWithoutListen(value, new JsString(value));
         }
 
         private T CacheWithoutListen<T>(object key, T glue) where T : IJsCsGlue 

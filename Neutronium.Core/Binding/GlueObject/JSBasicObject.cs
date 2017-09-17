@@ -6,7 +6,7 @@ using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal sealed class JsBasicObject : IJsCsGlue
+    internal sealed class JsBasicObject : IBasicJsCsGlue
     {
         public IJavascriptObject JsValue { get; private set; }
         public object CValue { get; }
@@ -44,6 +44,12 @@ namespace Neutronium.Core.Binding.GlueObject
         }
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
+
+
+        public string GetCreationCode()
+        {
+            return JavascriptNamer.GetCreateExpression(CValue);
+        }
 
         public override string ToString()
         {

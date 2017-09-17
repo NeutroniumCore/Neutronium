@@ -99,12 +99,14 @@
     <Compile Include="Binding\GlueObject\AttibuteUpdater.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
-    <Compile Include="Binding\GlueObject\Factory\GlueFactoryBase.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueFactoryBase.cs" />
     <Compile Include="Binding\GlueObject\IJsCsCachableGlue.cs" />
-    <Compile Include="Binding\GlueObject\Factory\GlueMappingFactory.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueMappingFactory.cs" />
     <Compile Include="Binding\GlueObject\IExecutableGlue.cs" />
+    <Compile Include="Binding\GlueObject\IBasicJsCsGlue.cs" />
+    <Compile Include="Binding\GlueObject\JsBasicTyped.cs" />
     <Compile Include="Binding\GlueObject\JsNumber.cs" />
-    <Compile Include="Binding\GlueObject\JsNumbers.cs" />
+    <Compile Include="Binding\GlueObject\JsString.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableArray.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableCommand.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />
@@ -116,7 +118,7 @@
     <Compile Include="Binding\Builder\JavascriptObjectBulkBuilderStrategy.cs" />
     <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
-    <Compile Include="Binding\GlueObject\Factory\IGlueFactory.cs" />
+    <Compile Include="Binding\GlueBuilder\IGlueFactory.cs" />
     <Compile Include="Extension\JavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IObjectChangesListener.cs" />
@@ -128,7 +130,7 @@
     <Compile Include="Binding\GlueObject\JsBasicObject.cs" />
     <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />
     <Compile Include="Binding\HtmlViewContext.cs" />
-    <Compile Include="Binding\GlueObject\Factory\GlueFactory.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="Binding\Builder\StandardStrategyFactory.cs" />
     <Compile Include="Extension\WebViewExtension.cs" />

@@ -23,15 +23,15 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         bool CreateBasic(object from, out IJavascriptObject res);
 
         /// <summary>
-        /// Create IJavascriptObject from int
+        /// Create IJavascriptObject from basic CLR types
         /// </summary>
         /// <param name="from">
-        /// object to be converted
+        /// objects to be converted
         /// </param>
         /// <returns>
-        /// IJavascriptObject converted from <paramref name="from" />
-        /// </returns>
-        IJavascriptObject CreateBasic(int from);
+        /// IJavascriptObjects created
+        ///</returns>
+        IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from);
 
         /// <summary>
         /// Create IJavascriptObject from basic CLR types
@@ -42,7 +42,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <returns>
         /// IJavascriptObjects created
         ///</returns>
-        IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from);
+        IEnumerable<IJavascriptObject> CreateFromExcecutionCode(IEnumerable<string> from);
 
         /// <summary>
         /// Indicates if a type is a basic CLR type which

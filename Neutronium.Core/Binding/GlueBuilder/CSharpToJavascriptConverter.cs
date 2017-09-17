@@ -42,7 +42,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
             _Cacher = cacher;
             _Converters = new Dictionary<Type, Func<IGlueFactory, object, IJsCsGlue>>
             {
-                [typeof(string)] = BuildBasic,
+                [typeof(string)] = BuildString,
                 [typeof(Int64)] = BuildBasic,
                 [typeof(Int32)] = BuildInt,
                 [typeof(Int16)] = BuildBasic,
@@ -82,6 +82,8 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private static IJsCsGlue BuildBasic(IGlueFactory factory, object @object) => factory.BuildBasic(@object);
 
         private static IJsCsGlue BuildInt(IGlueFactory factory, object @object) => factory.BuildInt((int)@object);
+
+        private static IJsCsGlue BuildString(IGlueFactory factory, object @object) => factory.BuildString((string)@object);
 
         private static IJsCsGlue BuildCommand(IGlueFactory factory, object @object) => factory.Build((ICommand)@object);
 

@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding.GlueObject.Factory;
+﻿using Neutronium.Core.Binding.GlueBuilder;
+using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding

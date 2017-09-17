@@ -36,7 +36,12 @@ namespace Neutronium.Core.Binding.Builder
 
         public void RequestBasicObjectCreation(int value)
         {
-            _JavascriptObjectBuilder.RequestBasicObjectCreation(_Object, value);
+            _JavascriptObjectBuilder.RequestBasicObjectCreation(_Object);
+        }
+
+        public void RequestBasicObjectCreation(string value)
+        {
+            _JavascriptObjectBuilder.RequestBasicObjectCreation(_Object);
         }
 
         public void RequestCommandCreation(bool canExcecute)

@@ -80,7 +80,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var alm = jsbridge.ToString();
 
                     JsArray arr = null;
-                    JsCsGlueExtender.VisitDescendants(jsbridge, glue => {
+                    jsbridge.VisitDescendantsSafe(glue => {
                         arr = arr ?? glue as JsArray;
                         return glue != null;
                     });

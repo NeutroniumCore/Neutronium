@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Windows.Input;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Infra.Reflection;
 using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding.GlueObject.Factory
+namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal sealed class GlueFactory : GlueFactoryBase, IGlueFactory 
     {

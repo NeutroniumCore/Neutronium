@@ -1,56 +1,28 @@
-﻿using System;
+﻿using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal abstract class JsNumber<T> where T : struct
+    internal abstract class JsNumber<T>: JsBasicTyped<T> where T : struct
     {
-        public IJavascriptObject JsValue { get; private set; }
-        public T NumberValue { get; }
-        public object CValue => NumberValue;
-        public JsCsGlueType Type => JsCsGlueType.Basic;
-        public uint JsId => 0;
+        internal JsNumber(T value):base(value) { }
 
-        public bool Release() => false;
+        internal JsNumber(IJavascriptObject jsValue, T value): base(jsValue, value) { }
 
-        public IJsCsGlue AddRef() => (IJsCsGlue)this;
+        public override string ToString() => TypedValue.ToString();
+    }
 
-        internal JsNumber(T value)
-        {
-            NumberValue = value;
-        }
+    internal sealed class JsInt : JsNumber<int>, IBasicJsCsGlue
+    {
+        public JsInt(int value) : base(value) { }
 
-        protected void SetJsValue(IJavascriptObject value)
-        {
-            JsValue = value;
-        }
+        public JsInt(IJavascriptObject jsValue, int value) : base(jsValue, value) { }
 
-        internal JsNumber(IJavascriptObject jsValue, T value)
-        {
-            NumberValue = value;
-            JsValue = jsValue;
-        }
+        void IJsCsGlue.SetJsValue(IJavascriptObject value) => base.SetJsValue(value);
 
-        public void VisitDescendants(Func<IJsCsGlue, bool> visit)
-        {
-            visit((IJsCsGlue)this);
-        }
+        public string GetCreationCode() => TypedValue.ToString();
 
-        public void VisitChildren(Action<IJsCsGlue> visit) { }
-
-        public override string ToString()
-        {
-            return NumberValue.ToString();
-        }
-
-        public void BuilString(DescriptionBuilder context)
-        {
-            context.Append(ToString());
-        }
-
-        public void ApplyOnListenable(IObjectChangesListener listener)
-        {
-        }
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
+            => builder.RequestBasicObjectCreation(TypedValue);
     }
 }
