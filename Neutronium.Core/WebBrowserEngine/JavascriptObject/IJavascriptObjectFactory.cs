@@ -12,49 +12,12 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// Create IJavascriptObject from basic CLR types
         /// </summary>
         /// <param name="from">
-        /// object to be converted
-        /// </param>
-        /// <param name="res">
-        /// IJavascriptObject converted from <paramref name="from" />
-        /// </param>
-        /// <returns>
-        /// true if the IJavascriptObject has been created
-        ///</returns>
-        bool CreateBasic(object from, out IJavascriptObject res);
-
-        /// <summary>
-        /// Create IJavascriptObject from basic CLR types
-        /// </summary>
-        /// <param name="from">
-        /// objects to be converted
-        /// </param>
-        /// <returns>
-        /// IJavascriptObjects created
-        ///</returns>
-        IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from);
-
-        /// <summary>
-        /// Create IJavascriptObject from basic CLR types
-        /// </summary>
-        /// <param name="from">
         /// objects to be converted
         /// </param>
         /// <returns>
         /// IJavascriptObjects created
         ///</returns>
         IEnumerable<IJavascriptObject> CreateFromExcecutionCode(IEnumerable<string> from);
-
-        /// <summary>
-        /// Indicates if a type is a basic CLR type which
-        /// can be converted with SolveBasic
-        /// </summary>
-        /// <param name="type">
-        /// Type to check
-        /// </param>
-        /// <returns>
-        /// true if type can be handled by SolveBasic
-        ///</returns>
-        bool IsTypeBasic(Type type);
 
         /// <summary>
         /// Create IJavascriptObject representing null value
@@ -144,6 +107,18 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         ///</returns>
         IJavascriptObject CreateInt(int value);
 
+
+        /// <summary>
+        /// Create IJavascriptObject from an uint
+        /// </summary>
+        /// <param name="value">
+        /// int to be converted
+        /// </param>
+        /// <returns>
+        /// corresponding IJavascriptObject
+        ///</returns>
+        IJavascriptObject CreateUint(uint value);
+
         /// <summary>
         /// Create IJavascriptObject from an double
         /// </summary>
@@ -176,6 +151,17 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// corresponding IJavascriptObject
         ///</returns>
         IJavascriptObject CreateBool(bool value);
+
+        /// <summary>
+        /// Create IJavascriptObject from a DateTime
+        /// </summary>
+        /// <param name="value">
+        /// boolean to be converted
+        /// </param>
+        /// <returns>
+        /// corresponding IJavascriptObject
+        ///</returns>
+        IJavascriptObject CreateDateTime(DateTime value);
 
         /// <summary>
         /// Create IJavascriptObject list

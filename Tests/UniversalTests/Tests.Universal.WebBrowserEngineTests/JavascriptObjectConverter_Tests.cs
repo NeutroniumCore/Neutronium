@@ -94,10 +94,8 @@ namespace Tests.Universal.WebBrowserEngineTests
             {
                 object res = null;
                 var date = new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc);
-                IJavascriptObject dateJavascript = null;
-                bool ok = Factory.CreateBasic(date, out dateJavascript);
-                ok.Should().BeTrue();
-                ok = Converter.GetSimpleValue(dateJavascript, out res);
+                var dateJavascript = Factory.CreateDateTime(date);
+                var ok = Converter.GetSimpleValue(dateJavascript, out res);
                 ok.Should().BeTrue();
                 res.Should().Be(date);
             });
@@ -121,10 +119,8 @@ namespace Tests.Universal.WebBrowserEngineTests
             Test(() =>
             {
                 object res = null;
-                IJavascriptObject maxuint = null;
-                bool ok = Factory.CreateBasic(uint.MaxValue, out maxuint);
-                ok.Should().BeTrue();
-                ok = Converter.GetSimpleValue(maxuint, out res, typeof(UInt32));
+                var maxuint = Factory.CreateUint(uint.MaxValue);
+                var ok = Converter.GetSimpleValue(maxuint, out res, typeof(UInt32));
                 ok.Should().BeTrue();
                 res.Should().Be(uint.MaxValue);
             });

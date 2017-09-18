@@ -33,6 +33,12 @@ namespace Neutronium.Core.Binding.GlueObject
             _JsResultCommand = resultCommand;
         }
 
+        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        {
+            SetJsValue(value);
+            sessionCache.Cache(this);
+        }
+
         public void UpdateJsObject(IJavascriptObject javascriptObject)
         {
             IExecutableGlue executable = this;

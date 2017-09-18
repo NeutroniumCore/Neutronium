@@ -900,11 +900,6 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
             _browser?.Reload();
         }
 
-        public bool IsTypeBasic(Type type) 
-        { 
-            return CefV8_Factory.IsTypeConvertible(type);
-        }
-
         #endregion
 
         public IWebView MainFrame => _browser.GetMainFrame().GetMainContext();

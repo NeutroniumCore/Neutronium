@@ -37,11 +37,6 @@ namespace Tests.ChromiumFX.Infra
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
         }
 
-        public bool IsTypeBasic(Type type) 
-        {
-            return ChromiumFxFactory.IsTypeConvertible(type);
-        }
-
         public void NavigateTo(Uri path) 
         {
             throw new NotImplementedException();

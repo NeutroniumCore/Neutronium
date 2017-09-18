@@ -1,6 +1,5 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Infra.Reflection;
 

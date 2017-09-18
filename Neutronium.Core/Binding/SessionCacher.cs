@@ -38,11 +38,7 @@ namespace Neutronium.Core.Binding
 
         public void Cache(IJsCsGlue value)
         {
-            var cashable = value as IJsCsCachableGlue;
-            if (cashable != null)
-                Cache(cashable);
-            else
-                _FromJavascriptGlobal.Add(value.JsValue.GetID(), value);
+            _FromJavascriptGlobal.Add(value.JsValue.GetID(), value);
         }
 
         public void Cache(IJsCsCachableGlue cachableGlue)

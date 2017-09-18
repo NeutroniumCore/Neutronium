@@ -4,6 +4,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Neutronium.Core.Extension;
 
 namespace Neutronium.Core.Binding.Builder 
 {
@@ -105,7 +106,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void BulkUpdate(IEnumerable<ObjectDescriptor> updates)
         {
-            var spliter = new EntityDescriptorSpliter { MaxCount = _WebView.MaxFunctionArgumentsNumber -1 };
+            var spliter = new EntityDescriptorSpliter { MaxCount = _WebView.GetMaxAcceptableArguments() - 1 };
 
             var packer = new ObjectChildrenDescriptionPacker();
             foreach (var entityDescriptor in spliter.SplitParameters(updates))
@@ -117,7 +118,7 @@ namespace Neutronium.Core.Binding.Builder
 
         private void BulkUpdate(IEnumerable<ArrayDescriptor> updates) 
         {
-            var spliter = new EntityArraySpliter { MaxCount = _WebView.MaxFunctionArgumentsNumber - 1 };
+            var spliter = new EntityArraySpliter { MaxCount = _WebView.GetMaxAcceptableArguments() - 1 };
 
             var packer = new ArrayChildrenDescriptionPacker();
             foreach (var entityDescriptor in spliter.SplitParameters(updates)) 

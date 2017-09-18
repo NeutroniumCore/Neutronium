@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using FluentAssertions;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
-using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -170,7 +169,7 @@ namespace Neutronium.Core.Test.Binding
 
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            res.ToString().Should().Be("{\"Bool\":true,\"Decimal\":0,01,\"Double\":0,9221,\"Int32\":1}");
+            res.ToString().Should().Be("{\"Bool\":true,\"Decimal\":0.01,\"Double\":0.9221,\"Int32\":1}");
         }
 
 

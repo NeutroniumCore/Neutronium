@@ -43,6 +43,12 @@ namespace Neutronium.Core.Binding.GlueObject
             catch { }
         }
 
+        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        {
+            SetJsValue(value);
+            sessionCache.Cache(this);
+        }
+
         public void UpdateJsObject(IJavascriptObject javascriptObject)
         {
             javascriptObject.Bind("Execute", WebView, Execute);

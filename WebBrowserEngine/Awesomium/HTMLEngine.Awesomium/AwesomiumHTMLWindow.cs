@@ -43,11 +43,6 @@ namespace Neutronium.WebBrowserEngine.Awesomium
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.LineNumber));
         }
 
-        public bool IsTypeBasic(Type type) 
-        {
-            return AwesomiumJavascriptObjectFactory.IsTypeConvertible(type);
-        }
-
         public void NavigateTo(Uri path)
         {
             _WebControl.Source = path;

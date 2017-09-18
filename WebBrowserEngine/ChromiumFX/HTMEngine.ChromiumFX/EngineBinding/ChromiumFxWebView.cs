@@ -9,7 +9,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
     internal class ChromiumFxWebView : IWebView
     {
-        private readonly CfrBrowser _Browser;
         private readonly CfrFrame _CfrFrame;
         private readonly ChromiumFxDispatcher _Dispatcher;
         private readonly IWebSessionLogger _Logger;
@@ -23,10 +22,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public ChromiumFxWebView(CfrBrowser cfrbrowser, IWebSessionLogger logger) 
         {
             _Logger = logger;
-            _Browser = cfrbrowser;
-            _CfrFrame = _Browser.MainFrame;
+            var browser = cfrbrowser;
+            _CfrFrame = browser.MainFrame;
             V8Context = _CfrFrame.V8Context;
-            _Dispatcher = new ChromiumFxDispatcher(_Browser, V8Context, _Logger);
+            _Dispatcher = new ChromiumFxDispatcher(browser, V8Context, _Logger);
             Converter = new ChromiumFxConverter(V8Context);
             Factory = new ChromiumFxFactory(V8Context, this);
         }

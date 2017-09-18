@@ -30,11 +30,6 @@ namespace CefGlue.TestInfra.CefWindowless
             ConsoleMessage?.Invoke(this, e);
         }
 
-        public bool IsTypeBasic(Type type) 
-        {
-            return CefV8_Factory.IsTypeConvertible(type);
-        }
-
         public void NavigateTo(Uri path)
         {
             throw new NotImplementedException();

@@ -1,12 +1,11 @@
 ﻿using System;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.Infra;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
 
-namespace Neutronium.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal sealed class JsBasicObject : IBasicJsCsGlue
+    internal sealed class JsBasicObject : IJsCsGlue
     {
         public IJavascriptObject JsValue { get; private set; }
         public object CValue { get; }
@@ -17,26 +16,20 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public bool Release() => false;
 
-        internal JsBasicObject(object value)
-        {
-            CValue = value;
-        }
-
-        void IJsCsGlue.SetJsValue(IJavascriptObject value)
-        {
-            JsValue = value;
-        }
-
         internal JsBasicObject(IJavascriptObject jsValue, object value)
         {
             CValue = value;
             JsValue = jsValue;
         }
 
-        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
+        void IJsCsGlue.SetJsValue(IJavascriptObject value, IJavascriptSessionCache cache)
         {
-            builder.RequestBasicObjectCreation(CValue);
+            JsValue = value;
         }
+
+        // Not need this class is only used when creating glueobject from
+        // javascript session
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder) { }
 
         public void VisitDescendants(Func<IJsCsGlue, bool> visit)
         {
@@ -44,12 +37,6 @@ namespace Neutronium.Core.Binding.GlueObject
         }
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
-
-
-        public string GetCreationCode()
-        {
-            return JavascriptNamer.GetCreateExpression(CValue);
-        }
 
         public override string ToString()
         {
@@ -60,20 +47,14 @@ namespace Neutronium.Core.Binding.GlueObject
 
             if (CValue is string)
             {
-                return $@"""{Normalize((string) CValue)}""";
+                return JavascriptNamer.GetCreateExpressionDoubleQuote((string)CValue);
             }
 
             object unBoxed = CValue;
-            if (unBoxed is DateTime) 
+            if (unBoxed is DateTime)
             {
                 var dt = (DateTime)unBoxed;
                 return $@"""{dt.Year:0000}-{dt.Month:00}-{dt.Day:00}T{dt.Hour:00}:{dt.Minute:00}:{dt.Second:00}.{dt.Millisecond:000}Z""";
-            }
-
-            if (unBoxed is Enum)
-            {
-                var emumValue = (Enum)unBoxed;
-                return $"{{\"type\":\"{emumValue.GetType().Name}\",\"intValue\":{Convert.ToInt32(emumValue)},\"name\":\"{emumValue.ToString()}\",\"displayName\":\"{emumValue.GetDescription()}\"}}";
             }
 
             if (unBoxed is bool)
@@ -83,11 +64,6 @@ namespace Neutronium.Core.Binding.GlueObject
             }
 
             return CValue.ToString();
-        }
-
-        private static string Normalize(string value)
-        {
-            return value.Replace(@"\", @"\\").Replace(@"""", @"\""");
         }
 
         public void BuilString(DescriptionBuilder context)

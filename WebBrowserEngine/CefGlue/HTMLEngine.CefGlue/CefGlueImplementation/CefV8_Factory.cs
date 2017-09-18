@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xilium.CefGlue;
 using MoreCollection.Extensions;
@@ -11,37 +10,13 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
     internal class CefV8_Factory : IJavascriptObjectFactory
     {
         private static uint _Count = 0;
-
-        private static readonly IDictionary<Type, Func<object, CefV8Value>> _Converters = new Dictionary<Type, Func<object, CefV8Value>>();
-        private readonly IWebView _CefV8_WebView;
-
-        static CefV8_Factory()
-        {
-            Register<string>(CefV8Value.CreateString);
-
-            Register<Int64>((source) => CefV8Value.CreateDouble((double)source));
-            Register<UInt64>((source) => CefV8Value.CreateDouble((double)source));
-            Register<float>((source) => CefV8Value.CreateDouble((double)source));
-
-            Register<Int32>(CefV8Value.CreateInt);
-            Register<Int16>((source) => CefV8Value.CreateInt((int)source));
-
-            Register<UInt32>(CefV8Value.CreateUInt);
-            Register<UInt16>((source) => CefV8Value.CreateUInt((UInt32)source));
-
-            //check two way and convertion back
-            Register<char>((source) => CefV8Value.CreateString(new StringBuilder().Append(source).ToString()));
-            Register<double>(CefV8Value.CreateDouble);
-            Register<decimal>((source) => CefV8Value.CreateDouble((double)source));
-            Register<bool>(CefV8Value.CreateBool);
-            Register<DateTime>(CefV8Value.CreateDate);
-        }
+        private readonly IWebView _CefV8WebView;
 
         private readonly Lazy<CefV8Value> _ObjectWithConstructorBuilder;
 
-        public CefV8_Factory(IWebView iCefV8_WebView)
+        public CefV8_Factory(IWebView cefV8WebView)
         {
-            _CefV8_WebView = iCefV8_WebView;
+            _CefV8WebView = cefV8WebView;
             _ObjectWithConstructorBuilder = new Lazy<CefV8Value>(GetObjectWithConstructorBuilder);
         }
 
@@ -63,35 +38,8 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
         private CefV8Value Eval(string code)
         {
             IJavascriptObject res;
-            _CefV8_WebView.Eval(code, out res);
+            _CefV8WebView.Eval(code, out res);
             return res.Convert();
-        }
-
-        private static void Register<T>(Func<T, CefV8Value> Factory)
-        {
-            _Converters.Add(typeof(T), (o) => Factory((T)o));
-        }
-
-        public bool CreateBasic(object ifrom, out IJavascriptObject res)
-        {
-            Func<object, CefV8Value> conv;
-            if (!_Converters.TryGetValue(ifrom.GetType(), out conv))
-            {
-                res = null;
-                return false;
-            }
-
-            res = new CefV8_JavascriptObject( _CefV8_WebView.Evaluate(() => conv(ifrom)) );
-            return true;
-        }
-
-        public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
-        {
-            foreach (var @object in from)
-            {
-                IJavascriptObject res = null;
-                yield return CreateBasic(@object, out res) ? res : null;
-            }
         }
 
         public IEnumerable<IJavascriptObject> CreateFromExcecutionCode(IEnumerable<string> @from)
@@ -100,16 +48,6 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             {
                 yield return CreateObject(code);
             }
-        }
-
-        public static bool IsTypeConvertible(Type itype) 
-        {
-            return itype != null && _Converters.ContainsKey(itype);
-        }
-
-        public bool IsTypeBasic(Type type) 
-        {
-            return IsTypeConvertible(type);
         }
 
         public IJavascriptObject CreateNull()
@@ -149,6 +87,11 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return new CefV8_JavascriptObject(CefV8Value.CreateInt(value));
         }
 
+        public IJavascriptObject CreateUint(uint value)
+        {
+            return new CefV8_JavascriptObject(CefV8Value.CreateUInt(value));
+        }
+
         public IJavascriptObject CreateString(string value)
         {
             return new CefV8_JavascriptObject(CefV8Value.CreateString(value));
@@ -157,6 +100,11 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
         public IJavascriptObject CreateBool(bool value)
         {
             return new CefV8_JavascriptObject(CefV8Value.CreateBool(value));
+        }
+
+        public IJavascriptObject CreateDateTime(DateTime value)
+        {
+            return new CefV8_JavascriptObject(CefV8Value.CreateDate(value));
         }
 
         public IJavascriptObject CreateDouble(double value)
@@ -216,10 +164,10 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 
         public IJavascriptObject CreateObject(string iCreationCode)
         {
-            return _CefV8_WebView.Evaluate(() =>
+            return _CefV8WebView.Evaluate(() =>
             {
                 IJavascriptObject res;
-                _CefV8_WebView.Eval(iCreationCode, out res);
+                _CefV8WebView.Eval(iCreationCode, out res);
                 return UpdateObject(res as CefV8_JavascriptObject);
             });
         }

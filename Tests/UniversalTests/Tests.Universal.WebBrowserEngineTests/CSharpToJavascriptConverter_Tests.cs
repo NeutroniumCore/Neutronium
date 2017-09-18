@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.GlueBuilder;
-using Neutronium.Core.Binding.GlueObject.Factory;
 using Neutronium.Core.Binding.Listeners;
 
 namespace Tests.Universal.WebBrowserEngineTests

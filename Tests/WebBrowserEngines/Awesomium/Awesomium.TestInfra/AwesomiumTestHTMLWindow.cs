@@ -17,11 +17,6 @@ namespace Tests.Awesomium.Infra
             Url = path;
         }
 
-        public bool IsTypeBasic(Type type) 
-        {
-            return AwesomiumJavascriptObjectFactory.IsTypeConvertible(type);
-        }
-
         public void NavigateTo(Uri path)
         {
             throw new NotImplementedException();

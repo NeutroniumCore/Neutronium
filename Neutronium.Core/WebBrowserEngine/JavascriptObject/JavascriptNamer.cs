@@ -14,7 +14,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         {
             Register<bool>(b => b ? "true" : "false");
 
-            Register<char>(s => $"'{s}'");
+            Register<char>(GetCreateCharString);
             Register<string>(GetCreateExpression);
 
             Register<DateTime>(GetCreateDateTimeString);
@@ -44,6 +44,8 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         private static string GetCreateNumberExpression(decimal value) => GetCreateDoubleString((double)value);
         private static string GetCreateNumberExpression(float value) => GetCreateDoubleString((double)value);
 
+        public static string GetCreateCharString(char value) => $"'{value}'";
+
         public static string GetCreateDoubleString(double value)
         {
             return value.ToString("E16", CultureInfo.InvariantCulture);
@@ -55,18 +57,22 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
             return $"new Date(Date.UTC({valueUtc.Year}, {valueUtc.Month - 1}, {valueUtc.Day}, {valueUtc.Hour}, {valueUtc.Minute}, {valueUtc.Second}, {valueUtc.Millisecond}))";
         }
 
-        public static string GetCreateExpression(string value)
+        public static string GetCreateExpression(string value) => $"'{FilterString(value)}'";
+
+        public static string GetCreateExpressionDoubleQuote(string value) => $@"""{FilterString(value)}""";
+
+        private static string FilterString(string value)
         {
             var filtered = value.Replace(@"\", @"\\")
-                                .Replace("\n", "\\n")
-                                .Replace("\r", "\\r")
-                                .Replace("\b", "\\b")
-                                .Replace("\f", "\\f")
-                                .Replace("\t", "\\t")
-                                .Replace("'", @"\'");
+                .Replace("\n", "\\n")
+                .Replace("\r", "\\r")
+                .Replace("\b", "\\b")
+                .Replace("\f", "\\f")
+                .Replace("\t", "\\t")
+                .Replace(@"""", @"\""")
+                .Replace("'", @"\'");
 
-            return $"'{filtered}'";
-
+            return filtered;
         }
 
         public static string GetCreateExpression(object @object)

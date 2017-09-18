@@ -2,8 +2,6 @@
 using Neutronium.Core.Binding.GlueObject;
 using System;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using MoreCollection.Extensions;
-using Neutronium.Core.Exceptions;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Infra.Reflection;
 
@@ -39,42 +37,36 @@ namespace Neutronium.Core.Binding.Builder
         void IJavascriptObjectBuilder.RequestArrayCreation(IList<IJsCsGlue> children)
         {
             var value = _Factory.CreateArray(children?.Count ?? 0);
-            SetValue(value);
+            SetJsValue(value);
 
-            if (children != null)
-                _AfterChildrenUpdates = () => children.ForEach((child, index) => value.SetValue(index, child.JsValue));
-        }
-
-        void IJavascriptObjectBuilder.RequestBasicObjectCreation(object @object)
-        {
-            if (@object == null)
-            {
-                _Object.SetJsValue(_Factory.CreateNull());
+            if (children == null)
                 return;
-            }
 
-            IJavascriptObject value;
-            if (_Factory.CreateBasic(@object, out value))
+            _AfterChildrenUpdates = () =>
             {
-                _Object.SetJsValue(value);
-                return;
-            }
-
-            if (!@object.GetType().IsEnum)
-                throw ExceptionHelper.Get("Algorithm core unexpected behaviour");
-
-            _Object.SetJsValue(_Factory.CreateEnum((Enum)@object));
-            _Cache.Cache(_Object);
+                for (var index = 0; index < children.Count; index++)
+                {
+                    value.SetValue(index, children[index].JsValue);
+                }
+            };
         }
 
-        public void RequestBasicObjectCreation(int value)
+        void IJavascriptObjectBuilder.RequestNullCreation()
         {
-            _Object.SetJsValue(_Factory.CreateInt(value));
+            SetJsValue(_Factory.CreateNull());
         }
 
-        public void RequestBasicObjectCreation(string value)
+        public void RequestIntCreation(int value) => SetJsValue(_Factory.CreateInt(value));
+        public void RequestStringCreation(string value) =>SetJsValue(_Factory.CreateString(value));
+        public void RequestUintCreation(uint value) => SetJsValue(_Factory.CreateUint(value));
+        public void RequestEnumCreation(Enum value) =>SetJsValue(_Factory.CreateEnum(value));
+        public void RequestBoolCreation(bool value) =>SetJsValue(_Factory.CreateBool(value));
+        public void RequestDoubleCreation(double value) => SetJsValue(_Factory.CreateDouble(value));
+        public void RequestJsDateTimeCreation(DateTime value) => SetJsValue(_Factory.CreateDateTime(value));
+
+        private void SetJsValue(IJavascriptObject jsObject)
         {
-            _Object.SetJsValue(_Factory.CreateString(value));
+            _Object.SetJsValue(jsObject, _Cache);
         }
 
         void IJavascriptObjectBuilder.RequestCommandCreation(bool canExecute)
@@ -82,7 +74,7 @@ namespace Neutronium.Core.Binding.Builder
             var command = _Factory.CreateObject(true);
             command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));
             command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
-            SetValue(command);
+            SetJsValue(command);
 
             UpdateExecutable(command);
         }
@@ -90,7 +82,7 @@ namespace Neutronium.Core.Binding.Builder
         void IJavascriptObjectBuilder.RequestExecutableCreation()
         {
             var executable = _Factory.CreateObject(true);
-            SetValue(executable);
+            SetJsValue(executable);
 
             UpdateExecutable(executable);
         }
@@ -107,7 +99,7 @@ namespace Neutronium.Core.Binding.Builder
         void IJavascriptObjectBuilder.RequestObjectCreation(TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue)
         {
             var value = _Factory.CreateObject(!attributeDescription.HasReadWriteProperties);
-            SetValue(value);
+            SetJsValue(value);
 
             _AfterChildrenUpdates = () =>
             {
@@ -117,16 +109,6 @@ namespace Neutronium.Core.Binding.Builder
                     value.SetValue(properties[i].Name, attributeValue[i].JsValue);
                 }
             };
-        }
-
-        private void SetValue(IJavascriptObject value)
-        {
-            _Object.SetJsValue(value);
-
-            if (_Mapping)
-                return;
-
-            _Cache.Cache(_Object);
         }
     }
 }

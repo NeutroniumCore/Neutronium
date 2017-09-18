@@ -1,7 +1,7 @@
 ﻿using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject.Basic
 {
     internal sealed class JsString : JsBasicTyped<string>, IBasicJsCsGlue
     {
@@ -11,10 +11,10 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public string GetCreationCode() => JavascriptNamer.GetCreateExpression(TypedValue);
 
-        public override string ToString() => GetCreationCode();
+        public override string ToString() => JavascriptNamer.GetCreateExpressionDoubleQuote(TypedValue);
 
-        public void RequestBuildInstruction(IJavascriptObjectBuilder builder) => builder.RequestBasicObjectCreation(TypedValue);
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder) => builder.RequestStringCreation(TypedValue);
 
-        void IJsCsGlue.SetJsValue(IJavascriptObject value) => base.SetJsValue(value);
+        void IJsCsGlue.SetJsValue(IJavascriptObject value, IJavascriptSessionCache cache) => base.SetJsValue(value);
     }
 }

@@ -24,7 +24,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         public class TestDataGenerator
         {
-            private static Gen<DateTime> DateTimeGenerator => 
+            private static Gen<DateTime> DateTimeGenerator =>
                 Gen.zip3(Gen.Choose(1800, 2020), Gen.Choose(0, 365), Gen.zip(Gen.Choose(0, 24), Gen.Choose(0, 3600)))
                    .Select(t => new DateTime(t.Item1, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddDays(t.Item2).AddHours(t.Item3.Item1).AddSeconds(t.Item3.Item2));
 
@@ -32,7 +32,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
             private static Gen<object> DefaultObjectGenerator<T>() => DefaultGenerator<T>().Select(t => (object)t);
 
-            private static Gen<object> ObjectGenerator 
+            private static Gen<object> ObjectGenerator
                 => Gen.OneOf(DefaultObjectGenerator<Boolean>(), DefaultObjectGenerator<int>(), DefaultObjectGenerator<double>(),
                                     DefaultGenerator<string>().Where(s => !string.IsNullOrEmpty(s)).Select(t => (object)t),
                                     DateTimeGenerator.Select(t => (object)t));
@@ -44,14 +44,15 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         private IJavascriptObject Get(object @object)
         {
-            return Factory.CreateBasics(new[] { @object }).Single();
+            var code = JavascriptNamer.GetCreateExpression(@object);
+            return Factory.CreateFromExcecutionCode(new[] { code }).Single();
         }
 
         private List<object> GetBack(List<object> @objects)
         {
             return Test(() =>
             {
-                var jvos = Factory.CreateBasics(@objects);
+                var jvos = Factory.CreateFromExcecutionCode(@objects.Select(JavascriptNamer.GetCreateExpression));
                 return jvos.Select((jvo, i) => ConvertBack(jvo, @objects[i].GetType())).ToList();
             });
         }
@@ -166,7 +167,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         private static bool StringIsNotEmpty(string value) => value != String.Empty;
 
-        public Property CreateBasics_Returns_Correct_Value<T>(Func<T,bool> when = null)
+        public Property CreateBasics_Returns_Correct_Value<T>(Func<T, bool> when = null)
         {
             when = when ?? Always;
             return Prop.ForAll<T>(value =>
@@ -207,15 +208,15 @@ namespace Tests.Universal.WebBrowserEngineTests
             return res;
         }
 
-        public static IEnumerable<object> DateTimes 
+        public static IEnumerable<object> DateTimes
         {
-            get 
+            get
             {
                 yield return new object[] { new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc) };
-                yield return new object[] { new DateTime(1967, 01, 23, 0, 0, 0, DateTimeKind.Utc)};
-                yield return new object[] { new DateTime(1979, 04, 03, 18, 59, 37, DateTimeKind.Utc)};
-                yield return new object[] { new DateTime(1941, 09, 04, 19, 05, 31, DateTimeKind.Utc)};
-                yield return new object[] { new DateTime(1824, 11, 10, 03, 47, 27, DateTimeKind.Utc)};
+                yield return new object[] { new DateTime(1967, 01, 23, 0, 0, 0, DateTimeKind.Utc) };
+                yield return new object[] { new DateTime(1979, 04, 03, 18, 59, 37, DateTimeKind.Utc) };
+                yield return new object[] { new DateTime(1941, 09, 04, 19, 05, 31, DateTimeKind.Utc) };
+                yield return new object[] { new DateTime(1824, 11, 10, 03, 47, 27, DateTimeKind.Utc) };
                 yield return new object[] { new DateTime(1893, 11, 12, 14, 59, 11, DateTimeKind.Utc) };
             }
         }

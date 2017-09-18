@@ -26,6 +26,12 @@ namespace Neutronium.Core.Binding.GlueObject
             CValue = cValue;
         }
 
+        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        {
+            SetJsValue(value);
+            sessionCache.Cache(this);
+        }
+
         internal void SetAttributes(IJsCsGlue[] attributes)
         {
             _Attributes = attributes;

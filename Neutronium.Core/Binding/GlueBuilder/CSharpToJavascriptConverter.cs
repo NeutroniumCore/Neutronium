@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Binding.GlueObject.Factory;
+using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueBuilder
@@ -42,26 +42,26 @@ namespace Neutronium.Core.Binding.GlueBuilder
             _Cacher = cacher;
             _Converters = new Dictionary<Type, Func<IGlueFactory, object, IJsCsGlue>>
             {
-                [typeof(string)] = BuildString,
-                [typeof(Int64)] = BuildBasic,
-                [typeof(Int32)] = BuildInt,
-                [typeof(Int16)] = BuildBasic,
-                [typeof(UInt64)] = BuildBasic,
-                [typeof(UInt32)] = BuildBasic,
-                [typeof(UInt16)] = BuildBasic,
-                [typeof(float)] = BuildBasic,
-                [typeof(char)] = BuildBasic,
-                [typeof(double)] = BuildBasic,
-                [typeof(decimal)] = BuildBasic,
-                [typeof(bool)] = BuildBasic,
-                [typeof(DateTime)] = BuildBasic
+                [typeof(string)] = (factory, @object) => factory.BuildString(@object),
+                [typeof(bool)]   = (factory, @object) => factory.BuildBool(@object),
+                [typeof(int)]    = (factory, @object) => factory.BuildInt(@object),
+                [typeof(double)] = (factory, @object) => factory.BuildDouble(@object),
+                [typeof(uint)]   = (factory, @object) => factory.BuildUint(@object),
+                [typeof(decimal)] = (factory, @object) => factory.BuildDecimal(@object),
+                [typeof(long)] =   (factory, @object) => factory.BuildLong(@object),
+                [typeof(short)] =  (factory, @object) => factory.BuildShort(@object),
+                [typeof(float)] =  (factory, @object) => factory.BuildFloat(@object),
+                [typeof(ulong)] =  (factory, @object) => factory.BuildUlong(@object),
+                [typeof(ushort)] = (factory, @object) => factory.BuildUshort(@object),
+                [typeof(DateTime)] = (factory, @object) => factory.BuildDateTime(@object),
+                [typeof(char)] = (factory, @object) => factory.BuildChar(@object),                          
             };
         }
 
         public IJsCsGlue Map(object from)
         {
             if (from == null)
-                return _Null ?? (_Null = _GlueFactory.BuildBasic(null));
+                return _Null ?? (_Null = new JsNull());
 
             var res = _Cacher.GetCached(from);
             if (res != null)
@@ -77,24 +77,17 @@ namespace Neutronium.Core.Binding.GlueBuilder
             return converter(_GlueFactory, from);
         }
 
-        internal bool IsBasicType(Type type) => _BasicTypes.Contains(type);
+        internal bool IsBasicType(Type type) => _BasicTypes.Contains(type) || type?.IsEnum == true;
 
-        private static IJsCsGlue BuildBasic(IGlueFactory factory, object @object) => factory.BuildBasic(@object);
-
-        private static IJsCsGlue BuildInt(IGlueFactory factory, object @object) => factory.BuildInt((int)@object);
-
-        private static IJsCsGlue BuildString(IGlueFactory factory, object @object) => factory.BuildString((string)@object);
-
+        private static IJsCsGlue BuildEnum(IGlueFactory factory, object @object) => factory.BuildEnum((Enum)@object);
         private static IJsCsGlue BuildCommand(IGlueFactory factory, object @object) => factory.Build((ICommand)@object);
-
         private static IJsCsGlue BuildSimpleCommand(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand)@object);
-
         private static IJsCsGlue BuildResultCommand(IGlueFactory factory, object @object) => factory.Build((IResultCommand)@object);
 
         private Func<IGlueFactory, object, IJsCsGlue> GetConverter(Type type, object @object)
         {
             if (type.IsEnum)
-                return BuildBasic;
+                return BuildEnum;
 
             if (@object is ICommand)
                 return BuildCommand;

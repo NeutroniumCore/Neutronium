@@ -23,7 +23,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         void RequestBuildInstruction(IJavascriptObjectBuilder builder);
 
-        void SetJsValue(IJavascriptObject value);
+        void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache);
 
         void ApplyOnListenable(IObjectChangesListener listener);
 

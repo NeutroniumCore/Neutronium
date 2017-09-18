@@ -1,8 +1,8 @@
 ﻿using System;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject.Basic
 {
     internal abstract class JsBasicTyped<T>
     {

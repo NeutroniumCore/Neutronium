@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding.GlueObject
             return (--_Count == 0);
         }
 
-        public void SetJsValue(IJavascriptObject value)
+        protected void SetJsValue(IJavascriptObject value)
         {
             JsValue = value;
         }

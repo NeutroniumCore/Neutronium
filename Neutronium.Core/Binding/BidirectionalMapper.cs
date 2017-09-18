@@ -12,7 +12,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
-using Neutronium.Core.Binding.GlueObject.Factory;
+using Neutronium.Core.Binding.GlueObject.Basic;
 
 namespace Neutronium.Core.Binding
 {
@@ -416,7 +416,16 @@ namespace Neutronium.Core.Binding
                 return new JsBasicObject(javascriptObject, targetvalue);
             }
 
-            //Use local and local cache for objet not created in javascript session such as enum
+            if (targetType?.IsEnum == true)
+            {
+                var intValue = javascriptObject.GetValue("intValue")?.GetIntValue();
+                if (!intValue.HasValue)
+                    return null;
+
+                targetvalue = Enum.ToObject(targetType, intValue.Value);
+                return new JsEnum(javascriptObject, (Enum)targetvalue);
+            }
+
             var res = _SessionCache.GetCached(javascriptObject);
             if (res != null)
                 return res;

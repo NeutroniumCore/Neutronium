@@ -57,6 +57,12 @@ namespace Neutronium.Core.Binding.GlueObject
             builder.RequestArrayCreation(Items);
         }
 
+        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        {
+            SetJsValue(value);
+            sessionCache.Cache(this);
+        }
+
         public CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
         {
             return new CollectionChanges.CollectionChanges(bridge, changes, _IndividualType);

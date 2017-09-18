@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding.GlueObject;
+﻿using System;
+using Neutronium.Core.Binding.GlueObject;
 using System.Collections.Generic;
 using Neutronium.Core.Infra.Reflection;
 
@@ -10,14 +11,24 @@ namespace Neutronium.Core.Binding.Builder
 
         void RequestArrayCreation(IList<IJsCsGlue> children);
 
-        void RequestBasicObjectCreation(object @object);
+        void RequestNullCreation();
 
-        void RequestBasicObjectCreation(int value);
+        void RequestBoolCreation(bool value);
 
-        void RequestBasicObjectCreation(string value);
+        void RequestIntCreation(int value);
+
+        void RequestStringCreation(string value);
+
+        void RequestUintCreation(uint value);
+
+        void RequestEnumCreation(Enum value);
 
         void RequestCommandCreation(bool canExecute);
 
-        void RequestExecutableCreation();
+        void RequestDoubleCreation(double value);
+
+        void RequestJsDateTimeCreation(DateTime value);
+
+        void RequestExecutableCreation();     
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Chromium;
 using Chromium.Remote;
 using MoreCollection.Extensions;
+using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 
@@ -15,7 +15,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private static uint _Count = 1;
         private readonly CfrV8Context _CfrV8Context;
         private readonly IWebView _WebView;
-        private static readonly IDictionary<Type, Func<object, CfrV8Value>> _Converters = new Dictionary<Type, Func<object, CfrV8Value>>();
         private readonly Lazy<CfrV8Value> _Factory;
 
         private readonly Lazy<CfrV8Value> _ObjectBuilder;
@@ -41,28 +40,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _ObjectWithConstructorBulkBuilder = new Lazy<CfrV8Value>(ObjectWithConstructorBulkBuilderCreator);
             
             _ObjectCreationCallbackFunction = new Lazy<CfrV8Value>(ObjectCreationCallbackFunctionCreator);
-        }
-
-        static ChromiumFxFactory()
-        {
-            Register<string>(CfrV8Value.CreateString);
-            Register<Int64>((source) => CfrV8Value.CreateDouble((double)source));
-            Register<UInt64>((source) => CfrV8Value.CreateDouble((double)source));
-            Register<float>((source) => CfrV8Value.CreateDouble((double)source));
-            Register<Int32>(CfrV8Value.CreateInt);
-            Register<Int16>((source) => CfrV8Value.CreateInt((int)source));
-            Register<UInt32>(CfrV8Value.CreateUint);
-            Register<UInt16>((source) => CfrV8Value.CreateUint((UInt32)source));
-            Register<char>((source) => CfrV8Value.CreateString(new StringBuilder().Append(source).ToString()));
-            Register<double>(CfrV8Value.CreateDouble);
-            Register<decimal>((source) => CfrV8Value.CreateDouble((double)source));
-            Register<bool>(CfrV8Value.CreateBool);
-            Register<DateTime>((source) => CfrV8Value.CreateDate(CfrTime.FromUniversalTime(source.ToUniversalTime())));
-        }
-
-        private static void Register<T>(Func<T, CfrV8Value> Factory)
-        {
-            _Converters.Add(typeof(T), (o) => Factory((T)o));
         }
 
         private CfrV8Value FactoryCreator()
@@ -134,7 +111,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 };
             }())";
 
-            var finalString = builderScript.Replace("{{MaxFunctionArgumentsNumber}}", $"{_WebView.MaxFunctionArgumentsNumber}")
+            var finalString = builderScript.Replace("{{MaxFunctionArgumentsNumber}}", $"{_WebView.GetMaxAcceptableArguments()}")
                                            .Replace("{{NeutroniumConstants.ObjectId}}", NeutroniumConstants.ObjectId)
                                            .Replace("{{NeutroniumConstants.ReadOnlyFlag}}", NeutroniumConstants.ReadOnlyFlag);
             return Eval(finalString);
@@ -153,37 +130,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return CfrV8Value.CreateFunction("objectCallBack", _ObjectCallback.Handler);
         }
 
-        public static bool IsTypeConvertible(Type type)
-        {
-            return type != null && _Converters.ContainsKey(type);
-        }
-
-        public bool CreateBasic(object ifrom, out IJavascriptObject res)
-        {
-            Func<object, CfrV8Value> conv;
-            if (!_Converters.TryGetValue(ifrom.GetType(), out conv))
-            {
-                res = null;
-                return false;
-            }
-
-            res = conv(ifrom).ConvertBasic();
-            return true;
-        }
-
-        public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
-        {
-            var stringEval = CreateStringValue(from);
-            if (stringEval.Length == 2)
-                return Enumerable.Empty<IJavascriptObject>();
-
-            _BasicBulkBuilder.Value.ExecuteFunction(null, new[] {
-                CfrV8Value.CreateString(stringEval),
-                _ObjectCreationCallbackFunction.Value
-            });
-            return _ObjectCallback.GetLastArguments().Select(ChromiumFxJavascriptObjectExtension.ConvertBasic);
-        }
-
         public IEnumerable<IJavascriptObject> CreateFromExcecutionCode(IEnumerable<string> @from)
         {
             var stringEval = $"[{string.Join(",", from)}]";
@@ -195,16 +141,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 _ObjectCreationCallbackFunction.Value
             });
             return _ObjectCallback.GetLastArguments().Select(ChromiumFxJavascriptObjectExtension.ConvertBasic);
-        }
-
-        private static string CreateStringValue(IEnumerable<object> from)
-        {
-            return $"[{string.Join(",", from.Select(JavascriptNamer.GetCreateExpression))}]";
-        }
-
-        public bool IsTypeBasic(Type type) 
-        {
-            return IsTypeConvertible(type);
         }
 
         public IJavascriptObject CreateNull() 
@@ -275,6 +211,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return CfrV8Value.CreateInt(value).ConvertBasic();
         }
 
+        public IJavascriptObject CreateUint(uint value)
+        {
+            return CfrV8Value.CreateUint(value).ConvertBasic();
+        }
+
         public IJavascriptObject CreateDouble(double value) 
         {
             return CfrV8Value.CreateDouble(value).ConvertBasic();
@@ -288,6 +229,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public IJavascriptObject CreateBool(bool value) 
         {
             return CfrV8Value.CreateBool(value).ConvertBasic();
+        }
+
+        public IJavascriptObject CreateDateTime(DateTime value)
+        {
+            return CfrV8Value.CreateDate(CfrTime.FromUniversalTime(value.ToUniversalTime())).ConvertBasic();
         }
 
         public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> collection) 

@@ -71,33 +71,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return true;
         }
 
-        public bool CreateBasic(object ifrom, out IJavascriptObject res)
-        {
-            res = null;
-            Awesomium_Core.JSValue jsres;
-            bool bres = Solve(ifrom, out jsres);
-            if (bres)
-                res = jsres.Convert();
-            return bres;
-        }
-
-        public IEnumerable<IJavascriptObject> CreateBasics(IEnumerable<object> from)
-        {
-            foreach (var @object in from)
-            {
-                IJavascriptObject res = null;
-                yield return CreateBasic(@object, out res) ? res : null;
-            }
-        }
-
         public static bool IsTypeConvertible(Type type)
         {
             return type != null && _Converters.ContainsKey(type);
-        }
-
-        public bool IsTypeBasic(Type type)
-        {
-            return IsTypeConvertible(type);
         }
 
         private Awesomium_Core.JSValue Check(Awesomium_Core.JSObject ires)
@@ -165,6 +141,11 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return new Awesomium_Core.JSValue(value).Convert();
         }
 
+        public IJavascriptObject CreateUint(uint value)
+        {
+            return new Awesomium_Core.JSValue(value).Convert();
+        }
+
         public IJavascriptObject CreateDouble(double value)
         {
             return new Awesomium_Core.JSValue(value).Convert();
@@ -178,6 +159,15 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
         public IJavascriptObject CreateBool(bool value)
         {
             return new Awesomium_Core.JSValue(value).Convert();
+        }
+
+        public IJavascriptObject CreateDateTime(DateTime source)
+        {
+            var result = _IWebView.EvaluateSafe(() =>
+                _IWebView.ExecuteJavascriptWithResult(
+                    $"new Date({string.Join(",", source.Year, source.Month - 1, source.Day, source.Hour, source.Minute, source.Second, source.Millisecond)})"));
+
+            return result.Convert();
         }
 
         public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCount)

@@ -1,10 +1,11 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Binding.Listeners;
 
-namespace Neutronium.Core.Binding.GlueBuilder 
+namespace Neutronium.Core.Binding.GlueBuilder
 {
-    internal class GlueFactoryBase 
+    internal class GlueFactoryBase
     {
         public event EventHandler<IJsCsGlue> ElementCreated;
         private readonly ICSharpToJsCache _Cacher;
@@ -16,26 +17,24 @@ namespace Neutronium.Core.Binding.GlueBuilder
             _OnListener = onListener;
         }
 
-        public JsBasicObject BuildBasic(object basic) 
-        {
-            return CacheWithoutListen(basic, new JsBasicObject(basic));
-        }
+        public JsInt BuildInt(object value)       => CacheWithoutListen(value, new JsInt((int)value));
+        public JsString BuildString(object value) => CacheWithoutListen(value, new JsString((string)value));
+        public JsBool BuildBool(object value)    => CacheWithoutListen(value, new JsBool((bool)value));
+        public JsEnum BuildEnum(object value)    => CacheWithoutListen(value, new JsEnum((Enum)value));
+        public JsDouble BuildDouble(object value) => CacheWithoutListen(value, new JsDouble((double)value));
+        public JsDecimal BuildDecimal(object value) => CacheWithoutListen(value, new JsDecimal((decimal)value));
+        public JsUint BuildUint(object value)    => CacheWithoutListen(value, new JsUint((uint)value));
+        public JsLong BuildLong(object value)    => CacheWithoutListen(value, new JsLong((long)value));
+        public JsShort BuildShort(object value) => CacheWithoutListen(value, new JsShort((short)value));
+        public JsFloat BuildFloat(object value) => CacheWithoutListen(value, new JsFloat((float)value));
+        public JsUlong BuildUlong(object value) => CacheWithoutListen(value, new JsUlong((ulong)value));
+        public JsUshort BuildUshort(object value) => CacheWithoutListen(value, new JsUshort((ushort)value));
+        public JsDateTime BuildDateTime(object value) => CacheWithoutListen(value, new JsDateTime((DateTime)value));
+        public JsChar BuildChar(object value) => CacheWithoutListen(value, new JsChar((char)value));
 
-        public JsInt BuildInt(int value)
+        private T CacheWithoutListen<T>(object key, T glue) where T : IJsCsGlue
         {
-            return CacheWithoutListen(value, new JsInt(value));
-        }
-
-        public JsString BuildString(string value)
-        {
-            return CacheWithoutListen(value, new JsString(value));
-        }
-
-        private T CacheWithoutListen<T>(object key, T glue) where T : IJsCsGlue 
-        {
-            if (key != null)
-                _Cacher.CacheFromCSharpValue(key, glue);
-
+            _Cacher.CacheFromCSharpValue(key, glue);
             ElementCreated?.Invoke(this, glue);
             return glue;
         }

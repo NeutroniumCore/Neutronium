@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Windows.Input;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Infra.Reflection;
 using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding.GlueObject.Factory
+namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal interface IGlueFactory
     {
@@ -18,12 +20,34 @@ namespace Neutronium.Core.Binding.GlueObject.Factory
 
         JsArray BuildArray(IEnumerable source, Type basictype);
 
-        JsBasicObject BuildBasic(object basic);
+        JsInt BuildInt(object value);
 
-        JsInt BuildInt(int value);
+        JsString BuildString(object value);
 
-        JsString BuildString(string value);
+        JsBool BuildBool(object value);
 
-        event EventHandler<IJsCsGlue> ElementCreated;
+        JsEnum BuildEnum(object value);
+
+        JsDouble BuildDouble(object value);
+
+        JsUint BuildUint(object value);
+
+        JsDecimal BuildDecimal(object value);
+
+        JsLong BuildLong(object value);
+
+        JsShort BuildShort(object value);
+
+        JsFloat BuildFloat(object value);
+
+        JsUlong BuildUlong(object value);
+
+        JsUshort BuildUshort(object value);
+
+        JsChar BuildChar(object value);
+
+        JsDateTime BuildDateTime(object value);
+
+        event EventHandler<IJsCsGlue> ElementCreated;    
     }
 }
