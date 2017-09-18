@@ -51,11 +51,7 @@ namespace Neutronium.Core.Binding.Builder
             };
         }
 
-        void IJavascriptObjectBuilder.RequestNullCreation()
-        {
-            SetJsValue(_Factory.CreateNull());
-        }
-
+        public void RequestNullCreation() => SetJsValue(_Factory.CreateNull());
         public void RequestIntCreation(int value) => SetJsValue(_Factory.CreateInt(value));
         public void RequestStringCreation(string value) =>SetJsValue(_Factory.CreateString(value));
         public void RequestUintCreation(uint value) => SetJsValue(_Factory.CreateUint(value));
