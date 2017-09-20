@@ -13,24 +13,22 @@ namespace Neutronium.Core.Binding.Builder.Packer
         private struct KeyDescription
         {
             private ObjectDescriptor Descritor { get; }
-            private Type Type { get; }
             private int Count { get; }
 
             public KeyDescription(ObjectDescriptor update)
             {
                 Descritor = update;
-                Type = update.Father.CValue.GetType();
                 Count = update.AttributeValues.Length;
             }
 
             public bool Similar(KeyDescription other)
             {
-                return Count == other.Count && Type == other.Type;
+                return Count == other.Count && ReferenceEquals(Descritor.AttributeNames, other.Descritor.AttributeNames);
             }
 
             public string[] Keys => Descritor.AttributeNames;
 
-            public bool Empty => Type == null;
+            public bool Empty => Descritor.Father == null;
         }
 
         private static IEnumerable<Tuple<int, string[]>> PackKeys(List<ObjectDescriptor> updates)

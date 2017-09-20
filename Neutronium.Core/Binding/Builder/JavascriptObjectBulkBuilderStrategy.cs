@@ -57,15 +57,17 @@ namespace Neutronium.Core.Binding.Builder
                         this.privateExecute(this.{{NeutroniumConstants.ObjectId}}, ...arguments)
                     }
                     function bulkCreate(prop){
-                        const propss = JSON.parse(prop)
+                        const propss = eval('(' + prop + ')')
                         const count = propss.count
-		                const args = Array.from(arguments)
-		                const objs = args.slice(1, count + 1)
-		                const values = args.slice(1 + count, args.length + 1)
-                        var valueCount = 0
-                        var elementCount = 0
-                        var innerCount = 0
                         const elements = propss.elements
+						
+		                const args = Array.from(arguments)
+		                const objs = args.slice(1, args.length + 1)
+                        
+                        var elementCount = 0
+                        var innerCount = 0						
+						var objectCount =0
+
                         var element = null
 		                for(var i=0; i< count; i ++){
                             if (!element || innerCount > element.c) {
@@ -73,8 +75,9 @@ namespace Neutronium.Core.Binding.Builder
                                 innerCount = 0;
                             }
                             var props = element.a
+							var objectToUpdate = objs[objectCount++]
                             for (var j = 0, len = props.length; j < len; j++) {
-                                objs[i][props[j]] = values[valueCount++]
+                                objectToUpdate[props[j]] = objs[objectCount++]
                             }
                             innerCount++
 		                }
@@ -128,20 +131,38 @@ namespace Neutronium.Core.Binding.Builder
             }
         }
 
-        private IJavascriptObject[] GetUpdateParameters(List<ObjectDescriptor> updates, ObjectChildrenDescriptionPacker packer)
-        {
-            var sizes = packer.Pack(updates);
-            var objects = updates.Select(up => up.Father);
-            var values = updates.SelectMany(up => up.AttributeValues);
-            return BuildArguments(sizes, objects.Concat(values));
+        private IJavascriptObject[] GetUpdateParameters(Parameters updates, ObjectChildrenDescriptionPacker packer)
+        {     
+            var res = new IJavascriptObject[updates.Count + 1];
+            var sizes = packer.Pack(updates.ObjectDescriptors);
+            res[0] = _WebView.Factory.CreateString(sizes);
+            var count = 1;
+            foreach (var father in updates.ObjectDescriptors)
+            {
+                res[count++] = father.Father.JsValue;
+                foreach (var atribute in father.AttributeValues)
+                {
+                    res[count++] = atribute.JsValue;
+                }
+            }
+            return res;
         }
 
         private IJavascriptObject[] GetUpdateParameters(List<ArrayDescriptor> updates, ArrayChildrenDescriptionPacker packer) 
         {
             var sizes = packer.Pack(updates);
-            var objects = updates.Select(up => up.Father);
-            var values = updates.SelectMany(up => up.OrdenedChildren);
-            return BuildArguments(sizes, objects.Concat(values));
+            var res = new IJavascriptObject[updates.Count + updates.Select(up => up.OrdenedChildren.Count).Sum() + 1];
+            res[0] = _WebView.Factory.CreateString(sizes);
+            var count = 1;
+            foreach (var father in updates)
+            {
+                res[count++] = father.Father.JsValue;
+                foreach (var atribute in father.OrdenedChildren)
+                {
+                    res[count++] = atribute.JsValue;
+                }
+            }
+            return res;
         }
 
         private IJavascriptObject[] BuildArguments(string paramString, IEnumerable<IJsCsGlue> paramsObjects)

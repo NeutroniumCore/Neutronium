@@ -1,6 +1,5 @@
 ﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
@@ -11,7 +10,6 @@ namespace Neutronium.Core.Binding.Builder
         internal IJavascriptObject ExecutableConstructor { get; }
 
         private readonly IJavascriptSessionCache _Cache;
-        private readonly IWebView _WebView;
 
         private readonly IJavascriptObject _CommandPrototype;
         private readonly IJavascriptObject _ExecutablePrototype;
@@ -19,32 +17,41 @@ namespace Neutronium.Core.Binding.Builder
         internal BulkJsHelper(IJavascriptSessionCache cache, IWebView webView, IJavascriptObject helper)
         {
             _Cache = cache;
-            _WebView = webView;
 
             BulkCreator = helper.GetValue("bulkCreate");
             CommandConstructor = helper.GetValue("Command");
             _CommandPrototype = CommandConstructor.GetValue("prototype");
-            _CommandPrototype.Bind("privateExecute", _WebView, ExecuteExecutable);
-            _CommandPrototype.Bind("privateCanExecute", _WebView, CanExecuteCommand);
+            _CommandPrototype.Bind("privateExecute", webView, ExecuteExecutable);
+            _CommandPrototype.Bind("privateCanExecute", webView, CanExecuteCommand);
 
             ExecutableConstructor = helper.GetValue("Executable");
             _ExecutablePrototype = ExecutableConstructor.GetValue("prototype");
-            _ExecutablePrototype.Bind("privateExecute", _WebView, ExecuteExecutable);
+            _ExecutablePrototype.Bind("privateExecute", webView, ExecuteExecutable);
         }
 
         private void ExecuteExecutable(IJavascriptObject[] arguments)
         {
             var executableGlue = GetFromArgument<IExecutableGlue>(arguments);
-            executableGlue?.Execute(arguments.Skip(1).ToArray());
+            executableGlue?.Execute(FilterAguments(arguments));
         }
 
         private void CanExecuteCommand(IJavascriptObject[] arguments)
         {
             var jsCommand = GetFromArgument<JsCommand>(arguments);
-            jsCommand?.CanExecuteCommand(arguments.Skip(1).ToArray());
+            jsCommand?.CanExecuteCommand(FilterAguments(arguments));
         }
 
-        private T GetFromArgument<T>(IJavascriptObject[] arguments) where T: class
+        private static IJavascriptObject[] FilterAguments(IJavascriptObject[] arguments)
+        {
+            var result = new IJavascriptObject[arguments.Length - 1];
+            for (var i = 1; i < arguments.Length; i++)
+            {
+                result[i - 1] = arguments[i];
+            }
+            return result;
+        }
+
+        private T GetFromArgument<T>(IJavascriptObject[] arguments) where T : class
         {
             var id = (uint)arguments[0].GetIntValue();
             return _Cache.GetCached(id) as T;

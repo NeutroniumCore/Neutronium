@@ -39,7 +39,7 @@ namespace Neutronium.Core.Test.Binding.Builder
             return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
-                var elements = res.SelectMany(item => item).SelectMany(desc => desc.AttributeNames);
+                var elements = res.SelectMany(item => item.ObjectDescriptors).SelectMany(desc => desc.AttributeNames);
 
                 return elements.SequenceEqual(updates.SelectMany(desc => desc.AttributeNames))
                             .Classify(updates.Count <= Limit, "Single")
@@ -55,7 +55,7 @@ namespace Neutronium.Core.Test.Binding.Builder
             return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
-                var elements = res.SelectMany(item => item)
+                var elements = res.SelectMany(item => item.ObjectDescriptors)
                                     .GroupBy(desc => desc.Father)
                                     .Select(grouping => new ObjectDescriptor(grouping.Key, grouping.SelectMany(g => g.AttributeNames).ToArray(), grouping.SelectMany(g => g.AttributeValues).ToArray()));
 
@@ -73,8 +73,8 @@ namespace Neutronium.Core.Test.Binding.Builder
             return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
-                var sizes = res.Select(coll => coll.Select(item => item.Father)
-                                   .Concat(coll.SelectMany(item => item.AttributeValues))
+                var sizes = res.Select(coll => coll.ObjectDescriptors.Select(item => item.Father)
+                                   .Concat(coll.ObjectDescriptors.SelectMany(item => item.AttributeValues))
                                    .Count());
 
                 return sizes.All(size => size<Limit)
@@ -91,8 +91,8 @@ namespace Neutronium.Core.Test.Binding.Builder
             return Prop.ForAll<List<ObjectDescriptor>>((updates) => {
                 var res = _Spliter.SplitParameters(updates);
 
-                var sizes = res.Select(coll => coll.Select(item => item.Father)
-                                   .Concat(coll.SelectMany(item => item.AttributeValues))
+                var sizes = res.Select(coll => coll.ObjectDescriptors.Select(item => item.Father)
+                                   .Concat(coll.ObjectDescriptors.SelectMany(item => item.AttributeValues))
                                    .Count());
 
                 var maxSize = Limit - 1;
