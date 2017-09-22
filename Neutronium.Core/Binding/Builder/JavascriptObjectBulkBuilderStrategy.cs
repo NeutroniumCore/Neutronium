@@ -58,7 +58,6 @@ namespace Neutronium.Core.Binding.Builder
                     }
                     function bulkCreate(prop){
 						const propsArrays = eval( prop )
-		                const objs = Array.from(arguments)
 						var objectCount = 1
 						var propsArrayLength = propsArrays.length;
 						var propIndex = 0
@@ -68,11 +67,11 @@ namespace Neutronium.Core.Binding.Builder
 							var repetition = propArray.c + 1
 							var properties = propArray.a				
 							while(repetition--){
-								const objectToUpdate = objs[objectCount++]
+								const objectToUpdate = arguments[objectCount++]
 								var propertiesLength = properties.length
 								var index = 0
 								while(propertiesLength--){
-									objectToUpdate[properties[index++]] = objs[objectCount++]
+									objectToUpdate[properties[index++]] = arguments[objectCount++]
 								}
 							}
 						}
