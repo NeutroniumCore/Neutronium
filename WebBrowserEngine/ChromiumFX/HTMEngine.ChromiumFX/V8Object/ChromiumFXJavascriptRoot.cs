@@ -112,8 +112,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
             if (!_CfrV8Value.IsArray)
                 throw new ArgumentException();
 
-            var length = _CfrV8Value.ArrayLength;
-            return Enumerable.Range(0, length).Select(_CfrV8Value.GetValue).Convert();
+            var res = new IJavascriptObject[_CfrV8Value.ArrayLength];
+            for (var i = 0; i < res.Length; i++)
+            {
+                res[i] = _CfrV8Value.GetValue(i).Convert();
+            }
+            return res;
         }
 
         public IEnumerable<string> GetAttributeKeys()

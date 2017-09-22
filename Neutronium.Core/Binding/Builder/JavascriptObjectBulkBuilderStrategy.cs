@@ -58,26 +58,29 @@ namespace Neutronium.Core.Binding.Builder
                     }
                     function bulkCreate(prop){
                         const propss = eval('(' + prop + ')')
-                        const count = propss.count
                         const elements = propss.elements
+                        var count = propss.count
 						
-		                const args = Array.from(arguments)
-		                const objs = args.slice(1, args.length + 1)
-                        
+		                const objs = Array.from(arguments)
                         var elementCount = 0
-                        var innerCount = 0						
-						var objectCount =0
+                        var innerCount = 0
+						var objectCount = 1
+                        var propsLenght
+                        var props
 
-                        var element = null
-		                for(var i=0; i< count; i ++){
-                            if (!element || innerCount > element.c) {
+                        var element = { c : -1 }
+		                while(count--){
+                            if (innerCount > element.c) {
                                 element = elements[elementCount++]
                                 innerCount = 0;
+                                props = element.a;
+                                propsLenght = props.length;
                             }
-                            var props = element.a
 							var objectToUpdate = objs[objectCount++]
-                            for (var j = 0, len = props.length; j < len; j++) {
-                                objectToUpdate[props[j]] = objs[objectCount++]
+                            var j = 0
+                            var len = propsLenght
+                            while (len--) {
+                                objectToUpdate[props[j++]] = objs[objectCount++]
                             }
                             innerCount++
 		                }

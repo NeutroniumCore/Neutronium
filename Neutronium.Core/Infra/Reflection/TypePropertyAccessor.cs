@@ -21,7 +21,7 @@ namespace Neutronium.Core.Infra.Reflection
                 .OrderBy(p => p.Name).Select(prop => new PropertyAccessor(type, prop, rank++))
                 .ToArray();
 
-            AttributeNames = ReadProperties.Select(p => p.Name).ToArray();
+            AttributeNames = ReadProperties.ToArray(p => p.Name);
 
             _ReadProperties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
 

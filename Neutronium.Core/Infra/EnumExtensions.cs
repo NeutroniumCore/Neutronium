@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Neutronium.Core.Infra
 {
-    public static class EnumExtender
+    public static class EnumExtensions
     {
         public static string GetDescription(this Enum o)
         {

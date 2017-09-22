@@ -150,6 +150,7 @@
     <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Infra\AddLoger.cs" />
     <Compile Include="Infra\ClrRuntime.cs" />
+    <Compile Include="Infra\CollectionExtensions.cs" />
     <Compile Include="Infra\ComposedDisposable.cs" />
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
@@ -200,7 +201,7 @@
     <Compile Include="Exceptions\ExceptionHelper.cs" />
     <Compile Include="Infra\NullUIDispatcher.cs" />
     <Compile Include="Infra\VM\BasicRelayCommand.cs" />
-    <Compile Include="Infra\TypeExtension.cs" />
+    <Compile Include="Infra\TypeExtensions.cs" />
     <Compile Include="Infra\VM\ViewModelBase.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\NeutroniumConstants.cs" />
     <Compile Include="WebBrowserEngine\Window\BeforeJavascriptExcecutionArgs.cs" />
@@ -215,7 +216,7 @@
     <Compile Include="Navigation\INavigable.cs" />
     <Compile Include="Navigation\INavigationBuilder.cs" />
     <Compile Include="Navigation\INavigationSolver.cs" />
-    <Compile Include="Infra\EnumExtender.cs" />
+    <Compile Include="Infra\EnumExtensions.cs" />
     <Compile Include="Infra\TaskHelper.cs" />
     <Compile Include="JavascriptBindingMode.cs" />
     <Compile Include="Binding\GlueObject\JsCsGlueExtender.cs" />
@@ -224,7 +225,7 @@
     <Compile Include="Binding\GlueObject\JsArray.cs" />
     <Compile Include="Binding\GlueObject\JsGenericObject.cs" />
     <Compile Include="Binding\BidirectionalMapper.cs" />
-    <Compile Include="Infra\AssemblyExtension.cs" />
+    <Compile Include="Infra\AssemblyExtensions.cs" />
     <Compile Include="HtmlBinding.cs" />
     <Compile Include="Binding\GlueBuilder\CSharpToJavascriptConverter.cs" />
     <Compile Include="StringBinding.cs" />

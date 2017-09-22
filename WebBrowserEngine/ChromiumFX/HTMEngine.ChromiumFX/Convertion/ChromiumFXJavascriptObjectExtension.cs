@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Chromium.Remote;
+﻿using Chromium.Remote;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.V8Object;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion 
 {
@@ -42,20 +41,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Convertion
             return chromiumObject.Raw;
         }
 
-        public static IJavascriptObject[] Convert(this IEnumerable<CfrV8Value> cfrV8Values) 
+        public static IJavascriptObject[] Convert(this CfrV8Value[] cfrV8Values)
         {
-            return cfrV8Values.Select(v8 => v8.Convert()).ToArray();
+            return cfrV8Values.ToArray(javascriptObject =>javascriptObject.Convert());
         }
 
         public static CfrV8Value[] Convert(this IJavascriptObject[] javascriptObjects) 
         {
-            var result = new CfrV8Value[javascriptObjects.Length];
-            var i = 0;
-            foreach(var javascriptObject in javascriptObjects) 
-            {
-                result[i++] = javascriptObject.Convert();
-            }
-            return result;
+            return javascriptObjects.ToArray(javascriptObject => javascriptObject.Convert());
         }
     }
 }

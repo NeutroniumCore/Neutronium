@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Infra
 {
-    public static class TypeExtender
+    public static class TypeExtensions
     {
         private static readonly Type _NullableType = typeof(Nullable<>);
         private static readonly Type _EnumerableType = typeof(IEnumerable<>);

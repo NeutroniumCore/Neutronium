@@ -91,9 +91,9 @@ namespace Neutronium.Example.ViewModel
             set { Set(ref _MainSkill, value, "MainSkill"); }
         }
 
-        public IEnumerable<PersonalState> States => EnumExtender.GetEnums<PersonalState>();
+        public IEnumerable<PersonalState> States => EnumExtensions.GetEnums<PersonalState>();
 
-        public IEnumerable<Sex> Sexes => EnumExtender.GetEnums<Sex>();
+        public IEnumerable<Sex> Sexes => EnumExtensions.GetEnums<Sex>();
 
         public IList<Skill> Skills { get; }
 

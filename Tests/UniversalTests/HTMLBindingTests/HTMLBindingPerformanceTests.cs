@@ -400,6 +400,8 @@ namespace Tests.Universal.HTMLBindingTests
                 await DoSafeAsyncUI(() => rootJs.VisitDescendantsSafe(glue => allChildren.Add(glue)));
             }
 
+            _TestOutputHelper.WriteLine($"Objects created {allChildren.Count}");
+
             using (GetPerformanceCounter("Perf Foreach GetAllChildren"))
             {
                 await DoSafeAsyncUI(() => allChildren.ForEach(_ => { }));

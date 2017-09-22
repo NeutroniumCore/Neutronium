@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Neutronium.Core.Infra
 {
-    public static class AssemblyExtension
+    public static class AssemblyExtensions
     {
         public static string GetPath(this Assembly @this)
         {
