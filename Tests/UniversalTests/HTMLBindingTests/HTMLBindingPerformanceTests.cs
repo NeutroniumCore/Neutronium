@@ -358,6 +358,7 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(5)]
         [InlineData(10)]
         [InlineData(20)]
+        [InlineData(30)]
         [InlineData(50)]
         public async Task Stress_Big_Vm(int childrenCount)
         {
