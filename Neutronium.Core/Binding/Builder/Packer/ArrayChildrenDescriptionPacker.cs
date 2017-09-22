@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
     {
         public string Pack(List<ArrayDescriptor> updates)
         {
-            return KeyPacker.Pack(updates.Count, PackKeys(updates), t => t.ToString());
+            return KeyPacker.Pack(PackKeys(updates), t => t.ToString());
         }
 
         private struct KeyDescription

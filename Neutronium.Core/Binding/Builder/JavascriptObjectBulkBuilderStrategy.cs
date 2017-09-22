@@ -57,33 +57,25 @@ namespace Neutronium.Core.Binding.Builder
                         this.privateExecute(this.{{NeutroniumConstants.ObjectId}}, ...arguments)
                     }
                     function bulkCreate(prop){
-                        const propss = eval('(' + prop + ')')
-                        const elements = propss.elements
-                        var count = propss.count
-						
+						const propsArrays = eval( prop )
 		                const objs = Array.from(arguments)
-                        var elementCount = 0
-                        var innerCount = 0
 						var objectCount = 1
-                        var propsLenght
-                        var props
-
-                        var element = { c : -1 }
-		                while(count--){
-                            if (innerCount > element.c) {
-                                element = elements[elementCount++]
-                                innerCount = 0;
-                                props = element.a;
-                                propsLenght = props.length;
-                            }
-							var objectToUpdate = objs[objectCount++]
-                            var j = 0
-                            var len = propsLenght
-                            while (len--) {
-                                objectToUpdate[props[j++]] = objs[objectCount++]
-                            }
-                            innerCount++
-		                }
+						var propsArrayLength = propsArrays.length;
+						var propIndex = 0
+						
+						while(propsArrayLength--){
+							const propArray = propsArrays[propIndex++]
+							var repetition = propArray.c + 1
+							var properties = propArray.a				
+							while(repetition--){
+								const objectToUpdate = objs[objectCount++]
+								var propertiesLength = properties.length
+								var index = 0
+								while(propertiesLength--){
+									objectToUpdate[properties[index++]] = objs[objectCount++]
+								}
+							}
+						}
                     }
                     return {
                         bulkCreate,

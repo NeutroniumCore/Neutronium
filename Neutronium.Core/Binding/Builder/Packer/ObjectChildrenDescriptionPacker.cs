@@ -7,7 +7,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
     {
         public string Pack(List<ObjectDescriptor> updates)
         {
-            return KeyPacker.Pack(updates.Count, PackKeys(updates), s => $@"""{s}""");
+            return KeyPacker.Pack(PackKeys(updates), s => $@"""{s}""");
         }
 
         private struct KeyDescription
