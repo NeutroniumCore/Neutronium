@@ -7,58 +7,34 @@ namespace Neutronium.Core.Binding.Builder.Packer
     {
         public string Pack(List<ObjectDescriptor> updates)
         {
-            return KeyPacker.Pack(PackKeys(updates), s => $@"""{s}""");
-        }
-
-        private struct KeyDescription
-        {
-            private ObjectDescriptor Descritor { get; }
-            private int Count { get; }
-
-            public KeyDescription(ObjectDescriptor update)
-            {
-                Descritor = update;
-                Count = update.AttributeValues.Length;
-            }
-
-            public bool Similar(KeyDescription other)
-            {
-                return Count == other.Count && ReferenceEquals(Descritor.AttributeNames, other.Descritor.AttributeNames);
-            }
-
-            public string[] Keys => Descritor.AttributeNames;
-
-            public bool Empty => Descritor.Father == null;
+            return KeyPacker.Pack(PackKeys(updates));
         }
 
         private static IEnumerable<Tuple<int, string[]>> PackKeys(List<ObjectDescriptor> updates)
         {
-            var count = 0;
-            var first = true;
-            var currentDescriptor = new KeyDescription();
+            var count = 1;
+            ObjectDescriptor? currentDescriptor = null;
             foreach (var update in updates)
             {
-                var newDesc = new KeyDescription(update);
-                if (first)
+                if (!currentDescriptor.HasValue)
                 {
-                    currentDescriptor = newDesc;
-                    first = false;
+                    currentDescriptor = update;
                     continue;
                 }
                 
-                if (newDesc.Similar(currentDescriptor))
+                if (ReferenceEquals(update.AttributeNames, currentDescriptor.Value.AttributeNames))
                 {
                     count++;
                     continue;
                 }
 
-                yield return Tuple.Create(count, currentDescriptor.Keys);
-                currentDescriptor = newDesc;
-                count = 0;
+                yield return Tuple.Create(count, currentDescriptor.Value.AttributeNames);
+                currentDescriptor = update;
+                count = 1;
             }
 
-            if (!currentDescriptor.Empty)
-                yield return Tuple.Create(count, currentDescriptor.Keys);
+            if (currentDescriptor.HasValue)
+                yield return Tuple.Create(count, currentDescriptor.Value.AttributeNames);
         }
     }
 }

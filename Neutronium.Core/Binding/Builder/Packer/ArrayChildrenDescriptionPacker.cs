@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder.Packer
 {
@@ -8,58 +7,34 @@ namespace Neutronium.Core.Binding.Builder.Packer
     {
         public string Pack(List<ArrayDescriptor> updates)
         {
-            return KeyPacker.Pack(PackKeys(updates), t => t.ToString());
+            return KeyPacker.Pack(PackKeys(updates));
         }
 
-        private struct KeyDescription
+        private static IEnumerable<Tuple<int, ArrayDescriptor>> PackKeys(IList<ArrayDescriptor> updates)
         {
-            private int Start { get; }
-            private int Count { get; }
-
-            public KeyDescription(ArrayDescriptor update)
-            {
-                Start = update.OffSet;
-                Count = update.OrdenedChildren.Count;
-            }
-
-            public bool Similar(KeyDescription other)
-            {
-                return Count == other.Count && Start == other.Start;
-            }
-
-            public List<int> Keys => Enumerable.Range(Start, Count).ToList();
-
-            public bool Empty => Count == 0;
-        }
-
-        private static IEnumerable<Tuple<int, List<int>>> PackKeys(IList<ArrayDescriptor> updates)
-        {
-            var count = 0;
-            var first = true;
-            var currentDescriptor = new KeyDescription();
+            var count = 1;
+            ArrayDescriptor? arrayDescriptor= null;
             foreach (var update in updates)
             {
-                var newDesc = new KeyDescription(update);
-                if (first)
+                if (!arrayDescriptor.HasValue)
                 {
-                    currentDescriptor = newDesc;
-                    first = false;
+                    arrayDescriptor = update;
                     continue;
                 }
 
-                if (newDesc.Similar(currentDescriptor))
+                if ((update.OffSet == arrayDescriptor.Value.OffSet) && (update.Count == arrayDescriptor.Value.Count))
                 {
                     count++;
                     continue;
                 }
 
-                yield return Tuple.Create(count, currentDescriptor.Keys);
-                currentDescriptor = newDesc;
-                count = 0;
+                yield return Tuple.Create(count, arrayDescriptor.Value);
+                arrayDescriptor = update;
+                count = 1;
             }
 
-            if (!currentDescriptor.Empty)
-                yield return Tuple.Create(count, currentDescriptor.Keys);
+            if (arrayDescriptor.HasValue)
+                yield return Tuple.Create(count, arrayDescriptor.Value);
         }
     }
 }

@@ -43,12 +43,14 @@ namespace Neutronium.Core.Binding.Builder
         public IJsCsGlue Father { get; }
         public IList<IJsCsGlue> OrdenedChildren { get; }
         public int OffSet { get; }
+        public int Count { get; }
 
         internal ArrayDescriptor(IJsCsGlue father, IList<IJsCsGlue> childrenDescription, int offfset = 0)
         {
             Father = father;
             OrdenedChildren = childrenDescription;
             OffSet = offfset;
+            Count = childrenDescription.Count;
         }
 
         public override int GetHashCode()

@@ -53,8 +53,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                         fn.apply(null, array)
                         return;
                     }
-                    for(var index =0; index< count; index += maxCount) {
-                        const subArray = array.slice(index, index+maxCount)
+                    for(var index = 0; index< count;) {
+                        var length = Math.min(count - index, maxCount)
+                        var subArray = []
+                        while (length--) {
+                            subArray.push(array[index++]);
+                        }
                         fn.apply(null, subArray)
                     }
                 }
@@ -71,7 +75,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     return res
                 }
                 function pushObjects(array, id, number, readOnly){
-                    for (var i = 0; i < number; i++) {
+                    while (number--) {
                         array.push(new objectWithId(id++, readOnly))
                     }
                     return id;
@@ -88,7 +92,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
                 function createBulkArray(id, size, fn){
                     const array = []
-                    for (var i = 0; i < size; i++) {
+                    while (size --) {
                         array.push(createArray(id++))
                     }
                     pushResult(fn, array)
@@ -97,7 +101,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     const array = []
                     const allArgs = Array.from(arguments)
                     const args = allArgs.slice(4)
-                    for (var i = 0; i < number; i++) {
+                    while (number --) {
                         array.push(new constructor(id++, ...args))
                     }
                     pushResult(fn, array)

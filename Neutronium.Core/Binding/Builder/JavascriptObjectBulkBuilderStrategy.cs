@@ -17,8 +17,9 @@ namespace Neutronium.Core.Binding.Builder
         private readonly IJavascriptSessionCache _Cache;
         private readonly Lazy<BulkJsHelper> _Factory;
         private readonly bool _Mapping;
-        private IJavascriptObject BulkCreator => _Factory.Value.BulkCreator;
-        
+        private IJavascriptObject BulkObjectsUpdater => _Factory.Value.BulkObjectsUpdater;
+        private IJavascriptObject BulkArraysUpdater => _Factory.Value.BulkArraysUpdater;
+
         public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
         {
             _Mapping = mapping;
@@ -56,7 +57,7 @@ namespace Neutronium.Core.Binding.Builder
                     Executable.prototype.Execute = function() {
                         this.privateExecute(this.{{NeutroniumConstants.ObjectId}}, ...arguments)
                     }
-                    function bulkCreate(prop){
+                    function bulkUpdateObjects(prop){
 						const propsArrays = eval( prop )
 						var objectCount = 1
 						var propsArrayLength = propsArrays.length;
@@ -64,8 +65,8 @@ namespace Neutronium.Core.Binding.Builder
 						
 						while(propsArrayLength--){
 							const propArray = propsArrays[propIndex++]
-							var repetition = propArray.c + 1
-							var properties = propArray.a				
+							var repetition = propArray.c
+							var properties = propArray.a
 							while(repetition--){
 								const objectToUpdate = arguments[objectCount++]
 								var propertiesLength = properties.length
@@ -76,8 +77,29 @@ namespace Neutronium.Core.Binding.Builder
 							}
 						}
                     }
+                    function bulkUpdateArrays(prop){
+						const propsArrays = eval( prop )
+						var objectCount = 1
+						var propsArrayLength = propsArrays.length;
+						var propIndex = 0
+						
+						while(propsArrayLength--){
+							const propArray = propsArrays[propIndex++]
+							var repetition = propArray.c
+                            var description = propArray.a
+							var arrayStart = description.b
+                            var arrayEnd = description.e
+							while(repetition--){
+                                const objectToUpdate = arguments[objectCount++]
+                                for(var index = arrayStart; index< arrayEnd; index++){					
+                                    objectToUpdate[index] = arguments[objectCount++]
+                                }
+							}
+						}
+                    }
                     return {
-                        bulkCreate,
+                        bulkUpdateArrays,
+                        bulkUpdateObjects,
                         Command,
                         Executable
                     }
@@ -109,7 +131,7 @@ namespace Neutronium.Core.Binding.Builder
             foreach (var entityDescriptor in spliter.SplitParameters(updates))
             {
                 var arguments = GetUpdateParameters(entityDescriptor, packer);
-                Execute(arguments);
+                BulkObjectsUpdater.ExecuteFunctionNoResult(_WebView, null, arguments);
             }
         }
 
@@ -121,14 +143,14 @@ namespace Neutronium.Core.Binding.Builder
             foreach (var entityDescriptor in spliter.SplitParameters(updates)) 
             {
                 var arguments = GetUpdateParameters(entityDescriptor, packer);
-                Execute(arguments);
+                BulkArraysUpdater.ExecuteFunctionNoResult(_WebView, null, arguments);
             }
         }
 
         private IJavascriptObject[] GetUpdateParameters(Parameters updates, ObjectChildrenDescriptionPacker packer)
-        {     
-            var res = new IJavascriptObject[updates.Count + 1];
+        {
             var sizes = packer.Pack(updates.ObjectDescriptors);
+            var res = new IJavascriptObject[updates.Count + 1];       
             res[0] = _WebView.Factory.CreateString(sizes);
             var count = 1;
             foreach (var father in updates.ObjectDescriptors)
@@ -145,7 +167,7 @@ namespace Neutronium.Core.Binding.Builder
         private IJavascriptObject[] GetUpdateParameters(List<ArrayDescriptor> updates, ArrayChildrenDescriptionPacker packer) 
         {
             var sizes = packer.Pack(updates);
-            var res = new IJavascriptObject[updates.Count + updates.Select(up => up.OrdenedChildren.Count).Sum() + 1];
+            var res = new IJavascriptObject[updates.Select(up => up.OrdenedChildren.Count + 1).Sum() + 1];
             res[0] = _WebView.Factory.CreateString(sizes);
             var count = 1;
             foreach (var father in updates)
@@ -157,16 +179,6 @@ namespace Neutronium.Core.Binding.Builder
                 }
             }
             return res;
-        }
-
-        private IJavascriptObject[] BuildArguments(string paramString, IEnumerable<IJsCsGlue> paramsObjects)
-        {
-            return new[] { _WebView.Factory.CreateString(paramString) }.Concat(paramsObjects.Select(glue => glue.JsValue)).ToArray();
-        }
-
-        private void Execute(params IJavascriptObject[] arguments)
-        {
-            BulkCreator.ExecuteFunctionNoResult(_WebView, null, arguments);
         }
     }
 }

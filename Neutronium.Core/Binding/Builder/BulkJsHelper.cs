@@ -5,7 +5,8 @@ namespace Neutronium.Core.Binding.Builder
 {
     internal class BulkJsHelper
     {
-        internal IJavascriptObject BulkCreator { get; }
+        internal IJavascriptObject BulkObjectsUpdater { get; }
+        internal IJavascriptObject BulkArraysUpdater { get; }
         internal IJavascriptObject CommandConstructor { get; }
         internal IJavascriptObject ExecutableConstructor { get; }
 
@@ -18,7 +19,8 @@ namespace Neutronium.Core.Binding.Builder
         {
             _Cache = cache;
 
-            BulkCreator = helper.GetValue("bulkCreate");
+            BulkObjectsUpdater = helper.GetValue("bulkUpdateObjects");
+            BulkArraysUpdater = helper.GetValue("bulkUpdateArrays");
             CommandConstructor = helper.GetValue("Command");
             _CommandPrototype = CommandConstructor.GetValue("prototype");
             _CommandPrototype.Bind("privateExecute", webView, ExecuteExecutable);
