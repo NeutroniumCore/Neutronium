@@ -61,9 +61,7 @@ namespace Neutronium.Core.Infra.Reflection
             };
         }
 
-        private static void Void(object _, object __)
-        {
-        }
+        private static void Void(object _, object __) {}
 
         private static Func<object, object> BuildGet(Type type, PropertyInfo propertyInfo)
         {

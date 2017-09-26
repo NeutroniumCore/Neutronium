@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -761,6 +762,44 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(100);
 
                     _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_Maps_DynamicObject()
+        {
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+            dynamicDataContext.ValueString = "string";
+            dynamicDataContext.ValueBool = true;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    var resInt = GetIntAttribute(js, "ValueInt");
+                    resInt.Should().Be(1);
+
+                    var resString = GetStringAttribute(js, "ValueString");
+                    resString.Should().Be("string");
+
+                    var resBool = GetBoolAttribute(js, "ValueBool");
+                    resBool.Should().BeTrue();
+
+
+                    DoSafeUI(() => { dynamicDataContext.ValueInt = 110; });
+
+                    await Task.Delay(50);
+
+                    resInt = GetIntAttribute(js, "ValueInt");
+                    resInt.Should().Be(110);
                 }
             };
 
@@ -1864,14 +1903,13 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
 
-
         private class VMWithList<T> : ViewModelTestBase
         {
             public VMWithList()
             {
                 List = new ObservableCollection<T>();
             }
-            public ObservableCollection<T> List { get; private set; }
+            public ObservableCollection<T> List { get; }
         }
 
         private class VMWithListNonGeneric : ViewModelTestBase
@@ -1880,7 +1918,7 @@ namespace Tests.Universal.HTMLBindingTests
             {
                 List = new ArrayList();
             }
-            public ArrayList List { get; private set; }
+            public ArrayList List { get; }
         }
 
         private class VMwithdecimal : ViewModelTestBase
@@ -1949,10 +1987,6 @@ namespace Tests.Universal.HTMLBindingTests
 
         private class VMwithlong : ViewModelTestBase
         {
-            public VMwithlong()
-            {
-            }
-
             private long _LongValue;
             public long longValue
             {
@@ -2041,8 +2075,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     Checkstring(col, datacontext.List);
 
-                    var comp = new List<string>(datacontext.List);
-                    comp.Add("newvalue");
+                    var comp = new List<string>(datacontext.List) {"newvalue"};
 
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     var chcol = GetAttribute(js, "List");
@@ -2097,7 +2130,6 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
         public async Task TwoWay_Collection_NoneGenericList()
         {
@@ -2129,7 +2161,6 @@ namespace Tests.Universal.HTMLBindingTests
 
             await RunAsync(test);
         }
-
 
         [Fact]
         public async Task TwoWay_Collection_decimal()
@@ -2174,8 +2205,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     Checkdecimal(col, datacontext.List);
 
-                    var comp = new List<decimal>(datacontext.List);
-                    comp.Add(0.55m);
+                    var comp = new List<decimal>(datacontext.List) {0.55m};
 
                     var res = GetAttribute(js, "List");
                     Call(res, "push", _WebView.Factory.CreateDouble(0.55));
@@ -2306,8 +2336,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_should_unlisten_when_changing_property(BasicVm remplacementChild)
         {
             var child = new BasicVm();
-            var datacontext = new BasicVm();
-            datacontext.Child = child;
+            var datacontext = new BasicVm {Child = child};
 
             var test = new TestInContextAsync()
             {
@@ -2327,7 +2356,7 @@ namespace Tests.Universal.HTMLBindingTests
                     //for changing property on the wrong thread
                     var third = new BasicVm();
                     Action safe = () => child.Child = third;
-                    AssertionExtensions.ShouldNotThrow(safe);
+                    safe.ShouldNotThrow();
                 }
             };
 
@@ -2609,8 +2638,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_rebinds_with_updated_objects()
         {
             var child = new BasicVm();
-            var datacontext = new BasicVm();
-            datacontext.Child = child;
+            var datacontext = new BasicVm {Child = child};
 
             var test = new TestInContextAsync()
             {
@@ -2645,8 +2673,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_listens_to_all_changes()
         {
             var child = new BasicVm();
-            var datacontext = new BasicVm();
-            datacontext.Child = child;
+            var datacontext = new BasicVm {Child = child};
 
             var test = new TestInContextAsync()
             {
