@@ -1,16 +1,13 @@
-﻿using System;
-using Neutronium.Core.Binding;
+﻿using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using NSubstitute;
 using Xunit;
-using Neutronium.Core.WebBrowserEngine.Window;
 using System.Collections.Generic;
 using FluentAssertions;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Test.Helper;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xunit.Abstractions;
 using Newtonsoft.Json;
 
@@ -33,7 +30,7 @@ namespace Neutronium.Core.Test.Binding
             _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJsCsGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJsCsGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
-            _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => {}, _ => { });
+            _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { });
             _GlueFactory = new GlueFactory(null, _Cacher, null, _ObjectChangesListener);
             _Logger = Substitute.For<IWebSessionLogger>();
             _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_Cacher, _GlueFactory, _Logger);
@@ -163,13 +160,28 @@ namespace Neutronium.Core.Test.Binding
             {
                 Bool = true,
                 Decimal = 0.01m,
-                Double = 0.9221,          
+                Double = 0.9221,
                 Int32 = 1
             };
 
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             res.ToString().Should().Be("{\"Bool\":true,\"Decimal\":0.01,\"Double\":0.9221,\"Int32\":1}");
+        }
+
+        [Fact]
+        public void Map_maps_dictionary()
+        {
+            var vm = new Dictionary<string, object>
+            {
+                ["integer"] = 1,
+                ["string"] = "blablabla",
+                ["bool"] = true
+            }; 
+
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            res.ToString().Should().Be("{\"bool\":true,\"integer\":1,\"string\":\"blablabla\"}");
         }
 
 
@@ -179,7 +191,7 @@ namespace Neutronium.Core.Test.Binding
             var converter = GetCSharpToJavascriptConverterForPerformance();
             var vm = SimpleReadOnlyTestViewModel.BuildBigVm();
 
-            using (GetPerformanceCounter("ToJson large Vm")) 
+            using (GetPerformanceCounter("ToJson large Vm"))
             {
                 var res = JsonConvert.SerializeObject(vm);
             }
@@ -198,14 +210,14 @@ namespace Neutronium.Core.Test.Binding
             var cacher = new SessionCacher();
             var factory = new GlueFactory(null, cacher, null, _ObjectChangesListener);
             return new CSharpToJavascriptConverter(cacher, factory, _Logger);
-        }     
+        }
 
         private class TestClass
         {
             public List<TestClass> Children { get; set; } = new List<TestClass>();
             public TestClass Property1 { get; set; }
             public TestClass Property2 { get; set; }
-            public TestClass Property3 { get; set; }           
+            public TestClass Property3 { get; set; }
         }
 
         private class StringClass

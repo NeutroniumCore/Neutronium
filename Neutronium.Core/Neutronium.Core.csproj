@@ -93,6 +93,7 @@
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
     <Compile Include="Binding\Builder\Packer\KeyPacker.cs" />
     <Compile Include="Binding\Builder\Packer\ObjectChildrenDescriptionPacker.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueObjectDictionaryBuilder.cs" />
     <Compile Include="Binding\GlueBuilder\GlueObjectBuilder.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />
     <Compile Include="Binding\GlueBuilder\GlueCollectionsBuilder.cs" />

@@ -11,11 +11,12 @@ namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal class CSharpToJavascriptConverter
     {
+        private static Type _StringType = typeof(string);
+
         private readonly ICSharpToJsCache _Cacher;
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private IJsCsGlue _Null;
-
         private readonly Dictionary<Type, Func<IGlueFactory, object, IJsCsGlue>> _Converters;
 
         private static readonly HashSet<Type> _BasicTypes = new HashSet<Type>
@@ -97,6 +98,13 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
             if (@object is IResultCommand)
                 return BuildResultCommand;
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>) &&
+                type.GetGenericArguments()[0] == _StringType)
+            {
+                var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, type.GetGenericArguments()[1]);
+                return objectDictionaryBuilder.Convert;
+            }
 
             if (@object is IList)
                 return new GlueCollectionsBuilder(this, type).ConvertList;

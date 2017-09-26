@@ -11,11 +11,11 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _Converter;
 
-        public GlueObjectBuilder(CSharpToJavascriptConverter converter, IWebSessionLogger logger, Type objectType) 
+        public GlueObjectBuilder(CSharpToJavascriptConverter converter, IWebSessionLogger logger, Type type) 
         {
             _Converter = converter;
             _Logger = logger;
-            _TypePropertyAccessor = objectType.GetTypePropertyInfo();
+            _TypePropertyAccessor = type.GetTypePropertyInfo();
         }
 
         public IJsCsGlue Convert(IGlueFactory factory, object @object) 
@@ -33,7 +33,6 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
             foreach (var propertyInfo in properties) 
             {
-                var propertyName = propertyInfo.Name;
                 object childvalue = null;
                 try 
                 {
@@ -41,7 +40,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 }
                 catch (Exception exception)
                 {
-                    LogIntrospectionError(propertyName, parentObject, exception);
+                    LogIntrospectionError(propertyInfo.Name, parentObject, exception);
                 }
 
                 var child = _Converter.Map(childvalue).AddRef();

@@ -13,7 +13,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
         [InlineData(typeof(ReadOnlyClass2), new[] { "Property1", "Property2" })]
         public void AttributeNames_returns_correct_property(Type type, string[] properties)
         {
-            var res = new TypePropertyAccessor(type);
+            var res = TypePropertyAccessor.FromType(type);
             res.AttributeNames.Should().BeEquivalentTo(properties);
         }
 
@@ -22,7 +22,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
         [InlineData(typeof(ReadOnlyClass2), new[] { "Property1", "Property2" })]
         public void ReadProperties_returns_correct_property_name(Type type, string[] properties)
         {
-            var res = new TypePropertyAccessor(type);
+            var res = TypePropertyAccessor.FromType(type);
             res.ReadProperties.Select(prop => prop.Name).Should().BeEquivalentTo(properties);
         }
 
@@ -31,7 +31,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
         [InlineData(typeof(ReadOnlyClass2), new[] { 0, 1 })]
         public void ReadProperties_returns_correct_property_position(Type type, int[] positions)
         {
-            var res = new TypePropertyAccessor(type);
+            var res = TypePropertyAccessor.FromType(type);
             res.ReadProperties.Select(prop => prop.Position).Should().BeEquivalentTo(positions);
         }
 
@@ -40,7 +40,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
         [InlineData(typeof(FakeClass), true)]
         public void HasReadWriteProperties_returns_correct_property(Type type, bool expectedHasReadWriteProperties)
         {
-            var res = new TypePropertyAccessor(type);
+            var res = TypePropertyAccessor.FromType(type);
             res.HasReadWriteProperties.Should().Be(expectedHasReadWriteProperties);
         }
 
@@ -50,7 +50,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
         [InlineData(typeof(FakeClass), "Available3")]
         public void GetAccessor_returns_correct_object(Type type, string propertyName)
         {
-            var res = new TypePropertyAccessor(type);
+            var res = TypePropertyAccessor.FromType(type);
             var accesor = res.GetAccessor(propertyName);
             accesor.Name.Should().Be(propertyName);
         }
@@ -61,7 +61,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
         [InlineData(typeof(FakeClass), "")]
         public void GetAccessor_returns_null_when_property_not_found(Type type, string propertyName)
         {
-            var res = new TypePropertyAccessor(type);
+            var res = TypePropertyAccessor.FromType(type);
             var accesor = res.GetAccessor(propertyName);
             accesor.Should().BeNull();
         }
