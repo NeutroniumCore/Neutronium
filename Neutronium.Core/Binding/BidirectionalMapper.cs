@@ -267,7 +267,6 @@ namespace Neutronium.Core.Binding
                 {
                     array.UpdateEventArgsFromJavascript(change, updater);
                 }
-
                 updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
             }
             catch (Exception exception)
