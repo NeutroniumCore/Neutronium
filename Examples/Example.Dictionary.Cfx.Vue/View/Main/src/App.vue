@@ -21,28 +21,21 @@ import 'font-awesome/less/font-awesome.less';
 import rawDisplay from './components/RawDisplay'
 import commandButton from './components/command-button'
 
-
-    const props={
-        viewModel: Object,
-        __window__: Object
-    };
+const props={
+    viewModel: Object
+};
 
 export default {
     name: 'app',
     props,
-        components:{
-            rawDisplay,
-            commandButton
-        },
-  data () {
-      return this.viewModel
-  },
-    computed: {
-            bigVm() {
-                return JSON.stringify(this.viewModel.Big, null, 2);
-            }
-        }
+    components:{
+        rawDisplay,
+        commandButton
+    },
+    data () {
+        return this.viewModel
     }
+}
 </script>
 
 <style>
@@ -50,9 +43,9 @@ export default {
         text-align: center;
     }
 
-        #app .logo img {
-            width: 100px;
-        }
+    #app .logo img {
+        width: 100px;
+    }
 
     .panel-body {
         position: relative;
