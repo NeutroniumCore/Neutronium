@@ -5,6 +5,7 @@ using System.Windows.Input;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Basic;
+using Neutronium.Core.Infra;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueBuilder
@@ -99,10 +100,10 @@ namespace Neutronium.Core.Binding.GlueBuilder
             if (@object is IResultCommand)
                 return BuildResultCommand;
 
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>) &&
-                type.GetGenericArguments()[0] == _StringType)
+            var stringDictioanryValueType = type.GetDictionaryStringValueType();
+            if (stringDictioanryValueType!= null)
             {
-                var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, type.GetGenericArguments()[1]);
+                var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, stringDictioanryValueType);
                 return objectDictionaryBuilder.Convert;
             }
 

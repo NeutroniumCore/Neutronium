@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Neutronium.Core.Test.Infra
 {
-    public class EnumExtenderTest
+    public class EnumExtensionsTest
     {
         enum Test { Tested };
 

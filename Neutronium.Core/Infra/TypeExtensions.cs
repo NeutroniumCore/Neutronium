@@ -10,6 +10,8 @@ namespace Neutronium.Core.Infra
     {
         private static readonly Type _NullableType = typeof(Nullable<>);
         private static readonly Type _EnumerableType = typeof(IEnumerable<>);
+        private static readonly Type _DictionaryType = typeof(IDictionary<,>);
+        private static readonly Type _StringType = typeof(string);
         private static readonly Type _UInt16Type = typeof(UInt16);
         private static readonly Type _UInt32Type = typeof(UInt32);
         private static readonly Type _UInt64Type = typeof(UInt64);
@@ -39,10 +41,13 @@ namespace Neutronium.Core.Infra
             if (type.GetGenericTypeDefinition() == _EnumerableType)
                 return type.GetGenericArguments()[0];
 
-            return type.GetInterfaces()
-                .FirstOrDefault(@interface => @interface.IsGenericType &&
-                                              @interface.GetGenericTypeDefinition() == _EnumerableType)
-                ?.GetGenericArguments()[0];
+            foreach (var interfaceType in type.GetInterfaces())
+            {
+                if ((interfaceType.IsGenericType)  && (interfaceType.GetGenericTypeDefinition() == _EnumerableType))
+                    return interfaceType.GetGenericArguments()[0];
+            }
+
+            return null;
         }
 
         public static Type GetUnderlyingNullableType(this Type type)
@@ -67,6 +72,24 @@ namespace Neutronium.Core.Infra
         internal static TypePropertyAccessor GetTypePropertyInfo(this Type @type)
         {
             return _TypePropertyInfos.GetOrAdd(@type, TypePropertyAccessor.FromType);
+        }
+
+        public static Type GetDictionaryStringValueType(this Type type)
+        {
+            if (type == null)
+                return null;
+
+            foreach (var interfaceType in type.GetInterfaces())
+            {
+                if ((!interfaceType.IsGenericType) || (interfaceType.GetGenericTypeDefinition() != _DictionaryType))
+                    continue;
+
+                var arguments = interfaceType.GetGenericArguments();
+                if (arguments[0] == _StringType)
+                    return arguments[1];
+            }
+
+            return null;
         }
     }
 }

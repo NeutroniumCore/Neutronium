@@ -118,7 +118,7 @@
     <Compile Include="Helper\SimpleFatherTestViewModel.cs" />
     <Compile Include="Helper\SimpleReadOnlyTestViewModel.cs" />
     <Compile Include="Helper\ViewModelTestBase.cs" />
-    <Compile Include="Infra\EnumExtenderTest.cs" />
+    <Compile Include="Infra\EnumExtensionsTest.cs" />
     <Compile Include="Infra\FakeClasses.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessorTests.cs" />
     <Compile Include="Infra\SlicerTest.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NullWatcherTest.cs" />
     <Compile Include="NavigationBuilderTests.cs" />
-    <Compile Include="Infra\TypeExtenderTest.cs" />
+    <Compile Include="Infra\TypeExtensionsTest.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\JavascriptNamerTest.cs" />
   </ItemGroup>
   <ItemGroup>

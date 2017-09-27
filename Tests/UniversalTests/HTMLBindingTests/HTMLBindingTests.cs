@@ -800,6 +800,13 @@ namespace Tests.Universal.HTMLBindingTests
 
                     resInt = GetIntAttribute(js, "ValueInt");
                     resInt.Should().Be(110);
+
+                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 0.5; });
+
+                    await Task.Delay(50);
+
+                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    resDouble.Should().Be(0.5);
                 }
             };
 

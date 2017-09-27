@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Neutronium.Core.Infra;
 using Xunit;
-using System.Linq;
 
 namespace Neutronium.Core.Test.Infra
 {
-    public class TypeExtenderTest
+    public class TypeExtensionsTest
     {   
         [Theory]
         [InlineData(typeof(IEnumerable<int>), typeof(int))]
@@ -69,6 +68,27 @@ namespace Neutronium.Core.Test.Infra
         {
             var isUnsigned = type.IsUnsigned();
             isUnsigned.Should().Be(result);
+        }
+
+        [Theory]
+        [InlineData(typeof(Dictionary<string, object>), typeof(object))]
+        [InlineData(typeof(Dictionary<string, string>), typeof(string))]
+        [InlineData(typeof(Dictionary<string, int>), typeof(int))]
+        public void GetDictionaryStringValueType_Returns_Expected_Null_Value(Type type, Type expected)
+        {
+            type.GetDictionaryStringValueType().Should().Be(expected);
+        }
+
+
+        [Theory]
+        [InlineData(typeof(int))]
+        [InlineData(typeof(string))]
+        [InlineData(typeof(IList))]
+        [InlineData(typeof(Dictionary<object,object>))]
+        [InlineData(typeof(Dictionary<int, string>))]
+        public void GetDictionaryStringValueType_returns_null_when_no_match(Type source)
+        {
+            source.GetDictionaryStringValueType().Should().BeNull();
         }
     }
 }
