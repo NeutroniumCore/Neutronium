@@ -10,7 +10,9 @@
             </raw-display>
         </div>
 
-        <command-button :command="null" name="Do something"></command-button>
+        <command-button :command="ChangeAttribute" name="Change attribute" class="primary"></command-button>
+
+        <command-button :command="AddAttribute" name="Add attribute" class="secondary"></command-button>
 
     </div>
 </template>
