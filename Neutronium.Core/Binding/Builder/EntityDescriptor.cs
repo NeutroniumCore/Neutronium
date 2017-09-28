@@ -9,9 +9,9 @@ namespace Neutronium.Core.Binding.Builder
     {
         public IJsCsGlue Father { get; }
         public IEnumerable<string> AttributeNames { get; }
-        public IJsCsGlue[] AttributeValues { get; }
+        public IReadOnlyList<IJsCsGlue> AttributeValues { get; }
 
-        internal ObjectDescriptor(IJsCsGlue father, IEnumerable<string> attributes, IJsCsGlue[] attributeValues)
+        internal ObjectDescriptor(IJsCsGlue father, IEnumerable<string> attributes, IReadOnlyList<IJsCsGlue> attributeValues)
         {
             Father = father;
             AttributeNames = attributes;
@@ -41,11 +41,11 @@ namespace Neutronium.Core.Binding.Builder
     internal struct ArrayDescriptor
     {
         public IJsCsGlue Father { get; }
-        public IList<IJsCsGlue> OrdenedChildren { get; }
+        public IReadOnlyList<IJsCsGlue> OrdenedChildren { get; }
         public int OffSet { get; }
         public int Count { get; }
 
-        internal ArrayDescriptor(IJsCsGlue father, IList<IJsCsGlue> childrenDescription, int offfset = 0)
+        internal ArrayDescriptor(IJsCsGlue father, IReadOnlyList<IJsCsGlue> childrenDescription, int offfset = 0)
         {
             Father = father;
             OrdenedChildren = childrenDescription;
@@ -69,12 +69,12 @@ namespace Neutronium.Core.Binding.Builder
 
     internal static class EntityDescriptor
     {
-        internal static ArrayDescriptor CreateArrayDescriptor(IJsCsGlue father, IList<IJsCsGlue> description)
+        internal static ArrayDescriptor CreateArrayDescriptor(IJsCsGlue father, IReadOnlyList<IJsCsGlue> description)
         {
             return new ArrayDescriptor(father, description);
         }
 
-        internal static ObjectDescriptor CreateObjectDescriptor(IJsCsGlue father, TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue)
+        internal static ObjectDescriptor CreateObjectDescriptor(IJsCsGlue father, IGenericPropertyAcessor attributeDescription, IReadOnlyList<IJsCsGlue> attributeValue)
         {
             return new ObjectDescriptor(father, attributeDescription.AttributeNames, attributeValue);
         }

@@ -7,7 +7,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal sealed class GlueObjectBuilder
     {
-        private readonly TypePropertyAccessor _TypePropertyAccessor;
+        private readonly IGenericPropertyAcessor _PropertyAccessor;
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _Converter;
 
@@ -15,19 +15,19 @@ namespace Neutronium.Core.Binding.GlueBuilder
         {
             _Converter = converter;
             _Logger = logger;
-            _TypePropertyAccessor = type.GetTypePropertyInfo();
+            _PropertyAccessor = type.GetTypePropertyInfo();
         }
 
         public IJsCsGlue Convert(IGlueFactory factory, object @object) 
         {
-            var result = factory.Build(@object, _TypePropertyAccessor);
+            var result = factory.Build(@object, _PropertyAccessor);
             result.SetAttributes(MapNested(@object));
             return result;
         }
 
         private IJsCsGlue[] MapNested(object parentObject)
         {
-            var properties = _TypePropertyAccessor.ReadProperties;
+            var properties = _PropertyAccessor.ReadProperties;
             var attributes = new IJsCsGlue[properties.Count];
             var index = 0;
 

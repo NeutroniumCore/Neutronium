@@ -4,13 +4,15 @@ using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
 using System.ComponentModel;
 using Neutronium.Core.Infra.Reflection;
+using System.Collections.Generic;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
     internal class JsGenericObject : GlueBase, IJsCsCachableGlue
     {
-        private readonly TypePropertyAccessor _TypePropertyAccessor;
-        private IJsCsGlue[] _Attributes;
+        private readonly IGenericPropertyAcessor _TypePropertyAccessor;
+        private IReadOnlyList<IJsCsGlue> _Attributes;
 
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue { get; }
@@ -20,7 +22,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => JsId = jsId;
 
-        public JsGenericObject(object cValue, TypePropertyAccessor typePropertyAccessor)
+        public JsGenericObject(object cValue, IGenericPropertyAcessor typePropertyAccessor)
         {
             _TypePropertyAccessor = typePropertyAccessor;
             CValue = cValue;
@@ -32,7 +34,7 @@ namespace Neutronium.Core.Binding.GlueObject
             sessionCache.Cache(this);
         }
 
-        internal void SetAttributes(IJsCsGlue[] attributes)
+        internal void SetAttributes(IReadOnlyList<IJsCsGlue> attributes)
         {
             _Attributes = attributes;
         }
@@ -81,7 +83,7 @@ namespace Neutronium.Core.Binding.GlueObject
         protected override void ComputeString(DescriptionBuilder context)
         {
             context.Append("{");
-            for (var i = 0; i < _Attributes.Length; i++)
+            for (var i = 0; i < _Attributes.Count; i++)
             {
                 if (i != 0)
                     context.Append(",");
@@ -100,15 +102,27 @@ namespace Neutronium.Core.Binding.GlueObject
 
         internal IJsCsGlue UpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue)
         {
+            return PrivateUpdateGlueProperty(attributeDescription, glue).ToBeCleaned;
+        }
+
+        private UpdateInformation PrivateUpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue) 
+        {
             var oldGlue = attributeDescription.Child;
-            _Attributes[attributeDescription.Index] = glue.AddRef();
-            return (oldGlue?.Release() == true) ? oldGlue : null;
+            var index = _TypePropertyAccessor.GetIndex(attributeDescription.PropertyAccessor);
+            _Attributes.Apply(index, glue.AddRef());
+            return new UpdateInformation { AddedProperty = index.Insert, ToBeCleaned = (oldGlue?.Release() == true) ? oldGlue : null };
+        }
+
+        private struct UpdateInformation 
+        {
+            public IJsCsGlue ToBeCleaned { get; set; }
+            public bool AddedProperty { get; set; }
         }
 
         public BridgeUpdater GetUpdater(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
         {
             var old = UpdateGlueProperty(propertyUpdater, glue);
-            return new BridgeUpdater(viewModelUpdater => viewModelUpdater?.UpdateProperty(CachableJsValue, propertyUpdater.PropertyName,
+            return new BridgeUpdater(viewModelUpdater => viewModelUpdater.UpdateProperty(CachableJsValue, propertyUpdater.PropertyName,
                     glue.GetJsSessionValue(), !glue.IsBasic()))
                         .Remove(old);
         }

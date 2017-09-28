@@ -12,7 +12,7 @@ namespace Neutronium.Core.Infra.Reflection
 
         public Type TargetType { get; }
         public bool IsSettable { get; }
-        public int Position { get; }
+        public int Position { get; set; }
         public string Name { get; }
 
         private static readonly MethodInfo _BuildAccessorDictionary = typeof(PropertyAccessor).GetMethod(nameof(GetAcessor), BindingFlags.Static | BindingFlags.NonPublic);

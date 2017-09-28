@@ -7,9 +7,9 @@ namespace Neutronium.Core.Binding.Builder
 {
     public interface IJavascriptObjectBuilder
     {
-        void RequestObjectCreation(TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue);
+        void RequestObjectCreation(IGenericPropertyAcessor attributeDescription, IReadOnlyList<IJsCsGlue> attributeValue);
 
-        void RequestArrayCreation(IList<IJsCsGlue> children);
+        void RequestArrayCreation(IReadOnlyList<IJsCsGlue> children);
 
         void RequestNullCreation();
 

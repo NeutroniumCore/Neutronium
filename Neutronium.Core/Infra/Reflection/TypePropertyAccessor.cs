@@ -3,16 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core.Infra.Reflection
 {
-    public class TypePropertyAccessor
+    public class TypePropertyAccessor : IGenericPropertyAcessor
     {
         public IReadOnlyList<PropertyAccessor> ReadProperties { get; }
         public IReadOnlyList<string> AttributeNames { get; }
         public bool HasReadWriteProperties { get; }
-        private readonly IDictionary<string, PropertyAccessor> _ReadProperties;
-        private static readonly MethodInfo _BuildAccessorDictionary = typeof(TypePropertyAccessor).GetMethod(nameof(FromStringDictionary), BindingFlags.Static | BindingFlags.NonPublic);
+
+        private readonly Dictionary<string, PropertyAccessor> _Properties;
 
         private TypePropertyAccessor(Type type)
         {
@@ -23,39 +24,26 @@ namespace Neutronium.Core.Infra.Reflection
                                     .ToArray();
             ReadProperties = readProperties;
             AttributeNames = readProperties.ToArray(p => p.Name);
-            _ReadProperties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
-            HasReadWriteProperties = _ReadProperties.Any(p => p.Value.IsSettable);
+            _Properties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
+            HasReadWriteProperties = readProperties.Any(p => p.IsSettable);
         }
 
-        private TypePropertyAccessor(IEnumerable<PropertyAccessor> propertyAcessores)
-        {
-            var readProperties = propertyAcessores.ToArray();
-            ReadProperties = readProperties;
-            AttributeNames = readProperties.ToArray(p => p.Name);
-            _ReadProperties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
-            HasReadWriteProperties = true;
-        }
-
-        public static TypePropertyAccessor FromType(Type type)
+        public static IGenericPropertyAcessor FromType(Type type)
         {
             return new TypePropertyAccessor(type);
         }
 
-        public static TypePropertyAccessor FromStringDictionary(object @object, Type type)
-        {
-            var builder = _BuildAccessorDictionary.MakeGenericMethod(type);
-            return (TypePropertyAccessor)builder.Invoke(null, new[] { @object });
-        }
-
-        private static TypePropertyAccessor FromStringDictionary<T>(object @object)
-        {
-            var accessores = ((IDictionary<string, T>)@object).Keys.OrderBy(p => p).Select(PropertyAccessor.FromDictionary<T>);
-            return new TypePropertyAccessor(accessores);
-        }
-
         public PropertyAccessor GetAccessor(string propertyName)
         {
-            return _ReadProperties.GetOrDefault(propertyName);
+            return _Properties.GetOrDefault(propertyName);
         }
+
+        public bool Update<TEntity>(IList<TEntity> attributes, PropertyAccessor propertyAcessor, TEntity jsCsGlue)
+        {
+            attributes[propertyAcessor.Position] = jsCsGlue;
+            return false;
+        }
+
+        public IndexDescriptor GetIndex(PropertyAccessor propertyAcessor) => new IndexDescriptor(propertyAcessor.Position);
     }
 }

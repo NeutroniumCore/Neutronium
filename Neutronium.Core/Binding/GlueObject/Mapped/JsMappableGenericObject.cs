@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
         private IJavascriptObject _MappedJsValue;
         public override IJavascriptObject CachableJsValue => _MappedJsValue;
 
-        public JsMappableGenericObject(object cValue, TypePropertyAccessor typePropertyAccessor) : 
+        public JsMappableGenericObject(object cValue, IGenericPropertyAcessor typePropertyAccessor) : 
             base (cValue, typePropertyAccessor)
         {
         }

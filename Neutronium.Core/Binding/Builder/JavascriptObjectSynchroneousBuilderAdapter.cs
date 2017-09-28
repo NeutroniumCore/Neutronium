@@ -34,7 +34,7 @@ namespace Neutronium.Core.Binding.Builder
             _AfterChildrenUpdates?.Invoke();
         }
 
-        void IJavascriptObjectBuilder.RequestArrayCreation(IList<IJsCsGlue> children)
+        void IJavascriptObjectBuilder.RequestArrayCreation(IReadOnlyList<IJsCsGlue> children)
         {
             var value = _Factory.CreateArray(children?.Count ?? 0);
             SetJsValue(value);
@@ -92,7 +92,7 @@ namespace Neutronium.Core.Binding.Builder
             executable?.UpdateJsObject(@object);
         }
 
-        void IJavascriptObjectBuilder.RequestObjectCreation(TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue)
+        void IJavascriptObjectBuilder.RequestObjectCreation(IGenericPropertyAcessor attributeDescription, IReadOnlyList<IJsCsGlue> attributeValue)
         {
             var value = _Factory.CreateObject(!attributeDescription.HasReadWriteProperties);
             SetJsValue(value);

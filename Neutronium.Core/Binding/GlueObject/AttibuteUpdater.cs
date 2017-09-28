@@ -5,34 +5,34 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     internal struct AttibuteUpdater
     {
-        public bool IsValid => _PropertyAccessor != null;
-        public bool IsSettable => IsValid && _PropertyAccessor.IsSettable;
-        public object GetCurrentChildValue() => _PropertyAccessor.Get(_Father.CValue);
+        public bool IsValid => PropertyAccessor != null;
+        public bool IsSettable => IsValid && PropertyAccessor.IsSettable;
+        public object GetCurrentChildValue() => PropertyAccessor.Get(_Father.CValue);
        
-        public string PropertyName => _PropertyAccessor.Name;
-        public int Index => _PropertyAccessor.Position;
-        public Type TargetType => _PropertyAccessor.TargetType;
+        public string PropertyName => PropertyAccessor.Name;
+        public Type TargetType => PropertyAccessor.TargetType;
         public IJsCsGlue Child { get; }
 
-        private readonly PropertyAccessor _PropertyAccessor;
+        public PropertyAccessor PropertyAccessor { get; }
+
         private readonly JsGenericObject _Father;
         private object CachedChildValue => Child?.CValue;
 
         public AttibuteUpdater(JsGenericObject father, PropertyAccessor propertyAcessor, IJsCsGlue child)
         {
             Child = child;
-            _PropertyAccessor = propertyAcessor;
+            PropertyAccessor = propertyAcessor;
             _Father = father;
         }
 
         public void Set(object value)
         {
-            _PropertyAccessor.Set(_Father.CValue, value);
+            PropertyAccessor.Set(_Father.CValue, value);
         }
 
         public bool HasChanged(object newValue)
         {
-            return Equals(newValue, CachedChildValue);
+            return !Equals(newValue, CachedChildValue);
         }
     }
 }

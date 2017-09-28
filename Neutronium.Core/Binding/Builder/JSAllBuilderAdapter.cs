@@ -25,7 +25,7 @@ namespace Neutronium.Core.Binding.Builder
             return true;
         }
 
-        public void RequestArrayCreation(IList<IJsCsGlue> children)
+        public void RequestArrayCreation(IReadOnlyList<IJsCsGlue> children)
         {
             _JavascriptObjectBuilder.RequestArrayCreation(_Object, children);
         }
@@ -54,7 +54,7 @@ namespace Neutronium.Core.Binding.Builder
             _JavascriptObjectBuilder.RequestExecutableCreation(_Object);
         }
 
-        public void RequestObjectCreation(TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue)
+        public void RequestObjectCreation(IGenericPropertyAcessor attributeDescription, IReadOnlyList<IJsCsGlue> attributeValue)
         {
             _JavascriptObjectBuilder.RequestObjectCreation(_Object, attributeDescription, attributeValue);
         }

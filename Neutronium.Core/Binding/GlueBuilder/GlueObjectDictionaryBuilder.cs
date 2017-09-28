@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Infra.Reflection;
 
@@ -17,22 +18,21 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         public IJsCsGlue Convert(IGlueFactory factory, object @object)
         {
-            var propertyAcessor = TypePropertyAccessor.FromStringDictionary(@object, _TargetType);
+            var propertyAcessor = DictionaryPropertyAccessor.FromStringDictionary(@object, _TargetType);
             var result = factory.Build(@object, propertyAcessor);
             result.SetAttributes(MapNested(@object, propertyAcessor));
             return result;
         }
 
-        private IJsCsGlue[] MapNested(object parentObject, TypePropertyAccessor propertyAcessor)
+        private List<IJsCsGlue> MapNested(object parentObject, IGenericPropertyAcessor propertyAcessor)
         {
             var properties = propertyAcessor.ReadProperties;
-            var attributes = new IJsCsGlue[properties.Count];
-            var index = 0;
+            var attributes = new List<IJsCsGlue>(properties.Count);
             foreach (var propertyInfo in properties) 
             {
                 var childvalue = propertyInfo.Get(parentObject);
                 var child = _Converter.Map(childvalue).AddRef();
-                attributes[index++] = child;
+                attributes.Add(child);
             }
             return attributes;
         }

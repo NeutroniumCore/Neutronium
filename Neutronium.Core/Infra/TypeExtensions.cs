@@ -68,8 +68,8 @@ namespace Neutronium.Core.Infra
             return (targetType != null) && ((targetType == _UInt16Type) || (targetType == _UInt32Type) || (targetType == _UInt64Type));
         }
 
-        private static readonly ConcurrentDictionary<Type, TypePropertyAccessor> _TypePropertyInfos = new ConcurrentDictionary<Type, TypePropertyAccessor>();
-        internal static TypePropertyAccessor GetTypePropertyInfo(this Type @type)
+        private static readonly ConcurrentDictionary<Type, IGenericPropertyAcessor> _TypePropertyInfos = new ConcurrentDictionary<Type, IGenericPropertyAcessor>();
+        internal static IGenericPropertyAcessor GetTypePropertyInfo(this Type @type)
         {
             return _TypePropertyInfos.GetOrAdd(@type, TypePropertyAccessor.FromType);
         }

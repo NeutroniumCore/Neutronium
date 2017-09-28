@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         JsResultCommand Build(IResultCommand command);
 
-        JsGenericObject Build(object from, TypePropertyAccessor typePropertyAccessor);
+        JsGenericObject Build(object from, IGenericPropertyAcessor typePropertyAccessor);
 
         JsArray BuildArray(IEnumerable source, Type basictype);
 

@@ -15,5 +15,14 @@ namespace Neutronium.Core.Infra
             }
             return res;
         }
+
+        public static void Apply<TSource>(this IReadOnlyCollection<TSource> collection, IndexDescriptor insertDescriptor, TSource element) 
+        {
+            var updatableCollection = collection as IList<TSource>;
+            if (insertDescriptor.Insert)
+                updatableCollection.Insert(insertDescriptor.Index, element);
+            else
+                updatableCollection[insertDescriptor.Index] = element;
+        }
     }
 }

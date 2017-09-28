@@ -30,7 +30,7 @@ namespace Neutronium.Core.Binding.Builder
 
         internal IEnumerable<ObjectDescriptor> GetElementWithProperty()
         {
-            return _ObjectReadWriteBuildingRequested.Concat(_ObjectReadOnlyBuildingRequested).Where(item => item.AttributeValues.Length > 0);
+            return _ObjectReadWriteBuildingRequested.Concat(_ObjectReadOnlyBuildingRequested).Where(item => item.AttributeValues.Count > 0);
         }
     }
 }

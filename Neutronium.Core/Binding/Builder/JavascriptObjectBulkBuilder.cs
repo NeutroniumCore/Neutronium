@@ -40,13 +40,13 @@ namespace Neutronium.Core.Binding.Builder
             UpdateDependencies();
         }
 
-        internal void RequestObjectCreation(IJsCsGlue glue, TypePropertyAccessor attributeDescription, IJsCsGlue[] attributeValue)
+        internal void RequestObjectCreation(IJsCsGlue glue, IGenericPropertyAcessor attributeDescription, IReadOnlyList<IJsCsGlue> attributeValue)
         {
             var updatableFromJs = attributeDescription.HasReadWriteProperties;
             _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, attributeDescription, attributeValue), updatableFromJs);
         }
 
-        internal void RequestArrayCreation(IJsCsGlue glue, IList<IJsCsGlue> children)
+        internal void RequestArrayCreation(IJsCsGlue glue, IReadOnlyList<IJsCsGlue> children)
         {
             _ArraysBuildingRequested.Add(EntityDescriptor.CreateArrayDescriptor(glue, children));
         }
