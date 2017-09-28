@@ -40,13 +40,18 @@ namespace Neutronium.Core.Binding.GlueObject
         public AttibuteUpdater GetPropertyUpdater(string propertyName)
         {
             var propertyAcessor = GetPropertyAccessor(propertyName);
-            return (propertyAcessor == null) ? new AttibuteUpdater(this, null, null) : new AttibuteUpdater(this, propertyAcessor, _Attributes[propertyAcessor.Position]);
+            return new AttibuteUpdater(this, propertyAcessor, GetGlueFromPropertyAccessor(propertyAcessor));
         }
 
         public IJsCsGlue GetAttribute(string propertyName)
         {
             var propertyAcessor = GetPropertyAccessor(propertyName);
-            return (propertyAcessor == null) ? null : _Attributes[propertyAcessor.Position];
+            return GetGlueFromPropertyAccessor(propertyAcessor);
+        }
+
+        private IJsCsGlue GetGlueFromPropertyAccessor(PropertyAccessor propertyAccessor)
+        {
+            return ((propertyAccessor == null) || (propertyAccessor.Position == -1)) ? null : _Attributes[propertyAccessor.Position];
         }
 
         private PropertyAccessor GetPropertyAccessor(string propertyName) => _TypePropertyAccessor.GetAccessor(propertyName);
@@ -97,7 +102,7 @@ namespace Neutronium.Core.Binding.GlueObject
         {
             var oldGlue = attributeDescription.Child;
             _Attributes[attributeDescription.Index] = glue.AddRef();
-            return oldGlue.Release() ? oldGlue : null;
+            return (oldGlue?.Release() == true) ? oldGlue : null;
         }
 
         public BridgeUpdater GetUpdater(AttibuteUpdater propertyUpdater, IJsCsGlue glue)

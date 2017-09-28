@@ -100,7 +100,8 @@ namespace Neutronium.Core.Binding.Builder
             _AfterChildrenUpdates = () =>
             {
                 var properties = attributeDescription.ReadProperties;
-                for (var i = 0; i < properties.Length; i++)
+                var count = properties.Count;
+                for (var i = 0; i < count; i++)
                 {
                     value.SetValue(properties[i].Name, attributeValue[i].JsValue);
                 }

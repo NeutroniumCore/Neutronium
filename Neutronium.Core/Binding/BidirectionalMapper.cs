@@ -286,8 +286,7 @@ namespace Neutronium.Core.Binding
                 return;
 
             var newValue = propertyUpdater.GetCurrentChildValue();
-            var currentValue = propertyUpdater.CachedChildValue;
-            if (Equals(newValue, currentValue))
+            if (!propertyUpdater.HasChanged(newValue))
                 return;
 
             UpdateFromCSharpChanges(newValue, (child) => currentfather.GetUpdater(propertyUpdater, child));
