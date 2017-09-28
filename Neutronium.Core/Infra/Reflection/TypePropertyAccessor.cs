@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core.Infra.Reflection
 {
@@ -36,12 +35,6 @@ namespace Neutronium.Core.Infra.Reflection
         public PropertyAccessor GetAccessor(string propertyName)
         {
             return _Properties.GetOrDefault(propertyName);
-        }
-
-        public bool Update<TEntity>(IList<TEntity> attributes, PropertyAccessor propertyAcessor, TEntity jsCsGlue)
-        {
-            attributes[propertyAcessor.Position] = jsCsGlue;
-            return false;
         }
 
         public IndexDescriptor GetIndex(PropertyAccessor propertyAcessor) => new IndexDescriptor(propertyAcessor.Position);

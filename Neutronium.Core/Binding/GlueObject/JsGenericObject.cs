@@ -12,7 +12,7 @@ namespace Neutronium.Core.Binding.GlueObject
     internal class JsGenericObject : GlueBase, IJsCsCachableGlue
     {
         private readonly IGenericPropertyAcessor _TypePropertyAccessor;
-        private IReadOnlyList<IJsCsGlue> _Attributes;
+        private IList<IJsCsGlue> _Attributes;
 
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue { get; }
@@ -34,7 +34,7 @@ namespace Neutronium.Core.Binding.GlueObject
             sessionCache.Cache(this);
         }
 
-        internal void SetAttributes(IReadOnlyList<IJsCsGlue> attributes)
+        internal void SetAttributes(IList<IJsCsGlue> attributes)
         {
             _Attributes = attributes;
         }
@@ -60,7 +60,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            builder.RequestObjectCreation(_TypePropertyAccessor, _Attributes);
+            builder.RequestObjectCreation(_TypePropertyAccessor, (IReadOnlyList<IJsCsGlue>)_Attributes);
         }
 
         public void VisitDescendants(Func<IJsCsGlue, bool> visit)
