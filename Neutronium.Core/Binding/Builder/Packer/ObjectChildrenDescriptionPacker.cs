@@ -10,7 +10,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
             return KeyPacker.Pack(PackKeys(updates));
         }
 
-        private static IEnumerable<Tuple<int, string[]>> PackKeys(List<ObjectDescriptor> updates)
+        private static IEnumerable<Tuple<int, IEnumerable<string>>> PackKeys(List<ObjectDescriptor> updates)
         {
             var count = 1;
             ObjectDescriptor? currentDescriptor = null;

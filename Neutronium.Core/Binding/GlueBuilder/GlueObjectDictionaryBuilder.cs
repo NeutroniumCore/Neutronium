@@ -26,7 +26,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private IJsCsGlue[] MapNested(object parentObject, TypePropertyAccessor propertyAcessor)
         {
             var properties = propertyAcessor.ReadProperties;
-            var attributes = new IJsCsGlue[properties.Length];
+            var attributes = new IJsCsGlue[properties.Count];
             var index = 0;
             foreach (var propertyInfo in properties) 
             {

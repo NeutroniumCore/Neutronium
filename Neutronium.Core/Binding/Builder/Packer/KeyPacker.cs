@@ -13,7 +13,7 @@ namespace Neutronium.Core.Binding.Builder.Packer
             return AsArray(updates.Select(pack => $@"{{""c"":{pack.Item1},""a"":{{""b"":{pack.Item2.OffSet},""e"":{pack.Item2.OffSet + pack.Item2.Count}}}}}"));
         }
 
-        public static string Pack(IEnumerable<Tuple<int, string[]>> updates)
+        public static string Pack(IEnumerable<Tuple<int, IEnumerable<string>>> updates)
         {
             return AsArray(updates.Select(pack => $@"{{""c"":{pack.Item1},""a"":{AsArray(pack.Item2.Select(s => $@"""{s}"""))}}}"));
         }

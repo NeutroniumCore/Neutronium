@@ -8,10 +8,10 @@ namespace Neutronium.Core.Binding.Builder
     public struct ObjectDescriptor
     {
         public IJsCsGlue Father { get; }
-        public string[] AttributeNames { get; }
+        public IEnumerable<string> AttributeNames { get; }
         public IJsCsGlue[] AttributeValues { get; }
 
-        internal ObjectDescriptor(IJsCsGlue father, string[] attributes, IJsCsGlue[] attributeValues)
+        internal ObjectDescriptor(IJsCsGlue father, IEnumerable<string> attributes, IJsCsGlue[] attributeValues)
         {
             Father = father;
             AttributeNames = attributes;
@@ -20,9 +20,9 @@ namespace Neutronium.Core.Binding.Builder
 
         internal ObjectDescriptor Take(int take) => new ObjectDescriptor(Father, AttributeNames.Take(take).ToArray(), AttributeValues.Take(take).ToArray());
 
-        internal ObjectDescriptor Split(int start, int take) => new ObjectDescriptor(Father, AttributeNames.Skip(start).Take(take).ToArray(), AttributeValues.Skip(start).Take(take).ToArray());
+        internal ObjectDescriptor Split(int start, int take) => new ObjectDescriptor(Father, AttributeNames.Skip(start).Take(take), AttributeValues.Skip(start).Take(take).ToArray());
 
-        internal ObjectDescriptor Skip(int start) => new ObjectDescriptor(Father, AttributeNames.Skip(start).ToArray(), AttributeValues.Skip(start).ToArray());
+        internal ObjectDescriptor Skip(int start) => new ObjectDescriptor(Father, AttributeNames.Skip(start), AttributeValues.Skip(start).ToArray());
 
         public override int GetHashCode()
         {

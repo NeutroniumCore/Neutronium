@@ -8,26 +8,32 @@ namespace Neutronium.Core.Infra.Reflection
 {
     public class TypePropertyAccessor
     {
-        public PropertyAccessor[] ReadProperties { get; }
-        public string[] AttributeNames { get; }
+        public IReadOnlyList<PropertyAccessor> ReadProperties { get; }
+        public IReadOnlyList<string> AttributeNames { get; }
         public bool HasReadWriteProperties { get; }
         private readonly IDictionary<string, PropertyAccessor> _ReadProperties;
         private static readonly MethodInfo _BuildAccessorDictionary = typeof(TypePropertyAccessor).GetMethod(nameof(FromStringDictionary), BindingFlags.Static | BindingFlags.NonPublic);
 
-        private TypePropertyAccessor(Type type): 
-            this(type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                        .Where(p => p.CanRead && p.GetGetMethod(false) != null)
-                        .OrderBy(p => p.Name)
-                        .Select((prop,index) => new PropertyAccessor(type, prop, index)))
+        private TypePropertyAccessor(Type type)
         {
+            var readProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                    .Where(p => p.CanRead && p.GetGetMethod(false) != null)
+                                    .OrderBy(p => p.Name)
+                                    .Select((prop, index) => new PropertyAccessor(type, prop, index))
+                                    .ToArray();
+            ReadProperties = readProperties;
+            AttributeNames = readProperties.ToArray(p => p.Name);
+            _ReadProperties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
+            HasReadWriteProperties = _ReadProperties.Any(p => p.Value.IsSettable);
         }
 
         private TypePropertyAccessor(IEnumerable<PropertyAccessor> propertyAcessores)
         {
-            ReadProperties = propertyAcessores.ToArray();
-            AttributeNames = ReadProperties.ToArray(p => p.Name);
+            var readProperties = propertyAcessores.ToArray();
+            ReadProperties = readProperties;
+            AttributeNames = readProperties.ToArray(p => p.Name);
             _ReadProperties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
-            HasReadWriteProperties = _ReadProperties.Any(p => p.Value.IsSettable);
+            HasReadWriteProperties = true;
         }
 
         public static TypePropertyAccessor FromType(Type type)
@@ -43,7 +49,7 @@ namespace Neutronium.Core.Infra.Reflection
 
         private static TypePropertyAccessor FromStringDictionary<T>(object @object)
         {
-            var accessores = ((IDictionary<string, T>) @object).Keys.OrderBy(p => p).Select(PropertyAccessor.FromDictionary<T>);
+            var accessores = ((IDictionary<string, T>)@object).Keys.OrderBy(p => p).Select(PropertyAccessor.FromDictionary<T>);
             return new TypePropertyAccessor(accessores);
         }
 
