@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
+using Neutronium.Core;
 
 namespace Neutronium.JavascriptFramework.Knockout
 {
     internal class KnockoutViewModelUpdater : IJavascriptViewModelUpdater, IDisposable
     {
         private readonly IWebView _WebView;
+        private readonly IWebSessionLogger _Logger;
+
         private readonly IDictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>> _Silenters = 
                     new Dictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>>();
  
-        internal KnockoutViewModelUpdater(IWebView webView)
+        internal KnockoutViewModelUpdater(IWebView webView, IWebSessionLogger logger)
         {
             _WebView = webView;
+            _Logger = logger;
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)
@@ -30,6 +34,11 @@ namespace Neutronium.JavascriptFramework.Knockout
             Silent(silenter, value);
         }
 
+        public void AddProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
+        {
+            _Logger.Error("adding property not supported by knockout pluggin");
+        }
+
         private IJavascriptObject GetSilenter(IJavascriptObject father, string propertyName)
         {
             return _Silenters.GetOrDefault(father)?.GetOrDefault(propertyName);
@@ -38,7 +47,7 @@ namespace Neutronium.JavascriptFramework.Knockout
         private IJavascriptObject GetOrCreateSilenter(IJavascriptObject father, string propertyName)
         {
             var dic = _Silenters.GetOrAddEntity(father, _ => new Dictionary<string, IJavascriptObject>());
-            return dic.GetOrAddEntity(propertyName, name => father.GetValue(name));
+            return dic.GetOrAddEntity(propertyName, father.GetValue);
         }
 
         private void Silent(IJavascriptObject silenter, IJavascriptObject value)

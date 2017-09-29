@@ -122,9 +122,20 @@ namespace Neutronium.Core.Binding.GlueObject
         public BridgeUpdater GetUpdater(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
         {
             var update = PrivateUpdateGlueProperty(propertyUpdater, glue);
-            return new BridgeUpdater(viewModelUpdater => viewModelUpdater.UpdateProperty(CachableJsValue, propertyUpdater.PropertyName,
-                    glue.GetJsSessionValue(), !glue.IsBasic()))
-                        .Remove(update.ToBeCleaned);
+
+            BridgeUpdater updater;
+            if (!update.AddedProperty)
+            {
+                updater = new BridgeUpdater(viewModelUpdater => viewModelUpdater.UpdateProperty(CachableJsValue,
+                                propertyUpdater.PropertyName, glue.GetJsSessionValue(), !glue.IsBasic()));
+            }
+            else
+            {
+                updater = new BridgeUpdater(viewModelUpdater => viewModelUpdater.AddProperty(CachableJsValue,
+                    propertyUpdater.PropertyName, glue.GetJsSessionValue()));
+            }                        
+
+            return updater.Remove(update.ToBeCleaned);
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

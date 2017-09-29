@@ -26,6 +26,21 @@ namespace Neutronium.Core.JavascriptFramework
         /// </param>
         void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite);
 
+
+        /// <summary>
+        /// Add a property to javascript viewmodel without raising listeners events
+        /// </summary>
+        /// <param name="father">
+        /// view model to be updated
+        /// </param>
+        /// <param name="propertyName">
+        /// Name of the property to be added
+        /// </param>
+        /// <param name="value">
+        /// new value of the property
+        /// </param>
+        void AddProperty(IJavascriptObject father, string propertyName, IJavascriptObject value);
+
         /// <summary>
         /// Update javascript collection without raising listeners events
         /// performing javascript splice operation https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice

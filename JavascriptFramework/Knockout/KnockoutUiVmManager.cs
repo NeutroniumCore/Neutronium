@@ -11,13 +11,11 @@ namespace Neutronium.JavascriptFramework.Knockout
 
         private readonly KnockoutSessionInjector _KnockoutSessionInjector;
         private readonly KnockoutViewModelUpdater _KnockoutViewModelUpdater;
-        private readonly IWebSessionLogger _Logger;
 
         public KnockoutUiVmManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger)
         {
-            _Logger = logger;
-            _KnockoutSessionInjector = new KnockoutSessionInjector(webView, listener, _Logger);
-            _KnockoutViewModelUpdater = new KnockoutViewModelUpdater(webView);
+            _KnockoutSessionInjector = new KnockoutSessionInjector(webView, listener, logger);
+            _KnockoutViewModelUpdater = new KnockoutViewModelUpdater(webView, logger);
         }
 
         public void Dispose() 

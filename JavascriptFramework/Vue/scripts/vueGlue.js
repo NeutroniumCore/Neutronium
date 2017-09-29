@@ -77,6 +77,18 @@
         this.listeners = {};
     }
 
+    function addProperty(element, propertyName, value) {
+        Vue.set(element, propertyName, value);
+
+        //
+        element[silenterProperty] || Object.defineProperty(element, silenterProperty, { value: new Silenter(element), configurable: true });
+        var silenter = element[silenterProperty];
+        createElement(silenter, propertyName, onPropertyChange(propertyName, element));
+        //
+
+        inject(value);
+    }
+
     var visited = new Map();
     visited.set(undefined, null);
 
@@ -291,6 +303,7 @@
         promiseMixin,
         commandMixin,
         silentChange,
+        addProperty,
         inject,
         silentChangeAndInject,
         disposeSilenters,
