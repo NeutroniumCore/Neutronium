@@ -3,26 +3,22 @@ using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using MoreCollection.Extensions;
 using Neutronium.Core.Test.Helper;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Universal.HTMLBindingTests;
-using Tests.Universal.HTMLBindingTests.Helper;
 using Xunit;
 using Xunit.Abstractions;
+using System.Dynamic;
 
-namespace VueFramework.Test.IntegratedInfra
+namespace VueFramework.Test.IntegratedInfra 
 {
-    public abstract class HtmlVueBindingTests : HtmlBindingTests
+    public abstract class HtmlVueBindingTests : HtmlBindingTests 
     {
         protected HtmlVueBindingTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
-            : base(context, output)
-        {
-        }
+            : base(context, output) {}
 
-        private void CheckReadOnly(IJavascriptObject javascriptObject, bool isReadOnly)
+        private void CheckReadOnly(IJavascriptObject javascriptObject, bool isReadOnly) 
         {
             var readOnly = GetBoolAttribute(javascriptObject, NeutroniumConstants.ReadOnlyFlag);
             readOnly.Should().Be(isReadOnly);
@@ -30,7 +26,7 @@ namespace VueFramework.Test.IntegratedInfra
             CheckHasListener(javascriptObject, !isReadOnly);
         }
 
-        private void CheckHasListener(IJavascriptObject javascriptObject, bool hasListener)
+        private void CheckHasListener(IJavascriptObject javascriptObject, bool hasListener) 
         {
             var silenterRoot = GetAttribute(javascriptObject, "__silenter");
 
@@ -38,15 +34,15 @@ namespace VueFramework.Test.IntegratedInfra
             {
                 silenterRoot.IsObject.Should().BeTrue();
             }
-            else
+            else 
             {
                 silenterRoot.IsUndefined.Should().BeTrue();
             }
         }
 
-        public static IEnumerable<object> ReadWriteTestData
+        public static IEnumerable<object> ReadWriteTestData 
         {
-            get
+            get 
             {
                 yield return new object[] { typeof(ReadOnlyTestViewModel), true };
                 yield return new object[] { typeof(ReadWriteTestViewModel), false };
@@ -59,10 +55,10 @@ namespace VueFramework.Test.IntegratedInfra
         {
             var datacontext = Activator.CreateInstance(type);
 
-            var test = new TestInContext()
+            var test = new TestInContext() 
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = (mb) => 
                 {
                     var js = mb.JsRootObject;
                     CheckReadOnly(js, readOnly);
@@ -74,14 +70,14 @@ namespace VueFramework.Test.IntegratedInfra
 
         [Theory]
         [MemberData(nameof(ReadWriteTestData))]
-        public async Task TwoWay_should_update_from_csharp_readonly_property(Type type, bool readOnly)
+        public async Task TwoWay_should_update_from_csharp_readonly_property(Type type, bool readOnly) 
         {
             var datacontext = Activator.CreateInstance(type) as ReadOnlyTestViewModel;
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
                     var newValue = 55;
@@ -98,14 +94,14 @@ namespace VueFramework.Test.IntegratedInfra
         }
 
         [Fact]
-        public async Task TwoWay_should_update_from_csharp_readwrite_property()
+        public async Task TwoWay_should_update_from_csharp_readwrite_property() 
         {
             var datacontext = new ReadWriteTestViewModel();
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
                     var newValue = 550;
@@ -122,14 +118,14 @@ namespace VueFramework.Test.IntegratedInfra
         }
 
         [Fact]
-        public async Task TwoWay_should_update_from_js_readwrite_property()
+        public async Task TwoWay_should_update_from_js_readwrite_property() 
         {
             var datacontext = new ReadWriteTestViewModel();
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
                     var newValue = 1200;
@@ -146,16 +142,16 @@ namespace VueFramework.Test.IntegratedInfra
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicVm remplacementChild)
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicVm remplacementChild) 
         {
             var datacontext = new BasicFatherVm();
             var child = new BasicVm();
             datacontext.Child = child;
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
@@ -173,16 +169,16 @@ namespace VueFramework.Test.IntegratedInfra
         }
 
         [Fact]
-        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_js()
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_js() 
         {
             var datacontext = new BasicFatherVm();
             var child = new BasicVm();
             datacontext.Child = child;
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
@@ -209,16 +205,16 @@ namespace VueFramework.Test.IntegratedInfra
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_context(BasicVm remplacementChild)
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_context(BasicVm remplacementChild) 
         {
             var datacontext = new BasicListVm();
             var child = new BasicVm();
             datacontext.Children.Add(child);
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
 
@@ -241,16 +237,16 @@ namespace VueFramework.Test.IntegratedInfra
 
 
         [Fact]
-        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_js_context()
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_js_context() 
         {
             var datacontext = new BasicListVm();
             var child = new BasicVm();
             datacontext.Children.Add(child);
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
 
@@ -266,6 +262,121 @@ namespace VueFramework.Test.IntegratedInfra
                     await Task.Delay(150);
 
                     CheckHasListener(childJs, false);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_Listens_To_Key_Added_CSharp_Side() 
+        {
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+
+            var test = new TestInContextAsync() 
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    var js = mb.JsRootObject;
+
+                    var res = GetAttribute(js, "ValueDouble");
+                    res.IsUndefined.Should().BeTrue();
+
+                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 0.5; });
+
+                    await Task.Delay(50);
+
+                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    resDouble.Should().Be(0.5);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_To_Key_Added_Js_Side() 
+        {
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+
+            var test = new TestInContextAsync() 
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    var js = mb.JsRootObject;
+
+                    var res = GetAttribute(js, "ValueDouble");
+                    res.IsUndefined.Should().BeTrue();
+
+                    SetAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
+
+                    await Task.Delay(50);
+
+                    double value = dynamicDataContext.ValueDouble;
+
+                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    resDouble.Should().Be(49);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_To_New_Keys_Updates_CSharp_Changes() 
+        {
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+
+            var test = new TestInContextAsync() 
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    var js = mb.JsRootObject;
+                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 0.5; });
+
+                    await Task.Delay(50);
+
+                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 23; });
+
+                    await Task.Delay(50);
+
+                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    resDouble.Should().Be(23);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_To_New_Keys_Updates_Js_Changes() 
+        {
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+
+            var test = new TestInContextAsync() 
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    var js = mb.JsRootObject;
+                    var Vue = _WebView.GetGlobal().GetValue("Vue");
+                    Vue.InvokeNoResult("set", _WebView, js, _WebView.Factory.CreateString("ValueDouble"), _WebView.Factory.CreateDouble(49));
+
+                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    resDouble.Should().Be(49);
+
+                    await Task.Delay(50);
+
+                    double value = dynamicDataContext.ValueDouble;
+                    value.Should().Be(49);
                 }
             };
 

@@ -81,7 +81,8 @@ namespace Tests.Universal.HTMLBindingTests
                     var alm = jsbridge.ToString();
 
                     JsArray arr = null;
-                    jsbridge.VisitDescendantsSafe(glue => {
+                    jsbridge.VisitDescendantsSafe(glue => 
+                    {
                         arr = arr ?? glue as JsArray;
                         return glue != null;
                     });
@@ -770,17 +771,17 @@ namespace Tests.Universal.HTMLBindingTests
 
 
         [Fact]
-        public async Task TwoWay_Maps_DynamicObject()
+        public async Task TwoWay_Maps_DynamicObject() 
         {
             dynamic dynamicDataContext = new ExpandoObject();
             dynamicDataContext.ValueInt = 1;
             dynamicDataContext.ValueString = "string";
             dynamicDataContext.ValueBool = true;
 
-            var test = new TestInContextAsync()
+            var test = new TestInContextAsync() 
             {
                 Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
+                Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
 
@@ -793,20 +794,12 @@ namespace Tests.Universal.HTMLBindingTests
                     var resBool = GetBoolAttribute(js, "ValueBool");
                     resBool.Should().BeTrue();
 
-
                     DoSafeUI(() => { dynamicDataContext.ValueInt = 110; });
 
                     await Task.Delay(50);
 
                     resInt = GetIntAttribute(js, "ValueInt");
                     resInt.Should().Be(110);
-
-                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 0.5; });
-
-                    await Task.Delay(50);
-
-                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
-                    resDouble.Should().Be(0.5);
                 }
             };
 

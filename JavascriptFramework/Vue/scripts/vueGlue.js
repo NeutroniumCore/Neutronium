@@ -4,6 +4,7 @@
     const silenterProperty = '__silenter';
     var vueVm = null;
     var globalListener = null;
+    var orginalVueSet = null;
 
     function silentChange(father, propertyName, value) {
         setTimeout(() => silentChangeSync(father, propertyName, value), 0);
@@ -78,15 +79,18 @@
     }
 
     function addProperty(element, propertyName, value) {
-        Vue.set(element, propertyName, value);
-
-        //
-        element[silenterProperty] || Object.defineProperty(element, silenterProperty, { value: new Silenter(element), configurable: true });
-        var silenter = element[silenterProperty];
-        createElement(silenter, propertyName, onPropertyChange(propertyName, element));
-        //
-
+        orginalVueSet(element, propertyName, value);
+        createListener(element, propertyName);
         inject(value);
+    }
+
+    function createListener(element, propertyName) {
+        var silenter = element[silenterProperty];
+        if (!silenter) {
+            silenter = new Silenter(element);
+            Object.defineProperty(element, silenterProperty, { value: silenter, configurable: true });
+        }
+        createElement(silenter, propertyName, onPropertyChange(propertyName, element));
     }
 
     var visited = new Map();
@@ -174,11 +178,7 @@
         if (!vueVm)
             return vm;
 
-        visitObject(vm, (father, prop) => {
-            father[silenterProperty] || Object.defineProperty(father, silenterProperty, { value: new Silenter(father), configurable: true });
-            var silenter = father[silenterProperty];
-            createElement(silenter, prop, onPropertyChange(prop, father));
-        }, array => updateArray(array));
+        visitObject(vm, createListener, array => updateArray(array));
         return vm;
     };
 
@@ -280,7 +280,7 @@
             execute: function () {
                 if (this.canExecute) {
                     var beforeCb = this.beforeCommand;
-                    if (!!beforeCb)
+                    if (beforeCb)
                         beforeCb();
                     this.command.Execute(this.arg);
                 }
@@ -291,10 +291,23 @@
     commandMixin = Vue.adapter.addOnReady(commandMixin, function () {
         var ctx = this;
         setTimeout(() => {
-            if (!!ctx.arg)
+            if (ctx.arg)
                 ctx.computeCanExecute();
         });
     });
+
+    var orginalVueSet = Vue.set;
+    Vue.set = function (element, propertyName, value){
+        orginalVueSet(element, propertyName, value);
+        if (!element._MappedId)
+            return;
+
+        createListener(element, propertyName);
+        inject(value);
+        
+        var updater = onPropertyChange(propertyName, element);
+        updater(value, null);     
+    }
 
     var helper = {
         enumMixin,
@@ -315,10 +328,10 @@
                 mixin = [mixin];
 
             var vueOption = VueAdapter.addOnReady({
-                el: "#main",
-                mixins: mixin,
-                data: vm
-            },
+                    el: "#main",
+                    mixins: mixin,
+                    data: vm
+                },
                 function () {
                     fufillOnReady(null);
                 });

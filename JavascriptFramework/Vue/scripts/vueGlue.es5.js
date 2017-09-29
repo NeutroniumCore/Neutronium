@@ -84,14 +84,17 @@
 
     function addProperty(element, propertyName, value) {
         Vue.set(element, propertyName, value);
-
-        //
-        element[silenterProperty] || Object.defineProperty(element, silenterProperty, { value: new Silenter(element), configurable: true });
-        var silenter = element[silenterProperty];
-        createElement(silenter, propertyName, onPropertyChange(propertyName, element));
-        //
-
+        createListener(element, propertyName);
         inject(value);
+    }
+
+    function createListener(element, propertyName) {
+        var silenter = element[silenterProperty];
+        if (!silenter) {
+            silenter = new Silenter(element);
+            Object.defineProperty(element, silenterProperty, { value: silenter, configurable: true });
+        }
+        createElement(silenter, propertyName, onPropertyChange(propertyName, element));
     }
 
     var visited = new Map();
@@ -177,11 +180,7 @@
     var inject = function inject(vm) {
         if (!vueVm) return vm;
 
-        visitObject(vm, function (father, prop) {
-            father[silenterProperty] || Object.defineProperty(father, silenterProperty, { value: new Silenter(father), configurable: true });
-            var silenter = father[silenterProperty];
-            createElement(silenter, prop, onPropertyChange(prop, father));
-        }, function (array) {
+        visitObject(vm, createListener, function (array) {
             return updateArray(array);
         });
         return vm;
