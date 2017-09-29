@@ -32,7 +32,7 @@ namespace Neutronium.Core.Infra.Reflection
         public IndexDescriptor GetIndex(PropertyAccessor propertyAcessor) 
         {
             var index = propertyAcessor.Position;
-            if (index > 0)
+            if (index >= 0)
                 return new IndexDescriptor(index);
 
             var name = propertyAcessor.Name;

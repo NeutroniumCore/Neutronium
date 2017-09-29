@@ -120,6 +120,7 @@
     <Compile Include="Helper\ViewModelTestBase.cs" />
     <Compile Include="Infra\EnumExtensionsTest.cs" />
     <Compile Include="Infra\FakeClasses.cs" />
+    <Compile Include="Infra\Reflection\DictionaryPropertyAccessorTest.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessorTests.cs" />
     <Compile Include="Infra\SlicerTest.cs" />
     <Compile Include="Infra\Reflection\TypePropertyAccessorTests.cs" />
