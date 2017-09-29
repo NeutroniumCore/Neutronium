@@ -121,10 +121,10 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public BridgeUpdater GetUpdater(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
         {
-            var old = UpdateGlueProperty(propertyUpdater, glue);
+            var update = PrivateUpdateGlueProperty(propertyUpdater, glue);
             return new BridgeUpdater(viewModelUpdater => viewModelUpdater.UpdateProperty(CachableJsValue, propertyUpdater.PropertyName,
                     glue.GetJsSessionValue(), !glue.IsBasic()))
-                        .Remove(old);
+                        .Remove(update.ToBeCleaned);
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)
