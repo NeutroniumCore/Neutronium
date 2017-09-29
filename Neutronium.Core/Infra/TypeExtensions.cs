@@ -71,7 +71,7 @@ namespace Neutronium.Core.Infra
         private static readonly ConcurrentDictionary<Type, IGenericPropertyAcessor> _TypePropertyInfos = new ConcurrentDictionary<Type, IGenericPropertyAcessor>();
         internal static IGenericPropertyAcessor GetTypePropertyInfo(this Type @type)
         {
-            return _TypePropertyInfos.GetOrAdd(@type, TypePropertyAccessor.FromType);
+            return _TypePropertyInfos.GetOrAdd(@type, t => new TypePropertyAccessor(t));
         }
 
         public static Type GetDictionaryStringValueType(this Type type)

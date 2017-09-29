@@ -41,7 +41,7 @@ namespace Neutronium.Core.Infra.Reflection
             _ReadProperties.Insert(index, propertyAcessor);
             for (var i = index; i < _ReadProperties.Count; i++) 
             {
-                propertyAcessor.Position = i;
+                _ReadProperties[i].Position = i;
             }
             return new IndexDescriptor(index, true);
         }

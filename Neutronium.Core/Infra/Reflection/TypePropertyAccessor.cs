@@ -14,7 +14,7 @@ namespace Neutronium.Core.Infra.Reflection
 
         private readonly Dictionary<string, PropertyAccessor> _Properties;
 
-        private TypePropertyAccessor(Type type)
+        public TypePropertyAccessor(Type type)
         {
             var readProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                                     .Where(p => p.CanRead && p.GetGetMethod(false) != null)
@@ -25,11 +25,6 @@ namespace Neutronium.Core.Infra.Reflection
             AttributeNames = readProperties.ToArray(p => p.Name);
             _Properties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
             HasReadWriteProperties = readProperties.Any(p => p.IsSettable);
-        }
-
-        public static IGenericPropertyAcessor FromType(Type type)
-        {
-            return new TypePropertyAccessor(type);
         }
 
         public PropertyAccessor GetAccessor(string propertyName)
