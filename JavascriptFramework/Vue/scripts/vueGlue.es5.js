@@ -6,6 +6,7 @@
     var silenterProperty = '__silenter';
     var vueVm = null;
     var globalListener = null;
+    var orginalVueSet = null;
 
     function silentChange(father, propertyName, value) {
         setTimeout(function () {
@@ -83,7 +84,7 @@
     }
 
     function addProperty(element, propertyName, value) {
-        Vue.set(element, propertyName, value);
+        orginalVueSet(element, propertyName, value);
         createListener(element, propertyName);
         inject(value);
     }
@@ -294,7 +295,7 @@
             execute: function execute() {
                 if (this.canExecute) {
                     var beforeCb = this.beforeCommand;
-                    if (!!beforeCb) beforeCb();
+                    if (beforeCb) beforeCb();
                     this.command.Execute(this.arg);
                 }
             }
@@ -304,9 +305,21 @@
     commandMixin = Vue.adapter.addOnReady(commandMixin, function () {
         var ctx = this;
         setTimeout(function () {
-            if (!!ctx.arg) ctx.computeCanExecute();
+            if (ctx.arg) ctx.computeCanExecute();
         });
     });
+
+    var orginalVueSet = Vue.set;
+    Vue.set = function (element, propertyName, value) {
+        orginalVueSet(element, propertyName, value);
+        if (!element._MappedId) return;
+
+        createListener(element, propertyName);
+        inject(value);
+
+        var updater = onPropertyChange(propertyName, element);
+        updater(value, null);
+    };
 
     var helper = {
         enumMixin: enumMixin,

@@ -57,7 +57,7 @@ namespace Neutronium.Core.Infra.Reflection
             return new Accessor
             {
                 Setter = (@object, value) => ((IDictionary<string, TValue>)@object)[attributeName] = (TValue)value,
-                Getter = (@object) => ((IDictionary<string, TValue>)@object)[attributeName]
+                Getter = (@object) => ((IDictionary<string, TValue>)@object).GetOrNull(attributeName)
             };
         }
 

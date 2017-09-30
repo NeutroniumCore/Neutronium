@@ -99,6 +99,15 @@ namespace Neutronium.Core.Test.Infra.Reflection
         }
 
         [Fact]
+        public void GetAccessor_returns_new_functional_accessor_which_returns_null_on_key_not_found()
+        {
+            var result = _DictionaryPropertyAccessor.GetAccessor("Five");
+            var value = result.Get(_Dictionary);
+
+            value.Should().BeNull();
+        }
+
+        [Fact]
         public void GetAccessor_returns_new_functional_accessor_when_needed()
         {
             var result = _DictionaryPropertyAccessor.GetAccessor("Five");

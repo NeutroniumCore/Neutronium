@@ -1,4 +1,6 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Windows.Input;
 using Neutronium.Example.ViewModel.Infra;
 
@@ -6,6 +8,8 @@ namespace Example.Dictionary.Cfx.Vue.ViewModel
 {
     public class MainViewModel: ViewModelBase
     {
+        private readonly Random _Random = new Random();
+
         public MainViewModel(ExpandoObject child)
         {
             Dynamic = child;
@@ -22,8 +26,8 @@ namespace Example.Dictionary.Cfx.Vue.ViewModel
 
         private void DoAddAttribute()
         {
-            dynamic alterableChild = Dynamic;
-            alterableChild.NewAttribute = "Hello";
+            var alterableChild = Dynamic as IDictionary<string, object>;
+            alterableChild[$"Attribute{_Random.Next(10000)}"] = _Random.Next(10000);
         }
 
         public ExpandoObject Dynamic { get; }

@@ -2,7 +2,7 @@
     <div id="app" class="fluid container">
         <div id="main-menu" class="jumbotron logo">
             <img src="./assets/logo.png">
-            <p>Neutronium Dictionnary Mapping</p>
+            <p>Neutronium ExpandoObject Mapping</p>
         </div>
 
         <div class="list-group col-md-3">
@@ -10,9 +10,9 @@
             </raw-display>
         </div>
 
-        <command-button :command="ChangeAttribute" name="Change attribute" class="primary"></command-button>
+        <command-button :command="ChangeAttribute" name="Change attribute" class="btn-primary"></command-button>
 
-        <command-button :command="AddAttribute" name="Add attribute" class="secondary"></command-button>
+        <command-button :command="AddAttribute" name="Add attribute" class="btn-secondary"></command-button>
 
     </div>
 </template>

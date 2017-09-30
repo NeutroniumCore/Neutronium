@@ -151,6 +151,8 @@
     <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Infra\AddLoger.cs" />
     <Compile Include="Infra\ClrRuntime.cs" />
+    <Compile Include="Infra\DictionaryExtensions.cs" />
+    <Compile Include="Infra\ListExtensions.cs" />
     <Compile Include="Infra\CollectionExtensions.cs" />
     <Compile Include="Infra\ComposedDisposable.cs" />
     <Compile Include="Infra\DisposableAction.cs" />

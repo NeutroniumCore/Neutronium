@@ -297,7 +297,7 @@
     });
 
     var orginalVueSet = Vue.set;
-    Vue.set = function (element, propertyName, value){
+    Vue.set = function (element, propertyName, value) {
         orginalVueSet(element, propertyName, value);
         if (!element._MappedId)
             return;

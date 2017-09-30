@@ -118,6 +118,9 @@
     <Compile Include="Helper\SimpleFatherTestViewModel.cs" />
     <Compile Include="Helper\SimpleReadOnlyTestViewModel.cs" />
     <Compile Include="Helper\ViewModelTestBase.cs" />
+    <Compile Include="Infra\DictionaryExtensionsTest.cs" />
+    <Compile Include="Infra\ListExtensionsTest.cs" />
+    <Compile Include="Infra\CollectionExtensionsTest.cs" />
     <Compile Include="Infra\EnumExtensionsTest.cs" />
     <Compile Include="Infra\FakeClasses.cs" />
     <Compile Include="Infra\Reflection\DictionaryPropertyAccessorTest.cs" />

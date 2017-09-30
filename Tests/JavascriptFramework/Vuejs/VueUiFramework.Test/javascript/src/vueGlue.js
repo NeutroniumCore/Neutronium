@@ -6,6 +6,7 @@
     var silenterProperty = '__silenter';
     var vueVm = null;
     var globalListener = null;
+    var orginalVueSet = null;
 
     function silentChange(father, propertyName, value) {
         setTimeout(function () {
@@ -80,6 +81,21 @@
     function Silenter(father) {
         this.father = father;
         this.listeners = {};
+    }
+
+    function addProperty(element, propertyName, value) {
+        orginalVueSet(element, propertyName, value);
+        createListener(element, propertyName);
+        inject(value);
+    }
+
+    function createListener(element, propertyName) {
+        var silenter = element[silenterProperty];
+        if (!silenter) {
+            silenter = new Silenter(element);
+            Object.defineProperty(element, silenterProperty, { value: silenter, configurable: true });
+        }
+        createElement(silenter, propertyName, onPropertyChange(propertyName, element));
     }
 
     var visited = new Map();
@@ -165,11 +181,7 @@
     var inject = function inject(vm) {
         if (!vueVm) return vm;
 
-        visitObject(vm, function (father, prop) {
-            father[silenterProperty] || Object.defineProperty(father, silenterProperty, { value: new Silenter(father), configurable: true });
-            var silenter = father[silenterProperty];
-            createElement(silenter, prop, onPropertyChange(prop, father));
-        }, function (array) {
+        visitObject(vm, createListener, function (array) {
             return updateArray(array);
         });
         return vm;
@@ -289,7 +301,7 @@
             execute: function execute() {
                 if (this.canExecute) {
                     var beforeCb = this.beforeCommand;
-                    if (!!beforeCb) beforeCb();
+                    if (beforeCb) beforeCb();
                     this.command.Execute(this.arg);
                 }
             }
@@ -299,9 +311,21 @@
     commandMixin = Vue.adapter.addOnReady(commandMixin, function () {
         var ctx = this;
         setTimeout(function () {
-            if (!!ctx.arg) ctx.computeCanExecute();
+            if (ctx.arg) ctx.computeCanExecute();
         });
     });
+
+    var orginalVueSet = Vue.set;
+    Vue.set = function (element, propertyName, value) {
+        orginalVueSet(element, propertyName, value);
+        if (!element._MappedId) return;
+
+        createListener(element, propertyName);
+        inject(value);
+
+        var updater = onPropertyChange(propertyName, element);
+        updater(value, null);
+    };
 
     var helper = {
         enumMixin: enumMixin,
@@ -310,6 +334,7 @@
         promiseMixin: promiseMixin,
         commandMixin: commandMixin,
         silentChange: silentChange,
+        addProperty: addProperty,
         inject: inject,
         silentChangeAndInject: silentChangeAndInject,
         disposeSilenters: disposeSilenters,

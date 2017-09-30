@@ -235,7 +235,6 @@ namespace VueFramework.Test.IntegratedInfra
             await RunAsync(test);
         }
 
-
         [Fact]
         public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_js_context() 
         {
@@ -268,7 +267,6 @@ namespace VueFramework.Test.IntegratedInfra
             await RunAsync(test);
         }
 
-
         [Fact]
         public async Task TwoWay_Listens_To_Key_Added_CSharp_Side() 
         {
@@ -298,37 +296,7 @@ namespace VueFramework.Test.IntegratedInfra
         }
 
         [Fact]
-        public async Task TwoWay_Listens_To_Key_Added_Js_Side() 
-        {
-            dynamic dynamicDataContext = new ExpandoObject();
-            dynamicDataContext.ValueInt = 1;
-
-            var test = new TestInContextAsync() 
-            {
-                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
-                {
-                    var js = mb.JsRootObject;
-
-                    var res = GetAttribute(js, "ValueDouble");
-                    res.IsUndefined.Should().BeTrue();
-
-                    SetAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
-
-                    await Task.Delay(50);
-
-                    double value = dynamicDataContext.ValueDouble;
-
-                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
-                    resDouble.Should().Be(49);
-                }
-            };
-
-            await RunAsync(test);
-        }
-
-        [Fact]
-        public async Task TwoWay_Listens_To_New_Keys_Updates_CSharp_Changes() 
+        public async Task TwoWay_Listens_On_CSharp_Side_To_Keys_Added_On_CSharp_Side() 
         {
             dynamic dynamicDataContext = new ExpandoObject();
             dynamicDataContext.ValueInt = 1;
@@ -356,15 +324,43 @@ namespace VueFramework.Test.IntegratedInfra
         }
 
         [Fact]
-        public async Task TwoWay_Listens_To_New_Keys_Updates_Js_Changes() 
+        public async Task TwoWay_Listens_On_Js_Side_To_Keys_Added_On_CSharp_Side()
+        {
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 0.5; });
+
+                    await Task.Delay(50);
+
+                    SetAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
+                    await Task.Delay(50);
+
+                    DoSafeUI(() =>
+                    {
+                        double value = dynamicDataContext.ValueDouble;
+                        value.Should().Be(49);
+                    });
+                }
+            };
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_To_Key_Added_Js_Side()
         {
             dynamic dynamicDataContext = new ExpandoObject();
             dynamicDataContext.ValueInt = 1;
 
-            var test = new TestInContextAsync() 
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
                     var Vue = _WebView.GetGlobal().GetValue("Vue");
@@ -377,6 +373,69 @@ namespace VueFramework.Test.IntegratedInfra
 
                     double value = dynamicDataContext.ValueDouble;
                     value.Should().Be(49);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_Listens_On_CSharp_Side_To_Keys_Added_On_Js_Side()
+        {
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var Vue = _WebView.GetGlobal().GetValue("Vue");
+                    Vue.InvokeNoResult("set", _WebView, js, _WebView.Factory.CreateString("ValueDouble"), _WebView.Factory.CreateDouble(49));
+
+                    DoSafeUI(() =>
+                    {
+                        dynamicDataContext.ValueDouble = 659;
+                    });
+
+                    await Task.Delay(50);
+
+                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    resDouble.Should().Be(659);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_On_Js_Side_To_Keys_Added_On_Js_Side()
+        {
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var Vue = _WebView.GetGlobal().GetValue("Vue");
+                    Vue.InvokeNoResult("set", _WebView, js, _WebView.Factory.CreateString("ValueDouble"), _WebView.Factory.CreateDouble(49));
+
+                    await Task.Delay(50);
+
+                    SetAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(7));
+
+                    await Task.Delay(50);
+
+                    DoSafeUI(() =>
+                    {
+                        double value = dynamicDataContext.ValueDouble;
+                        value.Should().Be(7);
+                    });
                 }
             };
 
