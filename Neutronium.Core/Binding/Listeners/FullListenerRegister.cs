@@ -37,9 +37,9 @@ namespace Neutronium.Core.Binding.Listeners
             return Silenter.GetSilenter(Collection, target);
         }
 
-        public Silenter<INotifyPropertyChanged> GetPropertySilenter(object target)
+        public PropertyChangedSilenter GetPropertySilenter(object target, string propertyName)
         {
-            return Silenter.GetSilenter(Property, target);
+            return Silenter.GetSilenter(Property, target, propertyName);
         }
     }
 }

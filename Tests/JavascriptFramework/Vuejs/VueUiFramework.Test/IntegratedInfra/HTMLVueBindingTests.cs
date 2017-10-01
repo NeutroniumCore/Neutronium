@@ -142,10 +142,10 @@ namespace VueFramework.Test.IntegratedInfra
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicVm remplacementChild) 
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicTestViewNodel remplacementChild) 
         {
-            var datacontext = new BasicFatherVm();
-            var child = new BasicVm();
+            var datacontext = new BasicFatherTestViewModel();
+            var child = new BasicTestViewNodel();
             datacontext.Child = child;
 
             var test = new TestInContextAsync() 
@@ -171,8 +171,8 @@ namespace VueFramework.Test.IntegratedInfra
         [Fact]
         public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_js() 
         {
-            var datacontext = new BasicFatherVm();
-            var child = new BasicVm();
+            var datacontext = new BasicFatherTestViewModel();
+            var child = new BasicTestViewNodel();
             datacontext.Child = child;
 
             var test = new TestInContextAsync() 
@@ -205,10 +205,10 @@ namespace VueFramework.Test.IntegratedInfra
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_context(BasicVm remplacementChild) 
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_context(BasicTestViewNodel remplacementChild) 
         {
-            var datacontext = new BasicListVm();
-            var child = new BasicVm();
+            var datacontext = new BasicListTestViewModel();
+            var child = new BasicTestViewNodel();
             datacontext.Children.Add(child);
 
             var test = new TestInContextAsync() 
@@ -238,8 +238,8 @@ namespace VueFramework.Test.IntegratedInfra
         [Fact]
         public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_js_context() 
         {
-            var datacontext = new BasicListVm();
-            var child = new BasicVm();
+            var datacontext = new BasicListTestViewModel();
+            var child = new BasicTestViewNodel();
             datacontext.Children.Add(child);
 
             var test = new TestInContextAsync() 

@@ -109,6 +109,10 @@
   <ItemGroup>
     <Compile Include="Binding\Builder\EntityDescriptorSpliterTests.cs" />
     <Compile Include="Binding\CSharpToJavascriptConverterTests.cs" />
+    <Compile Include="Binding\Listeners\SilenterTest.cs" />
+    <Compile Include="Helper\BasicFatherTestViewModel.cs" />
+    <Compile Include="Helper\BasicListTestViewModel.cs" />
+    <Compile Include="Helper\BasicTestViewNodel.cs" />
     <Compile Include="Helper\ClrTypesTestViewModel.cs" />
     <Compile Include="Helper\CommandsTestViewModel.cs" />
     <Compile Include="Helper\NullableTestViewModel.cs" />
@@ -116,6 +120,7 @@
     <Compile Include="Helper\ReadOnlyTestViewModel.cs" />
     <Compile Include="Helper\ReadWriteTestViewModel.cs" />
     <Compile Include="Helper\SimpleFatherTestViewModel.cs" />
+    <Compile Include="Helper\PropertyUpdatingTestViewModel.cs" />
     <Compile Include="Helper\SimpleReadOnlyTestViewModel.cs" />
     <Compile Include="Helper\TestDynamicObject.cs" />
     <Compile Include="Helper\ViewModelTestBase.cs" />
@@ -144,6 +149,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj">
+      <Project>{E35B9010-5429-4FFE-A788-E9C40E743E9C}</Project>
+      <Name>Neutronium.Example.ViewModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>

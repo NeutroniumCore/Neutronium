@@ -171,7 +171,7 @@ namespace Neutronium.Core.Binding
 
                 await Context.RunOnUiContextAsync(() =>
                 {
-                    using (_ListenerRegister.GetPropertySilenter(currentfather.CValue))
+                    using (_ListenerRegister.GetPropertySilenter(currentfather.CValue, propertyName))
                     {
                         var oldValue = propertyUpdater.GetCurrentChildValue();
 
