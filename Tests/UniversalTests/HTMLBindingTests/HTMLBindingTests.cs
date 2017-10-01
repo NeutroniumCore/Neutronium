@@ -771,7 +771,7 @@ namespace Tests.Universal.HTMLBindingTests
 
 
         [Fact]
-        public async Task TwoWay_Maps_DynamicObject() 
+        public async Task TwoWay_Maps_ExpandoObject() 
         {
             dynamic dynamicDataContext = new ExpandoObject();
             dynamicDataContext.ValueInt = 1;
@@ -800,6 +800,32 @@ namespace Tests.Universal.HTMLBindingTests
 
                     resInt = GetIntAttribute(js, "ValueInt");
                     resInt.Should().Be(110);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Maps_DynamicObject()
+        {
+            var dynamicDataContext = new TestDynamicObject();
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    var resInt = GetIntAttribute(js, "Property5");
+                    resInt.Should().Be(5);
+
+                    resInt = GetIntAttribute(js, "Property0");
+                    resInt.Should().Be(0);
+
+                    resInt = GetIntAttribute(js, "Property1");
+                    resInt.Should().Be(1);
                 }
             };
 

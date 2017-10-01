@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Windows.Input;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
@@ -12,13 +13,15 @@ namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal class CSharpToJavascriptConverter
     {
-        private static Type _StringType = typeof(string);
-
         private readonly ICSharpToJsCache _Cacher;
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private IJsCsGlue _Null;
         private readonly Dictionary<Type, Func<IGlueFactory, object, IJsCsGlue>> _Converters;
+
+        private GlueObjectDynamicObjectBuilder _GlueObjectDynamicBuilder;
+        private GlueObjectDynamicObjectBuilder GlueObjectDynamicBuilder => 
+            _GlueObjectDynamicBuilder ?? (_GlueObjectDynamicBuilder =new GlueObjectDynamicObjectBuilder(this));
 
         private static readonly HashSet<Type> _BasicTypes = new HashSet<Type>
         {
@@ -106,6 +109,10 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, stringDictioanryValueType);
                 return objectDictionaryBuilder.Convert;
             }
+
+            var dynamicObject = @object as DynamicObject;
+            if (dynamicObject != null)
+                return GlueObjectDynamicBuilder.Convert;
 
             if (@object is IList)
                 return new GlueCollectionsBuilder(this, type).ConvertList;

@@ -93,6 +93,8 @@
     <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
     <Compile Include="Binding\Builder\Packer\KeyPacker.cs" />
     <Compile Include="Binding\Builder\Packer\ObjectChildrenDescriptionPacker.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueObjectDynamicBuilder.cs" />
+    <Compile Include="Binding\GlueBuilder\GlueObjectDynamicObjectBuilder.cs" />
     <Compile Include="Binding\GlueBuilder\GlueObjectDictionaryBuilder.cs" />
     <Compile Include="Binding\GlueBuilder\GlueObjectBuilder.cs" />
     <Compile Include="Binding\GlueFactoryFactory.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="Infra\DisposableAction.cs" />
     <Compile Include="Infra\IndexDescriptor.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
+    <Compile Include="Infra\Reflection\DynamicObjectPropertyAccessor.cs" />
     <Compile Include="Infra\Reflection\ILExtension.cs" />
     <Compile Include="Infra\Reflection\IGenericPropertyAcessor.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessor.cs" />

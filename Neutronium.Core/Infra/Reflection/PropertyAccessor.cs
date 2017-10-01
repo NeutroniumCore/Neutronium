@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using Microsoft.CSharp.RuntimeBinder;
+using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
 
 namespace Neutronium.Core.Infra.Reflection
 {
@@ -15,13 +18,11 @@ namespace Neutronium.Core.Infra.Reflection
         public int Position { get; set; }
         public string Name { get; }
 
-        private static readonly MethodInfo _BuildAccessorDictionary = typeof(PropertyAccessor).GetMethod(nameof(GetAcessor), BindingFlags.Static | BindingFlags.NonPublic);
-
         public PropertyAccessor(Type type, PropertyInfo propertyInfo, int position)
         {
             Position = position;
             Name = propertyInfo.Name;
-            _Getter = BuildGet(type, propertyInfo);
+            _Getter = BuildGet(propertyInfo);
             var setterInfo = (propertyInfo.CanRead) ? propertyInfo.GetSetMethod(false) : null;
             IsSettable = (setterInfo != null);
             _Setter = IsSettable ? BuildSet(type, propertyInfo) : Void;
@@ -42,8 +43,14 @@ namespace Neutronium.Core.Infra.Reflection
 
         public static PropertyAccessor FromDictionary<T>(string name, int position)
         {
-            var accessor = GetAcessor<T>(name);
+            var accessor = GetDictionaryAcessor<T>(name);
             return new PropertyAccessor(typeof(T), name, position, accessor);
+        }
+
+        public static PropertyAccessor FromDynamicObject(Type type, string name, int position)
+        {
+            var accessor = GetDynamicObjectAcessor(type, name);
+            return new PropertyAccessor(typeof(object), name, position, accessor);
         }
 
         private struct Accessor
@@ -52,7 +59,26 @@ namespace Neutronium.Core.Infra.Reflection
             public Action<object, object> Setter { get; set; }
         }
 
-        private static Accessor GetAcessor<TValue>(string attributeName)
+        private static Accessor GetDynamicObjectAcessor(Type type, string attributeName)
+        {
+            var getterBinder = Binder.GetMember(CSharpBinderFlags.None, attributeName, type, new[] { CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null) });
+            var callsiteGetter = CallSite<Func<CallSite, object, object>>.Create(getterBinder);
+
+            var setterBinder = Binder.SetMember(CSharpBinderFlags.None, attributeName, type, new[]
+            {
+                CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null)
+            });
+            var callsiteSetter = CallSite<Func<CallSite, object, object, object>>.Create(setterBinder);
+
+            return new Accessor
+            {
+                Setter = (@object, value) => callsiteSetter.Target(callsiteSetter, @object, value),
+                Getter = (@object) => callsiteGetter.Target(callsiteGetter, @object)
+            };
+        }
+
+        private static Accessor GetDictionaryAcessor<TValue>(string attributeName)
         {
             return new Accessor
             {
@@ -63,7 +89,7 @@ namespace Neutronium.Core.Infra.Reflection
 
         private static void Void(object _, object __) {}
 
-        private static Func<object, object> BuildGet(Type type, PropertyInfo propertyInfo)
+        private static Func<object, object> BuildGet(PropertyInfo propertyInfo)
         {
             var dynamicMethod = new DynamicMethod("Get" + propertyInfo.Name, typeof(object), new[] { typeof(object) }, propertyInfo.DeclaringType, true);
             var generator = dynamicMethod.GetILGenerator();

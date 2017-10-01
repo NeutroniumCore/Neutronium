@@ -3,6 +3,8 @@ using Neutronium.Core.Binding.GlueObject;
 using NSubstitute;
 using Xunit;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq.Expressions;
 using FluentAssertions;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
@@ -184,6 +186,38 @@ namespace Neutronium.Core.Test.Binding
             res.ToString().Should().Be("{\"bool\":true,\"integer\":1,\"string\":\"blablabla\"}");
         }
 
+        [Fact]
+        public void Map_maps_expandoObject()
+        {
+            dynamic vm = new ExpandoObject();
+            vm.integer = 1;
+            vm.stringValue = "blablabla";
+            vm.boolValue = true;
+
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            string stringValue = res.ToString();
+            stringValue.Should().Be("{\"boolValue\":true,\"integer\":1,\"stringValue\":\"blablabla\"}");
+        }
+
+        private class MyDynamicObject : DynamicObject
+        {
+            public override IEnumerable<string> GetDynamicMemberNames() => new[] {"toto", "nickelback"};
+
+            public override bool TryGetMember(GetMemberBinder binder, out object result)
+            {
+                result = binder.Name;
+                return true;
+            }
+        }
+
+        [Fact]
+        public void Map_maps_DynamicObject()
+        {
+            var vm = new MyDynamicObject();
+            var res = _CSharpToJavascriptConverter.Map(vm);
+            res.ToString().Should().Be("{\"nickelback\":\"nickelback\",\"toto\":\"toto\"}");
+        }
 
         [Fact]
         public void Map_performance_test()
