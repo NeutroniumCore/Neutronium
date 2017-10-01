@@ -171,7 +171,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.PackUri"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Dictionary.Cfx.Vue", "Examples\Example.Dictionary.Cfx.Vue\Example.Dictionary.Cfx.Vue.csproj", "{E4F092B0-B9AF-4040-93FF-9EFF816FCB42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Localization.Cfx.Vue", "Example.Localization.Cfx.Vue\Example.Localization.Cfx.Vue.csproj", "{AFE4FF5B-AEE1-451B-96B1-C9C3787F8283}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Localization.Cfx.Vue", "Examples\Example.Localization.Cfx.Vue\Example.Localization.Cfx.Vue.csproj", "{AFE4FF5B-AEE1-451B-96B1-C9C3787F8283}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
