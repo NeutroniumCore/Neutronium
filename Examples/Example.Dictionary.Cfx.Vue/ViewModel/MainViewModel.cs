@@ -12,25 +12,27 @@ namespace Example.Dictionary.Cfx.Vue.ViewModel
 
         public MainViewModel(ExpandoObject child)
         {
-            Dynamic = child;
+            ExpandoObject = child;
+            DynamicObject = new DynamicObjectViewModel();
             ChangeAttribute = new RelayCommand(DoChangeAttribute);
             AddAttribute = new RelayCommand(DoAddAttribute);
         }
 
         private void DoChangeAttribute()
         {
-            dynamic alterableChild = Dynamic;
+            dynamic alterableChild = ExpandoObject;
             int currentValue = alterableChild.Value;
             alterableChild.Value = currentValue + 1;
         }
 
         private void DoAddAttribute()
         {
-            var alterableChild = Dynamic as IDictionary<string, object>;
+            var alterableChild = ExpandoObject as IDictionary<string, object>;
             alterableChild[$"Attribute{_Random.Next(10000)}"] = _Random.Next(10000);
         }
 
-        public ExpandoObject Dynamic { get; }
+        public ExpandoObject ExpandoObject { get; }
+        public object DynamicObject { get; }
         public ICommand ChangeAttribute { get; }
         public ICommand AddAttribute { get; }
     }

@@ -2,18 +2,24 @@
     <div id="app" class="fluid container">
         <div id="main-menu" class="jumbotron logo">
             <img src="./assets/logo.png">
-            <p>Neutronium ExpandoObject Mapping</p>
+            <p>Neutronium ExpandoObject and DynamicObject mapping</p>
         </div>
 
-        <div class="list-group col-md-3">
-            <raw-display :object="Dynamic">
+        <div class="list-group col-md-6">
+            <h3>ExpandoObject</h3>
+            <raw-display :object="ExpandoObject">
+            </raw-display>
+
+            <command-button :command="ChangeAttribute" name="Change attribute" class="btn-primary"></command-button>
+
+            <command-button :command="AddAttribute" name="Add attribute" class="btn-secondary"></command-button>
+        </div>
+
+        <div class="list-group col-md-6">
+            <h3>DynamicObject</h3>
+            <raw-display :object="DynamicObject">
             </raw-display>
         </div>
-
-        <command-button :command="ChangeAttribute" name="Change attribute" class="btn-primary"></command-button>
-
-        <command-button :command="AddAttribute" name="Add attribute" class="btn-secondary"></command-button>
-
     </div>
 </template>
 

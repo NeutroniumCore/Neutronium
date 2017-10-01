@@ -15,6 +15,7 @@ namespace Example.Dictionary.Cfx.Vue
             dynamic dataContext = new ExpandoObject();
             dataContext.Hello = "world";
             dataContext.Value = 666;
+            dataContext.Information = "I am an ExpandoObject";
 
             var vm = new MainViewModel(dataContext);
             DataContext = vm;
