@@ -12,7 +12,7 @@ What is Neutronium?
 
 * Neutronium uses **[MVVM pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)** exactly the same way as WPF application.
 
-* Neutronium provides bindings with **Vue.js** and **Knockout.js** to build powerfull HTML5 UI.
+* Neutronium provides bindings with **Vue.js** and **Knockout.js** to build powerful HTML5 UI.
 
 Why Neutronium?
 ---------------
