@@ -123,10 +123,13 @@
     <Compile Include="Binding\GlueObject\Basic\JsBasicTyped.cs" />
     <Compile Include="Binding\GlueObject\Basic\JsEnum.cs" />
     <Compile Include="Binding\GlueObject\Basic\JsString.cs" />
+    <Compile Include="Binding\GlueObject\JsSimpleCommandBase.cs" />
+    <Compile Include="Binding\GlueObject\JsSimpleCommand_T.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableArray.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableCommand.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableSimpleCommand_T.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableSimpleCommand.cs" />
     <Compile Include="Binding\ICSharpToJsCache.cs" />
     <Compile Include="Binding\JavascriptMapper.cs" />

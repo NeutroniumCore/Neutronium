@@ -41,6 +41,11 @@ namespace Neutronium.Core.Binding.GlueBuilder
             return Cache(from, new JsMappableGenericObject(from, typePropertyAccessor));
         }
 
+        public JsSimpleCommand<T> Build<T>(ISimpleCommand<T> command) 
+        {
+            return Cache(command, new JsMappableSimpleCommand<T>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+        }
+
         public JsArray BuildArray(IEnumerable source, Type basictype)
         {
             return Cache(source, new JsMappableArray(source, basictype));

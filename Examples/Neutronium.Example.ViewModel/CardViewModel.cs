@@ -14,15 +14,14 @@ namespace Neutronium.Example.ViewModel
             Remove = new RelaySimpleCommand<ItemViewModel>((it) => _Items.Remove(it));
         }
 
-
         private ObservableCollection<ItemViewModel> _Items= new ObservableCollection<ItemViewModel>();
         public ObservableCollection<ItemViewModel> Items
         {
             get { return _Items; }
         }
 
-        public ISimpleCommand Insert { get; }
+        public ISimpleCommand<ItemViewModel> Insert { get; }
 
-        public ISimpleCommand Remove { get; }
+        public ISimpleCommand<ItemViewModel> Remove { get; }
     }
 }

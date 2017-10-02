@@ -28,7 +28,7 @@ namespace Neutronium.Components.Tests
             var target = new RelaySimpleCommand(action);
             var arg = new object();
 
-            target.Execute(arg);
+            target.Execute();
 
             action.Received(1).Invoke();
         }

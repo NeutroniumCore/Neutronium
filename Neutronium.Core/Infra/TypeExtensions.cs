@@ -28,25 +28,16 @@ namespace Neutronium.Core.Infra
 
         public static Type GetEnumerableBase(this Type type)
         {
-            if (type == null)
+            if ((type == null) || (type == _StringType))
                 return null;
 
             if (type.IsArray)
                 return type.GetElementType();
 
-            if (!type.IsGenericType)
-                return null;
-
-            if (type.GetGenericTypeDefinition() == _EnumerableType)
+            if ((type.IsGenericType) && (type.GetGenericTypeDefinition() == _EnumerableType))
                 return type.GetGenericArguments()[0];
 
-            foreach (var interfaceType in type.GetInterfaces())
-            {
-                if ((interfaceType.IsGenericType)  && (interfaceType.GetGenericTypeDefinition() == _EnumerableType))
-                    return interfaceType.GetGenericArguments()[0];
-            }
-
-            return null;
+            return GetInterfaceGenericType(type, _EnumerableType);
         }
 
         public static Type GetUnderlyingNullableType(this Type type)
@@ -86,6 +77,23 @@ namespace Neutronium.Core.Infra
                 var arguments = interfaceType.GetGenericArguments();
                 if (arguments[0] == _StringType)
                     return arguments[1];
+            }
+
+            return null;
+        }
+
+        public static Type GetInterfaceGenericType(this Type type, Type genericType) 
+        {
+            if (type == null)
+                return null;
+
+            foreach (var interfaceType in type.GetInterfaces()) 
+            {
+                if ((!interfaceType.IsGenericType) || (interfaceType.GetGenericTypeDefinition() != genericType))
+                    continue;
+
+                var arguments = interfaceType.GetGenericArguments();
+                return arguments[0];
             }
 
             return null;

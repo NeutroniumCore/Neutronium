@@ -7,7 +7,7 @@ namespace Neutronium.MVVMComponents.Relay
     /// <seealso cref="ISimpleCommand"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class RelaySimpleCommand<T> : ISimpleCommand where T:class
+    public class RelaySimpleCommand<T> : ISimpleCommand<T> where T:class
     {
         private readonly Action<T> _Do;
 
@@ -16,7 +16,7 @@ namespace Neutronium.MVVMComponents.Relay
             _Do = doAction;
         }
 
-        public void Execute(object argument)
+        public void Execute(T argument)
         {
             _Do(argument as T);
         }

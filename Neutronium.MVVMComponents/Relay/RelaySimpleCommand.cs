@@ -15,7 +15,7 @@ namespace Neutronium.MVVMComponents.Relay
             _Do = doAction;
         }
 
-        public void Execute(object argument)
+        public void Execute()
         {
             _Do();
         }

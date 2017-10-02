@@ -13,6 +13,7 @@ namespace Neutronium.Core.Binding
         public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
         public IJavascriptViewModelUpdater ViewModelUpdater { get; private set; }
         public bool JavascriptFrameworkIsMappingObject => _JavascriptFrameworkManager.IsMappingObject;
+        public IWebSessionLogger Logger => _Logger;
 
         private IJavascriptObject _Listener;
         private IJavascriptViewModelManager _VmManager;

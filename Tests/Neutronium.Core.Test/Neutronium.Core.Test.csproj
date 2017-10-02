@@ -119,6 +119,7 @@
     <Compile Include="Helper\PerformanceHelper.cs" />
     <Compile Include="Helper\ReadOnlyTestViewModel.cs" />
     <Compile Include="Helper\ReadWriteTestViewModel.cs" />
+    <Compile Include="Helper\SimpleCommandTestViewModel.cs" />
     <Compile Include="Helper\SimpleFatherTestViewModel.cs" />
     <Compile Include="Helper\PropertyUpdatingTestViewModel.cs" />
     <Compile Include="Helper\SimpleReadOnlyTestViewModel.cs" />
@@ -156,6 +157,10 @@
     <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj">
+      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
+      <Name>Neutronium.MVVMComponents</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

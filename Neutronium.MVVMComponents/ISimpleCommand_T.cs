@@ -4,12 +4,12 @@
     /// Command that can always be executed
     /// <seealso cref="ICommand"/>
     /// </summary>
-    public interface ISimpleCommand
+    public interface ISimpleCommand<T>
     {
         /// <summary>
-        /// Execute the command without argument
+        /// Execute the command with the corresponding argument
         /// </summary>
         /// <param name="argument"></param>
-        void Execute();
+        void Execute(T argument);
     }
 }

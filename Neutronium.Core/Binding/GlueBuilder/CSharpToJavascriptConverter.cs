@@ -87,7 +87,9 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private static IJsCsGlue BuildEnum(IGlueFactory factory, object @object) => factory.BuildEnum((Enum)@object);
         private static IJsCsGlue BuildCommand(IGlueFactory factory, object @object) => factory.Build((ICommand)@object);
         private static IJsCsGlue BuildSimpleCommand(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand)@object);
+        private static IJsCsGlue BuildSimpleCommand<T>(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand<T>)@object);
         private static IJsCsGlue BuildResultCommand(IGlueFactory factory, object @object) => factory.Build((IResultCommand)@object);
+
 
         private Func<IGlueFactory, object, IJsCsGlue> GetConverter(Type type, object @object)
         {
@@ -103,10 +105,10 @@ namespace Neutronium.Core.Binding.GlueBuilder
             if (@object is IResultCommand)
                 return BuildResultCommand;
 
-            var stringDictioanryValueType = type.GetDictionaryStringValueType();
-            if (stringDictioanryValueType!= null)
+            var stringDictionaryValueType = type.GetDictionaryStringValueType();
+            if (stringDictionaryValueType!= null)
             {
-                var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, stringDictioanryValueType);
+                var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, stringDictionaryValueType);
                 return objectDictionaryBuilder.Convert;
             }
 
