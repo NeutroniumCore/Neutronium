@@ -1,10 +1,10 @@
 ﻿using System;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Neutronium.Core.Binding.GlueObject 
+namespace Neutronium.Core.Binding.GlueObject.Executable 
 {
     internal class JsSimpleCommandBase : GlueBase
     {

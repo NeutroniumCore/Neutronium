@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Reflection;
 using System.Windows.Input;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
@@ -16,29 +17,14 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private readonly ICSharpToJsCache _Cacher;
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
-        private IJsCsGlue _Null;
         private readonly Dictionary<Type, Func<IGlueFactory, object, IJsCsGlue>> _Converters;
 
-        private GlueObjectDynamicObjectBuilder _GlueObjectDynamicBuilder;
-        private GlueObjectDynamicObjectBuilder GlueObjectDynamicBuilder => 
-            _GlueObjectDynamicBuilder ?? (_GlueObjectDynamicBuilder =new GlueObjectDynamicObjectBuilder(this));
+        private IJsCsGlue _Null;
 
-        private static readonly HashSet<Type> _BasicTypes = new HashSet<Type>
-        {
-            typeof(string),
-            typeof(Int64),
-            typeof(Int32),
-            typeof(Int16),
-            typeof(UInt64),
-            typeof(UInt32),
-            typeof(UInt16),
-            typeof(float),
-            typeof(char),
-            typeof(double),
-            typeof(decimal),
-            typeof(bool),
-            typeof(DateTime)
-        };
+        private GlueObjectDynamicObjectBuilder _GlueObjectDynamicBuilder;
+        private GlueObjectDynamicObjectBuilder GlueObjectDynamicBuilder => _GlueObjectDynamicBuilder ?? (_GlueObjectDynamicBuilder = new GlueObjectDynamicObjectBuilder(this));
+
+        private static readonly MethodInfo _SimpleFactory = Types.CSharpToJavascriptConverter.GetMethod(nameof(BuildSimpleGenericCommand), BindingFlags.Static | BindingFlags.NonPublic);
 
         public CSharpToJavascriptConverter(ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
@@ -47,19 +33,19 @@ namespace Neutronium.Core.Binding.GlueBuilder
             _Cacher = cacher;
             _Converters = new Dictionary<Type, Func<IGlueFactory, object, IJsCsGlue>>
             {
-                [typeof(string)] = (factory, @object) => factory.BuildString(@object),
-                [typeof(bool)]   = (factory, @object) => factory.BuildBool(@object),
-                [typeof(int)]    = (factory, @object) => factory.BuildInt(@object),
-                [typeof(double)] = (factory, @object) => factory.BuildDouble(@object),
-                [typeof(uint)]   = (factory, @object) => factory.BuildUint(@object),
-                [typeof(decimal)] = (factory, @object) => factory.BuildDecimal(@object),
-                [typeof(long)] =   (factory, @object) => factory.BuildLong(@object),
-                [typeof(short)] =  (factory, @object) => factory.BuildShort(@object),
-                [typeof(float)] =  (factory, @object) => factory.BuildFloat(@object),
-                [typeof(ulong)] =  (factory, @object) => factory.BuildUlong(@object),
-                [typeof(ushort)] = (factory, @object) => factory.BuildUshort(@object),
-                [typeof(DateTime)] = (factory, @object) => factory.BuildDateTime(@object),
-                [typeof(char)] = (factory, @object) => factory.BuildChar(@object),                          
+                [Types.String] = (factory, @object) => factory.BuildString(@object),
+                [Types.Bool] = (factory, @object) => factory.BuildBool(@object),
+                [Types.Int] = (factory, @object) => factory.BuildInt(@object),
+                [Types.Double] = (factory, @object) => factory.BuildDouble(@object),
+                [Types.Uint] = (factory, @object) => factory.BuildUint(@object),
+                [Types.Decimal] = (factory, @object) => factory.BuildDecimal(@object),
+                [Types.Long] = (factory, @object) => factory.BuildLong(@object),
+                [Types.Short] = (factory, @object) => factory.BuildShort(@object),
+                [Types.Float] = (factory, @object) => factory.BuildFloat(@object),
+                [Types.ULong] = (factory, @object) => factory.BuildUlong(@object),
+                [Types.UShort] = (factory, @object) => factory.BuildUshort(@object),
+                [Types.DateTime] = (factory, @object) => factory.BuildDateTime(@object),
+                [Types.Char] = (factory, @object) => factory.BuildChar(@object),
             };
         }
 
@@ -82,12 +68,12 @@ namespace Neutronium.Core.Binding.GlueBuilder
             return converter(_GlueFactory, from);
         }
 
-        internal bool IsBasicType(Type type) => _BasicTypes.Contains(type) || type?.IsEnum == true;
+        internal bool IsBasicType(Type type) => type.IsClr() || type?.IsEnum == true;
 
         private static IJsCsGlue BuildEnum(IGlueFactory factory, object @object) => factory.BuildEnum((Enum)@object);
         private static IJsCsGlue BuildCommand(IGlueFactory factory, object @object) => factory.Build((ICommand)@object);
         private static IJsCsGlue BuildSimpleCommand(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand)@object);
-        private static IJsCsGlue BuildSimpleCommand<T>(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand<T>)@object);
+        private static IJsCsGlue BuildSimpleGenericCommand<T>(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand<T>)@object);
         private static IJsCsGlue BuildResultCommand(IGlueFactory factory, object @object) => factory.Build((IResultCommand)@object);
 
 
@@ -99,6 +85,13 @@ namespace Neutronium.Core.Binding.GlueBuilder
             if (@object is ICommand)
                 return BuildCommand;
 
+            var simpleType = type.GetInterfaceGenericType(Types.SimpleCommand);
+            if (simpleType != null)
+            {
+                var builder = _SimpleFactory.MakeGenericMethod(simpleType);
+                return (fact, obj) => (IJsCsGlue)builder.Invoke(null, new[] {fact, obj});
+            }
+
             if (@object is ISimpleCommand)
                 return BuildSimpleCommand;
 
@@ -106,7 +99,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 return BuildResultCommand;
 
             var stringDictionaryValueType = type.GetDictionaryStringValueType();
-            if (stringDictionaryValueType!= null)
+            if (stringDictionaryValueType != null)
             {
                 var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, stringDictionaryValueType);
                 return objectDictionaryBuilder.Convert;

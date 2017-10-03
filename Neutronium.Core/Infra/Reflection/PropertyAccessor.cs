@@ -50,7 +50,7 @@ namespace Neutronium.Core.Infra.Reflection
         public static PropertyAccessor FromDynamicObject(Type type, string name, int position)
         {
             var accessor = GetDynamicObjectAcessor(type, name);
-            return new PropertyAccessor(typeof(object), name, position, accessor);
+            return new PropertyAccessor(Types.Object, name, position, accessor);
         }
 
         private struct Accessor
@@ -91,7 +91,7 @@ namespace Neutronium.Core.Infra.Reflection
 
         private static Func<object, object> BuildGet(PropertyInfo propertyInfo)
         {
-            var dynamicMethod = new DynamicMethod("Get" + propertyInfo.Name, typeof(object), new[] { typeof(object) }, propertyInfo.DeclaringType, true);
+            var dynamicMethod = new DynamicMethod("Get" + propertyInfo.Name, Types.Object, new[] { Types.Object }, propertyInfo.DeclaringType, true);
             var generator = dynamicMethod.GetILGenerator();
 
             GenerateCreateGetPropertyIL(propertyInfo, generator);
@@ -110,7 +110,7 @@ namespace Neutronium.Core.Infra.Reflection
 
         public Action<object, object> BuildSet(Type type, PropertyInfo propertyInfo)
         {
-            var dynamicMethod = new DynamicMethod("Set" + propertyInfo.Name, null, new[] { typeof(object), typeof(object) }, propertyInfo.DeclaringType, true);
+            var dynamicMethod = new DynamicMethod("Set" + propertyInfo.Name, null, new[] { Types.Object, Types.Object }, propertyInfo.DeclaringType, true);
             var generator = dynamicMethod.GetILGenerator();
             GenerateCreateSetPropertyIL(propertyInfo, generator);
             return (Action<object, object>)dynamicMethod.CreateDelegate(typeof(Action<object, object>));

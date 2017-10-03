@@ -23,6 +23,7 @@ using Neutronium.MVVMComponents;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Universal.HTMLBindingTests.Helper;
 using Neutronium.Core.Binding;
+using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Test.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
@@ -81,7 +82,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var alm = jsbridge.ToString();
 
                     JsArray arr = null;
-                    jsbridge.VisitDescendantsSafe(glue => 
+                    jsbridge.VisitDescendantsSafe(glue =>
                     {
                         arr = arr ?? glue as JsArray;
                         return glue != null;
@@ -840,17 +841,17 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Maps_ExpandoObject() 
+        public async Task TwoWay_Maps_ExpandoObject()
         {
             dynamic dynamicDataContext = new ExpandoObject();
             dynamicDataContext.ValueInt = 1;
             dynamicDataContext.ValueString = "string";
             dynamicDataContext.ValueBool = true;
 
-            var test = new TestInContextAsync() 
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
 
@@ -1333,7 +1334,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
-                    var mycommand = GetAttribute(js, "SimpleCommand");
+                    var mycommand = GetAttribute(js, "SimpleCommandNoArgument");
                     DoSafe(() => Call(mycommand, "Execute"));
                     await Task.Delay(100);
                     command.Received().Execute();
@@ -1366,15 +1367,15 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_T_With_Parameter_can_Convert_Number_Type() 
+        public async Task TwoWay_SimpleCommand_T_With_Parameter_Convert_Number_Type()
         {
             var command = Substitute.For<ISimpleCommand<decimal>>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandDecimalArgument = command };
 
-            var test = new TestInContextAsync() 
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
                     var mycommand = GetAttribute(js, "SimpleCommandDecimalArgument");
@@ -1387,18 +1388,43 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+
+        [Fact]
+        public async Task TwoWay_SimpleCommand_T_With_Parameter_Does_Not_Throw_On_Type_Mismatch()
+        {
+            var command = Substitute.For<ISimpleCommand<decimal>>();
+            var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandDecimalArgument = command };
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var mycommand = GetAttribute(js, "SimpleCommandDecimalArgument");
+                    DoSafe(() => Call(mycommand, "Execute", _WebView.Factory.CreateString("u")));
+                    await Task.Delay(100);
+                    command.DidNotReceive().Execute(Arg.Any<decimal>());
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         [Fact]
         public async Task TwoWay_SimpleCommand_T_Without_Parameter_Does_not_Throw()
         {
             var command = Substitute.For<ISimpleCommand<SimpleCommandTestViewModel>>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandObjectArgument = command };
 
-            var test = new TestInContextAsync() {
+            var test = new TestInContextAsync()
+            {
                 Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => {
+                Test = async (mb) =>
+                {
                     var js = mb.JsRootObject;
                     var mycommand = GetAttribute(js, "SimpleCommandObjectArgument");
-                    DoSafe(() => Call(mycommand, "Execute", js));
+                    DoSafe(() => Call(mycommand, "Execute"));
                     await Task.Delay(100);
                     command.DidNotReceive().Execute(Arg.Any<SimpleCommandTestViewModel>());
                 }
@@ -1418,9 +1444,6 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
-
-                    mb.ToString().Should().Be(@"{""SimpleCommandObjectArgument"":{},""SimpleCommandDecimalArgument"":null,""SimpleCommandNoArgument"":null}");
-
                     var js = (mb as HtmlBinding).JsBrideRootObject as JsGenericObject;
 
                     var mysimplecommand = js.GetAttribute("SimpleCommandObjectArgument") as JsSimpleCommand<SimpleCommandTestViewModel>;
@@ -1435,17 +1458,16 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_Name() 
+        public async Task TwoWay_SimpleCommand_Name()
         {
             var command = Substitute.For<ISimpleCommand>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandNoArgument = command };
 
-            var test = new TestInContext() {
+            var test = new TestInContext()
+            {
                 Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
-                Test = (mb) => {
-
-                    mb.ToString().Should().Be(@"{""SimpleCommandObjectArgument"":{},""SimpleCommandDecimalArgument"":null,""SimpleCommandNoArgument"":null}");
-
+                Test = (mb) =>
+                {
                     var js = (mb as HtmlBinding).JsBrideRootObject as JsGenericObject;
 
                     var mysimplecommand = js.GetAttribute("SimpleCommandNoArgument") as JsSimpleCommand;
@@ -2226,7 +2248,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     Checkstring(col, datacontext.List);
 
-                    var comp = new List<string>(datacontext.List) {"newvalue"};
+                    var comp = new List<string>(datacontext.List) { "newvalue" };
 
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     var chcol = GetAttribute(js, "List");
@@ -2356,7 +2378,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     Checkdecimal(col, datacontext.List);
 
-                    var comp = new List<decimal>(datacontext.List) {0.55m};
+                    var comp = new List<decimal>(datacontext.List) { 0.55m };
 
                     var res = GetAttribute(js, "List");
                     Call(res, "push", _WebView.Factory.CreateDouble(0.55));
@@ -2440,7 +2462,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_should_unlisten_when_changing_property(BasicTestViewNodel remplacementChild)
         {
             var child = new BasicTestViewNodel();
-            var datacontext = new BasicTestViewNodel {Child = child};
+            var datacontext = new BasicTestViewNodel { Child = child };
 
             var test = new TestInContextAsync()
             {
@@ -2742,7 +2764,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_rebinds_with_updated_objects()
         {
             var child = new BasicTestViewNodel();
-            var datacontext = new BasicTestViewNodel {Child = child};
+            var datacontext = new BasicTestViewNodel { Child = child };
 
             var test = new TestInContextAsync()
             {
@@ -2777,7 +2799,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_listens_to_all_changes()
         {
             var child = new BasicTestViewNodel();
-            var datacontext = new BasicTestViewNodel {Child = child};
+            var datacontext = new BasicTestViewNodel { Child = child };
 
             var test = new TestInContextAsync()
             {

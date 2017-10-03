@@ -15,7 +15,7 @@ namespace Neutronium.Core.Infra
             if (fi == null)
                 return valuename;
             
-            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(Types.DescriptionAttribute, false);
             return (attributes.Length > 0) ? attributes[0].Description : valuename;
         }
 

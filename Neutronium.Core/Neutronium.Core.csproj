@@ -123,8 +123,8 @@
     <Compile Include="Binding\GlueObject\Basic\JsBasicTyped.cs" />
     <Compile Include="Binding\GlueObject\Basic\JsEnum.cs" />
     <Compile Include="Binding\GlueObject\Basic\JsString.cs" />
-    <Compile Include="Binding\GlueObject\JsSimpleCommandBase.cs" />
-    <Compile Include="Binding\GlueObject\JsSimpleCommand_T.cs" />
+    <Compile Include="Binding\GlueObject\Executable\JsSimpleCommandBase.cs" />
+    <Compile Include="Binding\GlueObject\Executable\JsSimpleCommand_T.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableArray.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableCommand.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />
@@ -142,9 +142,9 @@
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IObjectChangesListener.cs" />
     <Compile Include="Binding\Listeners\ObjectChangesListener.cs" />
-    <Compile Include="Binding\GlueObject\JsCommand.cs" />
-    <Compile Include="Binding\GlueObject\JsSimpleCommand.cs" />
-    <Compile Include="Binding\GlueObject\JsResultCommand.cs" />
+    <Compile Include="Binding\GlueObject\Executable\JsCommand.cs" />
+    <Compile Include="Binding\GlueObject\Executable\JsSimpleCommand.cs" />
+    <Compile Include="Binding\GlueObject\Executable\JsResultCommand.cs" />
     <Compile Include="Binding\GlueObject\IJsCsMappedBridge.cs" />
     <Compile Include="Binding\GlueObject\Basic\JsBasicObject.cs" />
     <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />
@@ -170,6 +170,7 @@
     <Compile Include="Infra\Reflection\DictionaryPropertyAccessor.cs" />
     <Compile Include="Infra\Reflection\TypePropertyAccessor.cs" />
     <Compile Include="Infra\Slicer.cs" />
+    <Compile Include="Infra\Types.cs" />
     <Compile Include="Infra\VM\DataContextViewModel.cs" />
     <Compile Include="JavascriptFramework\BinderBuilder.cs" />
     <Compile Include="JavascriptFramework\DebugToolsUI.cs" />

@@ -7,14 +7,6 @@ namespace Neutronium.Core.Infra
 {
     public static class TypeExtensions
     {
-        private static readonly Type _NullableType = typeof(Nullable<>);
-        private static readonly Type _EnumerableType = typeof(IEnumerable<>);
-        private static readonly Type _DictionaryType = typeof(IDictionary<,>);
-        private static readonly Type _StringType = typeof(string);
-        private static readonly Type _UInt16Type = typeof(UInt16);
-        private static readonly Type _UInt32Type = typeof(UInt32);
-        private static readonly Type _UInt64Type = typeof(UInt64);
-
         public static IEnumerable<Type> GetBaseTypes(this Type type) 
         {
             if (type == null) throw new ArgumentNullException();
@@ -28,16 +20,16 @@ namespace Neutronium.Core.Infra
 
         public static Type GetEnumerableBase(this Type type)
         {
-            if ((type == null) || (type == _StringType))
+            if ((type == null) || (type == Types.String))
                 return null;
 
             if (type.IsArray)
                 return type.GetElementType();
 
-            if ((type.IsGenericType) && (type.GetGenericTypeDefinition() == _EnumerableType))
+            if ((type.IsGenericType) && (type.GetGenericTypeDefinition() == Types.Enumerable))
                 return type.GetGenericArguments()[0];
 
-            return GetInterfaceGenericType(type, _EnumerableType);
+            return GetInterfaceGenericType(type, Types.Enumerable);
         }
 
         public static Type GetUnderlyingNullableType(this Type type)
@@ -48,14 +40,14 @@ namespace Neutronium.Core.Infra
             if (!type.IsGenericType)
                 return null;
 
-            return type.GetGenericTypeDefinition() == _NullableType ? type.GetGenericArguments()[0] : null;
+            return type.GetGenericTypeDefinition() == Types.Nullable ? type.GetGenericArguments()[0] : null;
         }
 
         public static Type GetUnderlyingType(this Type type) => GetUnderlyingNullableType(type) ?? type;
 
         public static bool IsUnsigned(this Type targetType) 
         {
-            return (targetType != null) && ((targetType == _UInt16Type) || (targetType == _UInt32Type) || (targetType == _UInt64Type));
+            return (targetType != null) && ((targetType == Types.ULong) || (targetType == Types.UShort) || (targetType == Types.Uint));
         }
 
         private static readonly ConcurrentDictionary<Type, IGenericPropertyAcessor> _TypePropertyInfos = new ConcurrentDictionary<Type, IGenericPropertyAcessor>();
@@ -71,11 +63,11 @@ namespace Neutronium.Core.Infra
 
             foreach (var interfaceType in type.GetInterfaces())
             {
-                if ((!interfaceType.IsGenericType) || (interfaceType.GetGenericTypeDefinition() != _DictionaryType))
+                if ((!interfaceType.IsGenericType) || (interfaceType.GetGenericTypeDefinition() != Types.Dictionary))
                     continue;
 
                 var arguments = interfaceType.GetGenericArguments();
-                if (arguments[0] == _StringType)
+                if (arguments[0] == Types.String)
                     return arguments[1];
             }
 

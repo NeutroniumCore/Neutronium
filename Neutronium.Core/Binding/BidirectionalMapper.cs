@@ -186,7 +186,7 @@ namespace Neutronium.Core.Binding
 
                         var actualValue = propertyUpdater.GetCurrentChildValue();
 
-                        if (Object.Equals(actualValue, glue.CValue))
+                        if (Equals(actualValue, glue.CValue))
                         {
                             var old = currentfather.UpdateGlueProperty(propertyUpdater, glue);
                             bridgeUpdater.Remove(old);
@@ -194,7 +194,7 @@ namespace Neutronium.Core.Binding
                             return;
                         }
 
-                        if (!Object.Equals(oldValue, actualValue))
+                        if (!Equals(oldValue, actualValue))
                         {
                             OnCSharpPropertyChanged(currentfather.CValue, new PropertyChangedEventArgs(propertyName));
                         }                        

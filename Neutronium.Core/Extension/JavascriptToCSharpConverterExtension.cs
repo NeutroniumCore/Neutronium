@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -10,12 +11,14 @@ namespace Neutronium.Core.Extension
         public struct Result<T>
         {
             public bool Success { get; }
+            public object TentativeValue { get; }
             public T Value { get; }
 
-            public Result(IJsCsGlue value = null) 
-            {  
-                Success = (value != null);
-                Value = Success ? (T)value.CValue : default(T);
+            public Result(IJsCsGlue value = null)
+            {
+                TentativeValue = value?.CValue;
+                Success = (value != null) && TentativeValue is T;
+                Value = Success ? (T)TentativeValue : default(T);
             }
         }
 
@@ -35,7 +38,7 @@ namespace Neutronium.Core.Extension
             }
         }
 
-        public static object GetFirstArgumentOrNull(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects) 
+        public static object GetFirstArgumentOrNull(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
         {
             return javascriptObjects.Length == 0 ? null : converter.GetArgument(javascriptObjects[0], null);
         }

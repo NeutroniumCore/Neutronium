@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Input;
+using Neutronium.Core.Binding.Builder;
+using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Binding.Listeners;
 
-namespace Neutronium.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject.Executable
 {
     public class JsCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
     {

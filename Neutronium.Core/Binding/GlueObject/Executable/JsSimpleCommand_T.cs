@@ -3,7 +3,7 @@ using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject.Executable
 {
     internal class JsSimpleCommand<T> : JsSimpleCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
@@ -40,7 +40,7 @@ namespace Neutronium.Core.Binding.GlueObject
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull<T>(e);
             if (!parameter.Success) 
             {
-                Logger.Error("Impossible to call simple command, no matching argument found");
+                Logger.Error($"Impossible to call simple command, no matching argument found, received {parameter.TentativeValue} of type {parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");
                 return;
             }
 

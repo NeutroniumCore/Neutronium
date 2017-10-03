@@ -3,6 +3,7 @@ using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueObject.Executable;
 
 namespace Neutronium.Core.Binding
 {

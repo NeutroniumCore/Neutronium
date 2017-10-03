@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using Neutronium.Core.Binding.GlueObject.Executable;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped

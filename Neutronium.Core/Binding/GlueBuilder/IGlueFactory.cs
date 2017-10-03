@@ -3,6 +3,7 @@ using System.Collections;
 using System.Windows.Input;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Basic;
+using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Infra.Reflection;
 using Neutronium.MVVMComponents;
 

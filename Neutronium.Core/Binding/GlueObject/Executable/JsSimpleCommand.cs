@@ -2,7 +2,7 @@
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding.GlueObject 
+namespace Neutronium.Core.Binding.GlueObject.Executable 
 {
     internal class JsSimpleCommand : JsSimpleCommandBase, IJsCsCachableGlue, IExecutableGlue 
     {

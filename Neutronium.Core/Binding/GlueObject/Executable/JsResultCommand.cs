@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Neutronium.Core.Binding.Builder;
+using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.MVVMComponents;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Binding.Listeners;
+using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding.GlueObject
+namespace Neutronium.Core.Binding.GlueObject.Executable
 {
     internal class JsResultCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
     {

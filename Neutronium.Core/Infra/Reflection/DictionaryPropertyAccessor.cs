@@ -49,7 +49,7 @@ namespace Neutronium.Core.Infra.Reflection
 
     public class DictionaryPropertyAccessor
     {
-        private static readonly MethodInfo _BuildAccessorDictionary = typeof(DictionaryPropertyAccessor).GetMethod(nameof(FromStringDictionary), BindingFlags.Static | BindingFlags.NonPublic);
+        private static readonly MethodInfo _BuildAccessorDictionary = Types.DictionaryPropertyAccessor.GetMethod(nameof(FromStringDictionary), BindingFlags.Static | BindingFlags.NonPublic);
 
         public static IGenericPropertyAcessor FromStringDictionary(object @object, Type type) 
         {
