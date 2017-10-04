@@ -14,23 +14,24 @@ namespace Neutronium.MVVMComponents
         /// <param name="argument"></param>
         void Execute(T argument);
 
-        //
-        // Summary:
-        //     Occurs when changes occur that affect whether or not the command should execute.
+        ///<summary>
+        ///     Occurs when changes occur that affect whether or not the command should execute.
+        ///</summary>
         event EventHandler CanExecuteChanged;
 
-        //
-        // Summary:
-        //     Defines the method that determines whether the command can execute in its current
-        //     state.
-        //
-        // Parameters:
-        //   parameter:
-        //     Data used by the command. If the command does not require data to be passed,
-        //     this object can be set to null.
-        //
-        // Returns:
-        //     true if this command can be executed; otherwise, false.
+        ///<summary>
+        ///     Defines the method that determines whether the command can execute in its current
+        ///     state.
+        ///</summary>
+        ///<parameters>
+        ///   <param name="parameter">
+        ///     Data used by the command. If the command does not require data to be passed,
+        ///     this object can be set to null.
+        ///  </param>
+        ///<parameters>
+        /// <returns>
+        ///     true if this command can be executed; otherwise, false.
+        /// </returns>
         bool CanExecute(T parameter);
     }
 }

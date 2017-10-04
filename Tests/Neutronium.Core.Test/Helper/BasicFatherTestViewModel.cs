@@ -20,7 +20,7 @@ namespace Neutronium.Core.Test.Helper
 
         public BasicFatherTestViewModel()
         {
-            Command = new RelayCommand<BasicTestViewNodel>(child =>
+            Command = new RelaySimpleCommand<BasicTestViewNodel>(child =>
             {
                 CallCount++;
                 LastCallElement = child;

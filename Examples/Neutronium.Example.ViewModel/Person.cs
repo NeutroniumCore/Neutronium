@@ -16,10 +16,10 @@ namespace Neutronium.Example.ViewModel
             Skills = new ObservableCollection<Skill>();
 
             TestCommand = forTest;
-            Command = new ToogleRelayCommand(DoCommand);
-            RemoveSkill = new RelayCommand<Skill>(s=> this.Skills.Remove(s));
-            ChangeSkill = new RelayCommand<Skill>(s => MainSkill = (this.Skills.Count>0)?this.Skills[0] : null);
-            RemoveSkills = new RelayCommand<Skill>(s => Skills.Clear());
+            Command = new RelayToogleCommand(DoCommand);
+            RemoveSkill = new RelaySimpleCommand<Skill>(s=> this.Skills.Remove(s));
+            ChangeSkill = new RelaySimpleCommand<Skill>(s => MainSkill = (this.Skills.Count>0)?this.Skills[0] : null);
+            RemoveSkills = new RelaySimpleCommand<Skill>(s => Skills.Clear());
         }
 
         private void DoCommand()
@@ -98,7 +98,7 @@ namespace Neutronium.Example.ViewModel
 
         public IList<Skill> Skills { get; }
 
-        public ToogleRelayCommand Command { get; }
+        public RelayToogleCommand Command { get; }
 
         public ICommand RemoveSkill { get; }
 

@@ -63,18 +63,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICommandWithoutParameter.cs" />
     <Compile Include="IResultCommand.cs" />
     <Compile Include="ISimpleCommand.cs" />
     <Compile Include="ICommand_T.cs" />
     <Compile Include="ISimpleCommand_T.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Relay\RelayCommand.cs" />
     <Compile Include="Relay\RelayResultCommand.cs" />
     <Compile Include="Relay\RelayResultCommand_TResult.cs" />
     <Compile Include="Relay\RelayResultCommand_Tin_TResult.cs" />
     <Compile Include="Relay\RelaySimpleCommand_T.cs" />
     <Compile Include="Relay\RelaySimpleCommand.cs" />
-    <Compile Include="Relay\ToogleRelayCommand.cs" />
+    <Compile Include="Relay\RelayToogleCommand_T.cs" />
+    <Compile Include="Relay\RelayToogleCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

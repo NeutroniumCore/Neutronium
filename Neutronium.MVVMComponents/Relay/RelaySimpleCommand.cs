@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace Neutronium.MVVMComponents.Relay
@@ -9,7 +10,7 @@ namespace Neutronium.MVVMComponents.Relay
     /// </summary>
     public class RelaySimpleCommand : ICommand, ISimpleCommand
     {
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged { add { } remove { } }
 
         private readonly Action _Do;
 
@@ -20,8 +21,10 @@ namespace Neutronium.MVVMComponents.Relay
 
         public bool CanExecute(object parameter) => true;
 
+        [DebuggerStepThrough]
         public void Execute() => _Do();
 
-        public void Execute(object parameter) => Execute();
+        [DebuggerStepThrough]
+        public void Execute(object parameter) => _Do();
     }
 }
