@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Reflection;
 using System.Windows.Input;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Infra;
+using Neutronium.Core.Infra.Reflection;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueBuilder
@@ -24,7 +24,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private GlueObjectDynamicObjectBuilder _GlueObjectDynamicBuilder;
         private GlueObjectDynamicObjectBuilder GlueObjectDynamicBuilder => _GlueObjectDynamicBuilder ?? (_GlueObjectDynamicBuilder = new GlueObjectDynamicObjectBuilder(this));
 
-        private static readonly MethodInfo _SimpleFactory = Types.CSharpToJavascriptConverter.GetMethod(nameof(BuildSimpleGenericCommand), BindingFlags.Static | BindingFlags.NonPublic);
+        private static readonly GenericMethodAccessor _SimpleFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildSimpleGenericCommand));
 
         public CSharpToJavascriptConverter(ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
@@ -76,20 +76,16 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private static IJsCsGlue BuildSimpleGenericCommand<T>(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand<T>)@object);
         private static IJsCsGlue BuildResultCommand(IGlueFactory factory, object @object) => factory.Build((IResultCommand)@object);
 
-
         private Func<IGlueFactory, object, IJsCsGlue> GetConverter(Type type, object @object)
         {
             if (type.IsEnum)
                 return BuildEnum;
 
-            if (@object is ICommand)
-                return BuildCommand;
-
             var simpleType = type.GetInterfaceGenericType(Types.SimpleCommand);
             if (simpleType != null)
             {
-                var builder = _SimpleFactory.MakeGenericMethod(simpleType);
-                return (fact, obj) => (IJsCsGlue)builder.Invoke(null, new[] {fact, obj});
+                var builder = _SimpleFactory.Build<IJsCsGlue>(simpleType);
+                return (fact, obj) => builder.Invoke(fact, obj);
             }
 
             if (@object is ISimpleCommand)
@@ -104,6 +100,9 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, stringDictionaryValueType);
                 return objectDictionaryBuilder.Convert;
             }
+
+            if (@object is ICommand)
+                return BuildCommand;
 
             var dynamicObject = @object as DynamicObject;
             if (dynamicObject != null)

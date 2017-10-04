@@ -132,9 +132,10 @@
     <Compile Include="Infra\FakeClasses.cs" />
     <Compile Include="Infra\Reflection\DictionaryPropertyAccessorTest.cs" />
     <Compile Include="Infra\Reflection\DynamicObjectPropertyAccessorTest.cs" />
-    <Compile Include="Infra\Reflection\PropertyAccessorTests.cs" />
+    <Compile Include="Infra\Reflection\GenericMethodAccessorTest.cs" />
+    <Compile Include="Infra\Reflection\PropertyAccessorTest.cs" />
     <Compile Include="Infra\SlicerTest.cs" />
-    <Compile Include="Infra\Reflection\TypePropertyAccessorTests.cs" />
+    <Compile Include="Infra\Reflection\TypePropertyAccessorTest.cs" />
     <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />
     <Compile Include="Infra\NullUIDispatcherTest.cs" />
     <Compile Include="Navigation\Routing\ConventionRouterTests.cs" />

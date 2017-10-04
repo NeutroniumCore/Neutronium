@@ -40,7 +40,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull<T>(e);
             if (!parameter.Success) 
             {
-                Logger.Error($"Impossible to call simple command, no matching argument found, received {parameter.TentativeValue} of type {parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");
+                Logger.Error($"Impossible to call simple command, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");
                 return;
             }
 

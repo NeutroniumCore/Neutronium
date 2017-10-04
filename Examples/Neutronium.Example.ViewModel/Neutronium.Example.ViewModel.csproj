@@ -81,7 +81,6 @@
     <Compile Include="Sex.cs" />
     <Compile Include="Skill.cs" />
     <Compile Include="SkillsViewModel.cs" />
-    <Compile Include="Infra\RelayCommand.cs" />
     <Compile Include="Infra\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

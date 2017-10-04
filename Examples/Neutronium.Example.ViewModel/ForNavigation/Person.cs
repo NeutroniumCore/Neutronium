@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using Neutronium.Core.Navigation;
-using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.Example.ViewModel.ForNavigation
 {
@@ -8,7 +8,7 @@ namespace Neutronium.Example.ViewModel.ForNavigation
     {
         public Person()
         {
-            GoCouple = new RelayCommand(() => { Navigation?.NavigateAsync(Couple); });
+            GoCouple = new RelaySimpleCommand(() => { Navigation?.NavigateAsync(Couple); });
         }
         public INavigationSolver Navigation { get; set; }
 

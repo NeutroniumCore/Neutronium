@@ -87,6 +87,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj">
+      <Project>{26203C44-279D-4BFE-B17A-F6ADA8D240ED}</Project>
+      <Name>Neutronium.MVVMComponents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>Neutronium.WPF</Name>

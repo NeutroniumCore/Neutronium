@@ -3,12 +3,13 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.Example.ViewModel.Counter
 {
     public class CounterViewModel : ViewModelBase
     {
-        private const int _Leaves = 50;
+        private const int _Leaves = 30;
         private const int _Position = 3;
         public int CounterRead { get; private set; }
 
@@ -50,8 +51,8 @@ namespace Neutronium.Example.ViewModel.Counter
 
         public CounterViewModel()
         {
-            Count = new RelayCommand(DoCount);
-            BuildBigModel = new RelayCommand(DoBuildBigModel);
+            Count = new RelaySimpleCommand(DoCount);
+            BuildBigModel = new RelaySimpleCommand(DoBuildBigModel);
         }
 
         private void DoBuildBigModel()

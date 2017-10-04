@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Tests.Universal.HTMLBindingTests.Helper
 {
@@ -11,8 +12,8 @@ namespace Tests.Universal.HTMLBindingTests.Helper
         {
             _Items = new ObservableCollection<int>(new int[]{1,2,3,4,5});
 
-            Replace = new RelayCommand(DoReplace);
-            Add = new RelayCommand(DoAdd);
+            Replace = new RelaySimpleCommand(DoReplace);
+            Add = new RelaySimpleCommand(DoAdd);
         }
 
         private void DoReplace()

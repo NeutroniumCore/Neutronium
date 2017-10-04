@@ -7,11 +7,11 @@ using Xunit.Abstractions;
 
 namespace Neutronium.Core.Test.Infra.Reflection
 {
-    public class PropertyAccessorTests
+    public class PropertyAccessorTest
     {
         private readonly ITestOutputHelper _Output;
 
-        public PropertyAccessorTests(ITestOutputHelper output)
+        public PropertyAccessorTest(ITestOutputHelper output)
         {
             _Output = output;
         }    

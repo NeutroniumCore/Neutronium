@@ -22,12 +22,12 @@ namespace Neutronium.Core.Infra.Reflection
     {
         private readonly MethodInfo _MethodInfo;
 
-        private GenericMethodAccessor(Type type, string methodName, BindingFlags access = BindingFlags.Static | BindingFlags.NonPublic) 
+        private GenericMethodAccessor(IReflect type, string methodName, BindingFlags access) 
         {
             _MethodInfo = type.GetMethod(methodName, access);
         }
 
-        public static GenericMethodAccessor Get<T>(string methodName, BindingFlags access) 
+        public static GenericMethodAccessor Get<T>(string methodName, BindingFlags access = BindingFlags.Static | BindingFlags.NonPublic) 
         {
             return new GenericMethodAccessor(typeof(T), methodName, access);
         }

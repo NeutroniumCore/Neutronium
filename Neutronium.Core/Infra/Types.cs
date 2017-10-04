@@ -44,11 +44,9 @@ namespace Neutronium.Core.Infra
 
         public static readonly Type Object = typeof(object);
         public static readonly Type DescriptionAttribute = typeof(DescriptionAttribute);
-        public static readonly Type DictionaryPropertyAccessor = typeof(DictionaryPropertyAccessor);
         public static readonly Type Nullable = typeof(Nullable<>);
         public static readonly Type Enumerable = typeof(IEnumerable<>);
         public static readonly Type Dictionary = typeof(IDictionary<,>);
         public static readonly Type SimpleCommand = typeof(ISimpleCommand<>);
-        public static readonly Type CSharpToJavascriptConverter = typeof(CSharpToJavascriptConverter);  
     }
 }

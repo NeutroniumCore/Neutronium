@@ -8,6 +8,7 @@ using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Navigation;
 using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 using Neutronium.WPF;
 using NSubstitute;
 using Tests.Infra.IntegratedContextTesterHelper.Window;
@@ -60,8 +61,8 @@ namespace Tests.Universal.NavigationTests
         {
             public A1()
             {
-                Change = new RelayCommand(() => Navigation.NavigateAsync(new A1()));
-                GoTo1 = new RelayCommand(() => Navigation.NavigateAsync(new A2()));
+                Change = new RelaySimpleCommand(() => Navigation.NavigateAsync(new A1()));
+                GoTo1 = new RelaySimpleCommand(() => Navigation.NavigateAsync(new A2()));
             }
 
             public ICommand GoTo1 { get; }
@@ -73,8 +74,8 @@ namespace Tests.Universal.NavigationTests
             public AA1()
             {
                 Exception = new Exception();
-                Change = new RelayCommand(() => { throw Exception; });
-                GoTo1 = new RelayCommand(() => Navigation.NavigateAsync(new A2()));
+                Change = new RelaySimpleCommand(() => { throw Exception; });
+                GoTo1 = new RelaySimpleCommand(() => Navigation.NavigateAsync(new A2()));
             }
 
             public Exception Exception { get; }
@@ -86,10 +87,10 @@ namespace Tests.Universal.NavigationTests
         {
             public A2()
             {
-                GoTo1 = new RelayCommand(() => Navigation.NavigateAsync(new A1()));
+                GoTo1 = new RelaySimpleCommand(() => Navigation.NavigateAsync(new A1()));
             }
 
-            public ICommand GoTo1 { get; private set; }
+            public ICommand GoTo1 { get; }
         }
 
         #endregion

@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
-using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Example.ChromiumFx.Vue.Navigation
 {
@@ -11,7 +11,7 @@ namespace Example.ChromiumFx.Vue.Navigation
     {
         public Nav()
         {
-            DoNav = new RelayCommand(() => { Navigation?.NavigateAsync(this); });
+            DoNav = new RelaySimpleCommand(() => { Navigation?.NavigateAsync(this); });
         }
 
         public ICommand DoNav { get; }

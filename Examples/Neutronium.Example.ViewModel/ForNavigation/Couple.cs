@@ -1,15 +1,15 @@
 ﻿using System.Windows.Input;
 using Neutronium.Core.Navigation;
-using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.Example.ViewModel.ForNavigation
 {
-    public class Couple : Neutronium.Example.ViewModel.Couple, INavigable
+    public class Couple : ViewModel.Couple, INavigable
     {
         public Couple() : base()
         {
-            GoOne = new RelayCommand(() => Goto(One));
-            GoTwo = new RelayCommand(() => Goto(Two));
+            GoOne = new RelaySimpleCommand(() => Goto(One));
+            GoTwo = new RelaySimpleCommand(() => Goto(Two));
         }
 
         private void Goto(Neutronium.Example.ViewModel.Person person) 

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.Example.ViewModel {
     public class SkillsViewModel : ViewModelBase

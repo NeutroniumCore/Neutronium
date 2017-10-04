@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
-using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Example.CefGlue.Ko.Navigation
 {
@@ -11,7 +11,7 @@ namespace Example.CefGlue.Ko.Navigation
     {
         public Nav()
         {
-            DoNav = new RelayCommand(Navigate);
+            DoNav = new RelaySimpleCommand(Navigate);
         }
 
         private void Navigate()

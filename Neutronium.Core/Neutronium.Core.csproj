@@ -164,7 +164,7 @@
     <Compile Include="Infra\IndexDescriptor.cs" />
     <Compile Include="Infra\ProcessHelper.cs" />
     <Compile Include="Infra\Reflection\DynamicObjectPropertyAccessor.cs" />
-    <Compile Include="Infra\Reflection\GenericStaticMethodAccessor.cs" />
+    <Compile Include="Infra\Reflection\GenericMethodAccessor.cs" />
     <Compile Include="Infra\Reflection\ILExtension.cs" />
     <Compile Include="Infra\Reflection\IGenericPropertyAcessor.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessor.cs" />

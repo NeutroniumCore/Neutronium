@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.Example.ViewModel
 {
@@ -7,8 +8,8 @@ namespace Neutronium.Example.ViewModel
     {
         public Couple()
         {
-            MakeSelf = new RelayCommand(_ => DoMakeSelf());
-            Duplicate = new RelayCommand(_ => DoDuplicate());   
+            MakeSelf = new RelaySimpleCommand(DoMakeSelf);
+            Duplicate = new RelaySimpleCommand(DoDuplicate);   
         }
 
         private void DoMakeSelf()

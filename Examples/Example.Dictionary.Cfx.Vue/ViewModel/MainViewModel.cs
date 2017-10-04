@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Windows.Input;
 using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Example.Dictionary.Cfx.Vue.ViewModel
 {
@@ -14,8 +15,8 @@ namespace Example.Dictionary.Cfx.Vue.ViewModel
         {
             ExpandoObject = child;
             DynamicObject = new DynamicObjectViewModel();
-            ChangeAttribute = new RelayCommand(DoChangeAttribute);
-            AddAttribute = new RelayCommand(DoAddAttribute);
+            ChangeAttribute = new RelaySimpleCommand(DoChangeAttribute);
+            AddAttribute = new RelaySimpleCommand(DoAddAttribute);
         }
 
         private void DoChangeAttribute()

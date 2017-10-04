@@ -25,6 +25,7 @@ using Tests.Universal.HTMLBindingTests.Helper;
 using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Test.Helper;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Tests.Universal.HTMLBindingTests
 {
@@ -1702,7 +1703,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Command_Complete()
         {
-            _ICommand = new RelayCommand(() =>
+            _ICommand = new RelaySimpleCommand(() =>
                 {
                     _DataContext.MainSkill = new Skill();
                     _DataContext.Skills.Add(_DataContext.MainSkill);
@@ -2584,7 +2585,7 @@ namespace Tests.Universal.HTMLBindingTests
                     DoSafe(() => Call(mycommand, "Execute", childJs));
                     await Task.Delay(300);
 
-                    datacontext.CallCount.Should().Be(1);
+                    datacontext.CallCount.Should().Be(0);
                     datacontext.LastCallElement.Should().BeNull();
                 }
             };

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Neutronium.Core.Infra;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.Example.ViewModel
 {

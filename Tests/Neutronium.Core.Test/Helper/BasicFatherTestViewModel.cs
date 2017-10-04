@@ -1,5 +1,5 @@
-﻿using Neutronium.Example.ViewModel.Infra;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.Core.Test.Helper
 {

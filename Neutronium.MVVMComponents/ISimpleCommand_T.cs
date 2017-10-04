@@ -4,7 +4,7 @@
     /// Command that can always be executed
     /// <seealso cref="ICommand"/>
     /// </summary>
-    public interface ISimpleCommand<T>
+    public interface ISimpleCommand<in T>
     {
         /// <summary>
         /// Execute the command with the corresponding argument
