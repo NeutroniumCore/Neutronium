@@ -9,7 +9,6 @@
         /// <summary>
         /// Execute the command without argument
         /// </summary>
-        /// <param name="argument"></param>
         void Execute();
     }
 }

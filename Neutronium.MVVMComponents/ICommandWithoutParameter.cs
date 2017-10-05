@@ -13,15 +13,15 @@ namespace Neutronium.MVVMComponents
         /// </summary>
         void Execute();
 
-        ///<summary>
-        ///     Occurs when changes occur that affect whether or not the command should execute.
-        ///</summary>
+        /// <summary>
+        /// Occurs when changes occur that affect whether or not the command should execute.
+        /// </summary>
         event EventHandler CanExecuteChanged;
 
-        ///<summary>
+        /// <summary>
         ///  Determines whether the command can execute in its current
         ///  state.
-        ///</summary>
+        /// </summary>
         /// <returns>
         ///     true if this command can be executed; otherwise, false.
         /// </returns>

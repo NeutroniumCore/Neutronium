@@ -19,16 +19,14 @@ namespace Neutronium.MVVMComponents
         ///</summary>
         event EventHandler CanExecuteChanged;
 
-        ///<summary>
+        /// <summary>
         ///     Defines the method that determines whether the command can execute in its current
         ///     state.
-        ///</summary>
-        ///<parameters>
-        ///   <param name="parameter">
+        /// </summary>
+        /// <param name="parameter">
         ///     Data used by the command. If the command does not require data to be passed,
         ///     this object can be set to null.
-        ///  </param>
-        ///<parameters>
+        /// </param>
         /// <returns>
         ///     true if this command can be executed; otherwise, false.
         /// </returns>
