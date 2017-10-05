@@ -2043,9 +2043,9 @@
       "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.1.tgz"
     },
     "neutronium-vue-command-mixin": {
-      "version": "1.1.0",
-      "from": "neutronium-vue-command-mixin@>=1.1.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/neutronium-vue-command-mixin/-/neutronium-vue-command-mixin-1.1.0.tgz"
+      "version": "1.3.0",
+      "from": "neutronium-vue-command-mixin@>=1.3.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/neutronium-vue-command-mixin/-/neutronium-vue-command-mixin-1.3.0.tgz"
     },
     "node-gyp": {
       "version": "3.5.0",

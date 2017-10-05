@@ -27,6 +27,10 @@
 
     var comand = Object.assign({
         execute: function (newValue, arg) {
+            if (!newValue.CanExecute) {
+                newValue.Execute(arg);
+                return;
+            }
             newValue.CanExecute(arg);
             if (newValue.CanExecuteValue)
                 newValue.Execute(arg);

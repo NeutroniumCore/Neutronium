@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Neutronium.MVVMComponents.Relay;
 using NSubstitute;
 using Xunit;
 
-namespace Neutronium.Components.Tests
+namespace Neutronium.MVVMComponents.Test
 {
     public class RelaySimpleCommandTest
     {
-        private Action _Action;
-        private RelaySimpleCommand _RelaySimpleCommand;
+        private readonly Action _Action;
+        private readonly RelaySimpleCommand _RelaySimpleCommand;
 
         public RelaySimpleCommandTest() 
         {

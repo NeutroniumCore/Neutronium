@@ -261,7 +261,7 @@
             canExecute: function () {
                 if (this.command === null)
                     return false;
-                return this.command.CanExecuteValue;
+                return !this.command.hasOwnProperty('CanExecuteValue') || this.command.CanExecuteValue;
             }
         },
         watch: {

@@ -6,7 +6,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 {
     internal class JsSimpleCommand : JsSimpleCommandBase, IJsCsCachableGlue, IExecutableGlue 
     {
-        private ISimpleCommand _JsSimpleCommand;
+        private readonly ISimpleCommand _JsSimpleCommand;
         public object CValue => _JsSimpleCommand;
 
         public JsSimpleCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand):

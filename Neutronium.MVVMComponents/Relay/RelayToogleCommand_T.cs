@@ -24,7 +24,7 @@ namespace Neutronium.MVVMComponents.Relay
 
         public void Execute(object parameter) 
         {
-            if (parameter is T)
+            if ((parameter is T) || (parameter == null && (typeof(T).IsClass)))
                 Execute((T)parameter);
         }
 

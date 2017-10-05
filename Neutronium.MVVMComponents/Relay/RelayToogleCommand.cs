@@ -26,7 +26,7 @@ namespace Neutronium.MVVMComponents.Relay
         public bool CanExecute(object parameter) => _ShouldExecute;
 
         [DebuggerStepThrough]
-        public void Execute(object parameter) => _Execute();
+        public void Execute(object parameter) => Execute();
 
         [DebuggerStepThrough]
         public void Execute() 

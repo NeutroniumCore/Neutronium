@@ -10,7 +10,7 @@ namespace Neutronium.Example.ViewModel {
         public SkillsViewModel()
         {
             RemoveSkill = new RelaySimpleCommand<Skill>(s => this.Skills.Remove(s));
-            AddSkill = new RelaySimpleCommand<Skill>(s => { MainSkill = new Skill() {Type="Type",Name="New skill" }; this.Skills.Add(MainSkill); });
+            AddSkill = new RelaySimpleCommand(() => { MainSkill = new Skill() {Type="Type",Name="New skill" }; this.Skills.Add(MainSkill); });
             Skills = new ObservableCollection<Skill>();
             SelectedSkills = new ObservableCollection<Skill>();
         }
