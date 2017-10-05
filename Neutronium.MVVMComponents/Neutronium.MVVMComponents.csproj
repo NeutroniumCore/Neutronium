@@ -74,6 +74,8 @@
     <Compile Include="Relay\RelayResultCommand_Tin_TResult.cs" />
     <Compile Include="Relay\RelaySimpleCommand_T.cs" />
     <Compile Include="Relay\RelaySimpleCommand.cs" />
+    <Compile Include="Relay\RelayTaskCommand_T.cs" />
+    <Compile Include="Relay\RelayTaskCommand.cs" />
     <Compile Include="Relay\RelayToogleCommand_T.cs" />
     <Compile Include="Relay\RelayToogleCommand.cs" />
   </ItemGroup>

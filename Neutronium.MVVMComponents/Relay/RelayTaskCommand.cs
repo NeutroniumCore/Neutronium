@@ -1,23 +1,27 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Neutronium.MVVMComponents.Relay
 {
-    public class RelayToogleCommand : ICommand, ICommandWithoutParameter
+    public class RelayTaskCommand : ICommand, ICommandWithoutParameter
     {
         public event EventHandler CanExecuteChanged;
-        private readonly Action _Execute;
+        private readonly Func<Task> _Execute;
         private bool _ShouldExecute = true;
 
-        public RelayToogleCommand(Action execute)
+        public RelayTaskCommand(Func<Task> execute)
         {
             _Execute = execute;
         }
 
-        public bool ShouldExecute
+        bool ICommandWithoutParameter.CanExecute => _ShouldExecute;
+
+        public bool CanExecute(object parameter) => _ShouldExecute;
+
+        private bool ShouldExecute 
         {
-            get { return _ShouldExecute; }
             set 
             {
                 if (_ShouldExecute == value)
@@ -28,18 +32,18 @@ namespace Neutronium.MVVMComponents.Relay
             }
         }
 
-        bool ICommandWithoutParameter.CanExecute => _ShouldExecute;
-
-        public bool CanExecute(object parameter) => _ShouldExecute;
-
         [DebuggerStepThrough]
         public void Execute(object parameter) => Execute();
 
         [DebuggerStepThrough]
-        public void Execute() 
+        public async void Execute() 
         {
-            if (_ShouldExecute)
-                _Execute();
+            if (!_ShouldExecute)
+                return;
+
+            ShouldExecute = false;
+            await _Execute();
+            ShouldExecute = true;
         }
     }
 }

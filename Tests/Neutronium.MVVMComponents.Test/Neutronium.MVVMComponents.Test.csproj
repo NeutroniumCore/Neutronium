@@ -65,12 +65,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RelayResultCommandTest.cs" />
-    <Compile Include="RelaySimpleCommandGenericTest.cs" />
-    <Compile Include="RelaySimpleCommandTest.cs" />
+    <Compile Include="Relay\RelayResultCommandTest.cs" />
+    <Compile Include="Relay\RelaySimpleCommandGenericTest.cs" />
+    <Compile Include="Relay\RelaySimpleCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RelayToogleCommandGenericTest.cs" />
-    <Compile Include="RelayToogleCommandTest.cs" />
+    <Compile Include="Relay\RelayTaskCommandGenericTest.cs" />
+    <Compile Include="Relay\RelayTaskCommandTest.cs" />
+    <Compile Include="Relay\RelayToogleCommandGenericTest.cs" />
+    <Compile Include="Relay\RelayToogleCommandTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj">

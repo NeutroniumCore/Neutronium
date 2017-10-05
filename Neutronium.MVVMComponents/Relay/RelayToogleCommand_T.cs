@@ -17,7 +17,14 @@ namespace Neutronium.MVVMComponents.Relay
         public bool ShouldExecute
         {
             get { return _ShouldExecute; }
-            set { if (_ShouldExecute != value) { _ShouldExecute = value; FireCanExecuteChanged(); } }
+            set 
+            {
+                if (_ShouldExecute == value)
+                    return;
+
+                _ShouldExecute = value;
+                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public bool CanExecute(object parameter) => _ShouldExecute;
@@ -26,11 +33,6 @@ namespace Neutronium.MVVMComponents.Relay
         {
             if ((parameter is T) || (parameter == null && (typeof(T).IsClass)))
                 Execute((T)parameter);
-        }
-
-        private void FireCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void Execute(T argument)
