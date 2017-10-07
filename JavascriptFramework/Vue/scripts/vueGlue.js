@@ -274,7 +274,7 @@
         },
         methods: {
             computeCanExecute: function () {
-                if ((this.command !== null) && (this.command.hasOwnProperty('CanExecute')))
+                if ((this.command !== null) && (this.command.CanExecute))
                     this.command.CanExecute(this.arg);
             },
             execute: function () {
