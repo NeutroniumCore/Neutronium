@@ -1466,12 +1466,15 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        [Fact]
-        public async Task TwoWay_CommandGeneric_Can_Be_Called_With_Parameter()
+        [Theory]
+        [InlineData("parameter")]
+        [InlineData("")]
+        [InlineData(null)]
+        [InlineData("abc")]
+        public async Task TwoWay_CommandGeneric_Can_Be_Called_With_Parameter(string parameter)
         {
             var command = Substitute.For<ICommand<string>>();
             var datacontexttest = new FakeTestViewModel() { CommandGeneric = command };
-            var parameter = "parameter";
 
             var test = new TestInContextAsync()
             {
@@ -1481,7 +1484,8 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var mycommand = GetAttribute(js, "CommandGeneric");
-                    DoSafe(() => Call(mycommand, "Execute", _WebView.Factory.CreateString(parameter) ));
+                    var jsParameter = (parameter != null) ? _WebView.Factory.CreateString(parameter) : _WebView.Factory.CreateNull();
+                    DoSafe(() => Call(mycommand, "Execute", jsParameter));
                     await Task.Delay(100);
                     command.Received(1).Execute(parameter);
                 }

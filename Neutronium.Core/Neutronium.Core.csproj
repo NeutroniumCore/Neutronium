@@ -157,6 +157,7 @@
     <Compile Include="Binding\GlueBuilder\GlueFactory.cs" />
     <Compile Include="Binding\IJavascriptSessionCache.cs" />
     <Compile Include="Binding\Builder\StandardStrategyFactory.cs" />
+    <Compile Include="Extension\Result.cs" />
     <Compile Include="Extension\WebViewExtension.cs" />
     <Compile Include="IBindingBuilder.cs" />
     <Compile Include="Infra\AddLoger.cs" />

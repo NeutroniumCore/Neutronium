@@ -7,20 +7,6 @@ namespace Neutronium.Core.Extension
 {
     public static class JavascriptToCSharpConverterExtension
     {
-        public struct Result<T>
-        {
-            public bool Success { get; }
-            public object TentativeValue { get; }
-            public T Value { get; }
-
-            public Result(IJsCsGlue value = null)
-            {
-                TentativeValue = value?.CValue;
-                Success = (value != null) && TentativeValue is T;
-                Value = Success ? (T)TentativeValue : default(T);
-            }
-        }
-
         public static Result<T> GetFirstArgument<T>(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
         {
             if (javascriptObjects.Length == 0)
