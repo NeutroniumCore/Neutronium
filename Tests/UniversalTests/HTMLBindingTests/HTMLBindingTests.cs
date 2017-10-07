@@ -1335,6 +1335,37 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
+        public async Task TwoWay_CommandWithoutParameter_CanExecute_Refresh_Ok()
+        {
+            var command = Substitute.For<ICommandWithoutParameter>();
+            command.CanExecute.Returns(true);
+            var datacontexttest = new FakeTestViewModel() { CommandWithoutParameters = command };
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var mycommand = GetAttribute(js, "CommandWithoutParameters");
+                    var res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeTrue();
+
+                    command.CanExecute.Returns(false);
+                    command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+
+                    await Task.Delay(100);
+
+                    mycommand = GetAttribute(js, "CommandWithoutParameters");
+                    res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeFalse();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
         public async Task TwoWay_CommandWithoutParameter_Can_Be_Called()
         {
             var command = Substitute.For<ICommandWithoutParameter>();
@@ -1556,6 +1587,38 @@ namespace Tests.Universal.HTMLBindingTests
                     command.Received().Execute(argument);
                 }
             };
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_Command_Generic_CanExecute_Refresh_Ok()
+        {
+            var command = Substitute.For<ICommand<string>>();
+            command.CanExecute(Arg.Any<string>()).Returns(true);
+            var datacontexttest = new FakeTestViewModel() { CommandGeneric = command };
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var mycommand = GetAttribute(js, "CommandGeneric");
+                    var res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeTrue();
+
+                    command.CanExecute(Arg.Any<string>()).Returns(false);
+                    command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+
+                    await Task.Delay(100);
+
+                    mycommand = GetAttribute(js, "CommandGeneric");
+                    res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeFalse();
+                }
+            };
+
             await RunAsync(test);
         }
 

@@ -22,6 +22,8 @@
         </div>
 
         <commandbutton :command="TestCommand" :arg="$data" msg="Change skill"></commandbutton>
+        <commandbutton :command="CommandGeneric" :arg="'data'" msg="Test1"></commandbutton>
+        <commandbutton :command="CommandWithoutParameters" :arg="" msg="Test2"></commandbutton>
 </div>
 
     <script src="src/objectassignpolyfill.js"></script>

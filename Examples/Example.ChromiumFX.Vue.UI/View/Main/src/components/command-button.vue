@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="btn btn-default" @click="execute">{{name}}</button>
+  <button type="button" class="btn btn-default" @click="execute" :disabled="disabled">{{name}}</button>
 </template>
 
 <script>
@@ -9,7 +9,12 @@ export default {
   mixins:[comandMixin],
   props:{
     name: String
-  }
+  },
+    computed:{
+        disabled(){
+            return !this.canExecute;
+        }
+    }
 }
 </script>
 

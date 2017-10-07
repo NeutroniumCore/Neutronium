@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;

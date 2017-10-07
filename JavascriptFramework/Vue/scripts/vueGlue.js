@@ -250,11 +250,11 @@
         props: {
             command: {
                 type: Object,
-                default: null
+                "default": null
             },
             arg: {
-                type: Object,
-                default: null
+                required: false,
+                "default": null
             }
         },
         computed: {

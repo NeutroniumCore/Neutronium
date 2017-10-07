@@ -10,7 +10,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
-    "neutronium-vue-command-mixin": "^1.4.3",
+    "neutronium-vue-command-mixin": "^1.5.0",
     "vue": "^2.1.10"
   },
   "devDependencies": {
