@@ -68,6 +68,7 @@
     <Compile Include="ISimpleCommand.cs" />
     <Compile Include="ICommand_T.cs" />
     <Compile Include="ISimpleCommand_T.cs" />
+    <Compile Include="IUpdatableCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Relay\RelayResultCommand.cs" />
     <Compile Include="Relay\RelayResultCommand_TResult.cs" />

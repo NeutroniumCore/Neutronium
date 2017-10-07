@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Neutronium.Core.Binding.GlueBuilder;
-using Neutronium.Core.Infra.Reflection;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Infra
@@ -48,5 +46,6 @@ namespace Neutronium.Core.Infra
         public static readonly Type Enumerable = typeof(IEnumerable<>);
         public static readonly Type Dictionary = typeof(IDictionary<,>);
         public static readonly Type SimpleCommand = typeof(ISimpleCommand<>);
+        public static readonly Type GenericCommand = typeof(ICommand<>);
     }
 }

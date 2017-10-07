@@ -4,12 +4,14 @@ using NSubstitute;
 using Xunit;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq.Expressions;
+using System.Windows.Input;
 using FluentAssertions;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
+using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Test.Helper;
+using Neutronium.MVVMComponents;
 using Xunit.Abstractions;
 using Newtonsoft.Json;
 
@@ -169,6 +171,96 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             res.ToString().Should().Be("{\"Bool\":true,\"Decimal\":0.01,\"Double\":0.9221,\"Int32\":1}");
+        }
+
+        [Fact]
+        public void Map_maps_ISimpleCommand()
+        {
+            var command = Substitute.For<ISimpleCommand>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsSimpleCommand>();
+        }
+
+        [Fact]
+        public void Map_maps_gives_priority_to_ISimpleCommand()
+        {
+            var command = Substitute.For<ISimpleCommand, ICommand>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsSimpleCommand>();
+        }
+
+        [Fact]
+        public void Map_maps_ISimpleCommand_Generic()
+        {
+            var command = Substitute.For<ISimpleCommand<string>>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsSimpleCommand<string>>();
+        }
+
+        [Fact]
+        public void Map_maps_gives_priority_to_ISimpleCommand_generic()
+        {
+            var command = Substitute.For<ISimpleCommand<string>, ICommand>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsSimpleCommand<string>>();
+        }
+
+        [Fact]
+        public void Map_maps_ICommand()
+        {
+            var command = Substitute.For<ICommand>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsCommand>();
+        }
+
+        [Fact]
+        public void Map_maps_ICommand_Generic()
+        {
+            var command = Substitute.For<ICommand<string>>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsCommand<string>>();
+        }
+
+        [Fact]
+        public void Map_maps_gives_priority_to_ICommand_generic()
+        {
+            var command = Substitute.For<ICommand<string>, ICommand>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsCommand<string>>();
+        }
+
+        [Fact]
+        public void Map_maps_ICommandWithoutParameter_Generic()
+        {
+            var command = Substitute.For<ICommandWithoutParameter>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsCommandWithoutParameter>();
+        }
+
+        [Fact]
+        public void Map_maps_gives_priority_to_ICommandWithoutParameter()
+        {
+            var command = Substitute.For<ICommandWithoutParameter, ICommand>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsCommandWithoutParameter>();
         }
 
         [Fact]

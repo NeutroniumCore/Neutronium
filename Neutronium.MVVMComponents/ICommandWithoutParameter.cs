@@ -1,22 +1,15 @@
-﻿using System;
-
-namespace Neutronium.MVVMComponents
+﻿namespace Neutronium.MVVMComponents
 {
     /// <summary>
     /// Command that receive no argument
     /// <seealso cref="ICommand"/>
     /// </summary>
-    public interface ICommandWithoutParameter
+    public interface ICommandWithoutParameter : IUpdatableCommand
     {
         /// <summary>
         /// Execute the command
         /// </summary>
         void Execute();
-
-        /// <summary>
-        /// Occurs when changes occur that affect whether or not the command should execute.
-        /// </summary>
-        event EventHandler CanExecuteChanged;
 
         /// <summary>
         ///  Determines whether the command can execute in its current

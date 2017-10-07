@@ -25,6 +25,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private GlueObjectDynamicObjectBuilder GlueObjectDynamicBuilder => _GlueObjectDynamicBuilder ?? (_GlueObjectDynamicBuilder = new GlueObjectDynamicObjectBuilder(this));
 
         private static readonly GenericMethodAccessor _SimpleFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildSimpleGenericCommand));
+        private static readonly GenericMethodAccessor _CommandFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildGenericCommand));
 
         public CSharpToJavascriptConverter(ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
@@ -74,6 +75,8 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private static IJsCsGlue BuildCommand(IGlueFactory factory, object @object) => factory.Build((ICommand)@object);
         private static IJsCsGlue BuildSimpleCommand(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand)@object);
         private static IJsCsGlue BuildSimpleGenericCommand<T>(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand<T>)@object);
+        private static IJsCsGlue BuildGenericCommand<T>(IGlueFactory factory, object @object) => factory.Build((ICommand<T>)@object);
+        private static IJsCsGlue BuildCommandWithoutParameter(IGlueFactory factory, object @object) => factory.Build((ICommandWithoutParameter)@object);
         private static IJsCsGlue BuildResultCommand(IGlueFactory factory, object @object) => factory.Build((IResultCommand)@object);
 
         private Func<IGlueFactory, object, IJsCsGlue> GetConverter(Type type, object @object)
@@ -94,15 +97,25 @@ namespace Neutronium.Core.Binding.GlueBuilder
             if (@object is IResultCommand)
                 return BuildResultCommand;
 
+            simpleType = type.GetInterfaceGenericType(Types.GenericCommand);
+            if (simpleType != null)
+            {
+                var builder = _CommandFactory.Build<IJsCsGlue>(simpleType);
+                return (fact, obj) => builder.Invoke(fact, obj);
+            }
+
+            if (@object is ICommandWithoutParameter)
+                return BuildCommandWithoutParameter;
+
+            if (@object is ICommand)
+                return BuildCommand;
+
             var stringDictionaryValueType = type.GetDictionaryStringValueType();
             if (stringDictionaryValueType != null)
             {
                 var objectDictionaryBuilder = new GlueObjectDictionaryBuilder(this, stringDictionaryValueType);
                 return objectDictionaryBuilder.Convert;
             }
-
-            if (@object is ICommand)
-                return BuildCommand;
 
             var dynamicObject = @object as DynamicObject;
             if (dynamicObject != null)

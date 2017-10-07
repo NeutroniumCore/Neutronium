@@ -115,6 +115,7 @@
     <Compile Include="Helper\BasicTestViewNodel.cs" />
     <Compile Include="Helper\ClrTypesTestViewModel.cs" />
     <Compile Include="Helper\CommandsTestViewModel.cs" />
+    <Compile Include="Helper\FakeTestViewModel.cs" />
     <Compile Include="Helper\NullableTestViewModel.cs" />
     <Compile Include="Helper\PerformanceHelper.cs" />
     <Compile Include="Helper\ReadOnlyTestViewModel.cs" />

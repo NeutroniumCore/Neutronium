@@ -1,6 +1,5 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
-using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Executable;
 
 namespace Neutronium.Core.Binding.Listeners
@@ -11,6 +10,6 @@ namespace Neutronium.Core.Binding.Listeners
 
         void OnCollection(INotifyCollectionChanged icollection);
 
-        void OnCommand(JsCommand icommand);
+        void OnCommand(JsCommandBase icommand);
     }
 }

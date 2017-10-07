@@ -4,7 +4,7 @@ using Neutronium.MVVMComponents.Relay;
 using NSubstitute;
 using Xunit;
 
-namespace Neutronium.MVVMComponents.Test
+namespace Neutronium.MVVMComponents.Test.Relay
 {
     public class RelayToogleCommandGenericTest
     {

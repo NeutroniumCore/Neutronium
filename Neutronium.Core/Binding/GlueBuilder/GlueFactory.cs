@@ -26,6 +26,16 @@ namespace Neutronium.Core.Binding.GlueBuilder
             return Cache(command, new JsCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command));
         }
 
+        public JsCommand<T> Build<T>(ICommand<T> command)
+        {
+            return Cache(command, new JsCommand<T>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+        }
+
+        public JsCommandWithoutParameter Build(ICommandWithoutParameter command)
+        {
+            return Cache(command, new JsCommandWithoutParameter(_HtmlViewContext, _JavascriptToCSharpConverter, command)); ;
+        }
+
         public JsSimpleCommand Build(ISimpleCommand command)
         {
             return Cache(command, new JsSimpleCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command));

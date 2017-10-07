@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Executable;
 
 namespace Neutronium.Core.Binding.Listeners
@@ -10,10 +9,10 @@ namespace Neutronium.Core.Binding.Listeners
     {
         private readonly Action<INotifyPropertyChanged> _OnObject;
         private readonly Action<INotifyCollectionChanged> _OnCollection;
-        private readonly Action<JsCommand> _OnCommand;
+        private readonly Action<JsCommandBase> _OnCommand;
 
         public ObjectChangesListener(Action<INotifyPropertyChanged> onObject,
-                            Action<INotifyCollectionChanged> onCollection, Action<JsCommand> onCommand)
+                            Action<INotifyCollectionChanged> onCollection, Action<JsCommandBase> onCommand)
         {
             _OnObject = onObject;
             _OnCollection = onCollection;
@@ -30,7 +29,7 @@ namespace Neutronium.Core.Binding.Listeners
             _OnCollection(collection);
         }
 
-        public void OnCommand(JsCommand command)
+        public void OnCommand(JsCommandBase command)
         {
             _OnCommand(command);
         }

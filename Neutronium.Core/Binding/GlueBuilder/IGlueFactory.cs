@@ -13,6 +13,10 @@ namespace Neutronium.Core.Binding.GlueBuilder
     {
         JsCommand Build(ICommand command);
 
+        JsCommand<T> Build<T>(ICommand<T> command);
+
+        JsCommandWithoutParameter Build(ICommandWithoutParameter command);
+
         JsSimpleCommand Build(ISimpleCommand command);
 
         JsSimpleCommand<T> Build<T>(ISimpleCommand<T> command);

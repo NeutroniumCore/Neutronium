@@ -1,23 +1,16 @@
-﻿using System;
-
-namespace Neutronium.MVVMComponents
+﻿namespace Neutronium.MVVMComponents
 {
     /// <summary>
     /// Command that receive a typed argument
     /// <seealso cref="ICommand"/>
     /// </summary>
-    public interface ICommand<in T>
+    public interface ICommand<in T> : IUpdatableCommand
     {
         /// <summary>
         /// Execute the command with the corresponding argument
         /// </summary>
         /// <param name="argument"></param>
         void Execute(T argument);
-
-        ///<summary>
-        ///     Occurs when changes occur that affect whether or not the command should execute.
-        ///</summary>
-        event EventHandler CanExecuteChanged;
 
         /// <summary>
         /// Defines the method that determines whether the command can execute in its current

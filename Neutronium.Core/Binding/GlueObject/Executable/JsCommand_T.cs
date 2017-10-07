@@ -1,28 +1,22 @@
 ﻿using System;
-using System.Windows.Input;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    public class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
+    public class JsCommand<T> : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
-        private readonly bool _InitialCanExecute = true;
-        private readonly ICommand _Command;
+        private readonly ICommand<T> _Command;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand command): 
+        public JsCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand<T> command) :
             base(context, converter)
         {
             _Command = command;
-            try
-            {
-                _InitialCanExecute = _Command.CanExecute(null);
-            }
-            catch { }
         }
 
         public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
@@ -33,7 +27,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            builder.RequestCommandCreation(_InitialCanExecute);
+            builder.RequestCommandCreation(true);
         }
 
         public void VisitDescendants(Func<IJsCsGlue, bool> visit)
@@ -53,14 +47,25 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override void Execute(IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            UiDispatcher.Dispatch(() => _Command.Execute(parameter));
+            var parameter = _JavascriptToCSharpConverter.GetFirstArgument<T>(e);
+            if (!parameter.Success)
+            {
+                Logger.Error($"Impossible to call Execute on command<{typeof(T)}>, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");
+                return;
+            }
+
+            UiDispatcher.Dispatch(() => _Command.Execute(parameter.Value));
         }
 
         internal override async void CanExecuteCommand(params IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));
+            var parameter = _JavascriptToCSharpConverter.GetFirstArgument<T>(e);
+            if (!parameter.Success)
+            {
+                Logger.Error($"Impossible to call CanExecuteCommand on command<{typeof(T)}>, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");
+                return;
+            }
+            var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter.Value));
             UpdateCanExecuteValue(res);
         }
     }

@@ -22,7 +22,7 @@ namespace Neutronium.Core.Extension
             }
         }
 
-        public static Result<T> GetFirstArgumentOrNull<T>(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
+        public static Result<T> GetFirstArgument<T>(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
         {
             if (javascriptObjects.Length == 0)
                 return new Result<T>();

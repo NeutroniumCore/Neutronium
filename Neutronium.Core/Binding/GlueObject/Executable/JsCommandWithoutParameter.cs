@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Windows.Input;
 using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    public class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
+    public class JsCommandWithoutParameter : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
+        private readonly ICommandWithoutParameter _Command;
         private readonly bool _InitialCanExecute = true;
-        private readonly ICommand _Command;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand command): 
+        public JsCommandWithoutParameter(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommandWithoutParameter command) :
             base(context, converter)
         {
             _Command = command;
-            try
-            {
-                _InitialCanExecute = _Command.CanExecute(null);
-            }
-            catch { }
+            _InitialCanExecute = _Command.CanExecute;
         }
 
         public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
@@ -53,14 +48,12 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override void Execute(IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            UiDispatcher.Dispatch(() => _Command.Execute(parameter));
+            UiDispatcher.Dispatch(() => _Command.Execute());
         }
 
         internal override async void CanExecuteCommand(params IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));
+            var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute);
             UpdateCanExecuteValue(res);
         }
     }
