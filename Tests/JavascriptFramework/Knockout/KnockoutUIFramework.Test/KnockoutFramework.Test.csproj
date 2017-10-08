@@ -134,6 +134,9 @@
     <Content Include="TestHtml\javascript\empty_with_js.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestHtml\javascript\generic_bind.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestHtml\javascript\index_with_include.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

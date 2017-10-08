@@ -7,6 +7,9 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext
         [Description("javascript\\index.html")]
         Index,
 
+        [Description("javascript\\generic_bind.html")]
+        GenericBind,
+
         [Description("javascript\\simple.html")]
         Simple,
 

@@ -1343,6 +1343,7 @@ namespace Tests.Universal.HTMLBindingTests
 
             var test = new TestInContextAsync()
             {
+                Path = TestContext.GenericBind,
                 Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
@@ -1354,7 +1355,7 @@ namespace Tests.Universal.HTMLBindingTests
                     command.CanExecute.Returns(false);
                     command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
 
-                    await Task.Delay(100);
+                    await Task.Delay(150);
 
                     mycommand = GetAttribute(js, "CommandWithoutParameters");
                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
@@ -1486,7 +1487,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var mycommand = GetAttribute(js, "CommandGeneric");
                     var jsParameter = (parameter != null) ? _WebView.Factory.CreateString(parameter) : _WebView.Factory.CreateNull();
                     DoSafe(() => Call(mycommand, "Execute", jsParameter));
-                    await Task.Delay(100);
+                    await Task.Delay(150);
                     command.Received(1).Execute(parameter);
                 }
             };
@@ -1594,30 +1595,30 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
-        public async Task TwoWay_Command_Generic_CanExecute_Refresh_Ok()
+        public async Task TwoWay_Command_Generic_FakeTestViewModel_CanExecute_Refresh_Ok()
         {
-            var command = Substitute.For<ICommand<string>>();
-            command.CanExecute(Arg.Any<string>()).Returns(true);
-            var datacontexttest = new FakeTestViewModel() { CommandGeneric = command };
+            var command = Substitute.For<ICommand<FakeTestViewModel>>();
+            command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(true);
+            var datacontexttest = new FakeTestViewModel() { AutoCommand = command };
 
             var test = new TestInContextAsync()
             {
+                Path = TestContext.GenericBind,
                 Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
-                    var mycommand = GetAttribute(js, "CommandGeneric");
+                    var mycommand = GetAttribute(js, "AutoCommand");
                     var res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeTrue();
 
-                    command.CanExecute(Arg.Any<string>()).Returns(false);
+                    command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(false);
                     command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
 
                     await Task.Delay(100);
 
-                    mycommand = GetAttribute(js, "CommandGeneric");
+                    mycommand = GetAttribute(js, "AutoCommand");
                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeFalse();
                 }
@@ -1994,7 +1995,6 @@ namespace Tests.Universal.HTMLBindingTests
         {
             bool canexecute = true;
             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
-
 
             var test = new TestInContextAsync()
             {

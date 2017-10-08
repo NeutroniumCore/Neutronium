@@ -23,7 +23,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 
             if (value.IsString)
             {
-                res = ijsvalue.GetStringValue();
+                res = ijsvalue.GetStringValue() ?? string.Empty;
                 return true;
             }
 

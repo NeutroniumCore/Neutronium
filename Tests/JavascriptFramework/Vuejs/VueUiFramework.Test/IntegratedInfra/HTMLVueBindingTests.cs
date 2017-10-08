@@ -10,6 +10,9 @@ using Tests.Universal.HTMLBindingTests;
 using Xunit;
 using Xunit.Abstractions;
 using System.Dynamic;
+using Neutronium.MVVMComponents;
+using NSubstitute;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
 namespace VueFramework.Test.IntegratedInfra 
 {
@@ -317,6 +320,39 @@ namespace VueFramework.Test.IntegratedInfra
 
                     var resDouble = GetDoubleAttribute(js, "ValueDouble");
                     resDouble.Should().Be(23);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_Command_Generic_String_CanExecute_Refresh_Ok()
+        {
+            var command = Substitute.For<ICommand<string>>();
+            command.CanExecute(Arg.Any<string>()).Returns(true);
+            var datacontexttest = new FakeTestViewModel() { CommandGeneric = command };
+
+            var test = new TestInContextAsync()
+            {
+                Path = TestContext.GenericBind,
+                Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var mycommand = GetAttribute(js, "CommandGeneric");
+                    var res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeTrue();
+
+                    command.CanExecute(Arg.Any<string>()).Returns(false);
+                    command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+
+                    await Task.Delay(100);
+
+                    mycommand = GetAttribute(js, "CommandGeneric");
+                    res = GetBoolAttribute(mycommand, "CanExecuteValue");
+                    res.Should().BeFalse();
                 }
             };
 

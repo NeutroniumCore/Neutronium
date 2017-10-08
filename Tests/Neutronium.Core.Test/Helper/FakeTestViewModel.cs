@@ -19,6 +19,13 @@ namespace Neutronium.Core.Test.Helper
             set { Set(ref _CommandGeneric, value); }
         }
 
+        private ICommand<FakeTestViewModel> _AutoCommand;
+        public ICommand<FakeTestViewModel> AutoCommand
+        {
+            get { return _AutoCommand; }
+            set { Set(ref _AutoCommand, value); }
+        }
+
         private ICommand<int> _CommandGenericInt;
         public ICommand<int> CommandGenericInt
         {
