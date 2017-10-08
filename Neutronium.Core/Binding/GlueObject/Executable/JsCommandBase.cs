@@ -9,7 +9,6 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
     public abstract class JsCommandBase : GlueBase
     {
         private readonly HtmlViewContext _HtmlViewContext;
-
         private byte _Count = 1;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HtmlViewContext.ViewModelUpdater;
 
@@ -21,7 +20,6 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         protected IWebView WebView => _HtmlViewContext.WebView;
         protected IDispatcher UiDispatcher => _HtmlViewContext.UiDispatcher;
         protected IWebSessionLogger Logger => _HtmlViewContext.Logger;
-
         protected void SetJsId(uint jsId) => JsId = jsId;
 
         protected JsCommandBase(HtmlViewContext context, IJavascriptToCSharpConverter converter)
@@ -29,6 +27,11 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             _JavascriptToCSharpConverter = converter;
             _HtmlViewContext = context;
         }
+
+        public abstract void Execute(IJavascriptObject[] e);
+        public abstract void CanExecuteCommand(params IJavascriptObject[] e);
+        public abstract void ListenChanges();
+        public abstract void UnListenChanges();
 
         public void UpdateJsObject(IJavascriptObject javascriptObject)
         {
@@ -43,12 +46,6 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
 
-        public abstract void Execute(IJavascriptObject[] e);
-        internal abstract void CanExecuteCommand(params IJavascriptObject[] e);
-
-        public abstract void ListenChanges();
-        public abstract void UnListenChanges();
-
         public void ApplyOnListenable(IObjectChangesListener listener)
         {
             listener.OnCommand(this);
@@ -56,24 +53,21 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         protected void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            _Count = (byte) ((_Count + 1) % 2);
-            WebView?.Dispatch(() =>
-            {
-                UpdateProperty("CanExecuteCount", (f) => f.CreateInt(_Count));
-            });
-        }
-
-        protected void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
-        {
-            var newValue = factory(WebView.Factory);
-            ViewModelUpdater.UpdateProperty(CachableJsValue, propertyName, newValue, false);
+            _Count = (byte) ((_Count == 1) ? 2 : 1);
+            UpdateProperty("CanExecuteCount", (f) => f.CreateInt(_Count));
         }
 
         protected void UpdateCanExecuteValue(bool value)
         {
+            UpdateProperty("CanExecuteValue", (f) => f.CreateBool(value));
+        }
+
+        private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
+        {
             WebView?.Dispatch(() =>
             {
-                UpdateProperty("CanExecuteValue", (f) => f.CreateBool(value));
+                var newValue = factory(WebView.Factory);
+                ViewModelUpdater.UpdateProperty(CachableJsValue, propertyName, newValue, false);
             });
         }
     }

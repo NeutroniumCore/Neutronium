@@ -57,7 +57,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             UiDispatcher.Dispatch(() => _Command.Execute(parameter));
         }
 
-        internal override async void CanExecuteCommand(params IJavascriptObject[] e)
+        public override async void CanExecuteCommand(params IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
             var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));

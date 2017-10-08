@@ -56,7 +56,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             ComputeCanExecute();
         }
 
-        internal override void CanExecuteCommand(params IJavascriptObject[] e)
+        public override void CanExecuteCommand(params IJavascriptObject[] e)
         {
             ComputeCanExecute();
         }
