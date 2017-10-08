@@ -10,7 +10,7 @@ namespace Neutronium.Core.Navigation
 {
     public class NavigationBuilder : INavigationBuilder, IUrlSolver
     {
-        private IDictionary<Type, IDictionary<string, Uri>> _Mapper = new Dictionary<Type, IDictionary<string, Uri>>();
+        private readonly IDictionary<Type, IDictionary<string, Uri>> _Mapper = new Dictionary<Type, IDictionary<string, Uri>>();
 
         private NavigationBuilder Register(Type type, Uri uri, string id)
         {

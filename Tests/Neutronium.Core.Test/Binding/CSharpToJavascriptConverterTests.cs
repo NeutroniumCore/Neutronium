@@ -8,6 +8,7 @@ using System.Windows.Input;
 using FluentAssertions;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
+using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Test.Helper;
@@ -155,6 +156,23 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}],\"Property1\":null,\"Property2\":null,\"Property3\":\"~Children~0\"}");
+        }
+
+        [Theory]
+        [InlineData(1L)]
+        [InlineData(1F)]
+        [InlineData(1)]
+        [InlineData(1U)]
+        [InlineData(1UL)]
+        [InlineData(true)]
+        [InlineData("")]
+        public void Map_maps_clr_number(object number)
+        {
+            var res = _CSharpToJavascriptConverter.Map(number);
+
+            var expectedType = typeof(JsBasicTyped<>).MakeGenericType(number.GetType());
+
+            res.GetType().BaseType.Should().Be(expectedType);
         }
 
         [Fact]
