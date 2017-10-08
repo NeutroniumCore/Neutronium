@@ -1823,6 +1823,73 @@ namespace Tests.Universal.HTMLBindingTests
                     CheckIntValue(js, "Double", 0);
                     CheckIntValue(js, "Decimal", 0);
                     CheckIntValue(js, "Float", 0);
+
+                    CheckIntValue(js, "Byte", 0);
+                    CheckIntValue(js, "Sbyte", 0);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_CLR_Type_From_CSharp()
+        {
+            var datacontext = new ClrTypesTestViewModel
+            {
+                Int64 = 32,
+                Uint64 = 456,
+                Int32 =231,
+                Uint32 = 77,
+                Int16 = 55,
+                Uint16 = 23,
+                Float = 18.19f,
+                Double = 55.88,
+                Decimal = 47.89m,
+                Byte = 12,
+                Sbyte = -17
+            };
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    js.Should().NotBeNull();
+
+                    var res = GetIntAttribute(js, "Int64");
+                    res.Should().Be((int)datacontext.Int64);
+
+                    res = GetIntAttribute(js, "Uint64");
+                    res.Should().Be((int)datacontext.Uint64);
+
+                    res = GetIntAttribute(js, "Int32");
+                    res.Should().Be(datacontext.Int32);
+
+                    res = GetIntAttribute(js, "Uint32");
+                    res.Should().Be((int)datacontext.Uint32);
+
+                    res = GetIntAttribute(js, "Int16");
+                    res.Should().Be(datacontext.Int16);
+
+                    res = GetIntAttribute(js, "Uint16");
+                    res.Should().Be(datacontext.Uint16);
+
+                    var res2 = GetDoubleAttribute(js, "Float");
+                    res2.Should().Be(datacontext.Float);
+
+                    res2 = GetDoubleAttribute(js, "Double");
+                    res2.Should().Be(datacontext.Double);
+
+                    res2 = GetDoubleAttribute(js, "Decimal");
+                    res2.Should().Be((double) datacontext.Decimal);
+
+                    res = GetIntAttribute(js, "Byte");
+                    res.Should().Be(datacontext.Byte);
+
+                    res = GetIntAttribute(js, "Sbyte");
+                    res.Should().Be(datacontext.Sbyte);
                 }
             };
 
@@ -1877,6 +1944,14 @@ namespace Tests.Universal.HTMLBindingTests
                     SetAttribute(js, "Decimal", _WebView.Factory.CreateDouble(0.5));
                     await Task.Delay(200);
                     datacontext.Decimal.Should().Be(0.5m);
+
+                    SetAttribute(js, "Byte", _WebView.Factory.CreateInt(10));
+                    await Task.Delay(200);
+                    datacontext.Byte.Should().Be(10);
+
+                    SetAttribute(js, "Sbyte", _WebView.Factory.CreateInt(-12));
+                    await Task.Delay(200);
+                    datacontext.Sbyte.Should().Be(-12);
                 }
             };
 

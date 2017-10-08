@@ -37,6 +37,10 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         JsDouble BuildDouble(object value);
 
+        JsByte BuildByte(object value);
+
+        JsSByte BuildSByte(object value);
+
         JsUint BuildUint(object value);
 
         JsDecimal BuildDecimal(object value);

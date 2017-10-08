@@ -18,6 +18,8 @@ namespace Neutronium.Core.Binding.GlueBuilder
         }
 
         public JsInt BuildInt(object value)       => CacheWithoutListen(value, new JsInt((int)value));
+        public JsByte BuildByte(object value) => CacheWithoutListen(value, new JsByte((byte)value));
+        public JsSByte BuildSByte(object value) => CacheWithoutListen(value, new JsSByte((sbyte)value));
         public JsString BuildString(object value) => CacheWithoutListen(value, new JsString((string)value));
         public JsBool BuildBool(object value)    => CacheWithoutListen(value, new JsBool((bool)value));
         public JsEnum BuildEnum(object value)    => CacheWithoutListen(value, new JsEnum((Enum)value));

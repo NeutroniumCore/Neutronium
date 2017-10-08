@@ -39,6 +39,8 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 [Types.Int] = (factory, @object) => factory.BuildInt(@object),
                 [Types.Double] = (factory, @object) => factory.BuildDouble(@object),
                 [Types.Uint] = (factory, @object) => factory.BuildUint(@object),
+                [Types.Byte] = (factory, @object) => factory.BuildByte(@object),
+                [Types.SByte] = (factory, @object) => factory.BuildSByte(@object),
                 [Types.Decimal] = (factory, @object) => factory.BuildDecimal(@object),
                 [Types.Long] = (factory, @object) => factory.BuildLong(@object),
                 [Types.Short] = (factory, @object) => factory.BuildShort(@object),

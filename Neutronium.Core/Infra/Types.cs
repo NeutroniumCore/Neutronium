@@ -7,6 +7,8 @@ namespace Neutronium.Core.Infra
 {
     public static class Types
     {
+        public static readonly Type Byte = typeof(byte);
+        public static readonly Type SByte = typeof(sbyte);
         public static readonly Type Bool = typeof(bool);
         public static readonly Type String = typeof(string);
         public static readonly Type Int = typeof(int);
@@ -25,6 +27,8 @@ namespace Neutronium.Core.Infra
 
         private static readonly ISet<Type> _ClrTypes = new HashSet<Type>
         {
+            Byte,
+            SByte,
             Bool,
             String,
             Int,
