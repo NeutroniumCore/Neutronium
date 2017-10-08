@@ -9,7 +9,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
     {
         public object CValue => _Command;
         private readonly ICommandWithoutParameter _Command;
-        private readonly bool _InitialCanExecute = true;
+        private bool _CanExecute;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
@@ -17,7 +17,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             base(context, converter)
         {
             _Command = command;
-            _InitialCanExecute = _Command.CanExecute;
+            _CanExecute = _Command.CanExecute;
         }
 
         public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
@@ -28,7 +28,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
         {
-            builder.RequestCommandCreation(_InitialCanExecute);
+            builder.RequestCommandCreation(_CanExecute);
         }
 
         public void VisitDescendants(Func<IJsCsGlue, bool> visit)
@@ -38,12 +38,12 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override void ListenChanges()
         {
-            _Command.CanExecuteChanged += Command_CanExecuteChanged;
+            _Command.CanExecuteChanged += _Command_CanExecuteChanged;
         }
 
         public override void UnListenChanges()
         {
-            _Command.CanExecuteChanged -= Command_CanExecuteChanged;
+            _Command.CanExecuteChanged -= _Command_CanExecuteChanged;
         }
 
         public override void Execute(IJavascriptObject[] e)
@@ -51,9 +51,23 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             UiDispatcher.Dispatch(() => _Command.Execute());
         }
 
-        internal override async void CanExecuteCommand(params IJavascriptObject[] e)
+        private void _Command_CanExecuteChanged(object sender, EventArgs e)
+        {
+            ComputeCanExecute();
+        }
+
+        internal override void CanExecuteCommand(params IJavascriptObject[] e)
+        {
+            ComputeCanExecute();
+        }
+
+        private async void ComputeCanExecute()
         {
             var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute);
+            if (res == _CanExecute)
+                return;
+
+            _CanExecute = res;
             UpdateCanExecuteValue(res);
         }
     }

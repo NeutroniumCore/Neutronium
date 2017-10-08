@@ -9,8 +9,8 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
     public abstract class JsCommandBase : GlueBase
     {
         private readonly HtmlViewContext _HtmlViewContext;
-        
-        private int _Count = 1;
+
+        private byte _Count = 1;
         private IJavascriptViewModelUpdater ViewModelUpdater => _HtmlViewContext.ViewModelUpdater;
 
         public uint JsId { get; private set; }
@@ -56,7 +56,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         protected void Command_CanExecuteChanged(object sender, EventArgs e)
         {
-            _Count = (_Count == 1) ? 2 : 1;
+            _Count = (byte) ((_Count + 1) % 2);
             WebView?.Dispatch(() =>
             {
                 UpdateProperty("CanExecuteCount", (f) => f.CreateInt(_Count));
