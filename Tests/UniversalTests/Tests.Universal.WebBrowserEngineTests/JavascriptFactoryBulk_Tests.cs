@@ -174,9 +174,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 Test(() =>
                 {
                     var res = ConvertBack(value);
-                    var equal = EqualityComparer<T>.Default.Equals(res, value);
-                    _Logger.Info($"{value} => {res} : {equal}");
-                    return equal;
+                    return EqualityComparer<T>.Default.Equals(res, value);
                 }).When(when(value))
             );
         }
@@ -266,7 +264,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 var res = Factory.CreateObjects(nbWrite, nbReadOnly).ToList();
                 var first = res.FirstOrDefault();
 
-                return (first == null) || res.Select(obj => GetId(obj)).SequenceEqual(Enumerable.Range(GetId(first), res.Count));
+                return (first == null) || res.Select(GetId).SequenceEqual(Enumerable.Range(GetId(first), res.Count));
             });
         }
 
