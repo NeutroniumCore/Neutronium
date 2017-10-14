@@ -2,6 +2,7 @@
 using System.Reflection;
 using FluentAssertions;
 using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.Test.Helper;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -20,7 +21,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
         {
             var type = typeof(FakeClass);
             var propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
-            return new PropertyAccessor(typeof(FakeClass), propertyInfo, 0);
+            return new PropertyAccessor(typeof(FakeClass), new PropertyInfoDescription(propertyInfo), 0);
         }
 
         [Theory]
@@ -68,7 +69,9 @@ namespace Neutronium.Core.Test.Infra.Reflection
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             var operations = 100000000;
-            var myTypeInstrospector = new PropertyAccessor(typeof(FakeClass), typeof(FakeClass).GetProperty("Available2", BindingFlags.Public | BindingFlags.Instance), 0);
+            var propertyInfo = typeof(FakeClass).GetProperty("Available2", BindingFlags.Public | BindingFlags.Instance);
+            var description = new PropertyInfoDescription(propertyInfo);
+            var myTypeInstrospector = new PropertyAccessor(typeof(FakeClass), description, 0);
 
             for (var i = 0; i < operations; i++)
             {         

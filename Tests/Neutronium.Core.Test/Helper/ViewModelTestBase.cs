@@ -5,7 +5,9 @@ namespace Neutronium.Core.Test.Helper
 {
     public class ViewModelTestBase : INotifyPropertyChanged
     {
+        [Bindable(false)]
         public int ListenerCount => _PropertyChanged?.GetInvocationList().Length ?? 0;
+
         private event PropertyChangedEventHandler _PropertyChanged;
 
         protected bool Set<T>(ref T property, T value, [CallerMemberName] string propertyName = null)

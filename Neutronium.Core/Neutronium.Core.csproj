@@ -175,8 +175,10 @@
     <Compile Include="Infra\Reflection\GenericMethodAccessor.cs" />
     <Compile Include="Infra\Reflection\ILExtension.cs" />
     <Compile Include="Infra\Reflection\IGenericPropertyAcessor.cs" />
+    <Compile Include="Infra\Reflection\MemberInfoExtensions.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessor.cs" />
     <Compile Include="Infra\Reflection\DictionaryPropertyAccessor.cs" />
+    <Compile Include="Infra\Reflection\PropertyInfoDescription.cs" />
     <Compile Include="Infra\Reflection\TypePropertyAccessor.cs" />
     <Compile Include="Infra\Slicer.cs" />
     <Compile Include="Infra\Types.cs" />

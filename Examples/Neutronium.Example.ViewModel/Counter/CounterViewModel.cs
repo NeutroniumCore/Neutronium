@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using Neutronium.MVVMComponents.Relay;
 
@@ -11,14 +12,13 @@ namespace Neutronium.Example.ViewModel.Counter
     {
         private const int _Leaves = 30;
         private const int _Position = 3;
-        public int CounterRead { get; private set; }
 
         private int _Counter;
+        [Bindable(true, BindingDirection.OneWay)]
         public int Counter
         {
             get
             {
-                CounterRead++;
                 return _Counter;
             }
             set

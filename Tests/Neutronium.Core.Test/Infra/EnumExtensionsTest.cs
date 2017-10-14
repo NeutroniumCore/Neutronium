@@ -7,28 +7,38 @@ namespace Neutronium.Core.Test.Infra
 {
     public class EnumExtensionsTest
     {
-        enum Test { Tested };
+        private enum Test
+        {
+            Tested
+        };
 
         [Fact]
-        public void Test_GetDescription_FallBack()
+        public void GetDescription_Has_FallBack()
         {
-            Test vi = Test.Tested;
+            var vi = Test.Tested;
             vi.GetDescription().Should().Be("Tested");
         }
 
-        enum Ex { [Description("Cute")] ex1 = 8, [Description("Cute2")] ex2 = 16 };
+        private enum Ex
+        {
+            [Description("Cute")]
+            ex1 = 8,
+
+            [Description("Cute2")]
+            ex2 = 16
+        };
 
         [Fact]
-        public void Test_GetDescription_Description()
+        public void GetDescription_Uses_Description_Attribute()
         {
-            Ex vi = Ex.ex1;
+            var vi = Ex.ex1;
             vi.GetDescription().Should().Be("Cute");
         }
 
         [Fact]
-        public void Test_GetDescription_Or()
+        public void GetDescription_Uses_ToString()
         {
-            Ex vi = Ex.ex1 | Ex.ex2;
+            var vi = Ex.ex1 | Ex.ex2;
             vi.GetDescription().Should().Be("24");
         }
     }

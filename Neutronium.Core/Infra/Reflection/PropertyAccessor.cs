@@ -18,12 +18,13 @@ namespace Neutronium.Core.Infra.Reflection
         public int Position { get; set; }
         public string Name { get; }
 
-        public PropertyAccessor(Type type, PropertyInfo propertyInfo, int position)
+        public PropertyAccessor(Type type, PropertyInfoDescription propertyInfoDescription, int position)
         {
             Position = position;
+            var propertyInfo = propertyInfoDescription.PropertyInfo;
             Name = propertyInfo.Name;
             _Getter = BuildGet(propertyInfo);
-            var setterInfo = (propertyInfo.CanRead) ? propertyInfo.GetSetMethod(false) : null;
+            var setterInfo = propertyInfoDescription.IsSettable ? propertyInfo.GetSetMethod(false) : null;
             IsSettable = (setterInfo != null);
             _Setter = IsSettable ? BuildSet(type, propertyInfo) : Void;
 

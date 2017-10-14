@@ -20,14 +20,14 @@ namespace Neutronium.Core.Infra.Reflection
         internal DynamicObjectPropertyAccessor(DynamicObject @dynamicObject)
         {
             var type = @dynamicObject.GetType();
-            var staticPropertyInfo = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                            .Where(p => p.CanRead && p.GetGetMethod(false) != null).ToList();
 
-            var staticAttributes = new HashSet<string>(staticPropertyInfo.Select(p => p.Name));
-            var dynamicAttributes = @dynamicObject.GetDynamicMemberNames().Where(d => !staticAttributes.Contains(d)).ToList();
+            var staticPropertyInfo = type.GetPropertyInfoDescriptions().ToList();
 
-            var staticPropertyAccessores = staticPropertyInfo.Select(property => new PropertyBuilder(property.Name, (pn, index) => new PropertyAccessor(type, property, index)));
-            var dynamicPropertyAccessores = dynamicAttributes.Select(name => new PropertyBuilder(name, (pn, index) => PropertyAccessor.FromDynamicObject(type, pn, index)));
+            var staticAttributesNames = new HashSet<string>(staticPropertyInfo.Select(p => p.PropertyInfo.Name));
+            var dynamicAttributesNames = @dynamicObject.GetDynamicMemberNames().Where(d => !staticAttributesNames.Contains(d)).ToList();
+
+            var staticPropertyAccessores = staticPropertyInfo.Select(property => new PropertyBuilder(property.PropertyInfo.Name, (pn, index) => new PropertyAccessor(type, property, index)));
+            var dynamicPropertyAccessores = dynamicAttributesNames.Select(name => new PropertyBuilder(name, (pn, index) => PropertyAccessor.FromDynamicObject(type, pn, index)));
 
             _ReadProperties = staticPropertyAccessores.Concat(dynamicPropertyAccessores)
                                     .OrderBy(p => p.Name)

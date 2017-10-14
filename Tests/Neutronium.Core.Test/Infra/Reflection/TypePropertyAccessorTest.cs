@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.Test.Helper;
 using Xunit;
 
 namespace Neutronium.Core.Test.Infra.Reflection
@@ -64,6 +65,24 @@ namespace Neutronium.Core.Test.Infra.Reflection
             var res = new TypePropertyAccessor(type);
             var accesor = res.GetAccessor(propertyName);
             accesor.Should().BeNull();
+        }
+
+        [Fact]
+        public void GetAccessor_returns_null_when_property_is_not_bindable()
+        {
+            var res = new TypePropertyAccessor(typeof(ClassWithAttributes));
+            var accesor = res.GetAccessor(nameof(ClassWithAttributes.NotBindable));
+            accesor.Should().BeNull();
+        }
+
+        [Theory]
+        [InlineData(nameof(ClassWithAttributes.OneWay), false)]
+        [InlineData(nameof(ClassWithAttributes.TwoWay), true)]
+        public void GetAccessor_returns_null_use_bindable_direction_for_settable_value(string propertyName, bool settable)
+        {
+            var res = new TypePropertyAccessor(typeof(ClassWithAttributes));
+            var accesor = res.GetAccessor(propertyName);
+            accesor.IsSettable.Should().Be(settable);
         }
     }
 }

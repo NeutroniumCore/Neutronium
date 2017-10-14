@@ -110,11 +110,13 @@
     <Compile Include="Binding\Builder\EntityDescriptorSpliterTests.cs" />
     <Compile Include="Binding\CSharpToJavascriptConverterTests.cs" />
     <Compile Include="Binding\Listeners\SilenterTest.cs" />
+    <Compile Include="Helper\AmbigeousDynamicObject.cs" />
     <Compile Include="Helper\BasicFatherTestViewModel.cs" />
     <Compile Include="Helper\BasicListTestViewModel.cs" />
     <Compile Include="Helper\BasicTestViewNodel.cs" />
     <Compile Include="Helper\ClrTypesTestViewModel.cs" />
     <Compile Include="Helper\CommandsTestViewModel.cs" />
+    <Compile Include="Helper\DynamicObjectTest.cs" />
     <Compile Include="Helper\FakeTestViewModel.cs" />
     <Compile Include="Helper\NullableTestViewModel.cs" />
     <Compile Include="Helper\PerformanceHelper.cs" />
@@ -130,11 +132,12 @@
     <Compile Include="Infra\ListExtensionsTest.cs" />
     <Compile Include="Infra\CollectionExtensionsTest.cs" />
     <Compile Include="Infra\EnumExtensionsTest.cs" />
-    <Compile Include="Infra\FakeClasses.cs" />
+    <Compile Include="Helper\FakeClasses.cs" />
     <Compile Include="Infra\Reflection\DictionaryPropertyAccessorTest.cs" />
     <Compile Include="Infra\Reflection\DynamicObjectPropertyAccessorTest.cs" />
     <Compile Include="Infra\Reflection\GenericMethodAccessorTest.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessorTest.cs" />
+    <Compile Include="Infra\Reflection\PropertyInfoDescriptionTests.cs" />
     <Compile Include="Infra\SlicerTest.cs" />
     <Compile Include="Infra\Reflection\TypePropertyAccessorTest.cs" />
     <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />

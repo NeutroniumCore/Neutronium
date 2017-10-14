@@ -1,6 +1,7 @@
 ﻿using MoreCollection.Extensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
@@ -16,11 +17,10 @@ namespace Neutronium.Core.Infra.Reflection
 
         public TypePropertyAccessor(Type type)
         {
-            var readProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                    .Where(p => p.CanRead && p.GetGetMethod(false) != null)
-                                    .OrderBy(p => p.Name)
+            var readProperties = type.GetPropertyInfoDescriptions().OrderBy(p => p.PropertyInfo.Name)
                                     .Select((prop, index) => new PropertyAccessor(type, prop, index))
                                     .ToArray();
+
             ReadProperties = readProperties;
             AttributeNames = readProperties.ToArray(p => p.Name);
             _Properties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);

@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 
 namespace Neutronium.Core.Infra
 {
@@ -50,10 +53,19 @@ namespace Neutronium.Core.Infra
             return (targetType != null) && ((targetType == Types.ULong) || (targetType == Types.UShort) || (targetType == Types.Uint));
         }
 
+
+        internal static IEnumerable<PropertyInfoDescription> GetPropertyInfoDescriptions(this Type @type)
+        {
+            var defaultAttribute = @type.GetAttribute<BindableAttribute>();
+            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .Select(prop => new PropertyInfoDescription(prop, defaultAttribute))
+                        .Where(p => p.IsReadable);
+        }
+
         private static readonly ConcurrentDictionary<Type, IGenericPropertyAcessor> _TypePropertyInfos = new ConcurrentDictionary<Type, IGenericPropertyAcessor>();
         internal static IGenericPropertyAcessor GetTypePropertyInfo(this Type @type)
         {
-            return _TypePropertyInfos.GetOrAdd(@type, t => new TypePropertyAccessor(t));
+            return _TypePropertyInfos.GetOrAdd(type, t => new TypePropertyAccessor(t));
         }
 
         public static Type GetDictionaryStringValueType(this Type type)
@@ -89,6 +101,12 @@ namespace Neutronium.Core.Infra
             }
 
             return null;
+        }
+
+        public static T GetAttribute<T>(this Type type) where T : Attribute
+        {
+            var attributes = type.GetCustomAttributes(typeof(T), false);
+            return (T)attributes?.FirstOrDefault();
         }
     }
 }

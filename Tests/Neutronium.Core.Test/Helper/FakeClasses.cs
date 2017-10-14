@@ -1,4 +1,6 @@
-﻿namespace Neutronium.Core.Test.Infra
+﻿using System.ComponentModel;
+
+namespace Neutronium.Core.Test.Helper
 {
     public class ReadOnlyClass
     {
@@ -18,6 +20,36 @@
         public int Property1 { get; private set; }
 
         public int Property2 { get; private set; }
+    }
+
+
+    public class ClassWithAttributes
+    {
+        [Bindable(false)]
+        public int NotBindable { get; set; }
+
+        [Bindable(true, BindingDirection.OneWay)]
+        public int OneWay { get; set; }
+
+        [Bindable(true, BindingDirection.TwoWay)]
+        public int TwoWay { get; set; }
+
+        public int NoAttribute { get; set; }
+    }
+
+    [Bindable(true, BindingDirection.OneWay)]
+    public class ClassWithAttributesAndDefaultAttribute
+    {
+        [Bindable(false)]
+        public int NotBindable { get; set; }
+
+        [Bindable(true, BindingDirection.OneWay)]
+        public int OneWay { get; set; }
+
+        [Bindable(true, BindingDirection.TwoWay)]
+        public int TwoWay { get; set; }
+
+        public int NoAttribute { get; set; }
     }
 
     public class FakeClass

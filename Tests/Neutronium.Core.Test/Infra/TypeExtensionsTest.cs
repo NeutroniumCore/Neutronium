@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using FluentAssertions;
 using Neutronium.Core.Infra;
+using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.Test.Helper;
 using Xunit;
 
 namespace Neutronium.Core.Test.Infra
@@ -113,6 +116,34 @@ namespace Neutronium.Core.Test.Infra
         public void GetInterfaceGenericType_returns_null_when_no_match(Type source, Type genericInterfaceType) 
         {
             source.GetInterfaceGenericType(genericInterfaceType).Should().BeNull();
+        }
+
+        [Fact]
+        public void GetPropertyInfoDescriptions_returns_expected_value()
+        {
+            var type = typeof(ClassWithAttributes);
+            var expected = new[]
+            {
+                new PropertyInfoDescription(type.GetProperty(nameof(ClassWithAttributes.NoAttribute))),
+                new PropertyInfoDescription(type.GetProperty(nameof(ClassWithAttributes.OneWay))),
+                new PropertyInfoDescription(type.GetProperty(nameof(ClassWithAttributes.TwoWay))), 
+            };
+
+            type.GetPropertyInfoDescriptions().Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void GetPropertyInfoDescriptions_returns_expected_value_using_default()
+        {
+            var type = typeof(ClassWithAttributesAndDefaultAttribute);
+            var expected = new[]
+            {
+                new PropertyInfoDescription(type.GetProperty(nameof(ClassWithAttributes.NoAttribute)), new BindableAttribute(true, BindingDirection.OneWay)),
+                new PropertyInfoDescription(type.GetProperty(nameof(ClassWithAttributes.OneWay))),
+                new PropertyInfoDescription(type.GetProperty(nameof(ClassWithAttributes.TwoWay))),
+            };
+
+            type.GetPropertyInfoDescriptions().Should().BeEquivalentTo(expected);
         }
     }
 }

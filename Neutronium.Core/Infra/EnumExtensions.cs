@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Infra
 {
@@ -14,9 +15,9 @@ namespace Neutronium.Core.Infra
             var fi = enumType.GetField(valuename);
             if (fi == null)
                 return valuename;
-            
-            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(Types.DescriptionAttribute, false);
-            return (attributes.Length > 0) ? attributes[0].Description : valuename;
+
+            var attribute = fi.GetAttribute<DescriptionAttribute>();
+            return (attribute != null) ? attribute.Description : valuename;
         }
 
         public static T[] GetEnums<T>() where T : struct
