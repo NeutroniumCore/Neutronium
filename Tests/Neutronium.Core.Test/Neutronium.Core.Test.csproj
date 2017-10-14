@@ -137,7 +137,8 @@
     <Compile Include="Infra\Reflection\DynamicObjectPropertyAccessorTest.cs" />
     <Compile Include="Infra\Reflection\GenericMethodAccessorTest.cs" />
     <Compile Include="Infra\Reflection\PropertyAccessorTest.cs" />
-    <Compile Include="Infra\Reflection\PropertyInfoDescriptionTests.cs" />
+    <Compile Include="Infra\Reflection\PropertyInfoDescriptionTest.cs" />
+    <Compile Include="Infra\Reflection\MemberInfoExtensionTest.cs" />
     <Compile Include="Infra\SlicerTest.cs" />
     <Compile Include="Infra\Reflection\TypePropertyAccessorTest.cs" />
     <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />

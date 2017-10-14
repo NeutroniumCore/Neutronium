@@ -119,6 +119,21 @@ namespace Neutronium.Core.Test.Infra
         }
 
         [Fact]
+        public void GetAttribute_returns_correct_value()
+        {
+            var expected = new BindableAttribute(true, BindingDirection.OneWay);
+            var res = typeof(ClassWithAttributesAndDefaultAttribute).GetAttribute<BindableAttribute>();
+            res.ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void GetAttribute_returns_null_if_attribute_not_found()
+        {
+            var res = typeof(ClassWithAttributes).GetAttribute<BindableAttribute>();
+            res.Should().BeNull();
+        }
+
+        [Fact]
         public void GetPropertyInfoDescriptions_returns_expected_value()
         {
             var type = typeof(ClassWithAttributes);
