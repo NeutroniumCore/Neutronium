@@ -116,6 +116,7 @@
     <Content Include="View\Main\src\main.js" />
     <Content Include="View\Main\utils.js" />
     <Content Include="View\Main\webpack.config.js" />
+    <None Include="View\Main\npm-shrinkwrap.json" />
     <None Include="View\Main\src\components\command-button.vue" />
     <None Include="View\Main\src\components\RawDisplay.vue" />
     <Content Include="View\Main\src\assets\logo.png">
@@ -161,7 +162,6 @@
     <Content Include="View\Main\dist\styles.css.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="View\Main\npm-shrinkwrap.json" />
     <None Include="View\Main\package.json" />
     <None Include="View\Main\README.md" />
     <None Include="View\Main\src\App.vue" />

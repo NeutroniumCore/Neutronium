@@ -11,7 +11,7 @@
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.7.0",
     "neutronium-vue-command-mixin": "^1.5.0",
-    "vue": "^2.1.10"
+    "vue": "^2.5.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -33,9 +33,9 @@
     "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.2",
     "url-loader": "^0.5.7",
-    "vue-loader": "^10.3.0",
-    "vue-style-loader": "^2.0.0",
-    "vue-template-compiler": "^2.1.10",
+    "vue-loader": "^13.3.0",
+    "vue-style-loader": "^3.0.3",
+    "vue-template-compiler": "^2.5.0",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   }
