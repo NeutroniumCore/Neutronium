@@ -1448,7 +1448,7 @@ namespace Tests.Universal.HTMLBindingTests
         {
             var command = Substitute.For<ICommand<string>>();
             command.CanExecute(Arg.Any<string>()).Returns(canExecute);
-            var datacontexttest = new FakeTestViewModel() { CommandGeneric = command };
+            var datacontexttest = new FakeTestViewModel() { CommandGenericNotBound = command };
 
             var test = new TestInContext()
             {
@@ -1457,7 +1457,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    var mycommand = GetAttribute(js, "CommandGeneric");
+                    var mycommand = GetAttribute(js, "CommandGenericNotBound");
 
                     var res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeTrue();

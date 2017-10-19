@@ -182,6 +182,7 @@
     <Content Include="View\Main\index.html" />
     <Resource Include="View\Main\src\assets\logo.png" />
     <Content Include="View\Main\src\entry.js" />
+    <Content Include="View\Main\src\install.js" />
     <Content Include="View\Main\src\main.js" />
     <Content Include="View\Main\utils.js" />
     <Content Include="View\Main\webpack.config.js" />
