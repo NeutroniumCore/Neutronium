@@ -5,13 +5,23 @@
 ## Basic features
 
  * All CLR types are supported by Neutronium:
-  String, Int, Double, Decimal are transformed in their javascript equivalent.
+  String, char, int, uint, short, ushort, long, ulong, double, decimal, float, byte and sbyte (both in upcoming v1.0.0) are transformed in their javascript equivalent.
 
  * C# DateTime type is mapped to javascript dateTime.
 
- * Enum is transformed to custom javascript object containing two properties: intValue and displayName. intValue is the numeric value of the enum, displayName is the value of the Description attribute if any or the object.ToString() value.
+ * Enum are transformed to custom javascript objects containing two properties: intValue and displayName. intValue is the numeric value of the enum, displayName is the value of the Description attribute if any or the object.ToString() value.
 
- * Complex object are mapped to javascript using reflection on public attributes.
+ * C# collections such as IEnumerable, IList are converted to javascript arrays.
+
+  * C# dictionaries with string key are converted to javascript objects (from version >= 1.0.0).
+
+  * Dynamic Objects (from version >= 1.0.0):
+
+    * [`ExpandoObject`](https://msdn.microsoft.com/en-us/library/system.dynamic.expandoobject(v=vs.110).aspx) objects are converted to javascript objects allowing two-way binding including updating and adding keys.
+
+    * Objects inheriting from [`DynamicObject`](https://msdn.microsoft.com/en-us/library/system.dynamic.dynamicobject(v=vs.110).aspx) are converted to javascript objects using properties returned by [GetDynamicMemberNames](https://msdn.microsoft.com/en-us/library/system.dynamic.dynamicobject.getdynamicmembernames(v=vs.110).aspx)
+
+ * Complex objects are mapped to javascript using reflection on public attributes.
 
 
 ## Binding support
@@ -23,6 +33,31 @@
 * Changes in HTML View are propagated to ViewModel using knockoutjs subscription or Vuejs watch (both property and collection). This allows you for example to have a collection binding to the selected items in the HTML view that will bind to your ViewModel collection.
 
 * **_ICommand_** are converted to javascript function so you can execute them using knockout or Vue.
+
+* **BindableAttribute** support (from version >= 1.0.0)
+
+    Neutronium uses [BindableAttribute](https://msdn.microsoft.com/en-us/library/system.componentmodel.bindableattribute(v=vs.110).aspx) information when creating bindings.
+    Property marked as bindable false will not be accessible from javascript:
+```CSharp
+    [Bindable(false)]
+    public string InvisibleFromNeutroniumBinding {get; set;}
+```
+Property marked as readonly will not be updatable from javascript:
+```CSharp
+    [Bindable(true, BindingDirection.OneWay)]
+    public string NotSettableFromNeutroniumBinding {get; set;}
+```
+It is possible to use BindableAttribute attribute at class level, this way all properties of the class will default with the corresponding attribute value. That value can be overloaded by attribute at property level:
+```CSharp
+[Bindable(false)]
+public class ViewModel {
+    // Invisible as inherited from class attribute
+    public string InvisibleFromNeutroniumBinding {get; set;}
+
+    [Bindable(true, BindingDirection.TwoWay)]
+    public string SettableFromNeutroniumBinding {get; set;}
+}
+```
 
 ## Complex viewmodel supported
 

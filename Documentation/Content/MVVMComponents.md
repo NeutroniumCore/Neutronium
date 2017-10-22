@@ -1,3 +1,5 @@
+<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
+
 # Neutronium.MVVMComponents
 
 This assembly provides base interface and implementation that extends C# MVVM.
