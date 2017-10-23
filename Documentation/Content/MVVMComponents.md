@@ -7,7 +7,7 @@ This assembly provides base interface and implementation that extends C# MVVM.
 Neutronium.Core provides binding to all interfaces so that you can use them in javascript binding.
 
 
-# `ISimpleCommand` 
+## `ISimpleCommand` 
 
 `ISimpleCommand` is comparable to a `ICommand` that can always be executed. 
 
@@ -23,9 +23,97 @@ public interface ISimpleCommand
 }
 ```
 
-## Implementations
+**Coming in version 1.0.0:**
 
-Neutronium.Core provides build-in implementation for ISimpleCommand that should cover all use cases.
+`ISimpleCommand` present the following changes.
+
+```CSharp
+public interface ISimpleCommand
+{
+    /// <summary>
+    /// Execute the command with no argument
+    /// </summary>
+    void Execute();
+}
+```
+
+If you need to pass argument to the `execute` method use the new `ISimpleCommand<T>`.
+
+
+## `ISimpleCommand<T>`
+
+`ISimpleCommand<T>` is the typed version of `ISimpleCommand`. 
+
+
+```CSharp
+public interface ISimpleCommand<T>
+{
+    /// <summary>
+    /// Execute the command with the corresponding argument
+    /// </summary>
+    /// <param name="argument"></param>
+    void Execute(T argument);
+}
+```
+
+## `ICommand<T>` 
+
+`ICommand<T>` is comparable to a typed `ICommand`. 
+
+
+```CSharp
+public interface ICommand<in T> : IUpdatableCommand
+{
+    /// <summary>
+    /// Execute the command with the corresponding argument
+    /// </summary>
+    /// <param name="argument"></param>
+    void Execute(T argument);
+
+    /// <summary>
+    /// Defines the method that determines whether the command can execute in its current
+    /// state.
+    /// </summary>
+    /// <param name="parameter">
+    /// Data used by the command. If the command does not require data to be passed,
+    /// this object can be set to null.
+    /// </param>
+    /// <returns>
+    /// true if this command can be executed; otherwise, false.
+    /// </returns>
+    bool CanExecute(T parameter);
+}
+```
+
+## `ICommandWithoutParameter` 
+
+`ICommandWithoutParameter` is comparable to a `ICommand` that does not need any argument. 
+
+
+```CSharp
+public interface ICommandWithoutParameter : IUpdatableCommand
+{
+    /// <summary>
+    /// Execute the command
+    /// </summary>
+    void Execute();
+
+    /// <summary>
+    ///  Determines whether the command can execute in its current
+    ///  state.
+    /// </summary>
+    /// <returns>
+    /// true if this command can be executed; otherwise, false.
+    /// </returns>
+    bool CanExecute { get; }
+}
+```
+
+# Implementations
+
+Neutronium.MVVMComponents provides build-in implementation for ISimpleCommand that should cover all use cases.
+Starting with version 1.0.0. `RelaySimpleCommand` and `RelaySimpleCommand<T>` also implements ICommand so that they can be used in Neutronium as well as traditional WPF application.
+
 
 ### `RelaySimpleCommand`
 
@@ -46,7 +134,6 @@ public class RelaySimpleCommand : ISimpleCommand
 }
 ```
 
-
 ### `RelaySimpleCommand<T>`
 
 ```CSharp
@@ -65,6 +152,16 @@ public class RelaySimpleCommand<T> : ISimpleCommand where T:class
     }
 }
 ```
+
+**Starting from version 1.0.**
+
+### `RelayTaskCommand` and `RelayToogleCommand`
+
+Provides implementation for both `ICommand` and `ICommandWithoutParameter`
+
+### `RelayTaskCommand<T>` and `RelayToogleCommand<T>`
+
+Provides implementation for both `ICommand<T>` and `ICommand`
 
 # `IResultCommand`
 
