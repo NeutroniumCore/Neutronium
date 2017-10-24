@@ -16,5 +16,8 @@
         template: "<button  @click='execute'>{{msg}}</button>"
     });
 
-    Vue._vmMixin = [localMixin];
+    window.glueHelper.setOption({
+        mixins: [localMixin]
+    });
+
 }());

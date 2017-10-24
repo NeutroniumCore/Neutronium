@@ -17,7 +17,10 @@
             href:location.href
         }
     };
-    Vue._vmMixin = [localMixin];
+
+    window.glueHelper.setOption({
+        mixins: [localMixin]
+    });
 
 </script>
 </body>

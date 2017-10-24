@@ -4,7 +4,7 @@
     const silenterProperty = '__silenter';
     var vueVm = null;
     var globalListener = null;
-    var orginalVueSet = null;
+    var vueRootOption = {};
 
     function silentChange(father, propertyName, value) {
         setTimeout(() => silentChangeSync(father, propertyName, value), 0);
@@ -79,7 +79,7 @@
     }
 
     function addProperty(element, propertyName, value) {
-        orginalVueSet(element, propertyName, value);
+        originalVueSet(element, propertyName, value);
         createListener(element, propertyName);
         inject(value);
     }
@@ -296,9 +296,9 @@
         });
     });
 
-    var orginalVueSet = Vue.set;
+    var originalVueSet = Vue.set;
     Vue.set = function (element, propertyName, value) {
-        orginalVueSet(element, propertyName, value);
+        originalVueSet(element, propertyName, value);
         if (!element._MappedId)
             return;
 
@@ -309,7 +309,12 @@
         updater(value, null);     
     }
 
+    function setOption(option) {
+        vueRootOption = option || {};
+    }
+
     var helper = {
+        setOption,
         enumMixin,
         openMixin,
         closeMixin,
@@ -323,22 +328,18 @@
         register: function (vm, observer) {
             console.log("VueGlue register");
             globalListener = observer;
-            var mixin = Vue._vmMixin;
-            if (!!mixin && !Array.isArray(mixin))
-                mixin = [mixin];
 
-            var vueOption = VueAdapter.addOnReady({
-                    el: "#main",
-                    mixins: mixin,
-                    data: vm
-                },
+            var options = Object.assign({}, vueRootOption, {
+                data: vm
+            });
+
+            var vueOption = VueAdapter.addOnReady(options,
                 function () {
                     fufillOnReady(null);
                 });
 
             vueVm = new Vue(vueOption);
-
-            window.vm = vueVm;
+            vueVm.$mount('#main');
 
             return inject(vm);
         },

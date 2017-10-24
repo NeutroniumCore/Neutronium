@@ -82,7 +82,8 @@ var buildMode = false;
 if (process.env.NODE_ENV === 'production') {
   buildMode=true
   webpackOptions.externals={
-    'vue' : 'Vue'
+    'vue' : 'Vue',
+    'vueHelper' : 'glueHelper'
   }
   webpackOptions.entry= './src/entry.js';
 

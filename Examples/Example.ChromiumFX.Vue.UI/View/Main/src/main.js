@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import rawVm from '../data/vm'
 import CircularJson from 'circular-json'
-import {install} from './install'
+import {install, vueInstanceOption} from './install'
 
 function updateVm(vm) {
     var window = vm.__window__
@@ -15,11 +15,12 @@ function updateVm(vm) {
 
 const vm = updateVm(CircularJson.parse(rawVm));
 
+const vueRootInstanceOption = Object.assign({}, vueInstanceOption || {}, {
+    components: {
+        App
+    },
+    data: vm
+});
+
 install(Vue)
-new Vue({
-	components:{
-		App
-	},
-  el: '#main',
-  data: vm
-})
+new Vue(vueRootInstanceOption).$mount('#main')

@@ -12,5 +12,7 @@
         },
     };
 
-    Vue._vmMixin = [localMixin, glueHelper.openMixin, glueHelper.closeMixin];
+    window.glueHelper.setOption({
+        mixins: [localMixin, glueHelper.openMixin, glueHelper.closeMixin]
+    });
 }());

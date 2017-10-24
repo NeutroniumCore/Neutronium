@@ -1,9 +1,11 @@
 function install(vue) {
-    //Call vue use here if needed
-    console.log('vue installed')
-    console.log(vue)
+}
+
+function vueInstanceOption(){
+    return undefined
 }
 
 export {
-    install
+    install,
+    vueInstanceOption
 } 
