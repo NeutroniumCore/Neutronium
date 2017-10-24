@@ -1,0 +1,16 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+           "chrome": 58
+        }
+      }
+    ],
+    "stage-2"
+  ],
+  "plugins": ["transform-runtime"]
+}
+
