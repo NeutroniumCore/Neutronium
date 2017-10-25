@@ -1,5 +1,11 @@
-﻿(function () {
-    Vue.config.productionTip = false;
+﻿(function (debugMode) {
+
+    const config = Vue.config;
+    config.productionTip = false;
+    if (!debugMode) {
+        config.devtools = false;
+        config.silent = true;
+    }  
 
     const silenterProperty = '__silenter';
     var vueVm = null;
@@ -326,7 +332,9 @@
         silentChangeAndInject,
         disposeSilenters,
         register: function (vm, observer) {
-            console.log("VueGlue register");
+            if (debugMode) {
+                console.log("Neutronium: ViewModel injected");
+            }         
             globalListener = observer;
 
             var options = Object.assign({}, vueRootOption, {
@@ -347,4 +355,4 @@
     };
 
     window.glueHelper = helper;
-}());
+}({{debugMode}}));
