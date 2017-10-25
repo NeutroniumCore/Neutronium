@@ -13,7 +13,7 @@ In debug mode, a tool bar with 4 buttons will be displayed:
 
 ### 1.1 _Inspect_ 
 
-Opens a fully fearured chromium javascript debug windows
+Opens a fully featured chromium javascript debug windows
 
 ![inspect](../images/Tools/Toolbar-inspect.png)
 

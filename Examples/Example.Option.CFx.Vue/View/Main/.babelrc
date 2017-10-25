@@ -3,9 +3,9 @@
     [
       "env",
       {
-        "modules": false,
+        "modules": false,    
         "targets": {
-           "chrome": 58
+           "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
         }
       }
     ],
