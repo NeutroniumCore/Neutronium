@@ -1,5 +1,5 @@
 ﻿(function () {
-    console.log("VueGlue loaded");
+    Vue.config.productionTip = false;
 
     const silenterProperty = '__silenter';
     var vueVm = null;

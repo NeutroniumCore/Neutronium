@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 (function () {
-    console.log("VueGlue loaded");
+    Vue.config.productionTip = false;
 
     var silenterProperty = '__silenter';
     var vueVm = null;
