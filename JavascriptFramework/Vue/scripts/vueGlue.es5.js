@@ -1,7 +1,13 @@
 ﻿"use strict";
 
-(function () {
-    console.log("VueGlue loaded");
+(function (debugMode) {
+
+    var config = Vue.config;
+    config.productionTip = false;
+    if (!debugMode) {
+        config.devtools = false;
+        config.silent = true;
+    }
 
     var silenterProperty = '__silenter';
     var vueVm = null;

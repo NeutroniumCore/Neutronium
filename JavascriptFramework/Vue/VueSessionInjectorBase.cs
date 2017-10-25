@@ -56,7 +56,7 @@ namespace Neutronium.JavascriptFramework.Vue
             var commonLoader = GetResourceReader();
             var versionLoader = _VueVersion.GetVueResource();
             var builder = new StringBuilder();
-            Action<string, ResourceReader> add = (file, resourceLoder) => builder.Append(resourceLoder.LoadJavascript(file, !debugMode, !debugMode));
+            Action<string, ResourceReader> add = (file, resourceLoader) => builder.Append(Load(resourceLoader, file, debugMode));
             Action<string> addComom = (file) => add(file, commonLoader);
             Action<string> addVersion = (file) => add(file, versionLoader);
 
@@ -67,8 +67,13 @@ namespace Neutronium.JavascriptFramework.Vue
             addComom("subscribeArray");
             addVersion("vueAdapter");
             addVersion("vueComandDirective");
-            addComom("vueGlue");
+            builder.Append(Load(commonLoader, "vueGlue", debugMode).Replace("{{debugMode}}", debugMode.ToString().ToLower()));
             return builder.ToString();
+        }
+
+        private static string Load(ResourceReader resourceReader, string name, bool debugMode)
+        {
+            return resourceReader.LoadJavascript(name, !debugMode, !debugMode);
         }
 
         private ResourceReader GetResourceReader(string path = "scripts")

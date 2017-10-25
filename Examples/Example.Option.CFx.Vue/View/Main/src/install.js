@@ -20,7 +20,6 @@ const messages = {
 
 function install(vue) {
     //Call vue use here if needed
-    console.log('here')
     vue.use(VueI18n);
 }
 
@@ -28,8 +27,7 @@ function vueInstanceOption() {
     const i18n = new VueI18n({
         locale: 'ru', // set locale
         messages, // set locale messages
-    })
-    console.log('here2')
+    });
 
     //Return vue global option here, such as vue-router, vue-i18n, mix-ins, .... 
     return {i18n}
