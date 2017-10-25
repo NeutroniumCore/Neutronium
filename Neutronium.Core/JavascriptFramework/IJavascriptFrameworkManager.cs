@@ -30,7 +30,7 @@ namespace Neutronium.Core.JavascriptFramework
         bool IsMappingObject { get; }
 
         /// <summary>
-        /// Create an IJavascriptViewModelManager from webview and IJavascriptObserver listner object
+        /// Create an IJavascriptViewModelManager from webview and IJavascriptObserver listener object
         /// </summary>
         /// <param name="webView">
         /// IWebView
