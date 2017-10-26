@@ -16,6 +16,7 @@
 ## Vue.js integration
 * Upgrade to **Vue.js v2.5.2**
 * Upgrade to **Vue devtools v3.1.3**
+* Possibility to set Vue instance options (useful for using `vue-router` or `vue-i18n` for example)
 * Performance improvement on update from C#
 
 ## Tooling

@@ -118,6 +118,38 @@ export {
 } 
 ```
 
+For version >=1.0.0, it is also possible to use install.js to set Vue instance options.
+This is needed if you want to use mixins, or some popular tools such as [vue-router](https://router.vuejs.org/en/) or [vue-i18n](https://github.com/kazupon/vue-i18n).
+To do so you need to export a vueInstanceOption function returning Vue instance option.
+
+Example:
+
+```javascript
+import VueI18n from 'vue-i18n'
+import {messages} from './messages'
+
+function install(vue) {
+    //Call vue use here if needed
+    vue.use(VueI18n);
+}
+
+function vueInstanceOption() {
+    const i18n = new VueI18n({
+        locale: 'ru', // set locale
+        messages, // set locale messages
+    });
+
+    //Return vue global option here, such as vue-router, vue-i18n, mix-ins, .... 
+    return {i18n}
+}
+
+export {
+    install,
+    vueInstanceOption
+} 
+```
+
+
 ## Tips:
 
 You can generate a Json from viewModel captured in a Neutronium debug session using [Neutronium debug tools](./Debug.md) and use it as data.json in order to create the view with a realistic ViewModel. 
