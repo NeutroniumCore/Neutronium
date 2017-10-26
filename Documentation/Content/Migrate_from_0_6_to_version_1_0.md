@@ -5,4 +5,8 @@
 ## Breaking changes
 * `ISimpleCommand` signature changed. You should migrate to wether `ISimpleCommand<T>` or `ISimpleCommand` is no argument needs to be passed. Complete details [here](./MVVMComponents.md)
 
+* Using vue mixins
+
+* Updating existing View created with vue-cli `neutronium-vue`
+
 ## Vue scripts

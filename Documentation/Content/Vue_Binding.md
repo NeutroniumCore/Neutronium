@@ -104,12 +104,21 @@ This will call Execute with skill as parameter if CanExecute is true on button c
 ```
 This will call Execute with skill as parameter if CanExecute is true on button double click.
 
+## Vue-cli: neutronium-vue
 
-## Mixins 
-If you need to add mixins to main Vue instance you can set Vue._vmMixim to an array of mixins. These mixins will be applyed by Neutronium before creating the Vue instance:
+Neutronium provides a vue-cli template `neutronium-vue`. This is recommended tool when building mid or large scale Neutronium application. If you use it, you may pull to [next chapter](./Build_large_project_with_Vue.js_and_Webpack.md).
+
+
+## Mixins:
+
+### Register Mixins:
+
+* For version< 1.0.0
+
+    To add mixins to main Vue instance you can set Vue._vmMixim to an array of mixins. These mixins will be applyed by Neutronium before creating the Vue instance:
 
 ```javascript
-Vue._vmMixin =[myBinding, myBinding2];
+Vue._vmMixin = [myBinding, myBinding2];
 ```
 
 For example you can use this hook to add computed properties to your Vm:
@@ -123,12 +132,22 @@ var localMixin = {
         }
     };
 
-Vue._vmMixin =[localMixin];
+Vue._vmMixin = [localMixin];
 ```
+
+* For version>= 1.0.0
+    * With Vue-cli `neutronium-vue` use `install.js` hooks: [see here for more details](./Build_large_project_with_Vue.js_and_Webpack.md).
+
+    * If not using vue-cli, you can use:
+```javascript
+window.glueHelper.setOption({mixins : [localMixin]});
+``` 
+This will add the corresponding mixins to vue root instance.
 
 ### Built-in mixin
 Neutronium comes with some built-in plugins to simplify binding.
 There are available as properties of object window.glueHelper.
+If using `vue-cli`, you will rather use npm to install these mixins.
 
 * **glueHelper.enumMixin**
 
@@ -160,6 +179,9 @@ var localMixin = {
 
 //Register enumMixin and localMixin
 Vue._vmMixin = [localMixin, glueHelper.enumMixin];
+
+//or with neutronium version>= 1.0.0
+window.glueHelper.setOption({mixins : [localMixin, glueHelper.enumMixin]});
 ```
 
 Then you can use the **enumImage** method that **glueHelper.enumMixin** will add to the vue instance:
