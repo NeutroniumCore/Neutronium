@@ -44,7 +44,7 @@ Generate files ready to be used in Neutronium in the dist folder: you have to re
 <img src="../images/webpack_01.png" height="550px"><br>
 2. Install template
 ``` bash
-$ vue init David-Desmaisons/neutronium-vue about<br>
+$ vue init David-Desmaisons/neutronium-vue about
 ```
 <img src="../images/webpack_02.png" height="550px"><br>
 3. npm install
