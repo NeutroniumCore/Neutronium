@@ -65,7 +65,7 @@ public class Person: ViewModelBase
      <div ><span data-bind="text:Type"></span></div >
 </div>
 ```
-Note that you need the parathensis as arrays are mapped to observable value wich value is an obsrevable arrray.
+Note that you need the parenthesis as arrays are mapped to observable value which value is an observable array.
 
 ## Bind to a Command with custom binding :
 ```HTML

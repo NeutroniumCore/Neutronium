@@ -25,7 +25,6 @@ $ npm install
 $ npm run dev
 ```
 
-
 ## npm scripts
 
 ```bash
