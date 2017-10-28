@@ -4,6 +4,16 @@
 
 ## Binding
 * Massive performance improvement on updates from C# on both large data and frequent updates scenario.
+
+    V.0.6.0<br>
+    <img src="../perf0.6.gif"><br>
+
+    V.1.0.0<br>
+    <img src="../perf1.0.gif"><br>
+
+
+
+
 * Support of `byte` and `sbyte` types.
 * Conversion of dictionary with key string to javascript object.
 * Support dynamic objects conversion: both `ExpandoObject` and inheritors of `DynamicObject`.
