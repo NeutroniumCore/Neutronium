@@ -100,7 +100,7 @@
     <EmbeddedResource Include="Resource.fr-FR.resx" />
     <EmbeddedResource Include="Resource.pt-BR.resx" />
     <EmbeddedResource Include="Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Content Include="View\Main\dist\810a1b930979de83478be0f458b51dd8.png">

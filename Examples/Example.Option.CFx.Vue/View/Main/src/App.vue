@@ -1,8 +1,8 @@
 <template>
   <div>
     <img src="./assets/logo.png">
-    <p>{{ $t("message.hello") }}</p>
-    <h1>{{ msg }}</h1>
+    <h1>{{ $t("Resource.Welcome") }}</h1>
+    <h2>{{ $t("Resource.MyFriend") }}</h2>
     <h2>Related Links</h2>
     <ul>
       <li><a target="_blank" href="https://vuejs.org">Core Vue Docs</a></li>

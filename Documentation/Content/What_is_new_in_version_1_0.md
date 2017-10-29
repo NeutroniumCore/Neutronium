@@ -11,9 +11,6 @@
     V.1.0.0<br>
     <img src="../perf1.0.gif"><br>
 
-
-
-
 * Support of `byte` and `sbyte` types.
 * Conversion of dictionary with key string to javascript object.
 * Support dynamic objects conversion: both `ExpandoObject` and inheritors of `DynamicObject`.

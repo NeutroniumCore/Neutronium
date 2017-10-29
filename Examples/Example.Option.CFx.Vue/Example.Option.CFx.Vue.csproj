@@ -62,6 +62,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Resource.Designer.cs">
+      <DependentUpon>Resource.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,6 +98,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resource.fr-FR.resx" />
+    <EmbeddedResource Include="Resource.pt-BR.resx" />
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -100,6 +111,12 @@
     </None>
     <None Include="View\Main\.babelrc" />
     <None Include="View\Main\data\vm.cjson" />
+    <Content Include="View\Main\src\Dictionary.json">
+      <DependentUpon>Dictionary.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="View\Main\dist\build.js.map" />
     <Resource Include="View\Main\dist\styles.css.map" />
     <None Include="View\Main\npm-shrinkwrap.json" />
@@ -140,7 +157,9 @@
       <Name>Example.ChromiumFX.Vue.Infra</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="View\Main\.gitignore" />
     <Resource Include="View\Main\dist\810a1b930979de83478be0f458b51dd8.png" />
@@ -149,9 +168,14 @@
     <Resource Include="View\Main\dist\styles.css" />
     <Content Include="View\Main\index.html" />
     <Resource Include="View\Main\src\assets\logo.png" />
+    <Content Include="View\Main\src\Dictionary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Dictionary.json</LastGenOutput>
+    </Content>
     <Content Include="View\Main\src\entry.js" />
     <Content Include="View\Main\src\install.js" />
     <Content Include="View\Main\src\main.js" />
+    <Content Include="View\Main\src\messages.js" />
     <Content Include="View\Main\utils.js" />
     <Content Include="View\Main\webpack.config.js" />
   </ItemGroup>

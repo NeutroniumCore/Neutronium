@@ -1,0 +1,29 @@
+﻿{
+ "en-US":{
+        "Resource":{
+            "Welcome":"Welcome",
+            "MyFriend":"My friend",
+            "Language":"Language",
+            "NeutroniumLocalizationExample":"Neutronium Localization Example",
+            "Hello":"Hello"
+        }
+    },
+    "fr-FR":{
+        "Resource":{
+            "Welcome":"Welcome",
+            "MyFriend":"My friend",
+            "Language":"Language",
+            "NeutroniumLocalizationExample":"Neutronium Localization Example",
+            "Hello":"Hello"
+        }
+    },
+    "pt-BR":{
+        "Resource":{
+            "Welcome":"Welcome",
+            "MyFriend":"My friend",
+            "Language":"Language",
+            "NeutroniumLocalizationExample":"Neutronium Localization Example",
+            "Hello":"Hello"
+        }
+    }
+}

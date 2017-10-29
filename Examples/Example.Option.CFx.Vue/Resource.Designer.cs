@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Example.Localization.Cfx.Vue {
+namespace Example.Option.CFx.Vue {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace Example.Localization.Cfx.Vue {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resource {
+    internal class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace Example.Localization.Cfx.Vue {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Example.Localization.Cfx.Vue.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Example.Option.CFx.Vue.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Example.Localization.Cfx.Vue {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Example.Localization.Cfx.Vue {
         /// <summary>
         ///   Looks up a localized string similar to Hello.
         /// </summary>
-        public static string Hello {
+        internal static string Hello {
             get {
                 return ResourceManager.GetString("Hello", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Example.Localization.Cfx.Vue {
         /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
-        public static string Language {
+        internal static string Language {
             get {
                 return ResourceManager.GetString("Language", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Example.Localization.Cfx.Vue {
         /// <summary>
         ///   Looks up a localized string similar to My friend.
         /// </summary>
-        public static string MyFriend {
+        internal static string MyFriend {
             get {
                 return ResourceManager.GetString("MyFriend", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Example.Localization.Cfx.Vue {
         /// <summary>
         ///   Looks up a localized string similar to Neutronium Localization Example.
         /// </summary>
-        public static string NeutroniumLocalizationExample {
+        internal static string NeutroniumLocalizationExample {
             get {
                 return ResourceManager.GetString("NeutroniumLocalizationExample", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Example.Localization.Cfx.Vue {
         /// <summary>
         ///   Looks up a localized string similar to Welcome.
         /// </summary>
-        public static string Welcome {
+        internal static string Welcome {
             get {
                 return ResourceManager.GetString("Welcome", resourceCulture);
             }

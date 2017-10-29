@@ -1,5 +1,5 @@
 import VueI18n from 'vue-i18n'
-import {messages} from './messages'
+import messages from './Dictionary'
 
 function install(vue) {
     //Call vue use here if needed
@@ -8,7 +8,7 @@ function install(vue) {
 
 function vueInstanceOption() {
     const i18n = new VueI18n({
-        locale: 'ru', // set locale
+        locale: 'fr-FR', // set locale
         messages, // set locale messages
     });
 
