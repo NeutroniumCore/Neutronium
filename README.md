@@ -133,16 +133,16 @@ public class Person: ViewModelBase
 		<title>Vue.js Example</title>
 	</head>
 	<body>
-		<input type="text" v-model="Name" placeholder="First name" >
+		<input type="text" v-model="viewModel.Name" placeholder="First name" >
 		<ul>
-			<li v-for="skill in Skills">
+			<li v-for="skill in viewModel.Skills">
 				<span>{{skill.Type}}:{{skill.Name}}</span>
 				<button @click="RemoveSkill.Execute(skill)">Remove skill</button>
 			</li>
 		</ul>
 		<div>
-			<h2>{{Name}}</h2>
-			<h2>{{LastName}}</h2>
+			<h2>{{viewModel.Name}}</h2>
+			<h2>{{viewModel.LastName}}</h2>
 		</div>
 	</body>
 </html>
