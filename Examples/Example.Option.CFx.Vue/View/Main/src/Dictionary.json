@@ -10,20 +10,20 @@
     },
     "fr-FR":{
         "Resource":{
-            "Welcome":"Welcome",
-            "MyFriend":"My friend",
-            "Language":"Language",
-            "NeutroniumLocalizationExample":"Neutronium Localization Example",
-            "Hello":"Hello"
+            "Welcome":"Bienvenu",
+            "MyFriend":"Mon ami",
+            "Language":"Langage",
+            "NeutroniumLocalizationExample":"Exemple de Localisation Neutronium",
+            "Hello":"Salut"
         }
     },
     "pt-BR":{
         "Resource":{
-            "Welcome":"Welcome",
-            "MyFriend":"My friend",
-            "Language":"Language",
-            "NeutroniumLocalizationExample":"Neutronium Localization Example",
-            "Hello":"Hello"
+            "Welcome":"Bem vindo",
+            "MyFriend":"Meu amigo",
+            "Language":"Linguagem",
+            "NeutroniumLocalizationExample":"Examplo de Localização Neutronium",
+            "Hello":"Olá"
         }
     }
 }
