@@ -11,7 +11,7 @@ It is using [navigation API](./Navigation.md) to navigate between ViewModels.
 
 
 ## CodeDependencyScaner
-[https://github.com/NeutroniumCore/CodeDependencyScaner](https://github.com/NeutroniumCore/CodeDependencyScaner)
+[https://github.com/NeutroniumCore/CodeDependencyScanner](https://github.com/NeutroniumCore/CodeDependencyScanner)
 
 Codegravity is a demonstration application (working still in progress) showcasing neutronium + Vue + D3.js in context of C# code analysis.
 
