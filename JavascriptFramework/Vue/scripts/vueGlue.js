@@ -349,10 +349,12 @@
             vueVm = new Vue(vueOption);
             vueVm.$mount('#main');
 
+            window.vm = vueVm;
+
             return inject(vm);
         },
         ready: ready
     };
 
     window.glueHelper = helper;
-}({{debugMode}}));
+}(__debugMode__));

@@ -67,7 +67,7 @@ namespace Neutronium.JavascriptFramework.Vue
             addComom("subscribeArray");
             addVersion("vueAdapter");
             addVersion("vueComandDirective");
-            builder.Append(Load(commonLoader, "vueGlue", debugMode).Replace("{{debugMode}}", debugMode.ToString().ToLower()));
+            builder.Append(Load(commonLoader, "vueGlue", debugMode).Replace("__debugMode__", debugMode.ToString().ToLower()));
             return builder.ToString();
         }
 

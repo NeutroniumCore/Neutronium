@@ -1,9 +1,10 @@
 ﻿(function () {
-    console.log("index");
     var localMixin = {
         computed: {
             completeName: function () {
-                return this.Name + " " + this.LastName;
+                var valor = this.Name + " " + this.LastName;
+                console.log(valor);
+                return valor;
             }
         }
     };

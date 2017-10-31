@@ -344,7 +344,9 @@
         silentChangeAndInject: silentChangeAndInject,
         disposeSilenters: disposeSilenters,
         register: function register(vm, observer) {
-            console.log("VueGlue register");
+            if (debugMode) {
+                console.log("Neutronium: ViewModel injected");
+            }
             globalListener = observer;
 
             var options = Object.assign({}, vueRootOption, {
@@ -358,11 +360,13 @@
             vueVm = new Vue(vueOption);
             vueVm.$mount('#main');
 
+            window.vm = vueVm;
+
             return inject(vm);
         },
         ready: ready
     };
 
     window.glueHelper = helper;
-})();
+})(__debugMode__);
 

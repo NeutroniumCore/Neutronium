@@ -189,6 +189,9 @@
     <Content Include="TestHtml\javascript\navigation_3.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestHtml\javascript\src\set-up.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestHtml\javascript\src\objectAssignPolyfill.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
