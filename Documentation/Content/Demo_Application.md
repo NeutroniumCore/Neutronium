@@ -10,8 +10,8 @@ NeutroniumDemo is a scaffold project including logging, IoC, navigation, demonst
 It is using [navigation API](./Navigation.md) to navigate between ViewModels. 
 
 
-## Codegravity
-[https://github.com/NeutroniumCore/codegravity](https://github.com/NeutroniumCore/codegravity)
+## CodeDependencyScaner
+[https://github.com/NeutroniumCore/CodeDependencyScaner](https://github.com/NeutroniumCore/CodeDependencyScaner)
 
 Codegravity is a demonstration application (working still in progress) showcasing neutronium + Vue + D3.js in context of C# code analysis.
 
