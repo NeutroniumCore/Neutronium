@@ -6,6 +6,8 @@
 ### C# changes
 * `ISimpleCommand` signature changed. You should migrate to wether `ISimpleCommand<T>` or `ISimpleCommand` is no argument needs to be passed. Complete details [here](./MVVMComponents.md)
 
+* `IHTMLBinding` has been renamed `IHtmlBinding`
+
 ### Vue scripts
 
 * Using vue mixins
