@@ -26,13 +26,15 @@
 
 ## Binding support
 
-* Tracking of property changes is done via **_INotifyPropertyChanges_** interface. This way changes in the ViewModel are reflected in the HTML View.
+* Tracking of property changes is done via [**_INotifyPropertyChanged_**](https://msdn.microsoft.com/en-us/library/system.componentmodel.inotifypropertychanged(v=vs.110).aspx) interface. This way changes in the ViewModel are reflected in the HTML View.
 
-* Tracking of collection changes is supported listening **_INotifyCollectionChanges_** interface. This way, any collection implementing this interface will be updated in the view when changing. This provides native integration with **_ObservableCollection<T>_**.
+* Tracking of collection changes is supported listening **_INotifyCollectionChanged_** interface. This way, any collection implementing this interface will be updated in the view when changing. This provides native integration with [**_ObservableCollection<T>_**](https://msdn.microsoft.com/en-us/library/ms668604(v=vs.110).aspx).
 
 * Changes in HTML View are propagated to ViewModel using knockoutjs subscription or Vuejs watch (both property and collection). This allows you for example to have a collection binding to the selected items in the HTML view that will bind to your ViewModel collection.
 
-* **_ICommand_** are converted to javascript function so you can execute them using knockout or Vue.
+* **_ICommand_**, **_ISimpleCommand_**, **_ICommandWithoutParemeter_**, **_IResultCommand_** and their generic versions are converted to javascript function so you can execute them using knockout or Vue.
+
+     See [Vue](./Vue_Binding.md) and [Knockout.js](./Knockout_Binding.md) binding section for details.
 
 * **BindableAttribute** support (from version >= 1.0.0)
 
