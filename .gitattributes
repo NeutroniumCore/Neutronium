@@ -70,3 +70,5 @@ jquery.min.js linguist-vendored=true
 jquery.js linguist-vendored=true
 promise.min.js linguist-vendored=true
 promise.js linguist-vendored=true
+
+Examples/* linguist-documentation
