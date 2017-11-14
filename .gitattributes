@@ -61,3 +61,12 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+*/bower_components/* linguist-vendored
+vue.js linguist-vendored=true
+knockout.js linguist-vendored=true
+jquery-1.7.1.min.js linguist-vendored=true
+jquery.min.js linguist-vendored=true
+jquery.js linguist-vendored=true
+promise.min.js linguist-vendored=true
+promise.js linguist-vendored=true
