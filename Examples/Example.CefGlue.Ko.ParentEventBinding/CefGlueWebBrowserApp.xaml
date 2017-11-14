@@ -1,9 +1,0 @@
-﻿<infra:WebBrowserApp x:Class="Example.CefGlue.Ko.ParentEventBinding.CefGlueWebBrowserApp"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:infra="clr-namespace:Example.CefGlue.Ko.Infra;assembly=Example.CefGlue.Ko.Infra"
-             StartupUri="MainWindow.xaml">
-    <infra:WebBrowserApp.Resources>
-         
-    </infra:WebBrowserApp.Resources>
-</infra:WebBrowserApp>
