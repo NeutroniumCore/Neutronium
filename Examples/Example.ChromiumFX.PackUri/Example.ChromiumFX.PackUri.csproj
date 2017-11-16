@@ -159,7 +159,9 @@
       <Name>Example.ChromiumFX.Vue.Infra</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="View\Main\main.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

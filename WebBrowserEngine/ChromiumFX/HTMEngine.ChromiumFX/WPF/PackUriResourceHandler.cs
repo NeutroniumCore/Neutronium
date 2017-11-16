@@ -32,9 +32,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 {
                     e1.Response.Status = 404;
                     e1.Response.StatusText = "Not Found";
-
                 }
-
             };
             ReadResponse += (s2, e2) =>
             {
@@ -44,7 +42,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                     var bytesRead = resInfo.Stream.Read(buffer, 0, e2.BytesToRead);
                     System.Runtime.InteropServices.Marshal.Copy(buffer, 0, e2.DataOut, bytesRead);
                     e2.BytesRead = bytesRead;
-
                     e2.Callback.Continue();
                 }
                 e2.SetReturnValue(true);
