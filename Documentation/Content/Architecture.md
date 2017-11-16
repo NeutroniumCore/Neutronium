@@ -4,7 +4,7 @@
 
 ## Overview
 
-Neutronium presents a layered, puggable arquitecture:
+Neutronium presents a layered, pluggable architecture:
 
 ![](../images/Architecture.png)
 
