@@ -16,6 +16,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         private readonly Action<CfxSettings> _SettingsBuilder;
         private readonly Action<CfxOnBeforeCommandLineProcessingEventArgs> _CommandLineHandler;
         private readonly string _CurrentDirectory;
+        private readonly PackUriSchemeHandlerFactory _PackUriSchemeHandlerFactory;
 
         private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler, IWebSessionLogger webSessionLogger) 
         {
@@ -28,8 +29,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
             ChromiumWebBrowser.Initialize();
 
+            _PackUriSchemeHandlerFactory = new PackUriSchemeHandlerFactory(webSessionLogger);
             //need this to make request interception work
-            CfxRuntime.RegisterSchemeHandlerFactory("pack", null, new PackUriSchemeHandlerFactory(webSessionLogger));
+            CfxRuntime.RegisterSchemeHandlerFactory("pack", null, _PackUriSchemeHandlerFactory);
         }
 
         private string GetPath(string relativePath) 
