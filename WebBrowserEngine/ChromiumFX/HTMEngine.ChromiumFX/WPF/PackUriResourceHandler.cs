@@ -37,13 +37,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
             ReadResponse += (s2, e2) =>
             {
-                if (resInfo != null)
+                if (resInfo == null)
                 {
-                    var buffer = new byte[e2.BytesToRead];
-                    var bytesRead = resInfo.Stream.Read(buffer, 0, e2.BytesToRead);
-                    System.Runtime.InteropServices.Marshal.Copy(buffer, 0, e2.DataOut, bytesRead);
-                    e2.BytesRead = bytesRead;
+                    e2.SetReturnValue(false);
+                    return;
                 }
+
+                var buffer = new byte[e2.BytesToRead];
+                var bytesRead = resInfo.Stream.Read(buffer, 0, e2.BytesToRead);
+                System.Runtime.InteropServices.Marshal.Copy(buffer, 0, e2.DataOut, bytesRead);
+                e2.BytesRead = bytesRead;
                 e2.SetReturnValue(true);
             };
 
