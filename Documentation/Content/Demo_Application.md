@@ -7,7 +7,10 @@
 [https://github.com/NeutroniumCore/Neutronium.SPA.Demo](https://github.com/NeutroniumCore/Neutronium.SPA.Demo)
 
 Neutronium.SPA.Demo is a scaffold Vue.js reference project that can be used as a starter or reference when building a large project.
-It includg IoC (example Ninject but easilly changeable), navigation with integration with vue-router, internalization with integration with vue-i18n.
+It includes IoC (example Ninject but easily changeable), navigation with integration with vue-router, internalization with integration with vue-i18n. Built on top of Vuetify.js.
+
+<img src="../images/Example/SPA.Demo.png" height="250px"><br>
+
 
 ## NeutroniumDemo
 [https://github.com/NeutroniumCore/NeutroniumDemo](https://github.com/NeutroniumCore/NeutroniumDemo)
@@ -20,6 +23,9 @@ It is using [navigation API](./Navigation.md) to navigate between ViewModels.
 [https://github.com/NeutroniumCore/CodeDependencyScanner](https://github.com/NeutroniumCore/CodeDependencyScanner)
 
 Codegravity is a demonstration application (working still in progress) showcasing neutronium + Vue + D3.js in context of C# code analysis.
+
+<img src="../images/Example/codedependency.png" height="250px"><br>
+
 
 
 [How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
