@@ -47,7 +47,7 @@ How?
 
 * Neutronium combines [Chromium](https://www.chromium.org) via [ChromiumFx C# lib](https://bitbucket.org/chromiumfx/chromiumfx) and a binding engine that converts back and forth C# POCO to javascript POCO.
 * Javascript objects are then used as ViewModel for javascript MVVM library such as [knockout.js]("http://knockoutjs.com/) or [Vue.js](http://vuejs.org/images/logo.png).
-* Listeners are set-up on C# and javscript side for two-way binding.
+* Listeners are set-up on C# and javascript side for two-way binding.
    
 On the shoulders of giants
 --------------------------
@@ -186,11 +186,11 @@ Comparison with other libraries:
 	
  * [CefGlue](http://xilium.bitbucket.org/cefglue/)
  
-	Offers all API of CEF. Used by Neutronium as a test WebBrowser using the monoprocess option.
+	Offers all API of CEF. Used by Neutronium as a test WebBrowser using the mono-process option.
 
  * [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx)
  
-	Same as CefGlue + remote API that handles comunication between Chromium processeses. Neutronium recomended set-up uses ChromiumFx as a WebBrowser.
+	Same as CefGlue + remote API that handles communication between Chromium processes. Neutronium recommended set-up uses ChromiumFx as a WebBrowser.
 
  * [CefSharp](https://github.com/cefsharp/CefSharp)
  
