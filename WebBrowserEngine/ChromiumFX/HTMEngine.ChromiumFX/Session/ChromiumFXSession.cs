@@ -46,6 +46,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
         private void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
         {
+            CfxRuntime.EnableHighDpiSupport();
+
             var settings = e.Settings;
 
             _SettingsBuilder?.Invoke(settings);

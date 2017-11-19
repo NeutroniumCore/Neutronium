@@ -8,6 +8,11 @@
 
 * `IHTMLBinding` has been renamed `IHtmlBinding`
 
+* Updates on the ViewModel should now happen on the UI thread, since Neutronium is not redirecting them anymore.<br>
+Practically, this means that you should ensure that any `INotifyPropertyChanged` events and ObservableCollection updates occurs on the UI threads:
+you can use [WPF Dispatcher](https://msdn.microsoft.com/en-us/library/system.windows.threading.dispatcher(v=vs.110).aspx) `Invoke` or `BeginInvoke` methods.<br>
+Neutronium ALWAYS will call ViewModel on the UI thread either when updating properties value or executing command. 
+
 ### Vue scripts
 
 * Using vue mixins
