@@ -82,7 +82,7 @@ To make a WPF window chromeless, Neutronium.WPF provides [Chromeless](../../Neut
 
 This behavior creates a frameless window and takes care of expected drag-and-drop behavior.
 
-See [Codegravity](https://github.com/NeutroniumCore/codegravity) project for a full example of frameless Neutronium Window.
+See [Codegravity](https://github.com/NeutroniumCore/codegravity) and [Neutronium.SPA.Demo](https://github.com/NeutroniumCore/Neutronium.SPA.Demo) projects for a full example of frameless Neutronium Window.
 
 ## **How to display Window only when HTML control is rendering?**
 
