@@ -80,6 +80,9 @@ public class Person: ViewModelBase
 ```
 
 ## Bind to a Command:
+
+Recommended way to use Neutronium is to use the [vue-cli](https://github.com/NeutroniumCore/neutronium-vue) and [vue-mixin-command](https://github.com/NeutroniumCore/neutronium-vue-command-mixin) to bind with command. But it is possible to use low level API to bind with command:
+
 ```HTML
 <button @:click:"RemoveSkill.Execute(skill)"></button>
 ```
@@ -190,8 +193,13 @@ HTML
 <img height="50" width="50" :src="enumImage(genre)">
 ```
 
-* **glueHelper.commandMixin**
-This directive can be used to create component based on command.
+* Command mixin
+
+When using `vue-cli`, you should import the npm module: [neutronium-vue-command-mixin](https://github.com/NeutroniumCore/neutronium-vue-command-mixin). 
+
+Otherwise command-mixin is available through `glueHelper.commandMixin`.
+
+This mixin is used to create component based on command.
 It defines two props command and arg:
 
 ```javascript
@@ -212,32 +220,67 @@ and self-explanatory computed: **canExecute**
 
 If you implement **beforeCommand** method, it will be called before the command Execute 
 
-Here is an example of usage:
+Here is an example of usage (vue-cli context):
+
+Template
+```HTML
+<template>
+  <div class="ui button" :class="{'disabled': !canExecute}" @click="execute">   
+    <slot></slot>  
+  </div>
+</template>
+```
 
 javascript:
 ```javascript
-Vue.component('commandbutton', {
-    mixins: [glueHelper.commandMixin],
-        methods:{
-            beforeCommand: function(){
-                alert('add skill');
-            }
-        },
-        props: {
-            msg: String
-        },
-        template: "#commandbuttontemplate"
+import commandMixin from 'neutronium-vue-command-mixin'
+export default {
+  mixins:[commandMixin]
+}
+```
+
+* Advanced: `IResultCommand` support
+
+Neutronium provides binding to [IResultCommand](./MVVMComponents.md#iresultcommand) making possible to call a C# function returning a Task from javascript and receiving the response as a promise.
+
+Npm module [neutronium-vue-resultcommand-topromise](https://github.com/NeutroniumCore/neutronium-vue-resultcommand-topromise) is an helper to obtain promise from resultCommand on the javascript side.
+
+Example:
+
+ 
+ To bind to C# ResultCommand property:
+ ```CSharp
+ public class ViewModel
+ {
+     public IResultCommand ResultCommand {get;} 
+     
+     public ViewModel()
+     {
+         ResultCommand = RelayResultCommand.Create<string, int>(Count);
+     }
+
+     private int? Count(string routeName)
+     {
+        return routeName?.Lenght.
+     }
+ }
+ ```
+ 
+ Do on javascript side:
+```javascript
+import {toPromise} from 'neutronium-vue-resultcommand-topromise'
+
+const promise = toPromise(viewModel.ResultCommand, 'countLetterNumber');
+promise.then((ok)=>{
+     //Ok code
+ }, (error) =>{
+ //Error handling
 })
 ```
 
-HTML
-```HTML
-<template id="commandbuttontemplate">
-    <div class="button" :class="{ 'on': canExecute, 'off' :!canExecute }" @dblclick="execute">
-        {{msg}}
-    </div>
-</template>
-```
+
+
+
 
 ### See Next:
 

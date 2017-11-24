@@ -163,7 +163,7 @@ Provides implementation for both `ICommand` and `ICommandWithoutParameter`
 
 Provides implementation for both `ICommand<T>` and `ICommand`
 
-# `IResultCommand`
+## `IResultCommand`
 
 `IResultCommand` is comparable to a command that would allow to asynchronously return a result.
 
