@@ -239,7 +239,7 @@ export default {
 }
 ```
 
-* Advanced: `IResultCommand` support
+### Advanced: `IResultCommand` support
 
 Neutronium provides binding to [IResultCommand](./MVVMComponents.md#iresultcommand) making possible to call a C# function returning a Task from javascript and receiving the response as a promise.
 
