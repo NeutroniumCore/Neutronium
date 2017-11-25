@@ -193,7 +193,7 @@ HTML
 <img height="50" width="50" :src="enumImage(genre)">
 ```
 
-* Command mixin
+* **Command mixin**
 
 When using `vue-cli`, you should import the npm module: [neutronium-vue-command-mixin](https://github.com/NeutroniumCore/neutronium-vue-command-mixin). 
 
