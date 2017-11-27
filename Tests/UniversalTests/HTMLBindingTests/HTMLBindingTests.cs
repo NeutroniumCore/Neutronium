@@ -2185,7 +2185,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        [Fact]
+       		[Fact]
         public async Task TwoWay_ResultCommand_Received_javascript_variable()
         {
             var function = NSubstitute.Substitute.For<Func<int, int>>();
@@ -2211,12 +2211,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     var mycommand = GetAttribute(js, "CreateObject");
 
-                    IJavascriptObject cb = null;
-                    bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
-
-                    res.Should().BeTrue();
-                    cb.Should().NotBeNull();
-                    cb.IsObject.Should().BeTrue();
+                    var cb = GetCallBackObject();
 
                     var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
@@ -2232,6 +2227,62 @@ namespace Tests.Universal.HTMLBindingTests
                     var resvalue = _WebView.GetGlobal().GetValue("res");
                     int intres = resvalue.GetIntValue();
                     intres.Should().Be(255);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        private IJavascriptObject GetCallBackObject() 
+        {
+            IJavascriptObject cb = null;
+            bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
+
+            res.Should().BeTrue();
+            cb.Should().NotBeNull();
+            cb.IsObject.Should().BeTrue();
+            return cb;
+        }
+
+         [Fact]
+        public async Task TwoWay_ResultCommand_can_be_listened_from_Javascript() 
+        {
+            var original = "original";
+            var stringExpected = "NewName";
+            var result = new SimpleViewModel { Name= original };
+            var function = NSubstitute.Substitute.For<Func<int, SimpleViewModel>>();
+            function.Invoke(Arg.Any<int>()).Returns(result);
+
+            var dc = new FakeFactory<int, SimpleViewModel>(function);
+
+            var test = new TestInContextAsync() 
+            {
+                Path = TestContext.IndexPromise,
+                Bind = (win) => HtmlBinding.Bind(win, dc, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    var js = mb.JsRootObject;
+                    var mycommand = GetAttribute(js, "CreateObject");
+                    var cb = GetCallBackObject();
+
+                    var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
+
+                    await Task.Delay(700);
+
+                    var resvalue = _WebView.GetGlobal().GetValue("res");
+
+                    await Task.Delay(100);
+
+                    var originalValue = GetAttribute(resvalue, nameof(SimpleViewModel.Name)).GetStringValue();
+
+                    originalValue.Should().Be(original);
+
+                    DoSafeUI(() => result.Name = stringExpected);
+
+                    await Task.Delay(100);
+
+                    var newValue = GetAttribute(resvalue, nameof(SimpleViewModel.Name)).GetStringValue();
+                    newValue.Should().Be(stringExpected);
                 }
             };
 
