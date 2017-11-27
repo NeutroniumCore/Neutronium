@@ -2289,6 +2289,52 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+
+        [Fact]
+        public async Task TwoWay_ResultCommand_can_be_listened_from_CSharp_when_used_in_Vm() 
+        {
+            var child = new BasicTestViewModel();
+
+            var function = NSubstitute.Substitute.For<Func<int, BasicTestViewModel>>();
+            function.Invoke(Arg.Any<int>()).Returns(child);
+
+            var dataContext = new FactoryFatherTestViewModel(function);
+
+            var test = new TestInContextAsync() 
+            {
+                Path = TestContext.IndexPromise,
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    var js = mb.JsRootObject;
+                    var factory = GetAttribute(js, "Factory");
+                    var mycommand = GetAttribute(factory, "CreateObject");
+                    var cb = GetCallBackObject();
+
+                    Call(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
+
+                    await Task.Delay(700);
+
+                    var resvalue = _WebView.GetGlobal().GetValue("res");
+
+                    await Task.Delay(100);
+
+                    var originalValue = GetAttribute(resvalue, nameof(BasicTestViewModel.Value)).GetIntValue();
+
+                    originalValue.Should().Be(-1);
+
+                    //DoSafeUI(() => result.Name = stringExpected);
+
+                    //await Task.Delay(100);
+
+                    //var newValue = GetAttribute(resvalue, nameof(SimpleViewModel.Name)).GetStringValue();
+                    //newValue.Should().Be(stringExpected);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         [Fact]
         public async Task TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
         {
@@ -2884,17 +2930,17 @@ namespace Tests.Universal.HTMLBindingTests
         {
             get
             {
-                yield return new object[] { new BasicTestViewNodel() };
+                yield return new object[] { new BasicTestViewModel() };
                 yield return new object[] { null };
             }
         }
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_should_unlisten_when_changing_property(BasicTestViewNodel remplacementChild)
+        public async Task TwoWay_should_unlisten_when_changing_property(BasicTestViewModel remplacementChild)
         {
-            var child = new BasicTestViewNodel();
-            var datacontext = new BasicTestViewNodel { Child = child };
+            var child = new BasicTestViewModel();
+            var datacontext = new BasicTestViewModel { Child = child };
 
             var test = new TestInContextAsync()
             {
@@ -2912,7 +2958,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     //If still listening to child, this will raise an exception
                     //for changing property on the wrong thread
-                    var third = new BasicTestViewNodel();
+                    var third = new BasicTestViewModel();
                     Action safe = () => child.Child = third;
                     safe.ShouldNotThrow();
                 }
@@ -2925,18 +2971,18 @@ namespace Tests.Universal.HTMLBindingTests
         {
             get
             {
-                var root = new BasicTestViewNodel { Child = new BasicTestViewNodel() };
+                var root = new BasicTestViewModel { Child = new BasicTestViewModel() };
                 yield return new object[] { root, new[] { root, root.Child } };
 
-                var root2 = new BasicTestViewNodel { Child = new BasicTestViewNodel { Child = new BasicTestViewNodel() } };
+                var root2 = new BasicTestViewModel { Child = new BasicTestViewModel { Child = new BasicTestViewModel() } };
                 yield return new object[] { root2, new[] { root2, root2.Child, root2.Child.Child } };
 
-                var circular1 = new BasicTestViewNodel();
+                var circular1 = new BasicTestViewModel();
                 circular1.Child = circular1;
 
                 yield return new object[] { circular1, new[] { circular1 } };
 
-                var circular2 = new BasicTestViewNodel { Child = new BasicTestViewNodel() };
+                var circular2 = new BasicTestViewModel { Child = new BasicTestViewModel() };
                 circular2.Child.Child = circular2;
 
                 yield return new object[] { circular2, new[] { circular2, circular2.Child } };
@@ -2995,10 +3041,10 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_cleans_javascriptObject_cache_when_object_is_not_part_of_the_graph(BasicTestViewNodel remplacementChild)
+        public async Task TwoWay_cleans_javascriptObject_cache_when_object_is_not_part_of_the_graph(BasicTestViewModel remplacementChild)
         {
             var datacontext = new BasicFatherTestViewModel();
-            var child = new BasicTestViewNodel();
+            var child = new BasicTestViewModel();
             datacontext.Child = child;
 
             var test = new TestInContextAsync()
@@ -3028,12 +3074,12 @@ namespace Tests.Universal.HTMLBindingTests
         {
             get
             {
-                var auto = new BasicTestViewNodel { };
+                var auto = new BasicTestViewModel { };
                 auto.Child = auto;
 
-                yield return new object[] { auto, auto, new[] { auto }, new BasicTestViewNodel[0] };
+                yield return new object[] { auto, auto, new[] { auto }, new BasicTestViewModel[0] };
 
-                var circular = new BasicTestViewNodel { Child = new BasicTestViewNodel() };
+                var circular = new BasicTestViewModel { Child = new BasicTestViewModel() };
                 circular.Child.Child = circular;
 
                 yield return new object[] { circular, circular, new[] { circular }, new[] { circular.Child } };
@@ -3046,16 +3092,16 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        private static BasicTestViewNodel BuildLongCircular()
+        private static BasicTestViewModel BuildLongCircular()
         {
-            var circularLong = new BasicTestViewNodel { Child = new BasicTestViewNodel { Child = new BasicTestViewNodel() } };
+            var circularLong = new BasicTestViewModel { Child = new BasicTestViewModel { Child = new BasicTestViewModel() } };
             circularLong.Child.Child.Child = circularLong;
             return circularLong;
         }
 
         [Theory]
         [MemberData(nameof(CircularDataBreaker))]
-        public async Task TwoWay_unlistens_when_object_is_not_part_of_the_graph_respecting_cycle(BasicTestViewNodel root, BasicTestViewNodel breaker, BasicTestViewNodel[] survivores, BasicTestViewNodel[] cleaned)
+        public async Task TwoWay_unlistens_when_object_is_not_part_of_the_graph_respecting_cycle(BasicTestViewModel root, BasicTestViewModel breaker, BasicTestViewModel[] survivores, BasicTestViewModel[] cleaned)
         {
             var test = new TestInContextAsync()
             {
@@ -3078,9 +3124,9 @@ namespace Tests.Universal.HTMLBindingTests
             {
                 Children =
                 {
-                    new BasicTestViewNodel(),
-                    new BasicTestViewNodel(),
-                    new BasicTestViewNodel()
+                    new BasicTestViewModel(),
+                    new BasicTestViewModel(),
+                    new BasicTestViewModel()
                 }
             };
             return root;
@@ -3153,7 +3199,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var newChild = new BasicTestViewNodel();
+                    var newChild = new BasicTestViewModel();
                     await DoSafeAsyncUI(() => root.Children[0] = newChild);
 
                     removed.ListenerCount.Should().Be(0);
@@ -3169,7 +3215,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_calls_comand_with_correct_argument()
         {
             var datacontext = new BasicFatherTestViewModel();
-            var child = new BasicTestViewNodel();
+            var child = new BasicTestViewModel();
             datacontext.Child = child;
 
             var test = new TestInContextAsync()
@@ -3195,8 +3241,8 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_rebinds_with_updated_objects()
         {
-            var child = new BasicTestViewNodel();
-            var datacontext = new BasicTestViewNodel { Child = child };
+            var child = new BasicTestViewModel();
+            var datacontext = new BasicTestViewModel { Child = child };
 
             var test = new TestInContextAsync()
             {
@@ -3209,7 +3255,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(300);
 
-                    var third = new BasicTestViewNodel();
+                    var third = new BasicTestViewModel();
                     child.Child = third;
 
                     DoSafeUI(() => datacontext.Child = child);
@@ -3230,8 +3276,8 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_listens_to_all_changes()
         {
-            var child = new BasicTestViewNodel();
-            var datacontext = new BasicTestViewNodel { Child = child };
+            var child = new BasicTestViewModel();
+            var datacontext = new BasicTestViewModel { Child = child };
 
             var test = new TestInContextAsync()
             {
@@ -3244,7 +3290,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(300);
 
-                    var third = new BasicTestViewNodel();
+                    var third = new BasicTestViewModel();
                     child.Child = third;
 
                     DoSafeUI(() => datacontext.Child = child);

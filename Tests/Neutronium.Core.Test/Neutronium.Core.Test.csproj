@@ -111,12 +111,14 @@
     <Compile Include="Binding\CSharpToJavascriptConverterTests.cs" />
     <Compile Include="Binding\Listeners\SilenterTest.cs" />
     <Compile Include="Helper\AmbigeousDynamicObject.cs" />
+    <Compile Include="Helper\FactoryFatherTestViewModel.cs" />
     <Compile Include="Helper\BasicFatherTestViewModel.cs" />
     <Compile Include="Helper\BasicListTestViewModel.cs" />
-    <Compile Include="Helper\BasicTestViewNodel.cs" />
+    <Compile Include="Helper\BasicTestViewModel.cs" />
     <Compile Include="Helper\ClrTypesTestViewModel.cs" />
     <Compile Include="Helper\CommandsTestViewModel.cs" />
     <Compile Include="Helper\DynamicObjectTest.cs" />
+    <Compile Include="Helper\FakeFactory.cs" />
     <Compile Include="Helper\FakeTestViewModel.cs" />
     <Compile Include="Helper\NullableTestViewModel.cs" />
     <Compile Include="Helper\PerformanceHelper.cs" />

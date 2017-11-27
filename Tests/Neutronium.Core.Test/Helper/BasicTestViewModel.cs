@@ -1,9 +1,9 @@
 ﻿namespace Neutronium.Core.Test.Helper
 {
-    public class BasicTestViewNodel : ViewModelTestBase
+    public class BasicTestViewModel : ViewModelTestBase
     {
-        private BasicTestViewNodel _Child;
-        public BasicTestViewNodel Child
+        private BasicTestViewModel _Child;
+        public BasicTestViewModel Child
         {
             get { return _Child; }
             set { Set(ref _Child, value); }

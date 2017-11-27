@@ -5,7 +5,7 @@ namespace Neutronium.Core.Test.Helper
 {
     public class BasicListTestViewModel : ViewModelTestBase
     {
-        public IList<BasicTestViewNodel> Children { get; } = new ObservableCollection<BasicTestViewNodel>();
+        public IList<BasicTestViewModel> Children { get; } = new ObservableCollection<BasicTestViewModel>();
     }
 
 }

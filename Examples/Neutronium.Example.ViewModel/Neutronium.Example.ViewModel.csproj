@@ -69,7 +69,6 @@
     <Compile Include="Counter\CounterViewModel.cs" />
     <Compile Include="Couple.cs" />
     <Compile Include="DateInformation.cs" />
-    <Compile Include="FakeFactory.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="FakeViewModel.cs" />
     <Compile Include="ForNavigation\Couple.cs" />

@@ -5,8 +5,8 @@ namespace Neutronium.Core.Test.Helper
 {
     public class BasicFatherTestViewModel : ViewModelTestBase
     {
-        private BasicTestViewNodel _Child;
-        public BasicTestViewNodel Child
+        private BasicTestViewModel _Child;
+        public BasicTestViewModel Child
         {
             get { return _Child; }
             set { Set(ref _Child, value); }
@@ -14,13 +14,13 @@ namespace Neutronium.Core.Test.Helper
 
         public ICommand Command { get; }
 
-        public BasicTestViewNodel LastCallElement { get; private set; }
+        public BasicTestViewModel LastCallElement { get; private set; }
 
         public int CallCount { get; private set; } = 0;
 
         public BasicFatherTestViewModel()
         {
-            Command = new RelaySimpleCommand<BasicTestViewNodel>(child =>
+            Command = new RelaySimpleCommand<BasicTestViewModel>(child =>
             {
                 CallCount++;
                 LastCallElement = child;

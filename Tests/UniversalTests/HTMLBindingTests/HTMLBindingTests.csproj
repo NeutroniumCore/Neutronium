@@ -95,7 +95,6 @@
   <ItemGroup>
     <Compile Include="Helper\ChangingCollectionViewModel.cs" />
     <Compile Include="Helper\SimpleViewModel.cs" />
-    <Compile Include="Helper\ViewModelCLRTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestPerformanceKind.cs" />
     <Compile Include="HTMLBindingPerformanceTests.cs" />

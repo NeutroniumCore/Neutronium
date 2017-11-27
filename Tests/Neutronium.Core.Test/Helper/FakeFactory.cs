@@ -3,7 +3,7 @@ using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
 
-namespace Neutronium.Example.ViewModel
+namespace Neutronium.Core.Test.Helper
 {
     public class FakeFactory<TIn,TOut> : ViewModelBase
     {

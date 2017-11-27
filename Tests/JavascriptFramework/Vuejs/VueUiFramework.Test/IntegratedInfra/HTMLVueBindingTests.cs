@@ -145,10 +145,10 @@ namespace VueFramework.Test.IntegratedInfra
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicTestViewNodel remplacementChild) 
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicTestViewModel remplacementChild) 
         {
             var datacontext = new BasicFatherTestViewModel();
-            var child = new BasicTestViewNodel();
+            var child = new BasicTestViewModel();
             datacontext.Child = child;
 
             var test = new TestInContextAsync() 
@@ -175,7 +175,7 @@ namespace VueFramework.Test.IntegratedInfra
         public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_js() 
         {
             var datacontext = new BasicFatherTestViewModel();
-            var child = new BasicTestViewNodel();
+            var child = new BasicTestViewModel();
             datacontext.Child = child;
 
             var test = new TestInContextAsync() 
@@ -208,10 +208,10 @@ namespace VueFramework.Test.IntegratedInfra
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_context(BasicTestViewNodel remplacementChild) 
+        public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_context(BasicTestViewModel remplacementChild) 
         {
             var datacontext = new BasicListTestViewModel();
-            var child = new BasicTestViewNodel();
+            var child = new BasicTestViewModel();
             datacontext.Children.Add(child);
 
             var test = new TestInContextAsync() 
@@ -242,7 +242,7 @@ namespace VueFramework.Test.IntegratedInfra
         public async Task TwoWay_should_clean_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_js_context() 
         {
             var datacontext = new BasicListTestViewModel();
-            var child = new BasicTestViewNodel();
+            var child = new BasicTestViewModel();
             datacontext.Children.Add(child);
 
             var test = new TestInContextAsync() 
