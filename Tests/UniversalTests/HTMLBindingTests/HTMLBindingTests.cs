@@ -2247,8 +2247,8 @@ namespace Tests.Universal.HTMLBindingTests
          [Fact]
         public async Task TwoWay_ResultCommand_can_be_listened_from_Javascript() 
         {
-            var original = "original";
-            var stringExpected = "NewName";
+            const string original = "original";
+            const string stringExpected = "NewName";
             var result = new SimpleViewModel { Name= original };
             var function = NSubstitute.Substitute.For<Func<int, SimpleViewModel>>();
             function.Invoke(Arg.Any<int>()).Returns(result);
@@ -2323,12 +2323,23 @@ namespace Tests.Universal.HTMLBindingTests
 
                     originalValue.Should().Be(-1);
 
-                    //DoSafeUI(() => result.Name = stringExpected);
+                    SetAttribute(js, nameof(FactoryFatherTestViewModel.Child), resvalue);
 
-                    //await Task.Delay(100);
+                    var res = GetAttribute(js, nameof(FactoryFatherTestViewModel.Child));
+                    res.IsObject.Should().BeTrue();
 
-                    //var newValue = GetAttribute(resvalue, nameof(SimpleViewModel.Name)).GetStringValue();
-                    //newValue.Should().Be(stringExpected);
+                    await Task.Delay(200);
+
+                    DoSafeUI(() => dataContext.Child.Should().Be(child));
+
+                    var newInt = 45;
+                    SetAttribute(resvalue, nameof(BasicTestViewModel.Value), _WebView.Factory.CreateInt(newInt));
+                    var updatedValue = GetAttribute(resvalue, nameof(BasicTestViewModel.Value)).GetIntValue();
+                    updatedValue.Should().Be(newInt);
+
+                    await Task.Delay(200);
+
+                    DoSafeUI(() => dataContext.Child.Value.Should().Be(newInt));
                 }
             };
 
