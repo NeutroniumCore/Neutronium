@@ -63,11 +63,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             RunInContext(act);
         }
 
-        private void LogException(Exception exception)
-        {
-            _Logger?.Info($"Exception encountred during task dispatch: {exception.Message}");
-        }
-
         public void Run(Action act) 
         {
             RunAsync(act).Wait();
@@ -114,19 +109,24 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return result;
         }
 
+        private void LogException(Exception exception, string message= "Exception encountred during task dispatch") 
+        {
+            _Logger?.Info($"{message}: {exception}");
+        }
+
         private ChromiumFxContext GetContext() 
         {
-            return new ChromiumFxContext(_Context, _Logger);
+            return new ChromiumFxContext(_Context, this);
         }
 
         private struct ChromiumFxContext : IDisposable 
         {
             private readonly CfrV8Context _Context;
-            private readonly IWebSessionLogger _Logger;
+            private readonly ChromiumFxDispatcher _Dispatcher;
 
-            public ChromiumFxContext(CfrV8Context context, IWebSessionLogger logger) 
+            public ChromiumFxContext(CfrV8Context context, ChromiumFxDispatcher dispatcher) 
             {
-                _Logger = logger;
+                _Dispatcher = dispatcher;
                 _Context = context;
                 _Context.Enter();
             }
@@ -139,7 +139,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 }
                 catch (Exception ex)
                 {
-                    _Logger?.Info($"Problem in exiting chromiumFx context {ex}");
+                    _Dispatcher.LogException(ex, "Problem in exiting chromiumFx context ");
                 }
             }
         }
@@ -150,6 +150,18 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         }
 
         private void RunInContext(Action action) 
+        {
+            try 
+            {
+                RunInContextUnsafe(action);
+            }
+            catch (Exception ex) 
+            {
+                LogException(ex, "Unable to dispatch action on ChromiumFx context");
+            }
+        }
+
+        private void RunInContextUnsafe(Action action) 
         {
             if (CfxRemoteCallContext.IsInContext)    
             {
