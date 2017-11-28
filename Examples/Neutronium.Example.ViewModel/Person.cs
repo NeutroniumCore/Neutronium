@@ -64,6 +64,14 @@ namespace Neutronium.Example.ViewModel
             set { Set(ref _Sex, value, "Sex"); }
         }
 
+
+        private int _Count;
+        public int Count 
+        {
+            get { return _Count; }
+            set { Set(ref _Count, value, "Count"); }
+        }
+
         private int _Age;
         public int Age
         {

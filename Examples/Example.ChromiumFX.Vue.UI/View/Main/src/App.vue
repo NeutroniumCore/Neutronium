@@ -40,6 +40,9 @@
           </label>
         </div>
       </div>
+      <div>
+        {{Count}}
+      </div>
 
       <div class="form-group" >
         <label for="skills">Skills</label>

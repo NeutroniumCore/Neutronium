@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Threading;
 using Neutronium.Example.ViewModel;
 
 namespace Example.ChromiumFX.Vue.UI
@@ -15,7 +16,8 @@ namespace Example.ChromiumFX.Vue.UI
         {
             this.InitializeComponent();
 
-            var datacontext = new Person() {
+            var datacontext = new Person()
+            {
                 Name = "O Monstro",
                 LastName = "Desmaisons",
                 Local = new Local() { City = "Florianopolis", Region = "SC" },
@@ -28,6 +30,13 @@ namespace Example.ChromiumFX.Vue.UI
             datacontext.Skills.Add(new Skill() { Name = "Info", Type = "C++" });
 
             DataContext = datacontext;
+
+            var timer = new DispatcherTimer 
+            {
+                Interval = TimeSpan.FromMilliseconds(100)
+            };
+            timer.Tick += (o, e) => datacontext.Count += 1 ;
+            timer.Start();
         }
 
         protected override void OnClosed(EventArgs e)
