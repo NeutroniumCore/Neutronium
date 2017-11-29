@@ -147,6 +147,18 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
+        public void Map_CreateJSGlueObject_WithCorrectToString_WithSingleQuote()
+        {
+            var testObject = new StringClass
+            {
+                Value = "Dady's girl"
+            };
+            var res = _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be(@"{""Value"":""Dady's girl""}");
+        }
+
+        [Fact]
         public void Map_CreateJSGlueObject_WithCorrectToString_ListProperty()
         {
             var testObject = new TestClass();

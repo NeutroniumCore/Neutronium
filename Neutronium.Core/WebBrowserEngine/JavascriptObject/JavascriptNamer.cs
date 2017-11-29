@@ -59,9 +59,9 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
 
         public static string GetCreateExpression(string value) => $"'{FilterString(value)}'";
 
-        public static string GetCreateExpressionDoubleQuote(string value) => $@"""{FilterString(value)}""";
+        public static string GetCreateExpressionDoubleQuote(string value) => $@"""{FilterStringDoubleQuote(value)}""";
 
-        private static string FilterString(string value)
+        private static string FilterStringDoubleQuote(string value)
         {
             var filtered = value.Replace(@"\", @"\\")
                 .Replace("\n", "\\n")
@@ -69,10 +69,14 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
                 .Replace("\b", "\\b")
                 .Replace("\f", "\\f")
                 .Replace("\t", "\\t")
-                .Replace(@"""", @"\""")
-                .Replace("'", @"\'");
+                .Replace(@"""", @"\""");
 
             return filtered;
+        }
+
+        private static string FilterString(string value)
+        {
+            return FilterStringDoubleQuote(value).Replace("'", @"\'");
         }
 
         public static string GetCreateExpression(object @object)
