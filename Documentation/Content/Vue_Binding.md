@@ -261,7 +261,7 @@ Example:
 
      private int? Count(string routeName)
      {
-        return routeName?.Lenght.
+        return routeName?.Lenght;
      }
  }
  ```
