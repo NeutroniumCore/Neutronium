@@ -55,7 +55,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private void OnBeforeContextMenu(object sender, CfxOnBeforeContextMenuEventArgs e) 
         {
-            e.Model.Clear();
+            var model = e.Model;
+            for(var index= model.Count-1; index>=0 ; index--) 
+            {
+                if (!CfxContextMenu.IsEdition(model.GetCommandIdAt(index)))
+                    model.RemoveAt(index);
+            }
         }
 
         private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e) 
