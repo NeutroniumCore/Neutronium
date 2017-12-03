@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Chromium.Event;
 using Chromium.Remote;
 using Chromium.Remote.Event;
@@ -22,6 +23,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public IWebView MainFrame { get; private set; }
         public Uri Url => _ChromiumWebBrowser.Url;
         public bool IsLoaded  => !_ChromiumWebBrowser.IsLoading;
+        private readonly List<ContextMenuItem> _Commands = new List<ContextMenuItem>();
+        private readonly List<int> _MenuSeparatorIndex = new List<int>();
 
         public ChromiumFxControlWebBrowserWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher, IWebSessionLogger logger) 
         {
@@ -33,6 +36,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
             _ChromiumWebBrowser.RemoteBrowserCreated += OnChromiumWebBrowser_RemoteBrowserCreated;
             _ChromiumWebBrowser.ContextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
+            _ChromiumWebBrowser.ContextMenuHandler.OnContextMenuCommand += ContextMenuHandler_OnContextMenuCommand;
             _ChromiumWebBrowser.RequestHandler.OnRenderProcessTerminated += RequestHandler_OnRenderProcessTerminated;
             _ChromiumWebBrowser.LifeSpanHandler.OnBeforePopup += LifeSpanHandler_OnBeforePopup;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
@@ -61,6 +65,29 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 if (!CfxContextMenu.IsEdition(model.GetCommandIdAt(index)))
                     model.RemoveAt(index);
             }
+
+            if (model.Count != 0)
+                return;
+
+            var rank = (int) ContextMenuId.MENU_ID_USER_FIRST;
+            _Commands.ForEach(command => model.AddItem(rank++, command.Name));
+            _MenuSeparatorIndex.ForEach(index => model.InsertSeparatorAt(index));
+        }
+
+        public IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItens)
+        {
+            _Commands.AddRange(contextMenuItens);
+            _MenuSeparatorIndex.Insert(0, _Commands.Count);
+            return this;
+        }
+
+        private void ContextMenuHandler_OnContextMenuCommand(object sender, CfxOnContextMenuCommandEventArgs e)
+        {
+            if (!CfxContextMenu.IsUserDefined(e.CommandId))
+                return;
+
+            var command = _Commands[e.CommandId - (int)ContextMenuId.MENU_ID_USER_FIRST].Command;
+            command.Invoke();
         }
 
         private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e) 

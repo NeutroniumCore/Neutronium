@@ -67,6 +67,7 @@ namespace Neutronium.WPF.Internal.DebugTools
         public void Dispose()
         {
             _Disposable?.Dispose();
+            _WPFWebWindow.Dispose();
             _Disposable = null;
         }
     }

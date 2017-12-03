@@ -246,15 +246,15 @@ namespace Neutronium.Core.Navigation
             CleanWebControl(ref _NextWebControl);
         }
 
-        private void CleanWebControl(ref IWebBrowserWindowProvider WebControl)
+        private void CleanWebControl(ref IWebBrowserWindowProvider webControl)
         {
-            if (WebControl == null)
+            if (webControl == null)
                 return;
 
-            WebControl.HtmlWindow.Crashed -= Crashed;
-            WebControl.HtmlWindow.ConsoleMessage -= ConsoleMessage;
-            WebControl.Dispose();
-            WebControl = null;
+            webControl.HtmlWindow.Crashed -= Crashed;
+            webControl.HtmlWindow.ConsoleMessage -= ConsoleMessage;
+            webControl.Dispose();
+            webControl = null;
         }
 
         public event EventHandler<NavigationEvent> OnNavigate;

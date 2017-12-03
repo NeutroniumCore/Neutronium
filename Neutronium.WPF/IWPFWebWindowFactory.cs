@@ -27,9 +27,18 @@ namespace Neutronium.WPF
         /// Create a new IWPFWebWindow 
         /// </summary>
         /// <returns>
-        /// a new IWPFWebWindow
+        /// a new IWPFWebWindow <see cref="IWPFWebWindow"/>
         ///</returns>
         IWPFWebWindow Create();
+
+        /// <summary>
+        /// get IsModern value
+        /// </summary>
+        /// <returns>
+        /// true if engine create a IWPFWebWindow which HTMLWindow
+        /// is a IModernWebBrowserWindow
+        ///</returns>
+        bool IsModern { get; }
 
         /// <summary>
         /// get or set WebSessionLogger

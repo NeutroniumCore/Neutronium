@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -910,5 +911,9 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
         }
 
         public event EventHandler<BeforeJavascriptExcecutionArgs> BeforeJavascriptExecuted;
+        public IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItens)
+        {
+            return this;
+        }
     }
 }

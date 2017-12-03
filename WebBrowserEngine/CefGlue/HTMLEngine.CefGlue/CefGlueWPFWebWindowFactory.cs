@@ -12,6 +12,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue
         public string EngineName => "Chromium";
         public string Name => "Cef.Glue";
         public string EngineVersion => "51";
+        public bool IsModern => true;
 
         public IWebSessionLogger WebSessionLogger { get; set; }
 

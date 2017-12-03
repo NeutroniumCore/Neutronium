@@ -2,7 +2,6 @@
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
 using System;
-using Neutronium.Core.Infra;
 
 namespace Neutronium.WPF.Internal
 {

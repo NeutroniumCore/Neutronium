@@ -15,6 +15,8 @@ namespace Neutronium.WebBrowserEngine.Awesomium
         public string EngineName  => "Chromium 19";
         public string EngineVersion => "19";
         public string Name => "Awesomium";
+        public bool IsModern => false;
+
         public IWebSessionLogger WebSessionLogger { get; set; }
 
         static AwesomiumWPFWebWindowFactory()

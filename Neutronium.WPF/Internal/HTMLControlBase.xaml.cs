@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra.VM;
@@ -177,7 +179,7 @@ namespace Neutronium.WPF.Internal
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
-            if (_WPFWebWindowFactory == null)
+            if ((_WPFWebWindowFactory == null) || (_WPFWebWindowFactory.IsModern))
                 return;
 
             if (isDebug)
@@ -194,6 +196,9 @@ namespace Neutronium.WPF.Internal
         private void SetUpDebugTool()
         {
             if (_DebugControl != null)
+                return;
+
+            if (_WPFWebWindowFactory.IsModern)
                 return;
 
             var windoInfo = HTMLEngineFactory.Engine.ResolveToolbar();
@@ -261,6 +266,30 @@ namespace Neutronium.WPF.Internal
         private void OnNavigateFired(object sender, NavigationEvent e)
         {
             OnNavigate?.Invoke(this, e);
+
+            if (!IsDebug)
+                return;
+
+            var modern = _WPFDoubleBrowserNavigator.HTMLWindow as IModernWebBrowserWindow;
+            modern?.RegisterContextMenuItem(GetMenu())?.RegisterContextMenuItem(GetAbout());
+        }
+
+        private IEnumerable<ContextMenuItem> GetMenu()
+        {
+            yield return GetContextMenuItem("Inspect", _DebugInformation.DebugBrowser);
+            yield return GetContextMenuItem("Vm Debug", _DebugInformation.DebugWindow);
+            yield return GetContextMenuItem("Save Vm", _DebugInformation.SaveVm);
+        }
+
+        private IEnumerable<ContextMenuItem> GetAbout()
+        {
+            yield return GetContextMenuItem("About Neutronium", _DebugInformation.ShowInfo);
+        }
+
+        private ContextMenuItem GetContextMenuItem(string itemName, ICommand command)
+        {
+            Action doAction = () => { if (command.CanExecute(null)) command.Execute(null); };
+            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, doAction), itemName);
         }
 
         private void OnDisplayFired(object sender, DisplayEvent e)
@@ -331,6 +360,8 @@ namespace Neutronium.WPF.Internal
         {
             if (_VmDebugWindow != null)
             {
+                var state = _VmDebugWindow.WindowState;
+                _VmDebugWindow.WindowState = (state == WindowState.Minimized) ? WindowState.Normal : state;
                 _VmDebugWindow.Activate();
                 return;
             }

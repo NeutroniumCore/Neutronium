@@ -231,6 +231,7 @@
     <Compile Include="WebBrowserEngine\Window\BeforeJavascriptExcecutionArgs.cs" />
     <Compile Include="WebBrowserEngine\Window\BrowserCrashedArgs.cs" />
     <Compile Include="WebBrowserEngine\Window\ConsoleMessageArgs.cs" />
+    <Compile Include="WebBrowserEngine\Window\ContextMenuItem.cs" />
     <Compile Include="WebBrowserEngine\Window\IDispatcher.cs" />
     <Compile Include="WebBrowserEngine\Window\IModernWebBrowserWindow.cs" />
     <Compile Include="WebBrowserEngine\Window\IWebBrowserWindow.cs" />

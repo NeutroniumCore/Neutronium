@@ -12,5 +12,10 @@
         {
             return (intValue >= (int)ContextMenuId.MENU_ID_UNDO) && (intValue <= (int)ContextMenuId.MENU_ID_SELECT_ALL);
         }
+
+        public static bool IsUserDefined(int intValue)
+        {
+            return (intValue >= (int)ContextMenuId.MENU_ID_USER_FIRST) && (intValue <= (int)ContextMenuId.MENU_ID_USER_LAST);
+        }
     }
 }
