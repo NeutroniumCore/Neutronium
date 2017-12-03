@@ -1,5 +1,4 @@
 ﻿(function (debugMode) {
-
     const config = Vue.config;
     config.productionTip = false;
     if (!debugMode) {
@@ -10,7 +9,7 @@
     const silenterProperty = '__silenter';
     var vueVm = null;
     var globalListener = null;
-    var vueRootOption = {};
+    var vueRootOptionBuilder = (vm) => ({});
 
     function silentChange(father, propertyName, value) {
         setTimeout(() => silentChangeSync(father, propertyName, value), 0);
@@ -315,8 +314,12 @@
         updater(value, null);     
     }
 
-    function setOption(option) {
-        vueRootOption = option || {};
+    function setOption(optionOrBuilder) {
+        if (typeof optionOrBuilder === "function") {
+            vueRootOptionBuilder = optionOrBuilder;
+            return;
+        }
+        vueRootOptionBuilder = (vm) => optionOrBuilder;
     }
 
     var helper = {
@@ -337,7 +340,8 @@
             }         
             globalListener = observer;
 
-            var options = Object.assign({}, vueRootOption, {
+            var applicationOptions = vueRootOptionBuilder(vm) || {};
+            var options = Object.assign({}, applicationOptions, {
                 data: vm
             });
 

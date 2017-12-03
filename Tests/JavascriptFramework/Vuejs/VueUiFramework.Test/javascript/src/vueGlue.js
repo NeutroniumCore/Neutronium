@@ -1,12 +1,19 @@
 ﻿"use strict";
 
-(function () {
-    console.log("VueGlue loaded");
+(function (debugMode) {
+    var config = Vue.config;
+    config.productionTip = false;
+    if (!debugMode) {
+        config.devtools = false;
+        config.silent = true;
+    }
 
     var silenterProperty = '__silenter';
     var vueVm = null;
     var globalListener = null;
-    var vueRootOption = {};
+    var vueRootOptionBuilder = function vueRootOptionBuilder(vm) {
+        return {};
+    };
 
     function silentChange(father, propertyName, value) {
         setTimeout(function () {
@@ -327,8 +334,14 @@
         updater(value, null);
     };
 
-    function setOption(option) {
-        vueRootOption = option || {};
+    function setOption(optionOrBuilder) {
+        if (typeof optionOrBuilder === "function") {
+            vueRootOptionBuilder = optionOrBuilder;
+            return;
+        }
+        vueRootOptionBuilder = function (vm) {
+            return optionOrBuilder;
+        };
     }
 
     var helper = {
@@ -344,10 +357,13 @@
         silentChangeAndInject: silentChangeAndInject,
         disposeSilenters: disposeSilenters,
         register: function register(vm, observer) {
-            console.log("VueGlue register");
+            if (debugMode) {
+                console.log("Neutronium: ViewModel injected");
+            }
             globalListener = observer;
 
-            var options = Object.assign({}, vueRootOption, {
+            var applicationOptions = vueRootOptionBuilder(vm) || {};
+            var options = Object.assign({}, applicationOptions, {
                 data: vm
             });
 
@@ -358,11 +374,13 @@
             vueVm = new Vue(vueOption);
             vueVm.$mount('#main');
 
+            window.vm = vueVm;
+
             return inject(vm);
         },
         ready: ready
     };
 
     window.glueHelper = helper;
-})();
+})(true);
 

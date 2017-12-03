@@ -6,11 +6,12 @@ function install(vue) {
     vue.use(VueI18n);
 }
 
-function vueInstanceOption() {
+function vueInstanceOption(vm) {
     const i18n = new VueI18n({
         locale: 'fr-FR', // set locale
         messages, // set locale messages
     });
+    console.log(vm);
 
     //Return vue global option here, such as vue-router, vue-i18n, mix-ins, .... 
     return {i18n}

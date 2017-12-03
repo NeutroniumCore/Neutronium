@@ -4,5 +4,5 @@ import {install, vueInstanceOption} from './install'
 import vueHelper from 'vueHelper'
 
 install(Vue)
-vueHelper.setOption(vueInstanceOption())
+vueHelper.setOption(vueInstanceOption)
 Vue.component('app', App)
