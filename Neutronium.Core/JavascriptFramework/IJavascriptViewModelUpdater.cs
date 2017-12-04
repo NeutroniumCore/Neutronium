@@ -108,5 +108,14 @@ namespace Neutronium.Core.JavascriptFramework
         /// collection of elements to unlisten
         /// </param>
         void UnListen(IEnumerable<IJavascriptObject> elementsToUnlisten);
+
+
+        /// <summary>
+        /// Make object reactive and listen to all changes
+        /// </summary>
+        /// <param name="javascriptObject">
+        /// Javascript object to br registered
+        /// </param>
+        void RegisterUnrootedObject(IJavascriptObject javascriptObject);
     }
 }

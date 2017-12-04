@@ -84,5 +84,9 @@ namespace Neutronium.JavascriptFramework.Knockout
         public void UnListen(IEnumerable<IJavascriptObject> inClassName)
         {
         }
+
+        public void RegisterUnrootedObject(IJavascriptObject javascriptObject)
+        {
+        }
     }
 }
