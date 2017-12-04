@@ -2333,12 +2333,12 @@ namespace Tests.Universal.HTMLBindingTests
                     DoSafeUI(() => dataContext.Child.Should().Be(child));
 
                     //ToDo: Make this work
-                    //var newInt = 45;
-                    //SetAttribute(resvalue, nameof(BasicTestViewModel.Value), _WebView.Factory.CreateInt(newInt));
-                    //var updatedValue = GetAttribute(resvalue, nameof(BasicTestViewModel.Value)).GetIntValue();
-                    //updatedValue.Should().Be(newInt);
-                    //await Task.Delay(200);
-                    //DoSafeUI(() => dataContext.Child.Value.Should().Be(newInt));
+                    var newInt = 45;
+                    SetAttribute(resvalue, nameof(BasicTestViewModel.Value), _WebView.Factory.CreateInt(newInt));
+                    var updatedValue = GetAttribute(resvalue, nameof(BasicTestViewModel.Value)).GetIntValue();
+                    updatedValue.Should().Be(newInt);
+                    await Task.Delay(200);
+                    DoSafeUI(() => dataContext.Child.Value.Should().Be(newInt));
                 }
             };
 

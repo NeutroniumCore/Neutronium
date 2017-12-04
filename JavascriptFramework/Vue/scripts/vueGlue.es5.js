@@ -36,6 +36,12 @@
         }, 0);
     }
 
+    function injectDetached(root) {
+        const fakeObject = {}
+        Vue.util.defineReactive(fakeObject, 'root', root)
+        inject(root);
+    }
+
     function silentChangeAndInjectSync(father, propertyName, value) {
         silentChangeSync(father, propertyName, value);
         inject(value);
@@ -350,6 +356,7 @@
         inject: inject,
         silentChangeAndInject: silentChangeAndInject,
         disposeSilenters: disposeSilenters,
+        injectDetached: injectDetached,
         register: function register(vm, observer) {
             if (debugMode) {
                 console.log("Neutronium: ViewModel injected");

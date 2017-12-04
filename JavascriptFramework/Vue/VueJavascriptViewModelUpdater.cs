@@ -89,6 +89,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public void RegisterUnrootedObject(IJavascriptObject javascriptObject)
         {
+            Updater.InjectDetached.ExecuteFunctionNoResult(_WebView, null, javascriptObject);
         }
     }
 }

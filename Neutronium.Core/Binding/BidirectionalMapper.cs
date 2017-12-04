@@ -335,7 +335,11 @@ namespace Neutronium.Core.Binding
         private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newbridgedchild, Action<IJsCsGlue> performAfterBuild)
         {
             _UnrootedEntities.Add(newbridgedchild.AddRef());
-            return new BridgeUpdater(_ => performAfterBuild(newbridgedchild));
+            return new BridgeUpdater(updater => 
+            {
+                updater.RegisterUnrootedObject(newbridgedchild.GetJsSessionValue());
+                performAfterBuild(newbridgedchild);
+            });
         }
 
         private void UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder)
