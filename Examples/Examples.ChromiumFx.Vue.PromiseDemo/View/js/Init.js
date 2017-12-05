@@ -10,7 +10,9 @@
                 var self = this;
                 this.asPromise(this.ViewModel.CreateObject)(this.ViewModel.inputName)
                     .then(function (res) {
+                        console.log(res);
                         alert(res.LastName);
+                        window.res = res;
                         self.factoryresult = res;
                     })
                     .catch(function (reason) {
