@@ -85,7 +85,7 @@ namespace Neutronium.JavascriptFramework.Knockout
         {
         }
 
-        public void RegisterUnrootedObject(IJavascriptObject javascriptObject)
+        public void InjectDetached(IJavascriptObject javascriptObject)
         {
         }
     }

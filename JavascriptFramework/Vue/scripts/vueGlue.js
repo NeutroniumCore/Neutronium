@@ -29,8 +29,8 @@
     }
 
     function injectDetached(root) {
-        const fakeObject = { }
-        Vue.util.defineReactive(fakeObject, 'root', root)
+        const fakeObject = {};
+        Vue.util.defineReactive(fakeObject, 'root', root);
         inject(root);
     }
 

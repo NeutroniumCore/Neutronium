@@ -337,7 +337,7 @@ namespace Neutronium.Core.Binding
             _UnrootedEntities.Add(newbridgedchild.AddRef());
             return new BridgeUpdater(updater => 
             {
-                updater.RegisterUnrootedObject(newbridgedchild.GetJsSessionValue());
+                updater.InjectDetached(newbridgedchild.GetJsSessionValue());
                 performAfterBuild(newbridgedchild);
             });
         }

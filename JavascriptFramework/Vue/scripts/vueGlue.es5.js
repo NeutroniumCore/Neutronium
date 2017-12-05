@@ -1,4 +1,4 @@
-﻿"use strict";
+﻿'use strict';
 
 (function (debugMode) {
     var config = Vue.config;
@@ -37,8 +37,8 @@
     }
 
     function injectDetached(root) {
-        const fakeObject = {}
-        Vue.util.defineReactive(fakeObject, 'root', root)
+        var fakeObject = {};
+        Vue.util.defineReactive(fakeObject, 'root', root);
         inject(root);
     }
 

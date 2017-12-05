@@ -87,7 +87,7 @@ namespace Neutronium.JavascriptFramework.Vue
             _WebView.Slice(elementsToUnlisten).ForEach(elements => helper.InvokeNoResult("disposeSilenters", _WebView, elements));
         }
 
-        public void RegisterUnrootedObject(IJavascriptObject javascriptObject)
+        public void InjectDetached(IJavascriptObject javascriptObject)
         {
             Updater.InjectDetached.ExecuteFunctionNoResult(_WebView, null, javascriptObject);
         }

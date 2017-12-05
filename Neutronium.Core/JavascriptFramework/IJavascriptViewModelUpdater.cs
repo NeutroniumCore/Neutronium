@@ -116,6 +116,6 @@ namespace Neutronium.Core.JavascriptFramework
         /// <param name="javascriptObject">
         /// Javascript object to br registered
         /// </param>
-        void RegisterUnrootedObject(IJavascriptObject javascriptObject);
+        void InjectDetached(IJavascriptObject javascriptObject);
     }
 }
