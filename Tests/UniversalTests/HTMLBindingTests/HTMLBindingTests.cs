@@ -1840,7 +1840,7 @@ namespace Tests.Universal.HTMLBindingTests
             {
                 Int64 = 32,
                 Uint64 = 456,
-                Int32 =231,
+                Int32 = 231,
                 Uint32 = 77,
                 Int16 = 55,
                 Uint16 = 23,
@@ -1884,7 +1884,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res2.Should().Be(datacontext.Double);
 
                     res2 = GetDoubleAttribute(js, "Decimal");
-                    res2.Should().Be((double) datacontext.Decimal);
+                    res2.Should().Be((double)datacontext.Decimal);
 
                     res = GetIntAttribute(js, "Byte");
                     res.Should().Be(datacontext.Byte);
@@ -2140,27 +2140,6 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(testR);
         }
 
-
-        [Fact]
-        public async Task TwoWay_ResultCommand_Should_have_ToString()
-        {
-            var command = Substitute.For<ICommand>();
-            var test = new FakeTestViewModel() { Command = command };
-
-            var testR = new TestInContext()
-            {
-                Path = TestContext.IndexPromise,
-                Bind = (win) => HtmlBinding.Bind(win, test, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
-                {
-                    mb.ToString().Should().NotBeNull();
-                }
-            };
-
-            await RunAsync(testR);
-        }
-
-
         [Fact]
         public async Task TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
         {
@@ -2175,7 +2154,8 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var mycommand = GetAttribute(js, "CreateObject");
-                    Call(mycommand, "Execute", _WebView.Factory.CreateInt(25));
+                    var intValue = _WebView.Factory.CreateInt(25);
+                    Call(mycommand, "Execute", intValue);
 
                     await Task.Delay(700);
                     function.Received(1).Invoke(25);
@@ -2185,7 +2165,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-       		[Fact]
+        [Fact]
         public async Task TwoWay_ResultCommand_Received_javascript_variable()
         {
             var function = NSubstitute.Substitute.For<Func<int, int>>();
@@ -2201,11 +2181,11 @@ namespace Tests.Universal.HTMLBindingTests
 
                     {
                         var glueobj = (mb as HtmlBinding).JsBrideRootObject as JsGenericObject;
-                        var mysimplecommand = glueobj.GetAttribute("CreateObject") as JsResultCommand;
-                        mysimplecommand.Should().NotBeNull();
-                        mysimplecommand.ToString().Should().Be("{}");
-                        mysimplecommand.Type.Should().Be(JsCsGlueType.ResultCommand);
-                        mysimplecommand.CachableJsValue.Should().NotBeNull();
+                        var jsResultCommand = glueobj.GetAttribute("CreateObject") as JsResultCommand<int, int>;
+                        jsResultCommand.Should().NotBeNull();
+                        jsResultCommand.ToString().Should().Be("{}");
+                        jsResultCommand.Type.Should().Be(JsCsGlueType.ResultCommand);
+                        jsResultCommand.CachableJsValue.Should().NotBeNull();
                     }
 
                     var js = mb.JsRootObject;
@@ -2213,7 +2193,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var cb = GetCallBackObject();
 
-                    var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
+                    var intValue = _WebView.Factory.CreateInt(25);
+                    var resdummy = this.CallWithRes(mycommand, "Execute", intValue, cb);
 
                     await Task.Delay(100);
 
@@ -2233,7 +2214,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        private IJavascriptObject GetCallBackObject() 
+        private IJavascriptObject GetCallBackObject()
         {
             IJavascriptObject cb = null;
             bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
@@ -2244,22 +2225,22 @@ namespace Tests.Universal.HTMLBindingTests
             return cb;
         }
 
-         [Fact]
-        public async Task TwoWay_ResultCommand_can_be_listened_from_Javascript() 
+        [Fact]
+        public async Task TwoWay_ResultCommand_can_be_listened_from_Javascript()
         {
             const string original = "original";
             const string stringExpected = "NewName";
-            var result = new SimpleViewModel { Name= original };
+            var result = new SimpleViewModel { Name = original };
             var function = NSubstitute.Substitute.For<Func<int, SimpleViewModel>>();
             function.Invoke(Arg.Any<int>()).Returns(result);
 
             var dc = new FakeFactory<int, SimpleViewModel>(function);
 
-            var test = new TestInContextAsync() 
+            var test = new TestInContextAsync()
             {
                 Path = TestContext.IndexPromise,
                 Bind = (win) => HtmlBinding.Bind(win, dc, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
                     var mycommand = GetAttribute(js, "CreateObject");
@@ -2289,9 +2270,68 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+        [Fact]
+        public async Task TwoWay_ResultCommand_Without_Argument_Is_Correctly_Mapped()
+        {
+            var function = Substitute.For<Func<string>>();
+            var dc = new FakeFactory<string>(function);
+
+            var test = new TestInContext()
+            {
+                Path = TestContext.IndexPromise,
+                Bind = (win) => HtmlBinding.Bind(win, dc, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var glueobj = (mb as HtmlBinding).JsBrideRootObject as JsGenericObject;
+                    var jsResultCommand = glueobj.GetAttribute("CreateObject") as JsResultCommand<string>;
+                    jsResultCommand.Should().NotBeNull();
+                    jsResultCommand.ToString().Should().Be("{}");
+                    jsResultCommand.Type.Should().Be(JsCsGlueType.ResultCommand);
+                    jsResultCommand.CachableJsValue.Should().NotBeNull();
+                }
+            };
+
+            await RunAsync(test);
+        }
 
         [Fact]
-        public async Task TwoWay_ResultCommand_can_be_listened_from_CSharp_when_used_in_Vm() 
+        public async Task TwoWay_ResultCommand_Without_Argument_returns_result()
+        {
+            var result = "resultString";
+            var function = Substitute.For<Func<string>>();
+            function.Invoke().Returns(result);
+
+            var dc = new FakeFactory<string>(function);
+
+            var test = new TestInContextAsync()
+            {
+                Path = TestContext.IndexPromise,
+                Bind = (win) => HtmlBinding.Bind(win, dc, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var mycommand = GetAttribute(js, "CreateObject");
+                    var cb = GetCallBackObject();
+
+                    var resdummy = this.CallWithRes(mycommand, "Execute", cb);
+
+                    await Task.Delay(700);
+
+                    var resvalue = _WebView.GetGlobal().GetValue("res");
+
+                    await Task.Delay(100);
+
+                    var originalValue = resvalue.GetStringValue();
+
+                    originalValue.Should().Be(result);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_ResultCommand_can_be_listened_from_CSharp_when_used_in_Vm()
         {
             var child = new BasicTestViewModel();
 
@@ -2300,11 +2340,11 @@ namespace Tests.Universal.HTMLBindingTests
 
             var dataContext = new FactoryFatherTestViewModel(function);
 
-            var test = new TestInContextAsync() 
+            var test = new TestInContextAsync()
             {
                 Path = TestContext.IndexPromise,
                 Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
                     var factory = GetAttribute(js, "Factory");

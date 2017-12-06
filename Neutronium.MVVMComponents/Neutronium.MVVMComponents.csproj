@@ -64,7 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICommandWithoutParameter.cs" />
-    <Compile Include="IResultCommand.cs" />
+    <Compile Include="IResultCommand_Tr.cs" />
+    <Compile Include="IResultCommand_Ta_Tr.cs" />
     <Compile Include="ISimpleCommand.cs" />
     <Compile Include="ICommand_T.cs" />
     <Compile Include="ISimpleCommand_T.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Relay\RelayResultCommand.cs" />
     <Compile Include="Relay\RelayResultCommand_TResult.cs" />
-    <Compile Include="Relay\RelayResultCommand_Tin_TResult.cs" />
+    <Compile Include="Relay\RelayResultCommand_TArg_TResult.cs" />
     <Compile Include="Relay\RelaySimpleCommand_T.cs" />
     <Compile Include="Relay\RelaySimpleCommand.cs" />
     <Compile Include="Relay\RelayTaskCommand_T.cs" />

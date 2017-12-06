@@ -77,7 +77,7 @@ namespace Neutronium.MVVMComponents.Test.Relay
             var target = RelayResultCommand.Create(function);
             var arg = new object();
 
-            var res = target.Execute(arg).Result;
+            var res = target.Execute().Result;
 
             function.Received(1).Invoke();
             res.Should().Be(12);

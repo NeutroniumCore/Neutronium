@@ -294,6 +294,26 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
+        public void Map_maps_IResultCommand()
+        {
+            var command = Substitute.For<IResultCommand<string>>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsResultCommand<string>>();
+        }
+
+        [Fact]
+        public void Map_maps_IResultCommand_With_TArg()
+        {
+            var command = Substitute.For<IResultCommand<string, int>>();
+
+            var res = _CSharpToJavascriptConverter.Map(command);
+
+            res.Should().BeOfType<JsResultCommand<string,int>>();
+        }
+
+        [Fact]
         public void Map_maps_dictionary()
         {
             var vm = new Dictionary<string, object>

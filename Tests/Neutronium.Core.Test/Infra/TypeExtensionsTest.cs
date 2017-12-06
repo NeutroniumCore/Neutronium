@@ -12,9 +12,13 @@ namespace Neutronium.Core.Test.Infra
 {
     public class TypeExtensionsTest
     {   
-        private class ListDecimal: List<decimal> 
-        {
-        }
+        private class ListDecimal: List<decimal> { }
+       
+        private interface IFakeInterface<T1, T2, T3> {}
+        private class FakeClass<T1, T2, T3> : IFakeInterface<T1, T2, T3> { }
+
+        private interface IFakeInterface<T1, T2> { }
+        private class FakeClass<T1, T2> : IFakeInterface<T1, T2> { }
 
         [Theory]
         [InlineData(typeof(IEnumerable<int>), typeof(int))]
@@ -116,6 +120,28 @@ namespace Neutronium.Core.Test.Infra
         public void GetInterfaceGenericType_returns_null_when_no_match(Type source, Type genericInterfaceType) 
         {
             source.GetInterfaceGenericType(genericInterfaceType).Should().BeNull();
+        }
+
+        [Theory]
+        [InlineData(typeof(Dictionary<string, object>), typeof(IDictionary<,>), typeof(string), typeof(object))]
+        [InlineData(typeof(Dictionary<object, int>), typeof(IDictionary<,>), typeof(object), typeof(int))]
+        [InlineData(typeof(FakeClass<double, char>), typeof(IFakeInterface<,>), typeof(double), typeof(char))]
+        public void GetInterfaceGenericTypes_Returns_Expected_Null_Value(Type type, Type genericInterfaceType, Type firstExpected, Type secondExpected)
+        {
+            var expected = Tuple.Create(firstExpected, secondExpected);
+            type.GetInterfaceGenericTypes(genericInterfaceType).Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(typeof(Array), typeof(IList<>))]
+        [InlineData(typeof(Dictionary<int, string>), typeof(IList<>))]
+        [InlineData(typeof(List<int>), typeof(IDictionary<,>))]
+        [InlineData(typeof(List<int>), typeof(IList<>))]
+        [InlineData(typeof(FakeClass<double, char, int>), typeof(IFakeInterface<,,>))]
+        [InlineData(null, typeof(IDictionary<,>))]
+        public void GetInterfaceGenericTypes_returns_null_when_no_match(Type source, Type genericInterfaceType)
+        {
+            source.GetInterfaceGenericTypes(genericInterfaceType).Should().BeNull();
         }
 
         [Fact]

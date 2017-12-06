@@ -4,7 +4,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
-    internal class JsMappableResultCommand : JsResultCommand, IJsCsMappedBridge
+    internal class JsMappableResultCommand<TResult> : JsResultCommand<TResult>, IJsCsMappedBridge
     {
         private IJavascriptObject _MappedJsValue;
 
@@ -21,7 +21,7 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
             UpdateJsObject(_MappedJsValue);
         }
 
-        public JsMappableResultCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
+        public JsMappableResultCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, IResultCommand<TResult> resultCommand)
             :base(context, converter, resultCommand)
         {
         }

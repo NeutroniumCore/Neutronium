@@ -21,7 +21,9 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         JsSimpleCommand<T> Build<T>(ISimpleCommand<T> command);
 
-        JsResultCommand Build(IResultCommand command);
+        JsResultCommand<TArg, TResult> Build<TArg, TResult>(IResultCommand<TArg, TResult> command);
+
+        JsResultCommand<TResult> Build<TResult>(IResultCommand<TResult> command);
 
         JsGenericObject Build(object from, IGenericPropertyAcessor typePropertyAccessor);
 

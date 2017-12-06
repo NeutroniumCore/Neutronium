@@ -50,5 +50,7 @@ namespace Neutronium.Core.Infra
         public static readonly Type Dictionary = typeof(IDictionary<,>);
         public static readonly Type SimpleCommand = typeof(ISimpleCommand<>);
         public static readonly Type GenericCommand = typeof(ICommand<>);
+        public static readonly Type ResultCommand = typeof(IResultCommand<>);
+        public static readonly Type ResultCommandWithTArg = typeof(IResultCommand<,>);
     }
 }

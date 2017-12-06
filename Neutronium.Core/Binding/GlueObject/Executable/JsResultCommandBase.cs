@@ -6,42 +6,41 @@ using Neutronium.Core.Extension;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    internal class JsResultCommand : GlueBase, IJsCsCachableGlue, IExecutableGlue
+    internal abstract class JsResultCommandBase<TResult, TJsContext> : GlueBase
     {
-        private readonly IResultCommand _JsResultCommand;
         private readonly HtmlViewContext _HtmlViewContext;
-        private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
 
         public virtual IJavascriptObject CachableJsValue => JsValue;
-        public object CValue => _JsResultCommand;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
         protected IWebView WebView => _HtmlViewContext.WebView;
         private IDispatcher UiDispatcher => _HtmlViewContext.UiDispatcher;
 
         private uint _JsId;
         public uint JsId => _JsId;
-        void IJsCsCachableGlue.SetJsId(uint jsId) => _JsId = jsId;
+        public void SetJsId(uint jsId) => _JsId = jsId;
 
-        public JsResultCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, IResultCommand resultCommand)
+        protected IWebSessionLogger Logger => _HtmlViewContext.Logger;
+        protected readonly IJavascriptToCSharpConverter JavascriptToCSharpConverter;
+
+
+        protected JsResultCommandBase(HtmlViewContext context, IJavascriptToCSharpConverter converter)
         {
             _HtmlViewContext = context;
-            _JavascriptToCSharpConverter = converter;
-            _JsResultCommand = resultCommand;
+            JavascriptToCSharpConverter = converter;
         }
 
         public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
         {
             SetJsValue(value);
-            sessionCache.Cache(this);
+            sessionCache.Cache((IJsCsGlue)this);
         }
 
         public void UpdateJsObject(IJavascriptObject javascriptObject)
         {
-            IExecutableGlue executable = this;
+            var executable = this as IExecutableGlue;
             javascriptObject.Bind("Execute", WebView, executable.Execute);
         }
 
@@ -52,25 +51,31 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public void VisitDescendants(Func<IJsCsGlue, bool> visit)
         {
-            visit(this);
+            visit((IJsCsGlue)this);
         }
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
 
-        async void IExecutableGlue.Execute(IJavascriptObject[] e)
+        protected abstract Task<Result<TResult>> ExecuteOnUiThread(TJsContext context);
+        protected abstract Result<TJsContext> ExecuteOnJsContextThread(IJavascriptObject[] e);
+        protected abstract IJavascriptObject GetPromise(IJavascriptObject[] e);
+
+        public async void Execute(IJavascriptObject[] arguments)
         {
-            var argument = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            var promise = (e.Length > 1) ? e[1] : null;
+            var promise = GetPromise(arguments);
+            var context = ExecuteOnJsContextThread(arguments);
+            if (!context.Success)
+                return;
 
             try
             {
                 await await UiDispatcher.EvaluateAsync(async () =>
                 {
-                    var res = await _JsResultCommand.Execute(argument);
-                    if (res == null)
+                    var res = await ExecuteOnUiThread(context.Value);
+                    if (!res.Success)
                         return;
 
-                    _JavascriptToCSharpConverter.RegisterInSession(res,bridge => SetResult(promise, bridge));
+                    JavascriptToCSharpConverter.RegisterInSession(res.Value, bridge => SetResult(promise, bridge));
                 });
             }
             catch (Exception exception)

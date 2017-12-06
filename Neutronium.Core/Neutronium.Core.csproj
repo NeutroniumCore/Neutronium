@@ -121,6 +121,8 @@
     <Compile Include="Binding\GlueObject\Executable\JsCommandBase.cs" />
     <Compile Include="Binding\GlueObject\Executable\JsCommandWithoutParameter.cs" />
     <Compile Include="Binding\GlueObject\Executable\JsCommand_T.cs" />
+    <Compile Include="Binding\GlueObject\Executable\JsResultCommandBase.cs" />
+    <Compile Include="Binding\GlueObject\Executable\JsResultCommand_Tr.cs" />
     <Compile Include="Binding\GlueObject\IJsCsCachableGlue.cs" />
     <Compile Include="Binding\GlueBuilder\GlueMappingFactory.cs" />
     <Compile Include="Binding\GlueObject\IExecutableGlue.cs" />
@@ -133,7 +135,8 @@
     <Compile Include="Binding\GlueObject\Mapped\JsMappableArray.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableCommand.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand_Ta_Tr.cs" />
+    <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand_Tr.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappedCommand_T.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappedCommandWithoutParameter.cs" />
     <Compile Include="Binding\GlueObject\Mapped\JsMappableSimpleCommand_T.cs" />
@@ -151,7 +154,7 @@
     <Compile Include="Binding\Listeners\ObjectChangesListener.cs" />
     <Compile Include="Binding\GlueObject\Executable\JsCommand.cs" />
     <Compile Include="Binding\GlueObject\Executable\JsSimpleCommand.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsResultCommand.cs" />
+    <Compile Include="Binding\GlueObject\Executable\JsResultCommand_Ta_Tr.cs" />
     <Compile Include="Binding\GlueObject\IJsCsMappedBridge.cs" />
     <Compile Include="Binding\GlueObject\Basic\JsBasicObject.cs" />
     <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />

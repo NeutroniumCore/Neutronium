@@ -20,7 +20,7 @@ namespace Neutronium.Example.ViewModel
             return new Person() { LastName = n + "99" };
         }
 
-        public IResultCommand CreateObject { get; set; }
+        public IResultCommand<string, Person> CreateObject { get; set; }
 
         private string _Name=null;
         public string Name

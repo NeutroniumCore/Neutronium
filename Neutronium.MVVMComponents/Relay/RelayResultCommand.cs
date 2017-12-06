@@ -16,7 +16,7 @@ namespace Neutronium.MVVMComponents.Relay
         /// <param name="function">
         /// </param>
         /// <returns></returns>
-        public static IResultCommand Create<TIn, TResult>(Func<TIn, TResult> function)
+        public static IResultCommand<TIn, TResult> Create<TIn, TResult>(Func<TIn, TResult> function)
         {
             return new RelayResultCommand<TIn, TResult>(function);
         }
@@ -27,7 +27,7 @@ namespace Neutronium.MVVMComponents.Relay
         /// <typeparam name="TResult"></typeparam>
         /// <param name="function"></param>
         /// <returns></returns>
-        public static IResultCommand Create<TResult>(Func<TResult> function)
+        public static IResultCommand<TResult> Create<TResult>(Func<TResult> function)
         {
             return new RelayResultCommand<TResult>(function);
         }

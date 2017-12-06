@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Neutronium.MVVMComponents.Relay
 {
-    public class RelayResultCommand<TResult> : IResultCommand
+    public class RelayResultCommand<TResult> : IResultCommand<TResult>
     {
         private readonly Func<TResult> _Function;
         public RelayResultCommand(Func<TResult> function)
@@ -11,9 +11,9 @@ namespace Neutronium.MVVMComponents.Relay
             _Function = function;
         }
 
-        public Task<object> Execute(object argument)
+        public Task<TResult> Execute()
         {
-            var tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<TResult>();
             tcs.SetResult(_Function());
             return tcs.Task;
         }

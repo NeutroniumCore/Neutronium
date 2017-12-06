@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel;
 using System.Windows.Input;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Executable;
@@ -46,9 +47,14 @@ namespace Neutronium.Core.Binding.GlueBuilder
             return Cache(command, new JsSimpleCommand<T>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
         }
 
-        public JsResultCommand Build(IResultCommand command)
+        public JsResultCommand<TArg,TResult> Build<TArg, TResult>(IResultCommand<TArg, TResult> command)
         {
-            return Cache(command, new JsResultCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsResultCommand<TArg, TResult>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+        }
+
+        public JsResultCommand<TResult> Build<TResult>(IResultCommand<TResult> command)
+        {
+            return Cache(command, new JsResultCommand<TResult>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
         }
 
         public JsGenericObject Build(object from, IGenericPropertyAcessor typePropertyAccessor)

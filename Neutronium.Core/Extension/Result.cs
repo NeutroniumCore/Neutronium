@@ -20,7 +20,14 @@ namespace Neutronium.Core.Extension
                 TentativeValue = value.CValue;
                 Success = (TentativeValue is T) || (typeof(T).IsClass && TentativeValue == null);
             }
-            Value = Success ? (T)TentativeValue : default(T);
+            Value = Success ? (T) TentativeValue : default(T);
+        }
+
+        public Result(T value)
+        {
+            TentativeValue = value;
+            Success = true;
+            Value = value;
         }
     }
 }

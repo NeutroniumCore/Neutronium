@@ -26,6 +26,8 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         private static readonly GenericMethodAccessor _SimpleFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildSimpleGenericCommand));
         private static readonly GenericMethodAccessor _CommandFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildGenericCommand));
+        private static readonly GenericMethodAccessor _ResultCommandFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildResultCommand));
+        private static readonly GenericMethodAccessor _ResultCommandWithTArgFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildResultCommandWithTarg));
 
         public CSharpToJavascriptConverter(ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
@@ -79,7 +81,10 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private static IJsCsGlue BuildSimpleGenericCommand<T>(IGlueFactory factory, object @object) => factory.Build((ISimpleCommand<T>)@object);
         private static IJsCsGlue BuildGenericCommand<T>(IGlueFactory factory, object @object) => factory.Build((ICommand<T>)@object);
         private static IJsCsGlue BuildCommandWithoutParameter(IGlueFactory factory, object @object) => factory.Build((ICommandWithoutParameter)@object);
-        private static IJsCsGlue BuildResultCommand(IGlueFactory factory, object @object) => factory.Build((IResultCommand)@object);
+
+        private static IJsCsGlue BuildResultCommand<TRes>(IGlueFactory factory, object @object) => factory.Build((IResultCommand<TRes>)@object);
+        private static IJsCsGlue BuildResultCommandWithTarg<TArg,TRes>(IGlueFactory factory, object @object) => factory.Build((IResultCommand<TArg, TRes>)@object);
+
 
         private Func<IGlueFactory, object, IJsCsGlue> GetConverter(Type type, object @object)
         {
@@ -96,9 +101,6 @@ namespace Neutronium.Core.Binding.GlueBuilder
             if (@object is ISimpleCommand)
                 return BuildSimpleCommand;
 
-            if (@object is IResultCommand)
-                return BuildResultCommand;
-
             simpleType = type.GetInterfaceGenericType(Types.GenericCommand);
             if (simpleType != null)
             {
@@ -111,6 +113,20 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
             if (@object is ICommand)
                 return BuildCommand;
+
+            simpleType = type.GetInterfaceGenericType(Types.ResultCommand);
+            if (simpleType != null)
+            {
+                var builder = _ResultCommandFactory.Build<IJsCsGlue>(simpleType);
+                return (fact, obj) => builder.Invoke(fact, obj);
+            }
+
+            var types = type.GetInterfaceGenericTypes(Types.ResultCommandWithTArg);
+            if (types != null)
+            {
+                var builder = _ResultCommandWithTArgFactory.Build<IJsCsGlue>(types.Item1, types.Item2);
+                return (fact, obj) => builder.Invoke(fact, obj);
+            }
 
             var stringDictionaryValueType = type.GetDictionaryStringValueType();
             if (stringDictionaryValueType != null)

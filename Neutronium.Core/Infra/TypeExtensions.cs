@@ -103,6 +103,23 @@ namespace Neutronium.Core.Infra
             return null;
         }
 
+        public static Tuple<Type,Type> GetInterfaceGenericTypes(this Type type, Type genericType)
+        {
+            if (type == null)
+                return null;
+
+            foreach (var interfaceType in type.GetInterfaces())
+            {
+                if ((!interfaceType.IsGenericType) || (interfaceType.GetGenericTypeDefinition() != genericType))
+                    continue;
+
+                var arguments = interfaceType.GetGenericArguments();
+                return (arguments.Length != 2) ? null : Tuple.Create(arguments[0], arguments[1]);
+            }
+
+            return null;
+        }
+
         public static T GetAttribute<T>(this Type type) where T : Attribute
         {
             var attributes = type.GetCustomAttributes(typeof(T), false);

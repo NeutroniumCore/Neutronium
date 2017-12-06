@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 namespace Neutronium.MVVMComponents.Relay
 {
-    public class RelayResultCommand<TIn, TResult> : IResultCommand
+    public class RelayResultCommand<TArg, TResult> : IResultCommand<TArg, TResult>
     {
-        private readonly Func<TIn, Task<TResult>> _ResultBuilder;
-        public RelayResultCommand(Func<TIn, TResult> function)
+        private readonly Func<TArg, Task<TResult>> _ResultBuilder;
+        public RelayResultCommand(Func<TArg, TResult> function)
         {
             _ResultBuilder = (arg) =>
             {
@@ -23,14 +23,14 @@ namespace Neutronium.MVVMComponents.Relay
             };
         }
 
-        public RelayResultCommand(Func<TIn, Task<TResult>> resultBuilder)
+        public RelayResultCommand(Func<TArg, Task<TResult>> resultBuilder)
         {
             _ResultBuilder = resultBuilder;
         }
 
-        public async Task<object> Execute(object argument)
+        public async Task<TResult> Execute(TArg argument)
         {
-            return await _ResultBuilder((TIn)argument);
+            return await _ResultBuilder(argument);
         }
     }
 }

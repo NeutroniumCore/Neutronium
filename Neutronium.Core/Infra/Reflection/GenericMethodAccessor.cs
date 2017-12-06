@@ -37,5 +37,11 @@ namespace Neutronium.Core.Infra.Reflection
             var resolveMethodInfo = _MethodInfo.MakeGenericMethod(genericType);
             return new GenericAccessor<TResult>(resolveMethodInfo);
         }
+
+        public GenericAccessor<TResult> Build<TResult>(Type firstGenericType, Type secondGenericType)
+        {
+            var resolveMethodInfo = _MethodInfo.MakeGenericMethod(firstGenericType, secondGenericType);
+            return new GenericAccessor<TResult>(resolveMethodInfo);
+        }
     }
 }
