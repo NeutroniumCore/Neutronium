@@ -6,9 +6,9 @@
 
 * [Overview](./Overview.md)
 
-* [Debug Tools](./Tools.md)
+* [Examples](./Examples.md)
 
-* [Demo Application](./Demo_Application.md)
+* [Debug Tools](./Tools.md)
 
 * [Architecture](./Architecture.md)
 
