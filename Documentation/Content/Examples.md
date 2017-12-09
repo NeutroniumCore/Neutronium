@@ -14,7 +14,7 @@ It includes IoC (example Ninject but easily changeable), navigation with integra
 ## Music.Cover.Finder
 [https://github.com/David-Desmaisons/Music.Cover.Finder](https://github.com/David-Desmaisons/Music.Cover.Finder)
 
-Application to Find disc cover art based on [discogs API](https://www.discogs.com/).
+Application to Find disc cover art based on [discogs API](https://www.discogs.com/). Based on `Neutronium.SPA.Demo`.
 
 <img src="../images/Example/MusicCoverFinder.png" width="650px">><br>
 
