@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
-using Chromium.WebBrowser;
 using Chromium.Event;
 using Neutronium.WebBrowserEngine.ChromiumFx.Util;
 using Neutronium.WPF;
@@ -24,7 +23,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private Region _DraggableRegion = null;
         private Rectangle _Rectange = new Rectangle(0,0,0,0);
         private bool _Listenning;
-        private IDisposableMouseEvents _listener;
+        private IDisposableMouseEvents _Listener;
         private IntPtr _BrowserHandle;
 
         public ChromiumFxControl()
@@ -160,8 +159,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 return;
 
             _Listenning = true;
-            _listener = _listener ?? Hook.GlobalEvents();
-            _listener.MouseMove += Hook_MouseMove;
+            _Listener = _Listener ?? Hook.GlobalEvents();
+            _Listener.MouseMove += Hook_MouseMove;
         }
 
         private void UnListen()
@@ -169,7 +168,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             if (!_Listenning)
                 return;
 
-            _listener.MouseMove -= Hook_MouseMove;
+            _Listener.MouseMove -= Hook_MouseMove;
             _Listenning = false;
             return;
         }
@@ -273,8 +272,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _ChromeWidgetMessageInterceptor?.DestroyHandle();
             _ChromeWidgetMessageInterceptor = null;
 
-            _listener?.Dispose();
-            _listener = null;
+            _Listener?.Dispose();
+            _Listener = null;
         }
     }
 }
