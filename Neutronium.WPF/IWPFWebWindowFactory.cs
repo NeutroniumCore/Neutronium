@@ -19,6 +19,12 @@ namespace Neutronium.WPF
         string EngineVersion { get; }
 
         /// <summary>
+        /// Get the javascript engine environment information
+        /// including Platform build if nay
+        /// </summary>
+        string Environment { get; }
+
+        /// <summary>
         /// value of the .Net glue framework to javascript engine
         /// </summary>
         string Name { get; }

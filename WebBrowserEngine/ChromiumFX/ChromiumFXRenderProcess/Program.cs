@@ -1,7 +1,5 @@
 ﻿using System;
 using Chromium;
-using Chromium.WebBrowser.Event;
-using Chromium.WebBrowser;
 
 namespace ChromiumFXRenderProcess 
 {
@@ -13,9 +11,11 @@ namespace ChromiumFXRenderProcess
         [STAThread]
         static void Main() 
         {
-            CfxRuntime.LibCefDirPath = @"cef\Release";
-            int retval = CfxRuntime.ExecuteProcess();
+            CfxRuntime.LibCefDirPath = $@"{CefRepo}\Release";
+            var retval = CfxRuntime.ExecuteProcess();
             Environment.Exit(retval);
         }
+
+        private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";
     }
 }

@@ -25,7 +25,7 @@ namespace Neutronium.JavascriptFramework.Vue
         private static WindowInformation Vue2About => new WindowInformation
         {
             RelativePath = "DebugTools\\About\\index.html",
-            Height = 600,
+            Height = 630,
             Width = 310
         };
 

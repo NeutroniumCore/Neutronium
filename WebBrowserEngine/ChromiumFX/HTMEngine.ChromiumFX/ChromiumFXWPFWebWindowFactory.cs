@@ -18,6 +18,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
         public bool IsModern => true;
         public string EngineVersion => CfxRuntime.GetChromeVersion();
         public string Name => "ChromiumFX";
+        public string Environment => CfxRuntime.PlatformArch.ToString();
         public CfxBrowserSettings BrtowserSettings => ChromiumWebBrowser.DefaultBrowserSettings;
         public IWebSessionLogger WebSessionLogger { get; set; }
 

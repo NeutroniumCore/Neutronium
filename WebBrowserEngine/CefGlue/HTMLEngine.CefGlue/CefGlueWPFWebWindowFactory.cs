@@ -1,4 +1,5 @@
-﻿using Neutronium.Core;
+﻿using System;
+using Neutronium.Core;
 using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Neutronium.WPF;
 using Xilium.CefGlue;
@@ -12,6 +13,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue
         public string EngineName => "Chromium";
         public string Name => "Cef.Glue";
         public string EngineVersion => "51";
+        public string Environment => null;
         public bool IsModern => true;
 
         public IWebSessionLogger WebSessionLogger { get; set; }

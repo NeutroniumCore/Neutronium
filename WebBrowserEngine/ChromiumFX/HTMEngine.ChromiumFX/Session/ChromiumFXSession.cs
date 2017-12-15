@@ -23,7 +23,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             _CurrentDirectory = this.GetType().Assembly.GetPath();
             _SettingsBuilder = settingsBuilder;
             _CommandLineHandler = commadLineHandler;
-            CfxRuntime.LibCefDirPath = GetPath(@"cef\Release");
+            CfxRuntime.LibCefDirPath = GetPath($@"{CefRepo}\Release");
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
@@ -34,6 +34,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             CfxRuntime.RegisterSchemeHandlerFactory("pack", null, _PackUriSchemeHandlerFactory);
         }
 
+        private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";
         private string GetPath(string relativePath) 
         {
             return System.IO.Path.Combine(_CurrentDirectory, relativePath);
@@ -52,9 +53,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
             _SettingsBuilder?.Invoke(settings);
          
-            settings.LocalesDirPath = GetPath(@"cef\Resources\locales");
+            settings.LocalesDirPath = GetPath($@"{CefRepo}\Resources\locales");
             settings.Locale = Thread.CurrentThread.CurrentCulture.ToString();
-            settings.ResourcesDirPath = GetPath(@"cef\Resources");
+            settings.ResourcesDirPath = GetPath($@"{CefRepo}\Resources");
             settings.BrowserSubprocessPath = GetPath("ChromiumFXRenderProcess.exe");
             settings.SingleProcess = false;
             settings.MultiThreadedMessageLoop = true;

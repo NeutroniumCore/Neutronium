@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Unofficial.Chromiumfx.3.2924.4\build\Unofficial.Chromiumfx.props" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.3.2924.4\build\Unofficial.Chromiumfx.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -55,15 +56,27 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ChromiumFX, Version=3.2924.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\packages\Unofficial.Chromiumfx.3.2924.3\lib\ChromiumFX.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ChromiumWebBrowser, Version=3.2924.0.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\packages\Unofficial.Chromiumfx.3.2924.3\lib\ChromiumWebBrowser.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -230,15 +243,18 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets" Condition="Exists('..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Unofficial.Cef.for.Chromiumfx.3.2924.0\build\Unofficial.Cef.for.Chromiumfx.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.3.2924.3\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.3.2924.3\build\Unofficial.Chromiumfx.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x64.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x86.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.3.2924.4\build\Unofficial.Chromiumfx.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.3.2924.4\build\Unofficial.Chromiumfx.props'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.3.2924.4\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.3.2924.4\build\Unofficial.Chromiumfx.targets'))" />
   </Target>
-  <Import Project="..\..\packages\Unofficial.Chromiumfx.3.2924.3\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.3.2924.3\build\Unofficial.Chromiumfx.targets')" />
+  <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x64.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" />
+  <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x86.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x86.targets')" />
+  <Import Project="..\..\packages\Unofficial.Chromiumfx.3.2924.4\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.3.2924.4\build\Unofficial.Chromiumfx.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -14,6 +14,7 @@ namespace Neutronium.WPF.Internal.DebugTools
         public string WebBrowser { get; }
         public string JavascriptFrameworkVersion { get; }
         public string WebBrowserVersion { get; }
+        public string WebEnvironment { get; }
         public string JavascriptFramework { get; }
         public string BrowserBinding { get; }
         public string MVVMBinding { get; }
@@ -27,6 +28,7 @@ namespace Neutronium.WPF.Internal.DebugTools
             WPFVersion = VersionHelper.GetVersionDisplayName(this);
             WebBrowser = WindowFactory.EngineName;
             WebBrowserVersion = WindowFactory.EngineVersion;
+            WebEnvironment = WindowFactory.Environment;
             JavascriptFramework = framework.FrameworkName;
             JavascriptFrameworkVersion = framework.FrameworkVersion;
             MVVMBinding = framework.Name;
