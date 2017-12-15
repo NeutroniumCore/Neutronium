@@ -239,9 +239,6 @@
     <Content Include="DebugTools\Toolbar\fee66e712a8a08eef5805a46892932ad.woff">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DebugTools\About\styles.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
