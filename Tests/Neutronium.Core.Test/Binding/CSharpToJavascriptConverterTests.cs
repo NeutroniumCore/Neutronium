@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding;
+﻿using System;
+using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using NSubstitute;
 using Xunit;
@@ -156,6 +157,21 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(testObject);
 
             res.ToString().Should().Be(@"{""Value"":""Dady's girl""}");
+        }
+
+        [Theory]
+        [InlineData(double.NaN, "NaN")]
+        [InlineData(double.NegativeInfinity, "-Infinity")]
+        [InlineData(double.PositiveInfinity, "Infinity")]
+        public void Map_CreateJSGlueObject_WithCorrectToString_SpecicalDoubleValue(double value, string json)
+        {
+            var testObject = new DoubleClass
+            {
+                Value = value
+            };
+            var res = _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be($@"{{""Value"":{json}}}");
         }
 
         [Fact]
@@ -399,6 +415,11 @@ namespace Neutronium.Core.Test.Binding
         private class StringClass
         {
             public string Value { get; set; }
+        }
+
+        private class DoubleClass
+        {
+            public double Value { get; set; }
         }
     }
 }
