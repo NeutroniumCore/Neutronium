@@ -494,6 +494,84 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
+        public async Task TwoWay_Works_WithNullable()
+        {
+            var dataContext = new NullableTestViewModel
+            {
+                Bool = true,
+                Int32 = 25
+            };
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    var res = GetBoolAttribute(js, nameof(dataContext.Bool));
+                    res.Should().Be(true);
+
+                    var res2 = GetIntAttribute(js, nameof(dataContext.Int32));
+                    res2.Should().Be(25);
+
+                    var res3 = GetAttribute(js, nameof(dataContext.Decimal));
+                    res3.IsNull.Should().BeTrue();
+
+                    //Test Two Way Decimal: null => value
+                    var newDecimal = Create(() => _WebView.Factory.CreateDouble(0.5));
+                    SetAttribute(js, nameof(dataContext.Decimal), newDecimal);
+
+                    await Task.Delay(50);
+                    var newValue = GetDoubleAttribute(js, nameof(dataContext.Decimal));
+                    newValue.Should().Be(0.5);
+
+                    await Task.Delay(50);
+
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.Decimal.Should().Be(0.5m);
+                    });
+
+                    //Test Two Way bool value => null
+                    var nullJs = Create(() => _WebView.Factory.CreateNull());
+                    SetAttribute(js, nameof(dataContext.Bool), nullJs);
+
+                    await Task.Delay(50);
+                    var boolValue = GetAttribute(js, nameof(dataContext.Bool));
+                    boolValue.IsNull.Should().BeTrue();
+
+                    await Task.Delay(50);
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.Bool.Should().NotHaveValue();
+                    });
+
+
+                    //Test Two Way int value => value
+                    var intValueJS = Create(() => _WebView.Factory.CreateInt(54));
+                    SetAttribute(js, nameof(dataContext.Int32), intValueJS);
+
+                    await Task.Delay(50);
+                    var intValue = GetIntAttribute(js, nameof(dataContext.Int32));
+                    intValue.Should().Be(54);
+
+                    await Task.Delay(50);
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.Int32.Should().Be(54);
+                    });
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
         public async Task TwoWay()
         {
             _DataContext.MainSkill.Should().BeNull();
