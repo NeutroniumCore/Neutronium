@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Unofficial.Cef.for.Chromiumfx.x64</id>
+        <version>3.2924.1</version>
+        <authors>David Desmaisons</authors>
+        <licenseUrl>https://bitbucket.org/chromiumfx/chromiumfx/raw/685dd058608d29a6915cd7b7b714a44de36e4fb9/License.txt</licenseUrl>
+        <projectUrl>https://bitbucket.org/chromiumfx/chromiumfx</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Managed wrapper for the complete CEF API
+Remote wrapper for full access to DOM and V8 from within the browser process
+Windows Forms control based on ChromiumFX</description>
+        <summary>.NET bindings for the Chromium Embedded Framework.</summary>
+        <releaseNotes>Improved nuget package</releaseNotes>
+        <tags>Chromium HTLM Embedded C#</tags>
+    </metadata>
+    <files>
+        <file src="build\cef64\Release\libcef.dll" target="build\cef64\Release\libcef.dll" />
+        <file src="build\Unofficial.Cef.for.Chromiumfx.x64.targets" target="build\Unofficial.Cef.for.Chromiumfx.x64.targets" />
+    </files>
+</package>
