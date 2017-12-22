@@ -175,7 +175,7 @@ namespace Neutronium.Core.Binding.GlueObject
             viewModelUpdater?.ClearAllCollection(CachableJsValue);
         }
 
-        protected override void ComputeString(DescriptionBuilder context)
+        protected override void ComputeString(IDescriptionBuilder context)
         {
             context.Append("[");
             var count = 0;

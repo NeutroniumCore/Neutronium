@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    public class DescriptionBuilder
+    public class DescriptionBuilder: IDescriptionBuilder
     {
         private readonly Dictionary<IJsCsGlue,string> _AlreadyComputed = new Dictionary<IJsCsGlue, string>();
         private readonly Stack<string> _Context = new Stack<string>();
@@ -33,6 +33,11 @@ namespace Neutronium.Core.Binding.GlueObject
         public void AppendCommandDescription()
         {
             _NameBuilder.Append(_CommandDescription);
+        }
+
+        public void Prepend(string value)
+        {
+            _NameBuilder.Insert(_NameBuilder.Length -1, value);
         }
 
         public string BuildString()

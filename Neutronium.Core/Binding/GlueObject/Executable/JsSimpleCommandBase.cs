@@ -35,7 +35,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
 
-        protected override void ComputeString(DescriptionBuilder context)
+        protected override void ComputeString(IDescriptionBuilder context)
         {
             context.AppendCommandDescription();
         }

@@ -39,7 +39,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             javascriptObject.Bind("CanExecute", WebView, CanExecuteCommand);
         }
 
-        protected override void ComputeString(DescriptionBuilder context)
+        protected override void ComputeString(IDescriptionBuilder context)
         {
             context.AppendCommandDescription();
         }

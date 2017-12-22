@@ -39,7 +39,7 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
 
-        public void BuilString(DescriptionBuilder context)
+        public void BuilString(IDescriptionBuilder context)
         {
             context.Append(ToString());
         }

@@ -66,7 +66,7 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
             return CValue.ToString();
         }
 
-        public void BuilString(DescriptionBuilder context)
+        public void BuilString(IDescriptionBuilder context)
         {
             context.Append(ToString());
         }

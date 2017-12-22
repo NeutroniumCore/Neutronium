@@ -24,9 +24,9 @@ namespace Neutronium.Core.Binding.GlueObject
             JsValue = value;
         }
 
-        protected abstract void ComputeString(DescriptionBuilder context);
+        protected abstract void ComputeString(IDescriptionBuilder context);
 
-        public void BuilString(DescriptionBuilder context)
+        public void BuilString(IDescriptionBuilder context)
         {
             var contextualName = context.GetContextualName(this as IJsCsGlue);
             if (contextualName != null)

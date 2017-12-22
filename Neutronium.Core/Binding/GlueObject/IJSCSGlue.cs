@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         bool Release();
 
-        void BuilString(DescriptionBuilder context);
+        void BuilString(IDescriptionBuilder context);
 
         void RequestBuildInstruction(IJavascriptObjectBuilder builder);
 

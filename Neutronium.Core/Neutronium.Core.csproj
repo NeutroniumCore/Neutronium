@@ -133,6 +133,7 @@
     <Compile Include="Binding\GlueObject\Basic\JsInt.cs" />
     <Compile Include="Binding\GlueObject\Basic\JsUint.cs" />
     <Compile Include="Binding\GlueObject\Basic\JsDecimal.cs" />
+    <Compile Include="Binding\GlueObject\IDescriptionBuilder.cs" />
     <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
     <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
     <Compile Include="Binding\GlueBuilder\GlueFactoryBase.cs" />

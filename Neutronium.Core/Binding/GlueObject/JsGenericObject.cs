@@ -80,7 +80,7 @@ namespace Neutronium.Core.Binding.GlueObject
                 visit(item);
         }
 
-        protected override void ComputeString(DescriptionBuilder context)
+        protected override void ComputeString(IDescriptionBuilder context)
         {
             context.Append("{");
             for (var i = 0; i < _Attributes.Count; i++)
