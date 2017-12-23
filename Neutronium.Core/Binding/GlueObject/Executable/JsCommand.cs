@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
@@ -9,7 +8,6 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
     public class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
-        private readonly bool _InitialCanExecute = true;
         private readonly ICommand _Command;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
@@ -20,7 +18,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             _Command = command;
             try
             {
-                _InitialCanExecute = _Command.CanExecute(null);
+                _CanExecute = _Command.CanExecute(null);
             }
             catch { }
         }
@@ -29,11 +27,6 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         {
             SetJsValue(value);
             sessionCache.Cache(this);
-        }
-
-        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
-        {
-            builder.RequestCommandCreation(_InitialCanExecute);
         }
 
         public void VisitDescendants(Func<IJsCsGlue, bool> visit)
@@ -60,8 +53,8 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         public override async void CanExecuteCommand(params IJavascriptObject[] e)
         {
             var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
-            var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter));
-            UpdateCanExecuteValue(res);
+            await UiDispatcher.RunAsync(() => _CanExecute = _Command.CanExecute(parameter));
+            UpdateCanExecuteValue();
         }
     }
 }

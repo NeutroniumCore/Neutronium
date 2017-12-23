@@ -1,5 +1,4 @@
 ﻿using System;
-using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
@@ -9,7 +8,6 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
     {
         public object CValue => _Command;
         private readonly ICommandWithoutParameter _Command;
-        private bool _CanExecute;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
@@ -24,11 +22,6 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         {
             SetJsValue(value);
             sessionCache.Cache(this);
-        }
-
-        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
-        {
-            builder.RequestCommandCreation(_CanExecute);
         }
 
         public void VisitDescendants(Func<IJsCsGlue, bool> visit)
@@ -63,12 +56,8 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         private async void ComputeCanExecute()
         {
-            var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute);
-            if (res == _CanExecute)
-                return;
-
-            _CanExecute = res;
-            UpdateCanExecuteValue(res);
+            await UiDispatcher.RunAsync(() => _CanExecute = _Command.CanExecute);
+            UpdateCanExecuteValue();
         }
     }
 }

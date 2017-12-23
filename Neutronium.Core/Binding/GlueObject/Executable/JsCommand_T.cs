@@ -1,5 +1,4 @@
 ﻿using System;
-using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
@@ -17,17 +16,13 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             base(context, converter)
         {
             _Command = command;
+            _CanExecute = true;
         }
 
         public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
         {
             SetJsValue(value);
             sessionCache.Cache(this);
-        }
-
-        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
-        {
-            builder.RequestCommandCreation(true);
         }
 
         public void VisitDescendants(Func<IJsCsGlue, bool> visit)
@@ -65,8 +60,8 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
                 Logger.Error($"Impossible to call CanExecuteCommand on command<{typeof(T)}>, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");
                 return;
             }
-            var res = await UiDispatcher.EvaluateAsync(() => _Command.CanExecute(parameter.Value));
-            UpdateCanExecuteValue(res);
+            await UiDispatcher.RunAsync(() => _CanExecute = _Command.CanExecute(parameter.Value));
+            UpdateCanExecuteValue();
         }
     }
 }

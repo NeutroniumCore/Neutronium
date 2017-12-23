@@ -1,4 +1,5 @@
 ﻿using System;
+using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -21,6 +22,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         protected IDispatcher UiDispatcher => _HtmlViewContext.UiDispatcher;
         protected IWebSessionLogger Logger => _HtmlViewContext.Logger;
         protected void SetJsId(uint jsId) => JsId = jsId;
+        protected bool _CanExecute;
 
         protected JsCommandBase(HtmlViewContext context, IJavascriptToCSharpConverter converter)
         {
@@ -37,6 +39,11 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         {
             javascriptObject.Bind("Execute", WebView, Execute);
             javascriptObject.Bind("CanExecute", WebView, CanExecuteCommand);
+        }
+
+        public void RequestBuildInstruction(IJavascriptObjectBuilder builder)
+        {
+            builder.RequestCommandCreation(_CanExecute);
         }
 
         protected override void ComputeString(IDescriptionBuilder context)
@@ -57,9 +64,9 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             UpdateProperty("CanExecuteCount", (f) => f.CreateInt(_Count));
         }
 
-        protected void UpdateCanExecuteValue(bool value)
+        protected void UpdateCanExecuteValue()
         {
-            UpdateProperty("CanExecuteValue", (f) => f.CreateBool(value));
+            UpdateProperty("CanExecuteValue", (f) => f.CreateBool(_CanExecute));
         }
 
         private void UpdateProperty(string propertyName, Func<IJavascriptObjectFactory, IJavascriptObject> factory)
