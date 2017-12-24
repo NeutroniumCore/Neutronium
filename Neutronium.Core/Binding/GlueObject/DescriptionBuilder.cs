@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public int StringLength => _NameBuilder.Length;
 
-        public DescriptionBuilder(string commandDescription = "{}")
+        public DescriptionBuilder(string commandDescription = "{{}}")
         {
             _CommandDescription = commandDescription;
         }
