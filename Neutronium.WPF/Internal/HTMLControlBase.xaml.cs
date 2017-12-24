@@ -19,6 +19,7 @@ using Neutronium.WPF.Internal.DebugTools;
 using Neutronium.WPF.Utils;
 using Microsoft.Win32;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WPF.Internal.ViewModel;
 
@@ -151,10 +152,7 @@ namespace Neutronium.WPF.Internal
 
             var fileName = savefile.FileName;
             _SaveDirectory = Path.GetDirectoryName(fileName);
-            var descriptionBuilder = new DescriptionBuilder("cmd({0})");
-            binding.BuilString(descriptionBuilder);
-            descriptionBuilder.Prepend(@",""version"":2");
-            var content = descriptionBuilder.BuildString();
+            var content = binding.AsCircularJson();
             File.WriteAllLines(fileName, new[] { content });
         }
 

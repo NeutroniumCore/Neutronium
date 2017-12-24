@@ -1,5 +1,4 @@
-﻿using System;
-using Neutronium.Core.Binding;
+﻿using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject;
 using NSubstitute;
 using Xunit;
@@ -12,6 +11,7 @@ using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Extension;
 using Neutronium.Core.Test.Helper;
 using Neutronium.MVVMComponents;
 using Xunit.Abstractions;
@@ -394,8 +394,78 @@ namespace Neutronium.Core.Test.Binding
             }
         }
 
-        protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);
+        [Fact]
+        public void AsCircularJson_adds_current_version()
+        {
+            var vm = new object();
+            var res = _CSharpToJavascriptConverter.Map(vm);
 
+            var cjson = res.AsCircularJson();
+            cjson.Should().Be(@"{""version"":2}");
+        }
+
+        [Fact]
+        public void AsCircularJson_exports_ISimpleCommand()
+        {
+            var command = Substitute.For<ISimpleCommand>();
+            var vm = new { Command = command};
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularJson();
+            cjson.Should().Be(@"{""Command"":cmd(true),""version"":2}");
+        }
+
+        [Fact]
+        public void AsCircularJson_exports_ISimpleCommand_T()
+        {
+            var command = Substitute.For<ISimpleCommand<string>>();
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularJson();
+            cjson.Should().Be(@"{""Command"":cmd(true),""version"":2}");
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void AsCircularJson_exports_ICommand(bool canExecute)
+        {
+            var command = Substitute.For<ICommand>();
+            command.CanExecute(Arg.Any<object>()).Returns(canExecute);
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularJson();
+            cjson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()}),""version"":2}}");
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void AsCircularJson_exports_ICommand_T(bool canExecute)
+        {
+            var command = Substitute.For<ICommand<int>>();
+            command.CanExecute(Arg.Any<int>()).Returns(canExecute);
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularJson();
+            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":2}}");
+        }
+
+        [Fact]
+        public void AsCircularJson_exports_IResultCommand_T()
+        {
+            var command = Substitute.For<IResultCommand<int>>();
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularJson();
+            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":2}}");
+        }
+
+        protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);
 
         private CSharpToJavascriptConverter GetCSharpToJavascriptConverterForPerformance()
         {
