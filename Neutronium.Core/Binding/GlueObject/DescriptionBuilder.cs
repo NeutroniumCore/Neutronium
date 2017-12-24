@@ -30,9 +30,9 @@ namespace Neutronium.Core.Binding.GlueObject
             _NameBuilder.Append(value);
         }
 
-        public void AppendCommandDescription()
+        public void AppendCommandDescription(bool canExecute)
         {
-            _NameBuilder.Append(_CommandDescription);
+            _NameBuilder.Append(string.Format(_CommandDescription, canExecute.ToString().ToLower()));
         }
 
         public void Prepend(string value)

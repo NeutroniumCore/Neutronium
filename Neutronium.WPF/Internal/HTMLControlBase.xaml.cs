@@ -151,8 +151,9 @@ namespace Neutronium.WPF.Internal
 
             var fileName = savefile.FileName;
             _SaveDirectory = Path.GetDirectoryName(fileName);
-            var descriptionBuilder = new DescriptionBuilder("null");
+            var descriptionBuilder = new DescriptionBuilder("cmd({0})");
             binding.BuilString(descriptionBuilder);
+            descriptionBuilder.Prepend(@",""version"":2");
             var content = descriptionBuilder.BuildString();
             File.WriteAllLines(fileName, new[] { content });
         }

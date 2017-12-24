@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         void Append(string value);
 
-        void AppendCommandDescription();
+        void AppendCommandDescription(bool canExecute);
 
         string BuildString();
 

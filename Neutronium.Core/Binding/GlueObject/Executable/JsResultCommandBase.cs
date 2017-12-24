@@ -109,7 +109,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         protected override void ComputeString(IDescriptionBuilder context)
         {
-            context.AppendCommandDescription();
+            context.AppendCommandDescription(true);
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)
