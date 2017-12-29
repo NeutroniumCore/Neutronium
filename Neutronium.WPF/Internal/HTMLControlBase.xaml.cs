@@ -18,7 +18,6 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WPF.Internal.DebugTools;
 using Neutronium.WPF.Utils;
 using Microsoft.Win32;
-using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WPF.Internal.ViewModel;

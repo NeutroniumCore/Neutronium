@@ -1,0 +1,10 @@
+﻿<chromiumFxVueINfra:WebBrowserApp x:Class="Example.ChromiumFx.Vue.Chromeless.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Example.ChromiumFx.Vue.Chromeless"
+             xmlns:chromiumFxVueINfra="clr-namespace:Example.ChromiumFX.Vue.Infra;assembly=Example.ChromiumFX.Vue.Infra" 
+             StartupUri="MainWindow.xaml">
+    <chromiumFxVueINfra:WebBrowserApp.Resources>
+         
+    </chromiumFxVueINfra:WebBrowserApp.Resources>
+</chromiumFxVueINfra:WebBrowserApp>
