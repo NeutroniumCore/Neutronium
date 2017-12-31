@@ -101,7 +101,7 @@ namespace Tests.Universal.NavigationTests
             await TestNavigation(async (wpfbuild, wpfnav) =>            
             {
                 bool fl = false;
-                EventHandler ea = null;
+                EventHandler<FirstLoadEvent> ea = null;
                 ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 wpfnav.OnFirstLoad += ea;
                 wpfnav.Should().NotBeNull();
@@ -150,7 +150,7 @@ namespace Tests.Universal.NavigationTests
             {
                 wpfnav.SessionPath.Should().BeNull();
                 wpfnav.SessionPath = pn;
-                EventHandler ea = null;
+                EventHandler<FirstLoadEvent> ea = null;
                 bool fl = false;
                 ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 wpfnav.OnFirstLoad += ea;
@@ -173,15 +173,15 @@ namespace Tests.Universal.NavigationTests
             await TestNavigation(async (wpfbuild, wpfnav) =>
             {       
                 var a = new A1();
-                string pn = Path.Combine(Path.GetTempPath(), "MVMMAWe");
+                var pn = Path.Combine(Path.GetTempPath(), "MVMMAWe");
 
-                bool fslr = false;
+                var fslr = false;
                 wpfnav.OnFirstLoad += (o, e) => { fslr = true; };
 
                 NavigationEvent nea = null;
                 wpfnav.OnNavigate += (o, e) => { nea = e; };
 
-                EventHandler ea = null;
+                EventHandler<FirstLoadEvent> ea = null;
                 bool fl = false;
                 ea = (o, e) => { fl = true; wpfnav.OnFirstLoad -= ea; };
                 wpfnav.OnFirstLoad += ea;
@@ -203,7 +203,7 @@ namespace Tests.Universal.NavigationTests
         private async Task Test_HTMLWindowRecovery_Capacity_Base(IWebSessionLogger iLogger)
         {
             bool fl = false;
-            EventHandler ea = null;
+            EventHandler<FirstLoadEvent> ea = null;
             var a = new A1();
 
             await TestNavigation(async (wpfbuild, wpfnav)  =>

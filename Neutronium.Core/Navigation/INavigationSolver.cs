@@ -43,6 +43,6 @@ namespace  Neutronium.Core.Navigation
         /// <summary>
         /// Event fired on first load
         /// </summary>
-        event EventHandler OnFirstLoad;
+        event EventHandler<FirstLoadEvent> OnFirstLoad;
     }
 }

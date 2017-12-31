@@ -120,8 +120,10 @@ namespace Neutronium.Core.Navigation
 
             tcs?.SetResult(Binding);
 
-            if (fireFirstLoad)
-                OnFirstLoad?.Invoke(this, EventArgs.Empty);        
+            if (!fireFirstLoad)
+                return;
+
+            OnFirstLoad?.Invoke(this, new FirstLoadEvent(_CurrentWebControl.HtmlWindow));        
         }
 
         private static object GetMainViewModel(IHtmlBinding binding)
@@ -261,6 +263,6 @@ namespace Neutronium.Core.Navigation
 
         public event EventHandler<DisplayEvent> OnDisplay;
 
-        public event EventHandler OnFirstLoad;
+        public event EventHandler<FirstLoadEvent> OnFirstLoad;
     }
 }

@@ -27,28 +27,28 @@ namespace Neutronium.WPF.Internal
     public abstract partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
     {
         private UserControl _DebugControl;
-        private DebugInformation _DebugInformation;
-        private IWPFWebWindowFactory _WPFWebWindowFactory;
-        private IWebSessionLogger _webSessionLogger;
+        private readonly DebugInformation _DebugInformation;
+        private IWPFWebWindowFactory _WpfWebWindowFactory;
+        private IWebSessionLogger _WebSessionLogger;
         private readonly IUrlSolver _UrlSolver;
         private IJavascriptFrameworkManager _Injector;
         private string _SaveDirectory;
         private bool _LoadingAbout = false;
         private HTMLSimpleWindow _VmDebugWindow;
-        private DoubleBrowserNavigator _WPFDoubleBrowserNavigator;
+        private DoubleBrowserNavigator _WpfDoubleBrowserNavigator;
         private Window Window => Window.GetWindow(this);
-        private DoubleBrowserNavigator WPFDoubleBrowserNavigator
+        private DoubleBrowserNavigator WpfDoubleBrowserNavigator
         {
             get
             {
                 Init();
-                return _WPFDoubleBrowserNavigator;
+                return _WpfDoubleBrowserNavigator;
             }
         }
 
         public bool DebugContext => IsDebug;
-        public Uri Source => _WPFDoubleBrowserNavigator?.Url;
-        public IWPFWebWindow WPFWebWindow => (WPFDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider)?.WPFWebWindow;
+        public Uri Source => _WpfDoubleBrowserNavigator?.Url;
+        public IWPFWebWindow WPFWebWindow => (WpfDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider)?.WPFWebWindow;
 
         public bool IsDebug
         {
@@ -98,9 +98,9 @@ namespace Neutronium.WPF.Internal
             set
             {
                 _UseINavigable = value;
-                if (_WPFDoubleBrowserNavigator != null)
+                if (_WpfDoubleBrowserNavigator != null)
                 {
-                    _WPFDoubleBrowserNavigator.UseINavigable = _UseINavigable;
+                    _WpfDoubleBrowserNavigator.UseINavigable = _UseINavigable;
                 }
             }
         }
@@ -108,7 +108,7 @@ namespace Neutronium.WPF.Internal
         public abstract string UniqueName { get; }
 
         public event EventHandler<NavigationEvent> OnNavigate;
-        public event EventHandler OnFirstLoad;
+        public event EventHandler<FirstLoadEvent> OnFirstLoad;
         public event EventHandler<DisplayEvent> OnDisplay;
 
         protected HTMLControlBase(IUrlSolver urlSolver)
@@ -136,7 +136,7 @@ namespace Neutronium.WPF.Internal
 
         private void DoSaveVm()
         {
-            var binding = _WPFDoubleBrowserNavigator?.Binding?.JsBrideRootObject;
+            var binding = _WpfDoubleBrowserNavigator?.Binding?.JsBrideRootObject;
             if (binding == null)
                 return;
 
@@ -157,7 +157,7 @@ namespace Neutronium.WPF.Internal
 
         private string ComputeProposedDirectory()
         {
-            var path = _WPFDoubleBrowserNavigator?.HTMLWindow?.Url?.AbsolutePath;
+            var path = _WpfDoubleBrowserNavigator?.HTMLWindow?.Url?.AbsolutePath;
             if (path == null)
                 return _SaveDirectory;
 
@@ -177,7 +177,7 @@ namespace Neutronium.WPF.Internal
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
-            if ((_WPFWebWindowFactory == null) || (_WPFWebWindowFactory.IsModern))
+            if ((_WpfWebWindowFactory == null) || (_WpfWebWindowFactory.IsModern))
                 return;
 
             if (isDebug)
@@ -196,7 +196,7 @@ namespace Neutronium.WPF.Internal
             if (_DebugControl != null)
                 return;
 
-            if (_WPFWebWindowFactory.IsModern)
+            if (_WpfWebWindowFactory.IsModern)
                 return;
 
             var windoInfo = HTMLEngineFactory.Engine.ResolveToolbar();
@@ -223,13 +223,13 @@ namespace Neutronium.WPF.Internal
 
         private void Init()
         {
-            if (_WPFWebWindowFactory != null)
+            if (_WpfWebWindowFactory != null)
                 return;
 
             var engine = HTMLEngineFactory.Engine;
-            _WPFWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
+            _WpfWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
 
-            if (_WPFWebWindowFactory == null)
+            if (_WpfWebWindowFactory == null)
                 throw ExceptionHelper.Get($"Not able to find WebEngine {HTMLEngine}");
 
             _Injector = engine.ResolveJavaScriptFramework(JavascriptUIEngine);
@@ -237,7 +237,7 @@ namespace Neutronium.WPF.Internal
             if (_Injector == null)
                 throw ExceptionHelper.Get($"Not able to find JavascriptUIEngine {JavascriptUIEngine}. Please register the correspoding Javascript UIEngine.");
 
-            _WPFDoubleBrowserNavigator = GetDoubleBrowserNavigator();
+            _WpfDoubleBrowserNavigator = GetDoubleBrowserNavigator();
 
             WebSessionLogger = WebSessionLogger ?? engine.WebSessionLogger;
 
@@ -255,7 +255,7 @@ namespace Neutronium.WPF.Internal
             return wpfDoubleBrowserNavigator;
         }
 
-        private void FirstLoad(object sender, EventArgs e)
+        private void FirstLoad(object sender, FirstLoadEvent e)
         {
             IsHTMLLoaded = true;
             OnFirstLoad?.Invoke(this, e);
@@ -268,7 +268,7 @@ namespace Neutronium.WPF.Internal
             if (!IsDebug)
                 return;
 
-            var modern = _WPFDoubleBrowserNavigator.HTMLWindow as IModernWebBrowserWindow;
+            var modern = _WpfDoubleBrowserNavigator.HTMLWindow as IModernWebBrowserWindow;
             modern?.RegisterContextMenuItem(GetMenu())?.RegisterContextMenuItem(GetAbout());
         }
 
@@ -308,7 +308,7 @@ namespace Neutronium.WPF.Internal
                 {
                     Title = "About",
                     Owner = Window,
-                    DataContext = new About(_WPFWebWindowFactory, _Injector),
+                    DataContext = new About(_WpfWebWindowFactory, _Injector),
                     Width = windoInfo.Width,
                     Height = windoInfo.Height
                 };
@@ -325,8 +325,8 @@ namespace Neutronium.WPF.Internal
 
             var builder = new StringBuilder();
             builder.AppendLine($"Neutronium.Core { VersionHelper.GetVersion(typeof(IHtmlBinding)).GetDisplayName()}")
-                   .AppendLine($"WebBrowser: {_WPFWebWindowFactory.EngineName}")
-                   .AppendLine($"Browser binding: {_WPFWebWindowFactory.Name}")
+                   .AppendLine($"WebBrowser: {_WpfWebWindowFactory.EngineName}")
+                   .AppendLine($"Browser binding: {_WpfWebWindowFactory.Name}")
                    .AppendLine($"Javascript Framework: {_Injector.FrameworkName}")
                    .AppendLine($"MVVM Binding: {_Injector.Name}");
             MessageBox.Show(Window, builder.ToString(), "Neutronium configuration");
@@ -334,7 +334,7 @@ namespace Neutronium.WPF.Internal
 
         private HTMLSimpleWindow GetWHMLWindow(string path, string title, int width, int height, Func<IWebView, IDisposable> onWebViewCreated = null)
         {
-            return new HTMLSimpleWindow(_WPFWebWindowFactory.Create(), path, onWebViewCreated)
+            return new HTMLSimpleWindow(_WpfWebWindowFactory.Create(), path, onWebViewCreated)
             {
                 Owner = Window,
                 Title = title,
@@ -345,12 +345,12 @@ namespace Neutronium.WPF.Internal
 
         public IWebSessionLogger WebSessionLogger
         {
-            get { return _webSessionLogger; }
+            get { return _WebSessionLogger; }
             set
             {
-                _webSessionLogger = value;
-                if (_WPFDoubleBrowserNavigator != null)
-                    _WPFDoubleBrowserNavigator.WebSessionLogger = value;
+                _WebSessionLogger = value;
+                if (_WpfDoubleBrowserNavigator != null)
+                    _WpfDoubleBrowserNavigator.WebSessionLogger = value;
             }
         }
 
@@ -363,8 +363,8 @@ namespace Neutronium.WPF.Internal
                 _VmDebugWindow.Activate();
                 return;
             }
-            _Injector?.DebugVm(script => WPFDoubleBrowserNavigator.ExcecuteJavascript(script),
-                                (path, width, height, onCreate) => ShowHTMLWindow(path, width, height, debug => onCreate(WPFDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
+            _Injector?.DebugVm(script => WpfDoubleBrowserNavigator.ExcecuteJavascript(script),
+                                (path, width, height, onCreate) => ShowHTMLWindow(path, width, height, debug => onCreate(WpfDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
 
             if (_VmDebugWindow == null)
                 _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
@@ -388,11 +388,11 @@ namespace Neutronium.WPF.Internal
 
         public void OpenDebugBrowser()
         {
-            var currentWebControl = WPFDoubleBrowserNavigator.WebControl;
+            var currentWebControl = WpfDoubleBrowserNavigator.WebControl;
             if (currentWebControl == null)
                 return;
 
-            WPFDoubleBrowserNavigator.WebControl.DebugToolOpened += WebControl_DebugToolOpened;
+            WpfDoubleBrowserNavigator.WebControl.DebugToolOpened += WebControl_DebugToolOpened;
 
             var result = currentWebControl.OnDebugToolsRequest();
             if (!result)
@@ -401,7 +401,7 @@ namespace Neutronium.WPF.Internal
 
         private void WebControl_DebugToolOpened(object sender, DebugEventArgs eventArgs)
         {
-            var webControl = WPFDoubleBrowserNavigator.WebControl;
+            var webControl = WpfDoubleBrowserNavigator.WebControl;
             _DebugInformation.IsInspecting = eventArgs.Opening;
             if (!eventArgs.Opening && (webControl != null))
             {
@@ -411,19 +411,19 @@ namespace Neutronium.WPF.Internal
 
         public void CloseDebugBrowser()
         {
-            var currentWebControl = WPFDoubleBrowserNavigator.WebControl;
+            var currentWebControl = WpfDoubleBrowserNavigator.WebControl;
             currentWebControl?.CloseDebugTools();
         }
 
         protected async Task<IHtmlBinding> NavigateAsyncBase(object iViewModel, string Id = "", JavascriptBindingMode iMode = JavascriptBindingMode.TwoWay)
         {
-            return await WPFDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, iMode);
+            return await WpfDoubleBrowserNavigator.NavigateAsync(iViewModel, Id, iMode);
         }
 
         public void Dispose()
         {
             (_DebugControl as IDisposable)?.Dispose();
-            _WPFDoubleBrowserNavigator?.Dispose();
+            _WpfDoubleBrowserNavigator?.Dispose();
         }
 
         private void Root_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -445,7 +445,7 @@ namespace Neutronium.WPF.Internal
 
         IWebBrowserWindowProvider IWebViewLifeCycleManager.Create()
         {
-            var webwindow = _WPFWebWindowFactory.Create();
+            var webwindow = _WpfWebWindowFactory.Create();
             var ui = webwindow.UIElement;
             Panel.SetZIndex(ui, 0);
 
@@ -473,7 +473,7 @@ namespace Neutronium.WPF.Internal
 
         public void Inject(Key keyToInject)
         {
-            var wpfacess = (WPFDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider);
+            var wpfacess = (WpfDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider);
             if (wpfacess == null)
                 return;
 
