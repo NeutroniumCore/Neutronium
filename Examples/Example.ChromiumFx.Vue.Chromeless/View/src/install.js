@@ -1,5 +1,9 @@
+import BootstrapVue from 'bootstrap-vue'
+import Icon from 'vue-awesome/components/Icon'
+
 function install(Vue) {
-    //Call vue use here if needed
+    Vue.use(BootstrapVue);
+    Vue.component('icon', Icon);
 }
 
 function vueInstanceOption() {

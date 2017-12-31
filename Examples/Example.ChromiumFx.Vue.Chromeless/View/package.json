@@ -8,9 +8,12 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap-vue": "^1.4.0",
     "neutronium-vue-command-mixin": "^1.4.1",
     "neutronium-vue-simple-command-mixin": "^1.1.0",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-awesome": "^2.3.4"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

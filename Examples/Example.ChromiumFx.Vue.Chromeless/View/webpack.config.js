@@ -39,7 +39,12 @@ var webpackOptions = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        include: [ // use `include` vs `exclude` to white-list vs black-list
+          path.resolve(__dirname, "src"), // white-list your app source files
+          require.resolve("bootstrap-vue"), // white-list bootstrap-vue
+          require.resolve('vue-awesome') // vue-awesome
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

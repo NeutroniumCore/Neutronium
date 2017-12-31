@@ -7,11 +7,18 @@
         mc:Ignorable="d"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
         xmlns:neutronium="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" MinWidth="800" Width="1150">
     <i:Interaction.Behaviors>
         <neutronium:Chromeless />
     </i:Interaction.Behaviors>
+    <Window.Resources>
+        <neutronium:BoolToHiddenConverter x:Key="BoolToVis"/>
+    </Window.Resources>
     <Grid>
-        
+        <neutronium:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="WcBrowser" Uri="pack://application:,,,/View/dist/index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
+
+    <Window.Visibility>
+        <Binding ElementName="WcBrowser" Path="IsHTMLLoaded" Converter="{StaticResource BoolToVis}"/>
+    </Window.Visibility>
 </Window>

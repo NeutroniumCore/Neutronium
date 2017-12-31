@@ -1,48 +1,43 @@
 <template>
   <div>
-    <img src="./assets/logo.png">
-    <h1></h1>
-    <h2>Related Links</h2>
-    <ul>
-      <li><a target="_blank" href="https://vuejs.org">Core Vue Docs</a></li>
-      <li><a target="_blank" href="https://forum.vuejs.org">Vue Forum</a></li>
-      <li><a target="_blank" href="https://github.com/NeutroniumCore/Neutronium">Neutronium</a></li>
-      <li><a target="_blank" href="https://github.com/NeutroniumCore/neutronium-vue">Neutronium Vue template</a></li>
-      <li><a target="_blank" href="https://github.com/NeutroniumCore/Neutronium.SPA.Demo">Neutronium Vue application demo</a></li>
-    </ul>
+    <top-bar :window="viewModel.Window"></top-bar>
   </div>
 </template>
 
 <script>
-const props={
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+import "vue-awesome/icons";
+import topBar from "./component/topBar";
+
+const props = {
   viewModel: Object,
   __window__: Object
 };
 
 export default {
-  name: 'app',
+  name: "app",
   props,
-  data () {
-    return this.viewModel
+  components: {
+    topBar
+  },
+  data() {
+    return this.viewModel;
   }
-}
+};
 </script>
 
 <style>
 #main {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
-img {
-  height: 300px;
-}
-
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 
