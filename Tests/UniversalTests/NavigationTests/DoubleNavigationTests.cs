@@ -37,7 +37,8 @@ namespace Tests.Universal.NavigationTests
             base.Test(simpleTest, iDebug, iManageLifeCycle);
         }
 
-        internal async Task TestNavigation(Func<INavigationBuilder, HTMLWindow, Task> test, bool iDebug = false, bool iManageLifeCycle = true) {
+        internal async Task TestNavigation(Func<INavigationBuilder, HTMLWindow, Task> test, bool iDebug = false, bool iManageLifeCycle = true)
+        {
             Func<HTMLWindow, WindowTest, Task> simpleTest = (windowHtml, windowTest) => test(windowHtml.NavigationBuilder, windowHtml);
 
             await base.Test(simpleTest, iDebug, iManageLifeCycle);
@@ -98,7 +99,7 @@ namespace Tests.Universal.NavigationTests
         [Fact]
         public async Task SetNavigation_WhenNavigationIsTrigerred_ShouldBeSet()
         {
-            await TestNavigation(async (wpfbuild, wpfnav) =>            
+            await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 bool fl = false;
                 EventHandler<FirstLoadEvent> ea = null;
@@ -108,7 +109,7 @@ namespace Tests.Universal.NavigationTests
                 SetUpRoute(wpfbuild, wpfnav);
                 wpfnav.UseINavigable = true;
                 var a = new A1();
-                   
+
                 wpfnav.IsHTMLLoaded.Should().BeFalse();
 
                 await wpfnav.NavigateAsync(a);
@@ -116,6 +117,26 @@ namespace Tests.Universal.NavigationTests
                 fl.Should().BeTrue();
                 wpfnav.IsHTMLLoaded.Should().BeTrue();
                 a.Navigation.Should().NotBeNull();
+            });
+        }
+
+        [Fact]
+        public async Task OnFirstLoad_ShouldBeFired()
+        {
+            await TestNavigation(async (wpfbuild, wpfnav) =>
+            {
+                FirstLoadEvent firstLoad = null;
+                EventHandler<FirstLoadEvent> ea = null;
+                ea = (o, e) => { firstLoad = e; wpfnav.OnFirstLoad -= ea; };
+                wpfnav.OnFirstLoad += ea;
+                SetUpRoute(wpfbuild, wpfnav);
+
+                var a = new A1();
+
+                await wpfnav.NavigateAsync(a);
+
+                firstLoad.Should().NotBeNull();
+                firstLoad.Window.Should().Be(wpfnav.WPFWebWindow.HTMLWindow);
             });
         }
 
@@ -135,7 +156,7 @@ namespace Tests.Universal.NavigationTests
 
         [Fact]
         public async Task Test_HTMLWindow_Path()
-        {   
+        {
             var a = new A1();
             var pn = Path.Combine(Path.GetTempPath(), "MVMMAWe");
             try
@@ -171,7 +192,7 @@ namespace Tests.Universal.NavigationTests
         public async Task OnNavigate_shouldFireEvents()
         {
             await TestNavigation(async (wpfbuild, wpfnav) =>
-            {       
+            {
                 var a = new A1();
                 var pn = Path.Combine(Path.GetTempPath(), "MVMMAWe");
 
@@ -206,7 +227,7 @@ namespace Tests.Universal.NavigationTests
             EventHandler<FirstLoadEvent> ea = null;
             var a = new A1();
 
-            await TestNavigation(async (wpfbuild, wpfnav)  =>
+            await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.WebSessionLogger.Should().NotBeNull();
                 if (iLogger != null)
@@ -257,7 +278,7 @@ namespace Tests.Universal.NavigationTests
         {
             //bool fl = false;
             //EventHandler ea = null;
-            await TestNavigation(async (wpfbuild, wpfnav)  =>
+            await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 var a = new A1();
                 var watch = Substitute.For<IWebSessionLogger>();
@@ -295,7 +316,7 @@ namespace Tests.Universal.NavigationTests
             }, false, false);
         }
 
-        [Fact(Skip ="should be reimplemented")]
+        [Fact(Skip = "should be reimplemented")]
         public async Task Test_HTMLWindow_WebCoreShutDown()
         {
             await Test_HTMLWindow_WebCoreShutDown_Base(null);
@@ -422,7 +443,7 @@ namespace Tests.Universal.NavigationTests
 
                 a1.Navigation.Should().NotBeNull();
                 a2.Navigation.Should().BeNull();
-               
+
                 await Task.Delay(1000);
                 CheckPath(wpfnav.Source, TestContext.Navigation1);
             });
@@ -461,9 +482,9 @@ namespace Tests.Universal.NavigationTests
         }
 
         [Fact]
-        public async Task NavigateAsync_UseTypeInformationFromRegister_2Screens()            
+        public async Task NavigateAsync_UseTypeInformationFromRegister_2Screens()
         {
-            await TestNavigation(async (wpfbuild, wpfnav)  =>
+            await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
                 SetUpRoute(wpfbuild, wpfnav);
@@ -507,7 +528,7 @@ namespace Tests.Universal.NavigationTests
         [Fact]
         public async Task NavigateAsync_ToNull_DoesNotThrow()
         {
-            await TestNavigation(async (wpfbuild, wpfnav)  =>
+            await TestNavigation(async (wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
                 SetUpRoute(wpfbuild, wpfnav);
@@ -579,10 +600,10 @@ namespace Tests.Universal.NavigationTests
 
                 wpfbuild.Register<A2>(GetRelativePath(TestContext.Navigation1), "Special1");
                 wpfbuild.Register<A2>(GetRelativePath(TestContext.Navigation2), "Special2");
-               
+
                 wpfnav.UseINavigable = true;
                 wpfnav.UseINavigable = true;
-                
+
                 var a2 = new A2();
                 await wpfnav.NavigateAsync(a2, "Special1");
                 a2.Navigation.Should().NotBeNull();
@@ -643,8 +664,9 @@ namespace Tests.Universal.NavigationTests
 
                 wpfnav.Focus();
 
-                wpfnav.RaiseEvent( new System.Windows.Input.KeyEventArgs(Keyboard.PrimaryDevice,
-                         PresentationSource.FromVisual(wpfnav), 0,Key.F5) { RoutedEvent = Keyboard.PreviewKeyDownEvent }   );
+                wpfnav.RaiseEvent(new System.Windows.Input.KeyEventArgs(Keyboard.PrimaryDevice,
+                         PresentationSource.FromVisual(wpfnav), 0, Key.F5)
+                { RoutedEvent = Keyboard.PreviewKeyDownEvent });
 
                 wpfnav.CloseDebugBrowser();
             }, true);
@@ -707,7 +729,7 @@ namespace Tests.Universal.NavigationTests
             TestNavigation((wpfbuild, wpfnav) =>
             {
                 wpfnav.Should().NotBeNull();
-                wpfbuild.Register<A> (GetRelativePath(TestContext.Navigation1));
+                wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
                 wpfbuild.Register<A1>(GetRelativePath(TestContext.Navigation2), "Special");
 
                 wpfnav.UseINavigable = true;

@@ -5,7 +5,7 @@ namespace Neutronium.Core.Navigation
 {
     public class FirstLoadEvent : EventArgs
     {
-        private IWebBrowserWindow Window { get; }
+        public IWebBrowserWindow Window { get; }
 
         public FirstLoadEvent(IWebBrowserWindow window)
         {
