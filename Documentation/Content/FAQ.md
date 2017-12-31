@@ -109,6 +109,47 @@ Ex:
 </Window.Visibility>
 ```
 
+##  **Is it possible to print the content of the page?**
+
+With [CEF APIs](http://magpcss.org/ceforum/apidocs3/projects/%28default%29/CefContextMenuHandler.html#OnBeforeContextMenu), it is possible to customize context menu and add a print command back to a Neutronium application.
+
+To do so, 
+1. register an event on browser OnDisplay
+
+```CSharp
+private void Window_Loaded(object sender, RoutedEventArgs e)
+{
+    HTMLViewControl.OnDisplay += WcBrowser_OnDisplay;        
+}
+```
+
+2. Add an event on `ContextMenuHandler OnBeforeContextMenu`
+```CSharp
+private void WcBrowser_OnDisplay(object sender, Neutronium.Core.Navigation.DisplayEvent e)
+{
+    var windowCfx = wcBrowser.WPFWebWindow as IWPFCfxWebWindow;
+    var cfxBrowser = windowCfx.ChromiumWebBrowser;
+    cfxBrowser.ContextMenuHandler.OnBeforeContextMenu += ContextMenuHandler_OnBeforeContextMenu;
+}
+```
+
+3. In `ContextMenuHandler_OnBeforeContextMenu` add the Print command
+```CSharp
+private void ContextMenuHandler_OnBeforeContextMenu(object sender, Chromium.Event.CfxOnBeforeContextMenuEventArgs e)
+{
+    var model = e.Model;
+    model.InsertItemAt(0,(int)ContextMenuId.MENU_ID_PRINT, "Print");
+    model.InsertSeparatorAt(1);
+}
+```
+
+Result:<br>
+![](../images/ContextMenuWithPrint.png)
+
+
+See [Example.ChromiumFX.Vue.SOP](https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Vue.SOP) for working example.
+
+
 [How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md)
 
 
