@@ -11,12 +11,18 @@ namespace Example.ChromiumFx.Vue.Chromeless
     {
         public MainWindow()
         {
+            Initialized += MainWindow_Initialized;
+            InitializeComponent();
+        }
+
+        private void MainWindow_Initialized(object sender, EventArgs e)
+        {
             var dataContext = new
             {
                 Window = new WindowViewModel(this)
             };
             DataContext = dataContext;
-            InitializeComponent();
+            Initialized -= MainWindow_Initialized;
         }
 
         protected override void OnClosed(EventArgs e)
