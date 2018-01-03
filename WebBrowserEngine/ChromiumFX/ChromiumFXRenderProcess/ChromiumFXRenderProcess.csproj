@@ -99,14 +99,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ChromiumFX">
-      <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2924.3\lib\ChromiumFX.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="ChromiumWebBrowser">
-      <HintPath>..\..\..\packages\Unofficial.Chromiumfx.3.2924.3\lib\ChromiumWebBrowser.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
