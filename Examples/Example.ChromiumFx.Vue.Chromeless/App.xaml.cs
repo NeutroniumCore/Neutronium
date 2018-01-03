@@ -11,7 +11,7 @@ namespace Example.ChromiumFx.Vue.Chromeless
     {
         protected override void OnStartUp(IHTMLEngineFactory factory)
         {
-            factory.RegisterJavaScriptFramework(new VueSessionInjectorV2());
+            factory.RegisterJavaScriptFramework(new VueSessionInjectorV2 {RunTimeOnly = true});
             base.OnStartUp(factory);
         }
 

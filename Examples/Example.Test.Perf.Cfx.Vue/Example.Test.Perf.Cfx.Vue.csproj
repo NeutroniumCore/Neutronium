@@ -148,7 +148,7 @@
     <Content Include="View\Main\src\main.js" />
     <Content Include="View\Main\utils.js" />
     <Content Include="View\Main\webpack.config.js" />
-    <None Include="View\Main\npm-shrinkwrap.json" />
+    <None Include="View\Main\package-lock.json" />
     <None Include="View\Main\src\components\RawDisplay.vue" />
     <None Include="View\Main\src\components\counter.vue" />
     <None Include="View\Main\src\components\command-button.vue" />

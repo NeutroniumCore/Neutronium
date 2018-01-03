@@ -155,7 +155,7 @@
     <Content Include="View\Main\dist\styles.css.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="View\Main\npm-shrinkwrap.json" />
+    <None Include="View\Main\package-lock.json" />
     <None Include="View\Main\package.json" />
     <None Include="View\Main\README.md" />
     <None Include="View\Main\src\App.vue" />

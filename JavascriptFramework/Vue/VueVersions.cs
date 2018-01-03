@@ -7,12 +7,13 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         public string Name { get; }
         public string Version { get; }
+        public bool SupportRuntime { get; }
         public DebugToolsUI DebugToolsUI { get; }
         public string FrameworkNameVersion { get; }
 
-        internal static VueVersion Vue1 { get; } = new VueVersion("1.0.25", "VueInjector", "vue1", null);
+        internal static VueVersion Vue1 { get; } = new VueVersion("1.0.25", "VueInjector", "vue1", false, null);
 
-        internal static VueVersion Vue2 { get; } = new VueVersion("2.5.2", "VueInjectorV2", "vue2", Vue2DebugToolsUI);
+        internal static VueVersion Vue2 { get; } = new VueVersion("2.5.13", "VueInjectorV2", "vue2", true, Vue2DebugToolsUI);
 
         private static DebugToolsUI Vue2DebugToolsUI => new DebugToolsUI(Vue2DebugTools, Vue2About);
 
@@ -34,12 +35,13 @@ namespace Neutronium.JavascriptFramework.Vue
             return new ResourceReader($"scripts.{Version}", this);
         }
 
-        private VueVersion(string framewokVersion, string name, string version, DebugToolsUI debugToolsUI)
+        private VueVersion(string framewokVersion, string name, string version, bool supportRuntime, DebugToolsUI debugToolsUI)
         {
             FrameworkNameVersion = framewokVersion;
             Name = name;
             Version = version;
             DebugToolsUI = debugToolsUI;
+            SupportRuntime = supportRuntime;
         }
     }
 }

@@ -15,9 +15,11 @@ namespace Neutronium.JavascriptFramework.Vue
         public string FrameworkVersion => _VueVersion.FrameworkNameVersion;
         public DebugToolsUI DebugToolsUI => _VueVersion.DebugToolsUI;
         public bool IsMappingObject => false;
+        public bool RunTimeOnly { get; set; } = false;
 
         private readonly VueVersion _VueVersion;
         private readonly IWebViewCommunication _WebViewCommunication;
+        private string VueFile => (_VueVersion.SupportRuntime && RunTimeOnly) ? "vue.runtime" : "vue";
 
         internal VueSessionInjectorBase(VueVersion vueVersion)
         {
@@ -63,7 +65,7 @@ namespace Neutronium.JavascriptFramework.Vue
             if (debugMode)
                 addComom("hook");
 
-            addVersion("vue");
+            addVersion(VueFile);
             addComom("subscribeArray");
             addVersion("vueAdapter");
             addVersion("vueComandDirective");

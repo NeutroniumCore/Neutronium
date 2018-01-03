@@ -1,8 +1,8 @@
 function install(vue) {
 }
 
-function vueInstanceOption(){
-    return undefined
+function vueInstanceOption(vm) {
+    return {}
 }
 
 export {

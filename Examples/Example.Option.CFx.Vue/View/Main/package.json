@@ -10,7 +10,7 @@
   "dependencies": {
     "neutronium-vue-command-mixin": "^1.4.1",
     "neutronium-vue-simple-command-mixin": "^1.1.0",
-    "vue": "^2.5.2",
+    "vue": "^2.5.13",
     "vue-i18n": "^7.3.2"
   },
   "devDependencies": {
@@ -29,13 +29,14 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "neutronium-vm-loader": "^1.2.0",
     "node-sass": "^3.10.1",
     "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.2",
     "url-loader": "^0.5.7",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.3",
-    "vue-template-compiler": "2.5.2",
+    "vue-template-compiler": "2.5.13",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   }

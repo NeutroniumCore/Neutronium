@@ -186,6 +186,8 @@
     <EmbeddedResource Include="scripts\vue2\vueAdapter.js" />
     <EmbeddedResource Include="scripts\vue2\vue.es5.min.js" />
     <EmbeddedResource Include="scripts\vue2\vue.js" />
+    <EmbeddedResource Include="scripts\vue2\vue.runtime.js" />
+    <EmbeddedResource Include="scripts\vue2\vue.runtime.es5.min.js" />
     <Content Include="scripts\vue2\vueAdapter.es5.js">
       <DependentUpon>vueAdapter.js</DependentUpon>
     </Content>

@@ -12,7 +12,7 @@
     "bootstrap-vue": "^1.4.0",
     "neutronium-vue-command-mixin": "^1.4.1",
     "neutronium-vue-simple-command-mixin": "^1.1.0",
-    "vue": "^2.5.2",
+    "vue": "^2.5.13",
     "vue-awesome": "^2.3.4"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "url-loader": "^0.5.7",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.3",
-    "vue-template-compiler": "^2.5.2",
+    "vue-template-compiler": "^2.5.13",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7"
   }
