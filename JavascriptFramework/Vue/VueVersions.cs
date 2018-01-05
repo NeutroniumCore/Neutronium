@@ -26,14 +26,11 @@ namespace Neutronium.JavascriptFramework.Vue
         private static WindowInformation Vue2About => new WindowInformation
         {
             RelativePath = "DebugTools\\About\\index.html",
-            Height = 630,
+            Height = 640,
             Width = 310
         };
 
-        public ResourceReader GetVueResource()
-        {
-            return new ResourceReader($"scripts.{Version}", this);
-        }
+        public ResourceReader GetVueResource() => new ResourceReader($"scripts.{Version}", this);
 
         private VueVersion(string framewokVersion, string name, string version, bool supportRuntime, DebugToolsUI debugToolsUI)
         {
