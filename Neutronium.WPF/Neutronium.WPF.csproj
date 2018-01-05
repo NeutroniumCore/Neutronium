@@ -123,6 +123,7 @@
     <Compile Include="ViewModel\WindowViewModel.cs" />
     <Compile Include="WPF\BoolToHiddenConverter.cs" />
     <Compile Include="WPF\WindowExtensions.cs" />
+    <Compile Include="WPF\WindowSizer.cs" />
     <Compile Include="WPF\WpfScreen.cs" />
     <Page Include="Internal\DebugTools\DebugControl.xaml">
       <SubType>Designer</SubType>

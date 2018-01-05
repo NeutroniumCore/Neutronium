@@ -1,8 +1,9 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
+using System.Windows.Interop;
 using System.Windows.Shell;
+using Neutronium.WPF.WPF;
 
 namespace Neutronium.WPF 
 {
@@ -14,9 +15,13 @@ namespace Neutronium.WPF
         {
             base.OnAttached();
 
-            Window.LocationChanged += ChromelessWindow_LocationChanged;
             ApplyStyle();
-            CheckMaxDimension();
+            Window.SourceInitialized += (s, e) =>
+            {
+                var handle = (new WindowInteropHelper(Window)).Handle;
+                var sizer = new WindowSizer(Window);
+                HwndSource.FromHwnd(handle)?.AddHook(sizer.WindowProc);
+            };
         }
 
         private void ApplyStyle() 
@@ -32,24 +37,6 @@ namespace Neutronium.WPF
             };
             style.Setters.Add(new Setter(WindowChrome.WindowChromeProperty, windowChrome));
             Window.Style = style;
-        }
-
-        private void ChromelessWindow_LocationChanged(object sender, EventArgs e) 
-        {
-            CheckMaxDimension();
-        }
-
-        private void CheckMaxDimension()
-        {
-            var area = Window.GetCurrentScreenWorkingArea();
-            Window.MaxHeight = area.Height;
-            Window.MaxWidth = area.Width;
-        }
-
-        protected override void OnDetaching() 
-        {
-            base.OnDetaching();
-            Window.LocationChanged -= ChromelessWindow_LocationChanged;
         }
     }
 }

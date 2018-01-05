@@ -3,6 +3,7 @@ using System.Windows;
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using Chromium.Event;
@@ -118,8 +119,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                         break;
 
                     NativeMethods.PostMessage(FormHandle, NativeMethods.WindowsMessage.WM_LBUTTONDOWN, message.WParam, message.LParam);
-                    Dispatcher.Invoke(() => DragInit(point));
-                    return true;
+                    return Dispatcher.Invoke(() => DragInit(point));
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONUP:
                     UnListen();
@@ -170,7 +170,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
             _Listener.MouseMove -= Hook_MouseMove;
             _Listenning = false;
-            return;
         }
 
         private void Hook_MouseMove(object sender, MouseEventArgs e)
@@ -212,10 +211,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return x/matrix.M11;
         }
 
-        private void DragInit(System.Windows.Point point)
+        private bool DragInit(System.Windows.Point point)
         {
             _Dragging = true;
             ComputeDragOffset(RealPixelsToWpf(point));
+            return Window.WindowState == WindowState.Maximized;
         }
 
         protected void OnMouseDown(System.Windows.Point point)
