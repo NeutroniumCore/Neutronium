@@ -4,27 +4,27 @@
 
 ## 1. Interactive Debug
 
-### To activate Debug mode for HTLMLWindow or HTMLViewControl set IsDebug as true
+### To activate Debug mode for `HTLMLWindow` or `HTMLViewControl` set IsDebug as true
 
-In debug mode, a tool bar with 4 buttons will be displayed:
+In debug mode, the following context menu will be displayed:
 
-![debug buttons](../images/Tools/DebugToolBar.png)
+![debug buttons](../images/Tools/ContextMenu.png)
 
 
 ### 1.1 _Inspect_ 
 
 Opens a fully featured chromium javascript debug windows
 
-![inspect](../images/Tools/Toolbar-inspect.png)
+![inspect](../images/Tools/ContextMenu-inspect.png)
 
 ![inspect](../images/DebugInspect.png)
 
 
-### 1.2  _Inspect VM_ 
+### 1.2  _Vm Debug_ 
 
 Opens a javascript framework specific window to display information about the binding:
 
-![InspectVM](../images/Tools/Toolbar-vm.png)
+![InspectVM](../images/Tools/ContextMenu-Vm-debug.png)
 
 - For Vue.js
 
@@ -41,7 +41,7 @@ An adaption of [knockout-view] a debug tool [displaying ViewModel is used](https
 
 ### 1.3 _Save Vm_
 
-![SaveVM](../images/Tools/Toolbar-save.png)
+![SaveVM](../images/Tools/ContextMenu-Save-vm.png)
 
 Allows to save the value of the bound DataContext to a circular JSON (`.cjson`). This is a very interesting feature when coupled with [neutronium vue webpack template](./Build_large_project_with_Vue.js_and_Webpack.md). Indeed neutronium Webpack configuration can use this files as "fake" ViewModel. 
 
@@ -50,9 +50,9 @@ This is very powerful when coupled with live reload feature as saving a ViewMode
 ### 1.4 _About_ 
 Opens a windows displaying information about Neutronium configuration:
 
-![About](../images/Tools/Toolbar-about.png)
+![About](../images/Tools/ContextMenu-About.png)
 
-![About](../images/Tools/About.png)
+![About](../images/about-64-bits.png)
 
 
 ## 2. Trace 
