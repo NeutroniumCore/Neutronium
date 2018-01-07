@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Unofficial.Chromiumfx</id>
-        <version>3.2924.4</version>
+        <version>3.2924.5</version>
         <authors>David Desmaisons</authors>
         <licenseUrl>https://bitbucket.org/chromiumfx/chromiumfx/raw/685dd058608d29a6915cd7b7b714a44de36e4fb9/License.txt</licenseUrl>
         <projectUrl>https://bitbucket.org/chromiumfx/chromiumfx</projectUrl>
