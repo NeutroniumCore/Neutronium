@@ -10,6 +10,9 @@ Version 1.2.0 supports x64 builds. There some gotchas thought:
 - Make sure to disable project flag "Prefer 32-bit" (Properties>Build). 
 - Make sure that all the projects of the solution have the same platform value. Supported values: `x86`, `x64` or `Any CPU`.
 
+### Dependency:
+
+- Manually uninstall nuget: `Unofficial.Cef.for.Chromiumfx 3.2924.0` (recommended)
 
 ## Template created from `neutronium-vue`
 
