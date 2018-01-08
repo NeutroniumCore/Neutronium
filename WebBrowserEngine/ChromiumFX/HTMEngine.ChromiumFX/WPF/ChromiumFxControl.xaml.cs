@@ -1,30 +1,23 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Forms;
-using Gma.System.MouseKeyHook;
-using Chromium.Event;
 using Neutronium.WebBrowserEngine.ChromiumFx.Util;
+using Chromium.Event;
 using Neutronium.WPF;
+using System.Runtime.InteropServices.WindowsRuntime;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
-{
+namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF {
     public partial class ChromiumFxControl
     {
         private Window Window { get; set; }
         private IntPtr WindowHandle { get; set; }
         private IntPtr FormHandle => _BrowserHandle;
         private IntPtr _ChromeWidgetHostHandle;
-        private System.Windows.Point _DragOffset = new System.Windows.Point();
-        private bool _Dragging = false;
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
         private Region _DraggableRegion = null;
         private Rectangle _Rectange = new Rectangle(0,0,0,0);
-        private bool _Listenning;
-        private IDisposableMouseEvents _Listener;
         private IntPtr _BrowserHandle;
 
         public ChromiumFxControl()
@@ -81,30 +74,22 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             this.Loaded -= ChromiumFxControl_Loaded;
             Window = Window.GetWindow(this);
             WindowHandle = new System.Windows.Interop.WindowInteropHelper(Window).Handle;
-            Window.StateChanged += Window_StateChanged;
             Window.Closed += Window_Closed;
         }
 
-        private async void Window_StateChanged(object sender, EventArgs e)
-        {
-            if (Window.WindowState == WindowState.Minimized)
-                return;
-
-            await Task.Delay(10);
-            ChromiumWebBrowser.Refresh();
-        }
+        //private async void Window_StateChanged(object sender, EventArgs e)
+        //{
+        //    if (Window.WindowState == WindowState.Minimized)
+        //        return;
+        //    await Task.Delay(10);
+        //    ChromiumWebBrowser.Refresh();
+        //}
 
         private bool OnWebBroswerMessage(Message message)
         {
             switch (message.Msg)
             {
-                case NativeMethods.WindowsMessage.WM_MOUSEACTIVATE:
-                    var topLevelWindowHandle = message.WParam;
-                    NativeMethods.PostMessage(topLevelWindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, IntPtr.Zero, IntPtr.Zero);
-                    break;
-
                 case NativeMethods.WindowsMessage.WM_LBUTTONDBLCLK:
-                    _Dragging = false;
                     if (!IsInDragRegion(GetPoint(message.LParam)))
                         break;
 
@@ -113,32 +98,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONDOWN:
                     var point = GetPoint(message.LParam);
-                    _Dragging = IsInDragRegion(point);
-
-                    if (!_Dragging)
+                    var underDragZone = IsInDragRegion(point);
+                    if (!underDragZone)
                         break;
 
-                    NativeMethods.PostMessage(FormHandle, NativeMethods.WindowsMessage.WM_LBUTTONDOWN, message.WParam, message.LParam);
-                    return Dispatcher.Invoke(() => DragInit(point));
-
-                case NativeMethods.WindowsMessage.WM_LBUTTONUP:
-                    UnListen();
-                    _Dragging = false;
-                    break;
-
-                case NativeMethods.WindowsMessage.WM_MOUSEMOVE:
-                    _Dragging = _Dragging && (int)message.WParam == NativeMethods.windowsParam.MK_LBUTTON;
-
-                    if (_Dragging)
-                        Dispatcher.Invoke(() => OnMouseDown(GetPoint(message.LParam)));
-
-                    NativeMethods.SendMessage(FormHandle, NativeMethods.WindowsMessage.WM_MOUSEMOVE, message.WParam, message.LParam);
-                    break;
-
-                case NativeMethods.WindowsMessage.WM_MOUSELEAVE:
-                    if (_Dragging)
-                        Listen();
-                    break;
+                    NativeMethods.ReleaseCapture();
+                    NativeMethods.SendMessage(WindowHandle, 0xA1, (IntPtr) 0x2, (IntPtr) 0);
+                    return true;
             }
             return false;
         }
@@ -153,127 +119,24 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             Window.WindowState = (Window.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         }
 
-        private void Listen()
-        {
-            if (_Listenning)
-                return;
-
-            _Listenning = true;
-            _Listener = _Listener ?? Hook.GlobalEvents();
-            _Listener.MouseMove += Hook_MouseMove;
-        }
-
-        private void UnListen()
-        {
-            if (!_Listenning)
-                return;
-
-            _Listener.MouseMove -= Hook_MouseMove;
-            _Listenning = false;
-        }
-
-        private void Hook_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (!_Dragging)
-            {
-                UnListen();
-                return;
-            }
-
-            Dispatcher.Invoke(() =>
-            {
-                Window.Left = _DragOffset.X + e.X;
-                Window.Top = _DragOffset.Y + e.Y;
-            });
-        }
-
-        private System.Windows.Point GetPoint(IntPtr lparam)
+        private static System.Windows.Point GetPoint(IntPtr lparam)
         {
             var x = NativeMethods.LoWord(lparam.ToInt32());
             var y = NativeMethods.HiWord(lparam.ToInt32());
             return new System.Windows.Point(x, y);
         }
 
-        private System.Drawing.Point Convert(System.Windows.Point point)
+        private static System.Drawing.Point Convert(System.Windows.Point point)
         {
             return new System.Drawing.Point((int)point.X, (int)point.Y);
-        }
-
-        private System.Windows.Point RealPixelsToWpf(System.Windows.Point point)
-        {
-            return Window.PointToScreen(point);
-        }
-
-        private double RealPixelsWidthToWpf(double x) 
-        {
-            var source = PresentationSource.FromVisual(this);
-            var matrix = source.CompositionTarget.TransformToDevice;
-            return x/matrix.M11;
-        }
-
-        private bool DragInit(System.Windows.Point point)
-        {
-            _Dragging = true;
-            ComputeDragOffset(RealPixelsToWpf(point));
-            return Window.WindowState == WindowState.Maximized;
-        }
-
-        protected void OnMouseDown(System.Windows.Point point)
-        {
-            if (!_Dragging)
-                return;
-
-            var off = RealPixelsToWpf(point);
-
-            if (MinimizeIfNeeded(off))
-                return;
-            
-            Window.Left = _DragOffset.X + off.X;
-            Window.Top = _DragOffset.Y + off.Y;
-        }
-
-        private bool MinimizeIfNeeded(System.Windows.Point point)
-        {
-            if (Window.WindowState != WindowState.Maximized)
-                return false;
-    
-            Window.Top = 0;
-            Window.Left = GetNormalX(point.X);
-            Window.WindowState = WindowState.Normal;
-
-            ComputeDragOffset(point);
-            return true;
-        }
-
-        private void ComputeDragOffset(System.Windows.Point point)
-        {
-            _DragOffset = new System.Windows.Point(Window.Left - point.X, Window.Top - point.Y);
-        }
-
-        private double GetNormalX(double originalx)
-        {
-            var screen = WpfScreen.GetScreenFrom(Window).WorkingArea;
-            var screenWith = screen.Width;
-            var currentWidth = RealPixelsWidthToWpf(_Rectange.Width);
-            var futureWidth = currentWidth * Window.RestoreBounds.Width / screenWith;
-            var x = originalx - screen.Left - futureWidth / 2;
-            if (x < 0)
-                return screen.Left;
-            
-            return screen.Left + ((x + futureWidth > screenWith) ? screenWith - futureWidth : x);
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
             Window.Closed -= Window_Closed;
-            Window.StateChanged -= Window_StateChanged;
-
             _ChromeWidgetMessageInterceptor?.ReleaseHandle();
             _ChromeWidgetMessageInterceptor?.DestroyHandle();
             _ChromeWidgetMessageInterceptor = null;
-
-            _Listener?.Dispose();
-            _Listener = null;
         }
     }
 }
