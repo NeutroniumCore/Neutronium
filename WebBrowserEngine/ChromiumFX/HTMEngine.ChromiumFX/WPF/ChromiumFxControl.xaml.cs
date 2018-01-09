@@ -94,34 +94,28 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             switch (message.Msg)
             {
                 case NativeMethods.WindowsMessage.WM_LBUTTONDBLCLK:
-                    if (!IsInDragRegion(GetPoint(message)))
+                    if (!IsInDragRegion(message))
                         break;
 
                     Dispatcher.Invoke(ToogleMaximize);
                     return true;
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONDOWN:
-                    var point = GetPoint(message);
-                    var underDragZone = IsInDragRegion(point);
-                    if (!underDragZone)
+                    if (!IsInDragRegion(message))
                         return false;
 
                     NativeMethods.ReleaseCapture();
-                    NativeMethods.PostMessage(WindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)0x2, IntPtr.Zero);
+                    NativeMethods.PostMessage(WindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HitTest.HTCAPTION, IntPtr.Zero);
                     return true;
             }
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool IsInDragRegion(System.Drawing.Point point)
+        private bool IsInDragRegion(Message message) 
         {
+            var point = GetPoint(message);
             return _DraggableRegion?.IsVisible(point) == true;
-        }
-
-        private void ToogleMaximize()
-        {
-            Window.WindowState = (Window.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,6 +125,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             var x = NativeMethods.LoWord(lparam.ToInt32());
             var y = NativeMethods.HiWord(lparam.ToInt32());
             return new System.Drawing.Point(x, y);
+        }
+
+        private void ToogleMaximize()
+        {
+            Window.WindowState = (Window.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
