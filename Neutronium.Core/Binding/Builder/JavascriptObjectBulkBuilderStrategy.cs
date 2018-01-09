@@ -180,5 +180,13 @@ namespace Neutronium.Core.Binding.Builder
             }
             return res;
         }
+
+        public void Dispose()
+        {
+            if (!_Factory.IsValueCreated)
+                return;
+
+            _Factory.Value.Dispose();
+        }
     }
 }

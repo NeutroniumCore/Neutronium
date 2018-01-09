@@ -20,5 +20,11 @@ namespace Neutronium.Core.Binding.Builder
         {
             GetStrategy(root).UpdateJavascriptValue(root);
         }
+
+        public void Dispose()
+        {
+            _SynchroneousStrategy.Dispose();
+            _BulkStrategy.Dispose();
+        }
     }
 }

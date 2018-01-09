@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Executable;
 
 namespace Neutronium.Core.Binding.Listeners

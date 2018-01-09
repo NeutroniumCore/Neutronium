@@ -1,10 +1,11 @@
-﻿using Neutronium.Core.Binding.GlueObject;
+﻿using System;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class BulkJsHelper
+    internal class BulkJsHelper : IDisposable
     {
         internal IJavascriptObject BulkObjectsUpdater { get; }
         internal IJavascriptObject BulkArraysUpdater { get; }
@@ -58,6 +59,12 @@ namespace Neutronium.Core.Binding.Builder
         {
             var id = (uint)arguments[0].GetIntValue();
             return _Cache.GetCached(id) as T;
+        }
+
+        public void Dispose()
+        {
+            _CommandPrototype.Dispose();
+            _ExecutablePrototype.Dispose();
         }
     }
 }

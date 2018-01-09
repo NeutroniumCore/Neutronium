@@ -118,11 +118,13 @@ namespace Neutronium.Core.Binding
             Context.Dispose();
             _UnrootedEntities.Clear();
             _Logger.Debug("BidirectionalMapper disposed");
+            _BuilderStrategy?.Dispose();
         }
 
         private void OnExit(IJsCsGlue exiting)
         {
             exiting.ApplyOnListenable(_ListenerRegister.Off);
+            exiting.GetJsSessionValue().Dispose();
         }
 
         private void UnlistenToCSharpChanges()

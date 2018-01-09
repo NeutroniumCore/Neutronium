@@ -21,5 +21,9 @@ namespace Neutronium.Core.Binding.Builder
             var builder = new JavascriptObjectSynchroneousBuilder(_WebView.Factory, _Cache, root, _Mapping);
             builder.UpdateJavascriptValue();
         }
+
+        public void Dispose()
+        {
+        }
     }
 }
