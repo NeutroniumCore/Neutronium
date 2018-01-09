@@ -5,8 +5,10 @@
     <title>Neutronium Page</title>
   </head>
   <body>
-    <div id="main">
-    </div>
+  <div id="main">
+      <App :view-model="$data.ViewModel" :__window__="$data.Window">
+      </App>
+  </div>
     <script src="dist/build.js"></script>
   </body>
 </html>

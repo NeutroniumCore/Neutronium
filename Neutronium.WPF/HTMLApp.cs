@@ -24,6 +24,9 @@ namespace Neutronium.WPF
                 return;
 
             _Registered = true;
+            if (MainWindow == null)
+                return;
+
             MainWindow.Closed += Closed;
         }
 
