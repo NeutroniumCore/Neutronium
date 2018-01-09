@@ -20,7 +20,7 @@ namespace Neutronium.WPF
             {
                 var handle = (new WindowInteropHelper(Window)).Handle;
                 var sizer = new WindowSizer(Window);
-                //HwndSource.FromHwnd(handle)?.AddHook(sizer.WindowProc);
+                HwndSource.FromHwnd(handle)?.AddHook(sizer.WindowProc);
             };
         }
 

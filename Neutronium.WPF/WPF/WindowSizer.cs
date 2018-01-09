@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -24,6 +25,7 @@ namespace Neutronium.WPF.WPF
             return (IntPtr)0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
         {
             var mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
