@@ -139,7 +139,7 @@ switch (process.env.NODE_ENV) {
       'vue': 'Vue',
       'vueHelper': 'glueHelper'
     }
-    webpackOptions.entry = './src/entry.js';
+    webpackOptions.entry = './src/integrated.js';
     break;
 }
 

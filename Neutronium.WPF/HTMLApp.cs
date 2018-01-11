@@ -7,9 +7,11 @@ namespace Neutronium.WPF
     public abstract class HTMLApp : Application
     {
         private bool _Registered;
+        protected string[] Args { get; private set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            Args = e.Args;
             var engine = HTMLEngineFactory.Engine;
             engine.RegisterHTMLEngine(GetWindowFactory());
             engine.RegisterJavaScriptFramework(GetJavascriptUIFrameworkManager());

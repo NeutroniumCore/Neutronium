@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
         xmlns:neutronium="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
+        Name="Root"
         Title="MainWindow" Height="350" MinWidth="800" Width="1150">
     <i:Interaction.Behaviors>
         <neutronium:Chromeless />
@@ -15,8 +16,7 @@
         <neutronium:BoolToHiddenConverter x:Key="BoolToVis"/>
     </Window.Resources>
     <Grid>
-        <!--Uri="pack://application:,,,/View/dist/index.html"-->
-        <neutronium:HTMLViewControl IsDebug="true" Uri="http://localhost:91/index.html" JavascriptUIEngine="VueInjectorV2" x:Name="WcBrowser"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <neutronium:HTMLViewControl IsDebug="{Binding ElementName=Root, Path=Debug}" Uri="{Binding ElementName=Root, Path=Uri}" JavascriptUIEngine="VueInjectorV2" x:Name="WcBrowser"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 
     <Window.Visibility>
