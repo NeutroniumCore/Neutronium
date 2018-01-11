@@ -911,6 +911,8 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
         }
 
         public event EventHandler<BeforeJavascriptExcecutionArgs> BeforeJavascriptExecuted;
+        public event EventHandler<ClientReloadArgs> OnClientReload { add {} remove {} }
+
         public IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItens)
         {
             return this;

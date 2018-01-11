@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Chromium;
 using Chromium.Event;
 using Chromium.Remote;
 using Chromium.Remote.Event;
@@ -14,7 +15,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
     public class ChromiumFxControlWebBrowserWindow : IModernWebBrowserWindow
     {
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
-        private readonly IDispatcher _dispatcher ;
+        private readonly IDispatcher _Dispatcher;
         private readonly IWebSessionLogger _Logger;
         private CfrBrowser _WebBrowser;
         private bool _FirstLoad = true;
@@ -22,16 +23,17 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IWebView MainFrame { get; private set; }
         public Uri Url => _ChromiumWebBrowser.Url;
-        public bool IsLoaded  => !_ChromiumWebBrowser.IsLoading;
+        public bool IsLoaded => !_ChromiumWebBrowser.IsLoading;
         private readonly List<ContextMenuItem> _Commands = new List<ContextMenuItem>();
         private readonly List<int> _MenuSeparatorIndex = new List<int>();
 
-        public ChromiumFxControlWebBrowserWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher, IWebSessionLogger logger) 
+        public ChromiumFxControlWebBrowserWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher, IWebSessionLogger logger)
         {
             _Logger = logger;
-            _dispatcher = dispatcher;
+            _Dispatcher = dispatcher;
             _ChromiumWebBrowser = chromiumWebBrowser;
             _ChromiumWebBrowser.LoadHandler.OnLoadEnd += OnLoadEnd;
+            _ChromiumWebBrowser.RequestHandler.OnBeforeBrowse += RequestHandler_OnBeforeBrowse;
             _ChromiumWebBrowser.DisplayHandler.OnConsoleMessage += OnConsoleMessage;
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
             _ChromiumWebBrowser.RemoteBrowserCreated += OnChromiumWebBrowser_RemoteBrowserCreated;
@@ -42,6 +44,30 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
         }
 
+        private void RequestHandler_OnBeforeBrowse(object sender, CfxOnBeforeBrowseEventArgs e)
+        {
+            if (!e.Frame.IsMain)
+                return;
+
+            var request = e.Request;
+
+            switch (request.TransitionType)
+            {
+                case CfxTransitionType.Explicit:
+                    return;
+
+                case CfxTransitionType.ClientRedirectFlag:
+                    e.SetReturnValue(true);
+                    _Dispatcher.Dispatch(() => OnClientReload?.Invoke(this, new ClientReloadArgs(request.Url)));
+                    break;
+
+                default:
+                    e.SetReturnValue(true);
+                    _Logger.Error($@"Navigation to {request.Url} triggered by ""{request.TransitionType}"" has been cancelled. It is not possible to trigger a page loading from javascript that may corrupt session and hot-reload. Use Neutronium API to alter HTML view.");
+                    break;
+            }
+        }
+
         private void ChromiumWebBrowser_OnBeforeCommandLineProcessing(CfxOnBeforeCommandLineProcessingEventArgs e)
         {
         }
@@ -50,17 +76,17 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
         }
 
-        private void RequestHandler_OnRenderProcessTerminated(object sender, CfxOnRenderProcessTerminatedEventArgs e) 
+        private void RequestHandler_OnRenderProcessTerminated(object sender, CfxOnRenderProcessTerminatedEventArgs e)
         {
             var crashed = Crashed;
             if (crashed != null)
-                _dispatcher.Dispatch(() => crashed(this, new BrowserCrashedArgs()));
+                _Dispatcher.Dispatch(() => crashed(this, new BrowserCrashedArgs()));
         }
 
-        private void OnBeforeContextMenu(object sender, CfxOnBeforeContextMenuEventArgs e) 
+        private void OnBeforeContextMenu(object sender, CfxOnBeforeContextMenuEventArgs e)
         {
             var model = e.Model;
-            for(var index= model.Count-1; index>=0 ; index--) 
+            for (var index = model.Count - 1; index >= 0; index--)
             {
                 if (!CfxContextMenu.IsEdition(model.GetCommandIdAt(index)))
                     model.RemoveAt(index);
@@ -69,7 +95,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (model.Count != 0)
                 return;
 
-            var rank = (int) ContextMenuId.MENU_ID_USER_FIRST;
+            var rank = (int)ContextMenuId.MENU_ID_USER_FIRST;
             _Commands.ForEach(command => model.AddItem(rank++, command.Name));
             _MenuSeparatorIndex.ForEach(index => model.InsertSeparatorAt(index));
         }
@@ -90,7 +116,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             command.Invoke();
         }
 
-        private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e) 
+        private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e)
         {
             _WebBrowser = e.Browser;
         }
@@ -100,7 +126,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             MainFrame = new ChromiumFxWebView(e.Browser, _Logger);
 
             var beforeJavascriptExecuted = BeforeJavascriptExecuted;
-            if (beforeJavascriptExecuted == null) 
+            if (beforeJavascriptExecuted == null)
                 return;
 
             Action<string> execute = (code) => e.Frame.ExecuteJavaScript(code, String.Empty, 0);
@@ -115,19 +141,19 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
         }
 
-        private void OnLoadEnd(object sender, CfxOnLoadEndEventArgs e) 
+        private void OnLoadEnd(object sender, CfxOnLoadEndEventArgs e)
         {
             if (!e.Frame.IsMain)
                 return;
 
-            if (_FirstLoad) 
+            if (_FirstLoad)
             {
                 _FirstLoad = false;
                 return;
             }
 
             SendLoad();
-        }        
+        }
 
         private void SendLoad()
         {
@@ -143,21 +169,19 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }
 
             _SendLoadOnContextCreated = false;
-            _dispatcher.Dispatch(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
+            _Dispatcher.Dispatch(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
         }
 
         public void NavigateTo(Uri path)
         {
             var url = path.Scheme == "file" ? path.AbsolutePath : path.ToString();
             _ChromiumWebBrowser.LoadUrl(url);
-        } 
+        }
 
         public event EventHandler<LoadEndEventArgs> LoadEnd;
-
-        public event EventHandler<ConsoleMessageArgs> ConsoleMessage;        
-        
+        public event EventHandler<ConsoleMessageArgs> ConsoleMessage;
         public event EventHandler<BeforeJavascriptExcecutionArgs> BeforeJavascriptExecuted;
-
         public event EventHandler<BrowserCrashedArgs> Crashed;
+        public event EventHandler<ClientReloadArgs> OnClientReload;
     }
 }

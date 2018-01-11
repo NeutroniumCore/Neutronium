@@ -12,11 +12,11 @@ using Neutronium.Core.Log;
 
 namespace Neutronium.Core.Navigation
 {
-    public class DoubleBrowserNavigator : INavigationSolver 
+    public class DoubleBrowserNavigator : INavigationSolver
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
         private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
-        private readonly IUrlSolver _UrlSolver;        
+        private readonly IUrlSolver _UrlSolver;
         private IWebBrowserWindowProvider _CurrentWebControl;
         private IWebBrowserWindowProvider _NextWebControl;
         private IHtmlBinding _HTMLBinding;
@@ -29,7 +29,7 @@ namespace Neutronium.Core.Navigation
         public Uri Url { get; private set; }
         public IWebBrowserWindowProvider WebControl => _CurrentWebControl;
         public IWebBrowserWindow HTMLWindow => _CurrentWebControl?.HtmlWindow;
-        public bool UseINavigable 
+        public bool UseINavigable
         {
             get { return _UseINavigable; }
             set { _UseINavigable = value; }
@@ -49,7 +49,7 @@ namespace Neutronium.Core.Navigation
         }
 
         private void ConsoleMessage(object sender, ConsoleMessageArgs e)
-        { 
+        {
             try
             {
                 _webSessionLogger.LogBrowser(e, Url);
@@ -66,16 +66,16 @@ namespace Neutronium.Core.Navigation
 
                 _HTMLBinding = value;
 
-                if (_Disposed && (_HTMLBinding!=null))
-                   Binding = null;
+                if (_Disposed && (_HTMLBinding != null))
+                    Binding = null;
             }
         }
 
-        private void FireNavigate(object newVm, object oldVm=null) 
+        private void FireNavigate(object newVm, object oldVm = null)
         {
             OnNavigate?.Invoke(this, new NavigationEvent(newVm, oldVm));
         }
-    
+
         private void FireLoaded(object loadedVm)
         {
             OnDisplay?.Invoke(this, new DisplayEvent(loadedVm));
@@ -86,23 +86,23 @@ namespace Neutronium.Core.Navigation
             var oldvm = GetMainViewModel(Binding);
             var fireFirstLoad = false;
             Binding = binding.Result;
-          
-            if (_CurrentWebControl!=null)
+
+            if (_CurrentWebControl != null)
             {
                 _CurrentWebControl.HtmlWindow.ConsoleMessage -= ConsoleMessage;
                 _CurrentWebControl.Dispose();
             }
-            else 
+            else
             {
                 fireFirstLoad = true;
             }
 
-            _CurrentWebControl = _NextWebControl;     
+            _CurrentWebControl = _NextWebControl;
             _NextWebControl = null;
             _CurrentWebControl.HtmlWindow.Crashed += Crashed;
 
             _CurrentWebControl.Show();
-    
+
             _Window = window;
 
             var rootVm = GetMainViewModel(Binding);
@@ -123,31 +123,17 @@ namespace Neutronium.Core.Navigation
             if (!fireFirstLoad)
                 return;
 
-            OnFirstLoad?.Invoke(this, new FirstLoadEvent(_CurrentWebControl.HtmlWindow));        
+            OnFirstLoad?.Invoke(this, new FirstLoadEvent(_CurrentWebControl.HtmlWindow));
         }
 
         private static object GetMainViewModel(IHtmlBinding binding)
         {
-            return ((DataContextViewModel) (binding?.Root))?.ViewModel;
+            return ((DataContextViewModel)(binding?.Root))?.ViewModel;
         }
 
         private void EndAnimation(object navigable)
         {
-            _WebViewLifeCycleManager.GetDisplayDispatcher().Dispatch( () => FireLoaded(navigable) );
-        }
-
-        private void Crashed(object sender, BrowserCrashedArgs e)
-        {
-            var dest = _CurrentWebControl.HtmlWindow.Url;
-            var vm = GetMainViewModel(Binding);
-            var mode = Binding.Mode;
-
-            _webSessionLogger.Error("WebView crashed trying recover");
-
-            CleanWebControl(ref _CurrentWebControl);
-            Binding = null;
-
-            Navigate(dest, vm, mode);
+            _WebViewLifeCycleManager.GetDisplayDispatcher().Dispatch(() => FireLoaded(navigable));
         }
 
         private Task<IHtmlBinding> Navigate(Uri uri, object viewModel, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
@@ -159,15 +145,19 @@ namespace Neutronium.Core.Navigation
 
             var oldvm = GetMainViewModel(Binding) as INavigable;
 
-            if (_UseINavigable && (oldvm!=null))
+            if (_UseINavigable && (oldvm != null))
             {
                 oldvm.Navigation = null;
             }
 
             if (_CurrentWebControl != null)
+            {
                 _CurrentWebControl.HtmlWindow.Crashed -= Crashed;
+                var modern = _CurrentWebControl.HtmlWindow as IModernWebBrowserWindow;
+                if (modern != null) modern.OnClientReload -= ModerWindow_OnClientReload;
+            }
 
-            var closetask = ( _CurrentWebControl!=null) ? _Window.CloseAsync() : TaskHelper.Ended();
+            var closetask = (_CurrentWebControl != null) ? _Window.CloseAsync() : TaskHelper.Ended();
 
             _NextWebControl = _WebViewLifeCycleManager.Create();
             _NextWebControl.HtmlWindow.ConsoleMessage += ConsoleMessage;
@@ -180,16 +170,17 @@ namespace Neutronium.Core.Navigation
             var dataContext = new DataContextViewModel(viewModel);
             var initVm = HtmlBinding.GetBindingBuilder(engine, dataContext, mode);
 
-            if (moderWindow!=null)
+            if (moderWindow != null)
             {
                 var debugContext = _WebViewLifeCycleManager.DebugContext;
                 EventHandler<BeforeJavascriptExcecutionArgs> before = null;
-                before = (o,e) =>
+                before = (o, e) =>
                 {
                     moderWindow.BeforeJavascriptExecuted -= before;
                     e.JavascriptExecutor(_JavascriptFrameworkManager.GetMainScript(debugContext));
                 };
                 moderWindow.BeforeJavascriptExecuted += before;
+                moderWindow.OnClientReload += ModerWindow_OnClientReload;
             }
             var tcs = new TaskCompletionSource<IHtmlBinding>();
 
@@ -209,6 +200,33 @@ namespace Neutronium.Core.Navigation
             return tcs.Task;
         }
 
+        private void Crashed(object sender, BrowserCrashedArgs e)
+        {
+            _webSessionLogger.Error("WebView crashed trying recover");
+            Reload(true);
+        }
+
+        private void ModerWindow_OnClientReload(object sender, ClientReloadArgs e)
+        {
+            _webSessionLogger.Error("Page changes detected reloading bindings.");
+            Reload(false);
+        }
+
+        private void Reload(bool forceClean)
+        {
+            var dest = _CurrentWebControl.HtmlWindow.Url;
+            var vm = GetMainViewModel(Binding);
+            var mode = Binding.Mode;
+
+            if (forceClean)
+            {
+                CleanWebControl(ref _CurrentWebControl);
+            }
+            Binding = null;
+
+            Navigate(dest, vm, mode);
+        }
+
         private IJavascriptFrameworkManager GetInjectorFactory(Uri uri)
         {
             return _JavascriptFrameworkManager;
@@ -216,14 +234,14 @@ namespace Neutronium.Core.Navigation
 
         public void ExcecuteJavascript(string code)
         {
-            try 
+            try
             {
                 _CurrentWebControl?.HtmlWindow.MainFrame.ExecuteJavaScript(code);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _webSessionLogger.Error($"Can not execute javascript: {code}, reason: {e}");
-            }          
+            }
         }
 
         public async Task<IHtmlBinding> NavigateAsync(object viewModel, string id = "", JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)

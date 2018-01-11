@@ -93,38 +93,56 @@ var webpackOptions = {
 }
 
 var buildMode = false;
-if (process.env.NODE_ENV === 'production') {
-  buildMode = true
-  webpackOptions.externals = {
-    'vue': 'Vue',
-    'vueHelper': 'glueHelper'
-  }
-  webpackOptions.entry = './src/entry.js';
 
-  webpackOptions.devtool = '#cheap-source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  webpackOptions.plugins = (webpackOptions.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new BabiliPlugin({}, { comments: false }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ])
-} else {
-  webpackOptions.plugins = (webpackOptions.plugins || []).concat([
-    new webpack.HotModuleReplacementPlugin()
-  ]);
+switch (process.env.NODE_ENV) {
+  case 'production':
+    buildMode = true
+    webpackOptions.externals = {
+      'vue': 'Vue',
+      'vueHelper': 'glueHelper'
+    }
+    webpackOptions.entry = './src/entry.js';
 
-  webpackOptions.resolve.alias = {
-    'vue$': 'vue/dist/vue'
-  }
-  webpackOptions.entry = './src/main.js';
+    webpackOptions.devtool = '#cheap-source-map'
+    // http://vue-loader.vuejs.org/en/workflow/production.html
+    webpackOptions.plugins = (webpackOptions.plugins || []).concat([
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: '"production"'
+        }
+      }),
+      new webpack.optimize.ModuleConcatenationPlugin(),
+      new BabiliPlugin({}, { comments: false }),
+      new webpack.LoaderOptionsPlugin({
+        minimize: true
+      })
+    ])
+    break;
+
+  case 'development':
+    webpackOptions.plugins = (webpackOptions.plugins || []).concat([
+      new webpack.HotModuleReplacementPlugin()
+    ]);
+
+    webpackOptions.resolve.alias = {
+      'vue$': 'vue/dist/vue'
+    }
+    webpackOptions.entry = './src/main.js';
+    break;
+
+  case 'integrated':
+    webpackOptions.plugins = (webpackOptions.plugins || []).concat([
+      new webpack.HotModuleReplacementPlugin()
+    ]);
+
+    webpackOptions.externals = {
+      'vue': 'Vue',
+      'vueHelper': 'glueHelper'
+    }
+    webpackOptions.entry = './src/entry.js';
+    break;
 }
+
 const styleOption = buildMode ? { sourceMap: true, extract: true } : { sourceMap: true };
 webpackOptions.module.rules = webpackOptions.module.rules.concat(utils.styleLoaders(styleOption))
 

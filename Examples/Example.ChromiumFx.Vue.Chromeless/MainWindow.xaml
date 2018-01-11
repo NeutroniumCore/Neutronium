@@ -15,7 +15,8 @@
         <neutronium:BoolToHiddenConverter x:Key="BoolToVis"/>
     </Window.Resources>
     <Grid>
-        <neutronium:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="WcBrowser" Uri="pack://application:,,,/View/dist/index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <!--Uri="pack://application:,,,/View/dist/index.html"-->
+        <neutronium:HTMLViewControl IsDebug="true" Uri="http://localhost:91/index.html" JavascriptUIEngine="VueInjectorV2" x:Name="WcBrowser"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 
     <Window.Visibility>
