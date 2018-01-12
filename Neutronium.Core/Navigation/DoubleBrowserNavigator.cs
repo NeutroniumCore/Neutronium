@@ -206,7 +206,7 @@ namespace Neutronium.Core.Navigation
             Reload(true);
         }
 
-        private void ModerWindow_OnClientReload(object sender, ClientReloadArgs e)
+        private async void ModerWindow_OnClientReload(object sender, ClientReloadArgs e)
         {
             _webSessionLogger.Error("Page changes detected reloading bindings.");
             Reload(false);

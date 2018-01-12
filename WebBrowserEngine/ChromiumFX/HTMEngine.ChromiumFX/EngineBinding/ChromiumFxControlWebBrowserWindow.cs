@@ -49,6 +49,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private void LoadHandler_OnLoadError(object sender, CfxOnLoadErrorEventArgs e)
         {
+            if (e.ErrorCode == CfxErrorCode.Aborted)
+            {
+                //Aborted is raised during hot-reload
+                //We will not poluate log nor stop the application
+                return;
+            }
+                
             _Logger.Error($@"Unable to load ""{e.FailedUrl}"": ""{e.ErrorCode}"". Please check that the resource exists, has the correct ""Content"" and ""Build Type"" value or is correctly served.");
             if (!e.Frame.IsMain)
                 return;
