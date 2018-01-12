@@ -51,17 +51,18 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private void LoadHandler_OnLoadError(object sender, CfxOnLoadErrorEventArgs e)
         {
             _Logger.Error($@"Unable to load ""{e.FailedUrl}"", ""{e.ErrorCode}"". Please check that the resource exists, has the correct Content, Build Type or are corrected served.");
-            if (e.Frame.IsMain)
+            if (!e.Frame.IsMain)
+                return;
+
+            _Logger.Error("Closing application");
+            _Dispatcher.RunAsync(async () =>
             {
-                _Dispatcher.RunAsync(async () =>
-                {
-                    //Delay here to be sure to finish all chromium related task
-                    //before closing application. This will avoid additional exception
-                    //due to inconsistent state.
-                    await Task.Delay(10);
-                    Application.Current.Shutdown(-1);
-                });
-            }
+                //Delay here to be sure to finish all chromium related task
+                //before closing application. This will avoid additional exception
+                //due to inconsistent state.
+                await Task.Delay(10);
+                Application.Current.Shutdown(-1);
+            });
         }
 
         private void RequestHandler_OnBeforeBrowse(object sender, CfxOnBeforeBrowseEventArgs e)
