@@ -32,6 +32,11 @@ namespace Neutronium.WPF
             MainWindow.Closed += Closed;
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+            HTMLEngineFactory.Engine.Dispose();
+        }
+
         private void Closed(object sender, EventArgs e)
         {
             HTMLEngineFactory.Engine.Dispose();

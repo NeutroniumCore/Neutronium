@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Chromium;
 using Chromium.Event;
 using Chromium.Remote;
@@ -7,8 +8,10 @@ using Chromium.Remote.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
 using Neutronium.Core;
+using Neutronium.Core.Exceptions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using System.Windows;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
@@ -33,6 +36,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _Dispatcher = dispatcher;
             _ChromiumWebBrowser = chromiumWebBrowser;
             _ChromiumWebBrowser.LoadHandler.OnLoadEnd += OnLoadEnd;
+            _ChromiumWebBrowser.LoadHandler.OnLoadError += LoadHandler_OnLoadError;
             _ChromiumWebBrowser.RequestHandler.OnBeforeBrowse += RequestHandler_OnBeforeBrowse;
             _ChromiumWebBrowser.DisplayHandler.OnConsoleMessage += OnConsoleMessage;
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
@@ -42,6 +46,22 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _ChromiumWebBrowser.RequestHandler.OnRenderProcessTerminated += RequestHandler_OnRenderProcessTerminated;
             _ChromiumWebBrowser.LifeSpanHandler.OnBeforePopup += LifeSpanHandler_OnBeforePopup;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
+        }
+
+        private void LoadHandler_OnLoadError(object sender, CfxOnLoadErrorEventArgs e)
+        {
+            _Logger.Error($@"Unable to load ""{e.FailedUrl}"", ""{e.ErrorCode}"". Please check that the resource exists, has the correct Content, Build Type or are corrected served.");
+            if (e.Frame.IsMain)
+            {
+                _Dispatcher.RunAsync(async () =>
+                {
+                    //Delay here to be sure to finish all chromium related task
+                    //before closing application. This will avoid additional exception
+                    //due to inconsistent state.
+                    await Task.Delay(10);
+                    Application.Current.Shutdown(-1);
+                });
+            }
         }
 
         private void RequestHandler_OnBeforeBrowse(object sender, CfxOnBeforeBrowseEventArgs e)
