@@ -8,7 +8,6 @@ using Chromium.Remote.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
 using Neutronium.Core;
-using Neutronium.Core.Exceptions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using System.Windows;
@@ -50,7 +49,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private void LoadHandler_OnLoadError(object sender, CfxOnLoadErrorEventArgs e)
         {
-            _Logger.Error($@"Unable to load ""{e.FailedUrl}"", ""{e.ErrorCode}"". Please check that the resource exists, has the correct Content, Build Type or are corrected served.");
+            _Logger.Error($@"Unable to load ""{e.FailedUrl}"": ""{e.ErrorCode}"". Please check that the resource exists, has the correct ""Content"" and ""Build Type"" value or is correctly served.");
             if (!e.Frame.IsMain)
                 return;
 
