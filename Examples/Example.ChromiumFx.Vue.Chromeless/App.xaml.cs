@@ -29,13 +29,14 @@ namespace Example.ChromiumFx.Vue.Chromeless
 
         private static ApplicationMode GetApplicationMode(string[] args)
         {
+#if DEBUG
             var normalizedArgs = args.Select(arg => arg.ToLower()).ToList();
             if (normalizedArgs.Contains("-dev"))
                 return ApplicationMode.Dev;
 
             if (normalizedArgs.Contains("-test"))
                 return ApplicationMode.Test;
-
+#endif
             return ApplicationMode.Production;
         }
 
