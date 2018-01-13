@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,6 +11,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 using Neutronium.WPF.Internal;
 using Chromium.Event;
+using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.WebBrowserEngine.ChromiumFx.Helper;
 
@@ -20,9 +22,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly ChromiumFxControl _ChromiumFxControl;
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
         private readonly ChromiumFxControlWebBrowserWindow _ChromiumFxControlWebBrowserWindow;
-        private IntPtr _DebugWindowHandle;
+        private IntPtr _DebugWindowHandle = IntPtr.Zero;
         private CfxClient _DebugCfxClient;
         private CfxLifeSpanHandler _DebugCfxLifeSpanHandler;
+        private TaskCompletionSource<bool> _IsReadyCompletionSource;
+        private CfxLoadHandler _CfxLoadHandler;
 
         public UIElement UIElement => _ChromiumFxControl;
         public bool IsUIElementAlwaysTopMost => true;
@@ -79,8 +83,35 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 NativeWindowHelper.BringToFront(_DebugWindowHandle);
                 return true;
             }
-            var windowInfo = new CfxWindowInfo {
-                Style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN | Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE,
+
+            //https://bitbucket.org/chromiumembedded/cef/issues/2115/devtools-ignoring-inspected-point-if
+            //temporary by-pass to be removed when migrating to next CEF version 
+            InitDebugTool().ContinueWith(t =>
+            {
+                DisplayDebug();
+                DebugToolOpened?.Invoke(this, new DebugEventArgs(true));
+            }, TaskScheduler.FromCurrentSynchronizationContext()).DoNotWait();   
+               
+            return true;
+        }
+
+        //https://bitbucket.org/chromiumembedded/cef/issues/2115/devtools-ignoring-inspected-point-if
+        //Remove when updating to new CEF version 
+        private Task InitDebugTool()
+        {
+            if (_IsReadyCompletionSource != null)
+                return _IsReadyCompletionSource.Task;
+
+            _IsReadyCompletionSource = new TaskCompletionSource<bool>();
+            DisplayDebug(DebugCfxClient_GetLoadHandler, Chromium.WindowStyle.WS_DISABLED | Chromium.WindowStyle.WS_MINIMIZE);
+            return _IsReadyCompletionSource.Task;
+        }
+
+        private void DisplayDebug(CfxGetLoadHandlerEventHandler handler = null, Chromium.WindowStyle style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN | Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE)
+        {
+            var cfxWindowInfo = new CfxWindowInfo
+            {
+                Style= style,
                 ParentWindow = IntPtr.Zero,
                 WindowName = "Neutronium Chromium Dev Tools",
                 X = 200,
@@ -91,11 +122,24 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
             _DebugCfxClient = new CfxClient();
             _DebugCfxClient.GetLifeSpanHandler += DebugClient_GetLifeSpanHandler;
+            if (handler!=null) _DebugCfxClient.GetLoadHandler += handler;
+            _ChromiumWebBrowser.BrowserHost.ShowDevTools(cfxWindowInfo, _DebugCfxClient, new CfxBrowserSettings(), null);
+        }
 
-            _ChromiumWebBrowser.BrowserHost.ShowDevTools(windowInfo, _DebugCfxClient, new CfxBrowserSettings(), null);
-            DebugToolOpened?.Invoke(this, new DebugEventArgs(true));
+        private void DebugCfxClient_GetLoadHandler(object sender, CfxGetLoadHandlerEventArgs e)
+        {
+            _CfxLoadHandler = new CfxLoadHandler();
+            _CfxLoadHandler.OnLoadEnd += Loader_OnLoadEnd;
+            e.SetReturnValue(_CfxLoadHandler);
+        }
 
-            return true;
+        private async void Loader_OnLoadEnd(object sender, CfxOnLoadEndEventArgs e)
+        {
+            if (_IsReadyCompletionSource.Task.IsCompleted)
+                return;
+
+            await Task.Delay(1000);
+            _ChromiumWebBrowser.BrowserHost.CloseDevTools();
         }
 
         private void DebugClient_GetLifeSpanHandler(object sender, CfxGetLifeSpanHandlerEventArgs e)
@@ -105,12 +149,21 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 _DebugCfxLifeSpanHandler = new CfxLifeSpanHandler();
                 _DebugCfxLifeSpanHandler.OnAfterCreated += DebugLifeSpan_OnAfterCreated;
                 _DebugCfxLifeSpanHandler.OnBeforeClose += DebugLifeSpan_OnBeforeClose;
+                _DebugCfxLifeSpanHandler.DoClose += _DebugCfxLifeSpanHandler_DoClose;
             }
             e.SetReturnValue(_DebugCfxLifeSpanHandler);
         }
 
+        private void _DebugCfxLifeSpanHandler_DoClose(object sender, CfxDoCloseEventArgs e)
+        {
+            _IsReadyCompletionSource.TrySetResult(true);
+        }
+
         private void DebugLifeSpan_OnBeforeClose(object sender, CfxOnBeforeCloseEventArgs e)
         {
+            if (_DebugWindowHandle == IntPtr.Zero)
+                return;
+
             _DebugWindowHandle = IntPtr.Zero;
             _DebugCfxClient = null;
             DebugToolOpened?.Invoke(this, new DebugEventArgs(false));
