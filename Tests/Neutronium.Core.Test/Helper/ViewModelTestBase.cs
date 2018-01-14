@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace Neutronium.Core.Test.Helper
 {
     public class ViewModelTestBase : INotifyPropertyChanged
     {
         [Bindable(false)]
+        [JsonIgnore]
         public int ListenerCount => _PropertyChanged?.GetInvocationList().Length ?? 0;
 
         private event PropertyChangedEventHandler _PropertyChanged;

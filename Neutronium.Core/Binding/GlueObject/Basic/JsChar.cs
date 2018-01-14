@@ -11,7 +11,7 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
 
         public string GetCreationCode() => JavascriptNamer.GetCreateCharString(TypedValue);
 
-        public override string ToString() => JavascriptNamer.GetCreateCharString(TypedValue);
+        public override string ToString() => $@"""{TypedValue}""";
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder) => builder.RequestStringCreation(GetCreationCode());
     }

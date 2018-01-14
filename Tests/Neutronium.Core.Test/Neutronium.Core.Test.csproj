@@ -100,6 +100,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NSubstitute.1.9.2.0\lib\net45\NSubstitute.dll</HintPath>
     </Reference>
+    <Reference Include="Ploeh.AutoFixture, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoFixture.3.51.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture.Xunit2, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoFixture.Xunit2.3.51.0\lib\net45\Ploeh.AutoFixture.Xunit2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -129,6 +137,7 @@
     <Compile Include="Binding\CSharpToJavascriptConverterTests.cs" />
     <Compile Include="Binding\Listeners\SilenterTest.cs" />
     <Compile Include="Helper\AmbigeousDynamicObject.cs" />
+    <Compile Include="Helper\StringViewModel.cs" />
     <Compile Include="Helper\FactoryFatherTestViewModel.cs" />
     <Compile Include="Helper\BasicFatherTestViewModel.cs" />
     <Compile Include="Helper\BasicListTestViewModel.cs" />
@@ -170,9 +179,11 @@
     <Compile Include="NullWatcherTest.cs" />
     <Compile Include="NavigationBuilderTests.cs" />
     <Compile Include="Infra\TypeExtensionsTest.cs" />
+    <Compile Include="Utils\CJsonConverterTests.cs" />
     <Compile Include="WebBrowserEngine\JavascriptObject\JavascriptNamerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

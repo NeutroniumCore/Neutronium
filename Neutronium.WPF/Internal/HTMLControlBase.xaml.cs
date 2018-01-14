@@ -151,7 +151,7 @@ namespace Neutronium.WPF.Internal
 
             var fileName = savefile.FileName;
             _SaveDirectory = Path.GetDirectoryName(fileName);
-            var content = binding.AsCircularJson();
+            var content = binding.AsCircularVersionedJson();
             File.WriteAllLines(fileName, new[] { content });
         }
 

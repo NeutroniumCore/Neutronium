@@ -16,6 +16,7 @@ using Neutronium.Core.Test.Helper;
 using Neutronium.MVVMComponents;
 using Xunit.Abstractions;
 using Newtonsoft.Json;
+using Ploeh.AutoFixture.Xunit2;
 
 namespace Neutronium.Core.Test.Binding
 {
@@ -395,13 +396,84 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void AsCircularJson_adds_current_version()
+        public void AsCircularVersionedJson_adds_default_version()
         {
             var vm = new object();
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularJson();
+            var cjson = res.AsCircularVersionedJson();
             cjson.Should().Be(@"{""version"":2}");
+        }
+
+        [Theory, AutoData]
+        public void AsCircularVersionedJson_adds_version(int version)
+        {
+            var vm = new object();
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularVersionedJson(version);
+            cjson.Should().Be($@"{{""version"":{version}}}");
+        }
+
+        [Fact]
+        public void AsCircularVersionedJson_exports_ISimpleCommand()
+        {
+            var command = Substitute.For<ISimpleCommand>();
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularVersionedJson();
+            cjson.Should().Be(@"{""Command"":cmd(true),""version"":2}");
+        }
+
+        [Fact]
+        public void AsCircularVersionedJson_exports_ISimpleCommand_T()
+        {
+            var command = Substitute.For<ISimpleCommand<string>>();
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularVersionedJson();
+            cjson.Should().Be(@"{""Command"":cmd(true),""version"":2}");
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void AsCircularVersionedJson_exports_ICommand(bool canExecute)
+        {
+            var command = Substitute.For<ICommand>();
+            command.CanExecute(Arg.Any<object>()).Returns(canExecute);
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularVersionedJson();
+            cjson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()}),""version"":2}}");
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void AsCircularVersionedJson_exports_ICommand_T(bool canExecute)
+        {
+            var command = Substitute.For<ICommand<int>>();
+            command.CanExecute(Arg.Any<int>()).Returns(canExecute);
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularVersionedJson();
+            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":2}}");
+        }
+
+        [Fact]
+        public void AsCircularVersionedJson_exports_IResultCommand_T()
+        {
+            var command = Substitute.For<IResultCommand<int>>();
+            var vm = new { Command = command };
+            var res = _CSharpToJavascriptConverter.Map(vm);
+
+            var cjson = res.AsCircularVersionedJson();
+            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":2}}");
         }
 
         [Fact]
@@ -412,7 +484,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularJson();
-            cjson.Should().Be(@"{""Command"":cmd(true),""version"":2}");
+            cjson.Should().Be(@"{""Command"":cmd(true)}");
         }
 
         [Fact]
@@ -423,7 +495,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularJson();
-            cjson.Should().Be(@"{""Command"":cmd(true),""version"":2}");
+            cjson.Should().Be(@"{""Command"":cmd(true)}");
         }
 
         [Theory]
@@ -437,7 +509,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularJson();
-            cjson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()}),""version"":2}}");
+            cjson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()})}}");
         }
 
         [Theory]
@@ -451,7 +523,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":2}}");
+            cjson.Should().Be($@"{{""Command"":cmd(true)}}");
         }
 
         [Fact]
@@ -462,7 +534,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":2}}");
+            cjson.Should().Be($@"{{""Command"":cmd(true)}}");
         }
 
         protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);

@@ -5,6 +5,7 @@ using Neutronium.Core.Binding.Listeners;
 using System.ComponentModel;
 using Neutronium.Core.Infra.Reflection;
 using System.Collections.Generic;
+using System.Linq;
 using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
@@ -83,17 +84,22 @@ namespace Neutronium.Core.Binding.GlueObject
         protected override void ComputeString(IDescriptionBuilder context)
         {
             context.Append("{");
-            for (var i = 0; i < _Attributes.Count; i++)
+            var attributes = Enumerable.Range(0, _Attributes.Count)
+                                .Select( i => new { name= _TypePropertyAccessor.AttributeNames[i], value = _Attributes[i] })
+                                .OrderBy(at => at.name);
+
+            var first = true;
+            foreach(var att in attributes)
             {
-                if (i != 0)
+                if (!first)
                     context.Append(",");
 
-                var name = _TypePropertyAccessor.AttributeNames[i];
-                context.Append($@"""{name}"":");
+                first = false;
+                context.Append($@"""{att.name}"":");
 
-                using (context.PushContext(name))
+                using (context.PushContext(att.name))
                 {
-                    _Attributes[i].BuilString(context);
+                    att.value.BuilString(context);
                 }
             }
 
