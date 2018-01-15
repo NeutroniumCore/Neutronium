@@ -155,6 +155,7 @@
     <Compile Include="Helper\SimpleFatherTestViewModel.cs" />
     <Compile Include="Helper\PropertyUpdatingTestViewModel.cs" />
     <Compile Include="Helper\SimpleReadOnlyTestViewModel.cs" />
+    <Compile Include="Helper\TestClass.cs" />
     <Compile Include="Helper\TestDynamicObject.cs" />
     <Compile Include="Helper\ViewModelTestBase.cs" />
     <Compile Include="Infra\DictionaryExtensionsTest.cs" />

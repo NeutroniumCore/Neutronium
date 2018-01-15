@@ -97,6 +97,16 @@ namespace Neutronium.Core.Test.Utils
             CheckToRootVmCjson(vm, expected);
         }
 
+
+        [Fact]
+        public void ToRootVmCjson_handles_circular_references() 
+        {
+            var vm = new TestClass();
+            vm.Property1 = vm;
+            var expected = UpdateUsingContextual("{\"Children\":[],\"Property1\":\"{{context}}\",\"Property2\":null,\"Property3\":null}", "~ViewModel");
+            CheckToRootVmCjson(vm, expected);
+        }
+
         [Theory]
         [MemberData(nameof(SimpleCommandsData))]
         public void ToCjson_exports_ISimpleCommand(object simpleCommand, string expected)
@@ -135,6 +145,15 @@ namespace Neutronium.Core.Test.Utils
             CheckToCjson(vm, expected);
         }
 
+        [Fact]
+        public void ToCjson_handles_circular_references() 
+        {
+            var vm = new TestClass();
+            vm.Property1 = vm;
+            var expected = UpdateUsingContextual("{\"Children\":[],\"Property1\":\"{{context}}\",\"Property2\":null,\"Property3\":null}", "~");
+            CheckToCjson(vm, expected);
+        }
+
         private void CheckToCjson(object vm, string expectedVm)
         {
             var cjson = _CJsonConverter.ToCjson(vm);
@@ -149,6 +168,9 @@ namespace Neutronium.Core.Test.Utils
 
         private static string GetExpectedCommand(bool canExecute) 
             => $@"{{""Command"":cmd({canExecute.ToString().ToLower()})}}";
+
+        private static string UpdateUsingContextual(string name, string contextName)
+            => name.Replace("{{context}}", contextName);
 
         private static string GetExpectedRootVm(string @object = "{}", int version = 3)
         {

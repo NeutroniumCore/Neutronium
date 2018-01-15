@@ -547,15 +547,7 @@ namespace Neutronium.Core.Test.Binding
             var factory = new GlueFactory(null, cacher, null, _ObjectChangesListener);
             return new CSharpToJavascriptConverter(cacher, factory, _Logger);
         }
-
-        private class TestClass
-        {
-            public List<TestClass> Children { get; set; } = new List<TestClass>();
-            public TestClass Property1 { get; set; }
-            public TestClass Property2 { get; set; }
-            public TestClass Property3 { get; set; }
-        }
-
+      
         private class StringClass
         {
             public string Value { get; set; }
