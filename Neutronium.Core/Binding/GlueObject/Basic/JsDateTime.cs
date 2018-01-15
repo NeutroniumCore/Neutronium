@@ -12,7 +12,7 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
 
         public string GetCreationCode() => JavascriptNamer.GetCreateDateTimeString(TypedValue);
 
-        public override string ToString() => $@"""{TypedValue.Year:0000}-{TypedValue.Month:00}-{TypedValue.Day:00}T{TypedValue.Hour:00}:{TypedValue.Minute:00}:{TypedValue.Second:00}.{TypedValue.Millisecond:000}Z""";
+        public override string ToString() => $@"d(""{TypedValue:yyyy-MM-ddTHH:mm:ss.FFFFFFF}"")";
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder) => builder.RequestJsDateTimeCreation(TypedValue);
     }

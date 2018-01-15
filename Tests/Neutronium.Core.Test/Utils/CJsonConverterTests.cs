@@ -89,6 +89,14 @@ namespace Neutronium.Core.Test.Utils
             CheckToRootVmCjson(vm, expected);
         }
 
+        [Theory, AutoData]
+        public void ToRootVmCjson_exports_date_time(DateTime dateTime)
+        {
+            var vm = new { dateTime };
+            var expected = $@"{{""dateTime"":d({ToJson(dateTime)})}}";
+            CheckToRootVmCjson(vm, expected);
+        }
+
         [Theory]
         [MemberData(nameof(SimpleCommandsData))]
         public void ToCjson_exports_ISimpleCommand(object simpleCommand, string expected)
@@ -119,6 +127,14 @@ namespace Neutronium.Core.Test.Utils
             CheckToCjson(vm, expected);
         }
 
+        [Theory, AutoData]
+        public void ToCjson_exports_date_time(DateTime dateTime)
+        {
+            var vm = new { dateTime };
+            var expected = $@"{{""dateTime"":d({ToJson(dateTime)})}}";
+            CheckToCjson(vm, expected);
+        }
+
         private void CheckToCjson(object vm, string expectedVm)
         {
             var cjson = _CJsonConverter.ToCjson(vm);
@@ -134,7 +150,7 @@ namespace Neutronium.Core.Test.Utils
         private static string GetExpectedCommand(bool canExecute) 
             => $@"{{""Command"":cmd({canExecute.ToString().ToLower()})}}";
 
-        private static string GetExpectedRootVm(string @object = "{}", int version = 2)
+        private static string GetExpectedRootVm(string @object = "{}", int version = 3)
         {
             return "{\"ViewModel\":" + @object + ",\"Window\":{\"CloseReady\":cmd(true),\"EndOpen\":cmd(true),\"IsListeningClose\":false,\"IsListeningOpen\":false,\"State\":{\"type\":\"WindowLogicalState\",\"intValue\":0,\"name\":\"Loading\",\"displayName\":\"Loading\"}},\"version\":" + version + "}";
         }

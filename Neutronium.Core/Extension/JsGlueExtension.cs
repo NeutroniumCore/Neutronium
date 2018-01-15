@@ -4,8 +4,11 @@ namespace Neutronium.Core.Extension
 {
     public static class JsGlueExtension
     {
-        public static string AsCircularVersionedJson(this IJsCsGlue glue, int version = 2)
+        private static int CurrentVersion => 3;
+
+        public static string AsCircularVersionedJson(this IJsCsGlue glue, int? version = null)
         {
+            version = version ?? CurrentVersion;
             var descriptionBuilder = GetConventionedBuilder();
             glue.BuilString(descriptionBuilder);
             if (glue.Type == JsCsGlueType.Object)

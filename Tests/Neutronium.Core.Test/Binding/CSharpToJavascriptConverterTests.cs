@@ -30,6 +30,8 @@ namespace Neutronium.Core.Test.Binding
         private readonly ObjectChangesListener _ObjectChangesListener;
         private readonly ITestOutputHelper _TestOutputHelper;
 
+        private static int CurrentVersion => 3;
+
         public CSharpToJavascriptConverterTests(ITestOutputHelper testOutputHelper)
         {
             _TestOutputHelper = testOutputHelper;
@@ -402,7 +404,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be(@"{""version"":2}");
+            cjson.Should().Be($@"{{""version"":{CurrentVersion}}}");
         }
 
         [Theory, AutoData]
@@ -423,7 +425,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be(@"{""Command"":cmd(true),""version"":2}");
+            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
         }
 
         [Fact]
@@ -434,7 +436,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be(@"{""Command"":cmd(true),""version"":2}");
+            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
         }
 
         [Theory]
@@ -448,7 +450,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()}),""version"":2}}");
+            cjson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()}),""version"":{CurrentVersion}}}");
         }
 
         [Theory]
@@ -462,7 +464,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":2}}");
+            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
         }
 
         [Fact]
@@ -473,7 +475,7 @@ namespace Neutronium.Core.Test.Binding
             var res = _CSharpToJavascriptConverter.Map(vm);
 
             var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":2}}");
+            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
         }
 
         [Fact]
