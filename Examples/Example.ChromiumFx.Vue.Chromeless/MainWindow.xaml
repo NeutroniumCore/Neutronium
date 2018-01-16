@@ -10,7 +10,7 @@
         Name="Root"
         Title="MainWindow" Height="350" MinWidth="800" Width="1150">
     <i:Interaction.Behaviors>
-        <neutronium:Chromeless />
+        <neutronium:Chromeless Thickness="2" />
     </i:Interaction.Behaviors>
     <Window.Resources>
         <neutronium:BoolToHiddenConverter x:Key="BoolToVis"/>
