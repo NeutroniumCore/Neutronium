@@ -20,7 +20,10 @@ protected override void UpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEve
 }
 ```
 
-See example solution [Example.ChromiumFX.Vue.SOP](https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Vue.SOP) for complete example.
+* See example solution [Example.ChromiumFX.Vue.SOP](https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Vue.SOP) for complete example.
+
+* See here for a list of available Chromium switches:
+https://peter.sh/experiments/chromium-command-line-switches/
 
 
 ## Chromium settings
