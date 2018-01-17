@@ -38,7 +38,7 @@ namespace Neutronium.Core.Utils
 
         /// <summary>
         /// Conversion to cjson format compatible with a data context root Vm
-        /// Can be used as entry for neutronium-vm-loader https://github.com/NeutroniumCore/neutronium-vm-loader
+        /// Can be used as an entry for neutronium-vm-loader https://github.com/NeutroniumCore/neutronium-vm-loader
         /// </summary>
         /// <param name="object">object to be serialiazed</param>
         /// <returns>cjson string value</returns>
