@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Neutronium.Core;
+using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
@@ -28,17 +29,10 @@ namespace Neutronium.JavascriptFramework.Vue
 
        public Task RegisterMainViewModel(IJavascriptObject jsObject)
        {
-            var tcs = new TaskCompletionSource<object>();
-            _Listener.BindArgument("fulfill", _WebView, _ => 
-            {
-                _Logger.Debug("Vue ready received");
-                tcs.TrySetResult(null);
-            });
-
             var vueHelper = _VueHelper.Value;
-            vueHelper.GetValue("ready").Invoke("then", _WebView, _Listener.GetValue("fulfill"));       
+            var taskProvider = vueHelper.GetValue("ready").TransformPromiseToTask(_WebView);
             vueHelper.Invoke("register", _WebView, jsObject, _Listener);
-            return tcs.Task;
+            return taskProvider.Task;
         }
     }
 }
