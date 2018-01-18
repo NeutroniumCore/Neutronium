@@ -2,6 +2,10 @@
 
 # Neutronium Documentation
 
+![hot-reload](../images/holy-grail.gif)
+
+![hot-reload](../images/Example/codedependency.png)
+
 * [How to set up a project](./SetUp.md)
 
 * [Overview](./Overview.md)
