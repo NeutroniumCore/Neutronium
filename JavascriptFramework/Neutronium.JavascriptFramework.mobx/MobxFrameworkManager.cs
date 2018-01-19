@@ -35,7 +35,7 @@ namespace Neutronium.JavascriptFramework.mobx
 
         private ResourceReader GetResourceReader() 
         {
-            return new ResourceReader("scripts.dist", this);
+            return new ResourceReader("script.dist", this);
         }
     }
 }

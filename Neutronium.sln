@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0F0F34BE-CD06-4C13-967D-BB0760617486}"
 EndProject
@@ -152,6 +152,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFx.Vue.Chromeless", "Examples\Example.ChromiumFx.Vue.Chromeless\Example.ChromiumFx.Vue.Chromeless.csproj", "{2F4D400A-D1E8-4B8E-9A8F-2773ED95B48D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.mobx", "JavascriptFramework\Neutronium.JavascriptFramework.mobx\Neutronium.JavascriptFramework.mobx.csproj", "{732F2722-E5DC-4DED-BD04-4085257EE57F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFx.Mobx.UI", "Examples\Example.ChromiumFx.Mobx.UI\Example.ChromiumFx.Mobx.UI.csproj", "{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -998,6 +1000,22 @@ Global
 		{732F2722-E5DC-4DED-BD04-4085257EE57F}.Release|x64.Build.0 = Release|Any CPU
 		{732F2722-E5DC-4DED-BD04-4085257EE57F}.Release|x86.ActiveCfg = Release|Any CPU
 		{732F2722-E5DC-4DED-BD04-4085257EE57F}.Release|x86.Build.0 = Release|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Debug|x64.Build.0 = Debug|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Debug|x86.Build.0 = Debug|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Release|x64.ActiveCfg = Release|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Release|x64.Build.0 = Release|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Release|x86.ActiveCfg = Release|Any CPU
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1066,6 +1084,7 @@ Global
 		{1DA39C67-D83B-451F-84B9-0B0563024974} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{2F4D400A-D1E8-4B8E-9A8F-2773ED95B48D} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 		{732F2722-E5DC-4DED-BD04-4085257EE57F} = {45DFFB49-44B9-49C6-8C5B-1B928366A462}
+		{B3F7564D-4AF5-4135-AB9D-4FFAAE6EAAC1} = {0F0F34BE-CD06-4C13-967D-BB0760617486}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A040228-B693-436F-A6B5-EA1F6CC56D2D}

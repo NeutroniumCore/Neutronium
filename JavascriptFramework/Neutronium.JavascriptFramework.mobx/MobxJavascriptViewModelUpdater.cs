@@ -58,7 +58,6 @@ namespace Neutronium.JavascriptFramework.mobx
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)
         {
-            throw new NotImplementedException();
         }
     }
 }

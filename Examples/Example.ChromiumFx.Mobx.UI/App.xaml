@@ -1,0 +1,11 @@
+﻿<chromiumFx:ChromiumFxWebBrowserApp x:Class="Example.ChromiumFx.Mobx.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Example.ChromiumFx.Mobx.UI"
+             xmlns:chromiumFx="clr-namespace:Neutronium.WebBrowserEngine.ChromiumFx;assembly=Neutronium.WebBrowserEngine.ChromiumFx"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</chromiumFx:ChromiumFxWebBrowserApp>
+

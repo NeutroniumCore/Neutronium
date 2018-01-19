@@ -1,0 +1,14 @@
+﻿<Window x:Class="Example.ChromiumFx.Mobx.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Example.ChromiumFx.Mobx.UI"
+        xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
+        mc:Ignorable="d"
+        Name="Root"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <wpf:HTMLViewControl IsDebug="{Binding ElementName=Root, Path=Debug}" Uri="{Binding ElementName=Root, Path=Uri}" JavascriptUIEngine="VueInjectorV2" x:Name="WcBrowser"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+    </Grid>
+</Window>

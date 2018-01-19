@@ -8,9 +8,9 @@ namespace Neutronium.JavascriptFramework.mobx
 {
     public class MobxViewModelManager : IJavascriptViewModelManager 
     {
-        private IWebView _WebView;
-        private IJavascriptObject _Listener;
-        private IWebSessionLogger _Logger;
+        private readonly IWebView _WebView;
+        private readonly IJavascriptObject _Listener;
+        private readonly IWebSessionLogger _Logger;
         private readonly Lazy<IJavascriptObject> _MobxHelperLazy;
 
         public IJavascriptSessionInjector Injector { get; } 
@@ -28,7 +28,7 @@ namespace Neutronium.JavascriptFramework.mobx
 
         private IJavascriptObject GetMoxHelper() 
         {
-            var mobxHelper = _WebView.GetGlobal().GetValue("mobxHelper");
+            var mobxHelper = _WebView.GetGlobal().GetValue("mobxManager");
             if ((mobxHelper == null) || (mobxHelper.IsUndefined))
                 throw ExceptionHelper.Get("mobxHelper not found!");
 
