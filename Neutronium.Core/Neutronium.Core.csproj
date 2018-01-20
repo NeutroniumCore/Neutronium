@@ -167,6 +167,7 @@
     <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
     <Compile Include="Binding\GlueObject\GlueBase.cs" />
     <Compile Include="Binding\GlueBuilder\IGlueFactory.cs" />
+    <Compile Include="Extension\JavascriptObjectExtension.cs" />
     <Compile Include="Extension\JavascriptToCSharpConverterExtension.cs" />
     <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
     <Compile Include="Binding\Listeners\IObjectChangesListener.cs" />
