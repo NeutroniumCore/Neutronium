@@ -163,6 +163,21 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Theory]
+        [InlineData('\\', "\\\\")]
+        [InlineData('\n', "\\n")]
+        [InlineData('\r', "\\r")]
+        [InlineData('\t', "\\t")]
+        [InlineData('\f', "\\f")]
+        [InlineData('\b', "\\b")]
+        public void Map_CreateJSGlueObject_WithCorrectToString_Char(char value, string expected)
+        {
+            var testObject = new { Value = value};
+            var res = _CSharpToJavascriptConverter.Map(testObject);
+
+            res.ToString().Should().Be($@"{{""Value"":""{expected}""}}");
+        }
+
+        [Theory]
         [InlineData(double.NaN, "NaN")]
         [InlineData(double.NegativeInfinity, "-Infinity")]
         [InlineData(double.PositiveInfinity, "Infinity")]

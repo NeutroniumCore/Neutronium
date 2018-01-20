@@ -44,7 +44,8 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         private static string GetCreateNumberExpression(decimal value) => GetCreateDoubleString((double)value);
         private static string GetCreateNumberExpression(float value) => GetCreateDoubleString((double)value);
 
-        public static string GetCreateCharString(char value) => $"'{value}'";
+        public static string GetCreateCharString(char value) => $"'{FilterString(value.ToString())}'";
+        public static string GetCreateCharStringDoubleQuote(char value) => $@"""{FilterStringDoubleQuote(value.ToString())}""";
 
         public static string GetCreateDoubleString(double value)
         {
