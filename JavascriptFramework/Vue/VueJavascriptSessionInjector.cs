@@ -29,10 +29,10 @@ namespace Neutronium.JavascriptFramework.Vue
 
        public Task RegisterMainViewModel(IJavascriptObject jsObject)
        {
-            var vueHelper = _VueHelper.Value;
-            var taskProvider = vueHelper.GetValue("ready").TransformPromiseToTask(_WebView);
-            vueHelper.Invoke("register", _WebView, jsObject, _Listener);
-            return taskProvider.Task;
+           var vueHelper = _VueHelper.Value;
+           var taskProvider = vueHelper.GetValue("ready").TransformPromiseToTask(_WebView);
+           vueHelper.Invoke("register", _WebView, jsObject, _Listener);
+           return taskProvider.Task;
         }
     }
 }

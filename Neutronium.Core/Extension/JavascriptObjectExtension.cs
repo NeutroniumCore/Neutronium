@@ -1,19 +1,18 @@
 ﻿using System.Threading.Tasks;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Extension 
+namespace Neutronium.Core.Extension
 {
     public static class JavascriptObjectExtension
     {
         private class TaskToPromiseHandler : ITaskProvider
         {
             public Task Task => _Tcs.Task;
-            private readonly TaskCompletionSource<object> _Tcs;
+            private readonly TaskCompletionSource<object> _Tcs = new TaskCompletionSource<object>();
             private readonly IJavascriptObject _JavascriptObject;
 
-            public TaskToPromiseHandler(IWebView webView) 
+            public TaskToPromiseHandler(IWebView webView)
             {
-                _Tcs = new TaskCompletionSource<object>();
                 _JavascriptObject = webView.Factory.CreateObject();
                 _JavascriptObject.BindArgument("fulfill", webView, _ =>
                 {
@@ -30,7 +29,7 @@ namespace Neutronium.Core.Extension
             Task Task { get; }
         }
 
-        public static ITaskProvider TransformPromiseToTask(this IJavascriptObject javascriptObjectPromise, IWebView webView) 
+        public static ITaskProvider TransformPromiseToTask(this IJavascriptObject javascriptObjectPromise, IWebView webView)
         {
             var promiseHandler = new TaskToPromiseHandler(webView);
             javascriptObjectPromise.Invoke("then", webView, promiseHandler.Fufill);
