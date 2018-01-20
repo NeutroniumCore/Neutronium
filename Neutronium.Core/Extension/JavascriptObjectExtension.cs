@@ -8,12 +8,11 @@ namespace Neutronium.Core.Extension
         private class TaskToPromiseHandler : ITaskProvider
         {
             public Task Task => _Tcs.Task;
-            private readonly TaskCompletionSource<object> _Tcs;
+            private readonly TaskCompletionSource<object> _Tcs = new TaskCompletionSource<object>();
             private readonly IJavascriptObject _JavascriptObject;
 
             public TaskToPromiseHandler(IWebView webView)
             {
-                _Tcs = new TaskCompletionSource<object>();
                 _JavascriptObject = webView.Factory.CreateObject();
                 _JavascriptObject.BindArgument("fulfill", webView, _ =>
                 {
