@@ -43,8 +43,8 @@ namespace Neutronium.Example.ViewModel
             set { Set(ref _Name, value, "Name"); }
         }
 
-        private DateTime _BirthDay;
-        public DateTime BirthDay
+        private DateTime? _BirthDay;
+        public DateTime? BirthDay
         {
             get { return _BirthDay; }
             set { Set(ref _BirthDay, value, "BirthDay"); }
