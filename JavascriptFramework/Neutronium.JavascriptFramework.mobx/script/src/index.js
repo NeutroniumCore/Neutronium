@@ -1,6 +1,12 @@
 import { extendObservable, autorun } from 'mobx';
+import { subscribe } from './subscribeArray';
+import { visitObject } from './visiter'
 
 console.log('mobx adapter loaded');
+
+Object.defineProperty(Array.prototype, 'subscribe', {
+    value: subscribe
+});
 
 const silenterProperty = '__silenter';
 var globalListener;
@@ -10,8 +16,8 @@ var ready = new Promise(function (fullfill) {
     fufillOnReady = fullfill;
 });
 
-
 function silentChange(father, propertyName, value) {
+    updateVm(value)
     const silenter = father[silenterProperty];
     if (silenter) {
         silentChangeElement(silenter, propertyName, value);
@@ -57,53 +63,40 @@ function updateListenerElement(element, listener, propertyName) {
     listener.watch = autorun(() => listener.callback(element.father[propertyName]))
 }
 
-var visited = new Map();
-visited.set(undefined, null);
-
-function visitObject(vm, onNew, visit, visitArray) {
-    "use strict";
-    if (!vm || visited.has(vm._MappedId))
-        return;
-
-    visited.set(vm._MappedId, vm);
-
-    if (Array.isArray(vm)) {
-        visitArray(vm);
-        const arrayCount = vm.length;
-        for (var i = 0; i < arrayCount; i++) {
-            const value = vm[i];
-            visitObject(value, onNew, visit, visitArray);
-        }
-        return;
-    }
-
-    onNew(vm);
-
-    const needVisitSelf = !vm.__readonly__;
-
-    for (var property in vm) {
-        var value = vm[property];
-        if (typeof value === "function")
-            continue;
-
-        if (needVisitSelf) {
-            visit(vm, property);
-        }
-        visitObject(value, onNew, visit, visitArray);
-    }
-}
-
-
 function updateArray(array) {
+    // var changelistener = collectionListener(array);
+    // var listener = array.subscribe(changelistener);
+    // array.silentSplice = function () {
+    //     listener();
+    //     var res = array.splice.apply(array, arguments);
+    //     listener = array.subscribe(changelistener);
+    //     return res;
+    // };
 }
 
+function collectionListener(object) {
+    return function (changes) {
+        var arg_value = [], arg_status = [], arg_index = [];
+        var length = changes.length;
+        for (var i = 0; i < length; i++) {
+            arg_value.push(changes[i].value);
+            arg_status.push(changes[i].status);
+            arg_index.push(changes[i].index);
+        }
+        globalListener.TrackCollectionChanges(object, arg_value, arg_status, arg_index);
+    };
+}
+
+function updateVm(vm) {
+    visitObject(vm, (obj) => extendObservable(obj, obj), createListener, updateArray)
+}
 
 const helper = {
     silentChange,
     register(vm, listener) {
         globalListener = listener;
 
-        visitObject(vm, (obj) => extendObservable(obj, obj), createListener, updateArray);
+        updateVm(vm);
 
         window._vm = vm;
         autorun(() => console.log(JSON.stringify(vm, null, 2)))
