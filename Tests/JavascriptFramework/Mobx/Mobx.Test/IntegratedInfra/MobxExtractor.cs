@@ -1,12 +1,13 @@
-﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using System;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.JavascriptFrameworkTesterHelper;
 
-namespace VueFramework.Test.IntegratedInfra
+namespace Mobx.Test.IntegratedInfra
 {
-    public class VueExtractor : IJavascriptFrameworkExtractor
+    public class MobxExtractor : IJavascriptFrameworkExtractor
     {
         private readonly IWebView _WebView;
-        public VueExtractor(IWebView webView)
+        public MobxExtractor(IWebView webView)
         {
             _WebView = webView;
         }
@@ -54,7 +55,7 @@ namespace VueFramework.Test.IntegratedInfra
         private IJavascriptObject UnSafeGetRootViewModel()
         {
             var window = _WebView.GetGlobal();
-            return window.GetValue("vm");
+            return window.GetValue("_vm");
         }
     }
 }

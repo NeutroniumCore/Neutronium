@@ -41,12 +41,15 @@ var webpackOptions = {
         NODE_ENV: '"production"'
       }
     }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new BabiliPlugin({}, { comments: false }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
+    new webpack.optimize.ModuleConcatenationPlugin()
+    //new webpack.LoaderOptionsPlugin({ minimize: true})
   ]
+}
+
+if (process.env.NODE_ENV === 'production') {
+  webpackOptions.plugins = (webpackOptions.plugins || []).concat([
+    new BabiliPlugin({}, { comments: false })
+  ]);
 }
 
 module.exports = webpackOptions
