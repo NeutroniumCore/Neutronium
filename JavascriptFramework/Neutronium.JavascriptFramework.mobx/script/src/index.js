@@ -1,4 +1,4 @@
-import { extendObservable, observe } from 'mobx';
+import { observe, runInAction } from 'mobx';
 import { visitObject, getMapped } from './visiter'
 
 console.log('mobx adapter loaded');
@@ -6,9 +6,9 @@ console.log('mobx adapter loaded');
 const silenterProperty = '__silenter';
 var globalListener;
 
-var fufillOnReady;
-var ready = new Promise(function (fullfill) {
-    fufillOnReady = fullfill;
+var fulfillOnReady;
+var ready = new Promise(function (fulfill) {
+    fulfillOnReady = fulfill;
 });
 
 function silentChange(father, propertyName, value) {
@@ -17,7 +17,7 @@ function silentChange(father, propertyName, value) {
         silentChangeElement(silenter, propertyName, value);
         return;
     }
-    father[propertyName] = value;
+    runInAction(() => father[propertyName] = value);
 }
 
 function silentChangeUpdate(father, propertyName, value) {
@@ -27,7 +27,7 @@ function silentChangeUpdate(father, propertyName, value) {
         silentChangeElement(silenter, propertyName, value);
         return;
     }
-    father[propertyName] = value;
+    runInAction(() => father[propertyName] = value);
 }
 
 function silentChangeElement(element, propertyName, value) {
@@ -74,7 +74,8 @@ function updateArray(array) {
     var listener = observe(array, changeListener);
     array.silentSplice = function () {
         listener();
-        var res = array.splice.apply(array, arguments);
+        var res;
+        runInAction(() => { res = array.splice.apply(array, arguments) });
         listener = observe(array, changeListener);
         return res;
     };
@@ -105,7 +106,7 @@ function getChanges(changes) {
         case "update":
             var index = changes.index;
             return [{ index, value: changes.oldValue, status: 'deleted' },
-                    { index, value: changes.newValue, status: 'added' }];
+            { index, value: changes.newValue, status: 'added' }];
     }
 }
 
@@ -162,7 +163,7 @@ const helper = {
         updateVm(vm);
 
         window._vm = vm;
-        fufillOnReady(null)
+        fulfillOnReady(null)
     },
     updateVm,
     unListen,
