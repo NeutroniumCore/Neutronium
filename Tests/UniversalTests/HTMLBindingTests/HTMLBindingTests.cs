@@ -255,7 +255,7 @@ namespace Tests.Universal.HTMLBindingTests
                     {
                         _DataContext.Local.City = "Paris";
                     });
-                    await Task.Delay(200);
+                    await Task.Delay(300);
 
                     res4 = GetLocalCity(js);
                     ((string)res4).Should().Be("Paris");
@@ -267,7 +267,7 @@ namespace Tests.Universal.HTMLBindingTests
                     {
                         _DataContext.Skills[0].Name = "Ling";
                     });
-                    await Task.Delay(200);
+                    await Task.Delay(300);
 
                     res5 = GetFirstSkillName(js);
                     res5.Should().Be("Ling");
@@ -2601,15 +2601,23 @@ namespace Tests.Universal.HTMLBindingTests
                     Call(coll, "push", (root.GetAttribute("Skills") as JsArray).Items[0].GetJsSessionValue());
 
                     await Task.Delay(5000);
-                    _DataContext.Skills.Should().HaveCount(3);
-                    _DataContext.Skills[2].Should().Be(_DataContext.Skills[0]);
+
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Skills.Should().HaveCount(3);
+                        _DataContext.Skills[2].Should().Be(_DataContext.Skills[0]);
+                    });
+
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
                     Call(coll, "pop");
 
                     await Task.Delay(100);
-                    _DataContext.Skills.Should().HaveCount(2);
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Skills.Should().HaveCount(2);
+                    });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
@@ -2617,7 +2625,10 @@ namespace Tests.Universal.HTMLBindingTests
                     Call(coll, "shift");
 
                     await Task.Delay(100);
-                    _DataContext.Skills.Should().HaveCount(1);
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Skills.Should().HaveCount(1);
+                    });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
@@ -2626,7 +2637,10 @@ namespace Tests.Universal.HTMLBindingTests
                           (root.GetAttribute("Skills") as JsArray).Items[0].GetJsSessionValue());
 
                     await Task.Delay(150);
-                    _DataContext.Skills.Should().HaveCount(2);
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Skills.Should().HaveCount(2);
+                    });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
 
@@ -2643,7 +2657,10 @@ namespace Tests.Universal.HTMLBindingTests
                     Call(coll, "reverse");
 
                     await Task.Delay(150);
-                    _DataContext.Skills.Should().HaveCount(3);
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Skills.Should().HaveCount(3);
+                    });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     Check(col, _DataContext.Skills);
                 }

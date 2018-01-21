@@ -61,131 +61,11 @@ mobxManager =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _mobx = __webpack_require__(1);
-
-var _subscribeArray = __webpack_require__(3);
-
-var _visiter = __webpack_require__(4);
-
-console.log('mobx adapter loaded');
-
-Object.defineProperty(Array.prototype, 'subscribe', {
-    value: _subscribeArray.subscribe
-});
-
-const silenterProperty = '__silenter';
-var globalListener;
-
-var fufillOnReady;
-var ready = new Promise(function (fullfill) {
-    fufillOnReady = fullfill;
-});
-
-function silentChange(father, propertyName, value) {
-    updateVm(value);
-    const silenter = father[silenterProperty];
-    if (silenter) {
-        silentChangeElement(silenter, propertyName, value);
-        return;
-    }
-    father[propertyName] = value;
-}
-
-function silentChangeElement(element, propertyName, value) {
-    var listener = element.listeners[propertyName];
-    listener.watch();
-    element.father[propertyName] = value;
-    updateListenerElement(element, listener, propertyName);
-}
-
-function onPropertyChange(prop, father) {
-    return function (newVal) {
-        globalListener.TrackChanges(father, prop, newVal);
-    };
-}
-
-function Silenter(father) {
-    this.father = father;
-    this.listeners = {};
-}
-
-function createListener(element, propertyName) {
-    var silenter = element[silenterProperty];
-    if (!silenter) {
-        silenter = new Silenter(element);
-        Object.defineProperty(element, silenterProperty, { value: silenter, configurable: true });
-    }
-    createElement(silenter, propertyName, onPropertyChange(propertyName, element));
-}
-
-function createElement(element, propertyName, callback) {
-    var listener = { callback: callback };
-    updateListenerElement(element, listener, propertyName);
-    element.listeners[propertyName] = listener;
-}
-
-function updateListenerElement(element, listener, propertyName) {
-    listener.watch = (0, _mobx.autorun)(() => listener.callback(element.father[propertyName]));
-}
-
-function updateArray(array) {
-    // var changelistener = collectionListener(array);
-    // var listener = array.subscribe(changelistener);
-    // array.silentSplice = function () {
-    //     listener();
-    //     var res = array.splice.apply(array, arguments);
-    //     listener = array.subscribe(changelistener);
-    //     return res;
-    // };
-}
-
-function collectionListener(object) {
-    return function (changes) {
-        var arg_value = [],
-            arg_status = [],
-            arg_index = [];
-        var length = changes.length;
-        for (var i = 0; i < length; i++) {
-            arg_value.push(changes[i].value);
-            arg_status.push(changes[i].status);
-            arg_index.push(changes[i].index);
-        }
-        globalListener.TrackCollectionChanges(object, arg_value, arg_status, arg_index);
-    };
-}
-
-function updateVm(vm) {
-    (0, _visiter.visitObject)(vm, obj => (0, _mobx.extendObservable)(obj, obj), createListener, updateArray);
-}
-
-const helper = {
-    silentChange,
-    register(vm, listener) {
-        globalListener = listener;
-
-        updateVm(vm);
-
-        window._vm = vm;
-        (0, _mobx.autorun)(() => console.log(JSON.stringify(vm, null, 2)));
-        fufillOnReady(null);
-    },
-    ready
-};
-
-module.exports = helper;
-
-/***/ }),
-/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3889,6 +3769,178 @@ if (typeof __MOBX_DEVTOOLS_GLOBAL_HOOK__ === "object") {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _mobx = __webpack_require__(0);
+
+var _subscribeArray = __webpack_require__(3);
+
+var _visiter = __webpack_require__(4);
+
+console.log('mobx adapter loaded');
+
+const observableArrayPrototype = Object.getPrototypeOf((0, _mobx.observable)([]));
+Object.defineProperty(observableArrayPrototype, 'subscribe', {
+    value: _subscribeArray.subscribe
+});
+
+const silenterProperty = '__silenter';
+var globalListener;
+
+var fufillOnReady;
+var ready = new Promise(function (fullfill) {
+    fufillOnReady = fullfill;
+});
+
+function silentChange(father, propertyName, value) {
+    const silenter = father[silenterProperty];
+    if (silenter) {
+        silentChangeElement(silenter, propertyName, value);
+        return;
+    }
+    father[propertyName] = value;
+}
+
+function silentChangeUpdate(father, propertyName, value) {
+    value = updateVm(value);
+    const silenter = father[silenterProperty];
+    if (silenter) {
+        silentChangeElement(silenter, propertyName, value);
+        return;
+    }
+    father[propertyName] = value;
+}
+
+function silentChangeElement(element, propertyName, value) {
+    var listener = element.listeners[propertyName];
+    listener.watch();
+    element.father[propertyName] = value;
+    updateListenerElement(element, listener, propertyName);
+}
+
+function onPropertyChange(prop, father) {
+    return function (newVal) {
+        globalListener.TrackChanges(father, prop, newVal);
+    };
+}
+
+function Silenter(father) {
+    this.father = father;
+    this.listeners = {};
+}
+
+function createListener(element, propertyName) {
+    var silenter = element[silenterProperty];
+    if (!silenter) {
+        silenter = new Silenter(element);
+        Object.defineProperty(element, silenterProperty, { value: silenter, configurable: true });
+    }
+    createElement(silenter, propertyName, onPropertyChange(propertyName, element));
+}
+
+function createElement(element, propertyName, callback) {
+    var listener = { callback: callback };
+    updateListenerElement(element, listener, propertyName);
+    element.listeners[propertyName] = listener;
+}
+
+function updateListenerElement(element, listener, propertyName) {
+    listener.watch = (0, _mobx.observe)(element.father, propertyName, change => {
+        listener.callback(change.newValue);
+    });
+}
+
+function updateArray(array) {
+    var changeListener = collectionListener(array);
+    var listener = array.subscribe(changeListener);
+    array.silentSplice = function () {
+        listener();
+        var res = array.splice.apply(array, arguments);
+        listener = array.subscribe(changeListener);
+        return res;
+    };
+}
+
+function collectionListener(object) {
+    return function (changes) {
+        var arg_value = [],
+            arg_status = [],
+            arg_index = [];
+        var length = changes.length;
+        for (var i = 0; i < length; i++) {
+            arg_value.push(changes[i].value);
+            arg_status.push(changes[i].status);
+            arg_index.push(changes[i].index);
+        }
+        globalListener.TrackCollectionChanges(object, arg_value, arg_status, arg_index);
+    };
+}
+
+function updateVm(vm) {
+    return (0, _visiter.visitObject)(vm, createListener, updateArray);
+}
+
+function unListen(items) {
+    const arrayCount = items.length;
+    for (var i = 0; i < arrayCount; i++) {
+        const father = items[i];
+        const silenter = father[silenterProperty];
+        if (!silenter) continue;
+
+        disposeElement(silenter);
+        delete father[silenterProperty];
+    }
+}
+
+function disposeElement(element) {
+    var listeners = element.listeners;
+    for (var property in listeners) {
+        var listener = listeners[property];
+        listener.watch();
+    }
+    element.listeners = {};
+}
+
+function silentSplice() {
+    const [array, ...args] = arguments;
+    var mappedArray = (0, _visiter.getMapped)(array._MappedId);
+    if (!mappedArray) return;
+
+    mappedArray.silentSplice.apply(mappedArray, args);
+}
+
+function clearCollection(array) {
+    var mappedArray = (0, _visiter.getMapped)(array._MappedId);
+    if (!mappedArray) return;
+
+    mappedArray.clear();
+}
+
+const helper = {
+    silentChange,
+    silentChangeUpdate,
+    silentSplice,
+    register(vm, listener) {
+        globalListener = listener;
+
+        updateVm(vm);
+
+        window._vm = vm;
+        fufillOnReady(null);
+    },
+    updateVm,
+    unListen,
+    ready,
+    clearCollection
+};
+
+module.exports = helper;
+
+/***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
@@ -3927,9 +3979,6 @@ function isFunction(obj) {
 }
 
 var updateSubject = function (subject, callBack) {
-
-    if (!subject || !Array.isArray(subject)) throw new Error("subject should be an array");
-
     if (!callBack || !isFunction(callBack)) throw new Error("callBack should be a function");
 
     if (!!subject.addCallBack) {
@@ -4139,41 +4188,61 @@ module.exports = {
 "use strict";
 
 
-var visited = new Map();
-visited.set(undefined, null);
+var _mobx = __webpack_require__(0);
 
-function visitObject(vm, onNew, visit, visitArray) {
+const visited = new Map();
+
+function getMapped(id) {
+    return visited.get(id);
+}
+
+function visitObject(vm, visit, visitArray) {
     "use strict";
 
-    if (!vm || visited.has(vm._MappedId)) return;
+    if (!vm) return vm;
 
-    visited.set(vm._MappedId, vm);
+    const currentId = vm._MappedId;
+    if (!currentId) return vm;
+
+    const cached = visited.get(currentId);
+    if (cached) return cached;
 
     if (Array.isArray(vm)) {
-        visitArray(vm);
+        const updated = (0, _mobx.observable)([]);
+        updated._MappedId = currentId;
+        visited.set(currentId, updated);
+
+        const updating = [];
         const arrayCount = vm.length;
         for (var i = 0; i < arrayCount; i++) {
             const value = vm[i];
-            visitObject(value, onNew, visit, visitArray);
+            const child = visitObject(value, visit, visitArray);
+            updating.push(child);
         }
-        return;
+        updated.replace(updating);
+        visitArray(updated);
+        return updated;
     }
 
-    onNew(vm);
+    visited.set(currentId, vm);
 
     const needVisitSelf = !vm.__readonly__;
-
     for (var property in vm) {
         var value = vm[property];
         if (typeof value === "function") continue;
 
+        var updater = {};
+        updater[property] = visitObject(value, visit, visitArray);
+        (0, _mobx.extendObservable)(vm, updater);
+
         if (needVisitSelf) {
             visit(vm, property);
         }
-        visitObject(value, onNew, visit, visitArray);
     }
+    return vm;
 }
-module.exports = { visitObject };
+
+module.exports = { visitObject, getMapped };
 
 /***/ })
 /******/ ]);

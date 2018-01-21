@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MoreCollection.Extensions;
 using Neutronium.Core;
+using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
@@ -29,45 +30,63 @@ namespace Neutronium.JavascriptFramework.mobx
 
         public void AddProperty(IJavascriptObject father, string propertyName, IJavascriptObject value) 
         {
-            throw new NotImplementedException();
+            _Logger.Error($"Feature Not suported by mobx adapter. Not able to update object{father} adding property {propertyName} value: {value}.");
         }
 
         public void ClearAllCollection(IJavascriptObject array)
         {
-            throw new NotImplementedException();
+            Updater.ClearCollection.ExecuteFunctionNoResult(_WebView, null, array);
         }
 
         public void InjectDetached(IJavascriptObject javascriptObject) 
         {
-            throw new NotImplementedException();
+            UpdateVm(javascriptObject);
+        }
+
+        public void UnListen(IEnumerable<IJavascriptObject> elementsToUnlisten)
+        {
+            var unlisten = Updater.UnListen;
+            _WebView.Slice(elementsToUnlisten).ForEach(elements => unlisten.ExecuteFunctionNoResult(_WebView, null, elements));
         }
 
         public void MoveCollectionItem(IJavascriptObject array, IJavascriptObject item, int oldIndex, int newIndex)
         {
-            throw new NotImplementedException();
+            SilentSplice(array, oldIndex, 1);
+            SilentSplice(array, newIndex, 0, item);
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject item)
         {
-            throw new NotImplementedException();
+            SilentSplice(array, index, number, item);
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)
         {
-            throw new NotImplementedException();
+            SilentSplice(array, index, number);
         }
 
-        public void UnListen(IEnumerable<IJavascriptObject> elementsToUnlisten) 
+        private void SilentSplice(IJavascriptObject array, int firstArgument, int secondArgument, IJavascriptObject item)
         {
-            throw new NotImplementedException();
+            Updater.SilentSplice.ExecuteFunctionNoResult(_WebView, null, array, _WebView.Factory.CreateInt(firstArgument), _WebView.Factory.CreateInt(secondArgument), item);
+            UpdateVm(item);
+        }
+
+        private void SilentSplice(IJavascriptObject array, int firstArgument, int secondArgument)
+        {
+            Updater.SilentSplice.ExecuteFunctionNoResult(_WebView, null, array, _WebView.Factory.CreateInt(firstArgument), _WebView.Factory.CreateInt(secondArgument));
+        }
+
+        private void UpdateVm(IJavascriptObject value)
+        {
+            Updater.UpdateVm.ExecuteFunctionNoResult(_WebView, value);
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)
         {
             var updater = Updater;
             var property = _Properties.GetOrAddEntity(propertyName, CreateProperty);
-            updater.Change.ExecuteFunctionNoResult(_WebView, null, GetArgumentsforUpdate(father, property, value));
-
+            var changer = childAllowWrite ? updater.SilentChangeUpdate : updater.SilentChange;
+            changer.ExecuteFunctionNoResult(_WebView, null, GetArgumentsforUpdate(father, property, value));
         }
 
         private IJavascriptObject CreateProperty(string propertyName) => _WebView.Factory.CreateString(propertyName);

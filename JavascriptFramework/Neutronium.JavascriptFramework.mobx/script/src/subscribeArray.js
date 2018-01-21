@@ -3,10 +3,6 @@ function isFunction(obj) {
 }
 
 var updateSubject = function (subject, callBack) {
-
-    if ((!subject) || (!Array.isArray(subject)))
-        throw new Error("subject should be an array");
-
     if ((!callBack) || (!isFunction(callBack)))
         throw new Error("callBack should be a function");
 

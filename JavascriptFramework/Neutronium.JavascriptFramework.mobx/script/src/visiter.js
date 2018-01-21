@@ -1,36 +1,58 @@
-var visited = new Map();
-visited.set(undefined, null);
+import { extendObservable, observable } from "mobx";
 
-function visitObject(vm, onNew, visit, visitArray) {
+const visited = new Map();
+
+function getMapped(id) {
+    return visited.get(id);
+}
+
+function visitObject(vm, visit, visitArray) {
     "use strict";
-    if (!vm || visited.has(vm._MappedId))
-        return;
+    if (!vm)
+        return vm;
 
-    visited.set(vm._MappedId, vm);
+    const currentId = vm._MappedId
+    if (!currentId)
+        return vm;
+
+    const cached = visited.get(currentId);
+    if (cached)
+        return cached;
 
     if (Array.isArray(vm)) {
-        visitArray(vm);
+        const updated = observable([]);
+        updated._MappedId = currentId;
+        visited.set(currentId, updated);
+
+        const updating = []
         const arrayCount = vm.length;
         for (var i = 0; i < arrayCount; i++) {
             const value = vm[i];
-            visitObject(value, onNew, visit, visitArray);
+            const child = visitObject(value, visit, visitArray);
+            updating.push(child);
         }
-        return;
+        updated.replace(updating);
+        visitArray(updated);
+        return updated;
     }
 
-    onNew(vm);
+    visited.set(currentId, vm);
 
     const needVisitSelf = !vm.__readonly__;
-
     for (var property in vm) {
         var value = vm[property];
         if (typeof value === "function")
             continue;
 
+        var updater = {}
+        updater[property] = visitObject(value, visit, visitArray);
+        extendObservable(vm, updater)
+
         if (needVisitSelf) {
             visit(vm, property);
         }
-        visitObject(value, onNew, visit, visitArray);
     }
+    return vm;
 }
-module.exports = { visitObject }
+
+module.exports = { visitObject, getMapped }

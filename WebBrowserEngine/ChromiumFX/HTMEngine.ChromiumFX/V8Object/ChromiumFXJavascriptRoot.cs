@@ -68,7 +68,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.V8Object
         {
             var function = _CfrV8Value.GetValue(functionName);
             var res = function.ExecuteFunction(_CfrV8Value, parameters.Convert());
-            res.Dispose();
+            res?.Dispose();
         }
 
         public Task<IJavascriptObject> InvokeAsync(string functionName, IWebView context, params IJavascriptObject[] parameters) 

@@ -4,17 +4,21 @@ namespace Neutronium.JavascriptFramework.mobx
 {
     public class MobxVmUpdater
     {
-        internal IJavascriptObject ChangeAndInject { get; }
-        internal IJavascriptObject Change { get; }
-        internal IJavascriptObject AddProperty { get; }
-        internal IJavascriptObject InjectDetached { get; }
+        internal IJavascriptObject SilentChange { get; }
+        internal IJavascriptObject SilentChangeUpdate { get; }
+        internal IJavascriptObject SilentSplice { get; }
+        internal IJavascriptObject UpdateVm { get; }
+        internal IJavascriptObject UnListen { get; }
+        internal IJavascriptObject ClearCollection { get; }
 
         internal MobxVmUpdater(IJavascriptObject helper)
         {
-            ChangeAndInject = helper.GetValue("silentChangeAndInject");
-            Change = helper.GetValue("silentChange");
-            AddProperty = helper.GetValue("addProperty");
-            InjectDetached = helper.GetValue("injectDetached");
+            SilentChange = helper.GetValue("silentChange");
+            SilentChangeUpdate = helper.GetValue("silentChangeUpdate");
+            SilentSplice = helper.GetValue("silentSplice");
+            UpdateVm = helper.GetValue("updateVm");
+            UnListen = helper.GetValue("unListen");
+            ClearCollection = helper.GetValue("clearCollection");
         }
     }
 }

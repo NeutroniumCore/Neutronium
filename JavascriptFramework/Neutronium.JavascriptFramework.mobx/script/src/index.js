@@ -1,10 +1,11 @@
-import { extendObservable, autorun } from 'mobx';
+import { extendObservable, observe, observable } from 'mobx';
 import { subscribe } from './subscribeArray';
-import { visitObject } from './visiter'
+import { visitObject, getMapped } from './visiter'
 
 console.log('mobx adapter loaded');
 
-Object.defineProperty(Array.prototype, 'subscribe', {
+const observableArrayPrototype = Object.getPrototypeOf(observable([]))
+Object.defineProperty(observableArrayPrototype, 'subscribe', {
     value: subscribe
 });
 
@@ -17,7 +18,16 @@ var ready = new Promise(function (fullfill) {
 });
 
 function silentChange(father, propertyName, value) {
-    updateVm(value)
+    const silenter = father[silenterProperty];
+    if (silenter) {
+        silentChangeElement(silenter, propertyName, value);
+        return;
+    }
+    father[propertyName] = value;
+}
+
+function silentChangeUpdate(father, propertyName, value) {
+    value = updateVm(value)
     const silenter = father[silenterProperty];
     if (silenter) {
         silentChangeElement(silenter, propertyName, value);
@@ -60,18 +70,20 @@ function createElement(element, propertyName, callback) {
 }
 
 function updateListenerElement(element, listener, propertyName) {
-    listener.watch = autorun(() => listener.callback(element.father[propertyName]))
+    listener.watch = observe(element.father, propertyName, (change) => {
+        listener.callback(change.newValue)
+    })
 }
 
 function updateArray(array) {
-    // var changelistener = collectionListener(array);
-    // var listener = array.subscribe(changelistener);
-    // array.silentSplice = function () {
-    //     listener();
-    //     var res = array.splice.apply(array, arguments);
-    //     listener = array.subscribe(changelistener);
-    //     return res;
-    // };
+    var changeListener = collectionListener(array);
+    var listener = array.subscribe(changeListener);
+    array.silentSplice = function () {
+        listener();
+        var res = array.splice.apply(array, arguments);
+        listener = array.subscribe(changeListener);
+        return res;
+    };
 }
 
 function collectionListener(object) {
@@ -88,21 +100,64 @@ function collectionListener(object) {
 }
 
 function updateVm(vm) {
-    visitObject(vm, (obj) => extendObservable(obj, obj), createListener, updateArray)
+    return visitObject(vm, createListener, updateArray)
+}
+
+function unListen(items) {
+    const arrayCount = items.length;
+    for (var i = 0; i < arrayCount; i++) {
+        const father = items[i];
+        const silenter = father[silenterProperty];
+        if (!silenter)
+            continue;
+
+        disposeElement(silenter);
+        delete father[silenterProperty];
+    }
+}
+
+function disposeElement(element) {
+    var listeners = element.listeners;
+    for (var property in listeners) {
+        var listener = listeners[property];
+        listener.watch();
+    }
+    element.listeners = {};
+}
+
+function silentSplice() {
+    const [array, ...args] = arguments
+    var mappedArray = getMapped(array._MappedId)
+    if (!mappedArray)
+        return
+
+    mappedArray.silentSplice.apply(mappedArray, args)
+}
+
+function clearCollection(array) {
+    var mappedArray = getMapped(array._MappedId)
+    if (!mappedArray)
+        return
+
+    mappedArray.clear();
 }
 
 const helper = {
     silentChange,
+    silentChangeUpdate,
+    silentSplice,
     register(vm, listener) {
         globalListener = listener;
 
         updateVm(vm);
 
         window._vm = vm;
-        autorun(() => console.log(JSON.stringify(vm, null, 2)))
         fufillOnReady(null)
     },
-    ready
+    updateVm,
+    unListen,
+    ready,
+    clearCollection
 }
 
 module.exports = helper

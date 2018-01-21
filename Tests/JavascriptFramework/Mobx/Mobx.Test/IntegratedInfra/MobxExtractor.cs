@@ -24,7 +24,8 @@ namespace Mobx.Test.IntegratedInfra
 
         public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename)
         {
-            return GetAttribute(value, attibutename);
+            var almost = GetAttribute(value, attibutename);
+            return almost.Invoke("slice",_WebView);
         }
 
         public double GetDoubleAttribute(IJavascriptObject value, string attibutename)
