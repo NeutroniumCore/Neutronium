@@ -1,13 +1,7 @@
-import { extendObservable, observe, observable } from 'mobx';
-import { subscribe } from './subscribeArray';
+import { extendObservable, observe } from 'mobx';
 import { visitObject, getMapped } from './visiter'
 
 console.log('mobx adapter loaded');
-
-const observableArrayPrototype = Object.getPrototypeOf(observable([]))
-Object.defineProperty(observableArrayPrototype, 'subscribe', {
-    value: subscribe
-});
 
 const silenterProperty = '__silenter';
 var globalListener;
@@ -77,26 +71,42 @@ function updateListenerElement(element, listener, propertyName) {
 
 function updateArray(array) {
     var changeListener = collectionListener(array);
-    var listener = array.subscribe(changeListener);
+    var listener = observe(array, changeListener);
     array.silentSplice = function () {
         listener();
         var res = array.splice.apply(array, arguments);
-        listener = array.subscribe(changeListener);
+        listener = observe(array, changeListener);
         return res;
     };
 }
 
 function collectionListener(object) {
     return function (changes) {
+        const neutroniumChanges = getChanges(changes);
         var arg_value = [], arg_status = [], arg_index = [];
-        var length = changes.length;
+        var length = neutroniumChanges.length;
         for (var i = 0; i < length; i++) {
-            arg_value.push(changes[i].value);
-            arg_status.push(changes[i].status);
-            arg_index.push(changes[i].index);
+            arg_value.push(neutroniumChanges[i].value);
+            arg_status.push(neutroniumChanges[i].status);
+            arg_index.push(neutroniumChanges[i].index);
         }
         globalListener.TrackCollectionChanges(object, arg_value, arg_status, arg_index);
     };
+}
+
+function getChanges(changes) {
+    switch (changes.type) {
+        case "splice":
+            var index = changes.index;
+            const deleted = changes.removed.map(d => ({ index: index++, value: d, status: 'deleted' }));
+            const added = changes.added.map(d => ({ index: index++, value: d, status: 'added' }));
+            return deleted.concat(added);
+
+        case "update":
+            var index = changes.index;
+            return [{ index, value: changes.oldValue, status: 'deleted' },
+                    { index, value: changes.newValue, status: 'added' }];
+    }
 }
 
 function updateVm(vm) {

@@ -12,7 +12,7 @@ namespace Neutronium.JavascriptFramework.mobx
 
         public string FrameworkVersion => "v3.4.1";
 
-        public string Name => "MobxVersion";
+        public string Name => "MobxFrameworkManager";
 
         public bool IsMappingObject => false;
 

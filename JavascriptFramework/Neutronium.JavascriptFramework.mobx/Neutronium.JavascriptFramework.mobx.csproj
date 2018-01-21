@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="script\src\index.js" />
+    <Content Include="script\src\visiter.js" />
     <Content Include="script\webpack.config.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
