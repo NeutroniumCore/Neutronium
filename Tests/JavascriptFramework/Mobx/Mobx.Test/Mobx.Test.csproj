@@ -96,6 +96,10 @@
       <Link>TestHtml\javascript\src\mobxManager.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\..\JavascriptFramework\Neutronium.JavascriptFramework.mobx\script\node_modules\mobx\lib\mobx.umd.min.js">
+      <Link>TestHtml\javascript\src\mobx.umd.min.js</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestHtml\javascript\almost_empty.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -124,6 +128,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestHtml\javascript\simple.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestHtml\javascript\src\index.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestHtml\javascript\src\objectAssignPolyFill.js">

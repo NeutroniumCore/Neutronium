@@ -71,6 +71,7 @@
     <EmbeddedResource Include="script\dist\mobxManager.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="script\node_modules\mobx\lib\mobx.umd.min.js" />
     <Content Include="script\src\index.js" />
     <Content Include="script\src\visiter.js" />
     <Content Include="script\webpack.config.js" />

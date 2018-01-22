@@ -153,18 +153,24 @@ function clearCollection(array) {
     mappedArray.clear();
 }
 
+const updaters = []
+
+function onVmInjected(updater) {
+    updaters.push(updater)
+}
+
 const helper = {
     silentChange,
     silentChangeUpdate,
     silentSplice,
     register(vm, listener) {
         globalListener = listener;
-
         updateVm(vm);
-
+        updaters.forEach(up => up(vm));
+        fulfillOnReady(vm)
         window._vm = vm;
-        fulfillOnReady(null)
     },
+    onVmInjected,
     updateVm,
     unListen,
     ready,

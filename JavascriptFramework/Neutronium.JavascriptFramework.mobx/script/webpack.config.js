@@ -24,6 +24,9 @@ var webpackOptions = {
       }
     ]
   },
+  externals : {
+    'mobx': 'mobx'
+  },
   devServer: {
     historyApiFallback: true,
     noInfo: true

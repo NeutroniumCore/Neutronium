@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using MoreCollection.Extensions;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
@@ -28,14 +32,24 @@ namespace Neutronium.JavascriptFramework.mobx
             throw new NotImplementedException();
         }
 
-        public string GetMainScript(bool debugContext) {
+        public string GetMainScript(bool debugContext)
+        {
             var resourceLoader = GetResourceReader();
-            return resourceLoader.Load("mobxManager.js");
+            var builder = _JavascriptFiles.Aggregate(new StringBuilder(), 
+                            (sb, fn) => sb.Append(resourceLoader.Load(fn)).AppendLine());
+
+            return builder.ToString();
         }
+
+        private static readonly string[] _JavascriptFiles = 
+        {
+            "node_modules.mobx.lib.mobx.umd.min.js",
+            "dist.mobxManager.js"
+        };
 
         private ResourceReader GetResourceReader() 
         {
-            return new ResourceReader("script.dist", this);
+            return new ResourceReader("script", this);
         }
     }
 }
