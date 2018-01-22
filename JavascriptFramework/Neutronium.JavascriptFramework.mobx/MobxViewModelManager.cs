@@ -30,7 +30,7 @@ namespace Neutronium.JavascriptFramework.mobx
         {
             var mobxHelper = _WebView.GetGlobal().GetValue("mobxManager");
             if ((mobxHelper == null) || (mobxHelper.IsUndefined))
-                throw ExceptionHelper.Get("mobxHelper not found!");
+                throw ExceptionHelper.Get("mobxManager not found!");
 
             return mobxHelper;
         }

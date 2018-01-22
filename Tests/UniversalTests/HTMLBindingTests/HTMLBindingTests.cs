@@ -2043,7 +2043,6 @@ namespace Tests.Universal.HTMLBindingTests
             bool canexecute = true;
             _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
 
-
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
