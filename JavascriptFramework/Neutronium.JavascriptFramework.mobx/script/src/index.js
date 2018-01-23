@@ -58,7 +58,7 @@ function createListener(element, propertyName) {
 }
 
 function createElement(element, propertyName, callback) {
-    var listener = { callback: callback };
+    var listener = { callback };
     updateListenerElement(element, listener, propertyName);
     element.listeners[propertyName] = listener;
 }

@@ -1691,10 +1691,13 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeTrue();
 
-                    command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(false);
-                    command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+                    DoSafeUI(() =>
+                    {
+                        command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(false);
+                        command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+                    });
 
-                    await Task.Delay(100);
+                    await Task.Delay(200);
 
                     mycommand = GetAttribute(js, "AutoCommand");
                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
@@ -2294,7 +2297,7 @@ namespace Tests.Universal.HTMLBindingTests
         private IJavascriptObject GetCallBackObject()
         {
             IJavascriptObject cb = null;
-            bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
+            bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res= res; }, reject: function(err){window.err=err;}}; })();", out cb);
 
             res.Should().BeTrue();
             cb.Should().NotBeNull();
@@ -2431,6 +2434,8 @@ namespace Tests.Universal.HTMLBindingTests
                     Call(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
                     await Task.Delay(700);
+
+                    DoSafeUI(() => { });
 
                     var resvalue = _WebView.GetGlobal().GetValue("res");
 
