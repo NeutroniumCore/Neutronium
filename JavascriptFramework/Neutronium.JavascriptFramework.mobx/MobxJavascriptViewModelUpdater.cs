@@ -78,7 +78,7 @@ namespace Neutronium.JavascriptFramework.mobx
 
         private void UpdateVm(IJavascriptObject value)
         {
-            Updater.UpdateVm.ExecuteFunctionNoResult(_WebView, value);
+            Updater.UpdateVm.ExecuteFunctionNoResult(_WebView, null, value);
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)

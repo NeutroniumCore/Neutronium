@@ -29,7 +29,6 @@ namespace Neutronium.JavascriptFramework.mobx
 
         public void DebugVm(Action<string> runJavascript, Action<string, int, int, Func<IWebView, IWebView, IDisposable>> openNewWindow) 
         {
-            throw new NotImplementedException();
         }
 
         public string GetMainScript(bool debugContext)

@@ -2433,13 +2433,11 @@ namespace Tests.Universal.HTMLBindingTests
 
                     Call(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
-                    await Task.Delay(700);
+                    await Task.Delay(200);
 
                     DoSafeUI(() => { });
 
                     var resvalue = _WebView.GetGlobal().GetValue("res");
-
-                    await Task.Delay(100);
 
                     var originalValue = GetAttribute(resvalue, nameof(BasicTestViewModel.Value)).GetIntValue();
 
