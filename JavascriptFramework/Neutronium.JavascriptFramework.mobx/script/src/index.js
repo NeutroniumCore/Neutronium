@@ -114,7 +114,8 @@ function updateVm(vm) {
     return visitObject(vm, createListener, updateArray)
 }
 
-function unListen(items) {
+function unListen() {
+    const [...items] = arguments
     const arrayCount = items.length;
     for (var i = 0; i < arrayCount; i++) {
         const father = items[i];

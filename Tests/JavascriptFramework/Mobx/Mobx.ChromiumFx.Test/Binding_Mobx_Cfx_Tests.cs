@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 namespace Mobx.ChromiumFx.Test
 {
     [Collection("Mobx Windowless Integrated")]
-    public class Binding_Mobx_Tests : HtmlBindingTests
+    public class Binding_Mobx_Cfx_Tests : HtmlBindingTests
     {
-        public Binding_Mobx_Tests(MobxVueContext testEnvironment, ITestOutputHelper output) :
+        public Binding_Mobx_Cfx_Tests(MobxVueContext testEnvironment, ITestOutputHelper output) :
             base(testEnvironment, output)
         {
         }

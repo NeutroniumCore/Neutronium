@@ -120,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegratedInfra\HTMLBindingVuePerformanceTests.cs" />
-    <Compile Include="IntegratedInfra\HTMLVueBindingTests.cs" />
     <Compile Include="IntegratedInfra\VueExtractor.cs" />
     <Compile Include="IntegratedInfra\VueFrameworkTestContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FluentAssertions;
+using Neutronium.Core;
+using Neutronium.Core.Binding;
 using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
@@ -14,6 +17,20 @@ namespace Tests.Universal.HTMLBindingTests
     {
         protected readonly Person _DataContext;
         protected ICommand _ICommand;
+
+        public static IEnumerable<object> BasicVmData
+        {
+            get
+            {
+                yield return new object[] { new BasicTestViewModel() };
+                yield return new object[] { null };
+            }
+        }
+
+        protected Task<IHtmlBinding> Bind(HtmlViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        {
+            return HtmlBinding.Bind(engine, dataContext, mode);
+        }
 
         protected HtmlBindingBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)

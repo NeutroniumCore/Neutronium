@@ -111,6 +111,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingLifeCycleTests.cs" />
     <Compile Include="Helper\ChangingCollectionViewModel.cs" />
     <Compile Include="Helper\SimpleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

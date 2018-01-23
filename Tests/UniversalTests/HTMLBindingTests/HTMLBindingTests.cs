@@ -22,7 +22,6 @@ using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Universal.HTMLBindingTests.Helper;
-using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Test.Helper;
 using Neutronium.MVVMComponents.Relay;
@@ -3072,15 +3071,6 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        public static IEnumerable<object> BasicVmData
-        {
-            get
-            {
-                yield return new object[] { new BasicTestViewModel() };
-                yield return new object[] { null };
-            }
-        }
-
         [Theory]
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_should_unlisten_when_changing_property(BasicTestViewModel remplacementChild)
@@ -3483,11 +3473,6 @@ namespace Tests.Universal.HTMLBindingTests
                     Set(ref _MagicNumber, value);
                 }
             }
-        }
-
-        protected Task<IHtmlBinding> Bind(HtmlViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
-        {
-            return HtmlBinding.Bind(engine, dataContext, mode);
         }
 
         [Fact]

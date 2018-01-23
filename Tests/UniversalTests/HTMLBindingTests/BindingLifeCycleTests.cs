@@ -1,24 +1,23 @@
-﻿using FluentAssertions;
-using Neutronium.Core;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Neutronium.Core.Test.Helper;
-using Tests.Infra.IntegratedContextTesterHelper.Windowless;
-using Tests.Universal.HTMLBindingTests;
-using Xunit;
-using Xunit.Abstractions;
 using System.Dynamic;
+using System.Threading.Tasks;
+using FluentAssertions;
+using Neutronium.Core;
+using Neutronium.Core.Test.Helper;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 using NSubstitute;
+using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
+using Xunit;
+using Xunit.Abstractions;
 
-namespace VueFramework.Test.IntegratedInfra 
+namespace Tests.Universal.HTMLBindingTests 
 {
-    public abstract class HtmlVueBindingTests : HtmlBindingTests 
+    public abstract class BindingLifeCycleTests : HtmlBindingBase
     {
-        protected HtmlVueBindingTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
+        protected BindingLifeCycleTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
             : base(context, output) {}
 
         private void CheckReadOnly(IJavascriptObject javascriptObject, bool isReadOnly) 
@@ -259,7 +258,8 @@ namespace VueFramework.Test.IntegratedInfra
 
                     CheckReadOnly(childJs, false);
 
-                    Call(childrenJs, "pop");
+                    var operabelCollection = GetAttribute(js, "Children");
+                    Call(operabelCollection, "pop");
 
                     await Task.Delay(150);
 

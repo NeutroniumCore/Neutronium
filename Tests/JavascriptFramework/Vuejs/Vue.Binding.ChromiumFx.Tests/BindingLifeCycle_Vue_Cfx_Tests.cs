@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 namespace Vue.Binding.ChromiumFx.Tests
 {
     [Collection("Cfx Vue Windowless Integrated")]
-    public class Binding_Vue_Cfx_Tests : HtmlBindingTests
+    public class BindingLifeCycle_Vue_Cfx_Tests : BindingLifeCycleTests
     {
-        public Binding_Vue_Cfx_Tests(CfxVueContext context, ITestOutputHelper output)
+        public BindingLifeCycle_Vue_Cfx_Tests(CfxVueContext context, ITestOutputHelper output)
             : base(context, output)
         {
         }

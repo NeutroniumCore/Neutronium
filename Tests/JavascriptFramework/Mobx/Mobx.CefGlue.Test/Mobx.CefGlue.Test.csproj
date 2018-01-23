@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding_Mobx_Cef_Tests.cs" />
+    <Compile Include="BindingLifeCycle_Mobx_Cef_Tests.cs" />
     <Compile Include="Infra\CefGlueMobxContext.cs" />
     <Compile Include="Infra\CefGlueMoxContextFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 namespace Vue.Binding.CefGlue.Tests
 {
     [Collection("Cef Vue Windowless Integrated")]
-    public class BindingLifeCycle_Vue_Cef_Tests : BindingLifeCycleTests
+    public class Binding_Vue_Cef_Tests : HtmlBindingTests
     {
-        public BindingLifeCycle_Vue_Cef_Tests(CefGlueVueContext context, ITestOutputHelper output)
+        public Binding_Vue_Cef_Tests(CefGlueVueContext context, ITestOutputHelper output)
             : base(context, output)
         {
         }

@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingLifeCycle_Vue_Cfx_Tests.cs" />
     <Compile Include="Infra\CfxVueContext.cs" />
     <Compile Include="Infra\CfxVueContextFixture.cs" />
     <Compile Include="BindingPerformance_Vue_Cfx_Tests.cs" />

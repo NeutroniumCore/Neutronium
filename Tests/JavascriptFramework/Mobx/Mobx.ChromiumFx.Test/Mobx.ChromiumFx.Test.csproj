@@ -62,7 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Binding_Mobx_Tests.cs" />
+    <Compile Include="BindingLifeCycle_Mobx_Cfx_Tests.cs" />
+    <Compile Include="Binding_Mobx_Cfx_Tests.cs" />
     <Compile Include="Infra\MobxVueContext.cs" />
     <Compile Include="Infra\MobxVueContextFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
