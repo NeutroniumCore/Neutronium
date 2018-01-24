@@ -40,7 +40,7 @@ namespace Mobx.Test.IntegratedInfra
 
         public void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
         {
-            throw new NotImplementedException();
+            _WebView.Run(() => father.SetValue(attibutename, value));
         }
 
         public string GetStringAttribute(IJavascriptObject value, string attibutename)

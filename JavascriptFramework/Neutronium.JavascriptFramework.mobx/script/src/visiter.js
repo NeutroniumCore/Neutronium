@@ -38,7 +38,6 @@ function visitObject(vm, visit, visitArray) {
 
     visited.set(currentId, vm);
 
-    const needVisitSelf = !vm.__readonly__;
     for (var property in vm) {
         var value = vm[property];
         if (typeof value === "function")
@@ -47,11 +46,12 @@ function visitObject(vm, visit, visitArray) {
         var updater = {}
         updater[property] = visitObject(value, visit, visitArray);
         extendObservable(vm, updater)
-
-        if (needVisitSelf) {
-            visit(vm, property);
-        }
     }
+
+    if (!vm.__readonly__) {
+        visit(vm, property);
+    }
+    
     return vm;
 }
 

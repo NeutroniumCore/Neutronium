@@ -15,7 +15,6 @@ function addProperty(father, propertyName, value) {
     const updater = {};
     updater[propertyName] = updateVm(value);
     extendObservable(father, updater)
-    createListener(father, propertyName)
 }
 
 function silentChange(father, propertyName, value) {
@@ -38,41 +37,38 @@ function silentChangeUpdate(father, propertyName, value) {
 }
 
 function silentChangeElement(element, propertyName, value) {
-    var listener = element.listeners[propertyName];
+    const listener = element.listener;
     listener.watch();
-    element.father[propertyName] = value;
-    updateListenerElement(element, listener, propertyName);
+    runInAction(() => element.father[propertyName] = value);
+    updateListenerElement(element, listener);
 }
 
-function onPropertyChange(prop, father) {
-    return function (newVal) {
-        globalListener.TrackChanges(father, prop, newVal);
+function onPropertyChange(father) {
+    return function (propertyName, newVal) {
+        globalListener.TrackChanges(father, propertyName, newVal);
     };
 }
 
 function Silenter(father) {
     this.father = father;
-    this.listeners = {};
+    this.listener = null;
 }
 
-function createListener(element, propertyName) {
-    var silenter = element[silenterProperty];
-    if (!silenter) {
-        silenter = new Silenter(element);
-        Object.defineProperty(element, silenterProperty, { value: silenter, configurable: true });
-    }
-    createElement(silenter, propertyName, onPropertyChange(propertyName, element));
+function createListener(element) {
+    const silenter = new Silenter(element);
+    Object.defineProperty(element, silenterProperty, { value: silenter, configurable: true });
+    createElement(silenter, onPropertyChange(element));
 }
 
-function createElement(element, propertyName, callback) {
+function createElement(element, callback) {
     var listener = { callback };
-    updateListenerElement(element, listener, propertyName);
-    element.listeners[propertyName] = listener;
+    updateListenerElement(element, listener);
+    element.listener = listener;
 }
 
-function updateListenerElement(element, listener, propertyName) {
-    listener.watch = observe(element.father, propertyName, (change) => {
-        listener.callback(change.newValue)
+function updateListenerElement(element, listener) {
+    listener.watch = observe(element.father, (change) => {
+        listener.callback(change.name, change.newValue)
     })
 }
 
