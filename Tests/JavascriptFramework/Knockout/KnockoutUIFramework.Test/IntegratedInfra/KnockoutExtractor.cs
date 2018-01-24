@@ -22,6 +22,11 @@ namespace KnockoutFramework.Test.IntegratedInfra
             return almost.ExecuteFunction(_WebView);
         }
 
+        public void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string GetStringAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetStringValue());

@@ -10,9 +10,11 @@ namespace Neutronium.JavascriptFramework.mobx
         internal IJavascriptObject UpdateVm { get; }
         internal IJavascriptObject UnListen { get; }
         internal IJavascriptObject ClearCollection { get; }
+        internal IJavascriptObject AddProperty { get; }
 
         internal MobxVmUpdater(IJavascriptObject helper)
         {
+            AddProperty = helper.GetValue("addProperty");
             SilentChange = helper.GetValue("silentChange");
             SilentChangeUpdate = helper.GetValue("silentChangeUpdate");
             SilentSplice = helper.GetValue("silentSplice");

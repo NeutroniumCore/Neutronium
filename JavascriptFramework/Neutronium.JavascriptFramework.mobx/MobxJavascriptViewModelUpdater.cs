@@ -30,7 +30,8 @@ namespace Neutronium.JavascriptFramework.mobx
 
         public void AddProperty(IJavascriptObject father, string propertyName, IJavascriptObject value) 
         {
-            _Logger.Error($"Feature Not suported by mobx adapter. Not able to update object{father} adding property {propertyName} value: {value}.");
+            var property = _Properties.GetOrAddEntity(propertyName, CreateProperty);
+            Updater.AddProperty.ExecuteFunctionNoResult(_WebView, null, father, property, value);
         }
 
         public void ClearAllCollection(IJavascriptObject array)

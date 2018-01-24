@@ -1,4 +1,4 @@
-import { observe, runInAction } from 'mobx';
+import { observe, runInAction, extendObservable } from 'mobx';
 import { visitObject, getMapped } from './visiter'
 
 console.log('mobx adapter loaded');
@@ -10,6 +10,13 @@ var fulfillOnReady;
 var ready = new Promise(function (fulfill) {
     fulfillOnReady = fulfill;
 });
+
+function addProperty(father, propertyName, value) {
+    const updater = {};
+    updater[propertyName] = updateVm(value);
+    extendObservable(father, updater)
+    createListener(father, propertyName)
+}
 
 function silentChange(father, propertyName, value) {
     const silenter = father[silenterProperty];
@@ -161,6 +168,7 @@ function onVmInjected(updater) {
 }
 
 const helper = {
+    addProperty,
     silentChange,
     silentChangeUpdate,
     silentSplice,

@@ -38,6 +38,11 @@ namespace Mobx.Test.IntegratedInfra
             return _WebView.Evaluate(() => value.GetValue(attibutename).GetIntValue());
         }
 
+        public void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        {
+            throw new NotImplementedException();
+        }
+
         public string GetStringAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.GetValue(attibutename).GetStringValue());

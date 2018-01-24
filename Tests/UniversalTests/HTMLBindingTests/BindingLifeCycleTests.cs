@@ -399,8 +399,8 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
-                    var Vue = _WebView.GetGlobal().GetValue("Vue");
-                    Vue.InvokeNoResult("set", _WebView, js, _WebView.Factory.CreateString("ValueDouble"), _WebView.Factory.CreateDouble(49));
+
+                    AddAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
 
                     var resDouble = GetDoubleAttribute(js, "ValueDouble");
                     resDouble.Should().Be(49);
@@ -428,8 +428,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
-                    var Vue = _WebView.GetGlobal().GetValue("Vue");
-                    Vue.InvokeNoResult("set", _WebView, js, _WebView.Factory.CreateString("ValueDouble"), _WebView.Factory.CreateDouble(49));
+                    AddAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
 
                     DoSafeUI(() =>
                     {
@@ -458,8 +457,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
-                    var Vue = _WebView.GetGlobal().GetValue("Vue");
-                    Vue.InvokeNoResult("set", _WebView, js, _WebView.Factory.CreateString("ValueDouble"), _WebView.Factory.CreateDouble(49));
+                    AddAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
 
                     await Task.Delay(50);
 

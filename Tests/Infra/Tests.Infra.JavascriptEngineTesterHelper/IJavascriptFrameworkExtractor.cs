@@ -12,6 +12,8 @@ namespace Tests.Infra.JavascriptFrameworkTesterHelper
 
         void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value);
 
+        void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value);
+
         string GetStringAttribute(IJavascriptObject value, string attibutename);
 
         int GetIntAttribute(IJavascriptObject value, string attibutename);

@@ -36,6 +36,12 @@ namespace VueFramework.Test.IntegratedInfra
             return _WebView.Evaluate(() => value.GetValue(attibutename).GetIntValue());
         }
 
+        public void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        {
+            var Vue = _WebView.GetGlobal().GetValue("Vue");
+            Vue.InvokeNoResult("set", _WebView, father, _WebView.Factory.CreateString(attibutename), value);
+        }
+
         public string GetStringAttribute(IJavascriptObject value, string attibutename)
         {
             return _WebView.Evaluate(() => value.GetValue(attibutename).GetStringValue());

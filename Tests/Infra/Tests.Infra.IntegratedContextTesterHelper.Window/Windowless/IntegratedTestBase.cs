@@ -65,6 +65,11 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             _JavascriptFrameworkExtractor.SetAttribute(father, attibutename, value);
         }
 
+        protected void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        {
+            _JavascriptFrameworkExtractor.AddAttribute(father, attibutename, value);
+        }
+
         protected IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
         {
             return _JavascriptFrameworkExtractor.GetAttribute(value, attibutename);
