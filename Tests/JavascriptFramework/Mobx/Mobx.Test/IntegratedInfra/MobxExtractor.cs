@@ -40,7 +40,13 @@ namespace Mobx.Test.IntegratedInfra
 
         public void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
         {
-            _WebView.Run(() => father.SetValue(attibutename, value));
+            _WebView.Run(() =>
+            {
+                var mobx = _WebView.GetGlobal().GetValue("mobx");
+                var helper = _WebView.Factory.CreateObject(true);
+                helper.SetValue(attibutename, value);
+                mobx.InvokeNoResult("extendObservable", _WebView, father, helper);
+            });
         }
 
         public string GetStringAttribute(IJavascriptObject value, string attibutename)

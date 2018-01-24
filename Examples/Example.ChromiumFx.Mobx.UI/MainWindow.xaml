@@ -9,6 +9,6 @@
         Name="Root"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <wpf:HTMLViewControl IsDebug="{Binding ElementName=Root, Path=Debug}" Uri="{Binding ElementName=Root, Path=Uri}" JavascriptUIEngine="MobxFrameworkManager" x:Name="WcBrowser"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <wpf:HTMLViewControl IsDebug="True" Uri="{Binding ElementName=Root, Path=Uri}" JavascriptUIEngine="MobxFrameworkManager" x:Name="WcBrowser"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Window>
