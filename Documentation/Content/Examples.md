@@ -2,8 +2,18 @@
 
 # Applications Made with Neutronium
 
-## ReactiveTrader Neutronium
 
+## Kryptex
+
+Kryptex is a smart cryptocurrency mining app with bitcoin payouts (closed-source).
+https://www.kryptex.org/
+
+<img src="../images/Example/kryptex.png" width="400px"><br>
+
+See why they choosed Neutronium [here](https://github.com/NeutroniumCore/Neutronium/issues/12)
+
+
+## ReactiveTrader Neutronium
 [https://github.com/David-Desmaisons/ReactiveTrader/tree/neutronium_implementation](https://github.com/David-Desmaisons/ReactiveTrader/tree/neutronium_implementation)
 
 Alternative UI for [ReativeTrade application](https://github.com/AdaptiveConsulting/ReactiveTrader). 
@@ -12,8 +22,6 @@ Alternative UI for [ReativeTrade application](https://github.com/AdaptiveConsult
 <img src="../images/Example/reactive-trader.gif" width="650px">><br>
 <img src="../images/Example/reactive trader.png" width="650px">><br>
 <img src="../images/Example/reactive trader-2.png" width="650px">><br>
-
-
 
 
 ## Music.Cover.Finder

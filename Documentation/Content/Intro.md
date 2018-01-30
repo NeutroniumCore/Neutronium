@@ -2,15 +2,13 @@
 
 # Neutronium Documentation
 
-![hot-reload](../images/holy-grail.gif)
+* [Examples](./Examples.md)
 
-![hot-reload](../images/Example/codedependency.png)
+<img src="../images/Example/reactive-trader.gif" width="650px">><br>
 
 * [How to set up a project](./SetUp.md)
 
 * [Overview](./Overview.md)
-
-* [Examples](./Examples.md)
 
 * [Debug Tools](./Tools.md)
 
