@@ -164,6 +164,11 @@ public class Person: ViewModelBase
 The binding is done on the DataContext property just as standard WPF,
 That's it!
 
+Examples
+--------
+
+[here](./Documentation/Content/Examples.md)
+
 Get started
 ----------
 
