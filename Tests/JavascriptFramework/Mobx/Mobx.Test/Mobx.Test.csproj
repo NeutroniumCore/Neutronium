@@ -92,12 +92,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\JavascriptFramework\Neutronium.JavascriptFramework.mobx\script\dist\mobxManager.js">
-      <Link>TestHtml\javascript\src\mobxManager.js</Link>
+    <Content Include="..\..\..\..\JavascriptFramework\Neutronium.JavascriptFramework.mobx\script\dist\mobx.umd.min.js">
+      <Link>TestHtml\javascript\src\mobx.umd.min.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\..\JavascriptFramework\Neutronium.JavascriptFramework.mobx\script\node_modules\mobx\lib\mobx.umd.min.js">
-      <Link>TestHtml\javascript\src\mobx.umd.min.js</Link>
+    <Content Include="..\..\..\..\JavascriptFramework\Neutronium.JavascriptFramework.mobx\script\dist\mobxManager.js">
+      <Link>TestHtml\javascript\src\mobxManager.js</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestHtml\javascript\almost_empty.html">
