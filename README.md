@@ -35,12 +35,12 @@ Why Neutronium?
 Uses cases
 ----------
 
-* Create an application from scratch.
+* [Create an application from scratch](./Documentation/Content/UsesCases/New_project.md)
 
 * Migrate an existing WPF MVVM application to Neutronium
 
 * Use Neutronium to embed an HTML control in an WPF application
- 
+
 Main features
 -------------
  * **Reactive** to property and collection changes
