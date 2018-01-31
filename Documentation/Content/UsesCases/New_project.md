@@ -16,7 +16,8 @@ Best way to start is to install [Visual Studio Template](https://visualstudiogal
   Vue start-up project.<br/>
 Shipped with [neutronium-vue template](https://github.com/NeutroniumCore/neutronium-vue) that uses webpack to bundle javascript files.
 Use:<br/>
-  * `npm run dev` to develop application in the browser.
+  * `npm run dev` to develop application in the browser.<br>
+    In this mode, the application is using data provided by the `\data\vm.cjson` file. Use Neutronium `export` command to generate such file.
   * `npm run integrated` to serve js file in way that can be used in hot-reload mode. See below.
   * `npm run build` to create js file that while be loaded and used inNeutronium application.
 
