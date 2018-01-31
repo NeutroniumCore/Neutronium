@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MoreCollection.Extensions;
 using Neutronium.Core;
 using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
@@ -42,13 +40,13 @@ namespace Neutronium.JavascriptFramework.mobx
 
         private static readonly string[] _JavascriptFiles = 
         {
-            "node_modules.mobx.lib.mobx.umd.min.js",
-            "dist.mobxManager.js"
+            "mobx.umd.min.js",
+            "mobxManager.js"
         };
 
         private ResourceReader GetResourceReader() 
         {
-            return new ResourceReader("script", this);
+            return new ResourceReader("script.dist", this);
         }
     }
 }
