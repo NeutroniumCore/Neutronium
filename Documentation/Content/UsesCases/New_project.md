@@ -29,7 +29,7 @@ Use:<br/>
 `Test mode` is the default mode when building in debug mode.<br>
 To switch the different modes, use the Visual studio `Project Property>Debug` window:<br>
 
-<p align="center"><img src="../../images/Debug-mode.png" width="300px"><br></p>
+<p align="center"><img src="../../images/Debug-mode.png" width="700px"><br></p>
 
 * Neutronium.Vue.SPA
 This template contains all of `Neutronium Vue Application` template features. In addition, it contains:
