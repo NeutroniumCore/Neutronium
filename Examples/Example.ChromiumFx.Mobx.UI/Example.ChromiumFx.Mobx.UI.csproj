@@ -95,6 +95,16 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="View\mainview\build\asset-manifest.json" />
+    <Resource Include="View\mainview\build\main.js.map" />
+    <None Include="View\mainview\build\manifest.json" />
+    <Resource Include="View\mainview\build\static\css\main.c17080f1.css.map" />
+    <None Include="View\mainview\data\vm.cjson" />
+    <None Include="View\mainview\package-lock.json" />
+    <None Include="View\mainview\package.json" />
+    <None Include="View\mainview\public\manifest.json" />
+    <None Include="View\mainview\README.md" />
+    <None Include="View\mainview\tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -130,7 +140,33 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\dist\index.html" />
+    <Resource Include="View\mainview\build\main.js" />
+    <Content Include="View\mainview\scripts\build.js" />
+    <Content Include="View\mainview\scripts\start.js" />
+    <Content Include="View\mainview\scripts\test.js" />
+    <Content Include="View\mainview\src\App.css" />
+    <Content Include="View\mainview\src\App.js" />
+    <Content Include="View\mainview\src\App.test.js" />
+    <Content Include="View\mainview\src\index.css" />
+    <Content Include="View\mainview\src\index.js" />
+    <Content Include="View\mainview\src\logo.svg" />
+    <Content Include="View\mainview\src\mobxManager.js" />
+    <Content Include="View\mainview\src\registerServiceWorker.js" />
+    <Resource Include="View\mainview\public\favicon.ico" />
+    <Content Include="View\mainview\public\index.html" />
+    <Resource Include="View\mainview\build\favicon.ico" />
+    <Resource Include="View\mainview\build\index.html" />
+    <Resource Include="View\mainview\build\service-worker.js" />
+    <Resource Include="View\mainview\build\static\css\main.c17080f1.css" />
+    <Resource Include="View\mainview\build\static\media\logo.5d5d9eef.svg" />
+    <Content Include="View\mainview\config\env.js" />
+    <Content Include="View\mainview\config\jest\cssTransform.js" />
+    <Content Include="View\mainview\config\jest\fileTransform.js" />
+    <Content Include="View\mainview\config\paths.js" />
+    <Content Include="View\mainview\config\polyfills.js" />
+    <Content Include="View\mainview\config\webpack.config.dev.js" />
+    <Content Include="View\mainview\config\webpack.config.prod.js" />
+    <Content Include="View\mainview\config\webpackDevServer.config.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x64.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" />

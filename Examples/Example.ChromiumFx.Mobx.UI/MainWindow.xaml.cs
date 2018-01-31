@@ -10,7 +10,7 @@ namespace Example.ChromiumFx.Mobx.UI
     public partial class MainWindow : Window
     {
         public bool Debug => true;
-        public Uri Uri => new Uri("pack://application:,,,/View/dist/index.html");
+        public Uri Uri => new Uri("pack://application:,,,/View/mainview/build/index.html");
 
         public MainWindow()
         {
