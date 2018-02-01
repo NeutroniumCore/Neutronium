@@ -144,6 +144,7 @@
     <Resource Include="View\mainview\dist\static\media\logo.svg" />
     <Resource Include="View\mainview\dist\static\css\main.css" />
     <Content Include="View\mainview\scripts\build.js" />
+    <Content Include="View\mainview\scripts\integrated.js" />
     <Content Include="View\mainview\scripts\start.js" />
     <Content Include="View\mainview\scripts\test.js" />
     <Content Include="View\mainview\src\App.css" />
