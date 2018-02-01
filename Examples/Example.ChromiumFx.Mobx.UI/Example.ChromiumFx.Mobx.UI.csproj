@@ -98,7 +98,7 @@
     <None Include="View\mainview\build\asset-manifest.json" />
     <Resource Include="View\mainview\build\main.js.map" />
     <None Include="View\mainview\build\manifest.json" />
-    <Resource Include="View\mainview\build\static\css\main.c17080f1.css.map" />
+    <Resource Include="View\mainview\build\static\css\main.css.map" />
     <None Include="View\mainview\data\vm.cjson" />
     <None Include="View\mainview\package-lock.json" />
     <None Include="View\mainview\package.json" />
@@ -141,6 +141,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\mainview\build\main.js" />
+    <Resource Include="View\mainview\build\static\media\logo.svg" />
+    <Resource Include="View\mainview\build\static\css\main.css" />
     <Content Include="View\mainview\scripts\build.js" />
     <Content Include="View\mainview\scripts\start.js" />
     <Content Include="View\mainview\scripts\test.js" />
@@ -157,8 +159,6 @@
     <Resource Include="View\mainview\build\favicon.ico" />
     <Resource Include="View\mainview\build\index.html" />
     <Resource Include="View\mainview\build\service-worker.js" />
-    <Resource Include="View\mainview\build\static\css\main.c17080f1.css" />
-    <Resource Include="View\mainview\build\static\media\logo.5d5d9eef.svg" />
     <Content Include="View\mainview\config\env.js" />
     <Content Include="View\mainview\config\jest\cssTransform.js" />
     <Content Include="View\mainview\config\jest\fileTransform.js" />
