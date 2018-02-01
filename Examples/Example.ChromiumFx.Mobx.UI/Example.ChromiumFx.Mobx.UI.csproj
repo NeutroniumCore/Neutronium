@@ -95,10 +95,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="View\mainview\build\asset-manifest.json" />
-    <Resource Include="View\mainview\build\main.js.map" />
-    <None Include="View\mainview\build\manifest.json" />
-    <Resource Include="View\mainview\build\static\css\main.css.map" />
+    <None Include="View\mainview\dist\asset-manifest.json" />
+    <Resource Include="View\mainview\dist\main.js.map" />
+    <None Include="View\mainview\dist\manifest.json" />
+    <Resource Include="View\mainview\dist\static\css\main.css.map" />
     <None Include="View\mainview\data\vm.cjson" />
     <None Include="View\mainview\package-lock.json" />
     <None Include="View\mainview\package.json" />
@@ -140,9 +140,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\mainview\build\main.js" />
-    <Resource Include="View\mainview\build\static\media\logo.svg" />
-    <Resource Include="View\mainview\build\static\css\main.css" />
+    <Resource Include="View\mainview\dist\main.js" />
+    <Resource Include="View\mainview\dist\static\media\logo.svg" />
+    <Resource Include="View\mainview\dist\static\css\main.css" />
     <Content Include="View\mainview\scripts\build.js" />
     <Content Include="View\mainview\scripts\start.js" />
     <Content Include="View\mainview\scripts\test.js" />
@@ -156,9 +156,9 @@
     <Content Include="View\mainview\src\registerServiceWorker.js" />
     <Resource Include="View\mainview\public\favicon.ico" />
     <Content Include="View\mainview\public\index.html" />
-    <Resource Include="View\mainview\build\favicon.ico" />
-    <Resource Include="View\mainview\build\index.html" />
-    <Resource Include="View\mainview\build\service-worker.js" />
+    <Resource Include="View\mainview\dist\favicon.ico" />
+    <Resource Include="View\mainview\dist\index.html" />
+    <Resource Include="View\mainview\dist\service-worker.js" />
     <Content Include="View\mainview\config\env.js" />
     <Content Include="View\mainview\config\jest\cssTransform.js" />
     <Content Include="View\mainview\config\jest\fileTransform.js" />
