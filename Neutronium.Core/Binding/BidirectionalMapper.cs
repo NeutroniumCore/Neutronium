@@ -24,6 +24,7 @@ namespace Neutronium.Core.Binding
         private readonly FullListenerRegister _ListenerRegister;
         private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
         private readonly SessionCacher _SessionCache;
+        private List<Action> _UpdatesToBeReplayed;
 
         private IJavascriptObjectBuilderStrategy _BuilderStrategy;
         private IJavascriptSessionInjector _SessionInjector;
@@ -84,9 +85,12 @@ namespace Neutronium.Core.Binding
                     res = JsValueRoot.JsValue;
 
                 await _SessionInjector.RegisterMainViewModel(res);
-
-                _IsLoaded = true;
             });
+
+            _IsLoaded = true;
+
+            _UpdatesToBeReplayed?.ForEach(up => up());
+            _UpdatesToBeReplayed = null;
         }
 
         private void RegisterJavascriptHelper()
@@ -371,19 +375,30 @@ namespace Neutronium.Core.Binding
             var updater = Update(updaterBuilder, value);
             updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
 
-            if (!_IsLoaded)
+            if (!_IsLoaded) 
+            { 
+                //Changes happening on the UI thread while javascript thread is still initializing bindings
+                //We keep the updates here to be replayed when binding is done
+                _UpdatesToBeReplayed = _UpdatesToBeReplayed ?? new List<Action>();
+                _UpdatesToBeReplayed.Add(() => UpdateOnJavascriptContextAllContext(updater, value));
                 return;
+            }          
 
-            if (Context.JavascriptFrameworkIsMappingObject)
+            UpdateOnJavascriptContextAllContext(updater, value);
+        }
+
+        private void UpdateOnJavascriptContextAllContext(BridgeUpdater updater, IJsCsGlue value)
+        {
+            if (Context.JavascriptFrameworkIsMappingObject) 
             {
                 DispatchInJavascriptContext(() => UpdateOnJavascriptContextWithMapping(updater, value));
                 return;
             }
 
-            DispatchInJavascriptContext(() => UpdateOnJavascriptContext(updater, value));
+            DispatchInJavascriptContext(() => UpdateOnJavascriptContextWithoutMapping(updater, value));
         }
 
-        private void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value)
+        private void UpdateOnJavascriptContextWithoutMapping(BridgeUpdater updater, IJsCsGlue value)
         {
             _BuilderStrategy.UpdateJavascriptValue(value);
             updater.UpdateOnJavascriptContext(Context.ViewModelUpdater);

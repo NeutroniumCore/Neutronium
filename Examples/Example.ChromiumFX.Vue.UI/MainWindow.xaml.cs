@@ -35,9 +35,11 @@ namespace Example.ChromiumFX.Vue.UI
             {
                 Interval = TimeSpan.FromMilliseconds(100)
             };
-            timer.Tick += (o, e) => datacontext.Count += 1 ;
+            timer.Tick += (o, e) => Update(datacontext);
             timer.Start();
         }
+
+        private static void Update(Person person) => person.Count += 1;
 
         protected override void OnClosed(EventArgs e)
         {
