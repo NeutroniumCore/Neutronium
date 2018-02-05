@@ -68,6 +68,8 @@ namespace Neutronium.Core.Binding
 
         internal async Task UpdateJavascriptObjects(bool debugMode)
         {
+            CheckUiContext();
+
             await RunInJavascriptContext(async () =>
             {
                 RegisterJavascriptHelper();
@@ -368,22 +370,21 @@ namespace Neutronium.Core.Binding
         {
             CheckUiContext();
 
+            if (!_IsLoaded) 
+            {
+                //Changes happening on the UI thread while javascript thread is still initializing bindings
+                //We keep the updates here to be replayed when binding is done
+                _UpdatesToBeReplayed = _UpdatesToBeReplayed ?? new List<Action>();
+                _UpdatesToBeReplayed.Add(() => UpdateFromCSharpChanges(newCSharpObject, updaterBuilder));
+                return;
+            }
+
             var value = _JsObjectBuilder.Map(newCSharpObject);
             if (value == null)
                 return;
 
             var updater = Update(updaterBuilder, value);
             updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
-
-            if (!_IsLoaded) 
-            { 
-                //Changes happening on the UI thread while javascript thread is still initializing bindings
-                //We keep the updates here to be replayed when binding is done
-                _UpdatesToBeReplayed = _UpdatesToBeReplayed ?? new List<Action>();
-                _UpdatesToBeReplayed.Add(() => UpdateOnJavascriptContextAllContext(updater, value));
-                return;
-            }          
-
             UpdateOnJavascriptContextAllContext(updater, value);
         }
 

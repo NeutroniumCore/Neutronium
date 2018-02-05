@@ -26,6 +26,8 @@ using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Test.Helper;
 using Neutronium.MVVMComponents.Relay;
+using System.Windows.Threading;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 
 namespace Tests.Universal.HTMLBindingTests
 {
@@ -3446,6 +3448,35 @@ namespace Tests.Universal.HTMLBindingTests
                     });
                 }
             };
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task Binding_manages_updates_ocurring_during_binding() 
+        {
+            var datacontext = new Person() 
+            {
+                Name = "O Monstro",
+                LastName = "Desmaisons",
+                Local = new Local() { City = "Florianopolis", Region = "SC" },
+                PersonalState = PersonalState.Married
+            };
+            datacontext.Skills.Add(new Skill() { Name = "Langage", Type = "French" });
+            datacontext.Skills.Add(new Skill() { Name = "Info", Type = "C++" });
+            var dispatcher = WpfThread.GetWpfThread().Dispatcher;
+            var timer = new DispatcherTimer(DispatcherPriority.Send, dispatcher) { Interval = TimeSpan.FromMilliseconds(2) };
+            timer.Tick += (o, e) => datacontext.Count += 1;
+            timer.Start();
+
+            var test = new TestInContextAsync() 
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) => 
+                {
+                    await DoSafeAsyncUI(() => datacontext.Count.Should().BeGreaterThan(5));
+                }
+            };
+
             await RunAsync(test);
         }
 

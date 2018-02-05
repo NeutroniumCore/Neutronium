@@ -37,9 +37,9 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         {
             _Logger.Info($"Starting {memberName}");
             using (Tester(test.Path))
-            {        
+            {
                 _Logger.Info("Begin Binding");
-                using (var mb = await test.Bind(_ViewEngine))
+                using (var mb = await EvaluateSafeUI(() => test.Bind(_ViewEngine)))
                 {
                     _Logger.Info("End Binding");
                     _Logger.Info("Begin Run");
@@ -108,6 +108,11 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         protected async Task DoSafeAsyncUI(Action doact)
         {
             await _UIDispatcher.RunAsync(doact);
+        }
+
+        protected T EvaluateSafeUI<T>(Func<T> doact)
+        {
+            return _UIDispatcher.Evaluate(doact);
         }
     }
 }
