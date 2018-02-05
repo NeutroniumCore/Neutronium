@@ -20,27 +20,34 @@ Why Neutronium?
 * Use all the **power of the javascript stack** to build .NET desktop applications.
 
 * **Easy to use**: 
-
- * **Focus on ViewModel logic** and abstract away from complex context, process and binding management you have to deal with other lower level embeded WebBrowser solutions available for .NET such as [Awesomium](http://www.awesomium.com/), [CefGlue](http://xilium.bitbucket.org/cefglue/), [CefSharp](https://github.com/cefsharp/CefSharp) and [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx)
- * Architecture Neutronium application **just like standard WPF** application.
- * **Compatible** with popular **MVVM libraries** such as [MVVM Light Toolkit](http://www.mvvmlight.net/) and [reactiveUi](http://reactiveui.net/)
- * Use **standard javascript frameworks** to build UI
+  * Architecture Neutronium application **just like standard WPF** application.
+  * **Compatible** with popular **MVVM libraries** such as [MVVM Light Toolkit](http://www.mvvmlight.net/) and [reactiveUi](http://reactiveui.net/)
+  * Use **standard javascript frameworks** to build UI
 
 * **Easy to set-up**:
- * **[Solution template](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8)** available for a quick start
- * **[Vue Webpack template](https://github.com/David-Desmaisons/Neutronium/wiki/Build-large-project-with-Vue.js-and-Webpack)** available to use .vue files 
+  * **[Solution template](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8)** available for a quick start
+  * **[Vue Webpack template](https://github.com/David-Desmaisons/Neutronium/wiki/Build-large-project-with-Vue.js-and-Webpack)** available to use .vue files 
 
-* **Reuse** ViewModel designed for WPF with a different View Engine.
+  * **Reuse** ViewModel designed for WPF with a different View Engine.
 
 * Build UI on a 100% **Open Source Stack**
- 
+
+Uses cases
+----------
+
+* [Create an application from scratch](./Documentation/Content/UsesCases/New_project.md)
+
+* Migrate an existing WPF MVVM application to Neutronium
+
+* Use Neutronium to embed an HTML control in an WPF application
+
 Main features
 -------------
- * Reactive
+ * **Reactive** to property and collection changes
   * **Two way-binding** beetween view and viewmodel, including **command** binding
  
  * **Pluggable architecture**:  
-  * Easily plug-in new javascript frameworks or even embedded browser.
+   * Easily plug-in new javascript frameworks or even embedded browser.
  
 How?
 ----
@@ -156,6 +163,11 @@ public class Person: ViewModelBase
 
 The binding is done on the DataContext property just as standard WPF,
 That's it!
+
+Examples
+--------
+
+[here](./Documentation/Content/Examples.md)
 
 Get started
 ----------
