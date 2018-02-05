@@ -18,6 +18,14 @@
   font-size: 1.5em;
 }
 
+#app .logo{
+  text-align: center;
+}
+
+#app .logo img{
+  width: 100px;
+}
+
 .App-intro {
   font-size: large;
 }

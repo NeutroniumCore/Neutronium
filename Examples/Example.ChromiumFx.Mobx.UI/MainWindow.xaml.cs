@@ -1,6 +1,7 @@
 ﻿using Neutronium.Example.ViewModel;
 using System;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Example.ChromiumFx.Mobx.UI
 {
@@ -9,8 +10,8 @@ namespace Example.ChromiumFx.Mobx.UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public bool Debug => true;
-        public Uri Uri => new Uri("pack://application:,,,/View/mainview/dist/index.html");
+        public bool Debug => App.MainApplication.Debug;
+        public Uri Uri => App.MainApplication.Uri;
 
         public MainWindow()
         {
@@ -31,8 +32,16 @@ namespace Example.ChromiumFx.Mobx.UI
             var firstSkill = new Skill() { Name = "Langage", Type = "French" };
             datacontext.Skills.Add(firstSkill);
             datacontext.Skills.Add(new Skill() { Name = "Info", Type = "C++" });
+            var timer = new DispatcherTimer 
+            {
+                Interval = TimeSpan.FromMilliseconds(100)
+            };
+            timer.Tick += (o, _) => Update(datacontext);
+            timer.Start();
 
             DataContext = datacontext;
         }
+
+        private static void Update(Person person) => person.Count += 1;
     }
 }

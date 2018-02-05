@@ -17,7 +17,6 @@ function onVmInjected(updater) {
 }
 
 function updateVm() {
-    console.log(JSON.stringify(vm, null, 2))
     updaters.forEach(up => up(vm));
     fulfillOnReady(vm)
 }
