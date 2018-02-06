@@ -3482,7 +3482,8 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
-                    await DoSafeAsyncUI(() => datacontext.Count.Should().BeGreaterThan(5));
+                    await Task.Delay(200);
+                    DoSafeUI(() => datacontext.Count.Should().BeGreaterThan(5));
                 }
             };
 
