@@ -48,6 +48,9 @@ export default class App extends Component {
         <div>
           {vm.Count}
         </div>
+        <div>
+          {vm.Skills.map((object, i) => <div obj={object} key={i}>{object.Name} - {object.Type}</div>)} 
+        </div>
 
       </div>
     );
