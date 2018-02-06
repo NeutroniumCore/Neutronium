@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import CommandButton from './component/CommandButton';
 import logo from './logo.svg';
 import './App.css';
 
@@ -52,6 +53,7 @@ export default class App extends Component {
           {vm.Skills.map((object, i) => <div obj={object} key={i}>{object.Name} - {object.Type}</div>)} 
         </div>
 
+        <CommandButton command={vm.Command} name="Command"></CommandButton>
       </div>
     );
   }

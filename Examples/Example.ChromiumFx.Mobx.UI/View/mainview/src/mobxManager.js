@@ -3,6 +3,7 @@ import { createVM } from 'neutronium-vm-loader'
 import { extendObservable } from 'mobx';
 
 const vm = createVM(rawVm);
+console.log(JSON.stringify(vm, null, 2))
 extendObservable(vm, vm)
 
 var fulfillOnReady;

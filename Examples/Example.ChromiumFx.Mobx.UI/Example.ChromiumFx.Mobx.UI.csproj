@@ -151,6 +151,7 @@
     <Content Include="View\mainview\src\App.css" />
     <Content Include="View\mainview\src\App.js" />
     <Content Include="View\mainview\src\App.test.js" />
+    <Content Include="View\mainview\src\component\CommandButton.js" />
     <Content Include="View\mainview\src\index.css" />
     <Content Include="View\mainview\src\index.js" />
     <Content Include="View\mainview\src\logo.svg" />
@@ -170,6 +171,7 @@
     <Content Include="View\mainview\config\webpack.config.prod.js" />
     <Content Include="View\mainview\config\webpackDevServer.config.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x64.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.2924.1\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
