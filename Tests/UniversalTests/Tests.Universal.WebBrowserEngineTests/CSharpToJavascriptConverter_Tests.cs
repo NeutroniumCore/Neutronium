@@ -258,11 +258,15 @@ namespace Tests.Universal.WebBrowserEngineTests
             await TestAsync(async () =>
             {
                 var res = (await Map(0.2D)).JsValue;
-                res.Should().NotBeNull();
-                res.IsNumber.Should().BeTrue();
-                double resd = res.GetDoubleValue();
 
-                resd.Should().Be(0.2D);
+                DoSafe(() => 
+                {
+                    res.Should().NotBeNull();
+                    res.IsNumber.Should().BeTrue();
+                    double resd = res.GetDoubleValue();
+
+                    resd.Should().Be(0.2D);
+                });
             });
         }
 
@@ -273,13 +277,17 @@ namespace Tests.Universal.WebBrowserEngineTests
             {
                 var date = new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc);
                 var res = (await Map(date)).JsValue;
-                res.Should().NotBeNull();
 
-                object ores = null;
-                Converter.GetSimpleValue(res, out ores);
-                var resd = (DateTime)ores;
+                DoSafe(() => 
+                {
+                    res.Should().NotBeNull();
 
-                resd.Should().Be(date);
+                    object ores = null;
+                    Converter.GetSimpleValue(res, out ores);
+                    var resd = (DateTime) ores;
+
+                    resd.Should().Be(date);
+                });
             });
         }
 
@@ -289,41 +297,36 @@ namespace Tests.Universal.WebBrowserEngineTests
             await TestAsync(async () =>
             {
                 var res = (await Map(0.2M)).JsValue;
-                res.Should().NotBeNull();
-                res.IsNumber.Should().BeTrue();
-                double resd = res.GetDoubleValue();
 
-                resd.Should().Be(0.2D);
+                DoSafe(() => 
+                {
+                    res.Should().NotBeNull();
+                    res.IsNumber.Should().BeTrue();
+                    double resd = res.GetDoubleValue();
+
+                    resd.Should().Be(0.2D);
+                });
             });
         }
 
 
-        [Fact]
-        public async Task Test_Bool()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Test_Bool(bool value)
         {
             await TestAsync(async () =>
             {
-                var res = (await Map(true)).JsValue;
-                res.Should().NotBeNull();
-                res.IsBool.Should().BeTrue();
-                bool resd = res.GetBoolValue();
-
-                resd.Should().BeTrue();
-            });
-        }
-
-        [Fact]
-        public async Task Test_Bool_False()
-        {
-            await TestAsync(async () =>
+                var res = (await Map(value)).JsValue;
+                DoSafe(() => 
                 {
-                    var res = (await Map(false)).JsValue;
                     res.Should().NotBeNull();
                     res.IsBool.Should().BeTrue();
                     bool resd = res.GetBoolValue();
 
-                    resd.Should().BeFalse();
+                    resd.Should().Be(value);
                 });
+            });
         }
 
         [Fact]
@@ -332,11 +335,15 @@ namespace Tests.Universal.WebBrowserEngineTests
             await TestAsync(async () =>
               {
                   var res = (await Map("toto")).JsValue;
-                  res.Should().NotBeNull();
-                  res.IsString.Should().BeTrue();
-                  string resd = res.GetStringValue();
 
-                  resd.Should().Be("toto");
+                  DoSafe(() => 
+                  {
+                      res.Should().NotBeNull();
+                      res.IsString.Should().BeTrue();
+                      string resd = res.GetStringValue();
+
+                      resd.Should().Be("toto");
+                  });
               });
         }
 
