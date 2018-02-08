@@ -54,6 +54,8 @@ export default class App extends Component {
         </div>
 
         <CommandButton command={vm.Command} name="Command"></CommandButton>
+        
+        <CommandButton command={vm.ChangeSkill} name="Change Skill"></CommandButton>
       </div>
     );
   }
