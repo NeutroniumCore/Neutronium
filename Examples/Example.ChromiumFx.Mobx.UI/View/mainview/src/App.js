@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import CommandButton from './component/CommandButton';
+import Skill from './component/Skill';
 import logo from './logo.svg';
 import './App.css';
 
@@ -14,7 +15,7 @@ export default class App extends Component {
 
   handleInputChange(event) {
     const target = event.target;
-    const value = target.value;
+    const value =  target.type === 'range' ? Number(target.value) : target.value;
     const name = target.name;
     this.props.viewModel[name] = value;
   }
@@ -62,18 +63,17 @@ export default class App extends Component {
             </div>
           </div>
 
-
         </form>
         <div>
           {vm.Count}
         </div>
-        <div>
-          {vm.Skills.map((object, i) => <div obj={object} key={i}>{object.Name} - {object.Type}</div>)}
+        <div  className="list-group">
+          Skills
+          {vm.Skills.map((object, i) => <Skill skill={object} removeSkill={vm.RemoveSkill} key={i} id={i}>{object.Name} - {object.Type}</Skill>)}
         </div>
 
-        <CommandButton command={vm.Command} name="Command"></CommandButton>
+        <CommandButton command={vm.Command} name="Add Skill"></CommandButton>
 
-        <CommandButton command={vm.ChangeSkill} name="Change Skill"></CommandButton>
       </div>
     );
   }
