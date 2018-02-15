@@ -161,7 +161,6 @@
     <Content Include="View\mainview\public\index.html" />
     <Resource Include="View\mainview\dist\favicon.ico" />
     <Resource Include="View\mainview\dist\index.html" />
-    <Resource Include="View\mainview\dist\service-worker.js" />
     <Content Include="View\mainview\config\env.js" />
     <Content Include="View\mainview\config\jest\cssTransform.js" />
     <Content Include="View\mainview\config\jest\fileTransform.js" />

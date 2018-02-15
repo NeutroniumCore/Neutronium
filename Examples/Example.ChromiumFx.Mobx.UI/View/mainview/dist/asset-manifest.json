@@ -1,7 +1,7 @@
 {
-  "\\static\\media\\logo.svg": "/static/media/logo.svg",
   "main.css": "static/css/main.css",
   "main.css.map": "static/css/main.css.map",
   "main.js": "main.js",
-  "main.js.map": "main.js.map"
+  "main.js.map": "main.js.map",
+  "static\\media\\logo.svg": "static/media/logo.svg"
 }
