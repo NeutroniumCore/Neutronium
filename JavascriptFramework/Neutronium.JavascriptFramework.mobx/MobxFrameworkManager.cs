@@ -18,7 +18,14 @@ namespace Neutronium.JavascriptFramework.mobx
 
         public bool IsMappingObject => false;
 
-        public DebugToolsUI DebugToolsUI => null;
+        public DebugToolsUI DebugToolsUI => new DebugToolsUI(null, About);
+
+        private static WindowInformation About => new WindowInformation 
+        {
+            RelativePath = "DebugTools\\About\\index.html",
+            Height = 640,
+            Width = 310
+        };
 
         public IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode) 
         {

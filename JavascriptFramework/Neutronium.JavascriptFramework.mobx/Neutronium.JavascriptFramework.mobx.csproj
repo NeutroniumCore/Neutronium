@@ -62,6 +62,30 @@
     <Folder Include="script\test\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DebugTools\About\asset-manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\main.js.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\manifest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\css\main.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\media\674f50d287a8c48dc19ba404d20fe713.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\media\af7ae505a9eed503f8b8e6982036873e.woff2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\media\b06871f281fee6b241d60582ae9369b9.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\media\fee66e712a8a08eef5805a46892932ad.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="script\.babelrc" />
     <None Include="script\package-lock.json" />
@@ -72,6 +96,27 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="script\dist\mobx.umd.min.js" />
+    <Content Include="DebugTools\About\favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\main.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\css\main.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\media\912ec66d7572ff821749319396470bde.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\media\9c74e172f87984c48ddf5c8108cabe67.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DebugTools\About\static\media\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="script\src\index.js" />
     <Content Include="script\src\visiter.js" />
     <Content Include="script\webpack.config.js" />
