@@ -156,7 +156,6 @@
     <Content Include="View\mainview\src\index.js" />
     <Content Include="View\mainview\src\logo.svg" />
     <Content Include="View\mainview\src\mobxManager.js" />
-    <Content Include="View\mainview\src\registerServiceWorker.js" />
     <Resource Include="View\mainview\public\favicon.ico" />
     <Content Include="View\mainview\public\index.html" />
     <Resource Include="View\mainview\dist\favicon.ico" />
