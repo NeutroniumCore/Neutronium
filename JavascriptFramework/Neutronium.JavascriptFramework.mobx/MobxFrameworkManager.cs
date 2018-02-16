@@ -11,14 +11,11 @@ namespace Neutronium.JavascriptFramework.mobx
     public class MobxFrameworkManager : IJavascriptFrameworkManager 
     {
         public string FrameworkName => "mobx";
-
         public string FrameworkVersion => "v3.4.1";
-
         public string Name => "MobxFrameworkManager";
-
         public bool IsMappingObject => false;
-
         public DebugToolsUI DebugToolsUI => new DebugToolsUI(null, About);
+        public bool IsSupportingVmDebug => false;
 
         private static WindowInformation About => new WindowInformation 
         {

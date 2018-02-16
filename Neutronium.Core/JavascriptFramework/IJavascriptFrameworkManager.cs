@@ -47,6 +47,12 @@ namespace Neutronium.Core.JavascriptFramework
         IJavascriptViewModelManager CreateManager(IWebView webView, IJavascriptObject listener, IWebSessionLogger logger, bool debugMode);
 
         /// <summary>
+        /// Returns true if the javascript framework manager support
+        /// addintional Vm debug capability. If so beguVM command will be enabled.
+        /// </summary>
+        bool IsSupportingVmDebug { get; }
+
+        /// <summary>
         /// Run debug Vm tool
         /// </summary>
         /// <param name="runJavascript">

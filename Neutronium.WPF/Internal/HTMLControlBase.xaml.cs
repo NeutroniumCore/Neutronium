@@ -275,7 +275,7 @@ namespace Neutronium.WPF.Internal
         private IEnumerable<ContextMenuItem> GetMenu()
         {
             yield return GetContextMenuItem("Inspect", _DebugInformation.DebugBrowser);
-            yield return GetContextMenuItem("Vm Debug", _DebugInformation.DebugWindow);
+            yield return GetContextMenuItem("Vm Debug", _DebugInformation.DebugWindow, _Injector.IsSupportingVmDebug);
             yield return GetContextMenuItem("Save Vm", _DebugInformation.SaveVm);
         }
 
@@ -284,10 +284,10 @@ namespace Neutronium.WPF.Internal
             yield return GetContextMenuItem("About Neutronium", _DebugInformation.ShowInfo);
         }
 
-        private ContextMenuItem GetContextMenuItem(string itemName, ICommand command)
+        private ContextMenuItem GetContextMenuItem(string itemName, ICommand command, bool enabled=true)
         {
             Action doAction = () => { if (command.CanExecute(null)) command.Execute(null); };
-            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, doAction), itemName);
+            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, doAction), itemName, enabled);
         }
 
         private void OnDisplayFired(object sender, DisplayEvent e)

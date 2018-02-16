@@ -123,7 +123,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 return;
 
             var rank = (int)ContextMenuId.MENU_ID_USER_FIRST;
-            _Commands.ForEach(command => model.AddItem(rank++, command.Name));
+            _Commands.ForEach(command => 
+            {
+                model.AddItem(rank, command.Name);
+                model.SetEnabled(rank++, command.Enabled);
+            });
             _MenuSeparatorIndex.ForEach(index => model.InsertSeparatorAt(index));
         }
 
