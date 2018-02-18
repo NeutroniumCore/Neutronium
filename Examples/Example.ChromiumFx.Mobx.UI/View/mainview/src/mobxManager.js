@@ -19,7 +19,12 @@ function onVmInjected(updater) {
 
 function updateVm() {
     updaters.forEach(up => up(vm));
-    fulfillOnReady(vm)
+    fulfillOnReady({
+        vm, 
+        ready(){
+            console.log('rendered');
+        }
+    })
 }
 
 window.setTimeout(updateVm, 0);

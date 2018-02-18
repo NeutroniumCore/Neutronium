@@ -30,7 +30,7 @@ namespace Neutronium.JavascriptFramework.mobx
         public Task RegisterMainViewModel(IJavascriptObject jsObject) 
         {
             var mobxHelper = _MobxHelperLazy.Value;
-            var taskProvider = mobxHelper.GetValue("ready").TransformPromiseToTask(_WebView);
+            var taskProvider = mobxHelper.GetValue("done").TransformPromiseToTask(_WebView);
             mobxHelper.Invoke("register", _WebView, jsObject, _Listener);
             return taskProvider.Task;
         }

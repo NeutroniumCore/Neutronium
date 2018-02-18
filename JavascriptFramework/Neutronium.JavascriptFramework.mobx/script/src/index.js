@@ -6,11 +6,6 @@ console.log('mobx adapter loaded');
 const silenterProperty = '__silenter';
 var globalListener;
 
-var fulfillOnReady;
-var ready = new Promise(function (fulfill) {
-    fulfillOnReady = fulfill;
-});
-
 function addProperty(father, propertyName, value) {
     const updater = {};
     updater[propertyName] = updateVm(value);
@@ -163,8 +158,38 @@ function onVmInjected(updater) {
     updaters.push(updater)
 }
 
+var fulfillOnReady;
+var ready = new Promise(function (fulfill) {
+    fulfillOnReady = fulfill;
+});
+
+var fulfillDone;
+var done = new Promise(function (fulfill) {
+    fulfillDone = fulfill;
+});
+
+function Result(vm, callback) {
+    this.vm = vm;
+    this.callback = callback;
+    this.isListened = false;
+}
+
+Result.prototype.checkDone = function () {
+    this.isListened || this.callback();
+}
+
+Object.defineProperty(Result.prototype, "ready", {
+    get() {
+        this.isListened = true;
+        return this.callback;
+    },
+    set() {
+    }
+});
+
 const helper = {
     addProperty,
+    done,
     silentChange,
     silentChangeUpdate,
     silentSplice,
@@ -172,7 +197,9 @@ const helper = {
         globalListener = listener;
         updateVm(vm);
         updaters.forEach(up => up(vm));
-        fulfillOnReady(vm)
+        const res = new Result(vm, fulfillDone);
+        fulfillOnReady(res);
+        res.checkDone();
         window._vm = vm;
     },
     onVmInjected,

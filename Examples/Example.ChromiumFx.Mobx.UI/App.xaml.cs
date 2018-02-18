@@ -25,7 +25,8 @@ namespace Example.ChromiumFx.Mobx.UI
             return new MobxFrameworkManager();
         }
 
-        private static ApplicationMode GetApplicationMode(string[] args) {
+        private static ApplicationMode GetApplicationMode(string[] args)
+        {
 #if DEBUG
             var normalizedArgs = args.Select(arg => arg.ToLower()).ToList();
             if (normalizedArgs.Contains("-dev"))

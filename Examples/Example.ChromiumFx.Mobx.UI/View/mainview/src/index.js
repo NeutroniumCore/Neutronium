@@ -6,5 +6,5 @@ import { ready } from './mobxManager';
 import 'bootstrap/dist/css/bootstrap.css';
 
 ready.then(res => {
-    ReactDOM.render(<App viewModel={res.ViewModel}/>, document.getElementById('root'));
+    ReactDOM.render(<App viewModel={res.vm.ViewModel}/>, document.getElementById('root'), res.ready);
 })
