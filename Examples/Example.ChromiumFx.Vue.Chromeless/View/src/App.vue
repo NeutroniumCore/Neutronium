@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-div">
     <top-bar :window="viewModel.Window"></top-bar>
   </div>
 </template>
@@ -53,5 +53,12 @@ li {
 
 a {
   color: #42b983;
+}
+
+.main-div {
+  color: #42b983;
+  height: 100%;
+  border: blue;
+  border-style: solid;
 }
 </style>

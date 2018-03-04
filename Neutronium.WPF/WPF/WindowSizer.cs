@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Neutronium.WPF.WPF
 {
@@ -20,6 +21,7 @@ namespace Neutronium.WPF.WPF
             {
                 case 0x0024:
                     WmGetMinMaxInfo(hwnd, lParam);
+                    handled = false;
                     break;
             }
             return (IntPtr)0;
@@ -33,8 +35,7 @@ namespace Neutronium.WPF.WPF
             var monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
             var source = PresentationSource.FromVisual(_Window);
             var transformToDevice = source.CompositionTarget.TransformToDevice;
-            var vector = new Vector(_Window.MinWidth, _Window.MinHeight);
-            var pixelSize = (Size)transformToDevice.Transform(vector);
+            var pixelSize = Transform(transformToDevice, _Window.MinWidth, _Window.MinHeight);
 
             if (monitor != IntPtr.Zero)
             {
@@ -46,10 +47,16 @@ namespace Neutronium.WPF.WPF
                 mmi.ptMaxPosition.y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
                 mmi.ptMaxSize.x = Math.Abs(rcWorkArea.right - rcWorkArea.left);
                 mmi.ptMaxSize.y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
-                mmi.ptMinTrackSize.y = (int)pixelSize.Height;
                 mmi.ptMinTrackSize.x = (int)pixelSize.Width;
+                mmi.ptMinTrackSize.y = (int)pixelSize.Height;
             }
             Marshal.StructureToPtr(mmi, lParam, true);
+        }
+
+        private static Size Transform(Matrix matrix, double x, double y)
+        {
+            var vector = new Vector(x, y);
+            return (Size)matrix.Transform(vector);
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -72,7 +79,7 @@ namespace Neutronium.WPF.WPF
             public POINT ptMaxPosition;
             public POINT ptMinTrackSize;
             public POINT ptMaxTrackSize;
-        };
+        }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public class MONITORINFO
