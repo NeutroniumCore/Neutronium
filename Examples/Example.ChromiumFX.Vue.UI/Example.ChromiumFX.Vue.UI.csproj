@@ -128,6 +128,10 @@
     <None Include="View\Main\.babelrc" />
     <None Include="View\Main\.gitignore" />
     <None Include="View\Main\data\vm.cjson" />
+    <Content Include="..\..\WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\bin\Debug\ChromiumFXRenderProcess.exe">
+      <Link>ChromiumFXRenderProcess.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="View\Main\dist\448c34a56d699c29117adc64c43affeb.woff2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -202,10 +206,6 @@
     <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
       <Name>Neutronium.WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
-      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
-      <Name>ChromiumFXRenderProcess</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj">
       <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
