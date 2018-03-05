@@ -62,6 +62,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Ko.UI", "Examples\Example.ChromiumFX.Ko.UI\Example.ChromiumFX.Ko.UI.csproj", "{34B6AD94-23B2-4808-BB6D-988A063711D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.UI", "Examples\Example.ChromiumFX.Vue.UI\Example.ChromiumFX.Vue.UI.csproj", "{3BB8BB87-A904-45CC-83BD-178D34200E81}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5A202154-9F9A-47CF-A7A5-4DF6DA026076} = {5A202154-9F9A-47CF-A7A5-4DF6DA026076}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Vue.Infra", "Examples\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj", "{C769E3AD-E82E-4E2F-BC4C-C92CA572C2ED}"
 EndProject
