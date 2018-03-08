@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Neutronium.WPF</id>
+    <version>1.3.1</version>
+    <title>Neutronium.WPF</title>
+    <authors>David Desmaisons</authors>
+    <owners>David Desmaisons</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+    <description>Chromeless window improvement</description>
+    <releaseNotes></releaseNotes>
+    <tags>HTML, C#, Chromium, MVVM, View, WPF</tags>
+    <dependencies>
+      <dependency id="Neutronium.Core" version="1.3.1" />
+      <dependency id="Neutronium.MVVMComponents" version="1.2.0" />
+      <dependency id="MoreCollection" version="1.2.2" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\Neutronium.WPF.dll" target="lib\Neutronium.WPF.dll" />
+  </files>
+</package>

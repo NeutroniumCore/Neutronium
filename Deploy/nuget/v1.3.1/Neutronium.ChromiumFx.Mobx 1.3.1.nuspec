@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Neutronium.ChromiumFx.Mobx</id>
+    <version>1.3.1</version>
+    <authors>David Desmaisons</authors>
+    <owners>David Desmaisons</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/David-Desmaisons/Neutronium</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/David-Desmaisons/Neutronium/master/Deploy/logo.png</iconUrl>
+    <description>Neutronium is a MVVM HTLM View engine for C# application. This is a standalone package including Knockout.js and ChromiumFx.</description>
+    <tags>HTML, C#, Chromium, MVVM, View</tags>
+    <dependencies>
+      <dependency id="Neutronium.WebBrowserEngine.ChromiumFx" version="1.3.1" />
+      <dependency id="Neutronium.JavascriptFramework.Mobx" version="1.3.1" />
+    </dependencies>
+  </metadata>
+</package>
