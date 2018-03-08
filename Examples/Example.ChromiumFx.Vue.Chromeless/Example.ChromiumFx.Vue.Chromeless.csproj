@@ -172,7 +172,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="ChromiumFXRenderProcess.exe" />
+    <Content Include="ChromiumFXRenderProcess.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="View\index.html" />
     <Content Include="View\utils.js" />
     <Content Include="View\webpack.config.js" />
