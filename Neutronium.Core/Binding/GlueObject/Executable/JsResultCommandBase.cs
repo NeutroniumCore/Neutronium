@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
-using Neutronium.Core.Extension;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
@@ -56,8 +55,8 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
 
-        protected abstract Task<Result<TResult>> ExecuteOnUiThread(TJsContext context);
-        protected abstract Result<TJsContext> ExecuteOnJsContextThread(IJavascriptObject[] e);
+        protected abstract Task<MayBe<TResult>> ExecuteOnUiThread(TJsContext context);
+        protected abstract MayBe<TJsContext> ExecuteOnJsContextThread(IJavascriptObject[] e);
         protected abstract IJavascriptObject GetPromise(IJavascriptObject[] e);
 
         public async void Execute(IJavascriptObject[] arguments)

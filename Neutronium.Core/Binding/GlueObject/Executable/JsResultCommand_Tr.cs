@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Neutronium.Core.Extension;
+using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
@@ -21,15 +21,15 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             return (e.Length > 0) ? e[0] : null;
         }
 
-        protected override async Task<Result<TResult>> ExecuteOnUiThread(bool context)
+        protected override async Task<MayBe<TResult>> ExecuteOnUiThread(bool context)
         {
             var res = await _JsResultCommand.Execute();
-            return new Result<TResult>(res);
+            return new MayBe<TResult>(res);
         }
 
-        protected override Result<bool> ExecuteOnJsContextThread(IJavascriptObject[] e)
+        protected override MayBe<bool> ExecuteOnJsContextThread(IJavascriptObject[] e)
         {
-            return new Result<bool>(true);
+            return new MayBe<bool>(true);
         }
     }
 }

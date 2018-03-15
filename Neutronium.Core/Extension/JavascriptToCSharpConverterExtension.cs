@@ -1,24 +1,25 @@
 ﻿using System;
 using Neutronium.Core.Binding;
+using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Extension
 {
     public static class JavascriptToCSharpConverterExtension
     {
-        public static Result<T> GetFirstArgument<T>(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
+        public static MayBe<T> GetFirstArgument<T>(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
         {
             if (javascriptObjects.Length == 0)
-                return new Result<T>();
+                return new MayBe<T>();
 
-            try 
+            try
             {
                 var found = converter.GetCachedOrCreateBasic(javascriptObjects[0], typeof(T));
-                return new Result<T>(found);
+                return (found == null)?  new MayBe<T>(): new MayBe<T>(found.CValue);
             }
-            catch (Exception) 
+            catch (Exception)
             {
-                return new Result<T>();
+                return new MayBe<T>();
             }
         }
 
