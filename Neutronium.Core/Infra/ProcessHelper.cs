@@ -4,7 +4,7 @@ namespace Neutronium.Core.Infra
 {
     public static class ProcessHelper 
     {
-        public static void OpenFileWinstalledApplication(string url) 
+        public static void OpenFileWithInstalledApplication(string url) 
         {
             Process.Start(url);
         }
@@ -16,7 +16,7 @@ namespace Neutronium.Core.Infra
 
         public static void OpenUrlInBrowser(string url)
         {
-            OpenFileWinstalledApplication(url);
+            OpenFileWithInstalledApplication(url);
         }
     }
 }

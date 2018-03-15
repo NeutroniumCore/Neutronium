@@ -1,6 +1,5 @@
 ﻿namespace Neutronium.Core.Infra
 {
-    //For Name see http://book.realworldhaskell.org/read/error-handling.html
     public struct MayBe<T>
     {
         public bool Success { get; }
