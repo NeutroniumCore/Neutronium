@@ -52,10 +52,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             {
                 var uri=new Uri(e.Request.Url);
                 if (uri.Scheme != "pack")
-                {
-                    e.SetReturnValue(null);
                     return;
-                }
                
                 var newResourceHandler= new PackUriResourceHandler(uri, logger1);
                 _PackPackUriResourceHandlers.Add(newResourceHandler);
