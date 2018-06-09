@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
+using Neutronium.MVVMComponents.Helper;
 
 namespace Neutronium.MVVMComponents.Relay
 {
@@ -31,7 +32,7 @@ namespace Neutronium.MVVMComponents.Relay
         [DebuggerStepThrough]
         public void Execute(object parameter) 
         {
-            if ((parameter is T) || (parameter==null && (typeof(T).IsClass)))
+            if ((parameter is T) || (parameter==null && TypeHelper.IsClass<T>()))
                 Execute((T)parameter);
         }
     }
