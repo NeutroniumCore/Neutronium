@@ -50,7 +50,7 @@ namespace Neutronium.MVVMComponents.Test.Relay
         }
 
         [Fact]
-        public void Execute_with_object_argument_does_not_call_action_if_type_mismatch()
+        public void Execute_with_object_argument_does_not_call_action_if_type_mismatch_null_for_int()
         {
             var action = Substitute.For<Action<int>>();
             var relaySimpleCommand = new RelaySimpleCommand<int>(action);

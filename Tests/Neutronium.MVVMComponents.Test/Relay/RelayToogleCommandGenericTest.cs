@@ -104,9 +104,11 @@ namespace Neutronium.MVVMComponents.Test.Relay
         {
             _RelayToogleCommand.ShouldExecute = !shouldExecute;
 
-            _RelayToogleCommand.MonitorEvents();
-            _RelayToogleCommand.ShouldExecute = shouldExecute;
-            _RelayToogleCommand.ShouldRaise("CanExecuteChanged").WithSender(_RelayToogleCommand);
+            using (var monitor = _RelayToogleCommand.Monitor()) 
+            {
+                _RelayToogleCommand.ShouldExecute = shouldExecute;
+                monitor.Should().Raise("CanExecuteChanged").WithSender(_RelayToogleCommand);
+            }
         }
 
         [Theory]
@@ -116,9 +118,11 @@ namespace Neutronium.MVVMComponents.Test.Relay
         {
             _RelayToogleCommand.ShouldExecute = shouldExecute;
 
-            _RelayToogleCommand.MonitorEvents();
-            _RelayToogleCommand.ShouldExecute = shouldExecute;
-            _RelayToogleCommand.ShouldNotRaise("CanExecuteChanged");
+            using (var monitor = _RelayToogleCommand.Monitor()) 
+            {
+                _RelayToogleCommand.ShouldExecute = shouldExecute;
+                monitor.Should().NotRaise("CanExecuteChanged");
+            }
         }
     }
 }

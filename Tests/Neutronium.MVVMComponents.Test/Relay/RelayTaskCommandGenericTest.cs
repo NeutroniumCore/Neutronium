@@ -88,9 +88,11 @@ namespace Neutronium.MVVMComponents.Test.Relay
             var tcs = new TaskCompletionSource<object>();
             _Execute.Invoke(parameter).Returns(tcs.Task);
 
-            _RelayTaskCommand.MonitorEvents();
-            _RelayTaskCommand.Execute(parameter);
-            _RelayTaskCommand.ShouldRaise("CanExecuteChanged").WithSender(_RelayTaskCommand);
+            using (var monitor = _RelayTaskCommand.Monitor()) 
+            {
+                _RelayTaskCommand.Execute(parameter);
+                monitor.Should().Raise("CanExecuteChanged").WithSender(_RelayTaskCommand);
+            }
 
             tcs.SetResult(null);
         }
