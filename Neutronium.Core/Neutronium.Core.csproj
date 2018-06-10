@@ -1,318 +1,50 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<!--netstandard1.1;netstandard2 -->
+ 
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9B18B122-A2FC-4537-AB68-5E1EC9959DB8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Neutronium.Core</RootNamespace>
+    <TargetFrameworks>net45</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Neutronium.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <NuGetPackageImportStamp>291146ae</NuGetPackageImportStamp>
+    <RootNamespace>Neutronium.Core</RootNamespace>
+    <Authors>David Desmaisons</Authors>
+    <Version>1.3.1.0</Version>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NeutroniumCore/Neutronium</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE</PackageLicenseUrl>
+    <Description>Neutronium is a MVVM HTLM View engine for C# application. This is core package without any webbrowser or javascript binding.</Description>
+    <PackageId>Neutronium.Core</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags></PackageTags>
+    <AssemblyVersion>1.3.1.0</AssemblyVersion>
+    <FileVersion>1.3.1.0</FileVersion>
+    <PackageReleaseNotes>- Correction for issue #69
+- Implementation issue #67
+- Better support for exporting char to cjson</PackageReleaseNotes>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="MoreCollection, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MoreCollection.2.0.0\lib\net45\MoreCollection.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <None Remove="scripts\Infra.js" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Binding\Builder\BulkJsHelper.cs" />
-    <Compile Include="Binding\Builder\EntityDescriptor.cs" />
-    <Compile Include="Binding\Builder\EntityArraySpliter.cs" />
-    <Compile Include="Binding\Builder\Packer\ArrayChildrenDescriptionPacker.cs" />
-    <Compile Include="Binding\Builder\IBulkUpdater.cs" />
-    <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategy.cs" />
-    <Compile Include="Binding\Builder\IJavascriptObjectBuilderStrategyFactory.cs" />
-    <Compile Include="Binding\Builder\JavascriptObjectBulkBuilder.cs" />
-    <Compile Include="Binding\Builder\JavascriptObjectMixtBuilderStrategy.cs" />
-    <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderStrategy.cs" />
-    <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilder.cs" />
-    <Compile Include="Binding\Builder\JavascriptObjectSynchroneousBuilderAdapter.cs" />
-    <Compile Include="Binding\Builder\CommandCreationRequest.cs" />
-    <Compile Include="Binding\Builder\JSAllBuilderAdapter.cs" />
-    <Compile Include="Binding\Builder\ObjectsCreationRequest.cs" />
-    <Compile Include="Binding\Builder\EntityDescriptorSpliter.cs" />
-    <Compile Include="Binding\Builder\Packer\KeyPacker.cs" />
-    <Compile Include="Binding\Builder\Packer\ObjectChildrenDescriptionPacker.cs" />
-    <Compile Include="Binding\GlueBuilder\GlueObjectDynamicBuilder.cs" />
-    <Compile Include="Binding\GlueBuilder\GlueObjectDynamicObjectBuilder.cs" />
-    <Compile Include="Binding\GlueBuilder\GlueObjectDictionaryBuilder.cs" />
-    <Compile Include="Binding\GlueBuilder\GlueObjectBuilder.cs" />
-    <Compile Include="Binding\GlueFactoryFactory.cs" />
-    <Compile Include="Binding\GlueBuilder\GlueCollectionsBuilder.cs" />
-    <Compile Include="Binding\GlueObject\AttibuteUpdater.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsSByte.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsByte.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsNull.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsBool.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsFloat.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsDouble.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsDateTime.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsChar.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsUlong.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsUshort.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsShort.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsLong.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsInt.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsUint.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsDecimal.cs" />
-    <Compile Include="Binding\GlueObject\IDescriptionBuilder.cs" />
-    <Compile Include="Binding\GlueObject\DescriptionBuilder.cs" />
-    <Compile Include="Binding\Builder\IJavascriptObjectBuilder.cs" />
-    <Compile Include="Binding\GlueBuilder\GlueFactoryBase.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsCommandBase.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsCommandWithoutParameter.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsCommand_T.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsResultCommandBase.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsResultCommand_Tr.cs" />
-    <Compile Include="Binding\GlueObject\IJsCsCachableGlue.cs" />
-    <Compile Include="Binding\GlueBuilder\GlueMappingFactory.cs" />
-    <Compile Include="Binding\GlueObject\IExecutableGlue.cs" />
-    <Compile Include="Binding\GlueObject\IBasicJsCsGlue.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsBasicTyped.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsEnum.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsString.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsSimpleCommandBase.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsSimpleCommand_T.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappableArray.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappableCommand.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappableGenericObject.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand_Ta_Tr.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappableResultCommand_Tr.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappedCommand_T.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappedCommandWithoutParameter.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappableSimpleCommand_T.cs" />
-    <Compile Include="Binding\GlueObject\Mapped\JsMappableSimpleCommand.cs" />
-    <Compile Include="Binding\ICSharpToJsCache.cs" />
-    <Compile Include="Binding\JavascriptMapper.cs" />
-    <Compile Include="Binding\GlueObject\BridgeUpdater.cs" />
-    <Compile Include="Binding\Builder\JavascriptObjectBulkBuilderStrategy.cs" />
-    <Compile Include="Binding\Listeners\IEntityUpdater.cs" />
-    <Compile Include="Binding\GlueObject\GlueBase.cs" />
-    <Compile Include="Binding\GlueBuilder\IGlueFactory.cs" />
-    <Compile Include="Extension\JavascriptObjectExtension.cs" />
-    <Compile Include="Extension\JavascriptToCSharpConverterExtension.cs" />
-    <Compile Include="Binding\Listeners\FullListenerRegister.cs" />
-    <Compile Include="Binding\Listeners\IObjectChangesListener.cs" />
-    <Compile Include="Binding\Listeners\ObjectChangesListener.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsCommand.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsSimpleCommand.cs" />
-    <Compile Include="Binding\GlueObject\Executable\JsResultCommand_Ta_Tr.cs" />
-    <Compile Include="Binding\GlueObject\IJsCsMappedBridge.cs" />
-    <Compile Include="Binding\GlueObject\Basic\JsBasicObject.cs" />
-    <Compile Include="Binding\GlueObject\JsCsGlueType.cs" />
-    <Compile Include="Binding\HtmlViewContext.cs" />
-    <Compile Include="Binding\GlueBuilder\GlueFactory.cs" />
-    <Compile Include="Binding\IJavascriptSessionCache.cs" />
-    <Compile Include="Binding\Builder\StandardStrategyFactory.cs" />
-    <Compile Include="Extension\JsGlueExtension.cs" />
-    <Compile Include="Infra\MayBe.cs" />
-    <Compile Include="Extension\WebViewExtension.cs" />
-    <Compile Include="IBindingBuilder.cs" />
-    <Compile Include="Infra\AddLoger.cs" />
-    <Compile Include="Infra\ClrRuntime.cs" />
-    <Compile Include="Infra\DictionaryExtensions.cs" />
-    <Compile Include="Infra\ListExtensions.cs" />
-    <Compile Include="Infra\CollectionExtensions.cs" />
-    <Compile Include="Infra\ComposedDisposable.cs" />
-    <Compile Include="Infra\DisposableAction.cs" />
-    <Compile Include="Infra\IndexDescriptor.cs" />
-    <Compile Include="Infra\ProcessHelper.cs" />
-    <Compile Include="Infra\Reflection\DynamicObjectPropertyAccessor.cs" />
-    <Compile Include="Infra\Reflection\GenericMethodAccessor.cs" />
-    <Compile Include="Infra\Reflection\ILExtension.cs" />
-    <Compile Include="Infra\Reflection\IGenericPropertyAcessor.cs" />
-    <Compile Include="Infra\Reflection\MemberInfoExtensions.cs" />
-    <Compile Include="Infra\Reflection\PropertyAccessor.cs" />
-    <Compile Include="Infra\Reflection\DictionaryPropertyAccessor.cs" />
-    <Compile Include="Infra\Reflection\PropertyInfoDescription.cs" />
-    <Compile Include="Infra\Reflection\TypePropertyAccessor.cs" />
-    <Compile Include="Infra\Slicer.cs" />
-    <Compile Include="Infra\Types.cs" />
-    <Compile Include="Infra\VM\DataContextViewModel.cs" />
-    <Compile Include="JavascriptFramework\BinderBuilder.cs" />
-    <Compile Include="JavascriptFramework\DebugToolsUI.cs" />
-    <Compile Include="JavascriptFramework\IJavascriptObjectInternalMapper.cs" />
-    <Compile Include="JavascriptFramework\IJavascriptFrameworkManager.cs" />
-    <Compile Include="JavascriptFramework\CollectionChangeType.cs" />
-    <Compile Include="Binding\CollectionChanges\CollectionChanges.cs" />
-    <Compile Include="Binding\CollectionChanges\IndividualCollectionChange.cs" />
-    <Compile Include="JavascriptFramework\IJavascriptViewModelManager.cs" />
-    <Compile Include="JavascriptFramework\IJavascriptViewModelUpdater.cs" />
-    <Compile Include="JavascriptFramework\IndividualJavascriptCollectionChange.cs" />
-    <Compile Include="JavascriptFramework\JavascriptCollectionChanges.cs" />
-    <Compile Include="Extension\JavascriptObjectFactoryExtension.cs" />
-    <Compile Include="JavascriptFramework\IJavascriptSessionInjector.cs" />
-    <Compile Include="Binding\IJavascriptToCSharpConverter.cs" />
-    <Compile Include="JavascriptFramework\IJavascriptChangesObserver.cs" />
-    <Compile Include="Binding\HtmlViewEngine.cs" />
-    <Compile Include="Binding\Listeners\ListenerRegister.cs" />
-    <Compile Include="Binding\Listeners\Silenter.cs" />
-    <Compile Include="Binding\SessionCacher.cs" />
-    <Compile Include="Infra\ResourceReader.cs" />
-    <Compile Include="Navigation\FirstLoadEvent.cs" />
-    <Compile Include="Utils\CJsonConverter.cs" />
-    <Compile Include="WebBrowserEngine\JavascriptObject\JavascriptNamer.cs" />
-    <Compile Include="Navigation\Routing\BuilderExtension.cs" />
-    <Compile Include="Navigation\Routing\IConventionRouter.cs" />
-    <Compile Include="Navigation\Routing\ITypesProvider.cs" />
-    <Compile Include="Navigation\Routing\Router.cs" />
-    <Compile Include="JavascriptFramework\WindowInformation.cs" />
-    <Compile Include="Navigation\Routing\FuncionalRouter.cs" />
-    <Compile Include="Navigation\Routing\ConventionRouter.cs" />
-    <Compile Include="Navigation\Routing\TypesProvider.cs" />
-    <Compile Include="Navigation\Routing\TypesProviderExtension.cs" />
-    <Compile Include="WebBrowserEngine\Control\DebugEventArgs.cs" />
-    <Compile Include="WebBrowserEngine\Control\IWebBrowserWindowProvider.cs" />
-    <Compile Include="WebBrowserEngine\JavascriptObject\CreationOption.cs" />
-    <Compile Include="WebBrowserEngine\JavascriptObject\IJavascriptObject.cs" />
-    <Compile Include="WebBrowserEngine\JavascriptObject\IJavascriptObjectConverter.cs" />
-    <Compile Include="WebBrowserEngine\JavascriptObject\IJavascriptObjectFactory.cs" />
-    <Compile Include="WebBrowserEngine\JavascriptObject\IWebView.cs" />
-    <Compile Include="IHtmlBinding.cs" />
-    <Compile Include="Exceptions\NeutroniumException.cs" />
-    <Compile Include="Exceptions\ExceptionHelper.cs" />
-    <Compile Include="Infra\NullUIDispatcher.cs" />
-    <Compile Include="Infra\VM\BasicRelayCommand.cs" />
-    <Compile Include="Infra\TypeExtensions.cs" />
-    <Compile Include="Infra\VM\ViewModelBase.cs" />
-    <Compile Include="WebBrowserEngine\JavascriptObject\NeutroniumConstants.cs" />
-    <Compile Include="WebBrowserEngine\Window\BeforeJavascriptExcecutionArgs.cs" />
-    <Compile Include="WebBrowserEngine\Window\BrowserCrashedArgs.cs" />
-    <Compile Include="WebBrowserEngine\Window\ClientReloadArgs.cs" />
-    <Compile Include="WebBrowserEngine\Window\ConsoleMessageArgs.cs" />
-    <Compile Include="WebBrowserEngine\Window\ContextMenuItem.cs" />
-    <Compile Include="WebBrowserEngine\Window\IDispatcher.cs" />
-    <Compile Include="WebBrowserEngine\Window\IModernWebBrowserWindow.cs" />
-    <Compile Include="WebBrowserEngine\Window\IWebBrowserWindow.cs" />
-    <Compile Include="WebBrowserEngine\Window\LoadEndEventArgs.cs" />
-    <Compile Include="Log\NullLogger.cs" />
-    <Compile Include="Navigation\DisplayEvent.cs" />
-    <Compile Include="Navigation\INavigable.cs" />
-    <Compile Include="Navigation\INavigationBuilder.cs" />
-    <Compile Include="Navigation\INavigationSolver.cs" />
-    <Compile Include="Infra\EnumExtensions.cs" />
-    <Compile Include="Infra\TaskHelper.cs" />
-    <Compile Include="JavascriptBindingMode.cs" />
-    <Compile Include="Binding\GlueObject\JsCsGlueExtender.cs" />
-    <Compile Include="Binding\GlueObject\IJsCsGlue.cs" />
-    <Compile Include="JavascriptFramework\IJavascriptObjectMapper.cs" />
-    <Compile Include="Binding\GlueObject\JsArray.cs" />
-    <Compile Include="Binding\GlueObject\JsGenericObject.cs" />
-    <Compile Include="Binding\BidirectionalMapper.cs" />
-    <Compile Include="Infra\AssemblyExtensions.cs" />
-    <Compile Include="HtmlBinding.cs" />
-    <Compile Include="Binding\GlueBuilder\CSharpToJavascriptConverter.cs" />
-    <Compile Include="StringBinding.cs" />
-    <Compile Include="WebSessionLoggerExtension.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Navigation\IUrlSolver.cs" />
-    <Compile Include="IWebSessionLogger.cs" />
-    <Compile Include="Log\BasicLogger.cs" />
-    <Compile Include="WebBrowserEngine\Control\IWebViewLifeCycleManager.cs" />
-    <Compile Include="Navigation\NavigationEvent.cs" />
-    <Compile Include="Navigation\NavigationBuilder.cs" />
-    <Compile Include="Navigation\Window\HtmlLogicWindow.cs" />
-    <Compile Include="Navigation\Window\WindowLogicalState.cs" />
-    <Compile Include="Navigation\DoubleBrowserNavigator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <EmbeddedResource Include="scripts\Infra.js" />
-    <AppDesigner Include="Properties\" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj">
-      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
-      <Name>Neutronium.MVVMComponents</Name>
-    </ProjectReference>
+    <PackageReference Include="MoreCollection" Version="2.0.0" />
   </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  
 </Project>
+
+
