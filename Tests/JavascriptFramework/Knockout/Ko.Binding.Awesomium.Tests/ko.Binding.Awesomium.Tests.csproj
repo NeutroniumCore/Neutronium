@@ -93,7 +93,6 @@
   <ItemGroup>
     <Compile Include="Infra\AwesomiumKoContext.cs" />
     <Compile Include="Infra\AwesomiumKoContextFixture.cs" />
-    <Compile Include="BindingPerformance_Ko_Awe_Tests.cs" />
     <Compile Include="Binding_Ko_Awe_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
