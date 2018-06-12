@@ -105,10 +105,9 @@ namespace Neutronium.Core.Binding.Builder
                     }
                 })()";
 
-            IJavascriptObject helper;
             script = script.Replace("{{NeutroniumConstants.ObjectId}}", NeutroniumConstants.ObjectId)
                             .Replace("{{NeutroniumConstants.ReadOnlyFlag}}", NeutroniumConstants.ReadOnlyFlag);
-            _WebView.Eval(script, out helper);
+            _WebView.Eval(script, out var helper);
             return new BulkJsHelper(_Cache, _WebView, helper);
         }
 

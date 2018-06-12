@@ -135,8 +135,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 return objectDictionaryBuilder.Convert;
             }
 
-            var dynamicObject = @object as DynamicObject;
-            if (dynamicObject != null)
+            if (@object is DynamicObject)
                 return GlueObjectDynamicBuilder.Convert;
 
             if (@object is IList)

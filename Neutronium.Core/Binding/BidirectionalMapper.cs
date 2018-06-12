@@ -162,8 +162,7 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                var currentfather = _SessionCache.GetCached(objectchanged) as JsGenericObject;
-                if (currentfather == null)
+                if (!(_SessionCache.GetCached(objectchanged) is JsGenericObject currentfather))
                     return;
 
                 var propertyUpdater = currentfather.GetPropertyUpdater(propertyName);
@@ -242,8 +241,8 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                var res = _SessionCache.GetCached(changes.Collection) as JsArray;
-                if (res == null) return;
+                if (!(_SessionCache.GetCached(changes.Collection) is JsArray res))
+                    return;
 
                 var collectionChanges = res.GetChanger(changes, this);
 
@@ -285,8 +284,7 @@ namespace Neutronium.Core.Binding
 
         private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var currentfather = _SessionCache.GetCached(sender) as JsGenericObject;
-            if (currentfather == null)
+            if (!(_SessionCache.GetCached(sender) is JsGenericObject currentfather))
                 return;
 
             var propertyUpdater = currentfather.GetPropertyUpdater(e.PropertyName);
@@ -307,8 +305,7 @@ namespace Neutronium.Core.Binding
 
         private void UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var arr = _SessionCache.GetCached(sender) as JsArray;
-            if (arr == null)
+            if (!(_SessionCache.GetCached(sender) is JsArray arr))
                 return;
 
             switch (e.Action)
@@ -430,9 +427,7 @@ namespace Neutronium.Core.Binding
             if (javascriptObject == null)
                 return null;
 
-            object targetvalue;
-            if (Context.WebView.Converter.GetSimpleValue(javascriptObject, out targetvalue, targetType))
-            {
+            if (Context.WebView.Converter.GetSimpleValue(javascriptObject, out var targetvalue, targetType)) {
                 return new JsBasicObject(javascriptObject, targetvalue);
             }
 

@@ -81,9 +81,11 @@ namespace Tests.Universal.WebBrowserEngineTests
             };
             _Test2 = new Test2() { T1 = _Test, T2 = _Test };
 
-            _TestsNg = new ArrayList();
-            _TestsNg.Add(_Tests[0]);
-            _TestsNg.Add(_Tests[0]);
+            _TestsNg = new ArrayList 
+            {
+                _Tests[0],
+                _Tests[0]
+            };
 
             _CircularSimple = new Circular1();
             _CircularSimple.Reference = _CircularSimple;
@@ -188,13 +190,13 @@ namespace Tests.Universal.WebBrowserEngineTests
                 DoSafe(() =>
                 {
                     ibridgeresult.Type.Should().Be(JsCsGlueType.Array);
-                    IJavascriptObject resv = ibridgeresult.JsValue;
+                    var resv = ibridgeresult.JsValue;
 
                     resv.Should().NotBeNull();
                     resv.IsArray.Should().BeTrue();
                     resv.GetArrayLength().Should().Be(2);
 
-                    IJavascriptObject res = resv.GetValue(0);
+                    var res = resv.GetValue(0);
                     res.Should().NotBeNull();
                     var res1 = res.GetValue("S1");
                     res1.Should().NotBeNull();
@@ -203,14 +205,14 @@ namespace Tests.Universal.WebBrowserEngineTests
                     var jsv = res.GetValue("S1");
                     jsv.Should().NotBeNull();
                     jsv.IsString.Should().BeTrue();
-                    string stv = jsv.GetStringValue();
+                    var stv = jsv.GetStringValue();
                     stv.Should().NotBeNull();
                     stv.Should().Be("string1");
 
                     var res2 = res.GetValue("I1");
                     res2.Should().NotBeNull();
                     res2.IsNumber.Should().BeTrue();
-                    int v2 = res2.GetIntValue();
+                    var v2 = res2.GetIntValue();
                     v2.Should().Be(1);
                 });
             });
@@ -246,7 +248,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                     var res2 = res.GetValue("I1");
                     res2.Should().NotBeNull();
                     res2.IsNumber.Should().BeTrue();
-                    int v2 = res2.GetIntValue();
+                    var v2 = res2.GetIntValue();
                     v2.Should().Be(1);
                 });
             });
@@ -263,7 +265,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 {
                     res.Should().NotBeNull();
                     res.IsNumber.Should().BeTrue();
-                    double resd = res.GetDoubleValue();
+                    var resd = res.GetDoubleValue();
 
                     resd.Should().Be(0.2D);
                 });
