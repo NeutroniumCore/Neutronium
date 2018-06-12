@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
+#if NET45
 namespace Neutronium.Core.Infra.Reflection
 {
     internal static class ILExtension
@@ -40,3 +41,4 @@ namespace Neutronium.Core.Infra.Reflection
         }
     }
 }
+#endif

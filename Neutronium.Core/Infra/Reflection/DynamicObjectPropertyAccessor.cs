@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Reflection;
 using MoreCollection.Extensions;
 
-namespace Neutronium.Core.Infra.Reflection
+namespace Neutronium.Core.Infra.Reflection 
 {
     public class DynamicObjectPropertyAccessor : IGenericPropertyAcessor
     {

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+#if NET45
+using System.Dynamic;
 using System.Reflection.Emit;
+#endif
 using System.Runtime.CompilerServices;
 using Microsoft.CSharp.RuntimeBinder;
 using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
+
 
 namespace Neutronium.Core.Infra.Reflection
 {
@@ -72,8 +76,7 @@ namespace Neutronium.Core.Infra.Reflection
             });
             var callsiteSetter = CallSite<Func<CallSite, object, object, object>>.Create(setterBinder);
 
-            return new Accessor
-            {
+            return new Accessor {
                 Setter = (@object, value) => callsiteSetter.Target(callsiteSetter, @object, value),
                 Getter = (@object) => callsiteGetter.Target(callsiteGetter, @object)
             };
@@ -92,14 +95,18 @@ namespace Neutronium.Core.Infra.Reflection
 
         private static Func<object, object> BuildGet(PropertyInfo propertyInfo)
         {
+#if NET45
             var dynamicMethod = new DynamicMethod("Get" + propertyInfo.Name, Types.Object, new[] { Types.Object }, propertyInfo.DeclaringType, true);
             var generator = dynamicMethod.GetILGenerator();
-
             GenerateCreateGetPropertyIL(propertyInfo, generator);
-
             return (Func<object, object>)dynamicMethod.CreateDelegate(typeof(Func<object, object>));
+#else
+            Func<object, object> getter = (@object) => propertyInfo.GetValue(@object);
+            return getter;
+#endif
         }
 
+#if NET45
         private static void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
         {
             var getMethod = propertyInfo.GetGetMethod(true);
@@ -108,15 +115,22 @@ namespace Neutronium.Core.Infra.Reflection
             generator.BoxIfNeeded(propertyInfo.PropertyType);
             generator.Return();
         }
+#endif
 
         public Action<object, object> BuildSet(Type type, PropertyInfo propertyInfo)
         {
+#if NET45
             var dynamicMethod = new DynamicMethod("Set" + propertyInfo.Name, null, new[] { Types.Object, Types.Object }, propertyInfo.DeclaringType, true);
             var generator = dynamicMethod.GetILGenerator();
             GenerateCreateSetPropertyIL(propertyInfo, generator);
             return (Action<object, object>)dynamicMethod.CreateDelegate(typeof(Action<object, object>));
+#else
+            Action<object, object> setter = (@object, value) => propertyInfo.SetValue(@object, value);
+            return setter;
+#endif
         }
 
+#if NET45
         private static void GenerateCreateSetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
         {
             var setMethod = propertyInfo.GetSetMethod(true);
@@ -126,6 +140,7 @@ namespace Neutronium.Core.Infra.Reflection
             generator.CallMethod(setMethod);
             generator.Return();
         }
+#endif
 
         public void Set(object target, object value)
         {

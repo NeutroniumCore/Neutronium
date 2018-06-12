@@ -53,7 +53,7 @@ namespace Tests.Universal.HTMLBindingTests
         {
             coll.GetArrayLength().Should().Be(iskill.Count);
 
-            for (int i = 0; i < iskill.Count; i++) 
+            for (var  i = 0; i < iskill.Count; i++) 
             {
                 var c = coll.GetValue(i);
 

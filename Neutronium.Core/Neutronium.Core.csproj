@@ -1,9 +1,7 @@
-﻿<!--netstandard1.1;netstandard2 -->
- 
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard2.0;</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Neutronium.Core</AssemblyName>
     <RootNamespace>Neutronium.Core</RootNamespace>
@@ -24,6 +22,10 @@
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="scripts\Infra.js" />
   </ItemGroup>
@@ -31,20 +33,25 @@
   <ItemGroup>
     <EmbeddedResource Include="scripts\Infra.js" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="MoreCollection" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj" />
   </ItemGroup>
   
+   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />   
+  </ItemGroup>
+
 </Project>
 
 

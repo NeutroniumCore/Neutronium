@@ -53,10 +53,10 @@ namespace Neutronium.Core.Binding.Builder
 
         public void RequestNullCreation() => SetJsValue(_Factory.CreateNull());
         public void RequestIntCreation(int value) => SetJsValue(_Factory.CreateInt(value));
-        public void RequestStringCreation(string value) =>SetJsValue(_Factory.CreateString(value));
+        public void RequestStringCreation(string value) => SetJsValue(_Factory.CreateString(value));
         public void RequestUintCreation(uint value) => SetJsValue(_Factory.CreateUint(value));
-        public void RequestEnumCreation(Enum value) =>SetJsValue(_Factory.CreateEnum(value));
-        public void RequestBoolCreation(bool value) =>SetJsValue(_Factory.CreateBool(value));
+        public void RequestEnumCreation(Enum value) => SetJsValue(_Factory.CreateEnum(value));
+        public void RequestBoolCreation(bool value) => SetJsValue(_Factory.CreateBool(value));
         public void RequestDoubleCreation(double value) => SetJsValue(_Factory.CreateDouble(value));
         public void RequestJsDateTimeCreation(DateTime value) => SetJsValue(_Factory.CreateDateTime(value));
 
