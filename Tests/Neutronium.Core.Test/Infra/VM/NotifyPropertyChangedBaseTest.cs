@@ -6,7 +6,7 @@ namespace Neutronium.Core.Test.Infra.VM
 {
     public class NotifyPropertyChangedBaseTest
     {
-        public class vm : NotifyPropertyChangedBase
+        public class Vm : NotifyPropertyChangedBase
         {
             private int _Value;
             public int Value { get { return _Value; } set { Set(ref _Value, value, "Value"); } }
@@ -15,18 +15,19 @@ namespace Neutronium.Core.Test.Infra.VM
         [Fact]
         public void Test_NotifyPropertyChangedBase()
         {
-            var vm = new vm();
+            var vm = new Vm();
 
-            vm.MonitorEvents();
+            using (var monitor = vm.Monitor())
+            {
+                vm.Value.Should().Be(0);
+                vm.Value = 0;
+                vm.Value.Should().Be(0);
+                monitor.Should().NotRaisePropertyChangeFor(t => t.Value);
 
-            vm.Value.Should().Be(0);
-            vm.Value = 0;
-            vm.Value.Should().Be(0);
-            vm.ShouldNotRaisePropertyChangeFor(t => t.Value);
-
-            vm.Value = 2;
-            vm.Value.Should().Be(2);
-            vm.ShouldRaisePropertyChangeFor(t => t.Value);
+                vm.Value = 2;
+                vm.Value.Should().Be(2);
+                monitor.Should().RaisePropertyChangeFor(t => t.Value);
+            }
         }
     }
 }

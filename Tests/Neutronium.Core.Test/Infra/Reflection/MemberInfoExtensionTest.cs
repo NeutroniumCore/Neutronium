@@ -18,7 +18,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
             var propertyInfo = typeof(ClassWithAttributes).GetProperty(name);
             var attribute = propertyInfo.GetAttribute<BindableAttribute>();
 
-            attribute.ShouldBeEquivalentTo(expected);
+            attribute.Should().BeEquivalentTo(expected);
         }
 
         [Fact]

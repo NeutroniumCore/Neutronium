@@ -149,7 +149,7 @@ namespace Neutronium.Core.Test.Infra
         {
             var expected = new BindableAttribute(true, BindingDirection.OneWay);
             var res = typeof(ClassWithAttributesAndDefaultAttribute).GetAttribute<BindableAttribute>();
-            res.ShouldBeEquivalentTo(expected);
+            res.Should().BeEquivalentTo(expected);
         }
 
         [Fact]

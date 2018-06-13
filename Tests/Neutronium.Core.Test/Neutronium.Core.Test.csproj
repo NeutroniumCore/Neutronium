@@ -1,226 +1,38 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A766AC1E-10FD-4D77-A95F-F1974FB0FEFC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Neutronium.Core.Test</RootNamespace>
-    <AssemblyName>Neutronium.Core.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>net452</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="FluentAssertions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentAssertions.Core, Version=4.1.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\FluentAssertions.4.1.1\lib\net45\FluentAssertions.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="FsCheck, Version=2.7.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FsCheck.2.7.2\lib\net45\FsCheck.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FsCheck.Xunit, Version=2.7.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FsCheck.Xunit.2.7.2\lib\net45\FsCheck.Xunit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FSharp.Core, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FSharp.Core.3.1.2.5\lib\net40\FSharp.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MoreCollection, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MoreCollection.2.0.0\lib\net45\MoreCollection.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NSubstitute, Version=1.9.2.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NSubstitute.1.9.2.0\lib\net45\NSubstitute.dll</HintPath>
-    </Reference>
-    <Reference Include="Ploeh.AutoFixture, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoFixture.3.51.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ploeh.AutoFixture.Xunit2, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoFixture.Xunit2.3.51.0\lib\net45\Ploeh.AutoFixture.Xunit2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.assert.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.assert.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensibility.core.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Binding\Builder\EntityDescriptorSpliterTests.cs" />
-    <Compile Include="Binding\CSharpToJavascriptConverterTests.cs" />
-    <Compile Include="Binding\Listeners\SilenterTest.cs" />
-    <Compile Include="Helper\AmbigeousDynamicObject.cs" />
-    <Compile Include="Helper\StringViewModel.cs" />
-    <Compile Include="Helper\FactoryFatherTestViewModel.cs" />
-    <Compile Include="Helper\BasicFatherTestViewModel.cs" />
-    <Compile Include="Helper\BasicListTestViewModel.cs" />
-    <Compile Include="Helper\BasicTestViewModel.cs" />
-    <Compile Include="Helper\ClrTypesTestViewModel.cs" />
-    <Compile Include="Helper\CommandsTestViewModel.cs" />
-    <Compile Include="Helper\DynamicObjectTest.cs" />
-    <Compile Include="Helper\FakeFactory.cs" />
-    <Compile Include="Helper\FakeTestViewModel.cs" />
-    <Compile Include="Helper\NullableTestViewModel.cs" />
-    <Compile Include="Helper\PerformanceHelper.cs" />
-    <Compile Include="Helper\ReadOnlyTestViewModel.cs" />
-    <Compile Include="Helper\ReadWriteTestViewModel.cs" />
-    <Compile Include="Helper\SimpleCommandTestViewModel.cs" />
-    <Compile Include="Helper\SimpleFatherTestViewModel.cs" />
-    <Compile Include="Helper\PropertyUpdatingTestViewModel.cs" />
-    <Compile Include="Helper\SimpleReadOnlyTestViewModel.cs" />
-    <Compile Include="Helper\TestClass.cs" />
-    <Compile Include="Helper\TestDynamicObject.cs" />
-    <Compile Include="Helper\ViewModelTestBase.cs" />
-    <Compile Include="Infra\DictionaryExtensionsTest.cs" />
-    <Compile Include="Infra\ListExtensionsTest.cs" />
-    <Compile Include="Infra\CollectionExtensionsTest.cs" />
-    <Compile Include="Infra\EnumExtensionsTest.cs" />
-    <Compile Include="Helper\FakeClasses.cs" />
-    <Compile Include="Infra\Reflection\DictionaryPropertyAccessorTest.cs" />
-    <Compile Include="Infra\Reflection\DynamicObjectPropertyAccessorTest.cs" />
-    <Compile Include="Infra\Reflection\GenericMethodAccessorTest.cs" />
-    <Compile Include="Infra\Reflection\PropertyAccessorTest.cs" />
-    <Compile Include="Infra\Reflection\PropertyInfoDescriptionTest.cs" />
-    <Compile Include="Infra\Reflection\MemberInfoExtensionTest.cs" />
-    <Compile Include="Infra\SlicerTest.cs" />
-    <Compile Include="Infra\Reflection\TypePropertyAccessorTest.cs" />
-    <Compile Include="Infra\VM\NotifyPropertyChangedBaseTest.cs" />
-    <Compile Include="Infra\NullUIDispatcherTest.cs" />
-    <Compile Include="Navigation\Routing\ConventionRouterTests.cs" />
-    <Compile Include="Navigation\Routing\FuncionalRouterTests.cs" />
-    <Compile Include="Navigation\Routing\TypeProviderTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NullWatcherTest.cs" />
-    <Compile Include="NavigationBuilderTests.cs" />
-    <Compile Include="Infra\TypeExtensionsTest.cs" />
-    <Compile Include="Utils\CJsonConverterTests.cs" />
-    <Compile Include="WebBrowserEngine\JavascriptObject\JavascriptNamerTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj">
-      <Project>{E35B9010-5429-4FFE-A788-E9C40E743E9C}</Project>
-      <Name>Neutronium.Example.ViewModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj">
-      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>Neutronium.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj">
-      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
-      <Name>Neutronium.MVVMComponents</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
+
   <ItemGroup>
     <Content Include="javascript\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.4.0" />
+    <PackageReference Include="FluentAssertions">
+      <Version>5.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="FsCheck.Xunit" Version="2.10.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NSubstitute">
+      <Version>3.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj" />
+    <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj" />
+  </ItemGroup>
+
 </Project>

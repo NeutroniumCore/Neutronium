@@ -56,12 +56,8 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
         public WpfCefBrowser(NeutroniumCefApp app, ILogger logger)
         {
             _App = app;
-            if (logger == null)
-            {
-                throw new ArgumentNullException("logger");
-            }
 
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             StartUrl = "about:blank";
             KeyboardNavigation.SetAcceptsReturn(this, true);
@@ -239,7 +235,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
                         _browserSizeChanged = true;
 
                         // Find the window that's hosting us
-                        Window parentWnd = FindParentOfType<Window>(this);
+                        var parentWnd = FindParentOfType<Window>(this);
                         if (parentWnd != null)
                         {
                             IntPtr hParentWnd = new WindowInteropHelper(parentWnd).Handle;
@@ -317,7 +313,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
                 {
                     if (_browserHost != null)
                     {
-                        CefMouseEvent mouseEvent = new CefMouseEvent()
+                        var mouseEvent = new CefMouseEvent()
                         {
                             X = 0,
                             Y = 0
@@ -340,9 +336,9 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
                 {
                     if (_browserHost != null)
                     {
-                        Point cursorPos = arg.GetPosition(this);
+                        var cursorPos = arg.GetPosition(this);
 
-                        CefMouseEvent mouseEvent = new CefMouseEvent()
+                        var mouseEvent = new CefMouseEvent()
                         {
                             X = (int)cursorPos.X,
                             Y = (int)cursorPos.Y
@@ -368,9 +364,9 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
                     {
                         Focus();
 
-                        Point cursorPos = arg.GetPosition(this);
+                        var cursorPos = arg.GetPosition(this);
 
-                        CefMouseEvent mouseEvent = new CefMouseEvent()
+                        var mouseEvent = new CefMouseEvent()
                         {
                             X = (int)cursorPos.X,
                             Y = (int)cursorPos.Y,
@@ -399,7 +395,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
                 {
                     if (_browserHost != null)
                     {
-                        Point cursorPos = arg.GetPosition(this);
+                        var cursorPos = arg.GetPosition(this);
 
                         CefMouseEvent mouseEvent = new CefMouseEvent()
                         {

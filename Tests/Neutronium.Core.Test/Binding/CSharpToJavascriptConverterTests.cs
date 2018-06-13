@@ -16,7 +16,7 @@ using Neutronium.Core.Test.Helper;
 using Neutronium.MVVMComponents;
 using Xunit.Abstractions;
 using Newtonsoft.Json;
-using Ploeh.AutoFixture.Xunit2;
+using AutoFixture.Xunit2;
 
 namespace Neutronium.Core.Test.Binding
 {

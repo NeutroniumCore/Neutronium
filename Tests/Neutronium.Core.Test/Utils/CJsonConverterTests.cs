@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using Neutronium.Core.Test.Helper;
 using Neutronium.Core.Utils;
@@ -10,7 +11,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using NSubstitute;
-using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
 namespace Neutronium.Core.Test.Utils

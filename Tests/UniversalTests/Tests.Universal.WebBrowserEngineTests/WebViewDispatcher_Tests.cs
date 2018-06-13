@@ -38,7 +38,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
                 Action wf = () => DoSafe(action);
 
-                wf.ShouldThrow<Exception>();
+                wf.Should().Throw<Exception>();
 
                 action.Received(1).Invoke();
             }

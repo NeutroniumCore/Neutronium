@@ -18,11 +18,11 @@ namespace Neutronium.Core.Test.Infra.Reflection
             var propertyInfo = typeof(ClassWithAttributes).GetProperty(name);
             var propertyInfoDescription = new PropertyInfoDescription(propertyInfo);
 
-            propertyInfoDescription.Attribute.ShouldBeEquivalentTo(expected);
+            propertyInfoDescription.Attribute.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
-        public void Constructor_builds_correct_object()
+        public void Constructor_builds_correct_object_null()
         {
             var propertyInfo = typeof(ClassWithAttributes).GetProperty(nameof(ClassWithAttributes.NoAttribute));
             var propertyInfoDescription = new PropertyInfoDescription(propertyInfo);
@@ -42,7 +42,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
             var propertyInfo = typeof(ClassWithAttributes).GetProperty(name);
             var propertyInfoDescription = new PropertyInfoDescription(propertyInfo, defaultAttribute);
 
-            propertyInfoDescription.Attribute.ShouldBeEquivalentTo(expected);
+            propertyInfoDescription.Attribute.Should().BeEquivalentTo(expected);
         }
     }
 }

@@ -65,7 +65,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = binding.JsRootObject;
                     IJavascriptObject[] res = null;
                     Action act = () => res = js.GetArrayElements();
-                    act.ShouldThrow<ArgumentException>();
+                    act.Should().Throw<ArgumentException>();
                 }
             };
 
@@ -1231,7 +1231,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     Action Safe = () => datacontexttest.InconsistentEventEmit();
 
-                    Safe.ShouldNotThrow("Inconsistent Name in property should not throw exception");
+                    Safe.Should().NotThrow("Inconsistent Name in property should not throw exception");
                 }
             };
 
@@ -3098,32 +3098,32 @@ namespace Tests.Universal.HTMLBindingTests
                     //for changing property on the wrong thread
                     var third = new BasicTestViewModel();
                     Action safe = () => child.Child = third;
-                    safe.ShouldNotThrow();
+                    safe.Should().NotThrow();
                 }
             };
 
             await RunAsync(test);
         }
 
-        public static IEnumerable<object> CircularData
+        public static IEnumerable<object[]> CircularData
         {
             get
             {
                 var root = new BasicTestViewModel { Child = new BasicTestViewModel() };
-                yield return new object[] { root, new[] { root, root.Child } };
+                yield return new object[] { root, new ViewModelTestBase[] { root, root.Child } };
 
                 var root2 = new BasicTestViewModel { Child = new BasicTestViewModel { Child = new BasicTestViewModel() } };
-                yield return new object[] { root2, new[] { root2, root2.Child, root2.Child.Child } };
+                yield return new object[] { root2, new ViewModelTestBase[] { root2, root2.Child, root2.Child.Child } };
 
                 var circular1 = new BasicTestViewModel();
                 circular1.Child = circular1;
 
-                yield return new object[] { circular1, new[] { circular1 } };
+                yield return new object[] { circular1, new ViewModelTestBase[] { circular1 } };
 
                 var circular2 = new BasicTestViewModel { Child = new BasicTestViewModel() };
                 circular2.Child.Child = circular2;
 
-                yield return new object[] { circular2, new[] { circular2, circular2.Child } };
+                yield return new object[] { circular2, new ViewModelTestBase[] { circular2, circular2.Child } };
             }
         }
 

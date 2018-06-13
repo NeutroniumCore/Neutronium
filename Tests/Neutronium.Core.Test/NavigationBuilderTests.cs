@@ -20,7 +20,7 @@ namespace Neutronium.Core.Test
 
             Action Failed = () => _NavigationBuilder.Register<object>("javascript\\index.html");
 
-            Failed.ShouldThrow<ArgumentException>();
+            Failed.Should().Throw<ArgumentException>();
         }
 
         [Fact]
@@ -52,19 +52,19 @@ namespace Neutronium.Core.Test
             {
                 _NavigationBuilder.Register<object>("javascript\\navigationk_1.html");
             };
-            wf.ShouldThrow<Exception>();
+            wf.Should().Throw<Exception>();
 
             wf = () =>
             {
                 _NavigationBuilder.RegisterAbsolute<object>("C:\\javascript\\navigationk_1.html");
             };
-            wf.ShouldThrow<Exception>();
+            wf.Should().Throw<Exception>();
 
             wf = () =>
             {
                 _NavigationBuilder.Register<object>(new Uri("C:\\navigationk_1.html"));
             };
-            wf.ShouldThrow<Exception>();
+            wf.Should().Throw<Exception>();
         }
     }
 }

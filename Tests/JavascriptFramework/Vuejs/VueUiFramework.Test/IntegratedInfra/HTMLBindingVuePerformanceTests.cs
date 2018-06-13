@@ -24,13 +24,13 @@ namespace VueFramework.Test.IntegratedInfra
         {
         }
 
-        public static IEnumerable<object> ObjectSizes =>
+        public static IEnumerable<object[]> ObjectSizes =>
                             EnumerableExtensions.Cartesian(
                                 new[] { 1, 5, 10, 20, 50 },
                                 new[] { 1, 2, 3 }, 
                                 (size, rank) => new object[] { size, rank });
 
-        public static IEnumerable<object> IntValues => new[] { 1, 5, 10, 20, 50 }.Select(v => new object[] { v });
+        public static IEnumerable<object[]> IntValues => new[] { 1, 5, 10, 20, 50 }.Select(v => new object[] { v });
 
         [Theory]
         [MemberData(nameof(ObjectSizes))]
@@ -80,7 +80,7 @@ namespace VueFramework.Test.IntegratedInfra
             await Update_from_int(value, strategyBuilder);
         }
 
-        public async Task Stress_Vm_FromStrategy(int childrenCount, int rank, IJavascriptObjectBuilderStrategyFactory strategyFactory)
+        private async Task Stress_Vm_FromStrategy(int childrenCount, int rank, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
             var root = new SimpleFatherTestViewModel();
             var test = new TestInContextAsync()
@@ -111,7 +111,7 @@ namespace VueFramework.Test.IntegratedInfra
             await RunAsync(test);
         }
 
-        public async Task Update_from_int(int value, IJavascriptObjectBuilderStrategyFactory strategyFactory)
+        private async Task Update_from_int(int value, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
             var root = new FakeIntViewModel();
             var test = new TestInContextAsync()

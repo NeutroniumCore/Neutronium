@@ -93,7 +93,7 @@ namespace Tests.Universal.NavigationTests
 
                 var relp = "javascript\\navigation_1.html";
                 Action act = () => c.RelativeSource = relp;
-                act.ShouldThrow<NeutroniumException>();
+                act.Should().Throw<NeutroniumException>();
             });
         }
 

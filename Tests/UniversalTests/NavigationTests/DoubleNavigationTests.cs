@@ -630,7 +630,7 @@ namespace Tests.Universal.NavigationTests
                 var a1 = new A2();
 
                 Func<Task> wf = () => wpfnav.NavigateAsync(a1);
-                wf.ShouldThrow<NeutroniumException>();
+                wf.Should().Throw<NeutroniumException>();
             });
         }
 
@@ -641,7 +641,7 @@ namespace Tests.Universal.NavigationTests
             {
                 wpfnav.IsDebug.Should().BeTrue();
                 Action safe = wpfnav.ShowDebugWindow;
-                safe.ShouldNotThrow<Exception>();
+                safe.Should().NotThrow<Exception>();
 
                 wpfnav.Should().NotBeNull();
                 wpfbuild.Register<A>(GetRelativePath(TestContext.Navigation1));
@@ -736,7 +736,7 @@ namespace Tests.Universal.NavigationTests
                 var a1 = new object();
 
                 Func<Task> wf = async () => await wpfnav.NavigateAsync(a1);
-                wf.ShouldThrow<NeutroniumException>();
+                wf.Should().Throw<NeutroniumException>();
             });
         }
 
