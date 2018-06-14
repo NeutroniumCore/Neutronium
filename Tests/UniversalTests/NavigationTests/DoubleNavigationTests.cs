@@ -32,16 +32,16 @@ namespace Tests.Universal.NavigationTests
 
         internal void TestNavigation(Action<INavigationBuilder, HTMLWindow> test, bool iDebug = false, bool iManageLifeCycle = true)
         {
-            Action<HTMLWindow> simpleTest = (windowHtml) => test(windowHtml.NavigationBuilder, windowHtml);
+            void SimpleTest(HTMLWindow windowHtml) => test(windowHtml.NavigationBuilder, windowHtml);
 
-            base.Test(simpleTest, iDebug, iManageLifeCycle);
+            base.Test(SimpleTest, iDebug, iManageLifeCycle);
         }
 
         internal async Task TestNavigation(Func<INavigationBuilder, HTMLWindow, Task> test, bool iDebug = false, bool iManageLifeCycle = true)
         {
-            Func<HTMLWindow, WindowTest, Task> simpleTest = (windowHtml, windowTest) => test(windowHtml.NavigationBuilder, windowHtml);
+            Task SimpleTest(HTMLWindow windowHtml, WindowTest windowTest) => test(windowHtml.NavigationBuilder, windowHtml);
 
-            await base.Test(simpleTest, iDebug, iManageLifeCycle);
+            await base.Test(SimpleTest, iDebug, iManageLifeCycle);
         }
 
         private void SetUpRoute(INavigationBuilder builder, HTMLWindow wpfnav)
@@ -629,7 +629,7 @@ namespace Tests.Universal.NavigationTests
                 wpfnav.UseINavigable = true;
                 var a1 = new A2();
 
-                Func<Task> wf = () => wpfnav.NavigateAsync(a1);
+                Action wf = () =>  wpfnav.NavigateAsync(a1).Wait();
                 wf.Should().Throw<NeutroniumException>();
             });
         }
@@ -735,7 +735,7 @@ namespace Tests.Universal.NavigationTests
                 wpfnav.UseINavigable = true;
                 var a1 = new object();
 
-                Func<Task> wf = async () => await wpfnav.NavigateAsync(a1);
+                Action wf = () => wpfnav.NavigateAsync(a1).Wait();
                 wf.Should().Throw<NeutroniumException>();
             });
         }

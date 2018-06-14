@@ -58,32 +58,33 @@ namespace Tests.Universal.NavigationTests
             public Thandler Handler { get; set; }
         }
 
-        private WindowTest InitTest(HTMLControlBase_Handler<T> handler, bool iDebug = false, bool iManageLifeCycle = true)
+        private WindowTest InitTest(HTMLControlBase_Handler<T> handler, bool debug = false, bool manageLifeCycle = true)
         {
             AssemblyHelper.SetEntryAssembly();
-            Func<T> iWebControlFac = () => 
+
+            T WebControlFac()
             {
-                var element = GetNewHTMLControlBase(iDebug);
+                var element = GetNewHTMLControlBase(debug);
                 element.WebSessionLogger = _Logger;
                 return handler.Handler = element;
-            };
+            }
 
-            return BuildWindow(iWebControlFac, iManageLifeCycle);
+            return BuildWindow(WebControlFac, manageLifeCycle);
         }
 
-        internal void Test(Action<T> test, bool iDebug = false, bool iManageLifeCycle = true) 
+        internal void Test(Action<T> test, bool debug = false, bool manageLifeCycle = true) 
         {
             var handler = new HTMLControlBase_Handler<T>();
-            using (var wcontext = InitTest(handler, iDebug, iManageLifeCycle))
+            using (var wcontext = InitTest(handler, debug, manageLifeCycle))
             {
                 wcontext.RunOnUIThread( () => test(handler.Handler)).Wait();
             }
         }
 
-        internal async Task Test(Func<T, WindowTest, Task> test, bool iDebug = false, bool iManageLifeCycle = true) 
+        internal async Task Test(Func<T, WindowTest, Task> test, bool debug = false, bool manageLifeCycle = true) 
         {
             var handler = new HTMLControlBase_Handler<T>();
-            using (var wcontext = InitTest(handler, iDebug, iManageLifeCycle)) 
+            using (var wcontext = InitTest(handler, debug, manageLifeCycle)) 
             {
                 await wcontext.RunOnUIThread(async () => await test(handler.Handler, wcontext));
             }
