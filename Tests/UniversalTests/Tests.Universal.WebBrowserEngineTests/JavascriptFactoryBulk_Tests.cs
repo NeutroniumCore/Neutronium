@@ -194,19 +194,17 @@ namespace Tests.Universal.WebBrowserEngineTests
             if (value == null)
                 return default(T);
 
-            object res = null;
-            Converter.GetSimpleValue(Get(value), out res, typeof(T));
+            Converter.GetSimpleValue(Get(value), out var res, typeof(T));
             return (T)res;
         }
 
         private object ConvertBack(IJavascriptObject value, Type targetType)
         {
-            object res = null;
-            Converter.GetSimpleValue(value, out res, targetType);
+            Converter.GetSimpleValue(value, out object res, targetType);
             return res;
         }
 
-        public static IEnumerable<object> DateTimes
+        public static IEnumerable<object[]> DateTimes
         {
             get
             {
@@ -225,9 +223,8 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                object res = null;
                 var dateJavascript = Get(date);
-                var ok = Converter.GetSimpleValue(dateJavascript, out res);
+                var ok = Converter.GetSimpleValue(dateJavascript, out var res);
                 ok.Should().BeTrue();
                 res.Should().Be(date);
             });
@@ -238,9 +235,8 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                object res = null;
                 IJavascriptObject maxuint = Get(uint.MaxValue);
-                var ok = Converter.GetSimpleValue(maxuint, out res, typeof(UInt32));
+                var ok = Converter.GetSimpleValue(maxuint, out var res, typeof(UInt32));
                 ok.Should().BeTrue();
                 res.Should().Be(uint.MaxValue);
             });

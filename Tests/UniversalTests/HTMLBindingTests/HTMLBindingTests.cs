@@ -3208,7 +3208,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        public static IEnumerable<object> CircularDataBreaker
+        public static IEnumerable<object[]> CircularDataBreaker
         {
             get
             {

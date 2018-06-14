@@ -18,7 +18,7 @@ namespace Tests.Universal.HTMLBindingTests
         protected readonly Person _DataContext;
         protected ICommand _ICommand;
 
-        public static IEnumerable<object> BasicVmData
+        public static IEnumerable<object[]> BasicVmData
         {
             get
             {

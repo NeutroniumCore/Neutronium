@@ -42,7 +42,7 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        public static IEnumerable<object> ReadWriteTestData 
+        public static IEnumerable<object[]> ReadWriteTestData 
         {
             get 
             {
