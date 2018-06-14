@@ -55,7 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptFramework", "Java
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Knockout", "JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj", "{AF41D637-D053-4FDE-9D8A-96106CCBD19E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WPF.Test", "Tests\Neutronium.WPF.Test\Neutronium.WPF.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neutronium.WPF.Test", "Tests\Neutronium.WPF.Test\Neutronium.WPF.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Vue", "JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj", "{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}"
 EndProject
@@ -373,16 +373,16 @@ Global
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|x64.ActiveCfg = Debug|x64
-		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|x64.Build.0 = Debug|x64
+		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|x64.Build.0 = Debug|Any CPU
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|x86.ActiveCfg = Debug|x86
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Debug|x86.Build.0 = Debug|x86
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|Mixed Platforms.Build.0 = Release|x86
-		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|x64.ActiveCfg = Release|x64
-		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|x64.Build.0 = Release|x64
+		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|x64.ActiveCfg = Release|Any CPU
+		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|x64.Build.0 = Release|Any CPU
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|x86.ActiveCfg = Release|x86
 		{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}.Release|x86.Build.0 = Release|x86
 		{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
