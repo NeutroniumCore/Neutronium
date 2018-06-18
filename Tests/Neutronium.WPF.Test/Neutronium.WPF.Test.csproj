@@ -8,6 +8,10 @@
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
+  <RootNamespace>Neutronium.WPF.Test</RootNamespace>
+
+  <AssemblyName>Neutronium.WPF.Test</AssemblyName>
+  
   <ItemGroup>
     <PackageReference Include="FluentAssertions">
       <Version>5.3.2</Version>

@@ -6,6 +6,10 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>AnyCPU;x86</Platforms>
+
+    <RootNamespace>Tests.Infra.Tests</RootNamespace>
+
+    <AssemblyName>Tests.Infra.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

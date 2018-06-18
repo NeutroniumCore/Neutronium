@@ -6,6 +6,10 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>AnyCPU;x86</Platforms>
+
+    <RootNamespace>Tests.Universal.HTMLBindingTests</RootNamespace>
+
+    <AssemblyName>Tests.Universal.HTMLBindingTests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

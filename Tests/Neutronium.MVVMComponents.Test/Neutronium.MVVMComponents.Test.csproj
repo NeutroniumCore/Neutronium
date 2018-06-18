@@ -6,6 +6,11 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>AnyCPU;x86</Platforms>
+
+    <RootNamespace>Neutronium.MVVMComponents.Test</RootNamespace>
+
+    <AssemblyName>Neutronium.MVVMComponents.Test</AssemblyName>
+    
   </PropertyGroup>
 
   <ItemGroup>
