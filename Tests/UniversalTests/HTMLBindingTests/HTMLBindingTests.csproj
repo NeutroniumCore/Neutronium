@@ -35,7 +35,7 @@
 
   
   <ItemGroup>
-	<ProjectReference Include="..\..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj" />
+    <ProjectReference Include="..\..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj" />
     <ProjectReference Include="..\..\..\Neutronium.Core\Neutronium.Core.csproj" />
     <ProjectReference Include="..\..\..\Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj" />
     <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj" />
