@@ -27,11 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neutronium.Core.Test", "Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Awesomium", "Awesomium", "{32F3DC7E-FAD4-4EE5-B74D-4636F8856BA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\WebBrowserEngines\Awesomium\Awesomium.TestInfra\Infra.csproj", "{8955B9F6-B6E5-4FEF-A5AB-90C35AFB9CC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "Tests\WebBrowserEngines\Awesomium\Awesomium.TestInfra\Infra.csproj", "{8955B9F6-B6E5-4FEF-A5AB-90C35AFB9CC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CefGlue", "CefGlue", "{4C68FD1C-FAB9-4CBC-B400-529CC0B0D5D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Tests\WebBrowserEngines\CefGlue\CefGlue.TestInfra\Infra.csproj", "{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "Tests\WebBrowserEngines\CefGlue\CefGlue.TestInfra\Infra.csproj", "{947CC0FA-7F1C-4CF9-A908-1A29ED232F19}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChromiumFX", "ChromiumFX", "{3C1F3260-722C-4C57-93F6-DB044D7E73E4}"
 EndProject
