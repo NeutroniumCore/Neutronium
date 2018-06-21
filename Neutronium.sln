@@ -53,7 +53,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.WebBrowserEngine
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JavascriptFramework", "JavascriptFramework", "{45DFFB49-44B9-49C6-8C5B-1B928366A462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Knockout", "JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj", "{AF41D637-D053-4FDE-9D8A-96106CCBD19E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neutronium.JavascriptFramework.Knockout", "JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj", "{AF41D637-D053-4FDE-9D8A-96106CCBD19E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neutronium.WPF.Test", "Tests\Neutronium.WPF.Test\Neutronium.WPF.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
 EndProject
