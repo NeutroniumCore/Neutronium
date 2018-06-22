@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/NeutroniumCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NeutroniumCore/Neutronium</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE</PackageLicenseUrl>
-    <Description></Description>
+    <Description>Neutronium is a MVVM HTLM View engine for C# application. This is the javascript binding based on mobx framework.</Description>
     <PackageId>Neutronium.JavascriptFramework.mobx</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>HTML, Chromium, MVVM, WPF, mobx</PackageTags>
