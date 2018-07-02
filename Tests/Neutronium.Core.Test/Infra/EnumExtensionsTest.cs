@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using FluentAssertions;
 using Neutronium.Core.Infra;
 using Xunit;
@@ -15,11 +16,11 @@ namespace Neutronium.Core.Test.Infra
         [Fact]
         public void GetDescription_Has_FallBack()
         {
-            var vi = Test.Tested;
-            vi.GetDescription().Should().Be("Tested");
+            var value = Test.Tested;
+            value.GetDescription().Should().Be("Tested");
         }
 
-        private enum Ex
+        public enum Ex
         {
             [Description("Cute")]
             ex1 = 8,
@@ -28,18 +29,60 @@ namespace Neutronium.Core.Test.Infra
             ex2 = 16
         };
 
-        [Fact]
-        public void GetDescription_Uses_Description_Attribute()
+
+        [Theory]
+        [InlineData(Ex.ex1, "Cute")]
+        [InlineData(Ex.ex2, "Cute2")]
+        public void GetDescription_Uses_Description_Attribute(Ex value, string expected)
         {
-            var vi = Ex.ex1;
-            vi.GetDescription().Should().Be("Cute");
+            value.GetDescription().Should().Be(expected);
         }
 
         [Fact]
-        public void GetDescription_Uses_ToString()
+        public void GetDescription_Uses_ToString_When_Not_Field_And_Not_Defined()
         {
-            var vi = Ex.ex1 | Ex.ex2;
-            vi.GetDescription().Should().Be("24");
+            var value = Ex.ex1 | Ex.ex2;
+            value.GetDescription().Should().Be("24");
+        }
+
+        [Flags]
+        public enum Number
+        {
+            [Description("One")]
+            Un = 1,
+
+            [Description("Two")]
+            Deux = 2,
+
+            [Description("Four")]
+            Quatre = 4,
+
+            [Description("Six")]
+            Six = 6
+        };
+
+
+        [Theory]
+        [InlineData((Number)3, "One Two")]
+        [InlineData((Number)5, "One Four")]
+        [InlineData((Number)7, "One Six")]
+        public void GetDescription_Combines_Description_Attribute_On_BitFlag(Number @enum, string expected)
+        {
+            @enum.GetDescription().Should().Be(expected);
+        }
+
+        [Fact]
+        public void GetDescription_Uses_Attribute_On_Priority_On_BitFlag()
+        {
+            var value = Number.Six;
+            value.GetDescription().Should().Be("Six");
+        }
+
+        [Fact]
+        public void GetDescription_Falls_Back_On_To_String()
+        {
+            var value = (Number)8;
+            value.GetDescription().Should().Be("8");
         }
     }
 }

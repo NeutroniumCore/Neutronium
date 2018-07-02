@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentAssertions;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.WebBrowserEngineTesterHelper.Context;
 using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit;
@@ -19,72 +18,66 @@ namespace Tests.Universal.WebBrowserEngineTests
         public void Test_GetSimpleValue_String()
         {
             Test(() =>
-                {
-                    object res = null;
-                    bool ok = Converter.GetSimpleValue(Factory.CreateString("titi"), out res);
-                    ok.Should().BeTrue();
-                    res.Should().Be("titi");
-                });
+            {
+                var ok = Converter.GetSimpleValue(Factory.CreateString("titi"), out var res);
+                ok.Should().BeTrue();
+                res.Should().Be("titi");
+            });
         }
 
         [Fact]
         public void Test_GetSimpleValue_Int()
         {
             Test(() =>
-               {
-                   object res = null;
-                   bool ok = Converter.GetSimpleValue(Factory.CreateInt(10), out res);
-                   ok.Should().BeTrue();
-                   res.Should().Be(10);
-               });
+            {
+                var ok = Converter.GetSimpleValue(Factory.CreateInt(10), out var res);
+                ok.Should().BeTrue();
+                res.Should().Be(10);
+            });
         }
 
         [Fact]
         public void Test_GetSimpleValue_Bool_False()
         {
             Test(() =>
-               {
-                   object res = null;
-                   bool ok = Converter.GetSimpleValue(Factory.CreateBool(false), out res);
-                   ok.Should().BeTrue();
-                   res.Should().Be(false);
-               });
+            {
+                var ok = Converter.GetSimpleValue(Factory.CreateBool(false), out var res);
+                ok.Should().BeTrue();
+                res.Should().Be(false);
+            });
         }
 
         [Fact]
         public void Test_GetSimpleValue_Bool_True()
         {
             Test(() =>
-               {
-                   object res = null;
-                   bool ok = Converter.GetSimpleValue(Factory.CreateBool(true), out res);
-                   ok.Should().BeTrue();
-                   res.Should().Be(true);
-               });
+            {
+                var ok = Converter.GetSimpleValue(Factory.CreateBool(true), out var res);
+                ok.Should().BeTrue();
+                res.Should().Be(true);
+            });
         }
 
         [Fact]
         public void Test_GetSimpleValue_Double()
         {
             Test(() =>
-               {
-                   object res = null;
-                   bool ok = Converter.GetSimpleValue(Factory.CreateDouble(0.5), out res);
-                   ok.Should().BeTrue();
-                   res.Should().Be(0.5D);
-               });
+            {
+                var ok = Converter.GetSimpleValue(Factory.CreateDouble(0.5), out var res);
+                ok.Should().BeTrue();
+                res.Should().Be(0.5D);
+            });
         }
 
         [Fact]
         public void Test_GetSimpleValue_Undefined()
         {
             Test(() =>
-              {
-                  object res = null;
-                  bool ok = Converter.GetSimpleValue(Factory.CreateUndefined(), out res);
-                  ok.Should().BeTrue();
-                  res.Should().Be(null);
-              });
+            {
+                var ok = Converter.GetSimpleValue(Factory.CreateUndefined(), out var res);
+                ok.Should().BeTrue();
+                res.Should().Be(null);
+            });
         }
 
         [Fact]
@@ -92,10 +85,9 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                object res = null;
                 var date = new DateTime(1974, 02, 26, 01, 02, 03, DateTimeKind.Utc);
                 var dateJavascript = Factory.CreateDateTime(date);
-                var ok = Converter.GetSimpleValue(dateJavascript, out res);
+                var ok = Converter.GetSimpleValue(dateJavascript, out var res);
                 ok.Should().BeTrue();
                 res.Should().Be(date);
             });
@@ -106,8 +98,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                object res = null;
-                bool ok = Converter.GetSimpleValue(Factory.CreateNull(), out res);
+                bool ok = Converter.GetSimpleValue(Factory.CreateNull(), out var res);
                 ok.Should().BeTrue();
                 res.Should().BeNull();
             });
@@ -118,9 +109,8 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                object res = null;
                 var maxuint = Factory.CreateUint(uint.MaxValue);
-                var ok = Converter.GetSimpleValue(maxuint, out res, typeof(UInt32));
+                var ok = Converter.GetSimpleValue(maxuint, out var res, typeof(UInt32));
                 ok.Should().BeTrue();
                 res.Should().Be(uint.MaxValue);
             });
@@ -131,8 +121,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                object res = null;
-                bool ok = Converter.GetSimpleValue(Factory.CreateInt(-1), out res);
+                var ok = Converter.GetSimpleValue(Factory.CreateInt(-1), out var res);
                 ok.Should().BeTrue();
                 res.Should().Be(-1);
             });

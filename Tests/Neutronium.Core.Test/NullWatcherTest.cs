@@ -1,5 +1,4 @@
 ﻿using System;
-using Neutronium.Core.Infra;
 using Xunit;
 using Neutronium.Core.Log;
 
@@ -7,24 +6,24 @@ namespace Neutronium.Core.Test
 {
     public class NullWatcherTest
     {
-        private readonly IWebSessionLogger _nullLogger = new BasicLogger();
+        private readonly IWebSessionLogger _NullLogger = new BasicLogger();
        
         [Fact]
         public void LogCriticalTest()
         {
-            _nullLogger.Error(string.Empty);
+            _NullLogger.Error(string.Empty);
         }
 
         [Fact]
         public void LogBrowserTest()
         {
-            _nullLogger.LogBrowser(null, null);
+            _NullLogger.LogBrowser(null, null);
         }
 
         [Fact]
         public void OnSessionErrorTest()
         {
-            _nullLogger.WebBrowserError(new Exception(), () => { });
+            _NullLogger.WebBrowserError(new Exception(), () => { });
         }
     }
 }
