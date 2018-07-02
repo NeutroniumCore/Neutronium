@@ -6,6 +6,10 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>AnyCPU;x86</Platforms>
+
+    <RootNamespace>Tests.Universal.NavigationTests</RootNamespace>
+
+    <AssemblyName>Tests.Universal.NavigationTests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,13 +26,13 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj"/>
-    <ProjectReference Include="..\..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj"/>
-    <ProjectReference Include="..\..\..\Neutronium.Core\Neutronium.Core.csproj"/>
-    <ProjectReference Include="..\..\..\Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj"/>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj"/>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj"/>
-    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj"/>
+	<ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
+    <ProjectReference Include="..\..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj" />
+    <ProjectReference Include="..\..\..\Neutronium.Core\Neutronium.Core.csproj" />
+    <ProjectReference Include="..\..\..\Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj" />
+    <ProjectReference Include="..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj" />
+    <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj" />
+    <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj" />
   </ItemGroup>
   
   <ItemGroup>

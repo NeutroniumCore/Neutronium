@@ -6,6 +6,11 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>AnyCPU;x86</Platforms>
+
+    <RootNamespace>Neutronium.Core.Test</RootNamespace>
+
+    <AssemblyName>Neutronium.Core.Test</AssemblyName>
+    
   </PropertyGroup>
 
   <ItemGroup>

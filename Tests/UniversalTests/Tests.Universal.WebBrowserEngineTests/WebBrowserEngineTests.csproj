@@ -6,6 +6,11 @@
     <IsPackable>false</IsPackable>
 
     <Platforms>AnyCPU;x86</Platforms>
+
+    <RootNamespace>Tests.Universal.WebBrowserEngineTests</RootNamespace>
+
+    <AssemblyName>Tests.Universal.WebBrowserEngineTests</AssemblyName>
+    
   </PropertyGroup>
 
   <ItemGroup>
