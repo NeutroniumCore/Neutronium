@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,26 +10,19 @@ namespace Neutronium.Core.Infra
 {
     public static class EnumExtensions
     {
+        private static readonly object[] _EmptyArray = new object[0];
+
         public static string GetDescription(this Enum input)
         {
             if (input == null) return string.Empty;
 
-            var valueName = input.ToString();
             var enumType = input.GetType();
             var enumTypeInfo = enumType.GetTypeInfo();
 
-            if (!Enum.IsDefined(enumType, input))
-            {
-                if (!IsBitFieldEnum(enumTypeInfo))
-                    return valueName;
+            if (Enum.IsDefined(enumType, input))
+                return GetDisplayName(enumType, input);
 
-                return GetBitFlagComposedDescription(enumType, input);
-            }
-
-
-            var field = enumType.GetField(valueName);
-            var attribute = field.GetAttribute<DescriptionAttribute>();
-            return (attribute != null) ? attribute.Description : valueName;
+            return IsBitFieldEnum(enumTypeInfo) ? GetBitFlagComposedDescription(enumType, input) : input.ToString();
         }
 
         private static string GetBitFlagComposedDescription(Type enumType, Enum input)
@@ -48,7 +42,7 @@ namespace Neutronium.Core.Infra
                 if (!first)
                     builder.Insert(0, " ");
                 first = false;
-                builder.Insert(0, enumValue.GetDescription());
+                builder.Insert(0, GetDisplayName(enumType, enumValue));
 
                 if (result == 0)
                     return builder.ToString();
@@ -57,6 +51,36 @@ namespace Neutronium.Core.Infra
             return input.ToString();
         }
 
+        private static string GetDisplayName(Type enumType, Enum @enum)
+        {
+            var valueName = @enum.ToString();
+            var field = enumType.GetField(valueName);
+            var displayAttribute = field.GetAttribute<DisplayAttribute>();
+            var res = GetDisplayName(displayAttribute);
+            if (res != null)
+                return res;
+
+            var attribute = field.GetAttribute<DescriptionAttribute>();
+            return (attribute != null) ? attribute.Description : valueName;
+        }
+
+        private static string GetDisplayName(DisplayAttribute attribute)
+        {
+            try
+            {
+                const BindingFlags parameter = BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static | BindingFlags.NonPublic;
+                var propertyInfo = attribute?.ResourceType?.GetProperty(attribute.Description, parameter);
+                if (propertyInfo == null)
+                    return null;
+
+                var getter = propertyInfo.GetGetMethod() ?? propertyInfo.GetGetMethod(true);
+                return (string)getter?.Invoke(null, _EmptyArray);
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         private static bool IsBitFieldEnum(TypeInfo typeInfo)
         {

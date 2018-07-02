@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using FluentAssertions;
 using Neutronium.Core.Infra;
 using Xunit;
@@ -61,7 +62,6 @@ namespace Neutronium.Core.Test.Infra
             Six = 6
         };
 
-
         [Theory]
         [InlineData((Number)3, "One Two")]
         [InlineData((Number)5, "One Four")]
@@ -83,6 +83,37 @@ namespace Neutronium.Core.Test.Infra
         {
             var value = (Number)8;
             value.GetDescription().Should().Be("8");
+        }
+
+        public enum Localized
+        {
+            [Display(ResourceType = typeof(Resource), Description = "One")]
+            Uno,
+
+            [Display(ResourceType = typeof(Resource), Description = "Two")]
+            Dos,
+
+            [Display(ResourceType = typeof(Localized), Description = "Two")]
+            ProblemWithType,
+
+            [Display(ResourceType = typeof(Resource), Description = "Unknown")]
+            ProblemWithKey
+        }
+
+        [Theory]
+        [InlineData(Localized.Uno, "Un")]
+        [InlineData(Localized.Dos, "Deux")]
+        public void GetDescription_Uses_DisplayAttribute(Localized value, string expected)
+        {
+            value.GetDescription().Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(Localized.ProblemWithType, "ProblemWithType")]
+        [InlineData(Localized.ProblemWithKey, "ProblemWithKey")]
+        public void GetDescription_Uses_Fallabck_When_Problem_With_DisplayAttribute(Localized value, string expected)
+        {
+            value.GetDescription().Should().Be(expected);
         }
     }
 }
