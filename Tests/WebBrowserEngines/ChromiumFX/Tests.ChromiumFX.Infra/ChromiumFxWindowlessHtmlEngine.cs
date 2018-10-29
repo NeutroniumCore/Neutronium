@@ -51,7 +51,7 @@ namespace Tests.ChromiumFX.Infra
         {  
             var loadTaskCompletionSource = new TaskCompletionSource<int>();
             var cfxWindowInfo = new CfxWindowInfo();
-            cfxWindowInfo.SetAsWindowless(true);
+            cfxWindowInfo.SetAsWindowless(IntPtr.Zero);
 
             _CfxClient = new CfxClient();
 

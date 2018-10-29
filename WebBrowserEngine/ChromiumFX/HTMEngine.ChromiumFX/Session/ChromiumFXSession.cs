@@ -57,7 +57,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             settings.Locale = Thread.CurrentThread.CurrentCulture.ToString();
             settings.ResourcesDirPath = GetPath($@"{CefRepo}\Resources");
             settings.BrowserSubprocessPath = GetPath("ChromiumFXRenderProcess.exe");
-            settings.SingleProcess = false;
             settings.MultiThreadedMessageLoop = true;
             settings.NoSandbox = true;
         }

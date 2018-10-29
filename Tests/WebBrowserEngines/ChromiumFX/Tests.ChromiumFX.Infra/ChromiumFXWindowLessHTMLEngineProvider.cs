@@ -61,7 +61,6 @@ namespace Tests.ChromiumFX.Infra
 
             var settings = new CfxSettings 
             {
-                SingleProcess = false,
                 BrowserSubprocessPath = path,
                 WindowlessRenderingEnabled = true,
                 MultiThreadedMessageLoop = true,

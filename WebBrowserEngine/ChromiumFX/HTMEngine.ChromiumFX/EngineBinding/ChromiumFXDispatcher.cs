@@ -15,16 +15,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly IWebSessionLogger _Logger;
         private readonly ConcurrentQueue<Action> _Actions = new ConcurrentQueue<Action>();
         private readonly CfrTask _CfrTask;
+        private CfrTaskRunner _TaskRunner;
 
         private volatile bool _IsExecutingActions;
-        private CfrTaskRunner TaskRunner { get; }
 
         public ChromiumFxDispatcher(CfrBrowser browser, CfrV8Context context, IWebSessionLogger logger) 
         {
             _Logger = logger;
             _Browser = browser;
             _Context = context;
-            TaskRunner = _Context.TaskRunner;
             _CfrTask = new CfrTask();
             _CfrTask.Execute += CfrTask_Execute;
         }
@@ -46,8 +45,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                         LogException(exception);
                     }
                 }
-                _IsExecutingActions = false;
             }
+            _IsExecutingActions = false;
         }
 
         public Task RunAsync(Action act) 
@@ -83,7 +82,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public bool IsInContext() 
         {
-            return TaskRunner.BelongsToCurrentThread();
+            return CfxRemoteCallContext.IsInContext;
         }
 
         private Action ToTaskAction(Action perform, TaskCompletionSource<int> taskCompletionSource) 
@@ -176,7 +175,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
             using (GetRemoteContext()) 
             {
-                TaskRunner.PostTask(_CfrTask);
+                _TaskRunner = CfrTaskRunner.GetForThread(CfxThreadId.Renderer);
+                _TaskRunner.PostTask(_CfrTask);
             }
         }
     }
