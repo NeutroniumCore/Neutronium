@@ -24,7 +24,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private IntPtr _DebugWindowHandle = IntPtr.Zero;
         private CfxClient _DebugCfxClient;
         private CfxLifeSpanHandler _DebugCfxLifeSpanHandler;
-        private CfxLoadHandler _CfxLoadHandler;
 
         public UIElement UIElement => _ChromiumFxControl;
         public bool IsUIElementAlwaysTopMost => true;

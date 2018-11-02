@@ -6,35 +6,29 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using System.Collections.Concurrent;
 using Chromium;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
-    public class ChromiumFxDispatcher : IDispatcher 
+    public class ChromiumFxDispatcher : IDispatcher
     {
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
         private readonly IWebSessionLogger _Logger;
         private readonly ConcurrentQueue<Action> _Actions = new ConcurrentQueue<Action>();
-        private readonly CfrTask _CfrTask;
-        private CfrTaskRunner _TaskRunner;
+        private volatile bool _IsExecutingActions = false;
 
-        private volatile bool _IsExecutingActions;
-
-        public ChromiumFxDispatcher(CfrBrowser browser, CfrV8Context context, IWebSessionLogger logger) 
+        public ChromiumFxDispatcher(CfrBrowser browser, CfrV8Context context, IWebSessionLogger logger)
         {
             _Logger = logger;
             _Browser = browser;
             _Context = context;
-            _CfrTask = new CfrTask();
-            _CfrTask.Execute += CfrTask_Execute;
         }
 
-        private void CfrTask_Execute(object sender, CfrEventArgs e) 
+        private void CfrTask_Execute(object sender, CfrEventArgs e)
         {
             _IsExecutingActions = true;
-            using (GetContext()) 
+            using (GetContext())
             {
-                Action action;
-                while (_Actions.TryDequeue(out action)) 
+                while (_Actions.TryDequeue(out var action))
                 {
                     try
                     {
@@ -45,11 +39,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                         LogException(exception);
                     }
                 }
+                _IsExecutingActions = false;
             }
-            _IsExecutingActions = false;
         }
 
-        public Task RunAsync(Action act) 
+        public Task RunAsync(Action act)
         {
             var taskCompletionSource = new TaskCompletionSource<int>();
             var action = ToTaskAction(act, taskCompletionSource);
@@ -62,12 +56,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             RunInContext(act);
         }
 
-        public void Run(Action act) 
+        public void Run(Action act)
         {
             RunAsync(act).Wait();
         }
 
-        public Task<T> EvaluateAsync<T>(Func<T> compute) 
+        public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
             var taskCompletionSource = new TaskCompletionSource<T>();
             var action = ToTaskAction(compute, taskCompletionSource);
@@ -75,62 +69,63 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return taskCompletionSource.Task;
         }
 
-        public T Evaluate<T>(Func<T> compute) 
+        public T Evaluate<T>(Func<T> compute)
         {
             return EvaluateAsync(compute).Result;
         }
 
-        public bool IsInContext() 
+        public bool IsInContext()
         {
             return CfxRemoteCallContext.IsInContext;
         }
 
-        private Action ToTaskAction(Action perform, TaskCompletionSource<int> taskCompletionSource) 
+        private Action ToTaskAction(Action perform, TaskCompletionSource<int> taskCompletionSource)
         {
             return ToTaskAction(() => { perform(); return 0; }, taskCompletionSource);
         }
 
-        private Action ToTaskAction<T>(Func<T> perform, TaskCompletionSource<T> taskCompletionSource) 
+        private Action ToTaskAction<T>(Func<T> perform, TaskCompletionSource<T> taskCompletionSource)
         {
-            Action result = () => 
+            void Result()
             {
-                try 
+                try
                 {
                     var taskResult = perform();
                     taskCompletionSource.TrySetResult(taskResult);
                 }
-                catch (Exception exception) 
+                catch (Exception exception)
                 {
                     LogException(exception);
                     taskCompletionSource.TrySetException(exception);
                 }
-            };
-            return result;
+            }
+
+            return Result;
         }
 
-        private void LogException(Exception exception, string message= "Exception encountred during task dispatch") 
+        private void LogException(Exception exception, string message = "Exception encountred during task dispatch")
         {
             _Logger?.Info($"{message}: {exception}");
         }
 
-        private ChromiumFxContext GetContext() 
+        private ChromiumFxContext GetContext()
         {
             return new ChromiumFxContext(_Context, this);
         }
 
-        private struct ChromiumFxContext : IDisposable 
+        private struct ChromiumFxContext : IDisposable
         {
             private readonly CfrV8Context _Context;
             private readonly ChromiumFxDispatcher _Dispatcher;
 
-            public ChromiumFxContext(CfrV8Context context, ChromiumFxDispatcher dispatcher) 
+            public ChromiumFxContext(CfrV8Context context, ChromiumFxDispatcher dispatcher)
             {
                 _Dispatcher = dispatcher;
                 _Context = context;
                 _Context.Enter();
             }
 
-            public void Dispose() 
+            public void Dispose()
             {
                 try
                 {
@@ -143,26 +138,26 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }
         }
 
-        private ChromiumFxCRemoteContext GetRemoteContext() 
+        private ChromiumFxCRemoteContext GetRemoteContext()
         {
-            return new ChromiumFxCRemoteContext(_Browser);
+            return new ChromiumFxCRemoteContext(_Browser.CreateRemoteCallContext());
         }
 
-        private void RunInContext(Action action) 
+        private void RunInContext(Action action)
         {
-            try 
+            try
             {
                 RunInContextUnsafe(action);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 LogException(ex, "Unable to dispatch action on ChromiumFx context");
             }
         }
 
-        private void RunInContextUnsafe(Action action) 
+        private void RunInContextUnsafe(Action action)
         {
-            if (CfxRemoteCallContext.IsInContext)    
+            if (CfxRemoteCallContext.IsInContext)
             {
                 action();
                 return;
@@ -173,10 +168,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (_IsExecutingActions)
                 return;
 
-            using (GetRemoteContext()) 
+            using (GetRemoteContext())
             {
-                _TaskRunner = CfrTaskRunner.GetForThread(CfxThreadId.Renderer);
-                _TaskRunner.PostTask(_CfrTask);
+                var task = new CfrTask();
+                task.Execute += CfrTask_Execute;
+                CfrRuntime.PostTask(CfxThreadId.Renderer, task);
             }
         }
     }

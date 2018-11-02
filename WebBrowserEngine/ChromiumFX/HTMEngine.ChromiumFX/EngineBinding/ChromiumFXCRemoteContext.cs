@@ -1,6 +1,5 @@
 ﻿using System;
 using Chromium;
-using Chromium.Remote;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
 {
@@ -8,9 +7,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
     {
         private readonly CfxRemoteCallContext _CfxRemoteCallContext;
 
-        public ChromiumFxCRemoteContext(CfrBrowser browser) 
+        public ChromiumFxCRemoteContext(CfxRemoteCallContext context)
         {
-            _CfxRemoteCallContext = browser.CreateRemoteCallContext();
+            _CfxRemoteCallContext = context;
             _CfxRemoteCallContext.Enter();
         }
 
