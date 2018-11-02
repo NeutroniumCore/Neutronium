@@ -28,8 +28,7 @@ namespace Neutronium.Core.Test.Helper
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            int res;
-            if (_Dictionary.TryGetValue(binder.Name, out res))
+            if (_Dictionary.TryGetValue(binder.Name, out var res))
             {
                 result = res;
                 return true;

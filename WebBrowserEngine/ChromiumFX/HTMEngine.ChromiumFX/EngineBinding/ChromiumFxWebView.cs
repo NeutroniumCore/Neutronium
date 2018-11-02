@@ -72,9 +72,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public bool Eval(string code, out IJavascriptObject res)
         {
-            CfrV8Value v8Res;
-            CfrV8Exception exception;
-            var resValue = V8Context.Eval(code, string.Empty, 1, out v8Res, out exception);
+            var resValue = V8Context.Eval(code, string.Empty, 1, out var v8Res, out var exception);
             res = v8Res?.Convert();
             if (exception != null)
                 _Logger?.Error($"Error during javascript code evaluation. Code: {code}, Exception: {exception.Message}");

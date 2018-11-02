@@ -14,10 +14,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper
             _TaskCompletionSource = new TaskCompletionSource<object>();
         }
 
-        internal Task Task
-        {
-            get { return _TaskCompletionSource.Task; }
-        }
+        internal Task Task => _TaskCompletionSource.Task;
 
         protected override void Execute()
         {

@@ -14,14 +14,13 @@ namespace Neutronium.Core.Binding.GlueObject
         public static void VisitDescendantsSafe(this IJsCsGlue @this, Func<IJsCsGlue, bool> visit)
         {
             var res = new HashSet<IJsCsGlue>();
-            Func<IJsCsGlue, bool> newVisitor = (glue) => (res.Add(glue)) && visit(glue);
-            @this.VisitDescendants(newVisitor);
+            bool NewVisitor(IJsCsGlue glue) => (res.Add(glue)) && visit(glue);
+            @this.VisitDescendants(NewVisitor);
         }
 
         public static IJavascriptObject GetJsSessionValue(this IJsCsGlue @this)
         {
-            var inj = @this as IJsCsMappedBridge;
-            return (inj != null) ? inj.CachableJsValue : @this.JsValue;
+            return (@this is IJsCsMappedBridge mappedBridge) ? mappedBridge.CachableJsValue : @this.JsValue;
         }
     }
 }

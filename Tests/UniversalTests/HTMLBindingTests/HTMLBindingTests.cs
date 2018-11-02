@@ -1226,12 +1226,12 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(100);
                     datacontexttest.Name.Should().Be("NameTest");
 
-                    bool resf = GetSafe(() => js.HasValue("UselessName"));
+                    var resf = GetSafe(() => js.HasValue("UselessName"));
                     resf.Should().BeFalse();
 
-                    Action Safe = () => datacontexttest.InconsistentEventEmit();
+                    Action safe = () => datacontexttest.InconsistentEventEmit();
 
-                    Safe.Should().NotThrow("Inconsistent Name in property should not throw exception");
+                    safe.Should().NotThrow("Inconsistent Name in property should not throw exception");
                 }
             };
 

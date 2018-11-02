@@ -99,7 +99,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
         {
             if (action == null)
             {
-                throw new ArgumentNullException("action");
+                throw new ArgumentNullException(nameof(action));
             }
 
             try

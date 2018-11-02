@@ -69,12 +69,10 @@ namespace Neutronium.Core.Navigation
             id = id ?? string.Empty;
             foreach (var inType in type.GetBaseTypes())
             {
-                IDictionary<string, Uri> dicres;
-                if (!_Mapper.TryGetValue(inType, out dicres))
+                if (!_Mapper.TryGetValue(inType, out var dicres))
                     continue;
 
-                Uri res;
-                if (dicres.TryGetValue(id, out res))
+                if (dicres.TryGetValue(id, out var res))
                     return res;
             }
             return null;

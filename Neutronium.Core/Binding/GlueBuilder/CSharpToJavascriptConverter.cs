@@ -108,11 +108,14 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 return (fact, obj) => builder.Invoke(fact, obj);
             }
 
-            if (@object is ICommandWithoutParameter)
-                return BuildCommandWithoutParameter;
+            switch (@object)
+            {
+                case ICommandWithoutParameter _:
+                    return BuildCommandWithoutParameter;
 
-            if (@object is ICommand)
-                return BuildCommand;
+                case ICommand _:
+                    return BuildCommand;
+            }
 
             simpleType = type.GetInterfaceGenericType(Types.ResultCommand);
             if (simpleType != null)
@@ -135,17 +138,20 @@ namespace Neutronium.Core.Binding.GlueBuilder
                 return objectDictionaryBuilder.Convert;
             }
 
-            if (@object is DynamicObject)
-                return GlueObjectDynamicBuilder.Convert;
+            switch (@object)
+            {
+                case DynamicObject _:
+                    return GlueObjectDynamicBuilder.Convert;
 
-            if (@object is IList)
-                return new GlueCollectionsBuilder(this, type).ConvertList;
+                case IList _:
+                    return new GlueCollectionsBuilder(this, type).ConvertList;
 
-            if (@object is ICollection)
-                return new GlueCollectionsBuilder(this, type).ConvertCollection;
+                case ICollection _:
+                    return new GlueCollectionsBuilder(this, type).ConvertCollection;
 
-            if (@object is IEnumerable)
-                return new GlueCollectionsBuilder(this, type).ConvertEnumerable;
+                case IEnumerable _:
+                    return new GlueCollectionsBuilder(this, type).ConvertEnumerable;
+            }
 
             var objectBuilder = new GlueObjectBuilder(this, _Logger, type);
             return objectBuilder.Convert;

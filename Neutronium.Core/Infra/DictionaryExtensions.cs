@@ -6,8 +6,7 @@ namespace Neutronium.Core.Infra
     {
         public static object GetOrNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            TValue result;
-            if (dictionary.TryGetValue(key, out result))
+            if (dictionary.TryGetValue(key, out var result))
                 return result;
 
             return null;

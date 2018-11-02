@@ -64,15 +64,15 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
-            Func<T> computeInContext = () =>
+            T ComputeInContext()
             {
                 using (Enter())
                 {
                     return compute();
                 }
-            };
+            }
 
-            return Runner.EvaluateAsync(computeInContext);
+            return Runner.EvaluateAsync(ComputeInContext);
         }
 
         public  T Evaluate<T>(Func<T> compute)

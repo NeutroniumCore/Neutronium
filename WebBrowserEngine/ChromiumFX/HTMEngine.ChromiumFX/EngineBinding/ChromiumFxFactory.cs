@@ -269,9 +269,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private CfrV8Value Eval(string code)
         {
-            CfrV8Value v8Res;
-            CfrV8Exception exception;
-            _CfrV8Context.Eval(code, string.Empty, 1, out v8Res, out exception);
+            _CfrV8Context.Eval(code, string.Empty, 1, out var v8Res, out var _);
             return v8Res;
         }
 

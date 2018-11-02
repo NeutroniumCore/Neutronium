@@ -17,7 +17,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
                 new Dictionary<Type, Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue>>();
 
         private readonly Awesomium_Core.IWebView _IWebView;
-        private IJavascriptObject _JSNull = null;
+        private IJavascriptObject _JsNull = null;
 
         public AwesomiumJavascriptObjectFactory(Awesomium_Core.IWebView iIWebView)
         {
@@ -60,8 +60,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         public bool Solve(object ifrom, out Awesomium_Core.JSValue res)
         {
-            Func<object, Awesomium_Core.IWebView, Awesomium_Core.JSValue> conv = null;
-            if (!_Converters.TryGetValue(ifrom.GetType(), out conv))
+            if (!_Converters.TryGetValue(ifrom.GetType(), out var conv))
             {
                 res = new Awesomium_Core.JSValue();
                 return false;
@@ -92,12 +91,12 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         public IJavascriptObject CreateNull()
         {
-            if (_JSNull == null)
-                _JSNull = Check(
+            if (_JsNull == null)
+                _JsNull = Check(
                         _IWebView.EvaluateSafe(() => _IWebView.ExecuteJavascriptWithResult("new Null_reference()")))
                     .Convert();
 
-            return _JSNull;
+            return _JsNull;
         }
 
         private static uint _Count = 0;
