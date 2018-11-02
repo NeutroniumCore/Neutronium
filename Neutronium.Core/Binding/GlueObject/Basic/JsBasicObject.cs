@@ -40,27 +40,23 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
 
         public override string ToString()
         {
-            if (CValue == null)
+            switch (CValue)
             {
-                return "null";
-            }
+                case null:
+                    return "null";
 
-            if (CValue is string)
-            {
-                return JavascriptNamer.GetCreateExpressionDoubleQuote((string)CValue);
+                case string stringValue:
+                    return JavascriptNamer.GetCreateExpressionDoubleQuote(stringValue);
             }
 
             object unBoxed = CValue;
-            if (unBoxed is DateTime)
+            switch (unBoxed)
             {
-                var dt = (DateTime)unBoxed;
-                return $@"""{dt.Year:0000}-{dt.Month:00}-{dt.Day:00}T{dt.Hour:00}:{dt.Minute:00}:{dt.Second:00}.{dt.Millisecond:000}Z""";
-            }
+                case DateTime dt:
+                    return $@"""{dt.Year:0000}-{dt.Month:00}-{dt.Day:00}T{dt.Hour:00}:{dt.Minute:00}:{dt.Second:00}.{dt.Millisecond:000}Z""";
 
-            if (unBoxed is bool)
-            {
-                var boolValue = (bool)unBoxed;
-                return $"{(boolValue ? "true" : "false")}";
+                case bool boolValue:
+                    return $"{(boolValue ? "true" : "false")}";
             }
 
             return CValue.ToString();

@@ -31,21 +31,19 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
 
         public IDisposable Subscribe(string channel, Action<string> onEvent)
         {
-            EventHandler<MessageEvent> ea = (o, message) => Task.Run(() =>
+            void EventHandler(object o, MessageEvent message) => Task.Run(() =>
             {
-                if (channel == message.Channel)
-                    onEvent(message.Message);
-            });       
-            return Register(ea);
+                if (channel == message.Channel) onEvent(message.Message);
+            });
+
+            return Register(EventHandler);
         }
 
         public IDisposable SubscribeAllChannel(Action<string, string> onEvent)
         {
-            EventHandler<MessageEvent> ea = (o, message) => Task.Run(() =>
-            {
-                onEvent(message.Channel , message.Message);
-            });
-            return Register(ea);
+            void EventHandler(object o, MessageEvent message) => Task.Run(() => { onEvent(message.Channel, message.Message); });
+
+            return Register(EventHandler);
         }
 
         private IDisposable Register(EventHandler<MessageEvent> eventHandler)

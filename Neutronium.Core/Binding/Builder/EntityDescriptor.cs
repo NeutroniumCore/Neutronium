@@ -31,9 +31,9 @@ namespace Neutronium.Core.Binding.Builder
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ObjectDescriptor))
+            if (!(obj is ObjectDescriptor other))
                 return false;
-            var other = (ObjectDescriptor)obj;
+
             return (Father == other.Father) && AttributeValues.SequenceEqual(other.AttributeValues);
         }
     }
@@ -60,9 +60,9 @@ namespace Neutronium.Core.Binding.Builder
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ArrayDescriptor))
+            if (!(obj is ArrayDescriptor other))
                 return false;
-            var other = (ArrayDescriptor)obj;
+
             return (Father == other.Father) && OrdenedChildren.SequenceEqual(other.OrdenedChildren);
         }
     }

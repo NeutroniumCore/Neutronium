@@ -146,8 +146,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public void ApplyOnListenable(IObjectChangesListener listener)
         {
-            var notifyPropertyChanged = CValue as INotifyPropertyChanged;
-            if (notifyPropertyChanged == null)
+            if (!(CValue is INotifyPropertyChanged notifyPropertyChanged))
                 return;
 
             listener.OnObject(notifyPropertyChanged);
