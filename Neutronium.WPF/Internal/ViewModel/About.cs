@@ -1,11 +1,11 @@
 ﻿using System.Windows.Input;
-using Neutronium.Core.Infra.VM;
+using Neutronium.Core;
 using Neutronium.Core.Infra;
+using Neutronium.Core.Infra.VM;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.WPF.Utils;
-using Neutronium.Core;
 
-namespace Neutronium.WPF.Internal.DebugTools
+namespace Neutronium.WPF.Internal.ViewModel
 {
     public class About
     {

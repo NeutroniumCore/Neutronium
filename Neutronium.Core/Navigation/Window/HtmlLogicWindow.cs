@@ -15,22 +15,22 @@ namespace Neutronium.Core.Navigation.Window
         private WindowLogicalState _State;
         public WindowLogicalState State
         {
-            get { return _State; }
-            set { Set(ref _State, value); }
+            get => _State;
+            set => Set(ref _State, value);
         }
 
         private bool _IsLiteningOpen;
         public bool IsListeningOpen
         {
-            get { return _IsLiteningOpen; }
-            set { Set(ref _IsLiteningOpen, value); }
+            get => _IsLiteningOpen;
+            set => Set(ref _IsLiteningOpen, value);
         }
 
         private bool _IsListeningClose;
         public bool IsListeningClose 
         {
-            get { return _IsListeningClose; }
-            set { Set(ref _IsListeningClose, value); }
+            get => _IsListeningClose;
+            set => Set(ref _IsListeningClose, value);
         }
 
         public ICommand CloseReady { get; }
