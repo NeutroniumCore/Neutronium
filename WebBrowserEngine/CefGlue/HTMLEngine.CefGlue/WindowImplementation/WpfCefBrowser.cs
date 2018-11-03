@@ -13,7 +13,6 @@ using HTMLEngine.CefGlue.WindowImplementation;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.WebBrowserEngine.CefGlue.CefGlueHelper;
-using Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation;
 using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Neutronium.WebBrowserEngine.CefGlue.Helpers.Log;
 using Xilium.CefGlue;

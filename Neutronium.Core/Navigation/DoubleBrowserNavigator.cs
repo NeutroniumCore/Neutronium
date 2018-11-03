@@ -153,8 +153,8 @@ namespace Neutronium.Core.Navigation
             if (_CurrentWebControl != null)
             {
                 _CurrentWebControl.HtmlWindow.Crashed -= Crashed;
-                var modern = _CurrentWebControl.HtmlWindow as IModernWebBrowserWindow;
-                if (modern != null) modern.OnClientReload -= ModerWindow_OnClientReload;
+                if (_CurrentWebControl.HtmlWindow is IModernWebBrowserWindow modern)
+                    modern.OnClientReload -= ModerWindow_OnClientReload;
             }
 
             var closetask = (_CurrentWebControl != null) ? _Window.CloseAsync() : TaskHelper.Ended();

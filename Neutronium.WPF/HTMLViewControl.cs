@@ -22,8 +22,8 @@ namespace Neutronium.WPF
 
         public Uri Uri
         {
-            get { return (Uri)GetValue(UriProperty); }
-            set { SetValue(UriProperty, value); }
+            get => (Uri)GetValue(UriProperty);
+            set => SetValue(UriProperty, value);
         }
 
         public string RelativeSource
@@ -45,8 +45,8 @@ namespace Neutronium.WPF
 
         public JavascriptBindingMode Mode
         {
-            get { return (JavascriptBindingMode)GetValue(ModeProperty); }
-            set { SetValue(ModeProperty, value); }
+            get => (JavascriptBindingMode)GetValue(ModeProperty);
+            set => SetValue(ModeProperty, value);
         }
 
         public HTMLViewControl() : this(new UrlSolver())

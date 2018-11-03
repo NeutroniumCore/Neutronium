@@ -8,14 +8,14 @@ namespace Neutronium.WPF.Internal.ViewModel
         private string _DebugButtonLabel;
         public string DebugButtonLabel
         {
-            get { return _DebugButtonLabel; }
-            set { Set(ref _DebugButtonLabel, value); }
+            get => _DebugButtonLabel;
+            set => Set(ref _DebugButtonLabel, value);
         }
 
         private bool _IsDebuggingVm;
         public bool IsDebuggingVm
         {
-            get { return _IsDebuggingVm; }
+            get => _IsDebuggingVm;
             set
             {
                 Set(ref _IsDebuggingVm, value);
@@ -26,8 +26,8 @@ namespace Neutronium.WPF.Internal.ViewModel
         private bool _IsInspecting;
         public bool IsInspecting
         {
-            get { return _IsInspecting; }
-            set { Set(ref _IsInspecting, value); }
+            get => _IsInspecting;
+            set => Set(ref _IsInspecting, value);
         }
 
         public string ComponentName { get; set; }

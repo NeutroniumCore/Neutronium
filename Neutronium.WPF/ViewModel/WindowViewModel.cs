@@ -16,8 +16,8 @@ namespace Neutronium.WPF.ViewModel
 
         public WindowState State
         {
-            get { return _Window.WindowState; }
-            set { _Window.WindowState = value; }
+            get => _Window.WindowState;
+            set => _Window.WindowState = value;
         }
 
         private readonly Window _Window;

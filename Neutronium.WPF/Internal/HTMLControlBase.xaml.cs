@@ -52,8 +52,8 @@ namespace Neutronium.WPF.Internal
 
         public bool IsDebug
         {
-            get { return (bool)GetValue(IsDebugProperty); }
-            set { SetValue(IsDebugProperty, value); }
+            get => (bool)GetValue(IsDebugProperty);
+            set => SetValue(IsDebugProperty, value);
         }
 
         public static readonly DependencyProperty IsDebugProperty = DependencyProperty.Register(nameof(IsDebug), typeof(bool), typeof(HTMLControlBase), new PropertyMetadata(false, DebugChanged));
@@ -66,8 +66,8 @@ namespace Neutronium.WPF.Internal
 
         public bool IsHTMLLoaded
         {
-            get { return (bool)GetValue(IsHTMLLoadedProperty); }
-            private set { SetValue(IsHTMLLoadedProperty, value); }
+            get => (bool)GetValue(IsHTMLLoadedProperty);
+            private set => SetValue(IsHTMLLoadedProperty, value);
         }
 
         public static readonly DependencyProperty IsHTMLLoadedProperty =
@@ -75,8 +75,8 @@ namespace Neutronium.WPF.Internal
 
         public string HTMLEngine
         {
-            get { return (string)GetValue(HTMLEngineProperty); }
-            set { SetValue(HTMLEngineProperty, value); }
+            get => (string)GetValue(HTMLEngineProperty);
+            set => SetValue(HTMLEngineProperty, value);
         }
 
         public static readonly DependencyProperty HTMLEngineProperty =
@@ -84,8 +84,8 @@ namespace Neutronium.WPF.Internal
 
         public string JavascriptUIEngine
         {
-            get { return (string)GetValue(JavascriptUIEngineProperty); }
-            set { SetValue(JavascriptUIEngineProperty, value); }
+            get => (string)GetValue(JavascriptUIEngineProperty);
+            set => SetValue(JavascriptUIEngineProperty, value);
         }
 
         public static readonly DependencyProperty JavascriptUIEngineProperty =
@@ -94,7 +94,7 @@ namespace Neutronium.WPF.Internal
         private bool _UseINavigable = true;
         public bool UseINavigable
         {
-            get { return _UseINavigable; }
+            get => _UseINavigable;
             set
             {
                 _UseINavigable = value;
@@ -286,8 +286,12 @@ namespace Neutronium.WPF.Internal
 
         private ContextMenuItem GetContextMenuItem(string itemName, ICommand command, bool enabled=true)
         {
-            Action doAction = () => { if (command.CanExecute(null)) command.Execute(null); };
-            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, doAction), itemName, enabled);
+            void DoAction()
+            {
+                if (command.CanExecute(null)) command.Execute(null);
+            }
+
+            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action) DoAction), itemName, enabled);
         }
 
         private void OnDisplayFired(object sender, DisplayEvent e)
@@ -312,14 +316,15 @@ namespace Neutronium.WPF.Internal
                     Width = windoInfo.Width,
                     Height = windoInfo.Height
                 };
-                EventHandler handler = null;
-                handler = (o, e) =>
+
+                void Handler(object o, EventArgs e)
                 {
-                    aboutWindow.OnFirstLoad -= handler;
+                    aboutWindow.OnFirstLoad -= Handler;
                     aboutWindow.ShowDialog();
                     _LoadingAbout = false;
-                };
-                aboutWindow.OnFirstLoad += handler;
+                }
+
+                aboutWindow.OnFirstLoad += Handler;
                 return;
             }
 
@@ -345,7 +350,7 @@ namespace Neutronium.WPF.Internal
 
         public IWebSessionLogger WebSessionLogger
         {
-            get { return _WebSessionLogger; }
+            get => _WebSessionLogger;
             set
             {
                 _WebSessionLogger = value;
@@ -434,7 +439,7 @@ namespace Neutronium.WPF.Internal
         private string _WebSessionPath = null;
         public string SessionPath
         {
-            get { return _WebSessionPath; }
+            get => _WebSessionPath;
             set
             {
                 _WebSessionPath = value;

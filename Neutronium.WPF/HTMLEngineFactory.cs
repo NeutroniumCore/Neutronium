@@ -14,7 +14,7 @@ namespace Neutronium.WPF
     /// </summary>
     public class HTMLEngineFactory : IHTMLEngineFactory 
     {
-        private IWebSessionLogger _webSessionLogger;
+        private IWebSessionLogger _WebSessionLogger;
         private IJavascriptFrameworkManager _DefaultJavascriptFrameworkManager;
         private readonly IDictionary<string, IWPFWebWindowFactory> _Engines = new Dictionary<string, IWPFWebWindowFactory>();
         private readonly IDictionary<string, IJavascriptFrameworkManager> _JavascriptFrameworks = new Dictionary<string, IJavascriptFrameworkManager>();
@@ -31,7 +31,7 @@ namespace Neutronium.WPF
 
         public HTMLEngineFactory() 
         {
-            _webSessionLogger = new BasicLogger();
+            _WebSessionLogger = new BasicLogger();
         }
 
         public IWPFWebWindowFactory ResolveJavaScriptEngine(string engineName)
@@ -42,7 +42,7 @@ namespace Neutronium.WPF
             var res = _Engines.First().Value;
             if (!string.IsNullOrEmpty(engineName) && (res.Name != engineName))
             {
-                _webSessionLogger.Info(() => $"Name mismatch in IWPFWebWindowFactory resolution {engineName} vs {res.Name}");
+                _WebSessionLogger.Info(() => $"Name mismatch in IWPFWebWindowFactory resolution {engineName} vs {res.Name}");
             }
             return res;
         }
@@ -55,7 +55,7 @@ namespace Neutronium.WPF
         public void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory)
         {
             _Engines[wpfWebWindowFactory.Name] = wpfWebWindowFactory;
-            wpfWebWindowFactory.WebSessionLogger = _webSessionLogger;
+            wpfWebWindowFactory.WebSessionLogger = _WebSessionLogger;
         }
 
         private IJavascriptFrameworkManager PrivateResolveJavaScriptFramework(string frameworkName) 
@@ -66,7 +66,7 @@ namespace Neutronium.WPF
             var res = _JavascriptFrameworks.First().Value;
             if (!string.IsNullOrEmpty(frameworkName) && (res.Name != frameworkName)) 
             {
-                _webSessionLogger.Info(() => $"Name mismatch in IJavascriptUIFrameworkManager resolution {frameworkName} vs {res.Name}");
+                _WebSessionLogger.Info(() => $"Name mismatch in IJavascriptUIFrameworkManager resolution {frameworkName} vs {res.Name}");
             }
             return res;
         }
@@ -74,7 +74,7 @@ namespace Neutronium.WPF
         public IJavascriptFrameworkManager ResolveJavaScriptFramework(string frameworkName) 
         {
             var res = PrivateResolveJavaScriptFramework(frameworkName);
-            _webSessionLogger.Debug($"Resolving Javascript framekork using: {res?.Name}");
+            _WebSessionLogger.Debug($"Resolving Javascript framekork using: {res?.Name}");
             return res;
         }
 
@@ -91,11 +91,11 @@ namespace Neutronium.WPF
 
         public IWebSessionLogger WebSessionLogger 
         {
-            get { return _webSessionLogger; } 
+            get => _WebSessionLogger;
             set
             {
-                _webSessionLogger = value?? new NullLogger();
-                OnEngines(fact => fact.WebSessionLogger = _webSessionLogger);
+                _WebSessionLogger = value?? new NullLogger();
+                OnEngines(fact => fact.WebSessionLogger = _WebSessionLogger);
             }
         }
 

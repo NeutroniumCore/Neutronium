@@ -36,8 +36,7 @@ namespace Neutronium.WPF.Internal.DebugTools
             _WebBrowser = _WPFWebWindow.UIElement;
             MainGrid.Children.Add(_WebBrowser);
             _WPFWebWindow.HTMLWindow.LoadEnd += HTMLWindow_LoadEnd;
-            var modern = _WPFWebWindow.HTMLWindow as IModernWebBrowserWindow;
-            if ((_OnWebViewCreated != null) && (modern!=null))     
+            if ((_OnWebViewCreated != null) && (_WPFWebWindow.HTMLWindow is IModernWebBrowserWindow modern))     
                 modern.BeforeJavascriptExecuted += Modern_BeforeJavascriptExecuted;
 
            var uri = new Uri($"{GetType().Assembly.GetPath()}\\{_path}");

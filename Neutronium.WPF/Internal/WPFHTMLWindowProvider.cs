@@ -8,21 +8,20 @@ namespace Neutronium.WPF.Internal
     public class WPFHTMLWindowProvider : IWebBrowserWindowProvider
     {
         private readonly UIElement _UIElement;
-        private readonly Neutronium.WPF.Internal.HTMLControlBase _HTMLControlBase;
-        private readonly IWPFWebWindow _WPFWebWindow;
+        private readonly HTMLControlBase _HTMLControlBase;
 
-        public IWebBrowserWindow HtmlWindow => _WPFWebWindow.HTMLWindow;
-        public IWPFWebWindow WPFWebWindow => _WPFWebWindow;
+        public IWebBrowserWindow HtmlWindow => WPFWebWindow.HTMLWindow;
+        public IWPFWebWindow WPFWebWindow { get; }
         public IDispatcher UiDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
         public event EventHandler<DebugEventArgs> DebugToolOpened;
         public event EventHandler OnDisposed;
 
         public WPFHTMLWindowProvider(IWPFWebWindow wpfWebWindow, Neutronium.WPF.Internal.HTMLControlBase htmlControlBase)
         {
-            _WPFWebWindow = wpfWebWindow;
+            WPFWebWindow = wpfWebWindow;
             _HTMLControlBase = htmlControlBase;
-            _UIElement = _WPFWebWindow.UIElement;
-            _WPFWebWindow.DebugToolOpened += _WPFWebWindow_DebugToolOpened;
+            _UIElement = WPFWebWindow.UIElement;
+            WPFWebWindow.DebugToolOpened += _WPFWebWindow_DebugToolOpened;
         }
 
         private void _WPFWebWindow_DebugToolOpened(object sender, DebugEventArgs e)
@@ -46,12 +45,12 @@ namespace Neutronium.WPF.Internal
 
         public bool OnDebugToolsRequest() 
         {
-            return _WPFWebWindow.OnDebugToolsRequest();
+            return WPFWebWindow.OnDebugToolsRequest();
         }
 
         public void CloseDebugTools() 
         {
-            _WPFWebWindow.CloseDebugTools();
+            WPFWebWindow.CloseDebugTools();
         }
 
         public void Dispose()
@@ -59,10 +58,10 @@ namespace Neutronium.WPF.Internal
             _UIElement.Visibility = Visibility.Hidden;
             _HTMLControlBase.MainGrid.Children.Remove(_UIElement);
 
-            _WPFWebWindow.Dispose();
+            WPFWebWindow.Dispose();
 
             OnDisposed?.Invoke(this, EventArgs.Empty);
-            _WPFWebWindow.DebugToolOpened -= _WPFWebWindow_DebugToolOpened;
+            WPFWebWindow.DebugToolOpened -= _WPFWebWindow_DebugToolOpened;
         }
     }
 }
