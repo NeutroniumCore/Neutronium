@@ -13,7 +13,7 @@ namespace Example.Test.Perf.Cfx.Vue
 
         public MainWindow()
         {
-            _Counter = new CounterViewModel();
+            _Counter = new CounterViewModel(50);
             DataContext = _Counter;
             InitializeComponent();
             _Counter.Progess = new Progress<int>(i => _Counter.Counter = i);

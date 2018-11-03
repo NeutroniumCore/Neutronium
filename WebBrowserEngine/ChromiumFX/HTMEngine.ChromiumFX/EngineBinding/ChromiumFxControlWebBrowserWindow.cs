@@ -160,8 +160,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (beforeJavascriptExecuted == null)
                 return;
 
-            Action<string> execute = (code) => e.Frame.ExecuteJavaScript(code, String.Empty, 0);
-            beforeJavascriptExecuted(this, new BeforeJavascriptExcecutionArgs(MainFrame, execute));
+            void Execute(string code) => e.Frame.ExecuteJavaScript(code, String.Empty, 0);
+            beforeJavascriptExecuted(this, new BeforeJavascriptExcecutionArgs(MainFrame, Execute));
 
             if (_SendLoadOnContextCreated)
                 SendLoad();

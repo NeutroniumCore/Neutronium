@@ -11,10 +11,10 @@ namespace Neutronium.WPF.Internal.DebugTools
     /// </summary>
     public partial class HTMLSimpleWindow : IDisposable
     {
-        private readonly IWPFWebWindow _WPFWebWindow;
-        private readonly string _path;
+        private readonly IWPFWebWindow _WpfWebWindow;
+        private readonly string _Path;
         private UIElement _WebBrowser;
-        private Func<IWebView, IDisposable> _OnWebViewCreated;
+        private readonly Func<IWebView, IDisposable> _OnWebViewCreated;
         private IDisposable _Disposable;
 
         public HTMLSimpleWindow()
@@ -24,8 +24,8 @@ namespace Neutronium.WPF.Internal.DebugTools
 
         public HTMLSimpleWindow(IWPFWebWindow wpfWebWindow, string path, Func<IWebView, IDisposable> onWebViewCreated=null)
         {
-            _WPFWebWindow = wpfWebWindow;
-            _path = path;
+            _WpfWebWindow = wpfWebWindow;
+            _Path = path;
             _OnWebViewCreated = onWebViewCreated;
             InitializeComponent();
             this.Loaded += Window_Loaded;
@@ -33,26 +33,26 @@ namespace Neutronium.WPF.Internal.DebugTools
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _WebBrowser = _WPFWebWindow.UIElement;
+            _WebBrowser = _WpfWebWindow.UIElement;
             MainGrid.Children.Add(_WebBrowser);
-            _WPFWebWindow.HTMLWindow.LoadEnd += HTMLWindow_LoadEnd;
-            if ((_OnWebViewCreated != null) && (_WPFWebWindow.HTMLWindow is IModernWebBrowserWindow modern))     
+            _WpfWebWindow.HTMLWindow.LoadEnd += HTMLWindow_LoadEnd;
+            if ((_OnWebViewCreated != null) && (_WpfWebWindow.HTMLWindow is IModernWebBrowserWindow modern))     
                 modern.BeforeJavascriptExecuted += Modern_BeforeJavascriptExecuted;
 
-           var uri = new Uri($"{GetType().Assembly.GetPath()}\\{_path}");
-            _WPFWebWindow.HTMLWindow.NavigateTo(uri);
+           var uri = new Uri($"{GetType().Assembly.GetPath()}\\{_Path}");
+            _WpfWebWindow.HTMLWindow.NavigateTo(uri);
         }
 
         private void Modern_BeforeJavascriptExecuted(object sender, BeforeJavascriptExcecutionArgs e) 
         {
-            var modern = _WPFWebWindow.HTMLWindow as IModernWebBrowserWindow;
+            var modern = _WpfWebWindow.HTMLWindow as IModernWebBrowserWindow;
             modern.BeforeJavascriptExecuted -= Modern_BeforeJavascriptExecuted;
             _Disposable = _OnWebViewCreated(e.WebView);
         }
 
         private void HTMLWindow_LoadEnd(object sender, Core.WebBrowserEngine.Window.LoadEndEventArgs e)
         {
-            _WPFWebWindow.HTMLWindow.LoadEnd -= HTMLWindow_LoadEnd;
+            _WpfWebWindow.HTMLWindow.LoadEnd -= HTMLWindow_LoadEnd;
             _WebBrowser.Visibility = Visibility.Visible;
             Visibility = Visibility.Visible;
         }
@@ -66,7 +66,7 @@ namespace Neutronium.WPF.Internal.DebugTools
         public void Dispose()
         {
             _Disposable?.Dispose();
-            _WPFWebWindow.Dispose();
+            _WpfWebWindow.Dispose();
             _Disposable = null;
         }
     }

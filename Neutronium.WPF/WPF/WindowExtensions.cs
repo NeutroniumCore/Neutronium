@@ -8,11 +8,5 @@ namespace Neutronium.WPF
         {
             return WpfScreen.GetScreenFrom(window);
         }
-
-        public static Rect GetCurrentScreenWorkingArea(this Window window)
-        {
-            var screen = WpfScreen.GetScreenFrom(window);
-            return screen.DeviceBounds; //instead of WorkingArea which on some test less than expected
-        }
     }
 }

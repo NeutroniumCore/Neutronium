@@ -31,13 +31,13 @@ namespace Neutronium.Core.Navigation
         public IWebBrowserWindow HTMLWindow => _CurrentWebControl?.HtmlWindow;
         public bool UseINavigable
         {
-            get { return _UseINavigable; }
-            set { _UseINavigable = value; }
+            get => _UseINavigable;
+            set => _UseINavigable = value;
         }
 
         public IWebSessionLogger WebSessionLogger
         {
-            set { _webSessionLogger = value; }
+            set => _webSessionLogger = value;
         }
 
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, IJavascriptFrameworkManager javascriptFrameworkManager)
@@ -54,12 +54,15 @@ namespace Neutronium.Core.Navigation
             {
                 _webSessionLogger.LogBrowser(e, Url);
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
         public IHtmlBinding Binding
         {
-            get { return _HTMLBinding; }
+            get => _HTMLBinding;
             private set
             {
                 _HTMLBinding?.Dispose();
@@ -173,28 +176,26 @@ namespace Neutronium.Core.Navigation
             if (moderWindow != null)
             {
                 var debugContext = _WebViewLifeCycleManager.DebugContext;
-                EventHandler<BeforeJavascriptExcecutionArgs> before = null;
-                before = (o, e) =>
+
+                void Before(object o, BeforeJavascriptExcecutionArgs e)
                 {
-                    moderWindow.BeforeJavascriptExecuted -= before;
+                    moderWindow.BeforeJavascriptExecuted -= Before;
                     e.JavascriptExecutor(_JavascriptFrameworkManager.GetMainScript(debugContext));
-                };
-                moderWindow.BeforeJavascriptExecuted += before;
+                }
+                moderWindow.BeforeJavascriptExecuted += Before;
                 moderWindow.OnClientReload += ModerWindow_OnClientReload;
             }
             var tcs = new TaskCompletionSource<IHtmlBinding>();
 
-            EventHandler<LoadEndEventArgs> sourceupdate = null;
-            sourceupdate = async (o, e) =>
+            async void Sourceupdate(object o, LoadEndEventArgs e)
             {
-                _NextWebControl.HtmlWindow.LoadEnd -= sourceupdate;
-
+                _NextWebControl.HtmlWindow.LoadEnd -= Sourceupdate;
                 var builder = await initVm;
                 await builder.CreateBinding(_WebViewLifeCycleManager.DebugContext).WaitWith(closetask, t => Switch(t, dataContext.Window, tcs)).ConfigureAwait(false);
-            };
+            }
 
             Url = uri;
-            _NextWebControl.HtmlWindow.LoadEnd += sourceupdate;
+            _NextWebControl.HtmlWindow.LoadEnd += Sourceupdate;
             _NextWebControl.HtmlWindow.NavigateTo(uri);
 
             return tcs.Task;

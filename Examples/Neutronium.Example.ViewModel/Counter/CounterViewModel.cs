@@ -10,38 +10,29 @@ namespace Neutronium.Example.ViewModel.Counter
 {
     public class CounterViewModel : ViewModelBase
     {
-        private const int _Leaves = 30;
-        private const int _Position = 3;
+        private readonly int _Leaves;
+        private readonly int _Position;
 
         private int _Counter;
         [Bindable(true, BindingDirection.OneWay)]
         public int Counter
         {
-            get
-            {
-                return _Counter;
-            }
-            set
-            {
-                Set(ref _Counter, value, "Counter");
-            }
+            get => _Counter;
+            set => Set(ref _Counter, value, "Counter");
         }
 
         private FakeViewModel _Big;
         public FakeViewModel Big
         {
-            get { return _Big; }
-            private set
-            {
-                Set(ref _Big, value, "Big");
-            }
+            get => _Big;
+            private set => Set(ref _Big, value, "Big");
         }
 
         private string _State = "Done";
         public string State
         {
-            get { return _State; }
-            set { Set(ref _State, value, "State"); }
+            get => _State;
+            set => Set(ref _State, value, "State");
         }
 
         public ICommand Count { get; }
@@ -49,8 +40,10 @@ namespace Neutronium.Example.ViewModel.Counter
 
         public IProgress<int> Progess { get; set; }
 
-        public CounterViewModel()
+        public CounterViewModel(int leaves = 30, int position = 3)
         {
+            _Leaves = leaves;
+            _Position = position;
             Count = new RelaySimpleCommand(DoCount);
             BuildBigModel = new RelaySimpleCommand(DoBuildBigModel);
         }
@@ -60,7 +53,7 @@ namespace Neutronium.Example.ViewModel.Counter
             Big = BuildBigVm(_Leaves, _Position);
         }
 
-        protected FakeViewModel BuildBigVm(int leaves = 50, int position = 3)
+        protected FakeViewModel BuildBigVm(int leaves, int position)
         {
             var children = position == 0 ? null : Enumerable.Range(0, leaves).Select(i => BuildBigVm(leaves, position - 1));
             return new FakeViewModel(children);
