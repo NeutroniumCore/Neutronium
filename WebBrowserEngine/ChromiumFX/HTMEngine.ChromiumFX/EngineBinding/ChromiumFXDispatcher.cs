@@ -12,6 +12,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
     {
         private readonly CfrV8Context _Context;
         private readonly CfrBrowser _Browser;
+        private readonly CfxRemoteCallContext _RemoteCallContext;
         private readonly IWebSessionLogger _Logger;
         private readonly ConcurrentQueue<Action> _Actions = new ConcurrentQueue<Action>();
         private volatile bool _IsExecutingActions = false;
@@ -21,6 +22,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _Logger = logger;
             _Browser = browser;
             _Context = context;
+            _RemoteCallContext = _Browser.CreateRemoteCallContext();
         }
 
         private void CfrTask_Execute(object sender, CfrEventArgs e)
@@ -140,7 +142,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private ChromiumFxCRemoteContext GetRemoteContext()
         {
-            return new ChromiumFxCRemoteContext(_Browser.CreateRemoteCallContext());
+            return new ChromiumFxCRemoteContext(_RemoteCallContext);
         }
 
         private void RunInContext(Action action)
