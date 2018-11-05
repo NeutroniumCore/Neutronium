@@ -18,7 +18,7 @@ namespace Neutronium.Core.Binding.GlueObject
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public object CValue { get; }
         public JsCsGlueType Type => JsCsGlueType.Object;
-        public bool HasReadWriteProperties => _TypePropertyAccessor.HasReadWriteProperties;
+        public bool HasReadWriteProperties => !_TypePropertyAccessor.Observability.HasFlag(ObjectObservability.ReadOnly);
         public uint JsId { get; private set; }
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => JsId = jsId;

@@ -94,7 +94,8 @@ namespace Neutronium.Core.Binding.Builder
 
         void IJavascriptObjectBuilder.RequestObjectCreation(IGenericPropertyAcessor attributeDescription, IReadOnlyList<IJsCsGlue> attributeValue)
         {
-            var value = _Factory.CreateObject(!attributeDescription.HasReadWriteProperties);
+            var readOnly = attributeDescription.Observability.HasFlag(ObjectObservability.ReadOnly);
+            var value = _Factory.CreateObject(readOnly);
             SetJsValue(value);
 
             _AfterChildrenUpdates = () =>

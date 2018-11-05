@@ -10,7 +10,7 @@ namespace Neutronium.Core.Infra.Reflection
     {
         public IReadOnlyList<PropertyAccessor> ReadProperties => _ReadProperties;
         public IReadOnlyList<string> AttributeNames => _AttributeNames;
-        public bool HasReadWriteProperties => true;
+        public ObjectObservability Observability => ObjectObservability.None;
 
         private readonly List<PropertyAccessor> _ReadProperties;
         private readonly List<string> _AttributeNames;

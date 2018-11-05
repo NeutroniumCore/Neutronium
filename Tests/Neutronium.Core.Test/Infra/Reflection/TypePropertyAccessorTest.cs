@@ -37,12 +37,12 @@ namespace Neutronium.Core.Test.Infra.Reflection
         }
 
         [Theory]
-        [InlineData(typeof(ReadOnlyClass), false)]
-        [InlineData(typeof(FakeClass), true)]
-        public void HasReadWriteProperties_returns_correct_property(Type type, bool expectedHasReadWriteProperties)
+        [InlineData(typeof(ReadOnlyClass), ObjectObservability.ReadOnly)]
+        [InlineData(typeof(FakeClass), ObjectObservability.None)]
+        public void Observability_returns_correct_property(Type type, ObjectObservability expected)
         {
             var res = new TypePropertyAccessor(type);
-            res.HasReadWriteProperties.Should().Be(expectedHasReadWriteProperties);
+            res.Observability.Should().Be(expected);
         }
 
         [Theory]

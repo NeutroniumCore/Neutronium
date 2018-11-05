@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Neutronium.Core.Infra.Reflection
 {
@@ -10,7 +9,7 @@ namespace Neutronium.Core.Infra.Reflection
     {
         public IReadOnlyList<PropertyAccessor> ReadProperties => _ReadProperties;
         public IReadOnlyList<string> AttributeNames => _AttributeNames;
-        public bool HasReadWriteProperties => true;
+        public ObjectObservability Observability => ObjectObservability.None;
 
         private readonly IDictionary<string, PropertyAccessor> _PropertyAccessoresDictionary;
         private readonly List<PropertyAccessor> _ReadProperties;

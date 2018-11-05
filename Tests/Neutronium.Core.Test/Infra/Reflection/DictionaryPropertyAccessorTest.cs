@@ -32,9 +32,9 @@ namespace Neutronium.Core.Test.Infra.Reflection
         }
 
         [Fact]
-        public void HasReadWriteProperties_Is_True()
+        public void Observability_is_none()
         {
-            _DictionaryPropertyAccessor.HasReadWriteProperties.Should().BeTrue();
+            _DictionaryPropertyAccessor.Observability.Should().Be(ObjectObservability.None);
         }
 
         [Fact]
