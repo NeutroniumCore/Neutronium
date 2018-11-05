@@ -76,17 +76,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             this.Loaded -= ChromiumFxControl_Loaded;
             Window = Window.GetWindow(this);
             WindowHandle = new System.Windows.Interop.WindowInteropHelper(Window).Handle;
-            Window.StateChanged += Window_StateChanged;
             Window.Closed += Window_Closed;
-        }
-
-        private async void Window_StateChanged(object sender, EventArgs e)
-        {
-            if (Window.WindowState == WindowState.Minimized)
-                return;
-
-            await Task.Delay(10);
-            ChromiumWebBrowser.Refresh();
         }
 
         private bool OnWebBroswerMessage(Message message)
@@ -135,7 +125,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private void Window_Closed(object sender, System.EventArgs e)
         {
             Window.Closed -= Window_Closed;
-            Window.StateChanged -= Window_StateChanged;
             _ChromeWidgetMessageInterceptor?.ReleaseHandle();
             _ChromeWidgetMessageInterceptor?.DestroyHandle();
             _ChromeWidgetMessageInterceptor = null;
