@@ -174,7 +174,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             });
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
+        public IEnumerable<IJavascriptObject> CreateObjectsFromConstructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
         {
             var builder = _ObjectWithConstructorBuilder.Value;
             for (var i = 0; i < number; i++)

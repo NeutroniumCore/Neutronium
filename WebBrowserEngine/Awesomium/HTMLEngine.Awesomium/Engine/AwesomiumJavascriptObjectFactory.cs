@@ -200,7 +200,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return Awesomium_Core.JSValue.Undefined.Convert();
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor,
+        public IEnumerable<IJavascriptObject> CreateObjectsFromConstructor(int number, IJavascriptObject constructor,
             params IJavascriptObject[] parameters)
         {
             throw new NotImplementedException();

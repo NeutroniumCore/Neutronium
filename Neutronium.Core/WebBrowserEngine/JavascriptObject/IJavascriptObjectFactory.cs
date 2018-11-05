@@ -78,7 +78,7 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <returns>
         /// corresponding collection of IJavascriptObject
         ///</returns>
-        IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters);
+        IEnumerable<IJavascriptObject> CreateObjectsFromConstructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters);
 
 
         /// <summary>

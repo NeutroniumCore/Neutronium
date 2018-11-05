@@ -185,7 +185,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return _ObjectCallback.GetLastArguments().Select(ConvertObject);
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjectsFromContructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
+        public IEnumerable<IJavascriptObject> CreateObjectsFromConstructor(int number, IJavascriptObject constructor, params IJavascriptObject[] parameters)
         {
             if (number == 0)
                 return Enumerable.Empty<IJavascriptObject>();

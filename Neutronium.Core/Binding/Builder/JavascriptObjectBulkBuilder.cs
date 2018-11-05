@@ -92,12 +92,12 @@ namespace Neutronium.Core.Binding.Builder
 
             BulkCreateCommand( _CommandCreationRequest.CommandExecutableBuildingRequested, true);
             BulkCreateCommand( _CommandCreationRequest.CommandNotExecutableBuildingRequested, false);
-            BulkCreate(_Factory.CreateObjectsFromContructor(_ExecutableObjectsToCreate.Count, _BulkUpdater.ExecutableConstructor), _ExecutableObjectsToCreate);
+            BulkCreate(_Factory.CreateObjectsFromConstructor(_ExecutableObjectsToCreate.Count, _BulkUpdater.ExecutableConstructor), _ExecutableObjectsToCreate);
         }
 
         private void BulkCreateCommand(IList<IJsCsGlue> commands, bool canExecute)
         {
-            BulkCreate(_Factory.CreateObjectsFromContructor(commands.Count, _BulkUpdater.CommandConstructor, _Factory.CreateBool(canExecute)), commands);
+            BulkCreate(_Factory.CreateObjectsFromConstructor(commands.Count, _BulkUpdater.CommandConstructor, _Factory.CreateBool(canExecute)), commands);
         }
 
         private void UpdateDependencies()
