@@ -42,8 +42,7 @@ namespace Neutronium.Core.Binding.Builder
 
         internal void RequestObjectCreation(IJsCsGlue glue, IGenericPropertyAcessor attributeDescription, IReadOnlyList<IJsCsGlue> attributeValue)
         {
-            var updatableFromJs = !attributeDescription.Observability.HasFlag(ObjectObservability.ReadOnly);
-            _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, attributeDescription, attributeValue), updatableFromJs);
+            _ObjectsCreationRequest.AddRequest(EntityDescriptor.CreateObjectDescriptor(glue, attributeDescription, attributeValue), attributeDescription.Observability);
         }
 
         internal void RequestArrayCreation(IJsCsGlue glue, IReadOnlyList<IJsCsGlue> children)

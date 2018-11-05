@@ -2,6 +2,7 @@
 using Neutronium.Core.Binding.GlueObject;
 using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.Builder
 {
@@ -13,8 +14,9 @@ namespace Neutronium.Core.Binding.Builder
         private readonly List<ObjectDescriptor> _ObjectReadWriteBuildingRequested = new List<ObjectDescriptor>();
         private readonly List<ObjectDescriptor> _ObjectReadOnlyBuildingRequested = new List<ObjectDescriptor>();
 
-        public void AddRequest(ObjectDescriptor descriptor, bool updatableFromJs)
+        public void AddRequest(ObjectDescriptor descriptor, ObjectObservability objectObservability)
         {
+            var updatableFromJs = !objectObservability.HasFlag(ObjectObservability.ReadOnly);
             if (!updatableFromJs)
             {
                 _ObjectReadOnlyBuildingRequested.Add(descriptor);
