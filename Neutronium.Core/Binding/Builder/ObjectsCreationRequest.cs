@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
 using System.Linq;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Builder
 {
     internal class ObjectsCreationRequest
     {
-        public int ReadWriteNumber => _ObjectReadWriteBuildingRequested.Count;
-        public int ReadOnlyNumber => _ObjectReadOnlyBuildingRequested.Count;
+        public ObjectsCreationOption ObjectsCreationOption =>
+            new ObjectsCreationOption(_ObjectReadWriteBuildingRequested.Count, _ObjectReadOnlyBuildingRequested.Count);
 
         private readonly List<ObjectDescriptor> _ObjectReadWriteBuildingRequested = new List<ObjectDescriptor>();
         private readonly List<ObjectDescriptor> _ObjectReadOnlyBuildingRequested = new List<ObjectDescriptor>();

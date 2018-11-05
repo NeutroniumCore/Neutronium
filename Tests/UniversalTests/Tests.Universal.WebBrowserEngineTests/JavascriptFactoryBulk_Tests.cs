@@ -110,8 +110,8 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                object res = null;
-                bool ok = Converter.GetSimpleValue(Get(value), out res, value.GetType());
+                var res = default(object);
+                var ok = Converter.GetSimpleValue(Get(value), out res, value.GetType());
                 ok.Should().BeTrue();
                 res.Should().NotBeNull();
                 res.Should().Equals(value);
@@ -121,7 +121,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         [Fact]
         public void CreateBasics_Decimal_Create_Correct_Objects_Fixed_Value()
         {
-            decimal value = 7.9228162495817593524129366018M;
+            var value = 7.9228162495817593524129366018M;
             Test(() =>
             {
                 var res = ConvertBack(value);
@@ -235,7 +235,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                IJavascriptObject maxuint = Get(uint.MaxValue);
+                var maxuint = Get(uint.MaxValue);
                 var ok = Converter.GetSimpleValue(maxuint, out var res, typeof(UInt32));
                 ok.Should().BeTrue();
                 res.Should().Be(uint.MaxValue);
@@ -245,19 +245,19 @@ namespace Tests.Universal.WebBrowserEngineTests
         [Property]
         public Property CreateObjects_creates_correct_number_of_objects()
         {
-            return ForCoupleInt((nbWrite, nbReadOnly) =>
+            return ForObjectsCreationOption((option) =>
             {
-                var res = Factory.CreateObjects(nbWrite, nbReadOnly).ToList();
-                return res.Count == nbWrite + nbReadOnly;
+                var res = Factory.CreateObjects(option).ToList();
+                return res.Count == option.TotalNumber;
             });
         }
 
         [Property]
         public Property CreateObjects_creates_objects_with_ids()
         {
-            return ForCoupleInt((nbWrite, nbReadOnly) =>
+            return ForObjectsCreationOption((option) =>
             {
-                var res = Factory.CreateObjects(nbWrite, nbReadOnly).ToList();
+                var res = Factory.CreateObjects(option).ToList();
                 var first = res.FirstOrDefault();
 
                 return (first == null) || res.Select(GetId).SequenceEqual(Enumerable.Range(GetId(first), res.Count));
@@ -267,19 +267,19 @@ namespace Tests.Universal.WebBrowserEngineTests
         [Property]
         public Property CreateObjects_creates_objects_with_correct_readwrite_flag()
         {
-            return ForCoupleInt((nbWrite, nbReadOnly) =>
+            return ForObjectsCreationOption((option) =>
             {
-                var res = Factory.CreateObjects(nbWrite, nbReadOnly);
+                var res = Factory.CreateObjects(option);
 
-                var expectedReadOnlyFlags = Enumerable.Repeat(false, nbWrite).Concat(Enumerable.Repeat(true, nbReadOnly));
+                var expectedReadOnlyFlags = Enumerable.Repeat(false, option.ReadWriteNumber).Concat(Enumerable.Repeat(true, option.ReadOnlyNumber));
 
                 return res.Select(GetReadOnly).SequenceEqual(expectedReadOnlyFlags);
             });
         }
 
-        private Property ForCoupleInt(Func<int, int, bool> assertion)
+        private Property ForObjectsCreationOption(Func<ObjectsCreationOption, bool> assertion)
         {
-            return Prop.ForAll(SmallRangeIntArb, SmallRangeIntArb, (nbWrite, nbReadOnly) => Test(() => assertion(nbWrite, nbReadOnly)));
+            return Prop.ForAll(SmallRangeIntArb, SmallRangeIntArb, (nbWrite, nbReadOnly) => Test(() => assertion(new ObjectsCreationOption(nbWrite, nbReadOnly))));
         }
 
         private static int GetId(IJavascriptObject javascriptObject)

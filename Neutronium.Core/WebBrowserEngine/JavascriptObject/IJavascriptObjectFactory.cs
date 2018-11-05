@@ -51,17 +51,14 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <summary>
         /// Create IJavascriptObject objects in bulk
         /// </summary> 
-        /// <param name="readOnlyNumber">
-        /// number of read only objects to create. 
+        /// <param name="option">
+        /// number of read only and read-write objects to create. 
         /// Readonly object have the property NeutroniumConstants.ReadOnlyFlag ("__readonly__") set to true
-        /// </param>
-        /// <param name="readWrite">
-        /// number of read write objects to create. 
         /// </param>
         /// <returns>
         /// corresponding collection of IJavascriptObject
         ///</returns>
-        IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber);
+        IEnumerable<IJavascriptObject> CreateObjects(ObjectsCreationOption option);
 
         /// <summary>
         /// Create IJavascriptObject object from constructor

@@ -72,7 +72,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(ReadWriteTestData))]
-        public async Task TwoWay_should_update_from_csharp_readonly_property(Type type, bool readOnly) 
+        public async Task TwoWay_should_update_from_csharp_readonly_property(Type type, bool _) 
         {
             var datacontext = Activator.CreateInstance(type) as ReadOnlyTestViewModel;
 

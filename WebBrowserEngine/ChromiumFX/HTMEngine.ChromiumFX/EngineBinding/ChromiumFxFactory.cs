@@ -171,15 +171,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return (v8Res!=null) ? UpdateConvert(v8Res) : null;
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjects(int readWriteNumber, int readOnlyNumber)
+        public IEnumerable<IJavascriptObject> CreateObjects(ObjectsCreationOption option)
         {
-            if (readWriteNumber + readOnlyNumber == 0)
+            if (option.TotalNumber == 0)
                 return Enumerable.Empty<IJavascriptObject>();
 
             _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] {
                 CfrV8Value.CreateInt((int)_Count),
-                CfrV8Value.CreateInt(readWriteNumber),
-                CfrV8Value.CreateInt(readOnlyNumber),
+                CfrV8Value.CreateInt(option.ReadWriteNumber),
+                CfrV8Value.CreateInt(option.ReadOnlyNumber),
                 _ObjectCreationCallbackFunction.Value
             });
             return _ObjectCallback.GetLastArguments().Select(ConvertObject);

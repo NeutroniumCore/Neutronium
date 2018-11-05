@@ -127,9 +127,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return CreateJSObject(true);
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
+        public IEnumerable<IJavascriptObject> CreateObjects(ObjectsCreationOption option)
         {
-            var count = readWrite + readOnlyNumber;
+            var count = option.TotalNumber;
             for (var i = 0; i < count; i++)
             {
                 yield return CreateObject( default(ObjectObservability));

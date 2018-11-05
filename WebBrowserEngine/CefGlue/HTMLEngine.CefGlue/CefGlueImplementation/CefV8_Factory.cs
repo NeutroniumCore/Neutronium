@@ -72,13 +72,13 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return UpdateObject(CefV8Value.CreateObject(null), readOnly);
         }
 
-        public IEnumerable<IJavascriptObject> CreateObjects(int readWrite, int readOnlyNumber)
+        public IEnumerable<IJavascriptObject> CreateObjects(ObjectsCreationOption option)
         {
-            for (var i = 0; i < readWrite; i++)
+            for (var i = 0; i < option.ReadWriteNumber; i++)
             {
                 yield return CreateObject(ObjectObservability.None);
             }
-            for (var i = 0; i < readOnlyNumber; i++)
+            for (var i = 0; i < option.ReadOnlyNumber; i++)
             {
                 yield return CreateObject(ObjectObservability.ReadOnly);
             }

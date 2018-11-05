@@ -84,7 +84,7 @@ namespace Neutronium.Core.Binding.Builder
         private void CreateObjects()
         {
             BulkCreate( _Factory.CreateFromExcecutionCode(_BasicObjectsToCreate.Select(glue => ((IBasicJsCsGlue)glue).GetCreationCode())), _BasicObjectsToCreate);
-            BulkCreate( _Factory.CreateObjects(_ObjectsCreationRequest.ReadWriteNumber, _ObjectsCreationRequest.ReadOnlyNumber), _ObjectsCreationRequest.GetElements());
+            BulkCreate( _Factory.CreateObjects(_ObjectsCreationRequest.ObjectsCreationOption), _ObjectsCreationRequest.GetElements());
             BulkCreate( _Factory.CreateArrays(_ArraysBuildingRequested.Count), _ArraysBuildingRequested.Select(item => item.Father));
 
             if (_Mapping)
