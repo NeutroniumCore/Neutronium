@@ -67,7 +67,7 @@ namespace Neutronium.Core.Binding.Builder
 
         void IJavascriptObjectBuilder.RequestCommandCreation(bool canExecute)
         {
-            var command = _Factory.CreateObject(true);
+            var command = _Factory.CreateObject(ObjectObservability.ReadOnly);
             command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));
             command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
             SetJsValue(command);
@@ -77,7 +77,7 @@ namespace Neutronium.Core.Binding.Builder
 
         void IJavascriptObjectBuilder.RequestExecutableCreation()
         {
-            var executable = _Factory.CreateObject(true);
+            var executable = _Factory.CreateObject(ObjectObservability.ReadOnly);
             SetJsValue(executable);
 
             UpdateExecutable(executable);
@@ -94,8 +94,7 @@ namespace Neutronium.Core.Binding.Builder
 
         void IJavascriptObjectBuilder.RequestObjectCreation(IGenericPropertyAcessor attributeDescription, IReadOnlyList<IJsCsGlue> attributeValue)
         {
-            var readOnly = attributeDescription.Observability.HasFlag(ObjectObservability.ReadOnly);
-            var value = _Factory.CreateObject(readOnly);
+            var value = _Factory.CreateObject(attributeDescription.Observability);
             SetJsValue(value);
 
             _AfterChildrenUpdates = () =>

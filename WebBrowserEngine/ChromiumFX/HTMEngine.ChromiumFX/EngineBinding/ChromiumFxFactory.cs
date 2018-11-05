@@ -5,6 +5,7 @@ using Chromium;
 using Chromium.Remote;
 using MoreCollection.Extensions;
 using Neutronium.Core.Extension;
+using Neutronium.Core.Infra.Reflection;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 
@@ -157,8 +158,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return CfrV8Value.CreateObject(null, null).ConvertObject();
         }
 
-        public IJavascriptObject CreateObject(bool readOnly) 
+        public IJavascriptObject CreateObject(ObjectObservability objectObservability) 
         {
+            var readOnly = objectObservability.HasFlag(ObjectObservability.ReadOnly);
             var id = GetNextId();
             return _ObjectBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id), CfrV8Value.CreateBool(readOnly) }).ConvertObject(id);
         }

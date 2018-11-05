@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
+using Neutronium.Core.Infra.Reflection;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.WebBrowserEngine.Awesomium.Internal;
 using Awesomium_Core = Awesomium.Core;
@@ -103,7 +104,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         private IJavascriptObject CreateJSObject(bool local)
         {
-            string Name = string.Format("MVVM_HTML_{0}", _Count);
+            var Name = $"MVVM_HTML_{_Count}";
             return _IWebView.EvaluateSafe(() =>
             {
                 Awesomium_Core.JSObject res = (local)
@@ -121,7 +122,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return CreateJSObject(false);
         }
 
-        public IJavascriptObject CreateObject(bool readOnly)
+        public IJavascriptObject CreateObject(ObjectObservability objectObservability)
         {
             return CreateJSObject(true);
         }
@@ -131,7 +132,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             var count = readWrite + readOnlyNumber;
             for (var i = 0; i < count; i++)
             {
-                yield return CreateObject(true);
+                yield return CreateObject( default(ObjectObservability));
             }
         }
 
@@ -169,9 +170,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
             return result.Convert();
         }
 
-        public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> iCount)
+        public IJavascriptObject CreateArray(IEnumerable<IJavascriptObject> count)
         {
-            return new Awesomium_Core.JSValue(iCount.Select(o => o.Convert()).ToArray()).Convert();
+            return new Awesomium_Core.JSValue(count.Select(o => o.Convert()).ToArray()).Convert();
         }
 
         public IEnumerable<IJavascriptObject> CreateArrays(int number)

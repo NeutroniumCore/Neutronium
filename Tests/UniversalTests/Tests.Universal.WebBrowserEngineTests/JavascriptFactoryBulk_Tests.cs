@@ -243,7 +243,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         }
 
         [Property]
-        public Property CreateObjects_creates_correct_number_of_objecst()
+        public Property CreateObjects_creates_correct_number_of_objects()
         {
             return ForCoupleInt((nbWrite, nbReadOnly) =>
             {

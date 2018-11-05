@@ -26,6 +26,7 @@ using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Test.Helper;
 using Neutronium.MVVMComponents.Relay;
 using System.Windows.Threading;
+using Neutronium.Core.Infra.Reflection;
 using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 
 namespace Tests.Universal.HTMLBindingTests
@@ -1189,7 +1190,7 @@ namespace Tests.Universal.HTMLBindingTests
                     string n2 = GetStringAttribute(res2, "Name");
                     n2.Should().Be("Claudia");
 
-                    var trueJs = _WebView.Factory.CreateObject(false);
+                    var trueJs = _WebView.Factory.CreateObject(ObjectObservability.None);
                     SetAttribute(js, "One", trueJs);
 
                     var res3 = GetAttribute(js, "One");

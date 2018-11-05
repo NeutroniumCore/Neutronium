@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
 {
@@ -38,14 +39,14 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// <summary>
         /// Create IJavascriptObject object
         /// </summary> 
-        /// <param name="readOnly">
-        /// true if local readOnly. 
+        /// <param name="objectObservability">
+        /// the corresponding object ObjectObservability. 
         /// Readonly object have the property NeutroniumConstants.ReadOnlyFlag ("__readonly__") set to true
         /// </param>
         /// <returns>
         /// corresponding IJavascriptObject
         ///</returns>
-        IJavascriptObject CreateObject(bool readOnly);
+        IJavascriptObject CreateObject(ObjectObservability objectObservability);
 
         /// <summary>
         /// Create IJavascriptObject objects in bulk

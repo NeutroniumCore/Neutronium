@@ -4,6 +4,7 @@ using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Xilium.CefGlue;
 using MoreCollection.Extensions;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
 {
@@ -65,8 +66,9 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
             return UpdateObject(CefV8Value.CreateObject(null));
         }
 
-        public IJavascriptObject CreateObject(bool readOnly)
+        public IJavascriptObject CreateObject(ObjectObservability objectObservability)
         {
+            var readOnly = objectObservability.HasFlag(ObjectObservability.ReadOnly);
             return UpdateObject(CefV8Value.CreateObject(null), readOnly);
         }
 
@@ -74,11 +76,11 @@ namespace Neutronium.WebBrowserEngine.CefGlue.CefGlueImplementation
         {
             for (var i = 0; i < readWrite; i++)
             {
-                yield return CreateObject(false);
+                yield return CreateObject(ObjectObservability.None);
             }
             for (var i = 0; i < readOnlyNumber; i++)
             {
-                yield return CreateObject(true);
+                yield return CreateObject(ObjectObservability.ReadOnly);
             }
         }
 

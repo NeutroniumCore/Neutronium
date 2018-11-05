@@ -37,27 +37,27 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         {
         }
 
-        protected void Test(Action act, TestContext ipath = TestContext.Index) 
+        protected void Test(Action act, TestContext path = TestContext.Index) 
         {
-            using (Tester(ipath)) 
+            using (Tester(path)) 
             {
                 Init();
                 DoSafe(act);
             }
         }
 
-        protected T Test<T>(Func<T> act, TestContext ipath = TestContext.Index)
+        protected T Test<T>(Func<T> act, TestContext path = TestContext.Index)
         {
-            using (Tester(ipath))
+            using (Tester(path))
             {
                 Init();
                 return _WebView.Evaluate(act);
             }
         }
 
-        protected async Task TestAsync(Func<Task> act, TestContext ipath = TestContext.Index)
+        protected async Task TestAsync(Func<Task> act, TestContext path = TestContext.Index)
         {
-            using (Tester(ipath))
+            using (Tester(path))
             {
                 Init();
                 await DoSafeAsync(act);

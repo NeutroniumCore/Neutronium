@@ -1,4 +1,5 @@
 ﻿using System;
+using Neutronium.Core.Infra.Reflection;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.JavascriptFrameworkTesterHelper;
 
@@ -43,7 +44,7 @@ namespace Mobx.Test.IntegratedInfra
             _WebView.Run(() =>
             {
                 var mobx = _WebView.GetGlobal().GetValue("mobx");
-                var helper = _WebView.Factory.CreateObject(true);
+                var helper = _WebView.Factory.CreateObject(ObjectObservability.ReadOnly);
                 helper.SetValue(attibutename, value);
                 mobx.InvokeNoResult("extendObservable", _WebView, father, helper);
             });
