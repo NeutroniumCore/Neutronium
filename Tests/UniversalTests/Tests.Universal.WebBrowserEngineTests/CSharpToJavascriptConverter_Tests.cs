@@ -284,8 +284,7 @@ namespace Tests.Universal.WebBrowserEngineTests
                 {
                     res.Should().NotBeNull();
 
-                    object ores = null;
-                    Converter.GetSimpleValue(res, out ores);
+                    Converter.GetSimpleValue(res, out var ores);
                     var resd = (DateTime) ores;
 
                     resd.Should().Be(date);

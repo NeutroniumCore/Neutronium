@@ -99,8 +99,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                object res = null;
-                bool ok = Converter.GetSimpleValue(Get(value), out res, typeof(T));
+                bool ok = Converter.GetSimpleValue(Get(value), out var res, typeof(T));
                 ok.Should().BeTrue();
                 res.Should().Be(value);
             });
@@ -110,8 +109,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             Test(() =>
             {
-                var res = default(object);
-                var ok = Converter.GetSimpleValue(Get(value), out res, value.GetType());
+                var ok = Converter.GetSimpleValue(Get(value), out var res, value.GetType());
                 ok.Should().BeTrue();
                 res.Should().NotBeNull();
                 res.Should().Equals(value);
@@ -200,7 +198,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         private object ConvertBack(IJavascriptObject value, Type targetType)
         {
-            Converter.GetSimpleValue(value, out object res, targetType);
+            Converter.GetSimpleValue(value, out var res, targetType);
             return res;
         }
 

@@ -388,7 +388,7 @@ namespace Tests.Universal.HTMLBindingTests
                     //GetSafe(()=>res.IsNull).Should().BeTrue();
                     //Awesomium limitation can not test on isnull
                     //Todo: create specific test
-                    object obj = null;
+                    var obj = default(object);
                     var boolres = GetSafe(() => _WebView.Converter.GetSimpleValue(res, out obj));
                     boolres.Should().BeTrue();
                     obj.Should().BeNull();
