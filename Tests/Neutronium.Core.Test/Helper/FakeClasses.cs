@@ -15,6 +15,36 @@ namespace Neutronium.Core.Test.Helper
         public int OnlySet { set { } }
     }
 
+    public class ReadOnlyClassWithNotifyPropertyChanged : INotifyPropertyChanged
+    {
+        public int Available1 { get; }
+
+        public int Available3 { get; private set; }
+
+        public int Private2 { private get; set; }
+
+        protected int Protected1 { get; set; }
+
+        public int OnlySet { set { } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+
+    public class ReadWriteClassWithNotifyPropertyChanged : INotifyPropertyChanged
+    {
+        public int Available1 { get; }
+
+        public int Available3 { get; private set; }
+
+        public int Private2 { private get; set; }
+
+        protected int Protected1 { get; set; }
+
+        public int OnlySet { set; get; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }  
+
     public class ReadOnlyClass2
     {
         public int Property1 { get; private set; }

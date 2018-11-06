@@ -22,7 +22,17 @@ namespace Neutronium.Core.Infra.Reflection
             ReadProperties = readProperties;
             AttributeNames = readProperties.ToArray(p => p.Name);
             _Properties = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
-            Observability = readProperties.All(p => !p.IsSettable) ? ObjectObservability.ReadOnly : ObjectObservability.None;
+            Observability = GetObjectObservability(type);
+        }
+
+        private ObjectObservability GetObjectObservability(Type type)
+        {
+            var observability = ObjectObservability.None;
+            if (ReadProperties.All(p => !p.IsSettable))
+                observability = observability | ObjectObservability.ReadOnly;
+            if (Types.NotifyPropertyChanged.IsAssignableFrom(type))
+                observability = observability | ObjectObservability.ImplementNotifyPropertyChanged;
+            return observability;
         }
 
         public PropertyAccessor GetAccessor(string propertyName)

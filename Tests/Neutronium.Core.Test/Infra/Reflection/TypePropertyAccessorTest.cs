@@ -37,8 +37,10 @@ namespace Neutronium.Core.Test.Infra.Reflection
         }
 
         [Theory]
-        [InlineData(typeof(ReadOnlyClass), ObjectObservability.ReadOnly)]
         [InlineData(typeof(FakeClass), ObjectObservability.None)]
+        [InlineData(typeof(ReadOnlyClass), ObjectObservability.ReadOnly)]       
+        [InlineData(typeof(ReadWriteClassWithNotifyPropertyChanged), ObjectObservability.ImplementNotifyPropertyChanged)]
+        [InlineData(typeof(ReadOnlyClassWithNotifyPropertyChanged), ObjectObservability.ReadOnly | ObjectObservability.ImplementNotifyPropertyChanged)]
         public void Observability_returns_correct_property(Type type, ObjectObservability expected)
         {
             var res = new TypePropertyAccessor(type);

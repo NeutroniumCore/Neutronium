@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Infra
@@ -43,13 +44,14 @@ namespace Neutronium.Core.Infra
             DateTime
         };
 
-        public static readonly Type Object = typeof(object);
-        public static readonly Type Nullable = typeof(Nullable<>);
-        public static readonly Type Enumerable = typeof(IEnumerable<>);
         public static readonly Type Dictionary = typeof(IDictionary<,>);
-        public static readonly Type SimpleCommand = typeof(ISimpleCommand<>);
+        public static readonly Type Enumerable = typeof(IEnumerable<>);
         public static readonly Type GenericCommand = typeof(ICommand<>);
+        public static readonly Type NotifyPropertyChanged = typeof(INotifyPropertyChanged);
+        public static readonly Type Nullable = typeof(Nullable<>);
+        public static readonly Type Object = typeof(object);
         public static readonly Type ResultCommand = typeof(IResultCommand<>);
         public static readonly Type ResultCommandWithTArg = typeof(IResultCommand<,>);
+        public static readonly Type SimpleCommand = typeof(ISimpleCommand<>);
     }
 }
