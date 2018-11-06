@@ -41,7 +41,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
 
         [Theory]
         [InlineData(typeof(Dictionary<string, object>), ObjectObservability.None)]
-        [InlineData(typeof(ExpandoObject), ObjectObservability.ImplementNotifyPropertyChanged)]
+        [InlineData(typeof(ExpandoObject), ObjectObservability.Observable)]
         public void Observability_is_acurate(Type dynamicType, ObjectObservability expected)
         {
             var @object = (IDictionary<string, object>)Activator.CreateInstance(dynamicType);

@@ -28,7 +28,7 @@ namespace Neutronium.Core.Test.Infra.Reflection
 
         [Theory]
         [InlineData(typeof(DynamicObjectTest), ObjectObservability.None)]
-        [InlineData(typeof(DynamicObjecObservableTest), ObjectObservability.ImplementNotifyPropertyChanged)]
+        [InlineData(typeof(DynamicObjecObservableTest), ObjectObservability.Observable)]
         public void Observability_is_acurate(Type dynamicType, ObjectObservability expected)
         {
             var @object = (DynamicObject)Activator.CreateInstance(dynamicType);

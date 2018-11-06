@@ -67,7 +67,7 @@ namespace Neutronium.Core.Binding.Builder
 
         void IJavascriptObjectBuilder.RequestCommandCreation(bool canExecute)
         {
-            var command = _Factory.CreateObject(ObjectObservability.ReadOnly);
+            var command = _Factory.CreateObject(ObjectObservability.ReadOnlyObservable);
             command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));
             command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
             SetJsValue(command);
@@ -77,7 +77,7 @@ namespace Neutronium.Core.Binding.Builder
 
         void IJavascriptObjectBuilder.RequestExecutableCreation()
         {
-            var executable = _Factory.CreateObject(ObjectObservability.ReadOnly);
+            var executable = _Factory.CreateObject(ObjectObservability.ReadOnlyObservable);
             SetJsValue(executable);
 
             UpdateExecutable(executable);

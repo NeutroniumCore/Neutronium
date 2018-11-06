@@ -21,6 +21,11 @@ namespace Neutronium.Core.Infra.Reflection
         /// <summary>
         /// Object implementing INotifyPropertyChanged
         /// </summary>
-        ImplementNotifyPropertyChanged = 2
+        Observable = 2,
+
+        /// <summary>
+        ///  Read only object implementing INotifyPropertyChanged
+        /// </summary>
+        ReadOnlyObservable = 3
     }
 }

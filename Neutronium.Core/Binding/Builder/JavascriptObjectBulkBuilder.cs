@@ -62,7 +62,7 @@ namespace Neutronium.Core.Binding.Builder
                 _CommandCreationRequest.AddRequest(glueObject, canExecute);
                 return;
             }
-            var command = _Factory.CreateObject(ObjectObservability.ReadOnly);
+            var command = _Factory.CreateObject(ObjectObservability.ReadOnlyObservable);
             command.SetValue("CanExecuteValue", _Factory.CreateBool(canExecute));
             command.SetValue("CanExecuteCount", _Factory.CreateInt(1));
             glueObject.SetJsValue(command, _Cache);
@@ -76,7 +76,7 @@ namespace Neutronium.Core.Binding.Builder
                 return;
             }
 
-            var command = _Factory.CreateObject(ObjectObservability.ReadOnly);
+            var command = _Factory.CreateObject(ObjectObservability.ReadOnlyObservable);
             glueObject.SetJsValue(command, _Cache);
         }
 

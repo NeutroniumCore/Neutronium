@@ -22,7 +22,7 @@ namespace Neutronium.Core.Infra.Reflection
             _AttributeNames = readProperties.Select(p => p.Name).ToList();
             _PropertyAccessoresDictionary = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
             Observability = dictionary.GetType().ImplementsNotifyPropertyChanged() ?
-                ObjectObservability.ImplementNotifyPropertyChanged : ObjectObservability.None;
+                ObjectObservability.Observable : ObjectObservability.None;
         }
 
         public PropertyAccessor GetAccessor(string propertyName)

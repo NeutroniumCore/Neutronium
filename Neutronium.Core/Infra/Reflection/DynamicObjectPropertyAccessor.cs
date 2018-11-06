@@ -37,7 +37,7 @@ namespace Neutronium.Core.Infra.Reflection
             _AttributeNames = _ReadProperties.Select(p => p.Name).ToList();
 
             Observability = type.ImplementsNotifyPropertyChanged() ?
-                ObjectObservability.ImplementNotifyPropertyChanged : ObjectObservability.None;
+                ObjectObservability.Observable : ObjectObservability.None;
         }
 
         private struct PropertyBuilder
