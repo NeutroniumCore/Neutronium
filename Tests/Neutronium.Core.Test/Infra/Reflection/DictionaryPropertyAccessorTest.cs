@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using FluentAssertions;
 using MoreCollection.Extensions;
@@ -35,6 +37,16 @@ namespace Neutronium.Core.Test.Infra.Reflection
         public void Observability_is_none()
         {
             _DictionaryPropertyAccessor.Observability.Should().Be(ObjectObservability.None);
+        }
+
+        [Theory]
+        [InlineData(typeof(Dictionary<string, object>), ObjectObservability.None)]
+        [InlineData(typeof(ExpandoObject), ObjectObservability.ImplementNotifyPropertyChanged)]
+        public void Observability_is_acurate(Type dynamicType, ObjectObservability expected)
+        {
+            var @object = (IDictionary<string, object>)Activator.CreateInstance(dynamicType);
+            var dictionaryPropertyAccessor = new DictionaryPropertyAccessor<object>(@object);
+            dictionaryPropertyAccessor.Observability.Should().Be(expected);
         }
 
         [Fact]

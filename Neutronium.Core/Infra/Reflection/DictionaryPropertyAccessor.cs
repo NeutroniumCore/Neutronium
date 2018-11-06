@@ -9,7 +9,7 @@ namespace Neutronium.Core.Infra.Reflection
     {
         public IReadOnlyList<PropertyAccessor> ReadProperties => _ReadProperties;
         public IReadOnlyList<string> AttributeNames => _AttributeNames;
-        public ObjectObservability Observability => ObjectObservability.None;
+        public ObjectObservability Observability { get; }
 
         private readonly IDictionary<string, PropertyAccessor> _PropertyAccessoresDictionary;
         private readonly List<PropertyAccessor> _ReadProperties;
@@ -21,6 +21,8 @@ namespace Neutronium.Core.Infra.Reflection
             _ReadProperties = readProperties;
             _AttributeNames = readProperties.Select(p => p.Name).ToList();
             _PropertyAccessoresDictionary = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
+            Observability = Types.NotifyPropertyChanged.IsInstanceOfType(dictionary) ?
+                ObjectObservability.ImplementNotifyPropertyChanged : ObjectObservability.None;
         }
 
         public PropertyAccessor GetAccessor(string propertyName)
