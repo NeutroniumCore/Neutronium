@@ -30,7 +30,7 @@ namespace Neutronium.Core.Infra.Reflection
             var observability = ObjectObservability.None;
             if (ReadProperties.All(p => !p.IsSettable))
                 observability = observability | ObjectObservability.ReadOnly;
-            if (Types.NotifyPropertyChanged.IsAssignableFrom(type))
+            if (type.ImplementsNotifyPropertyChanged())
                 observability = observability | ObjectObservability.ImplementNotifyPropertyChanged;
             return observability;
         }

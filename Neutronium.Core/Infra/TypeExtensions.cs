@@ -125,5 +125,12 @@ namespace Neutronium.Core.Infra
             var attributes = type.GetCustomAttributes(typeof(T), false);
             return (T)attributes?.FirstOrDefault();
         }
+
+        private static readonly ConcurrentDictionary<Type, bool> _ImplementsNotifyPropertyChanged = new ConcurrentDictionary<Type, bool>();
+        public static bool ImplementsNotifyPropertyChanged(this Type @type)
+        {
+            bool ImplementsNotifyPropertyChangedPrivate(Type t) => Types.NotifyPropertyChanged.IsAssignableFrom(t);
+            return _ImplementsNotifyPropertyChanged.GetOrAdd(type, ImplementsNotifyPropertyChangedPrivate);
+        }
     }
 }

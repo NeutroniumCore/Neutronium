@@ -36,7 +36,7 @@ namespace Neutronium.Core.Infra.Reflection
             _PropertyAccessoresDictionary = _ReadProperties.ToDictionary(p => p.Name);
             _AttributeNames = _ReadProperties.Select(p => p.Name).ToList();
 
-            Observability = Types.NotifyPropertyChanged.IsAssignableFrom(type) ?
+            Observability = type.ImplementsNotifyPropertyChanged() ?
                 ObjectObservability.ImplementNotifyPropertyChanged : ObjectObservability.None;
         }
 

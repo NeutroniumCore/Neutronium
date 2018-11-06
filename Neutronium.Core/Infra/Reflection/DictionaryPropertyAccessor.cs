@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Infra.Reflection
 {
-    public sealed class DictionaryPropertyAccessor<T> : IGenericPropertyAcessor 
+    public sealed class DictionaryPropertyAccessor<T> : IGenericPropertyAcessor
     {
         public IReadOnlyList<PropertyAccessor> ReadProperties => _ReadProperties;
         public IReadOnlyList<string> AttributeNames => _AttributeNames;
@@ -15,13 +15,13 @@ namespace Neutronium.Core.Infra.Reflection
         private readonly List<PropertyAccessor> _ReadProperties;
         private readonly List<string> _AttributeNames;
 
-        internal DictionaryPropertyAccessor(IDictionary<string,T> dictionary) 
+        internal DictionaryPropertyAccessor(IDictionary<string, T> dictionary)
         {
             var readProperties = dictionary.Keys.OrderBy(p => p).Select(PropertyAccessor.FromDictionary<T>).ToList();
             _ReadProperties = readProperties;
             _AttributeNames = readProperties.Select(p => p.Name).ToList();
             _PropertyAccessoresDictionary = ReadProperties.ToDictionary(prop => prop.Name, prop => prop);
-            Observability = Types.NotifyPropertyChanged.IsInstanceOfType(dictionary) ?
+            Observability = dictionary.GetType().ImplementsNotifyPropertyChanged() ?
                 ObjectObservability.ImplementNotifyPropertyChanged : ObjectObservability.None;
         }
 
@@ -30,7 +30,7 @@ namespace Neutronium.Core.Infra.Reflection
             return _PropertyAccessoresDictionary.GetOrAddEntity(propertyName, pn => PropertyAccessor.FromDictionary<T>(pn, -1)); ;
         }
 
-        public IndexDescriptor GetIndex(PropertyAccessor propertyAcessor) 
+        public IndexDescriptor GetIndex(PropertyAccessor propertyAcessor)
         {
             var index = propertyAcessor.Position;
             if (index >= 0)
@@ -40,7 +40,7 @@ namespace Neutronium.Core.Infra.Reflection
             index = ~_AttributeNames.BinarySearch(name);
             _AttributeNames.Insert(index, name);
             _ReadProperties.Insert(index, propertyAcessor);
-            for (var i = index; i < _ReadProperties.Count; i++) 
+            for (var i = index; i < _ReadProperties.Count; i++)
             {
                 _ReadProperties[i].Position = i;
             }
@@ -52,13 +52,13 @@ namespace Neutronium.Core.Infra.Reflection
     {
         private static readonly GenericMethodAccessor _BuildAccessorDictionary = GenericMethodAccessor.Get<DictionaryPropertyAccessor>(nameof(FromStringDictionary));
 
-        public static IGenericPropertyAcessor FromStringDictionary(object @object, Type type) 
+        public static IGenericPropertyAcessor FromStringDictionary(object @object, Type type)
         {
             var builder = _BuildAccessorDictionary.Build<IGenericPropertyAcessor>(type);
             return builder.Invoke(@object);
         }
 
-        private static IGenericPropertyAcessor FromStringDictionary<T>(object @object) 
+        private static IGenericPropertyAcessor FromStringDictionary<T>(object @object)
         {
             var dictionary = ((IDictionary<string, T>)@object);
             return new DictionaryPropertyAccessor<T>(dictionary);

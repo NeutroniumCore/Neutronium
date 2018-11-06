@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using FluentAssertions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Infra.Reflection;
@@ -185,6 +186,17 @@ namespace Neutronium.Core.Test.Infra
             };
 
             type.GetPropertyInfoDescriptions().Should().BeEquivalentTo(expected);
+        }
+
+        [Theory]
+        [InlineData(typeof(Array), false)]
+        [InlineData(typeof(Dictionary<int, string>), false)]
+        [InlineData(typeof(ExpandoObject), true)]
+        [InlineData(typeof(INotifyPropertyChanged), true)]
+        [InlineData(typeof(ViewModelTestBase), true)]
+        public void ImplementsNotifyPropertyChanged_return_true_when_implementes_INotifyPropertyChanged(Type source, bool expected)
+        {
+            source.ImplementsNotifyPropertyChanged().Should().Be(expected);
         }
     }
 }
