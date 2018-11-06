@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
+using System.Runtime.CompilerServices;
 
 namespace Neutronium.Core.Test.Helper
 {
@@ -42,5 +43,10 @@ namespace Neutronium.Core.Test.Helper
             _Dictionary[binder.Name] = (int)value;
             return true;
         }
+    }
+
+    public class DynamicObjecObservableTest : DynamicObjectTest, INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

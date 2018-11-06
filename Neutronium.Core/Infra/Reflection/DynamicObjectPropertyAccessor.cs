@@ -4,13 +4,13 @@ using System.Dynamic;
 using System.Linq;
 using MoreCollection.Extensions;
 
-namespace Neutronium.Core.Infra.Reflection 
+namespace Neutronium.Core.Infra.Reflection
 {
-    public class DynamicObjectPropertyAccessor : IGenericPropertyAcessor
+    public sealed class DynamicObjectPropertyAccessor : IGenericPropertyAcessor
     {
         public IReadOnlyList<PropertyAccessor> ReadProperties => _ReadProperties;
         public IReadOnlyList<string> AttributeNames => _AttributeNames;
-        public ObjectObservability Observability => ObjectObservability.None;
+        public ObjectObservability Observability { get; }
 
         private readonly List<PropertyAccessor> _ReadProperties;
         private readonly List<string> _AttributeNames;
@@ -35,12 +35,15 @@ namespace Neutronium.Core.Infra.Reflection
 
             _PropertyAccessoresDictionary = _ReadProperties.ToDictionary(p => p.Name);
             _AttributeNames = _ReadProperties.Select(p => p.Name).ToList();
+
+            Observability = Types.NotifyPropertyChanged.IsAssignableFrom(type) ?
+                ObjectObservability.ImplementNotifyPropertyChanged : ObjectObservability.None;
         }
 
         private struct PropertyBuilder
         {
             public string Name { get; }
-            public Func<string, int,PropertyAccessor> Builder { get; }
+            public Func<string, int, PropertyAccessor> Builder { get; }
 
             public PropertyBuilder(string name, Func<string, int, PropertyAccessor> builder)
             {

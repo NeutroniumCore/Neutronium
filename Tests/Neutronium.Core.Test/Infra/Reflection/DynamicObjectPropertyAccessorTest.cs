@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System;
+using System.Dynamic;
 using System.Linq;
 using FluentAssertions;
 using Neutronium.Core.Infra;
@@ -25,10 +26,14 @@ namespace Neutronium.Core.Test.Infra.Reflection
             _DynamicObjectPropertyAccessor.AttributeNames.Should().Equal("classic", "int", "ReadOnlyByAttribute", "ReadOnlyByNature", "size", "string");
         }
 
-        [Fact]
-        public void Observability_is_none()
+        [Theory]
+        [InlineData(typeof(DynamicObjectTest), ObjectObservability.None)]
+        [InlineData(typeof(DynamicObjecObservableTest), ObjectObservability.ImplementNotifyPropertyChanged)]
+        public void Observability_is_acurate(Type dynamicType, ObjectObservability expected)
         {
-            _DynamicObjectPropertyAccessor.Observability.Should().Be(ObjectObservability.None);
+            var @object = (DynamicObject)Activator.CreateInstance(dynamicType);
+            var dynamicObjectPropertyAccessor = new DynamicObjectPropertyAccessor(@object);
+            dynamicObjectPropertyAccessor.Observability.Should().Be(expected);
         }
 
         [Fact]

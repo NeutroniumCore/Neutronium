@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Neutronium.Core.Infra.Reflection
 {
-    public class TypePropertyAccessor : IGenericPropertyAcessor
+    public sealed class TypePropertyAccessor : IGenericPropertyAcessor
     {
         public IReadOnlyList<PropertyAccessor> ReadProperties { get; }
         public IReadOnlyList<string> AttributeNames { get; }
