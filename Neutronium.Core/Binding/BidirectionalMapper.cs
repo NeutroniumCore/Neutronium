@@ -98,7 +98,10 @@ namespace Neutronium.Core.Binding
         private void RegisterJavascriptHelper()
         {
             var resource = new ResourceReader("scripts", this);
-            Context.WebView.ExecuteJavaScript(resource.Load("Infra.js"));
+            var infa = resource.Load("Infra.js")
+                .Replace(NeutroniumConstants.ReadOnlyFlagTemplate, NeutroniumConstants.ReadOnlyFlag);
+
+            Context.WebView.ExecuteJavaScript(infa);
         }
 
         private void DispatchInJavascriptContext(Action run)

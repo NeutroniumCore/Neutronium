@@ -105,8 +105,8 @@ namespace Neutronium.Core.Binding.Builder
                     }
                 })()";
 
-            script = script.Replace("{{NeutroniumConstants.ObjectId}}", NeutroniumConstants.ObjectId)
-                            .Replace("{{NeutroniumConstants.ReadOnlyFlag}}", NeutroniumConstants.ReadOnlyFlag);
+            script = script.Replace(NeutroniumConstants.ObjectIdTemplate, NeutroniumConstants.ObjectId)
+                            .Replace(NeutroniumConstants.ReadOnlyFlagTemplate, NeutroniumConstants.ReadOnlyFlag);
             _WebView.Eval(script, out var helper);
             return new BulkJsHelper(_Cache, _WebView, helper);
         }

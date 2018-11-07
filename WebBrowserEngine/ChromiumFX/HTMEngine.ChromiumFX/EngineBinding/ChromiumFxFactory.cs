@@ -117,8 +117,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }())";
 
             var finalString = builderScript.Replace("{{MaxFunctionArgumentsNumber}}", $"{_WebView.GetMaxAcceptableArguments()}")
-                                           .Replace("{{NeutroniumConstants.ObjectId}}", NeutroniumConstants.ObjectId)
-                                           .Replace("{{NeutroniumConstants.ReadOnlyFlag}}", NeutroniumConstants.ReadOnlyFlag);
+                                           .Replace(NeutroniumConstants.ObjectIdTemplate, NeutroniumConstants.ObjectId)
+                                           .Replace(NeutroniumConstants.ReadOnlyFlagTemplate, NeutroniumConstants.ReadOnlyFlag);
             return Eval(finalString);
         }
 
