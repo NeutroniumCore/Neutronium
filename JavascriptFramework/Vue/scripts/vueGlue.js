@@ -11,6 +11,14 @@
     var globalListener = null;
     var vueRootOptionBuilder = (vm) => ({});
 
+    function isReadOnly(vm) {
+        return vm.__readonly__;
+    }
+
+    function isObservable(vm) {
+        return false;
+    }
+
     function silentChange(father, propertyName, value) {
         setTimeout(() => silentChangeSync(father, propertyName, value), 0);
     }
@@ -124,7 +132,7 @@
             return;
         }
 
-        const needVisitSelf = !vm.__readonly__;
+        const needVisitSelf = !isReadOnly(vm);
 
         for (var property in vm) {
             var value = vm[property];

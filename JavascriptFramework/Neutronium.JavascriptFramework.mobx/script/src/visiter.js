@@ -2,6 +2,10 @@ import { extendObservable, observable } from "mobx";
 
 const visited = new Map();
 
+function isReadOnly(vm) {
+    return vm.__readonly__;
+}
+
 function getMapped(id) {
     return visited.get(id);
 }
@@ -48,7 +52,7 @@ function visitObject(vm, visit, visitArray) {
         extendObservable(vm, updater)
     }
 
-    if (!vm.__readonly__) {
+    if (!isReadOnly(vm)) {
         visit(vm, property);
     }
     

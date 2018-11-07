@@ -15,6 +15,14 @@
         return {};
     };
 
+    function isReadOnly(vm) {
+        return vm.__readonly__;
+    }
+
+    function isObservable(vm) {
+        return false;
+    }
+
     function silentChange(father, propertyName, value) {
         setTimeout(function () {
             return silentChangeSync(father, propertyName, value);
@@ -130,7 +138,7 @@
             return;
         }
 
-        var needVisitSelf = !vm.__readonly__;
+        var needVisitSelf = !isReadOnly(vm);
 
         for (var property in vm) {
             var value = vm[property];
