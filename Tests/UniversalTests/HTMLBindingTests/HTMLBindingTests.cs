@@ -872,7 +872,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     SetAttribute(js, "Property1", _WebView.Factory.CreateString("a"));
 
-                    await Task.Delay(50);
+                    await Task.Delay(100);
 
                     res = GetStringAttribute(js, "Property1");
                     res.Should().Be("a");

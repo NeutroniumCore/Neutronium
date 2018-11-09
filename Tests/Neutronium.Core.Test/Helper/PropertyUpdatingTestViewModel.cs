@@ -5,7 +5,7 @@
         private string _Property1 = "1";
         public string Property1
         {
-            get { return _Property1; }
+            get => _Property1;
             set
             {
                 if (Set(ref _Property1, value))
@@ -16,7 +16,7 @@
         private string _Property2 = "2";
         public string Property2
         {
-            get { return _Property2; }
+            get => _Property2;
             set
             {
                 if (Set(ref _Property2, value))
