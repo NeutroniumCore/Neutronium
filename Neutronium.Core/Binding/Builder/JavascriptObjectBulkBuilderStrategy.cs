@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Neutronium.Core.Extension;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.Builder 
 {
@@ -40,7 +41,7 @@ namespace Neutronium.Core.Binding.Builder
                  @"(function(){
                     function Command(id, canExecute){
                         Object.defineProperty(this, '{{NeutroniumConstants.ObjectId}}', {value: id});
-                        Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: true});
+                        Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: {{ReadOnlyObservable}}});
                         this.CanExecuteCount = 1;
                         this.CanExecuteValue = canExecute;
                     }
@@ -52,7 +53,7 @@ namespace Neutronium.Core.Binding.Builder
                     }
                     function Executable(id){
                         Object.defineProperty(this, '{{NeutroniumConstants.ObjectId}}', {value: id});
-                        Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: true});
+                        Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', {value: {{ReadOnly}}});
                     }
                     Executable.prototype.Execute = function() {
                         this.privateExecute(this.{{NeutroniumConstants.ObjectId}}, ...arguments)
@@ -106,7 +107,9 @@ namespace Neutronium.Core.Binding.Builder
                 })()";
 
             script = script.Replace(NeutroniumConstants.ObjectIdTemplate, NeutroniumConstants.ObjectId)
-                            .Replace(NeutroniumConstants.ReadOnlyFlagTemplate, NeutroniumConstants.ReadOnlyFlag);
+                            .Replace(NeutroniumConstants.ReadOnlyFlagTemplate, NeutroniumConstants.ReadOnlyFlag)
+                            .Replace("{{ReadOnly}}", ((int)ObjectObservability.ReadOnly).ToString())
+                            .Replace("{{ReadOnlyObservable}}", ((int)ObjectObservability.ReadOnlyObservable).ToString());
             _WebView.Eval(script, out var helper);
             return new BulkJsHelper(_Cache, _WebView, helper);
         }

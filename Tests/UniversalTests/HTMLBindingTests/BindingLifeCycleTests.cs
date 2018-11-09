@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Neutronium.Core;
+using Neutronium.Core.Infra.Reflection;
 using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
@@ -20,12 +21,12 @@ namespace Tests.Universal.HTMLBindingTests
         protected BindingLifeCycleTests(IWindowLessHTMLEngineProvider context, ITestOutputHelper output)
             : base(context, output) {}
 
-        private void CheckReadOnly(IJavascriptObject javascriptObject, bool isReadOnly) 
+        private void CheckObjectObservability(IJavascriptObject javascriptObject, ObjectObservability objectObservability) 
         {
-            var readOnly = GetBoolAttribute(javascriptObject, NeutroniumConstants.ReadOnlyFlag);
-            readOnly.Should().Be(isReadOnly);
+            var readOnly = (ObjectObservability)GetIntAttribute(javascriptObject, NeutroniumConstants.ReadOnlyFlag);
+            readOnly.Should().Be(objectObservability);
 
-            CheckHasListener(javascriptObject, !isReadOnly);
+            CheckHasListener(javascriptObject, !objectObservability.HasFlag(ObjectObservability.ReadOnly));
         }
 
         private void CheckHasListener(IJavascriptObject javascriptObject, bool hasListener) 
@@ -42,18 +43,14 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        public static IEnumerable<object[]> ReadWriteTestData 
-        {
-            get 
-            {
-                yield return new object[] { typeof(ReadOnlyTestViewModel), true };
-                yield return new object[] { typeof(ReadWriteTestViewModel), false };
-            }
-        }
-
         [Theory]
-        [MemberData(nameof(ReadWriteTestData))]
-        public async Task TwoWay_should_create_listener_only_for_write_property(Type type, bool readOnly)
+        [InlineData(typeof(FakeClass), ObjectObservability.None)]
+        [InlineData(typeof(ReadOnlyClass), ObjectObservability.ReadOnly)]
+        [InlineData(typeof(ReadWriteClassWithNotifyPropertyChanged), ObjectObservability.Observable)]
+        [InlineData(typeof(ReadWriteTestViewModel), ObjectObservability.Observable)]
+        [InlineData(typeof(ReadOnlyClassWithNotifyPropertyChanged), ObjectObservability.ReadOnlyObservable)]
+        [InlineData(typeof(ReadOnlyTestViewModel), ObjectObservability.ReadOnlyObservable)]
+        public async Task TwoWay_should_create_listener_only_for_write_property(Type type, ObjectObservability expected)
         {
             var datacontext = Activator.CreateInstance(type);
 
@@ -63,7 +60,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = (mb) => 
                 {
                     var js = mb.JsRootObject;
-                    CheckReadOnly(js, readOnly);
+                    CheckObjectObservability(js, expected);
                 }
             };
 
@@ -71,8 +68,9 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Theory]
-        [MemberData(nameof(ReadWriteTestData))]
-        public async Task TwoWay_should_update_from_csharp_readonly_property(Type type, bool _) 
+        [InlineData(typeof(ReadOnlyTestViewModel))]
+        [InlineData(typeof(ReadWriteTestViewModel))]
+        public async Task TwoWay_should_update_from_csharp_readonly_property(Type type) 
         {
             var datacontext = Activator.CreateInstance(type) as ReadOnlyTestViewModel;
 
@@ -158,7 +156,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
 
-                    CheckReadOnly(childJs, false);
+                    CheckObjectObservability(childJs, ObjectObservability.Observable);
 
                     DoSafeUI(() => datacontext.Child = remplacementChild);
                     await Task.Delay(150);
@@ -185,7 +183,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
 
-                    CheckReadOnly(childJs, false);
+                    CheckObjectObservability(childJs, ObjectObservability.Observable);
 
                     var nullJs = Factory.CreateNull();
                     SetAttribute(js, "Child", nullJs);
@@ -220,12 +218,12 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    CheckReadOnly(js, true);
+                    CheckObjectObservability(js, ObjectObservability.ReadOnlyObservable);
 
                     var childrenJs = GetCollectionAttribute(js, "Children");
                     var childJs = childrenJs.GetValue(0);
 
-                    CheckReadOnly(childJs, false);
+                    CheckObjectObservability(childJs, ObjectObservability.Observable);
 
                     DoSafeUI(() => datacontext.Children[0] = remplacementChild);
                     await Task.Delay(150);
@@ -251,15 +249,15 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    CheckReadOnly(js, true);
+                    CheckObjectObservability(js, ObjectObservability.ReadOnlyObservable);
 
                     var childrenJs = GetCollectionAttribute(js, "Children");
                     var childJs = childrenJs.GetValue(0);
 
-                    CheckReadOnly(childJs, false);
+                    CheckObjectObservability(childJs, ObjectObservability.Observable);
 
-                    var operabelCollection = GetAttribute(js, "Children");
-                    Call(operabelCollection, "pop");
+                    var observableCollection = GetAttribute(js, "Children");
+                    Call(observableCollection, "pop");
 
                     await Task.Delay(150);
 
@@ -353,6 +351,48 @@ namespace Tests.Universal.HTMLBindingTests
                     mycommand = GetAttribute(js, "CommandGeneric");
                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeFalse();
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Command_Generic_String_Maps_As_ObservableReadOnly()
+        {
+            var command = Substitute.For<ICommand<string>>();
+            command.CanExecute(Arg.Any<string>()).Returns(true);
+            var datacontexttest = new FakeTestViewModel() { CommandGeneric = command };
+
+            var test = new TestInContext()
+            {
+                Path = TestContext.GenericBind,
+                Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var mycommand = GetAttribute(js, "CommandGeneric");
+                    CheckObjectObservability(mycommand, ObjectObservability.ReadOnlyObservable);               
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_SimpleCommand_Maps_As_ReadOnly()
+        {
+            var command = Substitute.For<ISimpleCommand<SimpleCommandTestViewModel>>();
+            var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandObjectArgument = command };
+
+            var test = new TestInContext()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, datacontexttest, JavascriptBindingMode.TwoWay),
+                Test = (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var mycommand = GetAttribute(js, "SimpleCommandObjectArgument");
+                    CheckObjectObservability(mycommand, ObjectObservability.ReadOnly);
                 }
             };
 

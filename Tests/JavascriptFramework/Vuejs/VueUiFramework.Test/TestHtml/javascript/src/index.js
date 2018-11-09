@@ -3,7 +3,6 @@
         computed: {
             completeName: function () {
                 var valor = this.Name + " " + this.LastName;
-                console.log(valor);
                 return valor;
             }
         }

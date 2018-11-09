@@ -1,5 +1,7 @@
 ﻿using System;
 using FluentAssertions;
+using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.WebBrowserEngineTesterHelper.Context;
 using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit;
@@ -113,6 +115,21 @@ namespace Tests.Universal.WebBrowserEngineTests
                 var ok = Converter.GetSimpleValue(maxuint, out var res, typeof(UInt32));
                 ok.Should().BeTrue();
                 res.Should().Be(uint.MaxValue);
+            });
+        }
+
+        [Theory]
+        [InlineData(ObjectObservability.None)]
+        [InlineData(ObjectObservability.ReadOnly)]
+        [InlineData(ObjectObservability.Observable)]
+        [InlineData(ObjectObservability.ReadOnlyObservable)]
+        public void Test_factory_CreateObject_create_object_with_correct_flag(ObjectObservability objectObservability)
+        {
+            Test(() =>
+            {
+                var @object = Factory.CreateObject(objectObservability);
+                var flag = (ObjectObservability) @object.GetValue(NeutroniumConstants.ReadOnlyFlag).GetIntValue();
+                flag.Should().Be(objectObservability);
             });
         }
 

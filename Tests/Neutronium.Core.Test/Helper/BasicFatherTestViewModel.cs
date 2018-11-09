@@ -8,8 +8,8 @@ namespace Neutronium.Core.Test.Helper
         private BasicTestViewModel _Child;
         public BasicTestViewModel Child
         {
-            get { return _Child; }
-            set { Set(ref _Child, value); }
+            get => _Child;
+            set => Set(ref _Child, value);
         }
 
         public ICommand Command { get; }

@@ -8,43 +8,43 @@ namespace Neutronium.Core.Test.Helper
         private ICommand _Command;
         public ICommand Command
         {
-            get { return _Command; }
-            set { Set(ref _Command, value); }
+            get => _Command;
+            set => Set(ref _Command, value);
         }
 
         private ICommand<string> _CommandGeneric;
         public ICommand<string> CommandGeneric
         {
-            get { return _CommandGeneric; }
-            set { Set(ref _CommandGeneric, value); }
+            get => _CommandGeneric;
+            set => Set(ref _CommandGeneric, value);
         }
 
         private ICommand<string> _CommandGenericNotBound;
         public ICommand<string> CommandGenericNotBound
         {
-            get { return _CommandGenericNotBound; }
-            set { Set(ref _CommandGenericNotBound, value); }
+            get => _CommandGenericNotBound;
+            set => Set(ref _CommandGenericNotBound, value);
         }
 
         private ICommand<FakeTestViewModel> _AutoCommand;
         public ICommand<FakeTestViewModel> AutoCommand
         {
-            get { return _AutoCommand; }
-            set { Set(ref _AutoCommand, value); }
+            get => _AutoCommand;
+            set => Set(ref _AutoCommand, value);
         }
 
         private ICommand<int> _CommandGenericInt;
         public ICommand<int> CommandGenericInt
         {
-            get { return _CommandGenericInt; }
-            set { Set(ref _CommandGenericInt, value); }
+            get => _CommandGenericInt;
+            set => Set(ref _CommandGenericInt, value);
         }
 
         private ICommandWithoutParameter _CommandWithoutParameters;
         public ICommandWithoutParameter CommandWithoutParameters
         {
-            get { return _CommandWithoutParameters; }
-            set { Set(ref _CommandWithoutParameters, value); }
+            get => _CommandWithoutParameters;
+            set => Set(ref _CommandWithoutParameters, value);
         }
 
         public string Name => "NameTest";

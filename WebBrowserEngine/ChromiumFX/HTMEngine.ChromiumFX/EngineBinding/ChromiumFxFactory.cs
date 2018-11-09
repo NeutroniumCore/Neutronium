@@ -81,10 +81,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     }
                     return id;
                 }
-                function createBulkObject(id, readWriteNumber, readOnlyNumber, fn){
+                function createBulkObject(id, noneNumber, readWriteNumber, observableNumber, observableReadOnlyNumber, fn){
+                    const numbers = [noneNumber, readWriteNumber, observableNumber, observableReadOnlyNumber]
                     const array = []
-                    id = pushObjects(array, id, readWriteNumber, false)
-                    pushObjects(array, id, readOnlyNumber, true)
+    
+                    numbers.forEach((number, index) => {
+                        id = pushObjects(array, id, number, index)
+                    })
                     pushResult(fn, array)
                 }
                 function createBulkBasic(values, fn){
@@ -160,9 +163,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IJavascriptObject CreateObject(ObjectObservability objectObservability) 
         {
-            var readOnly = objectObservability.HasFlag(ObjectObservability.ReadOnly);
+            var readOnly = (int) objectObservability;
             var id = GetNextId();
-            return _ObjectBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id), CfrV8Value.CreateBool(readOnly) }).ConvertObject(id);
+            return _ObjectBuilder.Value.ExecuteFunction(null, new[] { CfrV8Value.CreateInt((int)id), CfrV8Value.CreateInt(readOnly) }).ConvertObject(id);
         }
 
         public IJavascriptObject CreateObject(string creationCode) 
@@ -178,8 +181,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
             _ObjectBulkBuilder.Value.ExecuteFunction(null, new[] {
                 CfrV8Value.CreateInt((int)_Count),
-                CfrV8Value.CreateInt(option.ReadWriteNumber),
+                CfrV8Value.CreateInt(option.NoneObservableNumber),
                 CfrV8Value.CreateInt(option.ReadOnlyNumber),
+                CfrV8Value.CreateInt(option.ObservableNumber),
+                CfrV8Value.CreateInt(option.ReadOnlyObservableNumber),
                 _ObjectCreationCallbackFunction.Value
             });
             return _ObjectCallback.GetLastArguments().Select(ConvertObject);
@@ -205,7 +210,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private IJavascriptObject ConvertObject(CfrV8Value cfrV8Value) => cfrV8Value.ConvertObject(_Count++);
 
         private IJavascriptObject ConvertBasic(CfrV8Value cfrV8Value) => cfrV8Value.ConvertBasic(_Count++);
-
 
         public IJavascriptObject CreateUndefined() 
         {

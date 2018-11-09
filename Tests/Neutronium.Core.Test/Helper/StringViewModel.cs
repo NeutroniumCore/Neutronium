@@ -5,15 +5,15 @@
         private BasicTestViewModel _Child;
         public BasicTestViewModel Child
         {
-            get { return _Child; }
-            set { Set(ref _Child, value); }
+            get => _Child;
+            set => Set(ref _Child, value);
         }
 
         private int _Value = -1;
         public int Value
         {
-            get { return _Value; }
-            set { Set(ref _Value, value); }
+            get => _Value;
+            set => Set(ref _Value, value);
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using FsCheck;
 using FsCheck.Xunit;
 using System.Collections.Generic;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {
@@ -269,7 +270,10 @@ namespace Tests.Universal.WebBrowserEngineTests
             {
                 var res = Factory.CreateObjects(option);
 
-                var expectedReadOnlyFlags = Enumerable.Repeat(false, option.ReadWriteNumber).Concat(Enumerable.Repeat(true, option.ReadOnlyNumber));
+                var expectedReadOnlyFlags = Enumerable.Repeat(ObjectObservability.None, option.NoneObservableNumber)
+                    .Concat(Enumerable.Repeat(ObjectObservability.ReadOnly, option.ReadOnlyNumber))
+                    .Concat(Enumerable.Repeat(ObjectObservability.Observable, option.ObservableNumber))
+                    .Concat(Enumerable.Repeat(ObjectObservability.ReadOnlyObservable, option.ReadOnlyObservableNumber));
 
                 return res.Select(GetReadOnly).SequenceEqual(expectedReadOnlyFlags);
             });
@@ -277,7 +281,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         private Property ForObjectsCreationOption(Func<ObjectsCreationOption, bool> assertion)
         {
-            return Prop.ForAll(SmallRangeIntArb, SmallRangeIntArb, (nbWrite, nbReadOnly) => Test(() => assertion(new ObjectsCreationOption(nbWrite, nbReadOnly))));
+            return Prop.ForAll(ObjectsCreationOptionGen, (objectsCreationOption) => Test(() => assertion(objectsCreationOption)));
         }
 
         private static int GetId(IJavascriptObject javascriptObject)
@@ -285,13 +289,18 @@ namespace Tests.Universal.WebBrowserEngineTests
             return javascriptObject.GetValue(NeutroniumConstants.ObjectId).GetIntValue();
         }
 
-        private static bool GetReadOnly(IJavascriptObject javascriptObject)
+        private static ObjectObservability GetReadOnly(IJavascriptObject javascriptObject)
         {
-            return javascriptObject.GetValue(NeutroniumConstants.ReadOnlyFlag).GetBoolValue();
+            return (ObjectObservability)javascriptObject.GetValue(NeutroniumConstants.ReadOnlyFlag).GetIntValue();
         }
 
-        private static Gen<int> SmallRangeIntGen => Gen.Choose(0, 5);
-
-        public static Arbitrary<int> SmallRangeIntArb => Arb.From(SmallRangeIntGen);
+        public static Arbitrary<ObjectsCreationOption> ObjectsCreationOptionGen
+        {
+            get
+            {
+                var gen = Gen.Four(Gen.Choose(0, 5)).Select(t => new ObjectsCreationOption(t.Item1, t.Item2, t.Item3, t.Item4));
+                return Arb.From(gen);
+            }
+        }
     }
 }

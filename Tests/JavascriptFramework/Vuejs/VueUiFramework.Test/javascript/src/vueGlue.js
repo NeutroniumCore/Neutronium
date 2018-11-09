@@ -1,4 +1,4 @@
-﻿"use strict";
+﻿'use strict';
 
 (function (debugMode) {
     var config = Vue.config;
@@ -14,6 +14,10 @@
     var vueRootOptionBuilder = function vueRootOptionBuilder(vm) {
         return {};
     };
+
+    function isReadOnly(vm) {
+        return (vm.__readonly__ & 1) === 1;
+    }
 
     function silentChange(father, propertyName, value) {
         setTimeout(function () {
@@ -130,7 +134,7 @@
             return;
         }
 
-        var needVisitSelf = !vm.__readonly__;
+        var needVisitSelf = !isReadOnly(vm);
 
         for (var property in vm) {
             var value = vm[property];
@@ -389,5 +393,5 @@
     };
 
     window.glueHelper = helper;
-})(true);
+})(__debugMode__);
 

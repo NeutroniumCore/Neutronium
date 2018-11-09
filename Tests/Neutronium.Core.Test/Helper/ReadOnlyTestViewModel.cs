@@ -5,8 +5,8 @@
         private int _ReadOnly;
         public int ReadOnly
         {
-            get { return _ReadOnly; }
-            private set { Set(ref _ReadOnly, value); }
+            get => _ReadOnly;
+            private set => Set(ref _ReadOnly, value);
         }
 
         public void SetReadOnly(int newValue) => ReadOnly = newValue;

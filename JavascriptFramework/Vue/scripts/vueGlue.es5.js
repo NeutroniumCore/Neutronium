@@ -16,11 +16,7 @@
     };
 
     function isReadOnly(vm) {
-        return vm.__readonly__;
-    }
-
-    function isObservable(vm) {
-        return false;
+        return (vm.__readonly__ & 1) === 1;
     }
 
     function silentChange(father, propertyName, value) {

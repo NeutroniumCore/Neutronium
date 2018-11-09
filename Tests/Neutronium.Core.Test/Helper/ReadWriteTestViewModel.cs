@@ -5,8 +5,8 @@
         private int _ReadWrite;
         public int ReadWrite
         {
-            get { return _ReadWrite; }
-            set { Set(ref _ReadWrite, value); }
+            get => _ReadWrite;
+            set => Set(ref _ReadWrite, value);
         }
     }
 }
