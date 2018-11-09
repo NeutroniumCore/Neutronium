@@ -36,6 +36,8 @@ namespace Neutronium.Core.Binding.Builder
             var allBuilder = new JsAllBuilderAdapter(this);
             _Root.VisitDescendantsSafe(allBuilder.Visit);
 
+            _ObjectsCreationRequest.Freeze();
+
             CreateObjects();
             UpdateDependencies();
         }

@@ -7,7 +7,13 @@ namespace Neutronium.Core.Infra
     {
         public static IEnumerable<T> SafeConcat<T>(this IEnumerable<T> @this, IEnumerable<T> other)
         {
-            return @this.Concat(other);
+            var res = @this;
+            if (res == null) {
+                res = other;
+            } else if (other != null) {
+                res = @this.Concat(other);
+            }
+            return res ?? Enumerable.Empty<T>();
         }
     }
 }

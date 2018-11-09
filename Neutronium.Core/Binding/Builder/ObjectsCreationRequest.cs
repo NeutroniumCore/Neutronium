@@ -4,6 +4,7 @@ using Neutronium.Core.Binding.GlueObject;
 using System.Linq;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.Builder
 {
@@ -11,20 +12,27 @@ namespace Neutronium.Core.Binding.Builder
     {
         public ObjectsCreationOption ObjectsCreationOption =>
             new ObjectsCreationOption(
-                _ObjectNoneBuildingRequested.Count,
-                _ObjectReadOnlyBuildingRequested.Count,
-                _ObjectObservableBuildingRequested.Count,
-                _ObjectObservableReadOnlyBuildingRequested.Count);
+                ListCount(_ObjectNoneBuildingRequested),
+                ListCount(_ObjectReadOnlyBuildingRequested),
+                ListCount(_ObjectObservableBuildingRequested),
+                ListCount(_ObjectObservableReadOnlyBuildingRequested));
 
-        private readonly List<ObjectDescriptor> _ObjectNoneBuildingRequested = new List<ObjectDescriptor>();
-        private readonly List<ObjectDescriptor> _ObjectReadOnlyBuildingRequested = new List<ObjectDescriptor>();
-        private readonly List<ObjectDescriptor> _ObjectObservableBuildingRequested = new List<ObjectDescriptor>();
-        private readonly List<ObjectDescriptor> _ObjectObservableReadOnlyBuildingRequested = new List<ObjectDescriptor>();
+        private List<ObjectDescriptor> _ObjectNoneBuildingRequested;
+        private List<ObjectDescriptor> _ObjectReadOnlyBuildingRequested;
+        private List<ObjectDescriptor> _ObjectObservableBuildingRequested;
+        private List<ObjectDescriptor> _ObjectObservableReadOnlyBuildingRequested;
 
-        private IEnumerable<ObjectDescriptor> AllObjectDescriptor => _ObjectNoneBuildingRequested
-            .Concat(_ObjectReadOnlyBuildingRequested)
-            .Concat(_ObjectObservableBuildingRequested)
-            .Concat(_ObjectObservableReadOnlyBuildingRequested);
+        private static int ListCount(List<ObjectDescriptor> list) => (list?.Count).GetValueOrDefault();
+
+        private IEnumerable<ObjectDescriptor> _AllObjectDescriptor;
+
+        public void Freeze() 
+        {
+            _AllObjectDescriptor = _ObjectNoneBuildingRequested
+                .SafeConcat(_ObjectReadOnlyBuildingRequested)
+                .SafeConcat(_ObjectObservableBuildingRequested)
+                .SafeConcat(_ObjectObservableReadOnlyBuildingRequested);
+        }
 
         public void AddRequest(ObjectDescriptor descriptor, ObjectObservability objectObservability)
         {
@@ -34,12 +42,12 @@ namespace Neutronium.Core.Binding.Builder
 
         internal IEnumerable<IJsCsGlue> GetElements()
         {
-            return AllObjectDescriptor.Select(item => item.Father);
+            return _AllObjectDescriptor.Select(item => item.Father);
         }
 
         internal IEnumerable<ObjectDescriptor> GetElementWithProperty()
         {
-            return AllObjectDescriptor.Where(item => item.AttributeValues.Count > 0);
+            return _AllObjectDescriptor.Where(item => item.AttributeValues.Count > 0);
         }
 
         private List<ObjectDescriptor> GetList(ObjectObservability objectObservability)
@@ -47,20 +55,27 @@ namespace Neutronium.Core.Binding.Builder
             switch (objectObservability)
             {
                 case ObjectObservability.None:
-                    return _ObjectNoneBuildingRequested;
+                    return GetOrCreate(ref _ObjectNoneBuildingRequested);
 
                 case ObjectObservability.ReadOnly:
-                    return _ObjectReadOnlyBuildingRequested;
+                    return GetOrCreate(ref _ObjectReadOnlyBuildingRequested);
 
                 case ObjectObservability.Observable:
-                    return _ObjectObservableBuildingRequested;
+                    return GetOrCreate(ref _ObjectObservableBuildingRequested);
 
                 case ObjectObservability.ReadOnlyObservable:
-                    return _ObjectObservableReadOnlyBuildingRequested;
+                    return GetOrCreate(ref _ObjectObservableReadOnlyBuildingRequested);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(objectObservability), objectObservability, null);
             }
+        }
+
+        private static List<ObjectDescriptor> GetOrCreate(ref List<ObjectDescriptor> from) 
+        {
+            if (from == null)
+                from = new List<ObjectDescriptor>();
+            return from;
         }
     }
 }
