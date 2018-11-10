@@ -95,11 +95,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindingLifeCycle_Vue_Cef_Tests.cs" />
+    <Compile Include="BindingFreeze_Vue_Cef_Tests.cs" />
+    <Compile Include="Binding_Vue_Cef_Tests.cs" />
     <Compile Include="Infra\CefGlueVueContext.cs" />
     <Compile Include="Infra\CefGlueVueContextFixture.cs" />
     <Compile Include="BindingPerformance_Vue_Cef_Tests.cs" />
-    <Compile Include="Binding_Vue_Cef_Tests.cs" />
+    <Compile Include="BindingLifeCycle_Vue_Cef_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

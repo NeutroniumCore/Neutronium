@@ -43,7 +43,7 @@ namespace Neutronium.Core.Test.Helper
         public int OnlySet { set; get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-    }  
+    }
 
     public class ReadOnlyClass2
     {
@@ -100,4 +100,6 @@ namespace Neutronium.Core.Test.Helper
 
         public int OnlySet { set { } }
     }
+
+
 }

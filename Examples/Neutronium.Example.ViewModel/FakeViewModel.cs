@@ -14,8 +14,11 @@ namespace Neutronium.Example.ViewModel
         public int Two => 2;
         public int RandomNumber { get; }
 
+        private static int _Count = 0;
+
         public FakeViewModel(IEnumerable<FakeViewModel> children = null )
         {
+            _Count++;
             RandomNumber = Random.Next();
             Children = children?.ToArray();
         }

@@ -19,6 +19,29 @@
         return (vm.__readonly__ & 1) === 1;
     }
 
+    function simpleFreezeNotObservable(vm) {
+        var isFreezable = vm.__readonly__ === 1;
+        if (isFreezable) Object.freeze(vm);
+    }
+
+    function freezeNotObservable(vm) {
+        if (!vm || visited.has(vm._MappedId)) return;
+
+        if (Array.isArray(vm)) {
+            var arrayCount = vm.length;
+            for (var i = 0; i < arrayCount; i++) {
+                freezeNotObservable(vm[i]);
+            }
+            return;
+        }
+
+        simpleFreezeNotObservable(vm);
+        for (var property in vm) {
+            var value = vm[property];
+            freezeNotObservable(value);
+        }
+    }
+
     function silentChange(father, propertyName, value) {
         setTimeout(function () {
             return silentChangeSync(father, propertyName, value);
@@ -26,6 +49,7 @@
     }
 
     function silentChangeSync(father, propertyName, value) {
+        freezeNotObservable(value);
         var silenter = father[silenterProperty];
         if (silenter) {
             silentChangeElement(silenter, propertyName, value);
@@ -128,8 +152,8 @@
             visitArray(vm);
             var arrayCount = vm.length;
             for (var i = 0; i < arrayCount; i++) {
-                var _value = vm[i];
-                visitObject(_value, visit, visitArray);
+                var value = vm[i];
+                visitObject(value, visit, visitArray);
             }
             return;
         }
@@ -386,7 +410,7 @@
             vueVm.$mount('#main');
 
             window.vm = vueVm;
-
+            freezeNotObservable(vm);
             return inject(vm);
         },
         ready: ready

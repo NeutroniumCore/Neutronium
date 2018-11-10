@@ -530,7 +530,6 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(50);
 
-
                     DoSafeUI(() =>
                     {
                         dataContext.Decimal.Should().Be(0.5m);
@@ -988,16 +987,18 @@ namespace Tests.Universal.HTMLBindingTests
             private PersonalState _PersonalState;
             public PersonalState PersonalState
             {
-                get { return _PersonalState; }
-                set { Set(ref _PersonalState, value, "PersonalState"); }
+                get => _PersonalState;
+                set => Set(ref _PersonalState, value, "PersonalState");
             }
         }
 
         [Fact]
         public async Task TwoWay_Enum_NotMapped()
         {
-            var datacontext = new SimplePerson();
-            datacontext.PersonalState = PersonalState.Single;
+            var datacontext = new SimplePerson
+            {
+                PersonalState = PersonalState.Single
+            };
 
             var test = new TestInContextAsync()
             {
@@ -1433,7 +1434,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().BeTrue();
 
                     command.CanExecute.Returns(false);
-                    command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+                    command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
 
                     await Task.Delay(150);
 
@@ -1696,7 +1697,7 @@ namespace Tests.Universal.HTMLBindingTests
                     DoSafeUI(() =>
                     {
                         command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(false);
-                        command.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+                        command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
                     });
 
                     await Task.Delay(200);
@@ -2046,7 +2047,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_Command_CanExecute_Refresh_Ok()
         {
             bool canexecute = true;
-            _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
+            _Command.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
 
             var test = new TestInContextAsync()
             {
@@ -2059,7 +2060,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().BeTrue();
 
                     canexecute = false;
-                    _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+                    _Command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
 
                     await Task.Delay(100);
 
@@ -2076,7 +2077,7 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_Command_CanExecute_Refresh_Ok_Argument()
         {
             bool canexecute = true;
-            _ICommand.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
+            _Command.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
 
             var test = new TestInContextAsync()
             {
@@ -2091,16 +2092,16 @@ namespace Tests.Universal.HTMLBindingTests
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeTrue();
 
-                    _ICommand.Received().CanExecute(_DataContext);
+                    _Command.Received().CanExecute(_DataContext);
 
                     canexecute = false;
-                    _ICommand.ClearReceivedCalls();
+                    _Command.ClearReceivedCalls();
 
-                    _ICommand.CanExecuteChanged += Raise.EventWith(_ICommand, new EventArgs());
+                    _Command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
 
                     await Task.Delay(100);
 
-                    _ICommand.Received().CanExecute(_DataContext);
+                    _Command.Received().CanExecute(_DataContext);
 
                     mycommand = GetAttribute(js, "TestCommand");
                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
@@ -2114,14 +2115,14 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
         {
-            _ICommand.CanExecute(Arg.Any<object>()).Returns(x => { if (x[0] == null) throw new Exception(); return false; });
+            _Command.CanExecute(Arg.Any<object>()).Returns(x => { if (x[0] == null) throw new Exception(); return false; });
 
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    _ICommand.Received().CanExecute(Arg.Any<object>());
+                    _Command.Received().CanExecute(Arg.Any<object>());
                     var js = mb.JsRootObject;
 
                     await Task.Delay(100);
@@ -2130,7 +2131,7 @@ namespace Tests.Universal.HTMLBindingTests
                     bool res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeFalse();
 
-                    _ICommand.Received().CanExecute(_DataContext);
+                    _Command.Received().CanExecute(_DataContext);
                 }
             };
 
@@ -2141,7 +2142,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Command_Received_javascript_variable()
         {
-            _ICommand.CanExecute(Arg.Any<object>()).Returns(true);
+            _Command.CanExecute(Arg.Any<object>()).Returns(true);
 
             var test = new TestInContextAsync()
             {
@@ -2154,7 +2155,7 @@ namespace Tests.Universal.HTMLBindingTests
                     Call(mycommand, "Execute", _WebView.Factory.CreateString("titi"));
 
                     await Task.Delay(150);
-                    _ICommand.Received().Execute("titi");
+                    _Command.Received().Execute("titi");
                 }
             };
 
@@ -2165,13 +2166,13 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Command_Complete()
         {
-            _ICommand = new RelaySimpleCommand(() =>
+            _Command = new RelaySimpleCommand(() =>
                 {
                     _DataContext.MainSkill = new Skill();
                     _DataContext.Skills.Add(_DataContext.MainSkill);
                 });
 
-            _DataContext.TestCommand = _ICommand;
+            _DataContext.TestCommand = _Command;
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
@@ -2183,7 +2184,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     DoSafeUI(() =>
                     {
-                        _ICommand.Execute(null);
+                        _Command.Execute(null);
                     });
 
                     await Task.Delay(150);
@@ -3496,7 +3497,7 @@ namespace Tests.Universal.HTMLBindingTests
             private int _MagicNumber;
             public int MagicNumber
             {
-                get { return _MagicNumber; }
+                get => _MagicNumber;
                 set
                 {
                     if (value == 9)

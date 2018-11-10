@@ -34,8 +34,8 @@ namespace Tests.Universal.HTMLBindingTests.Helper
         private ObservableCollection<int> _Items;
         public ObservableCollection<int> Items
         {
-            get { return _Items; }
-            set { Set(ref _Items, value, "Items"); }
+            get => _Items;
+            set => Set(ref _Items, value, "Items");
         }
     }
 }

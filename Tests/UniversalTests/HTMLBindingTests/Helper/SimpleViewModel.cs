@@ -7,8 +7,8 @@ namespace Tests.Universal.HTMLBindingTests.Helper
         private string _Name;
         public string Name 
         {
-            get { return _Name; }
-            set { Set(ref _Name, value, "Name"); }
+            get => _Name;
+            set => Set(ref _Name, value, "Name");
         }
     }
 }

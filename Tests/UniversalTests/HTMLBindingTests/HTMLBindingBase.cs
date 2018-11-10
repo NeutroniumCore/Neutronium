@@ -16,7 +16,7 @@ namespace Tests.Universal.HTMLBindingTests
     public class HtmlBindingBase : IntegratedTestBase 
     {
         protected readonly Person _DataContext;
-        protected ICommand _ICommand;
+        protected ICommand _Command;
 
         public static IEnumerable<object[]> BasicVmData
         {
@@ -35,8 +35,8 @@ namespace Tests.Universal.HTMLBindingTests
         protected HtmlBindingBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
-            _ICommand = Substitute.For<ICommand>();
-            _DataContext = new Person(_ICommand) {
+            _Command = Substitute.For<ICommand>();
+            _DataContext = new Person(_Command) {
                 Name = "O Monstro",
                 LastName = "Desmaisons",
                 Local = new Local() { City = "Florianopolis", Region = "SC" },

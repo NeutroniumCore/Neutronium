@@ -3,7 +3,7 @@ import { extendObservable, observable } from "mobx";
 const visited = new Map();
 
 function isReadOnly(vm) {
-    return vm.__readonly__;
+    return (vm.__readonly__ & 1) === 1;
 }
 
 function getMapped(id) {
