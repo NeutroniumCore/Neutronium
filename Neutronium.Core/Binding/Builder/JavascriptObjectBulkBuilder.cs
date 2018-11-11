@@ -17,10 +17,13 @@ namespace Neutronium.Core.Binding.Builder
 
         private readonly ObjectsCreationRequest _ObjectsCreationRequest = new ObjectsCreationRequest();
         private readonly CommandCreationRequest _CommandCreationRequest = new CommandCreationRequest();
-        private readonly List<ArrayDescriptor> _ArraysBuildingRequested = new List<ArrayDescriptor>();
         private readonly List<IJsCsGlue> _BasicObjectsToCreate = new List<IJsCsGlue>();
+
         private List<IJsCsGlue> _ExecutableObjectsToCreate = new List<IJsCsGlue>();
         private List<IJsCsGlue> ExecutableObjectsToCreate => _ExecutableObjectsToCreate ?? (_ExecutableObjectsToCreate = new List<IJsCsGlue>());
+
+        private List<ArrayDescriptor> _ArraysBuildingRequested;
+        private List<ArrayDescriptor> ArraysBuildingRequested => _ArraysBuildingRequested ?? (_ArraysBuildingRequested = new List<ArrayDescriptor>());
 
         public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater,
             IJsCsGlue root, bool mapping)
@@ -48,7 +51,7 @@ namespace Neutronium.Core.Binding.Builder
 
         internal void RequestArrayCreation(IJsCsGlue glue, IReadOnlyList<IJsCsGlue> children)
         {
-            _ArraysBuildingRequested.Add(EntityDescriptor.CreateArrayDescriptor(glue, children));
+            ArraysBuildingRequested.Add(EntityDescriptor.CreateArrayDescriptor(glue, children));
         }
 
         internal void RequestBasicObjectCreation(IJsCsGlue glueObject)
@@ -85,7 +88,7 @@ namespace Neutronium.Core.Binding.Builder
         {
             BulkCreate(_Factory.CreateFromExcecutionCode(_BasicObjectsToCreate.Select(glue => ((IBasicJsCsGlue)glue).GetCreationCode())), _BasicObjectsToCreate);
             BulkCreateObjects();
-            BulkCreate(_Factory.CreateArrays(_ArraysBuildingRequested.Count), _ArraysBuildingRequested.Select(item => item.Father));
+            BulkCreateArrays();
 
             if (_Mapping)
                 return;
@@ -98,6 +101,15 @@ namespace Neutronium.Core.Binding.Builder
         {
             var jsObjects = _Factory.CreateObjects(_ObjectsCreationRequest.ObjectsCreationOption);
             _ObjectsCreationRequest.SetJsObjects(jsObjects, SetJsValue);
+        }
+
+        private void BulkCreateArrays()
+        {
+            if (_ArraysBuildingRequested == null)
+                return;
+
+            var jsObjects = _Factory.CreateArrays(_ArraysBuildingRequested.Count);
+            _ArraysBuildingRequested.ZipForEach(jsObjects, (desc, js) => desc.Father.SetJsValue(js, _Cache));
         }
 
         private void BulkCreateCommands()
@@ -136,6 +148,9 @@ namespace Neutronium.Core.Binding.Builder
 
         private void UpdateArrays()
         {
+            if (_ArraysBuildingRequested == null)
+                return;
+
             var toBeUpdated = _ArraysBuildingRequested.Where(item => item.OrdenedChildren.Count > 0);
             _BulkUpdater.BulkUpdateArray(toBeUpdated);
         }
