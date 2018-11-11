@@ -19,7 +19,8 @@ namespace Neutronium.Core.Binding.Builder
         private readonly CommandCreationRequest _CommandCreationRequest = new CommandCreationRequest();
         private readonly List<ArrayDescriptor> _ArraysBuildingRequested = new List<ArrayDescriptor>();
         private readonly List<IJsCsGlue> _BasicObjectsToCreate = new List<IJsCsGlue>();
-        private readonly List<IJsCsGlue> _ExecutableObjectsToCreate = new List<IJsCsGlue>();
+        private List<IJsCsGlue> _ExecutableObjectsToCreate = new List<IJsCsGlue>();
+        private List<IJsCsGlue> ExecutableObjectsToCreate => _ExecutableObjectsToCreate ?? (_ExecutableObjectsToCreate = new List<IJsCsGlue>());
 
         public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater, 
             IJsCsGlue root, bool mapping)
@@ -74,7 +75,7 @@ namespace Neutronium.Core.Binding.Builder
         {
             if (!_Mapping)
             {
-                _ExecutableObjectsToCreate.Add(glueObject);
+                ExecutableObjectsToCreate.Add(glueObject);
                 return;
             }
 
@@ -93,6 +94,14 @@ namespace Neutronium.Core.Binding.Builder
 
             BulkCreateCommand( _CommandCreationRequest.CommandExecutableBuildingRequested, true);
             BulkCreateCommand( _CommandCreationRequest.CommandNotExecutableBuildingRequested, false);
+            BulkCreateExecutableObjects();
+        }
+
+        private void BulkCreateExecutableObjects()
+        {
+            if (_ExecutableObjectsToCreate == null)
+                return;
+
             BulkCreate(_Factory.CreateObjectsFromConstructor(_ExecutableObjectsToCreate.Count, _BulkUpdater.ExecutableConstructor), _ExecutableObjectsToCreate);
         }
 
