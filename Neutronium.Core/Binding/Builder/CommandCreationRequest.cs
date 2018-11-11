@@ -1,23 +1,28 @@
-﻿using System.Collections.Generic;
-using Neutronium.Core.Binding.GlueObject;
+﻿using Neutronium.Core.Binding.GlueObject;
+using System.Collections.Generic;
 
 namespace Neutronium.Core.Binding.Builder
 {
     internal class CommandCreationRequest
     {
-        internal IList<IJsCsGlue> CommandExecutableBuildingRequested { get; } = new List<IJsCsGlue>();
-        internal IList<IJsCsGlue> CommandNotExecutableBuildingRequested { get; } = new List<IJsCsGlue>();
+        private List<IJsCsGlue> _Executables;
+        private List<IJsCsGlue> _NotExecutables;
+
+        internal IList<IJsCsGlue> CommandExecutableBuildingRequested => _Executables;
+        internal IList<IJsCsGlue> CommandNotExecutableBuildingRequested => _NotExecutables;
+
+        private List<IJsCsGlue> ExecutablesForAdd => _Executables ?? (_Executables = new List<IJsCsGlue>());
+        private List<IJsCsGlue> NotExecutablesForAdd => _NotExecutables ?? (_NotExecutables = new List<IJsCsGlue>());
 
         public void AddRequest(IJsCsGlue commandGlue, bool canExecute)
         {
-            if (canExecute)
-            {
-                CommandExecutableBuildingRequested.Add(commandGlue);
-            }
-            else
-            {
-                CommandNotExecutableBuildingRequested.Add(commandGlue);
-            }
+            var list = GetForAdd(canExecute);
+            list.Add(commandGlue);
+        }
+
+        private List<IJsCsGlue> GetForAdd(bool canExecute)
+        {
+            return canExecute ? ExecutablesForAdd : NotExecutablesForAdd;
         }
     }
 }

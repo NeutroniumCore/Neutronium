@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Neutronium.Core.Binding.GlueObject;
-using System.Linq;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Core.Infra.Reflection;
+﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Infra;
+using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Neutronium.Core.Binding.Builder
 {
@@ -24,30 +24,19 @@ namespace Neutronium.Core.Binding.Builder
 
         private static int ListCount(List<ObjectDescriptor> list) => (list?.Count).GetValueOrDefault();
 
-        private IEnumerable<ObjectDescriptor> _AllObjectDescriptor;
-
-        public void Freeze() 
-        {
-            _AllObjectDescriptor = _ObjectNoneBuildingRequested
-                .SafeConcat(_ObjectReadOnlyBuildingRequested)
-                .SafeConcat(_ObjectObservableBuildingRequested)
-                .SafeConcat(_ObjectObservableReadOnlyBuildingRequested);
-        }
-
         public void AddRequest(ObjectDescriptor descriptor, ObjectObservability objectObservability)
         {
             var list = GetList(objectObservability);
-            list.Add(descriptor);       
-        }
-
-        internal IEnumerable<IJsCsGlue> GetElements()
-        {
-            return _AllObjectDescriptor.Select(item => item.Father);
+            list.Add(descriptor);
         }
 
         internal IEnumerable<ObjectDescriptor> GetElementWithProperty()
         {
-            return _AllObjectDescriptor.Where(item => item.AttributeValues.Count > 0);
+            var descriptors = _ObjectNoneBuildingRequested
+                .SafeConcat(_ObjectReadOnlyBuildingRequested)
+                .SafeConcat(_ObjectObservableBuildingRequested)
+                .SafeConcat(_ObjectObservableReadOnlyBuildingRequested);
+            return descriptors.Where(item => item.AttributeValues.Count > 0);
         }
 
         private List<ObjectDescriptor> GetList(ObjectObservability objectObservability)
@@ -71,11 +60,28 @@ namespace Neutronium.Core.Binding.Builder
             }
         }
 
-        private static List<ObjectDescriptor> GetOrCreate(ref List<ObjectDescriptor> from) 
+        private static List<ObjectDescriptor> GetOrCreate(ref List<ObjectDescriptor> from)
         {
             if (from == null)
                 from = new List<ObjectDescriptor>();
             return from;
+        }
+
+        public void SetJsObjects(IEnumerable<IJavascriptObject> jsObjects, Action<IJsCsGlue, IJavascriptObject> onJsValue)
+        {
+            using (var enumerator = jsObjects.GetEnumerator())
+            {
+                void SetJsValue(ObjectDescriptor glue)
+                {
+                    enumerator.MoveNext();
+                    onJsValue(glue.Father, enumerator.Current);
+                }
+
+                _ObjectNoneBuildingRequested?.ForEach(SetJsValue);
+                _ObjectReadOnlyBuildingRequested?.ForEach(SetJsValue);
+                _ObjectObservableBuildingRequested?.ForEach(SetJsValue);
+                _ObjectObservableReadOnlyBuildingRequested?.ForEach(SetJsValue);
+            }
         }
     }
 }
