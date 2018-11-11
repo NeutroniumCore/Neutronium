@@ -13,6 +13,7 @@ using Neutronium.Core.Binding.Builder;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject.Basic;
+using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding
 {
@@ -99,7 +100,8 @@ namespace Neutronium.Core.Binding
         {
             var resource = new ResourceReader("scripts", this);
             var infa = resource.Load("Infra.js")
-                .Replace(NeutroniumConstants.ReadOnlyFlagTemplate, NeutroniumConstants.ReadOnlyFlag);
+                .Replace(NeutroniumConstants.ReadOnlyFlagTemplate, NeutroniumConstants.ReadOnlyFlag)
+                .Replace("{{ReadOnly}}", ((int)ObjectObservability.ReadOnly).ToString());
 
             Context.WebView.ExecuteJavaScript(infa);
         }

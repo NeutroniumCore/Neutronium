@@ -3,7 +3,7 @@
     this.displayName = displayName;
     this.name = name;
     this.type = type;
-    Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', { value: 1 });
+    Object.defineProperty(this, '{{NeutroniumConstants.ReadOnlyFlag}}', { value: {{ReadOnly}} });
 }
 
 function Null_reference() {
