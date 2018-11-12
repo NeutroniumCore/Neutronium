@@ -13,7 +13,7 @@ namespace Neutronium.JavascriptFramework.Vue
 
         internal static VueVersion Vue1 { get; } = new VueVersion("1.0.25", "VueInjector", "vue1", false, null);
 
-        internal static VueVersion Vue2 { get; } = new VueVersion("2.5.13", "VueInjectorV2", "vue2", true, Vue2DebugToolsUI);
+        internal static VueVersion Vue2 { get; } = new VueVersion("2.5.17", "VueInjectorV2", "vue2", true, Vue2DebugToolsUI);
 
         private static DebugToolsUI Vue2DebugToolsUI => new DebugToolsUI(Vue2DebugTools, Vue2About);
 
