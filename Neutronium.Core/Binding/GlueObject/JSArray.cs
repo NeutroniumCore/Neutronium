@@ -194,8 +194,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public void ApplyOnListenable(IObjectChangesListener listener)
         {
-            var notifyCollectionChanged = CValue as INotifyCollectionChanged;
-            if (notifyCollectionChanged == null)
+            if (!(CValue is INotifyCollectionChanged notifyCollectionChanged))
                 return;
 
             listener.OnCollection(notifyCollectionChanged);

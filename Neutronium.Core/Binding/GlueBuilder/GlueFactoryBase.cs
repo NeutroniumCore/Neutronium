@@ -1,32 +1,32 @@
-﻿using System;
-using Neutronium.Core.Binding.GlueObject;
+﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Binding.Listeners;
+using System;
 
 namespace Neutronium.Core.Binding.GlueBuilder
 {
-    internal class GlueFactoryBase
+    internal abstract class GlueFactoryBase
     {
         public event EventHandler<IJsCsGlue> ElementCreated;
         private readonly ICSharpToJsCache _Cacher;
         private readonly ObjectChangesListener _OnListener;
 
-        public GlueFactoryBase(ICSharpToJsCache cacher, ObjectChangesListener onListener)
+        protected GlueFactoryBase(ICSharpToJsCache cacher, ObjectChangesListener onListener)
         {
             _Cacher = cacher;
             _OnListener = onListener;
         }
 
-        public JsInt BuildInt(object value)       => CacheWithoutListen(value, new JsInt((int)value));
+        public JsInt BuildInt(object value) => CacheWithoutListen(value, new JsInt((int)value));
         public JsByte BuildByte(object value) => CacheWithoutListen(value, new JsByte((byte)value));
         public JsSByte BuildSByte(object value) => CacheWithoutListen(value, new JsSByte((sbyte)value));
         public JsString BuildString(object value) => CacheWithoutListen(value, new JsString((string)value));
-        public JsBool BuildBool(object value)    => CacheWithoutListen(value, new JsBool((bool)value));
-        public JsEnum BuildEnum(object value)    => CacheWithoutListen(value, new JsEnum((Enum)value));
+        public JsBool BuildBool(object value) => CacheWithoutListen(value, new JsBool((bool)value));
+        public JsEnum BuildEnum(object value) => CacheWithoutListen(value, new JsEnum((Enum)value));
         public JsDouble BuildDouble(object value) => CacheWithoutListen(value, new JsDouble((double)value));
         public JsDecimal BuildDecimal(object value) => CacheWithoutListen(value, new JsDecimal((decimal)value));
-        public JsUint BuildUint(object value)    => CacheWithoutListen(value, new JsUint((uint)value));
-        public JsLong BuildLong(object value)    => CacheWithoutListen(value, new JsLong((long)value));
+        public JsUint BuildUint(object value) => CacheWithoutListen(value, new JsUint((uint)value));
+        public JsLong BuildLong(object value) => CacheWithoutListen(value, new JsLong((long)value));
         public JsShort BuildShort(object value) => CacheWithoutListen(value, new JsShort((short)value));
         public JsFloat BuildFloat(object value) => CacheWithoutListen(value, new JsFloat((float)value));
         public JsUlong BuildUlong(object value) => CacheWithoutListen(value, new JsUlong((ulong)value));

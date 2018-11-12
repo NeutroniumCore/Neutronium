@@ -7,11 +7,12 @@ namespace Neutronium.Core.Binding.Listeners
 {
     internal class FullListenerRegister
     {
-        public IEntityUpdater<INotifyPropertyChanged> Property { get; }
-        public IEntityUpdater<INotifyCollectionChanged> Collection { get; }
-        public IEntityUpdater<JsCommandBase> Command { get; }
         public ObjectChangesListener On { get; }
         public ObjectChangesListener Off { get; }
+
+        private IEntityUpdater<INotifyPropertyChanged> Property { get; }
+        private IEntityUpdater<INotifyCollectionChanged> Collection { get; }
+        private IEntityUpdater<JsCommandBase> Command { get; }
 
         public FullListenerRegister(PropertyChangedEventHandler propertyHandler,
             NotifyCollectionChangedEventHandler collectionHandler) :
