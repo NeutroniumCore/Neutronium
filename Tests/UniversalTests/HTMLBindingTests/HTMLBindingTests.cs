@@ -1205,7 +1205,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task Property_Test()
+        public async Task Property_Survive_Missuse_Of_NotifyPropertyChanged()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new FakeTestViewModel() { Command = command };
@@ -1231,7 +1231,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var resf = GetSafe(() => js.HasValue("UselessName"));
                     resf.Should().BeFalse();
 
-                    Action safe = () => datacontexttest.InconsistentEventEmit();
+                    Action safe = () => DoSafeUI(() => datacontexttest.InconsistentEventEmit());
 
                     safe.Should().NotThrow("Inconsistent Name in property should not throw exception");
                 }

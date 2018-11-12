@@ -14,10 +14,11 @@ using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.Binding.Updaters;
 
 namespace Neutronium.Core.Binding
 {
-    public class BidirectionalMapper : IDisposable, IJavascriptToCSharpConverter, IJavascriptChangesObserver
+    public class BidirectionalMapper : IDisposable, IJavascriptToCSharpConverter, IJavascriptChangesObserver, ISessionMapper
     {
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _JsObjectBuilder;
@@ -25,6 +26,7 @@ namespace Neutronium.Core.Binding
         private readonly FullListenerRegister _ListenerRegister;
         private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
         private readonly SessionCacher _SessionCache;
+        private readonly IJsUpdater _JsUpdater;
         private List<Action> _UpdatesToBeReplayed;
 
         private IJavascriptObjectBuilderStrategy _BuilderStrategy;
@@ -55,6 +57,7 @@ namespace Neutronium.Core.Binding
             _ListenerRegister = ListenToCSharp ? new FullListenerRegister(OnCSharpPropertyChanged, OnCSharpCollectionChanged): null;
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _ListenerRegister?.On);
             _JsObjectBuilder = new CSharpToJavascriptConverter(_SessionCache, glueFactory, _Logger);
+            _JsUpdater = new JsUpdater(this, Context, () => _BuilderStrategy, _JsObjectBuilder, _ListenerRegister?.Off, _SessionCache);
             _RootObject = root;
         }
 
@@ -142,6 +145,8 @@ namespace Neutronium.Core.Binding
         {
             _SessionCache.AllElements.ForEach(OnExit);
         }
+
+        Task<IJavascriptObject> ISessionMapper.InjectInHtmlSession(IJsCsGlue root) => InjectInHtmlSession(root);
 
         private async Task<IJavascriptObject> InjectInHtmlSession(IJsCsGlue root)
         {
@@ -289,18 +294,17 @@ namespace Neutronium.Core.Binding
 
         private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!(_SessionCache.GetCached(sender) is JsGenericObject currentfather))
+            var updater = GetCSharpPropertyChanged(sender, e);
+            updater.OnUiContext();
+            if (!updater.NeedToRunOnJsContext)
                 return;
 
-            var propertyUpdater = currentfather.GetPropertyUpdater(e.PropertyName);
-            if (!propertyUpdater.IsValid)
-                return;
+            DispatchInJavascriptContext(() => updater.OnJsContext());
+        }
 
-            var newValue = propertyUpdater.GetCurrentChildValue();
-            if (!propertyUpdater.HasChanged(newValue))
-                return;
-
-            UpdateFromCSharpChanges(newValue, (child) => currentfather.GetUpdater(propertyUpdater, child));
+        private IJavascriptUpdater GetCSharpPropertyChanged(object sender, PropertyChangedEventArgs e) 
+        {
+            return _JsUpdater.GetCSharpPropertyChanged(sender, e);
         }
 
         private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
