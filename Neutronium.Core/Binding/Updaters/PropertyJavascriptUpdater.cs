@@ -5,7 +5,7 @@ namespace Neutronium.Core.Binding.Updaters
 {
     internal class PropertyJavascriptUpdater: IJavascriptUpdater
     {
-        private readonly IJsUpdater _JsUpdater;
+        private readonly IJsUpdateHelper _JsUpdateHelper;
         private readonly object _Sender;
         private readonly string _PropertyName;
         private object _NewValue;
@@ -14,16 +14,16 @@ namespace Neutronium.Core.Binding.Updaters
 
         public bool NeedToRunOnJsContext => _BridgeUpdater != null;
 
-        internal PropertyJavascriptUpdater(IJsUpdater updater, object sender, PropertyChangedEventArgs e) 
+        internal PropertyJavascriptUpdater(IJsUpdateHelper jsUpdateHelper, object sender, PropertyChangedEventArgs e) 
         {
-            _JsUpdater = updater;
+            _JsUpdateHelper = jsUpdateHelper;
             _Sender = sender;
             _PropertyName = e.PropertyName;
         }
 
         public void OnUiContext() 
         {
-            var currentfather = _JsUpdater.GetCached<JsGenericObject>(_Sender);
+            var currentfather = _JsUpdateHelper.GetCached<JsGenericObject>(_Sender);
             if (currentfather == null)
                 return;
 
@@ -35,16 +35,16 @@ namespace Neutronium.Core.Binding.Updaters
             if (!propertyUpdater.HasChanged(_NewValue))
                 return;
 
-            _NewJsValue = _JsUpdater.Map(_NewValue);
+            _NewJsValue = _JsUpdateHelper.Map(_NewValue);
             if (_NewJsValue == null)
                 return;
 
-            _BridgeUpdater = _JsUpdater.UpdateBridgeUpdater(currentfather.GetUpdater(propertyUpdater, _NewJsValue));
+            _BridgeUpdater = _JsUpdateHelper.UpdateBridgeUpdater(currentfather.GetUpdater(propertyUpdater, _NewJsValue));
         }
 
         public void OnJsContext() 
         {
-            _JsUpdater.UpdateOnJavascriptContextAllContext(_BridgeUpdater, _NewJsValue);
+            _JsUpdateHelper.UpdateOnJavascriptContextAllContext(_BridgeUpdater, _NewJsValue);
         }
     }
 }

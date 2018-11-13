@@ -4,7 +4,7 @@ using Neutronium.Core.Binding.GlueObject;
 
 namespace Neutronium.Core.Binding.Updaters
 {
-    internal interface IJsUpdater 
+    internal interface IJsUpdateHelper 
     {
         T GetCached<T>(object value) where T : class, IJsCsGlue;
         IJsCsGlue Map(object value);

@@ -26,8 +26,7 @@ namespace Neutronium.Core.Binding
         private readonly FullListenerRegister _ListenerRegister;
         private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
         private readonly SessionCacher _SessionCache;
-        private readonly IJsUpdater _JsUpdater;
-        private List<Action> _UpdatesToBeReplayed;
+        private readonly IJsUpdateHelper _JsUpdateHelper;
 
         private IJavascriptObjectBuilderStrategy _BuilderStrategy;
         private IJavascriptSessionInjector _SessionInjector;
@@ -57,7 +56,7 @@ namespace Neutronium.Core.Binding
             _ListenerRegister = ListenToCSharp ? new FullListenerRegister(OnCSharpPropertyChanged, OnCSharpCollectionChanged): null;
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _ListenerRegister?.On);
             _JsObjectBuilder = new CSharpToJavascriptConverter(_SessionCache, glueFactory, _Logger);
-            _JsUpdater = new JsUpdater(this, Context, () => _BuilderStrategy, _JsObjectBuilder, _ListenerRegister?.Off, _SessionCache);
+            _JsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _JsObjectBuilder, _ListenerRegister?.Off, _SessionCache);
             _RootObject = root;
         }
 
@@ -94,9 +93,6 @@ namespace Neutronium.Core.Binding
             });
 
             _IsLoaded = true;
-
-            _UpdatesToBeReplayed?.ForEach(up => up());
-            _UpdatesToBeReplayed = null;
         }
 
         private void RegisterJavascriptHelper()
@@ -306,12 +302,12 @@ namespace Neutronium.Core.Binding
 
         private IJavascriptUpdater GetCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            return _JsUpdater.GetUpdaterForPropertyChanged(sender, e);
+            return _JsUpdateHelper.GetUpdaterForPropertyChanged(sender, e);
         }
 
         private IJavascriptUpdater GetCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            return _JsUpdater.GetUpdaterForNotifyCollectionChanged(sender, e);
+            return _JsUpdateHelper.GetUpdaterForNotifyCollectionChanged(sender, e);
         }
 
         private void ReplayChanges(IJavascriptUpdater updater)

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Neutronium.Core.Binding.Updaters
 {
-    internal class JsUpdater : IJsUpdater
+    internal class JsUpdateHelper : IJsUpdateHelper
     {
         private readonly HtmlViewContext _Context;
         private readonly CSharpToJavascriptConverter _JsObjectBuilder;
@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding.Updaters
         private readonly ISessionMapper _SessionMapper;
         private readonly SessionCacher _SessionCache;
 
-        internal JsUpdater(ISessionMapper sessionMapper, HtmlViewContext context, Func<IJavascriptObjectBuilderStrategy> strategy, CSharpToJavascriptConverter builder, ObjectChangesListener off, SessionCacher sessionCache)
+        internal JsUpdateHelper(ISessionMapper sessionMapper, HtmlViewContext context, Func<IJavascriptObjectBuilderStrategy> strategy, CSharpToJavascriptConverter builder, ObjectChangesListener off, SessionCacher sessionCache)
         {
             _SessionMapper = sessionMapper;
             _Context = context;
