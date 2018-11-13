@@ -320,11 +320,6 @@ namespace Neutronium.Core.Binding
             DispatchInJavascriptContext(() => updater.OnJsContext());
         }
 
-        public void RegisterInSession(object nv, Action<IJsCsGlue> performAfterBuild)
-        {
-            UpdateFromCSharpChanges(nv, (bridge) => GetUnrootedEntitiesUpdater(bridge, performAfterBuild));
-        }
-
         private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newbridgedchild, Action<IJsCsGlue> performAfterBuild)
         {
             _UnrootedEntities.Add(newbridgedchild.AddRef());
@@ -335,7 +330,7 @@ namespace Neutronium.Core.Binding
             });
         }
 
-        private void UpdateFromCSharpChanges(object newCSharpObject, Func<IJsCsGlue, BridgeUpdater> updaterBuilder)
+        public void RegisterInSession(object newCSharpObject, Action<IJsCsGlue> performAfterBuild) 
         {
             CheckUiContext();
 
@@ -343,46 +338,17 @@ namespace Neutronium.Core.Binding
             if (value == null)
                 return;
 
-            var updater = Update(updaterBuilder, value);
-            updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
-            UpdateOnJavascriptContextAllContext(updater, value);
-        }
-
-        private void UpdateOnJavascriptContextAllContext(BridgeUpdater updater, IJsCsGlue value)
-        {
-            if (Context.JavascriptFrameworkIsMappingObject) 
-            {
-                DispatchInJavascriptContext(() => UpdateOnJavascriptContextWithMapping(updater, value));
-                return;
-            }
-
-            DispatchInJavascriptContext(() => UpdateOnJavascriptContextWithoutMapping(updater, value));
-        }
-
-        private void UpdateOnJavascriptContextWithoutMapping(BridgeUpdater updater, IJsCsGlue value)
-        {
-            _BuilderStrategy.UpdateJavascriptValue(value);
-            updater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
-        }
-
-        private async Task UpdateOnJavascriptContextWithMapping(BridgeUpdater updater, IJsCsGlue value)
-        {
-            _BuilderStrategy.UpdateJavascriptValue(value);
-            await InjectInHtmlSession(value);
-            updater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
-        }
-
-        private BridgeUpdater Update(Func<IJsCsGlue, BridgeUpdater> updaterBuilder, IJsCsGlue glue)
-        {
-            var updater = updaterBuilder(glue);
-            updater.Cache = _SessionCache;
-            return updater;
-        }
+            var updater = GetUnrootedEntitiesUpdater(value, performAfterBuild);
+            _JsUpdateHelper.UpdateBridgeUpdater(updater);
+            _JsUpdateHelper.UpdateOnJavascriptContextAllContext(updater, value);
+        } 
 
         private void CheckUiContext()
         {
-            if (!Context.UiDispatcher.IsInContext())
-                throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
+            if (Context.UiDispatcher.IsInContext())
+                return;
+
+            throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
 
         public IJsCsGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
