@@ -295,50 +295,33 @@ namespace Neutronium.Core.Binding
         private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var updater = GetCSharpPropertyChanged(sender, e);
+            ReplayChanges(updater);
+        }
+
+        private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var updater = GetCSharpCollectionChanged(sender, e);
+            ReplayChanges(updater);
+        }
+
+        private IJavascriptUpdater GetCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            return _JsUpdater.GetUpdaterForPropertyChanged(sender, e);
+        }
+
+        private IJavascriptUpdater GetCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            return _JsUpdater.GetUpdaterForNotifyCollectionChanged(sender, e);
+        }
+
+        private void ReplayChanges(IJavascriptUpdater updater)
+        {
+            CheckUiContext();
             updater.OnUiContext();
             if (!updater.NeedToRunOnJsContext)
                 return;
 
             DispatchInJavascriptContext(() => updater.OnJsContext());
-        }
-
-        private IJavascriptUpdater GetCSharpPropertyChanged(object sender, PropertyChangedEventArgs e) 
-        {
-            return _JsUpdater.GetCSharpPropertyChanged(sender, e);
-        }
-
-        private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            UnsafeCSharpCollectionChanged(sender, e);
-        }
-
-        private void UnsafeCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (!(_SessionCache.GetCached(sender) is JsArray arr))
-                return;
-
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    UpdateFromCSharpChanges(e.NewItems[0], (addvalue) => arr.GetAddUpdater(addvalue, e.NewStartingIndex));
-                    break;
-
-                case NotifyCollectionChangedAction.Replace:
-                    UpdateFromCSharpChanges(e.NewItems[0], (newvalue) => arr.GetReplaceUpdater(newvalue, e.NewStartingIndex));
-                    break;
-
-                case NotifyCollectionChangedAction.Remove:
-                    UpdateFromCSharpChanges(() => arr.GetRemoveUpdater(e.OldStartingIndex));
-                    break;
-
-                case NotifyCollectionChangedAction.Reset:
-                    UpdateFromCSharpChanges(() => arr.GetResetUpdater());
-                    break;
-
-                case NotifyCollectionChangedAction.Move:
-                    UpdateFromCSharpChanges(() => arr.GetMoveUpdater(e.OldStartingIndex, e.NewStartingIndex));
-                    break;
-            }
         }
 
         public void RegisterInSession(object nv, Action<IJsCsGlue> performAfterBuild)
@@ -356,34 +339,9 @@ namespace Neutronium.Core.Binding
             });
         }
 
-        private void UpdateFromCSharpChanges(Func<BridgeUpdater> updaterBuilder)
-        {
-            CheckUiContext();
-
-            var updater = Update(_ => updaterBuilder(), null);
-            updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
-
-            if (!updater.HasUpdatesOnJavascriptContext)
-                return;
-
-            DispatchInJavascriptContext(() =>
-            {
-                updater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
-            });
-        }
-
         private void UpdateFromCSharpChanges(object newCSharpObject, Func<IJsCsGlue, BridgeUpdater> updaterBuilder)
         {
             CheckUiContext();
-
-            if (!_IsLoaded) 
-            {
-                //Changes happening on the UI thread while javascript thread is still initializing bindings
-                //We keep the updates here to be replayed when binding is done
-                _UpdatesToBeReplayed = _UpdatesToBeReplayed ?? new List<Action>();
-                _UpdatesToBeReplayed.Add(() => UpdateFromCSharpChanges(newCSharpObject, updaterBuilder));
-                return;
-            }
 
             var value = _JsObjectBuilder.Map(newCSharpObject);
             if (value == null)

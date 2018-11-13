@@ -23,9 +23,7 @@ namespace Neutronium.Core.Binding.Updaters
 
         public void OnUiContext() 
         {
-            _JsUpdater.CheckUiContext();
-
-            var currentfather = _JsUpdater.GetCached(_Sender);
+            var currentfather = _JsUpdater.GetCached<JsGenericObject>(_Sender);
             if (currentfather == null)
                 return;
 
@@ -36,14 +34,6 @@ namespace Neutronium.Core.Binding.Updaters
             _NewValue = propertyUpdater.GetCurrentChildValue();
             if (!propertyUpdater.HasChanged(_NewValue))
                 return;
-           
-            //if (!_IsLoaded) {
-            //    //Changes happening on the UI thread while javascript thread is still initializing bindings
-            //    //We keep the updates here to be replayed when binding is done
-            //    _UpdatesToBeReplayed = _UpdatesToBeReplayed ?? new List<Action>();
-            //    _UpdatesToBeReplayed.Add(() => UpdateFromCSharpChanges(_NewValue, updaterBuilder));
-            //    return;
-            //}
 
             _NewJsValue = _JsUpdater.Map(_NewValue);
             if (_NewJsValue == null)
