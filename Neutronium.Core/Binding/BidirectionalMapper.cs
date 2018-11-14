@@ -53,10 +53,12 @@ namespace Neutronium.Core.Binding
             var javascriptObjecChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
             Context = contextBuilder.GetMainContext(javascriptObjecChanges);
             _SessionCache = new SessionCacher();
-            _ListenerRegister = ListenToCSharp ? new FullListenerRegister(OnCSharpPropertyChanged, OnCSharpCollectionChanged): null;
+            var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _SessionCache);
+            _ListenerRegister = ListenToCSharp ? new FullListenerRegister(jsUpdateHelper) : null;
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _ListenerRegister?.On);
             _JsObjectBuilder = new CSharpToJavascriptConverter(_SessionCache, glueFactory, _Logger);
-            _JsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _JsObjectBuilder, _ListenerRegister?.Off, _SessionCache);
+            jsUpdateHelper.JsObjectBuilder =  _JsObjectBuilder;
+            _JsUpdateHelper = jsUpdateHelper;
             _RootObject = root;
         }
 
@@ -71,7 +73,7 @@ namespace Neutronium.Core.Binding
 
         internal async Task UpdateJavascriptObjects(bool debugMode)
         {
-            CheckUiContext();
+            _JsUpdateHelper.CheckUiContext();
 
             await RunInJavascriptContext(async () =>
             {
@@ -105,19 +107,9 @@ namespace Neutronium.Core.Binding
             Context.WebView.ExecuteJavaScript(infa);
         }
 
-        private void DispatchInJavascriptContext(Action run)
-        {
-            Context.WebView.Dispatch(run);
-        }
-
         private Task RunInJavascriptContext(Func<Task> run)
         {
             return Context.WebView.Evaluate(run);
-        }
-
-        private void DispatchInJavascriptContext(Func<Task> run)
-        {
-            Context.WebView.Dispatch(() => run());
         }
 
         public void Dispose()
@@ -209,7 +201,7 @@ namespace Neutronium.Core.Binding
 
                         if (!Equals(oldValue, actualValue))
                         {
-                            OnCSharpPropertyChanged(currentfather.CValue, new PropertyChangedEventArgs(propertyName));
+                            _ListenerRegister.OnCSharpPropertyChanged(currentfather.CValue, propertyName);
                         }                        
                     }
                 });
@@ -288,38 +280,6 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            var updater = GetCSharpPropertyChanged(sender, e);
-            ReplayChanges(updater);
-        }
-
-        private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var updater = GetCSharpCollectionChanged(sender, e);
-            ReplayChanges(updater);
-        }
-
-        private IJavascriptUpdater GetCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            return _JsUpdateHelper.GetUpdaterForPropertyChanged(sender, e);
-        }
-
-        private IJavascriptUpdater GetCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            return _JsUpdateHelper.GetUpdaterForNotifyCollectionChanged(sender, e);
-        }
-
-        private void ReplayChanges(IJavascriptUpdater updater)
-        {
-            CheckUiContext();
-            updater.OnUiContext();
-            if (!updater.NeedToRunOnJsContext)
-                return;
-
-            DispatchInJavascriptContext(() => updater.OnJsContext());
-        }
-
         private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newbridgedchild, Action<IJsCsGlue> performAfterBuild)
         {
             _UnrootedEntities.Add(newbridgedchild.AddRef());
@@ -332,24 +292,22 @@ namespace Neutronium.Core.Binding
 
         public void RegisterInSession(object newCSharpObject, Action<IJsCsGlue> performAfterBuild) 
         {
-            CheckUiContext();
+            _JsUpdateHelper.CheckUiContext();
 
             var value = _JsObjectBuilder.Map(newCSharpObject);
             if (value == null)
                 return;
 
             var updater = GetUnrootedEntitiesUpdater(value, performAfterBuild);
-            _JsUpdateHelper.UpdateBridgeUpdater(updater);
-            _JsUpdateHelper.UpdateOnJavascriptContextAllContext(updater, value);
-        } 
-
-        private void CheckUiContext()
-        {
-            if (Context.UiDispatcher.IsInContext())
+            _JsUpdateHelper.UpdateOnUiContext(updater, _ListenerRegister.Off);
+            if (!updater.HasUpdatesOnJavascriptContext)
                 return;
 
-            throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
-        }
+            _JsUpdateHelper.DispatchInJavascriptContext(() =>
+            {
+                _JsUpdateHelper.UpdateOnJavascriptContext(updater, value);
+            });
+        } 
 
         public IJsCsGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
         {

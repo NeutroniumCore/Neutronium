@@ -35,6 +35,12 @@ namespace Neutronium.Core.Binding.GlueObject
             javascriptViewModelUpdater.UnListen(_ExitingObjects.Where(exiting => (exiting as JsGenericObject)?.HasReadWriteProperties == true).Select(glue => glue.JsValue));
         }
 
+        internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener, IJavascriptSessionCache cache)
+        {
+            Cache = cache;
+            CleanAfterChangesOnUiThread(offListener);
+        }
+
         internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener)
         {
             if (_ExitingObjects==null)

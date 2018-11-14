@@ -2,31 +2,30 @@
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
-using Neutronium.Core.Infra;
+using Neutronium.Core.Exceptions;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.Updaters
 {
     internal class JsUpdateHelper : IJsUpdateHelper
     {
         private readonly HtmlViewContext _Context;
-        private readonly CSharpToJavascriptConverter _JsObjectBuilder;
-        private readonly ObjectChangesListener _Off;
         private readonly Lazy<IJavascriptObjectBuilderStrategy> _BuilderStrategy;
         private readonly ISessionMapper _SessionMapper;
         private readonly SessionCacher _SessionCache;
 
-        internal JsUpdateHelper(ISessionMapper sessionMapper, HtmlViewContext context, Func<IJavascriptObjectBuilderStrategy> strategy, CSharpToJavascriptConverter builder, ObjectChangesListener off, SessionCacher sessionCache)
+        internal CSharpToJavascriptConverter JsObjectBuilder { get; set; }
+
+        internal JsUpdateHelper(ISessionMapper sessionMapper, HtmlViewContext context, Func<IJavascriptObjectBuilderStrategy> strategy, SessionCacher sessionCache)
         {
             _SessionMapper = sessionMapper;
             _Context = context;
             _BuilderStrategy = new Lazy<IJavascriptObjectBuilderStrategy>(strategy);
-            _JsObjectBuilder = builder;
             _SessionCache = sessionCache;
-            _Off = off;
         }
 
         public IJavascriptUpdater GetUpdaterForPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -39,6 +38,25 @@ namespace Neutronium.Core.Binding.Updaters
             return new CollectionJavascriptUpdater(this, sender, e);
         }
 
+        public void CheckUiContext()
+        {
+            if (_Context.UiDispatcher.IsInContext())
+                return;
+
+            throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
+
+        }
+
+        public void DispatchInJavascriptContext(Action action)
+        {
+            _Context.WebView.Dispatch(action);
+        }
+
+        private void DispatchInJavascriptContext(Func<Task> run)
+        {
+            _Context.WebView.Dispatch(() => run());
+        }
+
         public T GetCached<T>(object value) where T : class, IJsCsGlue
         {
             return _SessionCache.GetCached(value) as T;
@@ -46,18 +64,17 @@ namespace Neutronium.Core.Binding.Updaters
 
         public IJsCsGlue Map(object value)
         {
-            return _JsObjectBuilder.Map(value);
+            return JsObjectBuilder.Map(value);
         }
 
-        public BridgeUpdater UpdateBridgeUpdater(BridgeUpdater value)
+        public void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off)
         {
-            value.Cache = _SessionCache;
-            value.CleanAfterChangesOnUiThread(_Off);
-            return value;
+            updater.CleanAfterChangesOnUiThread(off, _SessionCache);
         }
 
-        public void UpdateOnJavascriptContextAllContext(BridgeUpdater updater, IJsCsGlue value)
-        {
+
+        public void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value)
+        {   
             if (value == null)
             {
                 RunUpdaterOnJsContext(updater);

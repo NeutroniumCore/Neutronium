@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Neutronium.Core.Binding.GlueObject.Executable;
+using Neutronium.Core.Binding.Updaters;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using Neutronium.Core.Binding.GlueObject.Executable;
 
 namespace Neutronium.Core.Binding.Listeners
 {
@@ -14,23 +14,43 @@ namespace Neutronium.Core.Binding.Listeners
         private IEntityUpdater<INotifyCollectionChanged> Collection { get; }
         private IEntityUpdater<JsCommandBase> Command { get; }
 
-        public FullListenerRegister(PropertyChangedEventHandler propertyHandler,
-            NotifyCollectionChangedEventHandler collectionHandler) :
-            this(n => n.PropertyChanged += propertyHandler, n => n.PropertyChanged -= propertyHandler,
-                n => n.CollectionChanged += collectionHandler, n => n.CollectionChanged -= collectionHandler,
-                c => c.ListenChanges(), c => c.UnListenChanges())
-        {        
-        }
+        private readonly IJsUpdateHelper _JsUpdateHelper;
 
-        private FullListenerRegister(Action<INotifyPropertyChanged> propertyOn, Action<INotifyPropertyChanged> propertyOff,
-                        Action<INotifyCollectionChanged> collectionOn, Action<INotifyCollectionChanged> collectionOff,
-                        Action<JsCommandBase> jsCommandOn, Action<JsCommandBase> jsCommandOff)
+        public FullListenerRegister(IJsUpdateHelper jsUpdateHelper)
         {
-            Property = new ListenerRegister<INotifyPropertyChanged>(propertyOn, propertyOff);
-            Collection = new ListenerRegister<INotifyCollectionChanged>(collectionOn, collectionOff);
-            Command = new ListenerRegister<JsCommandBase>(jsCommandOn, jsCommandOff);
+            _JsUpdateHelper = jsUpdateHelper;
+            Property = new ListenerRegister<INotifyPropertyChanged>(n => n.PropertyChanged += OnCSharpPropertyChanged, n => n.PropertyChanged -= OnCSharpPropertyChanged);
+            Collection = new ListenerRegister<INotifyCollectionChanged>(n => n.CollectionChanged += OnCSharpCollectionChanged, n => n.CollectionChanged -= OnCSharpCollectionChanged);
+            Command = new ListenerRegister<JsCommandBase>(c => c.ListenChanges(), c => c.UnListenChanges());
             On = new ObjectChangesListener(Property.OnEnter, Collection.OnEnter, Command.OnEnter);
             Off = new ObjectChangesListener(Property.OnExit, Collection.OnExit, Command.OnExit);
+        }
+
+        internal void OnCSharpPropertyChanged(object sender, string propertyName)
+        {
+            OnCSharpPropertyChanged(sender, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var updater = _JsUpdateHelper.GetUpdaterForPropertyChanged(sender, e);
+            ReplayChanges(updater);
+        }
+
+        private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var updater = _JsUpdateHelper.GetUpdaterForNotifyCollectionChanged(sender, e);
+            ReplayChanges(updater);
+        }
+
+        private void ReplayChanges(IJavascriptUpdater updater)
+        {
+            _JsUpdateHelper.CheckUiContext();
+            updater.OnUiContext(Off);
+            if (!updater.NeedToRunOnJsContext)
+                return;
+
+            _JsUpdateHelper.DispatchInJavascriptContext(updater.OnJsContext);
         }
 
         public Silenter<INotifyCollectionChanged> GetColllectionSilenter(object target)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.Updaters
 {
@@ -20,17 +21,14 @@ namespace Neutronium.Core.Binding.Updaters
             _Change = change;
         }
 
-        public void OnUiContext()
+        public void OnUiContext(ObjectChangesListener off)
         {
             var array = _JsUpdateHelper.GetCached<JsArray>(_Sender);
             if (array == null)
                 return;
 
-            var updater = GetBridgeUpdater(array);
-            if (updater == null)
-                return;
-
-            _BridgeUpdater = _JsUpdateHelper.UpdateBridgeUpdater(updater);
+            _BridgeUpdater = GetBridgeUpdater(array);
+            _JsUpdateHelper.UpdateOnUiContext(_BridgeUpdater, off);
         }
 
         private BridgeUpdater GetBridgeUpdater(JsArray array)
@@ -65,7 +63,7 @@ namespace Neutronium.Core.Binding.Updaters
 
         public void OnJsContext()
         {
-            _JsUpdateHelper.UpdateOnJavascriptContextAllContext(_BridgeUpdater, _NewJsValue);
+            _JsUpdateHelper.UpdateOnJavascriptContext(_BridgeUpdater, _NewJsValue);
         }
     }
 }
