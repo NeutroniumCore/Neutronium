@@ -11,7 +11,7 @@ using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.Updaters
 {
-    internal class JsUpdateHelper : IJsUpdateHelper
+    internal class JsUpdateHelper : IJsUpdateHelper, IJsUpdaterFactory
     {
         private readonly HtmlViewContext _Context;
         private readonly Lazy<IJavascriptObjectBuilderStrategy> _BuilderStrategy;
@@ -44,17 +44,11 @@ namespace Neutronium.Core.Binding.Updaters
                 return;
 
             throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
-
         }
 
         public void DispatchInJavascriptContext(Action action)
         {
             _Context.WebView.Dispatch(action);
-        }
-
-        private void DispatchInJavascriptContext(Func<Task> run)
-        {
-            _Context.WebView.Dispatch(() => run());
         }
 
         public T GetCached<T>(object value) where T : class, IJsCsGlue
@@ -92,15 +86,20 @@ namespace Neutronium.Core.Binding.Updaters
 
         private void UpdateOnJavascriptContextWithoutMapping(BridgeUpdater updater, IJsCsGlue value)
         {
-            _BuilderStrategy.Value.UpdateJavascriptValue(value);
+            UpdateJavascriptValue(value);
             RunUpdaterOnJsContext(updater);
         }
 
         private async Task UpdateOnJavascriptContextWithMapping(BridgeUpdater updater, IJsCsGlue value)
         {
-            _BuilderStrategy.Value.UpdateJavascriptValue(value);
+            UpdateJavascriptValue(value);
             await _SessionMapper.InjectInHtmlSession(value);
             RunUpdaterOnJsContext(updater);
+        }
+
+        private void UpdateJavascriptValue(IJsCsGlue value) 
+        {
+            _BuilderStrategy.Value.UpdateJavascriptValue(value);
         }
 
         private void RunUpdaterOnJsContext(BridgeUpdater updater)

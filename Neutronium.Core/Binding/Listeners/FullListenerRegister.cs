@@ -14,11 +14,11 @@ namespace Neutronium.Core.Binding.Listeners
         private IEntityUpdater<INotifyCollectionChanged> Collection { get; }
         private IEntityUpdater<JsCommandBase> Command { get; }
 
-        private readonly IJsUpdateHelper _JsUpdateHelper;
+        private readonly IJsUpdaterFactory _JsUpdaterFactory;
 
-        public FullListenerRegister(IJsUpdateHelper jsUpdateHelper)
+        public FullListenerRegister(IJsUpdaterFactory jsUpdaterFactory)
         {
-            _JsUpdateHelper = jsUpdateHelper;
+            _JsUpdaterFactory = jsUpdaterFactory;
             Property = new ListenerRegister<INotifyPropertyChanged>(n => n.PropertyChanged += OnCSharpPropertyChanged, n => n.PropertyChanged -= OnCSharpPropertyChanged);
             Collection = new ListenerRegister<INotifyCollectionChanged>(n => n.CollectionChanged += OnCSharpCollectionChanged, n => n.CollectionChanged -= OnCSharpCollectionChanged);
             Command = new ListenerRegister<JsCommandBase>(c => c.ListenChanges(), c => c.UnListenChanges());
@@ -33,24 +33,24 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var updater = _JsUpdateHelper.GetUpdaterForPropertyChanged(sender, e);
+            var updater = _JsUpdaterFactory.GetUpdaterForPropertyChanged(sender, e);
             ReplayChanges(updater);
         }
 
         private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var updater = _JsUpdateHelper.GetUpdaterForNotifyCollectionChanged(sender, e);
+            var updater = _JsUpdaterFactory.GetUpdaterForNotifyCollectionChanged(sender, e);
             ReplayChanges(updater);
         }
 
         private void ReplayChanges(IJavascriptUpdater updater)
         {
-            _JsUpdateHelper.CheckUiContext();
+            _JsUpdaterFactory.CheckUiContext();
             updater.OnUiContext(Off);
             if (!updater.NeedToRunOnJsContext)
                 return;
 
-            _JsUpdateHelper.DispatchInJavascriptContext(updater.OnJsContext);
+            _JsUpdaterFactory.DispatchInJavascriptContext(updater.OnJsContext);
         }
 
         public Silenter<INotifyCollectionChanged> GetColllectionSilenter(object target)
