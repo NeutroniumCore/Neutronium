@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 
 namespace Neutronium.Core.Binding.Updaters
@@ -7,5 +8,6 @@ namespace Neutronium.Core.Binding.Updaters
     {
         IJavascriptUpdater GetUpdaterForPropertyChanged(object sender, PropertyChangedEventArgs e);
         IJavascriptUpdater GetUpdaterForNotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs e);
+        event EventHandler<EventArgs> OnJavascriptSessionReady;
     }
 }

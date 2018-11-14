@@ -15,15 +15,23 @@ namespace Neutronium.Core.Binding.Listeners
         private IEntityUpdater<JsCommandBase> Command { get; }
 
         private readonly IJsUpdaterFactory _JsUpdaterFactory;
+        private bool _ReadyToDispatch = false;
 
         public FullListenerRegister(IJsUpdaterFactory jsUpdaterFactory)
         {
             _JsUpdaterFactory = jsUpdaterFactory;
+
+            _JsUpdaterFactory.OnJavascriptSessionReady += _JsUpdaterFactory_OnJavascriptSessionReady;
             Property = new ListenerRegister<INotifyPropertyChanged>(n => n.PropertyChanged += OnCSharpPropertyChanged, n => n.PropertyChanged -= OnCSharpPropertyChanged);
             Collection = new ListenerRegister<INotifyCollectionChanged>(n => n.CollectionChanged += OnCSharpCollectionChanged, n => n.CollectionChanged -= OnCSharpCollectionChanged);
             Command = new ListenerRegister<JsCommandBase>(c => c.ListenChanges(), c => c.UnListenChanges());
             On = new ObjectChangesListener(Property.OnEnter, Collection.OnEnter, Command.OnEnter);
             Off = new ObjectChangesListener(Property.OnExit, Collection.OnExit, Command.OnExit);
+        }
+
+        private void _JsUpdaterFactory_OnJavascriptSessionReady(object sender, System.EventArgs e)
+        {
+            _ReadyToDispatch = true;
         }
 
         internal void OnCSharpPropertyChanged(object sender, string propertyName)
@@ -45,6 +53,9 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void ReplayChanges(IJavascriptUpdater updater)
         {
+            if (!_ReadyToDispatch)
+                return;
+
             _JsUpdaterFactory.CheckUiContext();
             updater.OnUiContext(Off);
             if (!updater.NeedToRunOnJsContext)

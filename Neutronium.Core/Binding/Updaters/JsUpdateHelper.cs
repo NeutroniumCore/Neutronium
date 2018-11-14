@@ -17,6 +17,7 @@ namespace Neutronium.Core.Binding.Updaters
         private readonly Lazy<IJavascriptObjectBuilderStrategy> _BuilderStrategy;
         private readonly ISessionMapper _SessionMapper;
         private readonly SessionCacher _SessionCache;
+        public event EventHandler<EventArgs> OnJavascriptSessionReady;
 
         internal CSharpToJavascriptConverter JsObjectBuilder { get; set; }
 
@@ -26,6 +27,12 @@ namespace Neutronium.Core.Binding.Updaters
             _Context = context;
             _BuilderStrategy = new Lazy<IJavascriptObjectBuilderStrategy>(strategy);
             _SessionCache = sessionCache;
+            _SessionMapper.OnJavascriptSessionReady += _SessionMapper_OnJavascriptSessionReady;
+        }
+
+        private void _SessionMapper_OnJavascriptSessionReady(object sender, EventArgs e)
+        {
+            OnJavascriptSessionReady?.Invoke(this, e);
         }
 
         public IJavascriptUpdater GetUpdaterForPropertyChanged(object sender, PropertyChangedEventArgs e)

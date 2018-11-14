@@ -28,7 +28,6 @@ namespace Neutronium.Core.Binding
 
         private IJavascriptObjectBuilderStrategy _BuilderStrategy;
         private IJavascriptSessionInjector _SessionInjector;
-        private bool _IsLoaded = false;
 
         public IJsCsGlue JsValueRoot { get; private set; }
         public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
@@ -92,7 +91,7 @@ namespace Neutronium.Core.Binding
                 await _SessionInjector.RegisterMainViewModel(res);
             });
 
-            _IsLoaded = true;
+            _OnJavascriptSessionReady?.Invoke(this, EventArgs.Empty);
         }
 
         private void RegisterJavascriptHelper()
@@ -133,6 +132,13 @@ namespace Neutronium.Core.Binding
         }
 
         Task<IJavascriptObject> ISessionMapper.InjectInHtmlSession(IJsCsGlue root) => InjectInHtmlSession(root);
+
+        private event EventHandler<EventArgs> _OnJavascriptSessionReady;
+        event EventHandler<EventArgs> ISessionMapper.OnJavascriptSessionReady
+        {
+            add { _OnJavascriptSessionReady += value; }
+            remove { _OnJavascriptSessionReady -= value; }
+        }
 
         private async Task<IJavascriptObject> InjectInHtmlSession(IJsCsGlue root)
         {
