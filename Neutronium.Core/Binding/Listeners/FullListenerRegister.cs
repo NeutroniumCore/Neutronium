@@ -1,5 +1,6 @@
 ﻿using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.Updaters;
+using Neutronium.Core.Infra;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
@@ -15,7 +16,11 @@ namespace Neutronium.Core.Binding.Listeners
         private IEntityUpdater<JsCommandBase> Command { get; }
 
         private readonly IJsUpdaterFactory _JsUpdaterFactory;
+
         private bool _ReadyToDispatch = false;
+        private Chained<IJavascriptUpdater> _First;
+        private Chained<IJavascriptUpdater> _Last;
+        private bool QueueIsEmpty => _First == null;
 
         public FullListenerRegister(IJsUpdaterFactory jsUpdaterFactory)
         {
@@ -31,7 +36,36 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void _JsUpdaterFactory_OnJavascriptSessionReady(object sender, System.EventArgs e)
         {
-            _ReadyToDispatch = true;
+            _ReadyToDispatch = true;         
+        }
+
+        private void ReplayChanges()
+        {
+            if (QueueIsEmpty)
+                return;
+
+            var from = _First;
+            ResetQueue();
+
+            _JsUpdaterFactory.CheckUiContext();
+            var needUpdateOnJsContext = from.Reduce(updater =>
+            {
+                updater.OnUiContext(Off);
+                return updater.NeedToRunOnJsContext;
+            }, (value, res) => res || value);
+
+            if (!needUpdateOnJsContext)
+                return;
+
+            _JsUpdaterFactory.DispatchInJavascriptContext(() =>
+                from.ForEach(updater =>
+                {
+                    if (!updater.NeedToRunOnJsContext)
+                        return;
+
+                    updater.OnJsContext();
+                })
+            );        
         }
 
         internal void OnCSharpPropertyChanged(object sender, string propertyName)
@@ -53,15 +87,29 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void ReplayChanges(IJavascriptUpdater updater)
         {
-            if (!_ReadyToDispatch)
+            if (!_ReadyToDispatch) 
+            {
+                Enqueue(updater);
                 return;
-
+            }
+                
             _JsUpdaterFactory.CheckUiContext();
             updater.OnUiContext(Off);
             if (!updater.NeedToRunOnJsContext)
                 return;
 
             _JsUpdaterFactory.DispatchInJavascriptContext(updater.OnJsContext);
+        }
+
+        private void Enqueue(IJavascriptUpdater updater) 
+        {
+            _Last = new Chained<IJavascriptUpdater>(updater, _Last);
+            _First = _First ?? _Last;
+        }
+
+        private void ResetQueue()
+        {
+            _First = _Last = null;
         }
 
         public Silenter<INotifyCollectionChanged> GetColllectionSilenter(object target)
