@@ -12,7 +12,7 @@ namespace Tests.ChromiumFX.Infra
     {
         private readonly IWebView _Webview;
         private readonly CfxClient _CfxClient;
-        public IDispatcher UiDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
+        public IUiDispatcher UiDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
         public IWebBrowserWindow HtmlWindow { get; }
         event EventHandler<DebugEventArgs> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
         public event EventHandler OnDisposed;

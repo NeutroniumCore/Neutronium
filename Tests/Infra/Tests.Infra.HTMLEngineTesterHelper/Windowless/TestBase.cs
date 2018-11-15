@@ -76,7 +76,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
             return tester;
         }
 
-        public IDispatcher GetTestUIDispacther() 
+        public IUiDispatcher GetTestUIDispacther() 
         {
             return _TestEnvironment.TestUIDispacther;
         }

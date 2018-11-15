@@ -10,7 +10,7 @@ namespace Tests.Awesomium.Infra
     internal class AwesomiumTestHTMLWindowProvider : IWebBrowserWindowProvider
     {
         public IWebBrowserWindow HtmlWindow { get; }
-        public IDispatcher UiDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
+        public IUiDispatcher UiDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
         event EventHandler<DebugEventArgs> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
         public event EventHandler OnDisposed;
 

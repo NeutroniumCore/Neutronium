@@ -16,7 +16,7 @@ namespace Neutronium.Core.WebBrowserEngine.Control
         /// <summary>
         /// Return the UI dispatcher
         /// </summary>
-        IDispatcher UiDispatcher { get; }
+        IUiDispatcher UiDispatcher { get; }
 
         /// <summary>
         /// Show the control on the screen

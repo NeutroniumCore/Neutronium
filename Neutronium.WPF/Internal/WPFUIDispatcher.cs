@@ -5,7 +5,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.WPF.Internal
 {
-    public class WPFUIDispatcher : IDispatcher
+    public class WPFUIDispatcher : IUiDispatcher
     {
         private readonly Dispatcher _Dispatcher;
         public WPFUIDispatcher(Dispatcher iDispatcher)
@@ -76,6 +76,11 @@ namespace Neutronium.WPF.Internal
         public bool IsInContext()
         {
             return _Dispatcher.CheckAccess();
+        }
+
+        public void DispatchWithBindingPriority(Action act)
+        {
+            _Dispatcher.BeginInvoke(act, DispatcherPriority.DataBind);
         }
     }
 }

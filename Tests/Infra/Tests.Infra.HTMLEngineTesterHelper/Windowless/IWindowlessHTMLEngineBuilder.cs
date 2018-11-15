@@ -9,6 +9,6 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
 
         ITestHtmlProvider HtmlProvider { get; }
 
-        IDispatcher TestUIDispacther { get; }
+        IUiDispatcher TestUIDispacther { get; }
     }
 }

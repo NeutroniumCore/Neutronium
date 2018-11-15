@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Infra
 {
-    public class NullUIDispatcher : IDispatcher
+    public class NullUIDispatcher : IUiDispatcher
     {
         public Task RunAsync(Action act)
         {
@@ -35,6 +35,11 @@ namespace Neutronium.Core.Infra
         public bool IsInContext() 
         {
             return true;
+        }
+
+        public void DispatchWithBindingPriority(Action act)
+        {
+            act();
         }
     }
 }

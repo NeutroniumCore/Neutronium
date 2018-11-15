@@ -9,7 +9,7 @@ namespace Neutronium.Core.Binding
     public class HtmlViewContext : IDisposable
     {
         public IWebView WebView => _IWebBrowserWindow.MainFrame;
-        public IDispatcher UiDispatcher { get; }
+        public IUiDispatcher UiDispatcher { get; }
         public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
         public IJavascriptViewModelUpdater ViewModelUpdater { get; private set; }
         public bool JavascriptFrameworkIsMappingObject => _JavascriptFrameworkManager.IsMappingObject;
@@ -22,7 +22,7 @@ namespace Neutronium.Core.Binding
         private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private readonly IWebBrowserWindow _IWebBrowserWindow;
 
-        public HtmlViewContext(IWebBrowserWindow webBrowserWindow, IDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
+        public HtmlViewContext(IWebBrowserWindow webBrowserWindow, IUiDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
                                 IJavascriptChangesObserver javascriptChangesObserver, IWebSessionLogger logger)
         {
             _IWebBrowserWindow = webBrowserWindow;

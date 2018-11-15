@@ -12,7 +12,7 @@ namespace Neutronium.WPF.Internal
 
         public IWebBrowserWindow HtmlWindow => WPFWebWindow.HTMLWindow;
         public IWPFWebWindow WPFWebWindow { get; }
-        public IDispatcher UiDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
+        public IUiDispatcher UiDispatcher => new WPFUIDispatcher(_UIElement.Dispatcher);
         public event EventHandler<DebugEventArgs> DebugToolOpened;
         public event EventHandler OnDisposed;
 

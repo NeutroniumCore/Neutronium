@@ -16,7 +16,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
     {
         private IJavascriptFrameworkExtractor _JavascriptFrameworkExtractor;
         private readonly IWindowLessHTMLEngineProvider _WindowLessHTMLEngineProvider;
-        private IDispatcher _UIDispatcher;
+        private IUiDispatcher _UIDispatcher;
 
         protected IntegratedTestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output): base (testEnvironment.WindowBuilder, output) 
         {

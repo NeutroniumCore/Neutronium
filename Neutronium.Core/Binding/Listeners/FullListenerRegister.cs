@@ -46,8 +46,6 @@ namespace Neutronium.Core.Binding.Listeners
                 return;
 
             var from = _First;
-            ResetQueue();
-
             _JsUpdaterFactory.CheckUiContext();
 
             bool Agregate(bool value, bool res) => res || value;
@@ -58,21 +56,21 @@ namespace Neutronium.Core.Binding.Listeners
                 return updater.NeedToRunOnJsContext;
             }
 
+            var needUpdateOnJsContext = from.Reduce(ComputeOnUiThread, Agregate);
+            ResetQueue();
+            if (!needUpdateOnJsContext)
+                return;
+
             void PerformOnJsContext(IJavascriptUpdater updater)
             {
                 if (!updater.NeedToRunOnJsContext) return;
                 updater.OnJsContext();
             }
 
-            var needUpdateOnJsContext = from.Reduce(ComputeOnUiThread, Agregate);
-
-            if (!needUpdateOnJsContext)
-                return;
-
             _JsUpdaterFactory.DispatchInJavascriptContext(() =>
             {
                 @from.ForEach(PerformOnJsContext);
-            });
+            });      
         }
 
         internal void OnCSharpPropertyChanged(object sender, string propertyName)
@@ -94,13 +92,14 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void ReplayChanges(IJavascriptUpdater updater)
         {
+            _JsUpdaterFactory.CheckUiContext();
+
             if (!_ReadyToDispatch)
             {
                 Enqueue(updater);
                 return;
             }
 
-            _JsUpdaterFactory.CheckUiContext();
             updater.OnUiContext(Off);
             if (!updater.NeedToRunOnJsContext)
                 return;
