@@ -36,7 +36,8 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void _JsUpdaterFactory_OnJavascriptSessionReady(object sender, System.EventArgs e)
         {
-            _ReadyToDispatch = true;         
+            ReplayChanges();
+            _ReadyToDispatch = true;
         }
 
         private void ReplayChanges()
@@ -48,24 +49,30 @@ namespace Neutronium.Core.Binding.Listeners
             ResetQueue();
 
             _JsUpdaterFactory.CheckUiContext();
-            var needUpdateOnJsContext = from.Reduce(updater =>
+
+            bool Agregate(bool value, bool res) => res || value;
+
+            bool ComputeOnUiThread(IJavascriptUpdater updater)
             {
                 updater.OnUiContext(Off);
                 return updater.NeedToRunOnJsContext;
-            }, (value, res) => res || value);
+            }
+
+            void PerformOnJsContext(IJavascriptUpdater updater)
+            {
+                if (!updater.NeedToRunOnJsContext) return;
+                updater.OnJsContext();
+            }
+
+            var needUpdateOnJsContext = from.Reduce(ComputeOnUiThread, Agregate);
 
             if (!needUpdateOnJsContext)
                 return;
 
             _JsUpdaterFactory.DispatchInJavascriptContext(() =>
-                from.ForEach(updater =>
-                {
-                    if (!updater.NeedToRunOnJsContext)
-                        return;
-
-                    updater.OnJsContext();
-                })
-            );        
+            {
+                @from.ForEach(PerformOnJsContext);
+            });
         }
 
         internal void OnCSharpPropertyChanged(object sender, string propertyName)
@@ -87,12 +94,12 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void ReplayChanges(IJavascriptUpdater updater)
         {
-            if (!_ReadyToDispatch) 
+            if (!_ReadyToDispatch)
             {
                 Enqueue(updater);
                 return;
             }
-                
+
             _JsUpdaterFactory.CheckUiContext();
             updater.OnUiContext(Off);
             if (!updater.NeedToRunOnJsContext)
@@ -101,7 +108,7 @@ namespace Neutronium.Core.Binding.Listeners
             _JsUpdaterFactory.DispatchInJavascriptContext(updater.OnJsContext);
         }
 
-        private void Enqueue(IJavascriptUpdater updater) 
+        private void Enqueue(IJavascriptUpdater updater)
         {
             _Last = new Chained<IJavascriptUpdater>(updater, _Last);
             _First = _First ?? _Last;

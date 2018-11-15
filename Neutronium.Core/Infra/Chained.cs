@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Infra
 {
-    internal class Chained<T> where T: class
+    internal class Chained<T> where T : class
     {
         internal T Value { get; }
 
@@ -25,17 +25,21 @@ namespace Neutronium.Core.Infra
             }
         }
 
-        internal TValue Reduce<TValue>(Func<T, TValue> compute, Func<TValue, TValue, TValue> agregate, TValue from = default(TValue))
-            => Reduce<TValue, TValue>(compute, agregate,  from);
+        internal T Reduce(Func<T, T, T> agregate, T from = default(T)) => Reduce<T, T>(Identity, agregate, from);
 
-        internal TResult Reduce<TValue, TResult>(Func<T, TValue> compute, Func<TResult, TValue, TResult> agregate, TResult from = default(TResult)) 
+        private static T Identity(T value) => value;
+
+        internal TValue Reduce<TValue>(Func<T, TValue> compute, Func<TValue, TValue, TValue> agregate, TValue from = default(TValue))
+            => Reduce<TValue, TValue>(compute, agregate, from);
+
+        internal TResult Reduce<TValue, TResult>(Func<T, TValue> compute, Func<TResult, TValue, TResult> agregate, TResult from = default(TResult))
         {
             var current = this;
             var result = from;
             while (current != null)
             {
                 var value = compute(current.Value);
-                result = agregate(result, value);                
+                result = agregate(result, value);
                 current = current.Next;
             }
             return result;
