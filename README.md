@@ -196,7 +196,7 @@ Comparison with other libraries:
 
 	All are open source libraries presenting up-to-date C# binding for [CEF](https://bitbucket.org/chromiumembedded/cef)
 	
- * [CefGlue](http://xilium.bitbucket.org/cefglue/)
+ * [CefGlue](https://gitlab.com/xiliumhq/chromiumembedded/cefglue)
  
 	Offers all API of CEF. Used by Neutronium as a test WebBrowser using the mono-process option.
 
