@@ -63,7 +63,7 @@ On the shoulders of giants
  <a href="https://www.chromium.org" >
  <img height="60" src="https://www.chromium.org/_/rsrc/1438879449147/config/customLogo.gif?revision=3">
  </a>
- <a href="https://bitbucket.org/chromiumembedded/cef">
+ <a href="https://gitlab.com/xiliumhq/chromiumembedded/cefglue>
  <img height="70"src="https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2015/Mar/14/3042045877-1-cef-logo_avatar.png">
  </a>
  <a href="http://vuejs.org/">
@@ -192,7 +192,7 @@ Comparison with other libraries:
 
 	Different from other libraries Awesomium is not open source. Last update was embedding Chrome 19 so it is pretty out of date. One neutronium distribution offer Awesomium as WebBrowser.
 
-* [CefGlue](http://xilium.bitbucket.org/cefglue/), [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx), [CefSharp](https://github.com/cefsharp/CefSharp)
+* [CefGlue](https://gitlab.com/xiliumhq/chromiumembedded/cefglue), [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx), [CefSharp](https://github.com/cefsharp/CefSharp)
 
 	All are open source libraries presenting up-to-date C# binding for [CEF](https://bitbucket.org/chromiumembedded/cef)
 	
