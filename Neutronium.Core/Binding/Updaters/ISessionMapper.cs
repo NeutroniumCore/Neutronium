@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Neutronium.Core.Binding.GlueObject;
+﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using System;
+using System.Threading.Tasks;
 
-namespace Neutronium.Core.Binding.Updaters 
+namespace Neutronium.Core.Binding.Updaters
 {
     internal interface ISessionMapper
     {

@@ -3,11 +3,11 @@ using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra;
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.Updaters
 {
@@ -58,6 +58,11 @@ namespace Neutronium.Core.Binding.Updaters
             _Context.WebView.Dispatch(action);
         }
 
+        public void DispatchInUiContextBindingPriority(Action action)
+        {
+            _Context.UiDispatcher.DispatchWithBindingPriority(action);
+        }
+
         public T GetCached<T>(object value) where T : class, IJsCsGlue
         {
             return _SessionCache.GetCached(value) as T;
@@ -75,7 +80,7 @@ namespace Neutronium.Core.Binding.Updaters
 
 
         public void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value)
-        {   
+        {
             if (value == null)
             {
                 RunUpdaterOnJsContext(updater);
@@ -104,7 +109,7 @@ namespace Neutronium.Core.Binding.Updaters
             RunUpdaterOnJsContext(updater);
         }
 
-        private void UpdateJavascriptValue(IJsCsGlue value) 
+        private void UpdateJavascriptValue(IJsCsGlue value)
         {
             _BuilderStrategy.Value.UpdateJavascriptValue(value);
         }

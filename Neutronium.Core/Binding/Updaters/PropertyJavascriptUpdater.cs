@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
-using Neutronium.Core.Binding.GlueObject;
+﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
+using System.ComponentModel;
 
-namespace Neutronium.Core.Binding.Updaters 
+namespace Neutronium.Core.Binding.Updaters
 {
-    internal class PropertyJavascriptUpdater: IJavascriptUpdater
+    internal class PropertyJavascriptUpdater : IJavascriptUpdater
     {
         private readonly IJsUpdateHelper _JsUpdateHelper;
         private readonly object _Sender;
@@ -15,14 +15,14 @@ namespace Neutronium.Core.Binding.Updaters
 
         public bool NeedToRunOnJsContext => _BridgeUpdater != null;
 
-        internal PropertyJavascriptUpdater(IJsUpdateHelper jsUpdateHelper, object sender, PropertyChangedEventArgs e) 
+        internal PropertyJavascriptUpdater(IJsUpdateHelper jsUpdateHelper, object sender, PropertyChangedEventArgs e)
         {
             _JsUpdateHelper = jsUpdateHelper;
             _Sender = sender;
             _PropertyName = e.PropertyName;
         }
 
-        public void OnUiContext(ObjectChangesListener off) 
+        public void OnUiContext(ObjectChangesListener off)
         {
             var currentfather = _JsUpdateHelper.GetCached<JsGenericObject>(_Sender);
             if (currentfather == null)
@@ -44,7 +44,7 @@ namespace Neutronium.Core.Binding.Updaters
             _JsUpdateHelper.UpdateOnUiContext(_BridgeUpdater, off);
         }
 
-        public void OnJsContext() 
+        public void OnJsContext()
         {
             _JsUpdateHelper.UpdateOnJavascriptContext(_BridgeUpdater, _NewJsValue);
         }

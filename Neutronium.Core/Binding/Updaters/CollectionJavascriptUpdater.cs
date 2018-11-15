@@ -1,6 +1,6 @@
-﻿using System.Collections.Specialized;
-using Neutronium.Core.Binding.GlueObject;
+﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
+using System.Collections.Specialized;
 
 namespace Neutronium.Core.Binding.Updaters
 {
@@ -51,7 +51,7 @@ namespace Neutronium.Core.Binding.Updaters
                     return array.GetRemoveUpdater(_Change.OldStartingIndex);
 
                 case NotifyCollectionChangedAction.Reset:
-                    return array.GetResetUpdater();;
+                    return array.GetResetUpdater(); ;
 
                 case NotifyCollectionChangedAction.Move:
                     return array.GetMoveUpdater(_Change.OldStartingIndex, _Change.NewStartingIndex);
