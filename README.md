@@ -63,7 +63,7 @@ On the shoulders of giants
  <a href="https://www.chromium.org" >
  <img height="60" src="https://www.chromium.org/_/rsrc/1438879449147/config/customLogo.gif?revision=3">
  </a>
- <a href="https://gitlab.com/xiliumhq/chromiumembedded/cefglue>
+ <a href="https://bitbucket.org/chromiumembedded/cef">
  <img height="70"src="https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2015/Mar/14/3042045877-1-cef-logo_avatar.png">
  </a>
  <a href="http://vuejs.org/">
