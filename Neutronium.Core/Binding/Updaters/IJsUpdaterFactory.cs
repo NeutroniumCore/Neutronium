@@ -8,6 +8,7 @@ namespace Neutronium.Core.Binding.Updaters
     {
         IJavascriptUpdater GetUpdaterForPropertyChanged(object sender, PropertyChangedEventArgs e);
         IJavascriptUpdater GetUpdaterForNotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs e);
+        IJavascriptUpdater GetUpdaterForExcecutionChanged(object sender);
         event EventHandler<EventArgs> OnJavascriptSessionReady;
     }
 }

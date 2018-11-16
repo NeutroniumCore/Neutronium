@@ -17,6 +17,7 @@ namespace Neutronium.Core.Binding.Updaters
         private readonly Lazy<IJavascriptObjectBuilderStrategy> _BuilderStrategy;
         private readonly ISessionMapper _SessionMapper;
         private readonly SessionCacher _SessionCache;
+
         public event EventHandler<EventArgs> OnJavascriptSessionReady;
 
         internal CSharpToJavascriptConverter JsObjectBuilder { get; set; }
@@ -47,6 +48,11 @@ namespace Neutronium.Core.Binding.Updaters
             return new CollectionJavascriptUpdater(this, sender, e);
         }
 
+        public IJavascriptUpdater GetUpdaterForExcecutionChanged(object sender)
+        {
+            return new CommandJavascriptUpdater(this, sender);
+        }
+
         public void CheckUiContext()
         {
             if (_Context.UiDispatcher.IsInContext())
@@ -65,7 +71,7 @@ namespace Neutronium.Core.Binding.Updaters
             _Context.UiDispatcher.DispatchWithBindingPriority(action);
         }
 
-        public T GetCached<T>(object value) where T : class, IJsCsGlue
+        public T GetCached<T>(object value) where T : class
         {
             return _SessionCache.GetCached(value) as T;
         }
@@ -79,7 +85,6 @@ namespace Neutronium.Core.Binding.Updaters
         {
             updater.CleanAfterChangesOnUiThread(off, _SessionCache);
         }
-
 
         public void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value)
         {

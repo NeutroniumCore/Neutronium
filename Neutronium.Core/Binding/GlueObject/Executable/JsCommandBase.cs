@@ -1,6 +1,5 @@
 ﻿using System;
 using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
@@ -24,6 +23,9 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         protected void SetJsId(uint jsId) => JsId = jsId;
         protected bool _CanExecute;
 
+        internal byte NextUpdateCount => (byte)((_Count == 1) ? 2 : 1);
+        internal byte CurrentUpdateCount => _Count;
+
         protected JsCommandBase(HtmlViewContext context, IJavascriptToCSharpConverter converter)
         {
             _JavascriptToCSharpConverter = converter;
@@ -32,8 +34,6 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public abstract void Execute(IJavascriptObject[] e);
         public abstract void CanExecuteCommand(params IJavascriptObject[] e);
-        public abstract void ListenChanges();
-        public abstract void UnListenChanges();
 
         public void UpdateJsObject(IJavascriptObject javascriptObject)
         {
@@ -53,15 +53,15 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
 
-        public void ApplyOnListenable(IObjectChangesListener listener)
+        internal void UpdateCount(byte updateCount)
         {
-            listener.OnCommand(this);
+            _Count = updateCount;
         }
 
-        protected void Command_CanExecuteChanged(object sender, EventArgs e)
+        internal void SetUpdateCountOnJsContext()
         {
-            _Count = (byte) ((_Count == 1) ? 2 : 1);
-            UpdateProperty("CanExecuteCount", (f) => f.CreateInt(_Count));
+            var newValue = WebView.Factory.CreateInt(_Count);
+            ViewModelUpdater.UpdateProperty(CachableJsValue, "CanExecuteCount", newValue, false);
         }
 
         protected void UpdateCanExecuteValue()

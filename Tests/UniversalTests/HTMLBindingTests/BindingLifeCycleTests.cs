@@ -347,7 +347,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().BeTrue();
 
                     command.CanExecute(Arg.Any<string>()).Returns(false);
-                    command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
+                    DoSafeUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
 
                     await Task.Delay(100);
 

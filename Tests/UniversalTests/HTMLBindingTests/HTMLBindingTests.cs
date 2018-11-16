@@ -1433,8 +1433,9 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().BeTrue();
 
                     command.CanExecute.Returns(false);
-                    command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
 
+                    DoSafeUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
+                    
                     await Task.Delay(150);
 
                     mycommand = GetAttribute(js, "CommandWithoutParameters");
@@ -1696,7 +1697,7 @@ namespace Tests.Universal.HTMLBindingTests
                     DoSafeUI(() =>
                     {
                         command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(false);
-                        command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
+                        command.CanExecuteChanged += Raise.EventWith(command, new EventArgs());
                     });
 
                     await Task.Delay(200);

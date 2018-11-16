@@ -1,15 +1,18 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
-using Neutronium.Core.Binding.GlueObject.Executable;
+using System.Windows.Input;
+using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.Listeners
 {
     public interface IObjectChangesListener
     {
-        void OnObject(INotifyPropertyChanged iobject);
+        void OnObject(INotifyPropertyChanged @object);
 
-        void OnCollection(INotifyCollectionChanged icollection);
+        void OnCollection(INotifyCollectionChanged collection);
 
-        void OnCommand(JsCommandBase icommand);
+        void OnCommand(ICommand command);
+
+        void OnCommand(IUpdatableCommand command);
     }
 }

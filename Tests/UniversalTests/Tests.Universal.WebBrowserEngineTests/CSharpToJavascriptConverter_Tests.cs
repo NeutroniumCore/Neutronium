@@ -67,7 +67,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         protected override void Init()
         {
             _CSharpMapper = Substitute.For<IJavascriptSessionCache>();
-            _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { });
+            _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { }, _ => { });
             _GlueFactory = new GlueFactory(null, _CSharpMapper, null, _ObjectChangesListener);
             _CSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
             _JavascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();

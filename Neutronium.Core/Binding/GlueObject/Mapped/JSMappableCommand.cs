@@ -4,7 +4,7 @@ using Neutronium.Core.Binding.GlueObject.Executable;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped
 {
-    internal class JsMappableCommand: JsCommand, IJsCsMappedBridge
+    internal sealed class JsMappableCommand: JsCommand, IJsCsMappedBridge
     {
         private IJavascriptObject _MappedJsValue;
 

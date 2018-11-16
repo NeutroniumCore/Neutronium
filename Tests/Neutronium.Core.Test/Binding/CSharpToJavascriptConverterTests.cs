@@ -39,7 +39,7 @@ namespace Neutronium.Core.Test.Binding
             _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJsCsGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJsCsGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
-            _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { });
+            _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { }, _ => { });
             _GlueFactory = new GlueFactory(null, _Cacher, null, _ObjectChangesListener);
             _Logger = Substitute.For<IWebSessionLogger>();
             _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_Cacher, _GlueFactory, _Logger);

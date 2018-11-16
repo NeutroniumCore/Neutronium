@@ -1,9 +1,11 @@
-﻿using Neutronium.Core.Binding.GlueObject.Executable;
+﻿using System;
 using Neutronium.Core.Binding.Updaters;
 using Neutronium.Core.Infra;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows.Input;
+using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.Listeners
 {
@@ -39,9 +41,11 @@ namespace Neutronium.Core.Binding.Listeners
             _JsUpdaterFactory.OnJavascriptSessionReady += _JsUpdaterFactory_OnJavascriptSessionReady;
             _Property = new ListenerRegister<INotifyPropertyChanged>(n => n.PropertyChanged += OnCSharpPropertyChanged, n => n.PropertyChanged -= OnCSharpPropertyChanged);
             _Collection = new ListenerRegister<INotifyCollectionChanged>(n => n.CollectionChanged += OnCSharpCollectionChanged, n => n.CollectionChanged -= OnCSharpCollectionChanged);
-            var command = new ListenerRegister<JsCommandBase>(c => c.ListenChanges(), c => c.UnListenChanges());
-            On = new ObjectChangesListener(_Property.OnEnter, _Collection.OnEnter, command.OnEnter);
-            Off = new ObjectChangesListener(_Property.OnExit, _Collection.OnExit, command.OnExit);
+            var command = new ListenerRegister<ICommand>(c => c.CanExecuteChanged += OnCommandCanExecuteChanged, c => c.CanExecuteChanged -= OnCommandCanExecuteChanged);
+            var updatableCommand = new ListenerRegister<IUpdatableCommand>(c => c.CanExecuteChanged += OnCommandCanExecuteChanged, c => c.CanExecuteChanged -= OnCommandCanExecuteChanged);
+
+            On = new ObjectChangesListener(_Property.OnEnter, _Collection.OnEnter, command.OnEnter, updatableCommand.OnEnter);
+            Off = new ObjectChangesListener(_Property.OnExit, _Collection.OnExit, command.OnExit, updatableCommand.OnExit);
         }
 
         private void _JsUpdaterFactory_OnJavascriptSessionReady(object sender, System.EventArgs e)
@@ -104,6 +108,12 @@ namespace Neutronium.Core.Binding.Listeners
         private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var updater = _JsUpdaterFactory.GetUpdaterForNotifyCollectionChanged(sender, e);
+            ScheduleChanges(updater);
+        }
+
+        private void OnCommandCanExecuteChanged(object sender, EventArgs e)
+        {
+            var updater = _JsUpdaterFactory.GetUpdaterForExcecutionChanged(sender);
             ScheduleChanges(updater);
         }
 

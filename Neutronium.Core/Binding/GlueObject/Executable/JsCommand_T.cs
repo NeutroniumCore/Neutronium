@@ -1,4 +1,5 @@
 ﻿using System;
+using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
@@ -30,14 +31,9 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             visit(this);
         }
 
-        public override void ListenChanges()
+        public void ApplyOnListenable(IObjectChangesListener listener)
         {
-            _Command.CanExecuteChanged += Command_CanExecuteChanged;
-        }
-
-        public override void UnListenChanges()
-        {
-            _Command.CanExecuteChanged -= Command_CanExecuteChanged;
+            listener.OnCommand(_Command);
         }
 
         public override void Execute(IJavascriptObject[] e)

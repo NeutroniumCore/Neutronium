@@ -5,7 +5,7 @@ namespace Neutronium.Core.Binding.Updaters
 {
     internal interface IJsUpdateHelper : IContextsManager
     {
-        T GetCached<T>(object value) where T : class, IJsCsGlue;
+        T GetCached<T>(object value) where T : class;
         IJsCsGlue Map(object value);
         void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off);
         void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value);
