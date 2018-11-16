@@ -192,11 +192,11 @@ Comparison with other libraries:
 
 	Different from other libraries Awesomium is not open source. Last update was embedding Chrome 19 so it is pretty out of date. One neutronium distribution offer Awesomium as WebBrowser.
 
-* [CefGlue](http://xilium.bitbucket.org/cefglue/), [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx), [CefSharp](https://github.com/cefsharp/CefSharp)
+* [CefGlue](https://gitlab.com/xiliumhq/chromiumembedded/cefglue), [ChromiumFx](https://bitbucket.org/chromiumfx/chromiumfx), [CefSharp](https://github.com/cefsharp/CefSharp)
 
 	All are open source libraries presenting up-to-date C# binding for [CEF](https://bitbucket.org/chromiumembedded/cef)
 	
- * [CefGlue](http://xilium.bitbucket.org/cefglue/)
+ * [CefGlue](https://gitlab.com/xiliumhq/chromiumembedded/cefglue)
  
 	Offers all API of CEF. Used by Neutronium as a test WebBrowser using the mono-process option.
 
