@@ -43,12 +43,6 @@
     }
 
     function silentChange(father, propertyName, value) {
-        setTimeout(function () {
-            return silentChangeSync(father, propertyName, value);
-        }, 0);
-    }
-
-    function silentChangeSync(father, propertyName, value) {
         freezeNotObservable(value);
         var silenter = father[silenterProperty];
         if (silenter) {
@@ -58,20 +52,14 @@
         father[propertyName] = value;
     }
 
-    function silentChangeAndInject(father, propertyName, value) {
-        setTimeout(function () {
-            return silentChangeAndInjectSync(father, propertyName, value);
-        }, 0);
-    }
-
     function injectDetached(root) {
         var fakeObject = {};
         Vue.util.defineReactive(fakeObject, 'root', root);
         inject(root);
     }
 
-    function silentChangeAndInjectSync(father, propertyName, value) {
-        silentChangeSync(father, propertyName, value);
+    function silentChangeAndInject(father, propertyName, value) {
+        silentChange(father, propertyName, value);
         inject(value);
     }
 
