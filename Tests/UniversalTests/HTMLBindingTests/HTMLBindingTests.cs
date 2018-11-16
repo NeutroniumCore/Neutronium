@@ -3342,6 +3342,8 @@ namespace Tests.Universal.HTMLBindingTests
                     var newChild = new BasicTestViewModel();
                     await DoSafeAsyncUI(() => root.Children[0] = newChild);
 
+                    await Task.Delay(100);
+
                     removed.ListenerCount.Should().Be(0);
                     list.Skip(1).ForEach(child => child.ListenerCount.Should().Be(1));
                     newChild.ListenerCount.Should().Be(1);
