@@ -46,6 +46,7 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void _JsUpdaterFactory_OnJavascriptSessionReady(object sender, System.EventArgs e)
         {
+            Debug.Assert(_JsUpdaterFactory.isInUiContext);
             ReplayChanges();
         }
 
