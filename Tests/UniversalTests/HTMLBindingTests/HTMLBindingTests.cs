@@ -397,7 +397,6 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
         public async Task Circular_reference()
         {
