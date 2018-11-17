@@ -67,7 +67,6 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
         public async Task TwoWay_Command_With_Parameter()
         {
@@ -142,6 +141,33 @@ namespace Tests.Universal.HTMLBindingTests
                     command.Received().Execute(datacontexttest);
                 }
             };
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_calls_command_with_correct_argument()
+        {
+            var datacontext = new BasicFatherTestViewModel();
+            var child = new BasicTestViewModel();
+            datacontext.Child = child;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var childJs = GetAttribute(js, "Child");
+
+                    var mycommand = GetAttribute(js, "Command");
+                    DoSafe(() => Call(mycommand, "Execute", childJs));
+                    await Task.Delay(300);
+
+                    datacontext.CallCount.Should().Be(1);
+                    datacontext.LastCallElement.Should().Be(child);
+                }
+            };
+
             await RunAsync(test);
         }
 
@@ -706,7 +732,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_ResultCommand_Received_javascript_variable()
         {
-            var function = NSubstitute.Substitute.For<Func<int, int>>();
+            var function = Substitute.For<Func<int, int>>();
             function.Invoke(Arg.Any<int>()).Returns(255);
             var dc = new FakeFactory<int, int>(function);
 
@@ -754,9 +780,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         private IJavascriptObject GetCallBackObject()
         {
-            IJavascriptObject cb = null;
-            bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res= res; }, reject: function(err){window.err=err;}}; })();", out cb);
-
+            var res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res= res; }, reject: function(err){window.err=err;}}; })();", out var cb);
             res.Should().BeTrue();
             cb.Should().NotBeNull();
             cb.IsObject.Should().BeTrue();
@@ -873,7 +897,7 @@ namespace Tests.Universal.HTMLBindingTests
         {
             var child = new BasicTestViewModel();
 
-            var function = NSubstitute.Substitute.For<Func<int, BasicTestViewModel>>();
+            var function = Substitute.For<Func<int, BasicTestViewModel>>();
             function.Invoke(Arg.Any<int>()).Returns(child);
 
             var dataContext = new FactoryFatherTestViewModel(function);
@@ -925,8 +949,8 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
         {
-            string errormessage = "original error message";
-            var function = NSubstitute.Substitute.For<Func<int, int>>();
+            var errormessage = "original error message";
+            var function = Substitute.For<Func<int, int>>();
             function.When(f => f.Invoke(Arg.Any<int>())).Do(_ => throw new Exception(errormessage));
             var dc = new FakeFactory<int, int>(function);
 
@@ -939,14 +963,13 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var mycommand = GetAttribute(js, "CreateObject");
-                    IJavascriptObject cb = null;
-                    bool res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out cb);
+                    var res = _WebView.Eval("(function(){return { fullfill: function (res) {window.res=res; }, reject: function(err){window.err=err;}}; })();", out var cb);
 
                     res.Should().BeTrue();
                     cb.Should().NotBeNull();
                     cb.IsObject.Should().BeTrue();
 
-                    var resdummy = this.CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
+                    CallWithRes(mycommand, "Execute", _WebView.Factory.CreateInt(25), cb);
                     await Task.Delay(100);
                     DoSafeUI(() => function.Received(1).Invoke(25));
 
@@ -1030,7 +1053,6 @@ namespace Tests.Universal.HTMLBindingTests
 
             await RunAsync(test);
         }
-
 
         [Fact]
         public async Task TwoWay_SimpleCommand_T_With_Parameter_Does_Not_Throw_On_Type_Mismatch()

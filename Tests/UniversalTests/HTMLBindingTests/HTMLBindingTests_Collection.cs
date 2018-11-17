@@ -1,12 +1,9 @@
 ﻿using FluentAssertions;
 using Neutronium.Core;
 using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
@@ -18,6 +15,23 @@ namespace Tests.Universal.HTMLBindingTests
 {
     public abstract partial class HtmlBindingTests
     {
+        private static void Checkstring(IJavascriptObject coll, IEnumerable<string> iskill)
+        {
+            var javaCollection = Enumerable.Range(0, coll.GetArrayLength()).Select(i => coll.GetValue(i).GetStringValue());
+            javaCollection.Should().Equal(iskill);
+        }
+
+        private static void CheckDecimalCollection(IJavascriptObject coll, IList<decimal> iskill)
+        {
+            coll.GetArrayLength().Should().Be(iskill.Count);
+
+            for (var i = 0; i < iskill.Count; i++)
+            {
+                var c = (decimal)coll.GetValue(i).GetDoubleValue();
+                c.Should().Be(iskill[i]);
+            }
+        }
+
         [Fact]
         public async Task TwoWay_Collection()
         {
@@ -216,120 +230,9 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
-        {
-            var test = new TestInContextAsync()
-            {
-                Path = TestContext.Simple,
-                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
-                {
-                    var root = (mb as HtmlBinding).JsBrideRootObject as JsGenericObject;
-                    var js = mb.JsRootObject;
-
-                    var col = GetCollectionAttribute(js, "Skills");
-                    col.GetArrayLength().Should().Be(2);
-
-                    Check(col, _DataContext.Skills);
-
-                    var coll = GetAttribute(js, "Skills");
-                    Call(coll, "push", _WebView.Factory.CreateString("Whatever"));
-
-                    await Task.Delay(150);
-                    _DataContext.Skills.Should().HaveCount(2);
-                }
-            };
-
-            await RunAsync(test);
-        }
-
-
-        private class VMWithList<T> : ViewModelTestBase
-        {
-            public VMWithList()
-            {
-                List = new ObservableCollection<T>();
-            }
-            public ObservableCollection<T> List { get; }
-        }
-
-        private class VMWithListNonGeneric : ViewModelTestBase
-        {
-            public VMWithListNonGeneric()
-            {
-                List = new ArrayList();
-            }
-            public ArrayList List { get; }
-        }
-
-        private class VMwithdecimal : ViewModelTestBase
-        {
-            public VMwithdecimal()
-            {
-            }
-
-            private decimal _DecimalValue;
-            public decimal decimalValue
-            {
-                get { return _DecimalValue; }
-                set { Set(ref _DecimalValue, value); }
-            }
-        }
-
-
-        private void Checkstring(IJavascriptObject coll, IList<string> iskill)
-        {
-            var javaCollection = Enumerable.Range(0, coll.GetArrayLength()).Select(i => coll.GetValue(i).GetStringValue());
-            javaCollection.Should().Equal(iskill);
-        }
-
-        private void Checkdecimal(IJavascriptObject coll, IList<decimal> iskill)
-        {
-            coll.GetArrayLength().Should().Be(iskill.Count);
-
-            for (int i = 0; i < iskill.Count; i++)
-            {
-                var c = (decimal)coll.GetValue(i).GetDoubleValue();
-                c.Should().Be(iskill[i]);
-            }
-        }
-
-
-        [Fact]
-        public async Task TwoWay_Decimal_ShouldOK()
-        {
-            var datacontext = new VMwithdecimal();
-
-            var test = new TestInContextAsync()
-            {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
-                {
-                    var js = mb.JsRootObject;
-
-                    int res = GetIntAttribute(js, "decimalValue");
-                    res.Should().Be(0);
-
-                    //Call(js, "decimalValue", _WebView.Factory.CreateDouble(0.5));
-                    var halfJavascript = Create(() => _WebView.Factory.CreateDouble(0.5));
-                    SetAttribute(js, "decimalValue", halfJavascript);
-                    await Task.Delay(200);
-
-                    datacontext.decimalValue.Should().Be(0.5m);
-
-                    double doublev = GetDoubleAttribute(js, "decimalValue");
-                    double half = 0.5;
-                    doublev.Should().Be(half);
-                }
-            };
-
-            await RunAsync(test);
-        }
-
-        [Fact]
         public async Task TwoWay_Collection_string()
         {
-            var datacontext = new VMWithList<string>();
+            var datacontext = new VmWithList<string>();
 
             var test = new TestInContextAsync()
             {
@@ -434,7 +337,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Collection_NoneGenericList()
         {
-            var datacontext = new VMWithListNonGeneric();
+            var datacontext = new VmWithList();
             datacontext.List.Add(888);
 
             var test = new TestInContextAsync()
@@ -466,7 +369,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Collection_decimal()
         {
-            var datacontext = new VMWithList<decimal>();
+            var datacontext = new VmWithList<decimal>();
 
             var test = new TestInContextAsync()
             {
@@ -478,7 +381,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     col.GetArrayLength().Should().Be(0);
 
-                    Checkdecimal(col, datacontext.List);
+                    CheckDecimalCollection(col, datacontext.List);
 
                     DoSafeUI(() =>
                     {
@@ -488,7 +391,7 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(150);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    Checkdecimal(col, datacontext.List);
+                    CheckDecimalCollection(col, datacontext.List);
 
                     DoSafeUI(() =>
                     {
@@ -499,12 +402,12 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(150);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    Checkdecimal(col, datacontext.List);
+                    CheckDecimalCollection(col, datacontext.List);
 
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    Checkdecimal(col, datacontext.List);
+                    CheckDecimalCollection(col, datacontext.List);
 
                     var comp = new List<decimal>(datacontext.List) { 0.55m };
 
@@ -516,7 +419,35 @@ namespace Tests.Universal.HTMLBindingTests
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
                     comp.Should().Equal(datacontext.List);
-                    Checkdecimal(col, datacontext.List);
+                    CheckDecimalCollection(col, datacontext.List);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
+        {
+            var test = new TestInContextAsync()
+            {
+                Path = TestContext.Simple,
+                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var root = (mb as HtmlBinding).JsBrideRootObject as JsGenericObject;
+                    var js = mb.JsRootObject;
+
+                    var col = GetCollectionAttribute(js, "Skills");
+                    col.GetArrayLength().Should().Be(2);
+
+                    Check(col, _DataContext.Skills);
+
+                    var coll = GetAttribute(js, "Skills");
+                    Call(coll, "push", _WebView.Factory.CreateString("Whatever"));
+
+                    await Task.Delay(150);
+                    _DataContext.Skills.Should().HaveCount(2);
                 }
             };
 

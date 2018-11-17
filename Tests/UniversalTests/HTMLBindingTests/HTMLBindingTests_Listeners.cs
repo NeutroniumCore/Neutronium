@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Neutronium.Example.ViewModel;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit;
 
@@ -13,6 +14,153 @@ namespace Tests.Universal.HTMLBindingTests
 {
     public abstract partial class HtmlBindingTests
     {
+        [Fact]
+        public async Task TwoWay_Listens_to_property_update_during_property_changes_update_from_js()
+        {
+            var dataContext = new PropertyUpdatingTestViewModel();
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    var res = GetStringAttribute(js, "Property1");
+                    res.Should().Be("1");
+
+                    res = GetStringAttribute(js, "Property2");
+                    res.Should().Be("2");
+
+                    SetAttribute(js, "Property1", _WebView.Factory.CreateString("a"));
+
+                    await Task.Delay(100);
+
+                    res = GetStringAttribute(js, "Property1");
+                    res.Should().Be("a");
+
+                    res = GetStringAttribute(js, "Property2");
+                    res.Should().Be("a", "Neutronium listen to object during update");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_to_property_update_during_property_changes_update_from_Csharp()
+        {
+            var dataContext = new PropertyUpdatingTestViewModel();
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    var res = GetStringAttribute(js, "Property1");
+                    res.Should().Be("1");
+
+                    res = GetStringAttribute(js, "Property2");
+                    res.Should().Be("2");
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.Property1 = "a";
+                    });
+
+                    await Task.Delay(50);
+
+                    res = GetStringAttribute(js, "Property1");
+                    res.Should().Be("a");
+
+                    res = GetStringAttribute(js, "Property2");
+                    res.Should().Be("a", "Neutronium listen to object during update");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_to_Nested_Changes_After_Property_Updates_CSharp_Updates()
+        {
+            _DataContext.MainSkill.Should().BeNull();
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var local = new Local
+                    {
+                        City = "JJC"
+                    };
+
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Local = local;
+                    });
+
+                    await Task.Delay(100);
+
+                    DoSafeUI(() =>
+                    {
+                        local.City = "Floripa";
+                    });
+
+                    await Task.Delay(100);
+
+                    var js = mb.JsRootObject;
+
+                    var jsLocal = GetAttribute(js, "Local");
+                    var city = GetStringAttribute(jsLocal, "City");
+                    city.Should().Be("Floripa");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Listens_to_Nested_Changes_After_Property_Updates_Javascript_Updates()
+        {
+            _DataContext.MainSkill.Should().BeNull();
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var local = new Local
+                    {
+                        City = "JJC"
+                    };
+
+                    DoSafeUI(() =>
+                    {
+                        _DataContext.Local = local;
+                    });
+
+                    await Task.Delay(100);
+
+                    var js = mb.JsRootObject;
+
+                    var jsLocal = GetAttribute(js, "Local");
+
+                    var stringName = Create(() => _WebView.Factory.CreateString("Floripa"));
+                    SetAttribute(jsLocal, "City", stringName);
+
+                    await Task.Delay(100);
+
+                    _DataContext.Local.City.Should().Be("Floripa");
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         [Theory]
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_unlistens_when_changing_property(BasicTestViewModel remplacementChild)
@@ -350,33 +498,6 @@ namespace Tests.Universal.HTMLBindingTests
                     removed.ListenerCount.Should().Be(0);
                     list.Skip(1).ForEach(child => child.ListenerCount.Should().Be(1));
                     newChild.ListenerCount.Should().Be(1);
-                }
-            };
-
-            await RunAsync(test);
-        }
-
-        [Fact]
-        public async Task TwoWay_calls_comand_with_correct_argument()
-        {
-            var datacontext = new BasicFatherTestViewModel();
-            var child = new BasicTestViewModel();
-            datacontext.Child = child;
-
-            var test = new TestInContextAsync()
-            {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) =>
-                {
-                    var js = mb.JsRootObject;
-                    var childJs = GetAttribute(js, "Child");
-
-                    var mycommand = GetAttribute(js, "Command");
-                    DoSafe(() => Call(mycommand, "Execute", childJs));
-                    await Task.Delay(300);
-
-                    datacontext.CallCount.Should().Be(1);
-                    datacontext.LastCallElement.Should().Be(child);
                 }
             };
 
