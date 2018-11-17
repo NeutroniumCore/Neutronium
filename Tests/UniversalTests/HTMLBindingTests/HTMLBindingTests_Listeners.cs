@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public abstract partial class HtmlBindingTests : HtmlBindingBase
+    public abstract partial class HtmlBindingTests
     {
         [Theory]
         [MemberData(nameof(BasicVmData))]
@@ -320,6 +320,8 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     await DoSafeAsyncUI(() => root.Children.RemoveAt(0));
+
+                    await Task.Delay(100);
 
                     removed.ListenerCount.Should().Be(0);
                     list.Skip(1).ForEach(child => child.ListenerCount.Should().Be(1));
