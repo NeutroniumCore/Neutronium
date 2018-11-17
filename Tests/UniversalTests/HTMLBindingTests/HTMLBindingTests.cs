@@ -1,4 +1,19 @@
-﻿using System;
+﻿using FluentAssertions;
+using MoreCollection.Extensions;
+using Neutronium.Core;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.GlueObject.Executable;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Infra.Reflection;
+using Neutronium.Core.Test.Helper;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Example.ViewModel;
+using Neutronium.Example.ViewModel.Infra;
+using Neutronium.MVVMComponents;
+using Neutronium.MVVMComponents.Relay;
+using Newtonsoft.Json;
+using NSubstitute;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,28 +21,14 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using FluentAssertions;
-using MoreCollection.Extensions;
-using Newtonsoft.Json;
-using NSubstitute;
+using System.Windows.Threading;
+using AutoFixture.Xunit2;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
+using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
+using Tests.Universal.HTMLBindingTests.Helper;
 using Xunit;
 using Xunit.Abstractions;
-using Neutronium.Core;
-using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Exceptions;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Example.ViewModel;
-using Neutronium.Example.ViewModel.Infra;
-using Neutronium.MVVMComponents;
-using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
-using Tests.Universal.HTMLBindingTests.Helper;
-using Neutronium.Core.Binding.GlueObject.Executable;
-using Neutronium.Core.Test.Helper;
-using Neutronium.MVVMComponents.Relay;
-using System.Windows.Threading;
-using Neutronium.Core.Infra.Reflection;
-using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 
 namespace Tests.Universal.HTMLBindingTests
 {
@@ -1435,7 +1436,7 @@ namespace Tests.Universal.HTMLBindingTests
                     command.CanExecute.Returns(false);
 
                     DoSafeUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
-                    
+
                     await Task.Delay(150);
 
                     mycommand = GetAttribute(js, "CommandWithoutParameters");
@@ -3464,10 +3465,10 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        [Fact]
-        public async Task Binding_manages_updates_ocurring_during_binding() 
+        [Theory, AutoData]
+        public async Task Binding_manages_updates_ocurring_during_binding(int value)
         {
-            var datacontext = new Person() 
+            var datacontext = new Person()
             {
                 Name = "O Monstro",
                 LastName = "Desmaisons",
@@ -3478,16 +3479,31 @@ namespace Tests.Universal.HTMLBindingTests
             datacontext.Skills.Add(new Skill() { Name = "Info", Type = "C++" });
             var dispatcher = WpfThread.GetWpfThread().Dispatcher;
             var timer = new DispatcherTimer(DispatcherPriority.Send, dispatcher) { Interval = TimeSpan.FromMilliseconds(2) };
-            timer.Tick += (o, e) => datacontext.Count += 1;
-            timer.Start();
 
-            var test = new TestInContextAsync() 
+            void OnTimerOnTick(object o, EventArgs e)
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = async (mb) => 
+                datacontext.Count = value;
+                timer.Tick -= OnTimerOnTick;
+                timer.Stop();
+            }
+
+            timer.Tick += OnTimerOnTick;
+            
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) =>
+                {
+                    timer.Start();
+                    return Bind(win, datacontext, JavascriptBindingMode.TwoWay);
+                },
+                Test = async (mb) =>
                 {
                     await Task.Delay(200);
-                    DoSafeUI(() => datacontext.Count.Should().BeGreaterThan(5));
+
+                    var js = mb.JsRootObject;
+                    var countJs = GetIntAttribute(js, "Count");
+                    countJs.Should().Be(value);
                 }
             };
 
