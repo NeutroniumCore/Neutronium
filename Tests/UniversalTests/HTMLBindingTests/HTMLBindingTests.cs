@@ -3259,6 +3259,33 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+        [Theory]
+        [MemberData(nameof(CircularDataBreaker))]
+        public async Task TwoWay_unlistens_when_object_is_not_part_of_the_graph_respecting_cycle_transient_changes(BasicTestViewModel root, BasicTestViewModel breaker, BasicTestViewModel[] survivores, BasicTestViewModel[] cleaned)
+        {
+            var tempChild1 = new BasicTestViewModel();
+            var tempChild2 = new BasicTestViewModel();
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    await DoSafeAsyncUI(() =>
+                    {
+                        breaker.Child = tempChild1;
+                        breaker.Child = tempChild2;
+                        breaker.Child = null;
+                    });
+
+                    survivores.ForEach(sur => sur.ListenerCount.Should().Be(1));
+                    cleaned.ForEach(sur => sur.ListenerCount.Should().Be(0));
+                    new[]{ tempChild1 , tempChild2 }.ForEach(sur => sur.ListenerCount.Should().Be(0));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         private static BasicListTestViewModel BuildList()
         {
             var root = new BasicListTestViewModel
