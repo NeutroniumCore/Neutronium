@@ -3108,6 +3108,42 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+
+        [Theory]
+        [MemberData(nameof(BasicVmData))]
+        public async Task TwoWay_should_unlisten_when_changing_property_transient_changes(BasicTestViewModel remplacementChild)
+        {
+            var child = new BasicTestViewModel();
+            var datacontext = new BasicTestViewModel { Child = child };
+            var tempChild1 = new BasicTestViewModel();
+            var tempChild2 = new BasicTestViewModel();
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    child.ListenerCount.Should().Be(1);
+
+                    DoSafeUI(() =>
+                    {
+                        datacontext.Child = tempChild1;
+                        datacontext.Child = tempChild2;
+                        datacontext.Child = remplacementChild;
+                    });
+                    await Task.Delay(300);
+
+                    tempChild1.ListenerCount.Should().Be(0);
+                    tempChild2.ListenerCount.Should().Be(0);
+                    child.ListenerCount.Should().Be(0);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         public static IEnumerable<object[]> CircularData
         {
             get
