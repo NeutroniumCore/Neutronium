@@ -3510,6 +3510,36 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+        [Fact]
+        public async Task Binding_updates_to_last_value()
+        {
+            var datacontext = new Person();
+            var lastValue = 2;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    DoSafeUI(() =>
+                    {
+                        datacontext.Count = -1;
+                        datacontext.Count = 1560;
+                        datacontext.Count = 26;
+                        datacontext.Count = lastValue;
+                    });
+
+                    await Task.Delay(200);
+
+                    var js = mb.JsRootObject;
+                    var countJs = GetIntAttribute(js, "Count");
+                    countJs.Should().Be(lastValue);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         private class SmartVM : ViewModelTestBase
         {
             private int _MagicNumber;

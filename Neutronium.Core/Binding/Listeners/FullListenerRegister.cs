@@ -69,15 +69,15 @@ namespace Neutronium.Core.Binding.Listeners
             var from = _First;
             _JsUpdaterFactory.CheckUiContext();
 
-            bool Agregate(bool value, bool res) => res || value;
+            bool Or(bool value, bool res) => res || value;
 
-            bool ComputeOnUiThread(IJavascriptUpdater updater)
+            bool UpdateNeedToRunOnJsContext(IJavascriptUpdater updater)
             {
                 updater.OnUiContext(Off);
                 return updater.NeedToRunOnJsContext;
             }
 
-            var needUpdateOnJsContext = from.Reduce(ComputeOnUiThread, Agregate);
+            var needUpdateOnJsContext = from.Reduce(UpdateNeedToRunOnJsContext, Or);
             ResetQueue();
             if (!needUpdateOnJsContext)
                 return;
