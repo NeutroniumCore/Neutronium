@@ -2473,7 +2473,7 @@ namespace Tests.Universal.HTMLBindingTests
         {
             string errormessage = "original error message";
             var function = NSubstitute.Substitute.For<Func<int, int>>();
-            function.When(f => f.Invoke(Arg.Any<int>())).Do(_ => { throw new Exception(errormessage); });
+            function.When(f => f.Invoke(Arg.Any<int>())).Do(_ => throw new Exception(errormessage));
             var dc = new FakeFactory<int, int>(function);
 
             var test = new TestInContextAsync()
@@ -2578,6 +2578,37 @@ namespace Tests.Universal.HTMLBindingTests
                     });
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
+                    col.Should().NotBeNull();
+                    Check(col, _DataContext.Skills);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Collection_grouped_changes()
+        {
+            _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    DoSafeUI(() =>
+                    {
+                        var skills = _DataContext.Skills;
+                        skills.Add(new Skill() {Name = "C++", Type = "Info"});
+                        skills.RemoveAt(2);
+                        skills.RemoveAt(0);
+                        skills[0] = new Skill() {Name = "Vue.js", Type = "Info"};
+                        skills.Add(new Skill() { Name = "C++", Type = "Info" });
+                    });
+
+                    await Task.Delay(1000);
+                    var col = GetCollectionAttribute(js, "Skills");
                     col.Should().NotBeNull();
                     Check(col, _DataContext.Skills);
                 }
