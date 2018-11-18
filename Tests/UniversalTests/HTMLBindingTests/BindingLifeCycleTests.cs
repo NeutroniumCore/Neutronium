@@ -171,6 +171,41 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+        [MemberData(nameof(BasicVmData))]
+        public async Task TwoWay_cleans_javascriptObject_listeners_when_object_is_not_part_of_the_graph_multiple_changes(BasicTestViewModel remplacementChild)
+        {
+            var datacontext = new BasicFatherTestViewModel();
+            var child = new BasicTestViewModel();
+            datacontext.Child = child;
+
+            var tempChild1 = new BasicTestViewModel();
+            var tempChild2 = new BasicTestViewModel();
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+                    var childJs = GetAttribute(js, "Child");
+
+                    CheckObjectObservability(childJs, ObjectObservability.Observable);
+
+                    DoSafeUI(() =>
+                    {
+                        datacontext.Child = tempChild1;
+                        datacontext.Child = tempChild2;
+                        datacontext.Child = remplacementChild;
+                    });
+                    await Task.Delay(150);
+
+                    CheckHasListener(childJs, false);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         [Fact]
         public async Task TwoWay_cleans_javascriptObject_listeners_when_object_is_not_part_of_the_graph_js() 
         {
