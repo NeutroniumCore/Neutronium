@@ -322,7 +322,10 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetAttribute(js, "ValueDouble");
                     res.IsUndefined.Should().BeTrue();
 
-                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 0.5; });
+                    DoSafeUI(() =>
+                    {
+                        dynamicDataContext.ValueDouble = 0.5;
+                    });
 
                     await Task.Delay(50);
 

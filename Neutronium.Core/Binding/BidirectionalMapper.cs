@@ -21,7 +21,7 @@ namespace Neutronium.Core.Binding
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _JsObjectBuilder;
         private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
-        private readonly FullListenerRegister _ListenerRegister;
+        private readonly ListenerUpdater _ListenerUpdater;
         private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
         private readonly SessionCacher _SessionCache;
         private readonly IJsUpdateHelper _JsUpdateHelper;
@@ -51,8 +51,8 @@ namespace Neutronium.Core.Binding
             Context = contextBuilder.GetMainContext(javascriptObjecChanges);
             _SessionCache = new SessionCacher();
             var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _SessionCache);
-            _ListenerRegister = ListenToCSharp ? new FullListenerRegister(jsUpdateHelper) : null;
-            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _ListenerRegister?.On);
+            _ListenerUpdater = ListenToCSharp ? new ListenerUpdater(jsUpdateHelper) : null;
+            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _ListenerUpdater?.On);
             _JsObjectBuilder = new CSharpToJavascriptConverter(_SessionCache, glueFactory, _Logger);
             jsUpdateHelper.JsObjectBuilder =  _JsObjectBuilder;
             _JsUpdateHelper = jsUpdateHelper;
@@ -122,7 +122,7 @@ namespace Neutronium.Core.Binding
 
         private void OnExit(IJsCsGlue exiting)
         {
-            exiting.ApplyOnListenable(_ListenerRegister.Off);
+            exiting.ApplyOnListenable(_ListenerUpdater.Off);
             exiting.GetJsSessionValue().Dispose();
         }
 
@@ -180,7 +180,7 @@ namespace Neutronium.Core.Binding
 
                 await Context.RunOnUiContextAsync(() =>
                 {
-                    using (_ListenerRegister.GetPropertySilenter(currentfather.CValue, propertyName))
+                    using (_ListenerUpdater.GetPropertySilenter(currentfather.CValue, propertyName))
                     {
                         var oldValue = propertyUpdater.GetCurrentChildValue();
 
@@ -199,13 +199,13 @@ namespace Neutronium.Core.Binding
                         {
                             var old = currentfather.UpdateGlueProperty(propertyUpdater, glue);
                             bridgeUpdater.Remove(old);
-                            bridgeUpdater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
+                            bridgeUpdater.CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
                             return;
                         }
 
                         if (!Equals(oldValue, actualValue))
                         {
-                            _ListenerRegister.OnCSharpPropertyChanged(currentfather.CValue, propertyName);
+                            _ListenerUpdater.OnCSharpPropertyChanged(currentfather.CValue, propertyName);
                         }                        
                     }
                 });
@@ -272,11 +272,11 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                using (_ListenerRegister.GetColllectionSilenter(collection))
+                using (_ListenerUpdater.GetColllectionSilenter(collection))
                 {
                     array.UpdateEventArgsFromJavascript(change, updater);
                 }
-                updater.CleanAfterChangesOnUiThread(_ListenerRegister.Off);
+                updater.CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
             }
             catch (Exception exception)
             {
@@ -303,7 +303,7 @@ namespace Neutronium.Core.Binding
                 return;
 
             var updater = GetUnrootedEntitiesUpdater(value, performAfterBuild);
-            _JsUpdateHelper.UpdateOnUiContext(updater, _ListenerRegister.Off);
+            _JsUpdateHelper.UpdateOnUiContext(updater, _ListenerUpdater.Off);
             if (!updater.HasUpdatesOnJavascriptContext)
                 return;
 

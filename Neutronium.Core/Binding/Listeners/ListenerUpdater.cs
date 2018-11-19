@@ -9,7 +9,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal class FullListenerRegister
+    internal class ListenerUpdater
     {
         public ObjectChangesListener On { get; }
         public ObjectChangesListener Off { get; }
@@ -33,8 +33,7 @@ namespace Neutronium.Core.Binding.Listeners
             Replaying
         };
 
-
-        public FullListenerRegister(IJsUpdaterFactory jsUpdaterFactory)
+        public ListenerUpdater(IJsUpdaterFactory jsUpdaterFactory)
         {
             _JsUpdaterFactory = jsUpdaterFactory;
 
