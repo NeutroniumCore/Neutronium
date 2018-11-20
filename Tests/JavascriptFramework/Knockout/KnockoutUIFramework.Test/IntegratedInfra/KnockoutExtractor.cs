@@ -6,6 +6,9 @@ namespace KnockoutFramework.Test.IntegratedInfra
     public class KnockoutExtractor : IJavascriptFrameworkExtractor
     {
         private readonly IWebView _WebView;
+
+        public bool SupportDynamicBinding => false;
+
         public KnockoutExtractor(IWebView webView)
         {
             _WebView = webView;

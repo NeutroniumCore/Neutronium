@@ -4,6 +4,8 @@ namespace Tests.Infra.JavascriptFrameworkTesterHelper
 {
     public interface IJavascriptFrameworkExtractor
     {
+        bool SupportDynamicBinding { get; }
+
         IJavascriptObject GetRootViewModel();
 
         IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename);

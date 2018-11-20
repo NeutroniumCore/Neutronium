@@ -6,6 +6,9 @@ namespace VueFramework.Test.IntegratedInfra
     public class VueExtractor : IJavascriptFrameworkExtractor
     {
         private readonly IWebView _WebView;
+
+        public bool SupportDynamicBinding => true;
+
         public VueExtractor(IWebView webView)
         {
             _WebView = webView;

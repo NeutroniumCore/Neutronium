@@ -18,6 +18,8 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         private readonly IWindowLessHTMLEngineProvider _WindowLessHTMLEngineProvider;
         private IUiDispatcher _UIDispatcher;
 
+        protected bool SupportDynamicBinding => _JavascriptFrameworkExtractor.SupportDynamicBinding;
+
         protected IntegratedTestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output): base (testEnvironment.WindowBuilder, output) 
         {
             _WindowLessHTMLEngineProvider = testEnvironment;

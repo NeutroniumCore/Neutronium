@@ -782,6 +782,9 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
+                    if (!SupportDynamicBinding)
+                        return;
+
                     var js = mb.JsRootObject;
 
                     var res = GetAttribute(js, "NewValue");
@@ -844,9 +847,8 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var res = GetAttribute(js, "PersonalState");
-                    string dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
+                    var dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                     dres.Should().Be("Single");
-
 
                     DoSafeUI(() =>
                     {

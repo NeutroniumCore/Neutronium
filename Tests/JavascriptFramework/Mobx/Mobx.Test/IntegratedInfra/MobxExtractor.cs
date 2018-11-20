@@ -8,6 +8,9 @@ namespace Mobx.Test.IntegratedInfra
     public class MobxExtractor : IJavascriptFrameworkExtractor
     {
         private readonly IWebView _WebView;
+
+        public bool SupportDynamicBinding => true;
+
         public MobxExtractor(IWebView webView)
         {
             _WebView = webView;
