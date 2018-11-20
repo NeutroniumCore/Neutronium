@@ -783,7 +783,10 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     if (!SupportDynamicBinding)
+                    {
+                        _Logger.Info("Test not supported for this framework");
                         return;
+                    }
 
                     var js = mb.JsRootObject;
 
