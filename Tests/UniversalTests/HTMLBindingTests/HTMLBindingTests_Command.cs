@@ -21,7 +21,7 @@ namespace Tests.Universal.HTMLBindingTests
     public abstract partial class HtmlBindingTests
     {
         [Fact]
-        public async Task TwoWay_Command_Basic()
+        public async Task TwoWay_Maps_Command()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new FakeTestViewModel() { Command = command };
@@ -45,7 +45,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Command()
+        public async Task TwoWay_Calls_Command_From_Js()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new FakeTestViewModel() { Command = command };
@@ -68,7 +68,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Command_With_Parameter()
+        public async Task TwoWay_Call_Command_From_Js_With_Parameter()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new FakeTestViewModel() { Command = command };
@@ -92,7 +92,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task TwoWay_Command_CanExecute_Set_CanExecuteValue(bool canExecute)
+        public async Task TwoWay_Maps_Command_CanExecute_To_Js(bool canExecute)
         {
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(canExecute);
@@ -116,7 +116,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Command_Uptate_From_Null()
+        public async Task TwoWay_Uptates_Command_From_Null()
         {
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(true);
@@ -145,7 +145,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_calls_command_with_correct_argument()
+        public async Task TwoWay_Calls_Command_With_Correct_Argument()
         {
             var datacontext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
@@ -172,7 +172,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_CommandWithoutParameter_Is_Mapped()
+        public async Task TwoWay_Maps_CommandWithoutParameter()
         {
             var command = Substitute.For<ICommandWithoutParameter>();
             var datacontexttest = new FakeTestViewModel() { CommandWithoutParameters = command };
@@ -198,7 +198,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task TwoWay_CommandWithoutParameter_CanExecuteValue_has_CanExecute_value(bool canExecute)
+        public async Task TwoWay_Maps_CommandWithoutParameter_CanExecuteValue_With_CanExecute(bool canExecute)
         {
             var command = Substitute.For<ICommandWithoutParameter>();
             command.CanExecute.Returns(canExecute);
@@ -222,7 +222,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_CommandWithoutParameter_CanExecute_Refresh_Ok()
+        public async Task TwoWay_CommandWithoutParameter_Is_Updated_When_CanExecute_Changes()
         {
             var command = Substitute.For<ICommandWithoutParameter>();
             command.CanExecute.Returns(true);
@@ -278,7 +278,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_CommandWithoutParameter_Uptate_From_Null()
+        public async Task TwoWay_CommandWithoutParameter_Uptates_From_Null()
         {
             var command = Substitute.For<ICommandWithoutParameter>();
             var datacontexttest = new FakeTestViewModel();
@@ -306,7 +306,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_CommandGeneric_Is_Mapped()
+        public async Task TwoWay_Maps_CommandGeneric()
         {
             var command = Substitute.For<ICommand<string>>();
             var datacontexttest = new FakeTestViewModel() { CommandGeneric = command };
@@ -332,7 +332,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task TwoWay_CommandGeneric_CanExecuteValue_default_value_is_true(bool canExecute)
+        public async Task TwoWay_Maps_CommandGeneric_CanExecuteValue_With_CanExecute(bool canExecute)
         {
             var command = Substitute.For<ICommand<string>>();
             command.CanExecute(Arg.Any<string>()).Returns(canExecute);
@@ -407,7 +407,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_CommandGeneric_Do_Not_Call_Execute_When_Argument_Can_Not_Be_Converted()
+        public async Task TwoWay_CommandGeneric_Does_Not_Call_Execute_When_Argument_Can_Not_Be_Converted()
         {
             var command = Substitute.For<ICommand<int>>();
             var datacontexttest = new FakeTestViewModel() { CommandGenericInt = command };
@@ -429,9 +429,8 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
-        public async Task TwoWay_CommandGeneric_Do_Not_Call_Execute_When_Called_Without_Argument()
+        public async Task TwoWay_CommandGeneric_Does_Not_Call_Execute_When_Called_Without_Argument()
         {
             var command = Substitute.For<ICommand<string>>();
             var datacontexttest = new FakeTestViewModel() { CommandGeneric = command };
@@ -453,9 +452,8 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
-        public async Task TwoWay_Command_Generic_Uptate_From_Null()
+        public async Task TwoWay_Command_Generic_Uptates_From_Null()
         {
             var command = Substitute.For<ICommand<string>>();
             var datacontexttest = new FakeTestViewModel();
@@ -519,7 +517,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Command_CanExecute_Refresh_Ok()
+        public async Task TwoWay_Command_Is_Updated_When_CanExecute_Changes()
         {
             bool canexecute = true;
             _Command.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
@@ -552,9 +550,9 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Command_CanExecute_Refresh_Ok_Argument()
+        public async Task TwoWay_Command_Calls_CanExecute_With_Argument()
         {
-            bool canexecute = true;
+            var canexecute = true;
             _Command.CanExecute(Arg.Any<object>()).ReturnsForAnyArgs(x => canexecute);
 
             var test = new TestInContextAsync()
@@ -594,7 +592,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Command_CanExecute_Refresh_Ok_Argument_Exception()
+        public async Task TwoWay_Command_Does_Not_Throw_When_CanExecute_Throws_exception()
         {
             _Command.CanExecute(Arg.Any<object>()).Returns(x => { if (x[0] == null) throw new Exception(); return false; });
 
@@ -619,9 +617,8 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
-        public async Task TwoWay_Command_Received_javascript_variable()
+        public async Task TwoWay_Command_Call_Execute_Mapping_Basic_Javascript_Value()
         {
             _Command.CanExecute(Arg.Any<object>()).Returns(true);
 
@@ -643,9 +640,8 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
-        public async Task TwoWay_Command_Complete()
+        public async Task TwoWay_Command_Round_Trip()
         {
             _Command = new RelaySimpleCommand(() =>
             {
@@ -681,7 +677,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Command_With_Null_Parameter()
+        public async Task TwoWay_Calls_Command_With_Null_Parameter()
         {
             var command = Substitute.For<ICommand>();
             var test = new FakeTestViewModel() { Command = command };
@@ -705,7 +701,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_ResultCommand_Received_javascript_variable_and_not_crash_withoutcallback()
+        public async Task TwoWay_ResultCommand_Receives_Javascript_Variable_And_Does_Not_Crash_Without_Callback()
         {
             var function = NSubstitute.Substitute.For<Func<int, int>>();
             var dc = new FakeFactory<int, int>(function);
@@ -730,7 +726,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_ResultCommand_Received_javascript_variable()
+        public async Task TwoWay_Calls_ResultCommand_With_Javascript_Variable()
         {
             var function = Substitute.For<Func<int, int>>();
             function.Invoke(Arg.Any<int>()).Returns(255);
@@ -770,7 +766,7 @@ namespace Tests.Universal.HTMLBindingTests
                     error.IsUndefined.Should().BeTrue();
 
                     var resvalue = _WebView.GetGlobal().GetValue("res");
-                    int intres = resvalue.GetIntValue();
+                    var intres = resvalue.GetIntValue();
                     intres.Should().Be(255);
                 }
             };
@@ -788,7 +784,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_ResultCommand_can_be_listened_from_Javascript()
+        public async Task TwoWay_ResultCommand_Can_Be_Listened_From_Javascript()
         {
             const string original = "original";
             const string stringExpected = "NewName";
@@ -833,7 +829,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_ResultCommand_Without_Argument_Is_Correctly_Mapped()
+        public async Task TwoWay_Maps_ResultCommand_Without_Argument()
         {
             var function = Substitute.For<Func<string>>();
             var dc = new FakeFactory<string>(function);
@@ -857,7 +853,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_ResultCommand_Without_Argument_returns_result()
+        public async Task TwoWay_ResultCommand_Without_Argument_Returns_Result()
         {
             var result = "resultString";
             var function = Substitute.For<Func<string>>();
@@ -893,7 +889,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_ResultCommand_can_be_listened_from_CSharp_when_used_in_Vm()
+        public async Task TwoWay_ResultCommand_Can_Be_Listened_From_CSharp_When_Used_As_Vm()
         {
             var child = new BasicTestViewModel();
 
@@ -947,7 +943,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_ResultCommand_Received_javascript_variable_should_fault_Onexception()
+        public async Task TwoWay_ResultCommand_Transforms_CSharp_Exception_In_Failed_Promise()
         {
             var errormessage = "original error message";
             var function = Substitute.For<Func<int, int>>();
@@ -989,7 +985,7 @@ namespace Tests.Universal.HTMLBindingTests
         #region SimpleCommand
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_Without_Parameter()
+        public async Task TwoWay_Calls_SimpleCommand_Without_Parameter()
         {
             var command = Substitute.For<ISimpleCommand>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandNoArgument = command };
@@ -1011,7 +1007,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_T_With_Parameter()
+        public async Task TwoWay_Calls_SimpleCommand_T_With_Parameter()
         {
             var command = Substitute.For<ISimpleCommand<SimpleCommandTestViewModel>>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandObjectArgument = command };
@@ -1033,7 +1029,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_T_With_Parameter_Convert_Number_Type()
+        public async Task TwoWay_Calls_SimpleCommand_T_With_Parameter_Converting_Number_Type()
         {
             var command = Substitute.For<ISimpleCommand<decimal>>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandDecimalArgument = command };
@@ -1055,7 +1051,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_T_With_Parameter_Does_Not_Throw_On_Type_Mismatch()
+        public async Task TwoWay_Does_Not_Throw_On_Type_Mismatch_When_Excecuting_SimpleCommand_T_With_Parameter_On_Js()
         {
             var command = Substitute.For<ISimpleCommand<decimal>>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandDecimalArgument = command };
@@ -1077,7 +1073,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_T_Without_Parameter_Does_not_Throw()
+        public async Task TwoWay_Does_Not_Throw_When_SimpleCommand_T_Is_Called_From_Js_Without_Parameter()
         {
             var command = Substitute.For<ISimpleCommand<SimpleCommandTestViewModel>>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandObjectArgument = command };
@@ -1099,7 +1095,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_T_Name()
+        public async Task TwoWay_Maps_SimpleCommand_T_With_Correct_Name()
         {
             var command = Substitute.For<ISimpleCommand<SimpleCommandTestViewModel>>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandObjectArgument = command };
@@ -1123,7 +1119,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_SimpleCommand_Name()
+        public async Task TwoWay_Maps_SimpleCommand_With_Correct_Name()
         {
             var command = Substitute.For<ISimpleCommand>();
             var datacontexttest = new SimpleCommandTestViewModel() { SimpleCommandNoArgument = command };

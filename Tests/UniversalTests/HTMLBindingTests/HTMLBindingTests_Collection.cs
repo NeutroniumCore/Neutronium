@@ -33,7 +33,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection()
+        public async Task TwoWay_Maps_Collection()
         {
             var test = new TestInContextAsync()
             {
@@ -110,7 +110,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_grouped_changes()
+        public async Task TwoWay_Collection_Updates_Grouped_Changes()
         {
             _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
             var test = new TestInContextAsync()
@@ -141,7 +141,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_FromJSUpdate()
+        public async Task TwoWay_Collection_Updates_CSharp_From_JS_Update()
         {
             var test = new TestInContextAsync()
             {
@@ -230,7 +230,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_string()
+        public async Task TwoWay_Maps_String_Collection()
         {
             var datacontext = new VmWithList<string>();
 
@@ -307,7 +307,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_should_be_observable_attribute()
+        public async Task TwoWay_Updates_Collection()
         {
             var datacontext = new ChangingCollectionViewModel();
 
@@ -335,7 +335,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_NoneGenericList()
+        public async Task TwoWay_Maps_None_Generic_List()
         {
             var datacontext = new VmWithList();
             datacontext.List.Add(888);
@@ -367,7 +367,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_decimal()
+        public async Task TwoWay_Maps_Decimal_Collection()
         {
             var datacontext = new VmWithList<decimal>();
 
@@ -427,7 +427,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_JSUpdate_Should_Survive_ViewChanges()
+        public async Task TwoWay_Survives_Collection_Update_From_Js_With_Wrong_Type()
         {
             var test = new TestInContextAsync()
             {

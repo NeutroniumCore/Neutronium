@@ -15,7 +15,7 @@ namespace Tests.Universal.HTMLBindingTests
     public abstract partial class HtmlBindingTests
     {
         [Fact]
-        public async Task TwoWay_Listens_to_property_update_during_property_changes_update_from_js()
+        public async Task TwoWay_Listens_To_Property_Update_During_Property_Changes_Update_From_Js()
         {
             var dataContext = new PropertyUpdatingTestViewModel();
 
@@ -48,7 +48,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Listens_to_property_update_during_property_changes_update_from_Csharp()
+        public async Task TwoWay_Listens_To_Property_Update_During_Property_Changes_Update_From_Csharp()
         {
             var dataContext = new PropertyUpdatingTestViewModel();
 
@@ -84,7 +84,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Listens_to_Nested_Changes_After_Property_Updates_CSharp_Updates()
+        public async Task TwoWay_Listens_To_Nested_Changes_After_Property_Updates_CSharp_Updates()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -124,7 +124,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Listens_to_Nested_Changes_After_Property_Updates_Javascript_Updates()
+        public async Task TwoWay_Listens_To_Nested_Changes_After_Property_Updates_Javascript_Updates()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -163,7 +163,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_unlistens_when_changing_property(BasicTestViewModel remplacementChild)
+        public async Task TwoWay_Unlistens_When_Property_Is_Changed(BasicTestViewModel remplacementChild)
         {
             var child = new BasicTestViewModel();
             var datacontext = new BasicTestViewModel { Child = child };
@@ -196,7 +196,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_unlistens_when_changing_property_transient_changes(BasicTestViewModel remplacementChild)
+        public async Task TwoWay_Unlistens_When_Property_Has_Transients_Changes(BasicTestViewModel remplacementChild)
         {
             var child = new BasicTestViewModel();
             var datacontext = new BasicTestViewModel { Child = child };
@@ -254,7 +254,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(CircularData))]
-        public async Task OneTime_does_not_listens_to_any_object(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
+        public async Task OneTime_Does_Not_Listen_To_Any_Object(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
         {
             var test = new TestInContext()
             {
@@ -270,7 +270,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(CircularData))]
-        public async Task TwoWay_listens_only_once_to_any_object(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
+        public async Task TwoWay_Listens_Only_Once_To_Each_Object(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
         {
             var test = new TestInContext()
             {
@@ -286,7 +286,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(CircularData))]
-        public async Task TwoWay_unlistens_after_dipose(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
+        public async Task TwoWay_Unlistens_After_Dispose(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
         {
             var test = new TestInContext()
             {
@@ -303,7 +303,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_cleans_javascriptObject_cache_when_object_is_not_part_of_the_graph(BasicTestViewModel remplacementChild)
+        public async Task TwoWay_Cleans_Javascript_Objects_Cache_When_Object_Is_Not_Part_Of_The_Graph(BasicTestViewModel remplacementChild)
         {
             var datacontext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
@@ -363,7 +363,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(CircularDataBreaker))]
-        public async Task TwoWay_unlistens_when_object_is_not_part_of_the_graph_respecting_cycle(BasicTestViewModel root, BasicTestViewModel breaker, BasicTestViewModel[] survivores, BasicTestViewModel[] cleaned)
+        public async Task TwoWay_Unlistens_When_Object_Is_Not_Part_Of_The_Graph_Respecting_Cycle(BasicTestViewModel root, BasicTestViewModel breaker, BasicTestViewModel[] survivores, BasicTestViewModel[] cleaned)
         {
             var test = new TestInContextAsync()
             {
@@ -382,7 +382,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(CircularDataBreaker))]
-        public async Task TwoWay_unlistens_when_object_is_not_part_of_the_graph_respecting_cycle_transient_changes(BasicTestViewModel root, BasicTestViewModel breaker, BasicTestViewModel[] survivores, BasicTestViewModel[] cleaned)
+        public async Task TwoWay_Unlistens_When_Object_Is_Not_Part_of_The_Graph_Respecting_Cycle_Transient_Changes(BasicTestViewModel root, BasicTestViewModel breaker, BasicTestViewModel[] survivores, BasicTestViewModel[] cleaned)
         {
             var tempChild1 = new BasicTestViewModel();
             var tempChild2 = new BasicTestViewModel();
@@ -422,7 +422,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_listens_to_elements_in_list()
+        public async Task TwoWay_Listens_To_Elements_In_List()
         {
             var root = BuildList();
             var list = root.Children.ToList();
@@ -439,7 +439,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_unlistens_to_elements_removed_from_list_be_clean()
+        public async Task TwoWay_Unlistens_To_Elements_Removed_from_List_By_Clean()
         {
             var root = BuildList();
             var list = root.Children.ToList();
@@ -457,7 +457,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_unlistens_to_elements_removed_from_list_by_remove()
+        public async Task TwoWay_Unlistens_To_Elements_Removed_From_List_By_Remove()
         {
             var root = BuildList();
             var list = root.Children.ToList();
@@ -480,7 +480,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_unlistens_to_elements_removed_from_list_by_set()
+        public async Task TwoWay_Unlistens_To_Elements_Removed_From_List_By_Set()
         {
             var root = BuildList();
             var list = root.Children.ToList();
@@ -505,7 +505,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_listens_to_all_changes()
+        public async Task TwoWay_Listens_To_All_Changes()
         {
             var child = new BasicTestViewModel();
             var datacontext = new BasicTestViewModel { Child = child };

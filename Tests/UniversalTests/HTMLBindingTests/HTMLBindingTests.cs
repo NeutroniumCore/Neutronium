@@ -7,7 +7,6 @@ using Neutronium.Core.Infra.Reflection;
 using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
-using Neutronium.Example.ViewModel.Infra;
 using Newtonsoft.Json;
 using NSubstitute;
 using System;
@@ -32,7 +31,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task InvokeAsync_No_Function()
+        public async Task InvokeAsync_Does_Not_Throw_When_Called_With_Wrong_Name()
         {
             var test = new TestInContext()
             {
@@ -140,7 +139,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task OneTime_CheckContext()
+        public async Task OneTime_Checks_Context()
         {
             var test = new TestInContext()
             {
@@ -208,7 +207,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task OneWay()
+        public async Task OneWay_Maps_Properties()
         {
             var test = new TestInContextAsync()
             {
@@ -298,7 +297,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task RootViewModel_CanBeExtended_ByComputedProperties()
+        public async Task RootViewModel_Can_Be_Extended_By_Computed_Properties()
         {
             var test = new TestInContext()
             {
@@ -403,9 +402,8 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
-        public async Task TwoWay_UpdateJSFromCSharp()
+        public async Task TwoWay_Updates_JS_From_CSharp()
         {
             var test = new TestInContextAsync()
             {
@@ -434,7 +432,7 @@ namespace Tests.Universal.HTMLBindingTests
 
 
         [Fact]
-        public async Task TwoWay_UpdateCSharpFromJS()
+        public async Task TwoWay_Update_CSharp_From_JS()
         {
             var datacontext = new SimpleViewModel() { Name = "teste0" };
 
@@ -463,7 +461,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Works_WithNullable()
+        public async Task TwoWay_Works_With_Nullable()
         {
             var dataContext = new NullableTestViewModel
             {
@@ -537,7 +535,6 @@ namespace Tests.Universal.HTMLBindingTests
 
             await RunAsync(test);
         }
-
 
         [Fact]
         public async Task TwoWay()
@@ -618,7 +615,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Nested()
+        public async Task TwoWay_Maps_Nested()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -664,7 +661,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Enum()
+        public async Task TwoWay_Maps_Enum()
         {
             _DataContext.MainSkill.Should().BeNull();
 
@@ -696,7 +693,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Enum_Round_Trip()
+        public async Task TwoWay_Maps_Enum_From_CSharp_To_Javascript()
         {
             _DataContext.Name = "toto";
 
@@ -774,6 +771,38 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
+        public async Task TwoWay_Updates_ExpandoObject()
+        {
+            var expected = "newValueString";
+            dynamic dynamicDataContext = new ExpandoObject();
+            dynamicDataContext.ValueInt = 1;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dynamicDataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    var res = GetAttribute(js, "NewValue");
+                    res.IsUndefined.Should().BeTrue();
+
+                    DoSafeUI(() => 
+                    {
+                        dynamicDataContext.NewValue = expected;
+                    });
+
+                    await Task.Delay(50);
+
+                    var stringValue = GetStringAttribute(js, "NewValue");
+                    stringValue.Should().Be(expected);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
         public async Task TwoWay_Maps_DynamicObject()
         {
             var dynamicDataContext = new TestDynamicObject();
@@ -799,20 +828,10 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-        private class SimplePerson : ViewModelBase
-        {
-            private PersonalState _PersonalState;
-            public PersonalState PersonalState
-            {
-                get => _PersonalState;
-                set => Set(ref _PersonalState, value, "PersonalState");
-            }
-        }
-
         [Fact]
-        public async Task TwoWay_Enum_NotMapped()
+        public async Task TwoWay_Maps_Enum_Initially_NotMapped()
         {
-            var datacontext = new SimplePerson
+            var datacontext = new SimplePersonViewModel
             {
                 PersonalState = PersonalState.Single
             };
@@ -1020,7 +1039,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task Property_Survive_Missuse_Of_NotifyPropertyChanged()
+        public async Task Property_Survives_Missuse_Of_NotifyPropertyChanged()
         {
             var command = Substitute.For<ICommand>();
             var datacontexttest = new FakeTestViewModel() { Command = command };
@@ -1064,7 +1083,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_CLR_Type_FromCtojavascript()
+        public async Task TwoWay_Maps_Number_Type_From_CSharp_0()
         {
             var datacontext = new ClrTypesTestViewModel();
 
@@ -1097,7 +1116,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_CLR_Type_From_CSharp()
+        public async Task TwoWay_Maps_Number_Type_From_CSharp()
         {
             var datacontext = new ClrTypesTestViewModel
             {
@@ -1161,7 +1180,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_CLR_Type_FromjavascripttoCto()
+        public async Task TwoWay_Updates_CLR_Types_From_Javascript()
         {
             var datacontext = new ClrTypesTestViewModel();
 
@@ -1223,7 +1242,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Decimal_ShouldOK()
+        public async Task TwoWay_Updates_Decimal_From_Javascript()
         {
             var datacontext = new VmWithDecimal();
 
@@ -1254,7 +1273,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Long_ShouldOK()
+        public async Task TwoWay_Updates_Long_From_Javascript()
         {
             var datacontext = new VmWithLong() { longValue = 45 };
 
@@ -1284,7 +1303,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task StringBinding()
+        public async Task String_Binding_Maps_Properties()
         {
             var test = new TestInContext()
             {
@@ -1314,7 +1333,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task HTML_Without_Correct_js_ShouldThrowException_2()
+        public async Task Bind_Throws_Exception_When_Html_Without_Correct_js()
         {
             using (Tester(TestContext.AlmostEmpty))
             {
@@ -1336,7 +1355,7 @@ namespace Tests.Universal.HTMLBindingTests
 
 
         [Fact]
-        public async Task TwoWay_rebinds_with_updated_objects()
+        public async Task TwoWay_Rebinds_With_Updated_Objects()
         {
             var child = new BasicTestViewModel();
             var datacontext = new BasicTestViewModel { Child = child };
@@ -1371,7 +1390,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Theory, AutoData]
-        public async Task Binding_manages_updates_ocurring_during_binding(int value)
+        public async Task Binding_Propagates_Updates_Occurring_During_Binding(int value)
         {
             var datacontext = new Person()
             {
@@ -1414,7 +1433,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task Binding_updates_to_last_value()
+        public async Task Binding_Updates_To_Last_Value()
         {
             var datacontext = new Person();
             var lastValue = 2;
@@ -1444,7 +1463,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_RespectsPropertyValidation()
+        public async Task TwoWay_Respects_Property_Validation()
         {
             var datacontext = new VmWithValidationOnPropertySet
             {
