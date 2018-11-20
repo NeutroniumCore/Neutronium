@@ -94,8 +94,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public void UpdateEventArgsFromJavascript(CollectionChanges.CollectionChanges collectionChanges, BridgeUpdater updater)
         {
-            var list = CValue as IList;
-            if (list == null) return;
+            if (!(CValue is IList list))
+                return;
 
             collectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, list));
 
