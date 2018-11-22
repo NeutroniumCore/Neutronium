@@ -6,17 +6,21 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Neutronium.WebBrowserEngine.ChromiumFx.Util;
 using Chromium.Event;
+using Neutronium.WPF;
+using System.Windows.Interop;
+using System.Drawing.Drawing2D;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
     public partial class ChromiumFxControl
     {
-        private Window Window { get; set; }
-        private IntPtr WindowHandle { get; set; }
+        private Window _Window;
+        private IntPtr _WindowHandle;
         private IntPtr _ChromeWidgetHostHandle;
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
         private Region _DraggableRegion = null;
         private IntPtr _BrowserHandle;
+        private Matrix _Matrix;
 
         public ChromiumFxControl()
         {
@@ -48,6 +52,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
                 return current;
             });
+
+            _DraggableRegion.Transform(_Matrix);
         }
 
         private async void ChromiumWebBrowser_BrowserCreated(object sender, Chromium.WebBrowser.Event.BrowserCreatedEventArgs e)
@@ -63,9 +69,21 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private void ChromiumFxControl_Loaded(object sender, RoutedEventArgs e)
         {
             this.Loaded -= ChromiumFxControl_Loaded;
-            Window = Window.GetWindow(this);
-            WindowHandle = new System.Windows.Interop.WindowInteropHelper(Window).Handle;
-            Window.Closed += Window_Closed;
+            _Window = Window.GetWindow(this);
+            _WindowHandle = new WindowInteropHelper(_Window).Handle;
+            _Window.Closed += Window_Closed;
+            _Window.LocationChanged += _Window_LocationChanged;
+            UpdateDpiMatrix();
+        }
+
+        private void _Window_LocationChanged(object sender, EventArgs e)
+        {
+            UpdateDpiMatrix();
+        }
+
+        private void UpdateDpiMatrix()
+        {
+            _Matrix = HdiHelper.GetDisplayScaleFactor(_WindowHandle);
         }
 
         private bool OnWebBroswerMessage(Message message)
@@ -84,7 +102,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                         return false;
 
                     NativeMethods.ReleaseCapture();
-                    NativeMethods.PostMessage(WindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HitTest.HTCAPTION, IntPtr.Zero);
+                    NativeMethods.PostMessage(_WindowHandle, NativeMethods.WindowsMessage.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HitTest.HTCAPTION, IntPtr.Zero);
                     return true;
             }
             return false;
@@ -108,12 +126,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         private void ToogleMaximize()
         {
-            Window.WindowState = (Window.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
+            _Window.WindowState = (_Window.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         }
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
-            Window.Closed -= Window_Closed;
+            _Window.Closed -= Window_Closed;
+            _Window.LocationChanged -= _Window_LocationChanged;
             _ChromeWidgetMessageInterceptor?.ReleaseHandle();
             _ChromeWidgetMessageInterceptor?.DestroyHandle();
             _ChromeWidgetMessageInterceptor = null;
