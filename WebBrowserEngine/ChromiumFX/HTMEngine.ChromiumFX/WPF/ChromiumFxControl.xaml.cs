@@ -6,9 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Neutronium.WebBrowserEngine.ChromiumFx.Util;
 using Chromium.Event;
-using Neutronium.WPF;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
@@ -19,7 +16,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private IntPtr _ChromeWidgetHostHandle;
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
         private Region _DraggableRegion = null;
-        private Rectangle _Rectange = new Rectangle(0,0,0,0);
         private IntPtr _BrowserHandle;
 
         public ChromiumFxControl()
@@ -41,7 +37,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         private void DragHandler_OnDraggableRegionsChanged(object sender, Chromium.Event.CfxOnDraggableRegionsChangedEventArgs args)
         {
-            _DraggableRegion = args.Regions.Aggregate(_DraggableRegion, (current, region) =>
+            _DraggableRegion = args.Regions.Aggregate(new Region(), (current, region) =>
             {
                 var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
                 if (current == null)
@@ -54,11 +50,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
                 return current;
             });
-
-            _Rectange = args.Regions.Select(r => r.Bounds).Aggregate(_Rectange, (current, bounds) =>
-                new Rectangle( 0, 0, Math.Max(current.X + current.Size.Width, bounds.X + bounds.Width),
-                                     Math.Max(current.Y + current.Size.Height, bounds.X + bounds.Height))
-            );
         }
 
         private async void ChromiumWebBrowser_BrowserCreated(object sender, Chromium.WebBrowser.Event.BrowserCreatedEventArgs e)
