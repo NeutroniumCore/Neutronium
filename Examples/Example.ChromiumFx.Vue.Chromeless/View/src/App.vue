@@ -58,7 +58,7 @@ a {
 .main-div {
   color: #42b983;
   height: 100%;
-  border: blue;
+  border: black;
   border-style: solid;
 }
 </style>
