@@ -20,7 +20,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private BrowserWidgetMessageInterceptor _ChromeWidgetMessageInterceptor;
         private Region _DraggableRegion = null;
         private IntPtr _BrowserHandle;
-        private Matrix _Matrix;
+        private Matrix _Matrix = new Matrix(1, 0, 0, 1, 0, 0);
 
         public ChromiumFxControl()
         {
