@@ -109,10 +109,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool IsInDragRegion(Message message) 
+        private bool IsInDragRegion(Message message)
         {
+            if (_DraggableRegion == null)
+                return false;
+
             var point = GetPoint(message);
-            return _DraggableRegion?.IsVisible(point) == true;
+            return _DraggableRegion.IsVisible(point);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
