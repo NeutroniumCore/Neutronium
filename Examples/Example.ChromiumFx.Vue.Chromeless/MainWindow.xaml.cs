@@ -9,7 +9,7 @@ namespace Example.ChromiumFx.Vue.Chromeless
     /// </summary>
     public partial class MainWindow : Window
     {
-        public bool Debug => App.MainApplication.Debug;
+        public bool Debug => true;
         public Uri Uri => App.MainApplication.Uri;
 
         public MainWindow()

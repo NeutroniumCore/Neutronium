@@ -13,7 +13,6 @@ namespace Example.ChromiumFx.Vue.Chromeless
     {
         public ApplicationMode Mode { get; private set; }
         public bool RunTimeOnly => (Mode != ApplicationMode.Dev);
-        public bool Debug => (Mode != ApplicationMode.Production);
         public Uri Uri => (Mode == ApplicationMode.Dev) ? 
                                 new Uri("http://localhost:91/index.html") : 
                                 new Uri("pack://application:,,,/View/dist/index.html");
@@ -27,7 +26,11 @@ namespace Example.ChromiumFx.Vue.Chromeless
             base.OnStartUp(factory);
         }
 
-        private static ApplicationMode GetApplicationMode(string[] args) => ApplicationMode.Test;
+        private static ApplicationMode GetApplicationMode(string[] args)
+        {
+            var normalizedArgs = args.Select(arg => arg.ToLower()).ToList();
+            return normalizedArgs.Contains("-dev") ? ApplicationMode.Dev : ApplicationMode.Test;
+        }
 
         protected override void UpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEventArgs beforeLineCommand)
         {
