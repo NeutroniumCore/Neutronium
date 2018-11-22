@@ -27,7 +27,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
-            ChromiumWebBrowser.Initialize();
+            ChromiumWebBrowser.Initialize(true);
 
             _PackUriSchemeHandlerFactory = new PackUriSchemeHandlerFactory(webSessionLogger);
             //need this to make request interception work
@@ -47,8 +47,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
         private void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
         {
-            CfxRuntime.EnableHighDpiSupport();
-
             var settings = e.Settings;
 
             _SettingsBuilder?.Invoke(settings);
