@@ -40,8 +40,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _DraggableRegion = args.Regions.Aggregate(new Region(), (current, region) =>
             {
                 var rect = new Rectangle(region.Bounds.X, region.Bounds.Y, region.Bounds.Width, region.Bounds.Height);
-                if (current == null)
-                    return new Region(rect);
 
                 if (region.Draggable)
                     current.Union(rect);
