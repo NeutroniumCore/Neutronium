@@ -194,13 +194,13 @@
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
+      <HintPath>..\..\..\..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.core, Version=2.3.1.3858, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\xunit.extensibility.core.2.3.1\lib\netstandard1.1\xunit.core.dll</HintPath>
+    <Reference Include="xunit.core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\xunit.extensibility.core.2.4.1\lib\net452\xunit.core.dll</HintPath>
     </Reference>
-    <Reference Include="xunit.execution.desktop, Version=2.3.1.3858, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\xunit.extensibility.execution.2.3.1\lib\net452\xunit.execution.desktop.dll</HintPath>
+    <Reference Include="xunit.execution.desktop, Version=2.4.1.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\xunit.extensibility.execution.2.4.1\lib\net452\xunit.execution.desktop.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -246,9 +246,11 @@
     <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets'))" />
     <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props'))" />
     <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
   <Import Project="..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets" Condition="Exists('..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets')" />
   <Import Project="..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets')" />
+  <Import Project="..\..\..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

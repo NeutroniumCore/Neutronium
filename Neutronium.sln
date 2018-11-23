@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neutronium.JavascriptFramew
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neutronium.WPF.Test", "Tests\Neutronium.WPF.Test\Neutronium.WPF.Test.csproj", "{B58A7D48-F3E7-47D5-80C1-0A905612EC6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutronium.JavascriptFramework.Vue", "JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj", "{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neutronium.JavascriptFramework.Vue", "JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj", "{9E31DE95-4FBE-4D91-93CD-5CA14F6FD0FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.ChromiumFX.Ko.UI", "Examples\Example.ChromiumFX.Ko.UI\Example.ChromiumFX.Ko.UI.csproj", "{34B6AD94-23B2-4808-BB6D-988A063711D4}"
 EndProject
