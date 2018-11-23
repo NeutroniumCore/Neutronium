@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props" Condition="Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props')" />
   <Import Project="..\..\..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" />
   <Import Project="..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.props" Condition="Exists('..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.props')" />
+  <Import Project="..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props" Condition="Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ko.Navigation.ChromiumFx.Tests</RootNamespace>
     <AssemblyName>Ko.Navigation.ChromiumFx.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -82,7 +82,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="xunit.core, Version=2.3.1.3858, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\xunit.extensibility.core.2.3.1\lib\netstandard1.1\xunit.core.dll</HintPath>
@@ -98,9 +97,6 @@
     <Compile Include="Infra\CfxKoContextFixture.cs" />
     <Compile Include="HTMLViewControl_Ko_Cfx_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Neutronium.WPF\Neutronium.WPF.csproj">
@@ -152,23 +148,26 @@
       <Name>KnockoutFramework.Test</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets" Condition="Exists('..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.props'))" />
-    <Error Condition="!Exists('..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.targets'))" />
-    <Error Condition="!Exists('..\..\..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props'))" />
     <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets'))" />
     <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets'))" />
     <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props'))" />
     <Error Condition="!Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.props'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props'))" />
   </Target>
-  <Import Project="..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.targets" Condition="Exists('..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.targets')" />
-  <Import Project="..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets" Condition="Exists('..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" />
   <Import Project="..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets" Condition="Exists('..\..\..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets')" />
   <Import Project="..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets')" />
+  <Import Project="..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.targets" Condition="Exists('..\..\..\..\packages\xunit.core.2.3.1\build\xunit.core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
