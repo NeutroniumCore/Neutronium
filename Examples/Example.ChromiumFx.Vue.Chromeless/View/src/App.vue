@@ -1,5 +1,5 @@
 <template>
-  <div class="main-div">
+  <div id="main-application" class="main-div">
     <top-bar :window="viewModel.Window"></top-bar>
   </div>
 </template>
@@ -60,5 +60,9 @@ a {
   height: 100%;
   border: black;
   border-style: solid;
+}
+
+#main-application {
+  -webkit-app-region: no-drag;
 }
 </style>

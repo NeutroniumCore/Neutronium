@@ -8,7 +8,7 @@ namespace Example.ChromiumFX.Vue.UI
     /// </summary>
     public partial class WebBrowserApp
     {
-        protected override bool DisableGpu => false;
+        protected override bool DisableGpu => true;
         protected override void OnStartUp(IHTMLEngineFactory factory)
         {
             factory.RegisterJavaScriptFramework(new VueSessionInjectorV2());
