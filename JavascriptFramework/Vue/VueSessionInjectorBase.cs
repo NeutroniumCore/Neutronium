@@ -59,17 +59,17 @@ namespace Neutronium.JavascriptFramework.Vue
             var commonLoader = GetResourceReader();
             var versionLoader = _VueVersion.GetVueResource();
             var builder = new StringBuilder();
-            Action<string, ResourceReader> add = (file, resourceLoader) => builder.Append(Load(resourceLoader, file, debugMode));
-            Action<string> addComom = (file) => add(file, commonLoader);
-            Action<string> addVersion = (file) => add(file, versionLoader);
+            void Add(string file, ResourceReader resourceLoader) => builder.Append(Load(resourceLoader, file, debugMode));
+            void AddComom(string file) => Add(file, commonLoader);
+            void AddVersion(string file) => Add(file, versionLoader);
 
             if (debugMode)
-                addComom("hook");
+                AddComom("hook");
 
-            addVersion(VueFile);
-            addComom("subscribeArray");
-            addVersion("vueAdapter");
-            addVersion("vueComandDirective");
+            AddVersion(VueFile);
+            AddComom("subscribeArray");
+            AddVersion("vueAdapter");
+            AddVersion("vueComandDirective");
             builder.Append(Load(commonLoader, "vueGlue", debugMode).Replace("__debugMode__", debugMode.ToString().ToLower()));
             return builder.ToString();
         }
