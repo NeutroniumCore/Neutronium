@@ -154,8 +154,8 @@ namespace Neutronium.WebBrowserEngine.CefGlue.WindowImplementation
             if(this.LoadEnd != null)
             {
                 var e = new LoadEndEventArgs(this.MainFrame);
-                Action act = () => this.LoadEnd(this, e);
-                this.Dispatcher.BeginInvoke(act);
+                void Act() => this.LoadEnd(this, e);
+                this.Dispatcher.BeginInvoke((Action) Act);
             }
         }
 
