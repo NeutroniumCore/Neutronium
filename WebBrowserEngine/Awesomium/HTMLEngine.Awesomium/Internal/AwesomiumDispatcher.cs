@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Awesomium.Core;
-using HTMLEngine.Awesomium;
 using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.WebBrowserEngine.Awesomium.Internal
@@ -21,25 +20,27 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Internal
         public Task RunAsync(Action act)
         {
             var tcs = new TaskCompletionSource<object>();
-            Action nact = () =>
+
+            void Nact()
+            {
+                try
                 {
-                    try
-                    {
-                        act();
-                        tcs.SetResult(null);
-                    }
-                    catch (Exception e)
-                    {
-                        tcs.SetException(e);
-                    }
-                };
-            RunOnContext(nact);
+                    act();
+                    tcs.SetResult(null);
+                }
+                catch (Exception e)
+                {
+                    tcs.SetException(e);
+                }
+            }
+
+            RunOnContext(Nact);
             return tcs.Task;
         }
 
         public void Dispatch(Action act)
         {
-            Action nact = () =>
+            void Nact()
             {
                 try
                 {
@@ -48,8 +49,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Internal
                 catch
                 {
                 }
-            };
-            RunOnContext(nact);
+            }
+
+            RunOnContext(Nact);
         }
 
         public void Run(Action act)
@@ -60,7 +62,8 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Internal
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
             var tcs = new TaskCompletionSource<T>();
-            Action nact = () =>
+
+            void Nact()
             {
                 try
                 {
@@ -70,8 +73,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Internal
                 {
                     tcs.TrySetException(e);
                 }
-            };
-            RunOnContext(nact);
+            }
+
+            RunOnContext(Nact);
             return tcs.Task;
         }
 
