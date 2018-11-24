@@ -65,26 +65,38 @@ namespace Neutronium.Core.Binding
 
         internal Task UpdateJavascriptObjects(bool debugMode)
         {
-            return RunInJavascriptContext(async () =>
-            {
-                RegisterJavascriptHelper();
+            return Context.JavascriptFrameworkIsMappingObject ? 
+                RunInJavascriptContext(() => InitWithMapping(debugMode)) : 
+                RunInJavascriptContext(() => InitWithoutMapping(debugMode));
+        }
 
-                Context.InitOnJsContext(debugMode);
-                _SessionInjector = Context.JavascriptSessionInjector;
+        private Task InitWithoutMapping(bool debugMode)
+        {
+            InitOnJavascriptContext(debugMode);
+            return RegisterMain(JsValueRoot.JsValue);
+        }
 
-                _BuilderStrategy = _BuilderStrategyFactory.GetStrategy(Context.WebView, _SessionCache, Context.JavascriptFrameworkIsMappingObject);
-                _BuilderStrategy.UpdateJavascriptValue(JsValueRoot);
+        private async Task InitWithMapping(bool debugMode)
+        {
+            InitOnJavascriptContext(debugMode);
+            var res = await InjectInHtmlSession(JsValueRoot);
+            await RegisterMain(res);
+        }
 
-                IJavascriptObject res;
-                if (Context.JavascriptFrameworkIsMappingObject)
-                    res = await InjectInHtmlSession(JsValueRoot);
-                else
-                    res = JsValueRoot.JsValue;
+        private Task RegisterMain(IJavascriptObject res)
+        {
+            var registerTask = _SessionInjector.RegisterMainViewModel(res);
+            _JsUpdateHelper.DispatchInUiContext(JavascriptReady);
+            return registerTask;
+        }
 
-                await _SessionInjector.RegisterMainViewModel(res);
-
-                _JsUpdateHelper.DispatchInUiContext(JavascriptReady);
-            });          
+        private void InitOnJavascriptContext(bool debugMode)
+        {
+            RegisterJavascriptHelper();
+            Context.InitOnJsContext(debugMode);
+            _SessionInjector = Context.JavascriptSessionInjector;
+            _BuilderStrategy = _BuilderStrategyFactory.GetStrategy(Context.WebView, _SessionCache, Context.JavascriptFrameworkIsMappingObject);
+            _BuilderStrategy.UpdateJavascriptValue(JsValueRoot);
         }
 
         private void JavascriptReady()

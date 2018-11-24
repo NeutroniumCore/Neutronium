@@ -129,6 +129,10 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     await HtmlBinding.Bind(_ViewEngine, _DataContext, JavascriptBindingMode.OneTime);
                 }
+                catch (AggregateException aggregate)
+                {
+                    ex = aggregate.InnerExceptions[0] as NeutroniumException;
+                }
                 catch (NeutroniumException myex)
                 {
                     ex = myex;
@@ -1348,6 +1352,10 @@ namespace Tests.Universal.HTMLBindingTests
                 try
                 {
                     await HtmlBinding.Bind(_ViewEngine, vm, JavascriptBindingMode.OneTime);
+                }
+                catch (AggregateException aggregate)
+                {
+                    ex = aggregate.InnerExceptions[0] as NeutroniumException;
                 }
                 catch (NeutroniumException myex)
                 {
