@@ -171,6 +171,7 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+        [Theory]
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_cleans_javascriptObject_listeners_when_object_is_not_part_of_the_graph_multiple_changes(BasicTestViewModel remplacementChild)
         {
