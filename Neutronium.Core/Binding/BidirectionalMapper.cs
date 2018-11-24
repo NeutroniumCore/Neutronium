@@ -134,8 +134,8 @@ namespace Neutronium.Core.Binding
         private event EventHandler<EventArgs> _OnJavascriptSessionReady;
         event EventHandler<EventArgs> ISessionMapper.OnJavascriptSessionReady
         {
-            add { _OnJavascriptSessionReady += value; }
-            remove { _OnJavascriptSessionReady -= value; }
+            add => _OnJavascriptSessionReady += value;
+            remove => _OnJavascriptSessionReady -= value;
         }
 
         private async Task<IJavascriptObject> InjectInHtmlSession(IJsCsGlue root)

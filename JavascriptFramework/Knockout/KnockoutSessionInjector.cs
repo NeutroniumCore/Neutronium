@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Neutronium.Core;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Extension;
+using Neutronium.Core.Infra;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
@@ -116,12 +117,10 @@ namespace Neutronium.JavascriptFramework.Knockout
 
         public Task RegisterMainViewModel(IJavascriptObject jsObject)
         {
-            return _WebView.RunAsync(() =>
-                {  
-                    var ko = GetKo();
-                    ko.Invoke("register", _WebView, jsObject);
-                    ko.Invoke("applyBindings", _WebView, jsObject);
-                });
+            var ko = GetKo();
+            ko.Invoke("register", _WebView, jsObject);
+            ko.Invoke("applyBindings", _WebView, jsObject);
+            return TaskHelper.Ended();
         }
     }
 }
