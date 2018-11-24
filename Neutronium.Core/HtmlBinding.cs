@@ -47,21 +47,21 @@ namespace Neutronium.Core
 
         internal static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode)
         {
-            var builder = await GetBindingBuilder(viewEngine, viewModel, mode);
+            var builder = GetBindingBuilder(viewEngine, viewModel, mode);
             return await builder.CreateBinding(false);
         }
 
         internal static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
-            var builder = await GetBindingBuilder(viewEngine, viewModel, mode, strategyFactory);
+            var builder = GetBindingBuilder(viewEngine, viewModel, mode, strategyFactory);
             return await builder.CreateBinding(false);
         }
 
-        internal static async Task<IBindingBuilder> GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
+        internal static IBindingBuilder GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
         {
             var mapper = viewEngine.GetMapper(viewModel, mode, strategyFactory);
             var bindingBuilder = new BindingBuilder(mapper, viewEngine.Logger);
-            await bindingBuilder.Init();
+            bindingBuilder.Init();
             return bindingBuilder;
         }
 
@@ -76,9 +76,9 @@ namespace Neutronium.Core
                 _Mapper = mapper;
             }
 
-            public Task Init() 
+            public void Init() 
             {
-                return _Mapper.MapRootVm();
+                _Mapper.MapRootVm();
             }
 
             async Task<IHtmlBinding> IBindingBuilder.CreateBinding(bool debugMode) 

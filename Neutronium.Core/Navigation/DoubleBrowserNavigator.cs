@@ -171,7 +171,7 @@ namespace Neutronium.Core.Navigation
             var engine = new HtmlViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
 
             var dataContext = new DataContextViewModel(viewModel);
-            var initVm = HtmlBinding.GetBindingBuilder(engine, dataContext, mode);
+            var builder = HtmlBinding.GetBindingBuilder(engine, dataContext, mode);
 
             if (moderWindow != null)
             {
@@ -190,7 +190,6 @@ namespace Neutronium.Core.Navigation
             async void Sourceupdate(object o, LoadEndEventArgs e)
             {
                 _NextWebControl.HtmlWindow.LoadEnd -= Sourceupdate;
-                var builder = await initVm;
                 await builder.CreateBinding(_WebViewLifeCycleManager.DebugContext).WaitWith(closetask, t => Switch(t, dataContext.Window, tcs)).ConfigureAwait(false);
             }
 

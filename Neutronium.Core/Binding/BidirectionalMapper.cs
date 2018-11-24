@@ -59,13 +59,11 @@ namespace Neutronium.Core.Binding
             _RootObject = root;
         }
 
-        internal async Task MapRootVm()
+        internal void MapRootVm()
         {
-            await Context.RunOnUiContextAsync(() =>
-            {
-                JsValueRoot = _JsObjectBuilder.Map(_RootObject);
-                JsValueRoot.AddRef();
-            });
+            _JsUpdateHelper.CheckUiContext();
+            JsValueRoot = _JsObjectBuilder.Map(_RootObject);
+            JsValueRoot.AddRef();
         }
 
         internal async Task UpdateJavascriptObjects(bool debugMode)
