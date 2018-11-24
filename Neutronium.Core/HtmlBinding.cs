@@ -60,9 +60,7 @@ namespace Neutronium.Core
         internal static IBindingBuilder GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
         {
             var mapper = viewEngine.GetMapper(viewModel, mode, strategyFactory);
-            var bindingBuilder = new BindingBuilder(mapper, viewEngine.Logger);
-            bindingBuilder.Init();
-            return bindingBuilder;
+            return new BindingBuilder(mapper, viewEngine.Logger);
         }
 
         private class BindingBuilder : IBindingBuilder
@@ -74,11 +72,6 @@ namespace Neutronium.Core
             {
                 _Binding = new HtmlBinding(mapper, logger);
                 _Mapper = mapper;
-            }
-
-            public void Init() 
-            {
-                _Mapper.MapRootVm();
             }
 
             async Task<IHtmlBinding> IBindingBuilder.CreateBinding(bool debugMode) 

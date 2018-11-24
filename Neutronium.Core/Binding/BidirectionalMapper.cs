@@ -57,10 +57,7 @@ namespace Neutronium.Core.Binding
             jsUpdateHelper.JsObjectBuilder =  _JsObjectBuilder;
             _JsUpdateHelper = jsUpdateHelper;
             _RootObject = root;
-        }
 
-        internal void MapRootVm()
-        {
             _JsUpdateHelper.CheckUiContext();
             JsValueRoot = _JsObjectBuilder.Map(_RootObject);
             JsValueRoot.AddRef();
