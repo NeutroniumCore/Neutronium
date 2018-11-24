@@ -154,7 +154,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task OneTime()
+        public async Task OneTime_Maps_Object_But_Does_Not_Synchronize_Data()
         {
             var test = new TestInContextAsync()
             {
@@ -537,7 +537,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay()
+        public async Task TwoWay_Synchronizes_Data_From_CSharp_To_Javascript()
         {
             _DataContext.MainSkill.Should().BeNull();
 

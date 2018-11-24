@@ -7,6 +7,7 @@ namespace Neutronium.Core.Binding.Updaters
         bool isInUiContext { get; }
         void CheckUiContext();     
         void DispatchInJavascriptContext(Action action);
+        void DispatchInUiContext(Action action);
         void DispatchInUiContextBindingPriority(Action action);
     }
 }

@@ -63,11 +63,9 @@ namespace Neutronium.Core.Binding
             JsValueRoot.AddRef();
         }
 
-        internal async Task UpdateJavascriptObjects(bool debugMode)
+        internal Task UpdateJavascriptObjects(bool debugMode)
         {
-            _JsUpdateHelper.CheckUiContext();
-
-            await RunInJavascriptContext(async () =>
+            return RunInJavascriptContext(async () =>
             {
                 RegisterJavascriptHelper();
 
@@ -84,8 +82,13 @@ namespace Neutronium.Core.Binding
                     res = JsValueRoot.JsValue;
 
                 await _SessionInjector.RegisterMainViewModel(res);
-            });
 
+                _JsUpdateHelper.DispatchInUiContext(JavascriptReady);
+            });          
+        }
+
+        private void JavascriptReady()
+        {
             _OnJavascriptSessionReady?.Invoke(this, EventArgs.Empty);
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Neutronium.Core.Infra
@@ -12,16 +10,12 @@ namespace Neutronium.Core.Infra
             return Task.FromResult<object>(null);
         }
 
-        public static Task WaitWith<T>(this Task<T> @this, Task other, Action<Task<T>> then, TaskScheduler tsc)
+        public static async Task<T> WaitWith<T>(this Task<T> @this, Task other)
         {
             var tasks = new[] { @this, other };
-            return Task.Factory.ContinueWhenAll(tasks, (ts) => then(ts[0] as Task<T>), CancellationToken.None, TaskContinuationOptions.None, tsc);
+            await Task.WhenAll(tasks);
+            return @this.Result;
         }
-
-        public static Task WaitWith<T>(this Task<T> @this, Task other, Action<Task<T>> then)
-        {
-            return @this.WaitWith(other, then, TaskScheduler.FromCurrentSynchronizationContext());
-        }      
 
         public static void DoNotWait(this Task task)
         {

@@ -200,7 +200,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }
 
             _SendLoadOnContextCreated = false;
-            _Dispatcher.Dispatch(() => loadEnd(this, new LoadEndEventArgs(MainFrame)));
+            loadEnd(this, new LoadEndEventArgs(MainFrame));
         }
 
         public void NavigateTo(Uri path)

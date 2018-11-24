@@ -1,14 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using Neutronium.Core.Binding;
+﻿using Neutronium.Core.Binding;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Infra.VM;
 using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.Log;
 using Neutronium.Core.Navigation.Window;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.Core.Log;
+using System;
+using System.Threading.Tasks;
 
 namespace Neutronium.Core.Navigation
 {
@@ -84,11 +84,11 @@ namespace Neutronium.Core.Navigation
             OnDisplay?.Invoke(this, new DisplayEvent(loadedVm));
         }
 
-        private void Switch(Task<IHtmlBinding> binding, HtmlLogicWindow window, TaskCompletionSource<IHtmlBinding> tcs)
+        private void Switch(IHtmlBinding binding, HtmlLogicWindow window, TaskCompletionSource<IHtmlBinding> tcs)
         {
             var oldvm = GetMainViewModel(Binding);
             var fireFirstLoad = false;
-            Binding = binding.Result;
+            Binding = binding;
 
             if (_CurrentWebControl != null)
             {
@@ -186,11 +186,15 @@ namespace Neutronium.Core.Navigation
                 moderWindow.OnClientReload += ModerWindow_OnClientReload;
             }
             var tcs = new TaskCompletionSource<IHtmlBinding>();
+            var debug = _WebViewLifeCycleManager.DebugContext;
 
             async void Sourceupdate(object o, LoadEndEventArgs e)
             {
                 _NextWebControl.HtmlWindow.LoadEnd -= Sourceupdate;
-                await builder.CreateBinding(_WebViewLifeCycleManager.DebugContext).WaitWith(closetask, t => Switch(t, dataContext.Window, tcs)).ConfigureAwait(false);
+                var bind = await builder.CreateBinding(debug).WaitWith(closetask);
+                _NextWebControl.UiDispatcher.Dispatch(() =>
+                    Switch(bind, dataContext.Window, tcs)
+                );
             }
 
             Url = uri;

@@ -53,6 +53,11 @@ namespace Neutronium.WPF.Internal.DebugTools
         private void HTMLWindow_LoadEnd(object sender, Core.WebBrowserEngine.Window.LoadEndEventArgs e)
         {
             _WpfWebWindow.HTMLWindow.LoadEnd -= HTMLWindow_LoadEnd;
+            Dispatcher.BeginInvoke(new Action(UpdateVisibility));
+        }
+
+        private void UpdateVisibility()
+        {
             _WebBrowser.Visibility = Visibility.Visible;
             Visibility = Visibility.Visible;
         }

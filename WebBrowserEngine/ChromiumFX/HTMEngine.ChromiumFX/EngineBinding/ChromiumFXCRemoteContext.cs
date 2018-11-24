@@ -1,9 +1,9 @@
-﻿using System;
-using Chromium;
+﻿using Chromium;
+using System;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding 
+namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
-    internal struct ChromiumFxCRemoteContext : IDisposable 
+    internal struct ChromiumFxCRemoteContext : IDisposable
     {
         private readonly CfxRemoteCallContext _CfxRemoteCallContext;
 
@@ -13,7 +13,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _CfxRemoteCallContext.Enter();
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
             _CfxRemoteCallContext.Exit();
         }

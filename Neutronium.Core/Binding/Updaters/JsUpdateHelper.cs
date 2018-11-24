@@ -66,6 +66,11 @@ namespace Neutronium.Core.Binding.Updaters
             _Context.WebView.Dispatch(action);
         }
 
+        public void DispatchInUiContext(Action action)
+        {
+            _Context.UiDispatcher.Dispatch(action);
+        }
+
         public void DispatchInUiContextBindingPriority(Action action)
         {
             _Context.UiDispatcher.DispatchWithBindingPriority(action);
