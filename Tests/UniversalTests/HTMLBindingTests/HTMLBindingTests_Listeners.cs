@@ -288,12 +288,12 @@ namespace Tests.Universal.HTMLBindingTests
         [MemberData(nameof(CircularData))]
         public async Task TwoWay_Unlistens_After_Dispose(ViewModelTestBase datacontext, params ViewModelTestBase[] children)
         {
-            var test = new TestInContext()
+            var test = new TestInContextAsync()
             {
                 Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
-                Test = (mb) =>
+                Test = async (mb) =>
                 {
-                    mb.Dispose();
+                    await DoSafeAsyncUI(mb.Dispose);
                     children.ForEach(child => child.ListenerCount.Should().Be(0));
                 }
             };

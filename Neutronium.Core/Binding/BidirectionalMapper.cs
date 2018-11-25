@@ -83,13 +83,6 @@ namespace Neutronium.Core.Binding
             await RegisterMain(res);
         }
 
-        private Task RegisterMain(IJavascriptObject res)
-        {
-            var registerTask = _SessionInjector.RegisterMainViewModel(res);
-            _JsUpdateHelper.DispatchInUiContext(JavascriptReady);
-            return registerTask;
-        }
-
         private void InitOnJavascriptContext(bool debugMode)
         {
             RegisterJavascriptHelper();
@@ -97,6 +90,13 @@ namespace Neutronium.Core.Binding
             _SessionInjector = Context.JavascriptSessionInjector;
             _BuilderStrategy = _BuilderStrategyFactory.GetStrategy(Context.WebView, _SessionCache, Context.JavascriptFrameworkIsMappingObject);
             _BuilderStrategy.UpdateJavascriptValue(JsValueRoot);
+        }
+
+        private Task RegisterMain(IJavascriptObject res)
+        {
+            var registerTask = _SessionInjector.RegisterMainViewModel(res);
+            _JsUpdateHelper.DispatchInUiContext(JavascriptReady);
+            return registerTask;
         }
 
         private void JavascriptReady()
@@ -121,24 +121,31 @@ namespace Neutronium.Core.Binding
 
         public void Dispose()
         {
+            _JsUpdateHelper.CheckUiContext();
             if (ListenToCSharp)
-                UnlistenToCSharpChanges();
+                OnAllJsGlues(UnlistenGlue);
 
             Context.Dispose();
             _UnrootedEntities.Clear();
             _Logger.Debug("BidirectionalMapper disposed");
             _BuilderStrategy?.Dispose();
+
+            Task.Run(() => OnAllJsGlues(DisposeGlue)).DoNotWait();
         }
 
-        private void OnExit(IJsCsGlue exiting)
+        private void UnlistenGlue(IJsCsGlue exiting)
         {
             exiting.ApplyOnListenable(_ListenerUpdater.Off);
-            exiting.GetJsSessionValue().Dispose();
         }
 
-        private void UnlistenToCSharpChanges()
+        private void DisposeGlue(IJsCsGlue exiting)
         {
-            _SessionCache.AllElements.ForEach(OnExit);
+            exiting.GetJsSessionValue()?.Dispose();
+        }
+
+        private void OnAllJsGlues(Action<IJsCsGlue> @do)
+        {
+            _SessionCache.AllElements.ForEach(@do);
         }
 
         Task<IJavascriptObject> ISessionMapper.InjectInHtmlSession(IJsCsGlue root) => InjectInHtmlSession(root);

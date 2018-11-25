@@ -35,7 +35,7 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(typeof(None), false)]
         [InlineData(typeof(Observable), false)]
         [InlineData(typeof(ReadOnlyObservable), false)]
-        public async Task TwoWay_freezes_readonly_objects(Type type, bool expectedIsFozen)
+        public async Task TwoWay_Freezes_Readonly_Objects(Type type, bool expectedIsFozen)
         {
             var datacontext = Activator.CreateInstance(type);
 
@@ -58,7 +58,7 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(typeof(None), false)]
         [InlineData(typeof(Observable), false)]
         [InlineData(typeof(ReadOnlyObservable), false)]
-        public async Task TwoWay_freezes_readonly_objects_deep_property(Type type, bool expectedIsFozen)
+        public async Task TwoWay_Freezes_Readonly_Objects_Deep_Property(Type type, bool expectedIsFozen)
         {
             var child = (Observability)Activator.CreateInstance(type);
             var datacontext = new Composite(child);
@@ -83,7 +83,7 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(typeof(None), false)]
         [InlineData(typeof(Observable), false)]
         [InlineData(typeof(ReadOnlyObservable), false)]
-        public async Task TwoWay_freezes_readonly_objects_deep_array(Type type, bool expectedIsFozen)
+        public async Task TwoWay_Freezes_Readonly_Objects_Deep_Array(Type type, bool expectedIsFozen)
         {
             var child = (Observability)Activator.CreateInstance(type);
             var datacontext = new Composite(children: new[] { child });
@@ -105,7 +105,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_object_inside_froozen_object_are_obervable()
+        public async Task TwoWay_Objects_Inside_Froozen_Object_Are_Obervable()
         {
             var child = new Observable
             {

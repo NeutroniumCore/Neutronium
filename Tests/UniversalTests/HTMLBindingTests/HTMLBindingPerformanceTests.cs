@@ -1,22 +1,22 @@
-﻿using System;
+﻿using FluentAssertions;
+using MoreCollection.Extensions;
+using Neutronium.Core;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Test.Helper;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Example.ViewModel;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Neutronium.Core;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Example.ViewModel;
+using System.Windows.Input;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Xunit;
 using Xunit.Abstractions;
-using System.Windows.Input;
-using MoreCollection.Extensions;
-using Neutronium.Core.Binding.GlueObject;
-using Newtonsoft.Json;
-using System.Text;
-using Neutronium.Core.Test.Helper;
 
 namespace Tests.Universal.HTMLBindingTests
 {
@@ -76,7 +76,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         private Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, TestPerformanceKind context, TestContext ipath = TestContext.Index)
         {
-            int r = 100;
+            var r = 100;
             var datacontext = new TwoList();
             datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
@@ -105,7 +105,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact(Skip = PlateformDependant)]
-        public async Task Bind_ShouldBeRobust()
+        public async Task Bind_Is_Robust()
         {
             var test = new TestInContext()
             {
@@ -123,7 +123,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact(Skip = PlateformDependant)]
         public async Task Stress_Collection_Update_From_Javascript()
         {
-            int r = 100;
+            var r = 100;
             var datacontext = new TwoList();
             datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
@@ -145,11 +145,10 @@ namespace Tests.Universal.HTMLBindingTests
                     l2c.Should().NotBeNull();
 
                     var javascript = "window.app = function(value,coll){var args = []; args.push(0); args.push(0); for (var i = 0; i < value.length; i++) { args.push(value[i]);} coll.splice.apply(coll, args);  console.log(value.length); console.log(coll.length);};";
-                    IJavascriptObject res = null;
-                    bool ok = _WebView.Eval(javascript, out res);
+                    var ok = _WebView.Eval(javascript, out var res);
                     ok.Should().BeTrue();
 
-                    bool notok = true;
+                    var notok = true;
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
@@ -160,7 +159,7 @@ namespace Tests.Universal.HTMLBindingTests
                         notok = datacontext.L2.Count != r;
                     }
                     stopWatch.Stop();
-                    long ts = stopWatch.ElapsedMilliseconds;
+                    var ts = stopWatch.ElapsedMilliseconds;
 
                     _Logger.Info($"Perf: {((double)(ts)) / 1000} sec for {r} iterations");
                     CheckVsExpectation(ts, TestPerformanceKind.TwoWay_Collection_Update_From_Javascript);
@@ -180,13 +179,13 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
-                    int iis = 500;
-                    for (int i = 0; i < iis; i++)
+                    var iis = 500;
+                    for (var i = 0; i < iis; i++)
                     {
                         _DataContext.Age += 1;
                     }
 
-                    bool notok = true;
+                    var notok = true;
                     var tg = _DataContext.Age;
                     await Task.Delay(700);
 
@@ -233,14 +232,14 @@ namespace Tests.Universal.HTMLBindingTests
                     Check(col, _DataContext.Skills);
 
                     _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
-                    int iis = 500;
-                    for (int i = 0; i < iis; i++)
+                    var iis = 500;
+                    for (var i = 0; i < iis; i++)
                     {
                         _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
                     }
 
-                    bool notok = true;
-                    int tcount = _DataContext.Skills.Count;
+                    var notok = true;
+                    var tcount = _DataContext.Skills.Count;
 
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
@@ -353,7 +352,6 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Theory]
         [InlineData(5)]
         [InlineData(10)]
@@ -380,6 +378,8 @@ namespace Tests.Universal.HTMLBindingTests
             using (var perf = GetPerformanceCounter("Perf to bind Vm"))
             {
                 await DoSafeAsyncUI(() => root.Other = bigVm);
+
+                await WaitAnotherUiCycleAsync();
 
                 await Task.Delay(DelayForTimeOut);
                 perf.DiscountTime = DelayForTimeOut;
@@ -425,14 +425,14 @@ namespace Tests.Universal.HTMLBindingTests
             {
                 var builder = new StringBuilder("[");
                 var first = true;
-                Parallel.ForEach(basics, () => new Builder() , (basic, _, sb) =>
-                {
-                    if (!sb.First)
-                        sb.String.Append(",");
-                    sb.String.Append(basic);
-                    sb.First = false;
-                    return sb;
-                }, 
+                Parallel.ForEach(basics, () => new Builder(), (basic, _, sb) =>
+               {
+                   if (!sb.First)
+                       sb.String.Append(",");
+                   sb.String.Append(basic);
+                   sb.First = false;
+                   return sb;
+               },
                 (sb) =>
                 {
                     lock (builder)
@@ -495,7 +495,10 @@ namespace Tests.Universal.HTMLBindingTests
                         perf.DiscountTime = DelayForTimeOut;
                         await DoSafeAsyncUI(() => root.Commands = commands);
 
+                        await WaitAnotherUiCycleAsync();
+
                         await Task.Delay(DelayForTimeOut);
+
                         var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Commands"));
 
                         other.IsArray.Should().BeTrue();

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Neutronium.Core;
+﻿using Neutronium.Core;
 using Neutronium.Core.Binding;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
+using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
 using Xunit.Abstractions;
-using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {
@@ -20,12 +20,12 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 
         protected bool SupportDynamicBinding => _JavascriptFrameworkExtractor.SupportDynamicBinding;
 
-        protected IntegratedTestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output): base (testEnvironment.WindowBuilder, output) 
+        protected IntegratedTestBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output) : base(testEnvironment.WindowBuilder, output)
         {
             _WindowLessHTMLEngineProvider = testEnvironment;
         }
 
-        protected override IWindowlessHTMLEngine Tester(TestContext context = TestContext.Index) 
+        protected override IWindowlessHTMLEngine Tester(TestContext context = TestContext.Index)
         {
             var tester = base.Tester(context);
             var frameworkHelper = _WindowLessHTMLEngineProvider.FrameworkTestContext;
@@ -41,25 +41,24 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             using (Tester(test.Path))
             {
                 _Logger.Info("Begin Binding");
-                using (var mb = await EvaluateSafeUI(() => test.Bind(_ViewEngine)))
-                {
-                    _Logger.Info("End Binding");
-                    _Logger.Info("Begin Run");
-                    await Run(mb);
-                    _Logger.Info("Ending Run");
-                }
+                var mb = await EvaluateSafeUI(() => test.Bind(_ViewEngine));
+                _Logger.Info("End Binding");
+                _Logger.Info("Begin Run");
+                await Run(mb);
+                _Logger.Info("Ending Run");
+                await DoSafeAsyncUI(() => mb.Dispose());
                 _Logger.Info($"Ending {memberName}");
             }
         }
 
         protected Task RunAsync(TestInContext test, [CallerMemberName] string memberName = "")
         {
-            return RunAsync(test, mb => RunInContext(() => test.Test(mb)), memberName); 
+            return RunAsync(test, mb => RunInContext(() => test.Test(mb)), memberName);
         }
 
-        protected Task RunAsync(TestInContextAsync test, [CallerMemberName] string memberName = "") 
+        protected Task RunAsync(TestInContextAsync test, [CallerMemberName] string memberName = "")
         {
-            return RunAsync(test, mb => RunInContext(async () => await test.Test(mb)), memberName);        
+            return RunAsync(test, mb => RunInContext(async () => await test.Test(mb)), memberName);
         }
 
         protected void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
@@ -110,6 +109,13 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         protected void DoSafeUI(Action doact)
         {
             _UIDispatcher.Run(doact);
+        }
+
+        protected Task WaitAnotherUiCycleAsync()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            _UIDispatcher.DispatchWithBindingPriority(() => tcs.SetResult(true));
+            return tcs.Task;
         }
 
         protected async Task DoSafeAsyncUI(Action doact)

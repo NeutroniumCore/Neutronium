@@ -53,7 +53,7 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(typeof(ReadOnlyClassWithNotifyPropertyChanged), ObjectObservability.ReadOnlyObservable)]
         [InlineData(typeof(ReadOnlyObservable), ObjectObservability.ReadOnlyObservable)]
         [InlineData(typeof(ReadOnlyTestViewModel), ObjectObservability.ReadOnlyObservable)]
-        public async Task TwoWay_creates_listener_only_for_write_property(Type type, ObjectObservability expected)
+        public async Task TwoWay_Creates_Listener_Only_For_Write_Property(Type type, ObjectObservability expected)
         {
             var datacontext = Activator.CreateInstance(type);
 
@@ -73,7 +73,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Theory]
         [InlineData(typeof(ReadOnlyTestViewModel))]
         [InlineData(typeof(ReadWriteTestViewModel))]
-        public async Task TwoWay_updates_from_csharp_readonly_property(Type type) 
+        public async Task TwoWay_Updates_From_Csharp_Readonly_Property(Type type) 
         {
             var datacontext = Activator.CreateInstance(type) as ReadOnlyTestViewModel;
 
@@ -97,7 +97,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_updates_from_csharp_readwrite_property() 
+        public async Task TwoWay_Updates_From_Csharp_Readwrite_Property() 
         {
             var datacontext = new ReadWriteTestViewModel();
 
@@ -121,7 +121,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_updates_from_js_readwrite_property() 
+        public async Task TwoWay_Updates_From_Js_Readwrite_Property() 
         {
             var datacontext = new ReadWriteTestViewModel();
 
@@ -145,7 +145,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_cleans_javascriptObject_listeners_when_object_is_not_part_of_the_graph(BasicTestViewModel remplacementChild) 
+        public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph(BasicTestViewModel remplacementChild) 
         {
             var datacontext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
@@ -173,7 +173,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_cleans_javascriptObject_listeners_when_object_is_not_part_of_the_graph_multiple_changes(BasicTestViewModel remplacementChild)
+        public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph_Multiple_Changes(BasicTestViewModel remplacementChild)
         {
             var datacontext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
@@ -208,7 +208,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_cleans_javascriptObject_listeners_when_object_is_not_part_of_the_graph_js() 
+        public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph_Js() 
         {
             var datacontext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
@@ -244,7 +244,7 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(BasicVmData))]
-        public async Task TwoWay_cleans_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_context(BasicTestViewModel remplacementChild) 
+        public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph_Array_Context(BasicTestViewModel remplacementChild) 
         {
             var datacontext = new BasicListTestViewModel();
             var child = new BasicTestViewModel();
@@ -275,7 +275,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_cleans_javascriptObject_listeners_when_object_is_not_part_of_the_graph_array_js_context() 
+        public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph_Array_Js_Context() 
         {
             var datacontext = new BasicListTestViewModel();
             var child = new BasicTestViewModel();
@@ -308,7 +308,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_listens_To_Key_Added_CSharp_Side() 
+        public async Task TwoWay_Listens_To_Key_Added_CSharp_Side() 
         {
             dynamic dynamicDataContext = new ExpandoObject();
             dynamicDataContext.ValueInt = 1;
@@ -339,7 +339,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_listens_On_CSharp_Side_To_Keys_Added_On_CSharp_Side() 
+        public async Task TwoWay_Listens_On_CSharp_Side_To_Keys_Added_On_CSharp_Side() 
         {
             dynamic dynamicDataContext = new ExpandoObject();
             dynamicDataContext.ValueInt = 1;

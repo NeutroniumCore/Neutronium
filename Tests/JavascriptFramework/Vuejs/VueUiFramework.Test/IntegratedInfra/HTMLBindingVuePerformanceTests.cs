@@ -14,6 +14,7 @@ using Neutronium.Core.Binding;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Linq;
 using Neutronium.Core.Test.Helper;
+using Tests.Universal.HTMLBindingTests.Helper;
 
 namespace VueFramework.Test.IntegratedInfra
 {
@@ -25,9 +26,7 @@ namespace VueFramework.Test.IntegratedInfra
         }
 
         public static IEnumerable<object[]> ObjectSizes =>
-                            EnumerableExtensions.Cartesian(
-                                new[] { 1, 5, 10, 20, 50 },
-                                new[] { 1, 2, 3 }, 
+                            new[] { 1, 5, 10, 20, 50 }.Cartesian(new[] { 1, 2, 3 }, 
                                 (size, rank) => new object[] { size, rank });
 
         public static IEnumerable<object[]> IntValues => new[] { 1, 5, 10, 20, 50 }.Select(v => new object[] { v });
@@ -96,6 +95,8 @@ namespace VueFramework.Test.IntegratedInfra
 
                     await DoSafeAsyncUI(() => root.Other = bigVm);
 
+                    await WaitAnotherUiCycleAsync();
+
                     await Task.Delay(DelayForTimeOut);
 
                     var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
@@ -113,7 +114,7 @@ namespace VueFramework.Test.IntegratedInfra
 
         private async Task Update_from_int(int value, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
-            var root = new FakeIntViewModel();
+            var root = new IntViewModel();
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, root, JavascriptBindingMode.TwoWay, strategyFactory),
@@ -125,6 +126,8 @@ namespace VueFramework.Test.IntegratedInfra
                     stopWatch.Start();
 
                     await DoSafeAsyncUI(() => root.Value = value);
+
+                    await WaitAnotherUiCycleAsync();
 
                     await Task.Delay(DelayForTimeOut);
 
@@ -139,16 +142,6 @@ namespace VueFramework.Test.IntegratedInfra
             };
 
             await RunAsync(test);
-        }
-
-        private class FakeIntViewModel : ViewModelTestBase
-        {
-            private int _Value;
-            public int Value
-            {
-                get { return _Value; }
-                set { Set(ref _Value, value); }
-            }
         }
 
         private IJavascriptObjectBuilderStrategy GetSynchroneousStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
