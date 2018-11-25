@@ -129,8 +129,6 @@ namespace Neutronium.Core.Binding
             _UnrootedEntities.Clear();
             _Logger.Debug("BidirectionalMapper disposed");
             _BuilderStrategy?.Dispose();
-
-            Task.Run(() => OnAllJsGlues(DisposeGlue)).DoNotWait();
         }
 
         private void UnlistenGlue(IJsCsGlue exiting)
@@ -138,14 +136,9 @@ namespace Neutronium.Core.Binding
             exiting.ApplyOnListenable(_ListenerUpdater.Off);
         }
 
-        private void DisposeGlue(IJsCsGlue exiting)
-        {
-            exiting.GetJsSessionValue()?.Dispose();
-        }
-
         private void OnAllJsGlues(Action<IJsCsGlue> @do)
         {
-            _SessionCache.AllElements.ForEach(@do);
+            _SessionCache.AllElementsUiContext.ForEach(@do);
         }
 
         Task<IJavascriptObject> ISessionMapper.InjectInHtmlSession(IJsCsGlue root) => InjectInHtmlSession(root);

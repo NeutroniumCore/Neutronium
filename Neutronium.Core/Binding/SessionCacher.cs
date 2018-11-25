@@ -12,12 +12,12 @@ namespace Neutronium.Core.Binding
         private readonly IDictionary<object, IJsCsGlue> _FromCSharp = new Dictionary<object, IJsCsGlue>();
         private readonly IDictionary<uint, IJsCsGlue> _FromJavascriptGlobal = new Dictionary<uint, IJsCsGlue>();
 
+        public IEnumerable<IJsCsGlue> AllElementsUiContext => _FromCSharp.Values;
+
         public void CacheFromCSharpValue(object key, IJsCsGlue value)
         {
             _FromCSharp.Add(key, value);
         }
-
-        public IEnumerable<IJsCsGlue> AllElements => _FromCSharp.Values;
 
         public void RemoveFromCSharpToJs(IJsCsGlue value)
         {
