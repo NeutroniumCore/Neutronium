@@ -9,6 +9,7 @@ using Chromium.Event;
 using Neutronium.WPF;
 using System.Windows.Interop;
 using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
@@ -73,7 +74,20 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _WindowHandle = new WindowInteropHelper(_Window).Handle;
             _Window.Closed += Window_Closed;
             _Window.LocationChanged += _Window_LocationChanged;
+            _Window.StateChanged += Window_StateChanged;
             UpdateDpiMatrix();
+        }
+
+        private async void Window_StateChanged(object sender, EventArgs e)
+        {
+            //Do not remove after intensive tests.
+            //When resizing windows, chromium component may not redraw correctly
+            //This fix make sure that after maximizing the window is correctly redrawn.
+            if (_Window.WindowState == WindowState.Minimized)
+                return;
+
+            await Task.Delay(10);
+            ChromiumWebBrowser.Refresh();
         }
 
         private void _Window_LocationChanged(object sender, EventArgs e)
@@ -136,6 +150,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             _Window.Closed -= Window_Closed;
             _Window.LocationChanged -= _Window_LocationChanged;
+            _Window.StateChanged -= Window_StateChanged;
             _ChromeWidgetMessageInterceptor?.ReleaseHandle();
             _ChromeWidgetMessageInterceptor?.DestroyHandle();
             _ChromeWidgetMessageInterceptor = null;
