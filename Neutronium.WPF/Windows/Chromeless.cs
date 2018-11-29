@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.Windows.Interop;
 using System.Windows.Shell;
-using Neutronium.WPF.WPF;
 
 namespace Neutronium.WPF 
 {
@@ -17,12 +16,6 @@ namespace Neutronium.WPF
             base.OnAttached();
 
             ApplyStyle();
-            Window.SourceInitialized += (s, e) =>
-            {
-                var handle = (new WindowInteropHelper(Window)).Handle;
-                var sizer = new WindowSizer(Window);
-                HwndSource.FromHwnd(handle)?.AddHook(sizer.WindowProc);
-            };
         }
 
         private void ApplyStyle() 

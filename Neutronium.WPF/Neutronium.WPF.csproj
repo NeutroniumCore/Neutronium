@@ -122,7 +122,6 @@
     <Compile Include="ViewModel\WindowViewModel.cs" />
     <Compile Include="WPF\BoolToHiddenConverter.cs" />
     <Compile Include="WPF\HdiHelper.cs" />
-    <Compile Include="WPF\WindowSizer.cs" />
     <Page Include="Internal\DebugTools\DebugControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
