@@ -21,6 +21,7 @@ namespace Neutronium.WPF
         private void ApplyStyle() 
         {
             var style = new Style(typeof(Window));
+            style.Setters.Add(new Setter(Control.BorderThicknessProperty, Thickness));
             var windowChrome = new WindowChrome
             {
                 ResizeBorderThickness = new Thickness(6),
