@@ -58,8 +58,7 @@ a {
 .main-div {
   color: #42b983;
   height: 100%;
-  border: black;
-  border-style: solid;
+  border: 0px;
 }
 
 #main-application {
