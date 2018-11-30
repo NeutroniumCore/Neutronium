@@ -80,9 +80,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         private async void Window_StateChanged(object sender, EventArgs e)
         {
-            //Do not remove after intensive tests.
+            //Do not remove before intensive tests.
             //When resizing windows, chromium component may not redraw correctly
-            //This fix make sure that after maximizing the window is correctly redrawn.
+            //This fix makes sure that after maximizing the window is correctly redrawn.
             if (_Window.WindowState == WindowState.Minimized)
                 return;
 
@@ -108,7 +108,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                     if (!IsInDragRegion(message))
                         break;
 
-                    Dispatcher.Invoke(ToogleMaximize);
+                    Dispatcher.BeginInvoke(new Action(ToogleMaximize));
                     return true;
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONDOWN:
