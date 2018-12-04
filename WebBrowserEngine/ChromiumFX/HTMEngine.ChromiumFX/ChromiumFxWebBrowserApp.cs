@@ -1,5 +1,4 @@
-﻿using System;
-using Chromium;
+﻿using Chromium;
 using Chromium.Event;
 using Neutronium.WPF;
 
@@ -7,23 +6,20 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
 {
     public abstract class ChromiumFxWebBrowserApp : HTMLApp
     {
-        protected virtual bool DisableGpu => true;
+        protected virtual bool DisableWebSecurity => true;
 
         protected override IWPFWebWindowFactory GetWindowFactory() =>
-            new ChromiumFXWPFWebWindowFactory(UpdateChromiumSettings, Updater());
+            new ChromiumFXWPFWebWindowFactory(UpdateChromiumSettings, PrivateUpdateLineCommandArg);
 
         protected virtual void UpdateChromiumSettings(CfxSettings settings) 
         {         
         }
 
-        private Action<CfxOnBeforeCommandLineProcessingEventArgs> Updater() 
-        {
-            return DisableGpu ? PrivateUpdateLineCommandArg: default(Action<CfxOnBeforeCommandLineProcessingEventArgs>);
-        }
-
         private void PrivateUpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEventArgs beforeLineCommand) 
         {
             beforeLineCommand.CommandLine.AppendSwitch("disable-gpu");
+            if (DisableWebSecurity)
+                beforeLineCommand.CommandLine.AppendSwitch("disable-web-security");
             UpdateLineCommandArg(beforeLineCommand);
         }
 
