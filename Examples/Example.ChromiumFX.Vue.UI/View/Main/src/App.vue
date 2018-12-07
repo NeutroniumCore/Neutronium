@@ -25,16 +25,16 @@
       <div class="form-group" >
         <label for="state">State: {{PersonalState.displayName}}</label>
         <div id="state" class="checkbox" >
-          <label v-for="state in States">
+          <label v-for="(state, index) in States" :key="index">
               <input type="radio" v-model="PersonalState" :value="state" />
               <span>{{state.displayName}}</span>
           </label>
         </div>
       </div>
       <div class="form-group" >
-        <label for="sex">State: {{Sex.displayName}}</label>
+        <label for="sex" >State: {{Sex.displayName}}</label>
         <div id="sex" class="checkbox" >
-          <label v-for="sex in Sexes">
+          <label v-for="(sex, index) in Sexes" :key="index" class="icon">
               <input type="radio" v-model="Sex" :value="sex" />
               <i class="fa fa-3x" :class="getIcon(sex)" aria-hidden="true"></i>
           </label>
@@ -47,17 +47,17 @@
       <div class="form-group" >
         <label for="skills">Skills</label>
         <ul class="list-group">
-          <li class="list-group-item" v-for="element,index in Skills" :key="index"> 
+          <li class="list-group-item" v-for="(element,index) in Skills" :key="index"> 
             <div class="row">
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <label class="col-md-2" :for="'element-name-'+index">Name</label>
-                <input class="col-md-3 form-control" :id="'element-name-'+index" placeholder="Name" v-model="element.Name">
+                <input class="form-control" :id="'element-name-'+index" placeholder="Name" v-model="element.Name">
               </div>
-              <div class="col-md-5">
+              <div class="col-md-4">
                 <label class="col-md-2" :for="'element-type-'+index">Type</label>
-                <input class="col-md-3 form-control" :id="'element-type-'+index" placeholder="Type" v-model="element.Type">
+                <input class="form-control" :id="'element-type-'+index" placeholder="Type" v-model="element.Type">
               </div>
-              <div class="col-md-2 panel-body">
+              <div class="col-md-3">
                 <command-button :command="RemoveSkill" :arg="element" name="Remove Skill"></command-button>
               </div>
             </div>
@@ -113,9 +113,26 @@ export default {
   width: 100px;
   }
 
+  .icon {
+    margin: 20px;
+    margin-top: 0px;
+  }
+
   .panel-body {
   position: relative;
   min-height:200px;
   height:100%;
+  }
+
+  .form-group input {
+    width: 100%;
+  }
+
+  .list-group-item button {
+    margin-top: 32px;
+  }
+
+  #app{
+    margin-bottom: 50px;
   }
 </style>
