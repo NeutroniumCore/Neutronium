@@ -4,14 +4,14 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve ./src/main.js --open --port 9000",
-    "build": "vue-cli-service build --entry ./src/entry.js",
+    "build": "vue-cli-service build --entry ./src/entry.js --modern",
     "lint": "vue-cli-service lint",
     "live": "vue-cli-service serve ./src/entry.js --port 8080 --mode integrated",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "bootstrap": "^4.1.3",
-    "font-awesome": "^4.7.0",
+    "font-awesome": "^4.7.0", 
     "neutronium-vue-command-mixin": "^1.4.1",
     "neutronium-vue-resultcommand-topromise": "^1.1.0",
     "neutronium-vue-simple-command-mixin": "^1.1.0",
