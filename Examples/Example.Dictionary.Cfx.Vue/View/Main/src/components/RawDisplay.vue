@@ -3,12 +3,11 @@
 </template>
 
 <script>
-
 export default {
-  props:{
-      object: Object
+  props: {
+    object: Object
   }
-}
+};
 </script>
 
 <style>
