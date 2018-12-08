@@ -7,7 +7,14 @@
         xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <wpf:BoolToHiddenConverter x:Key="BoolToVis"/>
+    </Window.Resources>
     <Grid>
         <wpf:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="wcBrowser" RelativeSource="View\Main\dist\index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
+
+    <Window.Visibility>
+        <Binding ElementName="wcBrowser" Path="IsHTMLLoaded" Converter="{StaticResource BoolToVis}"/>
+    </Window.Visibility>
 </Window>
