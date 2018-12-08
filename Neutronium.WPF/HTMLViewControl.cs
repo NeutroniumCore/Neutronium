@@ -26,6 +26,7 @@ namespace Neutronium.WPF
             set => SetValue(UriProperty, value);
         }
 
+        [Obsolete("RelativeSource is deprecated, please use Uri with pack url instead (pack://application:,,,/ ).")]
         public string RelativeSource
         {
             set
