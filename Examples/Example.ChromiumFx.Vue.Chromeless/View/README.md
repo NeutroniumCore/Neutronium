@@ -1,16 +1,34 @@
-# view
+# View
 
-> A Vue.js neutronium project
-
-## Build Setup
-
-``` bash
-# install dependencies
+## Project setup
+```
 npm install
+```
 
-# serve with hot reload at localhost:9000
-npm run dev
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-# build for neutronium with map source file and minification
+### Compiles and minifies for production
+```
 npm run build
 ```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Run your unit tests
+```
+npm run test:unit
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

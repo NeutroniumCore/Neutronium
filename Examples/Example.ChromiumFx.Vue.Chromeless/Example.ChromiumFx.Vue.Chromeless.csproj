@@ -134,11 +134,13 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="View\.babelrc" />
+    <None Include="View\.browserslistrc" />
+    <None Include="View\.env.integrated" />
+    <None Include="View\.env.production" />
     <None Include="View\.gitignore" />
     <None Include="View\data\vm.cjson" />
-    <Resource Include="View\dist\build.js.map" />
-    <Resource Include="View\dist\styles.css.map" />
+    <Resource Include="View\dist\js\app.js.map" />
+    <Resource Include="View\dist\js\chunk-vendors.js.map" />
     <None Include="View\package-lock.json" />
     <None Include="View\package.json" />
     <None Include="View\README.md" />
@@ -177,14 +179,20 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="View\index.html" />
-    <Content Include="View\utils.js" />
-    <Content Include="View\webpack.config.js" />
-    <Resource Include="View\dist\810a1b930979de83478be0f458b51dd8.png" />
-    <Resource Include="View\dist\build.js" />
-    <Resource Include="View\dist\index.html" />
-    <Resource Include="View\dist\styles.css" />
+    <Content Include="View\vue.config.js" />
     <Resource Include="View\src\assets\logo.png" />
+    <Resource Include="View\dist\css\app.css" />
+    <Resource Include="View\dist\css\chunk-vendors.css" />
+    <Resource Include="View\dist\favicon.ico" />
+    <Resource Include="View\dist\index.html" />
+    <Resource Include="View\dist\js\app.js" />
+    <Resource Include="View\dist\js\chunk-vendors.js" />
+    <Resource Include="View\public\favicon.ico" />
+    <Content Include="View\.eslintrc.js" />
+    <Content Include="View\babel.config.js" />
+    <Content Include="View\jest.config.js" />
+    <Content Include="View\postcss.config.js" />
+    <Content Include="View\public\index.html" />
     <Content Include="View\src\entry.js" />
     <Content Include="View\src\install.js" />
     <Content Include="View\src\main.js" />
