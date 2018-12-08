@@ -131,38 +131,33 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="View\Main\.eslintrc.js" />
+    <Content Include="View\Main\babel.config.js" />
+    <Resource Include="View\Main\dist\css\app.css" />
+    <Resource Include="View\Main\dist\css\chunk-vendors.css" />
+    <Resource Include="View\Main\dist\favicon.ico" />
+    <Resource Include="View\Main\dist\img\fontawesome-webfont.svg" />
+    <Resource Include="View\Main\dist\js\app.js" />
+    <Resource Include="View\Main\dist\js\chunk-vendors.js" />
+    <Content Include="View\Main\jest.config.js" />
+    <Content Include="View\Main\postcss.config.js" />
+    <Content Include="View\Main\vue.config.js" />
+    <Resource Include="View\Main\public\favicon.ico" />
+    <Content Include="View\Main\public\index.html" />
+    <Content Include="View\Main\tests\unit\.eslintrc.js" />
+    <Content Include="View\Main\tests\unit\example.spec.js" />
     <EmbeddedResource Include="Resource.fr-FR.resx" />
     <EmbeddedResource Include="Resource.pt-BR.resx" />
     <EmbeddedResource Include="Resource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="View\Main\dist\810a1b930979de83478be0f458b51dd8.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\89889688147bd7575d6327160d64e760.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\912ec66d7572ff821749319396470bde.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\build.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\styles.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\index.html" />
+    <Resource Include="View\Main\dist\index.html" />
     <Resource Include="View\Main\src\assets\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="View\Main\src\entry.js" />
     <Content Include="View\Main\src\main.js" />
-    <Content Include="View\Main\utils.js" />
-    <Content Include="View\Main\webpack.config.js" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -173,42 +168,17 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="View\Main\.babelrc" />
+    <None Include="View\Main\.browserslistrc" />
+    <None Include="View\Main\.env.integrated" />
+    <None Include="View\Main\.env.production" />
     <None Include="View\Main\.gitignore" />
     <None Include="View\Main\data\vm.cjson" />
-    <Content Include="View\Main\dist\448c34a56d699c29117adc64c43affeb.woff2">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\674f50d287a8c48dc19ba404d20fe713.eot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\af7ae505a9eed503f8b8e6982036873e.woff2">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\b06871f281fee6b241d60582ae9369b9.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\e18bbf611f2a2e43afc071aa2f4e1512.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\f4769f9bdb7466be65088239c12046d1.eot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\fa2772327f55d8198301fdb8bcfc8158.woff">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\fee66e712a8a08eef5805a46892932ad.woff">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="View\Main\dist\styles.css.map">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="View\Main\dist\js\app.js.map" />
+    <Resource Include="View\Main\dist\js\chunk-vendors.js.map" />
     <None Include="View\Main\package-lock.json" />
     <None Include="View\Main\package.json" />
     <None Include="View\Main\README.md" />
     <None Include="View\Main\src\App.vue" />
-    <None Include="View\Main\src\components\command-button.vue" />
-    <None Include="View\Main\src\components\RawDisplay.vue" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
