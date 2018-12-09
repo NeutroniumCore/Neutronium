@@ -11,7 +11,7 @@ Neutronium provides a vue-cli 3 plugin [vue-cli-plugin-neutronium](https://githu
 
 See [vue-cli-plugin-neutronium Readme](https://github.com/NeutroniumCore/vue-cli-plugin-neutronium) for complete description.
 
-To install neutronium  vue template use [vue-cli](https://github.com/vuejs/vue-cli)
+To install neutronium  vue template use [vue-cli 3](https://cli.vuejs.org/)
 If not installed, install first vue-cli:
 
 ``` bash
@@ -22,7 +22,7 @@ Then in the view folder create your project
 ``` bash
 $ vue create main
 $ cd main
-$ vue add NeutroniumCore/vue-cli-plugin-neutronium
+$ vue add neutronium
 $ npm install
 $ npm run serve
 ```
