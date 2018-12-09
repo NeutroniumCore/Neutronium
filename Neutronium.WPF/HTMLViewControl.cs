@@ -9,6 +9,8 @@ using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
 using Neutronium.WPF.Internal;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 
 namespace Neutronium.WPF
 {
@@ -26,13 +28,15 @@ namespace Neutronium.WPF
             set => SetValue(UriProperty, value);
         }
 
-        [Obsolete("RelativeSource is deprecated, please use Uri with pack url instead (pack://application:,,,/ ).")]
+        [Obsolete("RelativeSource is deprecated, please use Uri with pack url instead (pack://application:,,,/{path} ).")]
         public string RelativeSource
         {
             set
             {
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return;
+
+                Trace.TraceWarning($@"Deprecated. Change RelativeSouce=""{value}"" for Uri=""pack://application:,,,/{value.Replace("\\", "/")}"" instead after setting files Build Action to Resource.");
 
                 var path = $"{Assembly.GetExecutingAssembly().GetPath()}\\{value}";
                 if (!File.Exists(path))

@@ -23,7 +23,7 @@ namespace Neutronium.Core.Log
 
         public void Info(string information) 
         {
-            Log($"Info: {information}");
+            Trace.TraceInformation($"{_Header} - Info: {information}");
         }
 
         public void Info(Func<string> information) 
@@ -33,7 +33,7 @@ namespace Neutronium.Core.Log
 
         public void Error(string information)
         {
-            Log($"Error - {information}");
+            Trace.TraceError($"{_Header} - Error: {information}");
         }
 
         public void Error(Func<string> information) 
