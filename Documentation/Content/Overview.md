@@ -33,7 +33,7 @@ Use **HTMLViewControl** if you have one HTML view and a DataContext.
         x:Class="Example.Awesomium.Vue.UI.MainWindow"
         Height="350" Width="525">
     <Grid>
-       <wpf:HTMLViewControl  HTMLEngine="Awesomium" IsDebug="True" Uri="pack://application:,,,/View/dist/index.html"/>
+       <wpf:HTMLViewControl Uri="pack://application:,,,/View/dist/index.html"/>
     </Grid>
 </Window>
 ```
