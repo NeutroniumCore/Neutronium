@@ -126,18 +126,31 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="View\Main\dist\810a1b930979de83478be0f458b51dd8.png" />
-    <Resource Include="View\Main\dist\89889688147bd7575d6327160d64e760.svg" />
-    <Resource Include="View\Main\dist\912ec66d7572ff821749319396470bde.svg" />
-    <Resource Include="View\Main\dist\build.js" />
+    <Content Include="View\Main\tests\unit\.eslintrc.js" />
+    <Content Include="View\Main\tests\unit\example.spec.js" />
+    <Resource Include="View\Main\.eslintrc.js" />
+    <Resource Include="View\Main\babel.config.js" />
+    <Resource Include="View\Main\dist\css\app.css" />
+    <Resource Include="View\Main\dist\css\chunk-vendors.css" />
+    <Resource Include="View\Main\dist\favicon.ico" />
+    <Resource Include="View\Main\dist\img\fontawesome-webfont.svg" />
     <Resource Include="View\Main\dist\index.html" />
-    <Resource Include="View\Main\dist\styles.css" />
-    <Content Include="View\Main\index.html" />
+    <Resource Include="View\Main\jest.config.js" />
+    <Resource Include="View\Main\postcss.config.js" />
+    <Resource Include="View\Main\public\favicon.ico" />
+    <Resource Include="View\Main\public\index.html" />
+    <Resource Include="View\Main\dist\js\app.js" />
+    <Resource Include="View\Main\dist\js\chunk-vendors.js" />
     <Content Include="View\Main\src\entry.js" />
+    <Resource Include="View\Main\src\install.js" />
     <Content Include="View\Main\src\main.js" />
-    <Content Include="View\Main\utils.js" />
-    <Content Include="View\Main\webpack.config.js" />
+    <Resource Include="View\Main\vue.config.js" />
     <None Include="packages.config" />
+    <Resource Include="View\Main\.browserslistrc" />
+    <Resource Include="View\Main\.env.integrated" />
+    <Resource Include="View\Main\.env.production" />
+    <Resource Include="View\Main\dist\js\app.js.map" />
+    <Resource Include="View\Main\dist\js\chunk-vendors.js.map" />
     <None Include="View\Main\package-lock.json" />
     <None Include="View\Main\src\components\RawDisplay.vue" />
     <None Include="View\Main\src\components\counter.vue" />
@@ -154,17 +167,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="View\Main\.babelrc" />
     <None Include="View\Main\data\vm.cjson" />
-    <Resource Include="View\Main\dist\448c34a56d699c29117adc64c43affeb.woff2" />
-    <Resource Include="View\Main\dist\674f50d287a8c48dc19ba404d20fe713.eot" />
-    <Resource Include="View\Main\dist\af7ae505a9eed503f8b8e6982036873e.woff2" />
-    <Resource Include="View\Main\dist\b06871f281fee6b241d60582ae9369b9.ttf" />
-    <Resource Include="View\Main\dist\e18bbf611f2a2e43afc071aa2f4e1512.ttf" />
-    <Resource Include="View\Main\dist\f4769f9bdb7466be65088239c12046d1.eot" />
-    <Resource Include="View\Main\dist\fa2772327f55d8198301fdb8bcfc8158.woff" />
-    <Resource Include="View\Main\dist\fee66e712a8a08eef5805a46892932ad.woff" />
-    <Resource Include="View\Main\dist\styles.css.map" />
     <None Include="View\Main\package.json" />
     <None Include="View\Main\README.md" />
     <None Include="View\Main\src\App.vue" />
@@ -205,6 +208,7 @@
   <ItemGroup>
     <None Include="View\Main\.gitignore" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

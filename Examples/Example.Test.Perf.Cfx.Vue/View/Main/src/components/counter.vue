@@ -12,18 +12,18 @@
 </template>
 
 <script>
-import commandButton from './command-button'
+import commandButton from "./command-button";
 
 export default {
-  props:{
-      counter: Number,
-      state: String,
-      command: Object
+  props: {
+    counter: Number,
+    state: String,
+    command: Object
   },
-   components:{
+  components: {
     commandButton
   }
-}
+};
 </script>
 
 <style>

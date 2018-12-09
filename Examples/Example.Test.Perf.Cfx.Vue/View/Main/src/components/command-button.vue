@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import comandMixin from 'neutronium-vue-command-mixin'
+import comandMixin from "neutronium-vue-command-mixin";
 
 export default {
-  mixins:[comandMixin],
-  props:{
+  mixins: [comandMixin],
+  props: {
     name: String
   }
-}
+};
 </script>
 
 <style>
