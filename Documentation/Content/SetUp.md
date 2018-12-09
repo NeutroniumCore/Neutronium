@@ -149,5 +149,5 @@ HTMLEngineFactory.Engine.Dispose();
 ```
 
 
-[Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
+[Overview](./Overview.md) - [Debug Tools](./Debug.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
 
