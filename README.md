@@ -158,7 +158,7 @@ public class Person: ViewModelBase
 **Create the component(C# Xaml)**
 
 ```HTML
-<Neutronium:HTMLViewControl RelativeSource="src\index.html" />
+<Neutronium:HTMLViewControl Uri="pack://application:,,,/src/index.html" />
 ```
 
 The binding is done on the DataContext property just as standard WPF,
