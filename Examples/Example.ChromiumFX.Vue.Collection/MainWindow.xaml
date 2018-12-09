@@ -14,7 +14,7 @@
         <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-        <wpf:HTMLViewControl IsDebug="True"  x:Name="WebControl" RelativeSource="src\index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2"/>
+        <wpf:HTMLViewControl IsDebug="True"  x:Name="WebControl" Uri="pack://application:,,,/src/index.html"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2"/>
 
 
     <ListBox ItemsSource="{Binding Skills}" Grid.Column="1" HorizontalAlignment="Stretch" Margin="50,10" VerticalAlignment="Stretch" Grid.Row="0">

@@ -137,20 +137,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\images\male.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\images\Sem título.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="src\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="src\images\male.png" />
+    <Resource Include="src\images\Sem título.png" />
+    <Resource Include="src\index.html" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\js\init.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="src\js\init.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">
