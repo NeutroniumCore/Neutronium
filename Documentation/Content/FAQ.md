@@ -150,6 +150,6 @@ Result:<br>
 See [Example.ChromiumFX.Vue.SOP](https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Vue.SOP) for working example.
 
 
-[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md)
+[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Debug.md) - [Architecture](./Architecture.md)
 
 

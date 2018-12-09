@@ -54,7 +54,7 @@ To simplify deployment Neutronium provide two main alternative packages:
 
 Both includes all dependencies needed to run a Neutronium project including ChromiumFx web browser binding and vue or knockout framework.
 
-[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Tools.md) - [F.A.Q](./FAQ.md)
+[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Debug.md) - [F.A.Q](./FAQ.md)
 
 
 

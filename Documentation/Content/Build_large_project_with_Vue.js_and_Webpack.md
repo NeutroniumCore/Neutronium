@@ -2,13 +2,14 @@
 
 # Vue cli template
 
-Neutronium provides a vue-cli template [neutronium-vue](https://github.com/NeutroniumCore/neutronium-vue) that provides many advantages to develop large project with Neutronium vue:
+Neutronium provides a vue-cli 3 plugin [vue-cli-plugin-neutronium](https://github.com/NeutroniumCore/vue-cli-plugin-neutronium) that provides many advantages to develop large project with Neutronium vue:
 * During development use web-pack-dev-server and chrome to create the UI
 * Use ES6, sass, less...
 * Decompose your project in easy to maintain vue files during development
 * Use npm to manage your dependencies
 * Use Webpack build to generate all files you need to reference in Neutronium
 
+See [vue-cli-plugin-neutronium Readme](https://github.com/NeutroniumCore/vue-cli-plugin-neutronium) for complete description.
 
 To install neutronium  vue template use [vue-cli](https://github.com/vuejs/vue-cli)
 If not installed, install first vue-cli:
@@ -178,5 +179,5 @@ You can generate a Json from viewModel captured in a Neutronium debug session us
 
 ### [Additional vue.js components](./Using_aditional_dedicated_vue.js_component.md)
 
-[How to set up a project](./SetUp.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
+[How to set up a project](./SetUp.md) - [Debug Tools](./Debug.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
 

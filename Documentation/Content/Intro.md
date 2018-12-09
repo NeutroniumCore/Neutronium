@@ -10,7 +10,7 @@
 
 * [Overview](./Overview.md)
 
-* [Debug Tools](./Tools.md)
+* [Debug Tools](./Debug.md)
 
 * [Architecture](./Architecture.md)
 
