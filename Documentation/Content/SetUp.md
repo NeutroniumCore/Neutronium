@@ -32,7 +32,7 @@ $ npm install
 $ npm run build
 ```
 
-Neutronium template uses [vue-cli](https://github.com/vuejs/vue-cli) and [vue-cli-plugin-neutronium](NeutroniumCore/vue-cli-plugin-neutronium).
+Neutronium template uses [vue-cli](https://cli.vuejs.org/) and [vue-cli-plugin-neutronium](https://github.com/NeutroniumCore/vue-cli-plugin-neutronium).
 
 [See here](./Build_large_project_with_Vue.js_and_Webpack.md) detailed description how to use it.
 
