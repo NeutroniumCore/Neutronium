@@ -33,14 +33,18 @@ Use **HTMLViewControl** if you have one HTML view and a DataContext.
         x:Class="Example.Awesomium.Vue.UI.MainWindow"
         Height="350" Width="525">
     <Grid>
-       <wpf:HTMLViewControl  HTMLEngine="Awesomium"  IsDebug="True" RelativeSource="src\index.html"/>
+       <wpf:HTMLViewControl  HTMLEngine="Awesomium" IsDebug="True" Uri="pack://application:,,,/View/dist/index.html"/>
     </Grid>
 </Window>
 ```
 
-* **RelativeSource**:
+* **Uri**:
 
-Reference the location of the HTML file (properties should be _Content_, _Copy Always_ )
+Reference the location of the HTML file. When local files are reference pack uri should be used (file properties should be _Resource_, _None_ ). [Click here for complete description on how to reference file](.\Reference_Files.md)
+
+* **Deprecated: RelativeSource**:
+
+Reference the location of the HTML file (properties should be _Content_, _Copy Always_ ). Please use uri with pack url instead. [Click here for complete description on how to reference file](.\Reference_Files.md)
 
 * **DataContext**:
 
@@ -93,7 +97,7 @@ Ex:
 
     ChromiumFXWPFWebWindowFactory, CefGlueWPFWebWindowFactory, AwesomiumWPFWebWindowFactory
 
-**Note that Recomended engine is ChromiumFXWPFWebWindowFactory.** AwesomiumWPFWebWindowFactory is present for legacy reason and CefGlueWPFWebWindowFactory is used for test purposes.
+**Note that Recommended engine is ChromiumFXWPFWebWindowFactory.** AwesomiumWPFWebWindowFactory is present for legacy reason and CefGlueWPFWebWindowFactory is used for test purposes.
 
 **Available JavaScriptFrameworks:**
 
@@ -126,7 +130,6 @@ public class WebBrowserApp : ChromiumFxWebBrowserApp
 [Vue Binding](./Vue_Binding.md)
 
 [knockout Binding](./Knockout_Binding.md)    
-
 
 [How to set up a project](./SetUp.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
 
