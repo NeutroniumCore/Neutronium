@@ -1,4 +1,4 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(SolutionDir)\Examples\Example.Option.CFx.Vue\bin\Debug\Example.Option.CFx.Vue.exe" #>
 <#@ import namespace="System.Linq" #>
@@ -7,12 +7,14 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.IO" #>
-<#@ import namespace="Example.Option.CFx.Vue" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Example.Option.CFx.Vue" #>
 <#@ output extension=".json" #>
 <# 
-	Langages = new [] { "en-US", "fr-FR", "pt-BR" };
-	Resources = new []{"Resource"};
+  Langages = new [] { 
+      "en-US", "fr-FR", "pt-BR"
+  };
+  Resources = new []{"Resource"};
 #>
 {
  <# var first = true;
@@ -59,6 +61,6 @@ private IDictionary<string,string> GetDictionary(string resourceName, string lan
 	var asm = typeof(App).Assembly;
 	var resourceManager = new ResourceManager("Example.Option.CFx.Vue." + resourceName, asm);
 	var rs = resourceManager.GetResourceSet(new CultureInfo(langage), true, true);
-	return rs.Cast<DictionaryEntry>().ToDictionary(dicEntry => (string)dicEntry.Key, dicEntry => (string)dicEntry.Value);            
+	return rs.Cast<DictionaryEntry>().OrderBy(entry =>entry.Key).ToDictionary(dicEntry => (string)dicEntry.Key, dicEntry => (string)dicEntry.Value);            
 }
 #>

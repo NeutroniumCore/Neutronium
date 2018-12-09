@@ -145,19 +145,21 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="View\Main\.babelrc" />
+    <None Include="View\Main\.browserslistrc" />
+    <None Include="View\Main\.env.integrated" />
+    <None Include="View\Main\.env.production" />
     <None Include="View\Main\data\vm.cjson" />
-    <Content Include="View\Main\src\Dictionary.json">
-      <DependentUpon>Dictionary.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="View\Main\dist\build.js.map" />
-    <Resource Include="View\Main\dist\styles.css.map" />
+    <Resource Include="View\Main\dist\js\app.js.map" />
+    <Resource Include="View\Main\dist\js\chunk-vendors.js.map" />
+    <None Include="View\Main\package-lock.json" />
     <None Include="View\Main\package.json" />
     <None Include="View\Main\README.md" />
     <None Include="View\Main\src\App.vue" />
+    <None Include="View\Main\src\message.json">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>message.tt</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -196,23 +198,31 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="View\Main\.eslintrc.js" />
     <Content Include="View\Main\.gitignore" />
-    <Resource Include="View\Main\dist\810a1b930979de83478be0f458b51dd8.png" />
-    <Resource Include="View\Main\dist\build.js" />
-    <Resource Include="View\Main\dist\index.html" />
-    <Resource Include="View\Main\dist\styles.css" />
-    <Content Include="View\Main\index.html" />
+    <Content Include="View\Main\babel.config.js" />
+    <Resource Include="View\Main\dist\css\app.css" />
+    <Resource Include="View\Main\dist\favicon.ico" />
+    <Resource Include="View\Main\dist\js\app.js" />
+    <Resource Include="View\Main\dist\js\chunk-vendors.js" />
+    <Content Include="View\Main\vue.config.js" />
     <Resource Include="View\Main\src\assets\logo.png" />
-    <Content Include="View\Main\src\Dictionary.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Dictionary.json</LastGenOutput>
-    </Content>
+    <Resource Include="View\Main\dist\index.html" />
+    <Content Include="View\Main\jest.config.js" />
+    <Content Include="View\Main\postcss.config.js" />
+    <Resource Include="View\Main\public\favicon.ico" />
+    <Content Include="View\Main\public\index.html" />
     <Content Include="View\Main\src\entry.js" />
     <Content Include="View\Main\src\install.js" />
     <Content Include="View\Main\src\main.js" />
-    <Content Include="View\Main\utils.js" />
-    <Content Include="View\Main\webpack.config.js" />
+    <Content Include="View\Main\src\message.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>message.json</LastGenOutput>
+    </Content>
+    <Content Include="View\Main\tests\unit\.eslintrc.js" />
+    <Content Include="View\Main\tests\unit\example.spec.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
