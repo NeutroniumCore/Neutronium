@@ -19,18 +19,24 @@ $ npm install -g vue-cli
 
 Then in the view folder create your project 
 ``` bash
-$ vue init NeutroniumCore/neutronium-vue view1
-$ cd view1
+$ vue create main
+$ cd main
+$ vue add NeutroniumCore/vue-cli-plugin-neutronium
 $ npm install
-$ npm run dev
+$ npm run serve
 ```
 
 ## npm scripts
 
 ```bash
-npm run dev
+npm run serve
 ```
-Debug your view in the browser. MainView model data are provided by json file: data\data.json
+Debug your view in the browser. Main view model data are provided by cjson (circular JSON) file: data\vm.cjson
+
+```bash
+npm run live
+```
+Serve locally view that can be used in live reload setting with Neutronium.
 
 ```bash
 npm run build
@@ -43,34 +49,49 @@ Generate files ready to be used in Neutronium in the dist folder: you have to re
 <img src="../images/webpack_01.png" height="550px"><br>
 2. Install template
 ``` bash
-$ vue init David-Desmaisons/neutronium-vue about
+$ vue create main
 ```
-<img src="../images/webpack_02.png" height="550px"><br>
-3. npm install
+![](../images/webpack_02a.png)
+![](../images/webpack_02b.png)
+
 ``` bash
-$ cd about
-$ npm install
+$ cd main
+$ vue add neutronium
 ```
-<img src="../images/webpack_03.png"><br>
+![](../images/webpack_02d.png)
+
+Choose the correct options:
+
+![](../images/webpack_02f.png)
+
 4. Begin developing the view using hot-reload (you may use atom or sublime to edit js files)
 ``` bash
-$ npm run dev
+$ npm install
+$ npm run serve
 ```
-<img src="../images/webpack_05.png"><br>
+![](../images/webpack_05.png)
+
 5. Once the view is ready build the files
 ``` bash
 $ npm run build
 ```
-<img src="../images/webpack_06.png" height="550px"><br>
+![](../images/webpack_06.png)
+
 6. Include the files in VD<br>
 * Click show all files<br>
-<img src="../images/webpack_07.png" height="250px"><br>
-<img src="../images/webpack_08.png" height="550px"><br>
+![](../images/webpack_07.png)<br><br>
+![](../images/webpack_08.png)<br>
+
 * Include the files in project: DO NOT INCLUDE files under node_modules<br>
-<img src="../images/webpack_09.png" height="550px"><br>
-<img src="../images/webpack_10.png" height="550px"><br>
-* Set Properties on dist files: Content/Copy Always<br>
-<img src="../images/webpack_11.png" height="550px"><br>
+![](../images/webpack_09.png)<br><br>
+![](../images/webpack_10.png)<br>
+
+* Set Properties on dist files: 
+  - Build Action: `Resource`
+  - Copy To Folder: `None`<br>
+  - `.legacy.` files in dist folder don't need to be included in the project<br><br>
+![](../images/webpack_11.png)<br>
+
 7. Run C# application<br>
 <img src="../images/webpack_12.png" ><br>
 
@@ -90,8 +111,8 @@ $ npm run build
 ├── index.hml
 ``` 
 
-`Data`: contains the data.json which is the viewmodel data used during development in the browser.
-`Dist`: contains generated files to be used in Neutronium
+`Data`: contains the vm.cjson which is the viewmodel data used during development in the browser.
+`dist`: contains generated files to be used in Neutronium
 `src`: contains assets (folder assets), vue components (folder components), main component: App.vue.
 You should not edit `entry.js` nor `main.js` which are boilerplate files needed for the dev and production build.
 Both index.html files (fromm root and dist) should not be edited for the same reason.
@@ -153,7 +174,7 @@ export {
 
 You can generate a Json from viewModel captured in a Neutronium debug session using [Neutronium debug tools](./Debug.md) and use it as data.json in order to create the view with a realistic ViewModel. 
 
-![SaveVM](../images/Tools/Toolbar-save.png)
+![SaveVM](../images/Tools/ContextMenu-Save-vm.png)
 
 ### [Additional vue.js components](./Using_aditional_dedicated_vue.js_component.md)
 
