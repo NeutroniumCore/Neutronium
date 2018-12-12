@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props')" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9FE269C3-8837-4C42-A690-893E4117871F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Example.Cfx.Spa.Routing</RootNamespace>
+    <AssemblyName>Neutronium SPA</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;-dev</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Neutronium.MVVMComponents, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Neutronium.MVVMComponents\bin\Debug\net45\Neutronium.MVVMComponents.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ApplicationMode.cs" />
+    <Compile Include="App_Start\ApplicationViewModel.cs" />
+    <Compile Include="App_Start\ApplicationViewModelBuilder.cs" />
+    <Compile Include="App_Start\BeforeRouterResult.cs" />
+    <Compile Include="App_Start\IRouterSolvercs.cs" />
+    <Compile Include="App_Start\NavigationContext.cs" />
+    <Compile Include="App_Start\NavigationViewModel.cs" />
+    <Compile Include="App_Start\RouteContext.cs" />
+    <Compile Include="App_Start\RoutedEventArgs.cs" />
+    <Compile Include="App_Start\RouterSolver.cs" />
+    <Compile Include="App_Start\RoutingEventArgs.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\AboutViewModel.cs" />
+    <Compile Include="ViewModel\ApplicationInformation.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="View\.browserslistrc" />
+    <None Include="View\.env.integrated" />
+    <None Include="View\.env.production" />
+    <None Include="View\data\about\vm.cjson" />
+    <None Include="View\data\main\vm.cjson" />
+    <None Include="View\data\vm.cjson" />
+    <Resource Include="View\dist\js\app.js.map" />
+    <Resource Include="View\dist\js\chunk-vendors.js.map" />
+    <Resource Include="View\dist\js\chunk-22597bdf.js.map" />
+    <Resource Include="View\dist\js\chunk-d3526ecc.js.map" />
+    <Resource Include="View\dist\js\app-legacy.js.map" />
+    <Resource Include="View\dist\js\chunk-22597bdf-legacy.js.map" />
+    <Resource Include="View\dist\js\chunk-d3526ecc-legacy.js.map" />
+    <Resource Include="View\dist\js\chunk-vendors-legacy.js.map" />
+    <None Include="View\package-lock.json" />
+    <None Include="View\src\components\applicationFooter.vue" />
+    <None Include="View\src\components\applicationNotification.vue" />
+    <None Include="View\src\components\iconButton.vue" />
+    <None Include="View\src\components\modal.vue" />
+    <None Include="View\src\components\sideMenu.vue" />
+    <None Include="View\src\components\textButton.vue" />
+    <None Include="View\src\components\topMenu.vue" />
+    <None Include="View\src\message.json">
+      <DependentUpon>message.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <None Include="View\src\pages\about.vue" />
+    <None Include="View\src\pages\main.vue" />
+    <None Include="View\src\stylus\main.styl" />
+    <None Include="View\src\stylus\theme.styl" />
+    <None Include="View\package.json" />
+    <None Include="View\README.md" />
+    <None Include="View\src\App.vue" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="View\.eslintrc.js" />
+    <Content Include="View\.gitignore" />
+    <Resource Include="View\dist\index.html" />
+    <Resource Include="View\dist\favicon.ico" />
+    <Resource Include="View\src\assets\logo.png" />
+    <Content Include="View\babel.config.js" />
+    <Resource Include="View\dist\css\app.css" />
+    <Resource Include="View\dist\css\chunk-vendors.css" />
+    <Resource Include="View\dist\img\fontawesome-webfont.svg" />
+    <Resource Include="View\dist\js\app.js" />
+    <Resource Include="View\dist\js\chunk-vendors.js" />
+    <Resource Include="View\dist\img\materialdesignicons-webfont.svg" />
+    <Resource Include="View\dist\css\chunk-22597bdf.css" />
+    <Resource Include="View\dist\css\chunk-d3526ecc.css" />
+    <Resource Include="View\dist\js\chunk-22597bdf.js" />
+    <Resource Include="View\dist\js\chunk-d3526ecc.js" />
+    <Resource Include="View\dist\js\app-legacy.js" />
+    <Resource Include="View\dist\js\chunk-22597bdf-legacy.js" />
+    <Resource Include="View\dist\js\chunk-d3526ecc-legacy.js" />
+    <Resource Include="View\dist\js\chunk-vendors-legacy.js" />
+    <Content Include="View\vue.config.js" />
+    <Content Include="View\jest.config.js" />
+    <Content Include="View\postcss.config.js" />
+    <Resource Include="View\public\favicon.ico" />
+    <Content Include="View\public\index.html" />
+    <Content Include="View\src\entry.js" />
+    <Content Include="View\src\install.js" />
+    <Content Include="View\src\main.js" />
+    <Content Include="View\src\message.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>message.json</LastGenOutput>
+    </Content>
+    <Content Include="View\src\route.js" />
+    <Content Include="View\src\routeDefinitions.js" />
+    <Content Include="View\tests\unit\.eslintrc.js" />
+    <Content Include="View\tests\unit\example.spec.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj">
+      <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
+      <Name>Neutronium.JavascriptFramework.Vue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj">
+      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
+      <Name>Neutronium.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">
+      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
+      <Name>Neutronium.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
+      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
+      <Name>ChromiumFXRenderProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj">
+      <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
+      <Name>Neutronium.WebBrowserEngine.ChromiumFx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj">
+      <Project>{E35B9010-5429-4FFE-A788-E9C40E743E9C}</Project>
+      <Name>Neutronium.Example.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.props'))" />
+    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x64.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x64.targets')" />
+  <Import Project="..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets" Condition="Exists('..\..\packages\Unofficial.Cef.for.Chromiumfx.x86.3.3440.1806\build\Unofficial.Cef.for.Chromiumfx.x86.targets')" />
+  <Import Project="..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.3.3440.1808\build\Unofficial.Chromiumfx.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,64 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)\Example.Cfx.Spa.Routing\bin\Debug\Neutronium SPA.exe" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Globalization" #>
+<#@ import namespace="System.Resources" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Example.Cfx.Spa.Routing" #>
+<#@ output extension=".json" #>
+<# 
+	Langages = new [] { "en-US" };
+	Resources = new []{"Resource"};
+#>
+{
+ <# var first = true;
+ PushIndent("    ");
+ foreach (var langage in Langages) {
+	if (!first){
+		WriteLine("},");
+	}
+	first =false;
+	WriteLine($@"""{langage}"":{{");
+	PushIndent("    ");
+	foreach(var resource in Resources){
+		WriteLine($@"""{resource}"":{{");
+		PushIndent("    ");
+		var dic = GetDictionary(resource, langage);
+		DisplayDictionary(dic);
+		PopIndent();
+		WriteLine("}");
+	}
+	PopIndent();
+ } 
+ WriteLine("}");
+ PopIndent();
+ #>
+}
+<#+
+private string[] Langages;
+
+private string[] Resources;
+
+private void DisplayDictionary(IDictionary<string,string> dictionary){
+	var first = true;
+	foreach(var entry in dictionary){
+		if (!first){
+			WriteLine(",");
+		}
+		first = false;
+		Write($@"""{entry.Key}"":""{entry.Value}""");
+	}
+	WriteLine("");
+}
+
+private IDictionary<string,string> GetDictionary(string resourceName, string langage){
+	var asm = typeof(App).Assembly;
+	var resourceManager = new ResourceManager("Example.Cfx.Spa.Routing." + resourceName, asm);
+	var rs = resourceManager.GetResourceSet(new CultureInfo(langage), true, true);
+	return rs.Cast<DictionaryEntry>().OrderBy(entry =>entry.Key).ToDictionary(dicEntry => (string)dicEntry.Key, dicEntry => (string)dicEntry.Value);            
+}
+#>

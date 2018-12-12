@@ -1,0 +1,10 @@
+﻿<chromiumFxInfra:ChromiumFxWebBrowserApp x:Class="Example.Cfx.Spa.Routing.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Example.Cfx.Spa.Routing"
+             xmlns:chromiumFxInfra="clr-namespace:Neutronium.WebBrowserEngine.ChromiumFx;assembly=Neutronium.WebBrowserEngine.ChromiumFx"
+             xmlns:wpf="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
+             StartupUri="MainWindow.xaml">
+    <chromiumFxInfra:ChromiumFxWebBrowserApp.Resources>
+    </chromiumFxInfra:ChromiumFxWebBrowserApp.Resources>
+</chromiumFxInfra:ChromiumFxWebBrowserApp>
