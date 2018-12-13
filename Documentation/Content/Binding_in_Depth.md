@@ -39,7 +39,7 @@
 * **BindableAttribute** support (from version >= 1.0.0)
 
     Neutronium uses [BindableAttribute](https://msdn.microsoft.com/en-us/library/system.componentmodel.bindableattribute(v=vs.110).aspx) information when creating bindings.
-    Property marked as bindable false will not be accessible from javascript:
+    Property marked as bindable false will not be visible from javascript:
 ```CSharp
     [Bindable(false)]
     public string InvisibleFromNeutroniumBinding {get; set;}

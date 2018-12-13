@@ -1,4 +1,4 @@
 module.exports = {
-  baseUrl: "/View/dist/",
+  baseUrl: "View/dist/",
   filenameHashing: false
 };

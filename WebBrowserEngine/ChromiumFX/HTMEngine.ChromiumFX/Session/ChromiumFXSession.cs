@@ -27,11 +27,25 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
+            ChromiumWebBrowser.OnRegisterCustomSchemes += ChromiumWebBrowser_OnRegisterCustomSchemes;
             ChromiumWebBrowser.Initialize(true);
 
             _PackUriSchemeHandlerFactory = new PackUriSchemeHandlerFactory(webSessionLogger);
             //need this to make request interception work
             CfxRuntime.RegisterSchemeHandlerFactory("pack", null, _PackUriSchemeHandlerFactory);
+        }   
+
+        private void ChromiumWebBrowser_OnRegisterCustomSchemes(CfxOnRegisterCustomSchemesEventArgs e)
+        {
+            // e.Registrar.AddCustomScheme("pack", false, false, false, false, false, false);
+            //e.Registrar.AddCustomScheme("pack", false, false, false, true, true, false);
+            //e.Registrar.AddCustomScheme("pack", false, false, false, true, true, true);
+
+            //e.Registrar.AddCustomScheme("pack", false, true, false, false, false, false);
+
+            //e.Registrar.AddCustomScheme("pack", false, false, false, true, false, true);
+            //e.Registrar.AddCustomScheme("pack", false, false, false, false, false, true);
+            var ok = e.Registrar.AddCustomScheme("pack", false, true, false, false, false, true);
         }
 
         private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";
