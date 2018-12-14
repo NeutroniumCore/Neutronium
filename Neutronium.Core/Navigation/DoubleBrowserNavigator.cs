@@ -218,7 +218,6 @@ namespace Neutronium.Core.Navigation
 
         private void Reload(bool forceClean)
         {
-            var dest = _CurrentWebControl.HtmlWindow.Url;
             var vm = GetMainViewModel(Binding);
             var mode = Binding.Mode;
 
@@ -228,7 +227,7 @@ namespace Neutronium.Core.Navigation
             }
             Binding = null;
 
-            Navigate(dest, vm, mode);
+            Navigate(Url, vm, mode);
         }
 
         private IJavascriptFrameworkManager GetInjectorFactory(Uri uri)
