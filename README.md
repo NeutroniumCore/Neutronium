@@ -1,4 +1,4 @@
-<p align="center"><img <p align="center"><img width="100"src="./Deploy/logo.png"></p>
+<p align="center"><img width="100"src="./Deploy/logo.png"></p>
 <h1 align="center">Neutronium</h1>
 
 [![Build status](https://img.shields.io/appveyor/ci/David-Desmaisons/Neutronium.svg?maxAge=2592000)](https://ci.appveyor.com/project/David-Desmaisons/neutronium)
