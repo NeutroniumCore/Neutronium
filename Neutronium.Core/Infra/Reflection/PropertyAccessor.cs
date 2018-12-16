@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-#if NET45
+using Microsoft.CSharp.RuntimeBinder;
+#if NET472
 using System.Dynamic;
 using System.Reflection.Emit;
 #endif
@@ -95,7 +96,7 @@ namespace Neutronium.Core.Infra.Reflection
 
         private static Func<object, object> BuildGet(PropertyInfo propertyInfo)
         {
-#if NET45
+#if NET472
             var dynamicMethod = new DynamicMethod("Get" + propertyInfo.Name, Types.Object, new[] { Types.Object }, propertyInfo.DeclaringType, true);
             var generator = dynamicMethod.GetILGenerator();
             GenerateCreateGetPropertyIL(propertyInfo, generator);
@@ -106,7 +107,7 @@ namespace Neutronium.Core.Infra.Reflection
 #endif
         }
 
-#if NET45
+#if NET472
         private static void GenerateCreateGetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
         {
             var getMethod = propertyInfo.GetGetMethod(true);
@@ -119,7 +120,7 @@ namespace Neutronium.Core.Infra.Reflection
 
         public Action<object, object> BuildSet(Type type, PropertyInfo propertyInfo)
         {
-#if NET45
+#if NET472
             var dynamicMethod = new DynamicMethod("Set" + propertyInfo.Name, null, new[] { Types.Object, Types.Object }, propertyInfo.DeclaringType, true);
             var generator = dynamicMethod.GetILGenerator();
             GenerateCreateSetPropertyIL(propertyInfo, generator);
@@ -130,7 +131,7 @@ namespace Neutronium.Core.Infra.Reflection
 #endif
         }
 
-#if NET45
+#if NET472
         private static void GenerateCreateSetPropertyIL(PropertyInfo propertyInfo, ILGenerator generator)
         {
             var setMethod = propertyInfo.GetSetMethod(true);
