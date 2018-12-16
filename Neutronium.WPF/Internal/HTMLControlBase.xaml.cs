@@ -111,6 +111,11 @@ namespace Neutronium.WPF.Internal
         public event EventHandler<FirstLoadEvent> OnFirstLoad;
         public event EventHandler<DisplayEvent> OnDisplay;
 
+        public void Reload()
+        {
+            _WpfDoubleBrowserNavigator?.Reload();
+        }
+
         protected HTMLControlBase(IUrlSolver urlSolver)
         {
             if (DesignerProperties.GetIsInDesignMode(this))

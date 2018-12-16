@@ -204,6 +204,11 @@ namespace Neutronium.Core.Navigation
             return tcs.Task;
         }
 
+        public void Reload()
+        {
+            Reload(false);
+        }
+
         private void Crashed(object sender, BrowserCrashedArgs e)
         {
             _webSessionLogger.Error("WebView crashed trying recover");
