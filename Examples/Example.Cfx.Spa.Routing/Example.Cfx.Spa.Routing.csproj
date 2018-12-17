@@ -68,10 +68,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Neutronium.MVVMComponents, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Neutronium.MVVMComponents\bin\Debug\net45\Neutronium.MVVMComponents.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -251,6 +247,10 @@
     <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj">
       <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
       <Name>Neutronium.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj">
+      <Project>{26203c44-279d-4bfe-b17a-f6ada8d240ed}</Project>
+      <Name>Neutronium.MVVMComponents</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">
       <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
