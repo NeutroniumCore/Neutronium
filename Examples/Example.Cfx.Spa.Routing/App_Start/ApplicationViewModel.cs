@@ -1,5 +1,5 @@
 ﻿using Example.Cfx.Spa.Routing.ViewModel;
-using Neutronium.WPF.ViewModel;
+using Neutronium.MVVMComponents;
 
 namespace Example.Cfx.Spa.Routing {
     public class ApplicationViewModel {
