@@ -119,7 +119,6 @@
     <Compile Include="Internal\WPFUIDispatcher.cs" />
     <Compile Include="IWPFWebWindow.cs" />
     <Compile Include="Utils\VersionHelper.cs" />
-    <Compile Include="ViewModel\IWindowViewModel.cs" />
     <Compile Include="ViewModel\WindowViewModel.cs" />
     <Compile Include="WPF\BoolToHiddenConverter.cs" />
     <Compile Include="WPF\HdiHelper.cs" />

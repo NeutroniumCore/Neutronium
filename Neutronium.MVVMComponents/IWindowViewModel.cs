@@ -1,8 +1,7 @@
-﻿using Neutronium.MVVMComponents;
-using System;
+﻿using System;
 using System.ComponentModel;
 
-namespace Neutronium.WPF.ViewModel
+namespace Neutronium.MVVMComponents
 {
     public interface IWindowViewModel : IDisposable, INotifyPropertyChanged
     {
