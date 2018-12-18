@@ -6,7 +6,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
 {
     public abstract class ChromiumFxWebBrowserApp : HTMLApp
     {
-        protected virtual bool DisableWebSecurity => true;
+        protected virtual bool DisableWebSecurity => false;
 
         protected override IWPFWebWindowFactory GetWindowFactory() =>
             new ChromiumFXWPFWebWindowFactory(UpdateChromiumSettings, PrivateUpdateLineCommandArg);
