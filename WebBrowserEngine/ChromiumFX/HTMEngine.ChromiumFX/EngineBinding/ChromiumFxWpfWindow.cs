@@ -29,7 +29,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public IWebBrowserWindow HTMLWindow => _ChromiumFxControlWebBrowserWindow;
         public ChromiumWebBrowser ChromiumWebBrowser => _ChromiumWebBrowser;
         public event EventHandler<DebugEventArgs> DebugToolOpened;
-        private readonly List<PackUriResourceHandler> _PackPackUriResourceHandlers = new List<PackUriResourceHandler>();
 
         public ChromiumFxWpfWindow(IWebSessionLogger logger) 
         {
@@ -42,21 +41,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
-
-            //add request interception to handler pack uri request
-            _ChromiumWebBrowser.RequestHandler.GetResourceHandler += (s, e) =>
-            {
-                var uri=new Uri(e.Request.Url);
-                if (uri.Scheme != "pack")
-                    return;
-               
-                var newResourceHandler= new PackUriResourceHandler(uri, logger1);
-                _PackPackUriResourceHandlers.Add(newResourceHandler);
-                e.SetReturnValue(newResourceHandler);
-            };
-
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
-            _ChromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, logger1);         
+            _ChromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, logger);         
         }
 
         public void Inject(Key keyToInject) 
@@ -136,7 +122,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public void Dispose()
         {
             _ChromiumWebBrowser.Dispose();
-            _PackPackUriResourceHandlers.Clear();
             _DebugCfxClient = null;
             _DebugCfxLifeSpanHandler = null;
         }
