@@ -11,6 +11,7 @@ using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using System.Windows;
+using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
@@ -43,8 +44,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _ChromiumWebBrowser.ContextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
             _ChromiumWebBrowser.ContextMenuHandler.OnContextMenuCommand += ContextMenuHandler_OnContextMenuCommand;
             _ChromiumWebBrowser.RequestHandler.OnRenderProcessTerminated += RequestHandler_OnRenderProcessTerminated;
-            _ChromiumWebBrowser.LifeSpanHandler.OnBeforePopup += LifeSpanHandler_OnBeforePopup;
-            ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
         }
 
         private void LoadHandler_OnLoadError(object sender, CfxOnLoadErrorEventArgs e)
@@ -93,14 +92,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     _Logger.Error($@"Navigation to {request.Url} triggered by ""{request.TransitionType}"" has been cancelled. It is not possible to trigger a page loading from javascript that may corrupt session and hot-reload. Use Neutronium API to alter HTML view.");
                     break;
             }
-        }
-
-        private void ChromiumWebBrowser_OnBeforeCommandLineProcessing(CfxOnBeforeCommandLineProcessingEventArgs e)
-        {
-        }
-
-        private void LifeSpanHandler_OnBeforePopup(object sender, CfxOnBeforePopupEventArgs e)
-        {
         }
 
         private void RequestHandler_OnRenderProcessTerminated(object sender, CfxOnRenderProcessTerminatedEventArgs e)
@@ -205,8 +196,23 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public void NavigateTo(Uri path)
         {
-            var url = path.Scheme == "file" ? path.AbsolutePath : path.ToString();
+            var url = GetPathFromUri(path);
             _ChromiumWebBrowser.LoadUrl(url);
+        }
+
+        private string GetPathFromUri(Uri path)
+        {
+            switch (path.Scheme)
+            {
+                case "file":
+                    return path.AbsolutePath;
+
+                case "pack":
+                    return PackUriSchemeHandlerFactory.UpdateLoadUrl(path.ToString());
+
+                default:
+                    return path.ToString();
+            }
         }
 
         public event EventHandler<LoadEndEventArgs> LoadEnd;

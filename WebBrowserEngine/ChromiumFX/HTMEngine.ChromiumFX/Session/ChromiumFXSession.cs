@@ -37,15 +37,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
         private void ChromiumWebBrowser_OnRegisterCustomSchemes(CfxOnRegisterCustomSchemesEventArgs e)
         {
-            // e.Registrar.AddCustomScheme("pack", false, false, false, false, false, false);
-            //e.Registrar.AddCustomScheme("pack", false, false, false, true, true, false);
-            //e.Registrar.AddCustomScheme("pack", false, false, false, true, true, true);
-
-            //e.Registrar.AddCustomScheme("pack", false, true, false, false, false, false);
-
-            //e.Registrar.AddCustomScheme("pack", false, false, false, true, false, true);
-            //e.Registrar.AddCustomScheme("pack", false, false, false, false, false, true);
-            var ok = e.Registrar.AddCustomScheme("pack", false, true, false, false, false, true);
+            e.Registrar.AddCustomScheme("pack", true, true, false, true, true, true);
         }
 
         private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";
