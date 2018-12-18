@@ -163,14 +163,6 @@
     <None Include="View\data\about\vm.cjson" />
     <None Include="View\data\main\vm.cjson" />
     <None Include="View\data\vm.cjson" />
-    <Resource Include="View\dist\js\app.js.map" />
-    <Resource Include="View\dist\js\chunk-vendors.js.map" />
-    <Resource Include="View\dist\js\chunk-22597bdf.js.map" />
-    <Resource Include="View\dist\js\chunk-d3526ecc.js.map" />
-    <Resource Include="View\dist\js\app-legacy.js.map" />
-    <Resource Include="View\dist\js\chunk-22597bdf-legacy.js.map" />
-    <Resource Include="View\dist\js\chunk-d3526ecc-legacy.js.map" />
-    <Resource Include="View\dist\js\chunk-vendors-legacy.js.map" />
     <None Include="View\package-lock.json" />
     <None Include="View\src\components\applicationFooter.vue" />
     <None Include="View\src\components\applicationNotification.vue" />
@@ -215,10 +207,6 @@
     <Resource Include="View\dist\css\chunk-d3526ecc.css" />
     <Resource Include="View\dist\js\chunk-22597bdf.js" />
     <Resource Include="View\dist\js\chunk-d3526ecc.js" />
-    <Resource Include="View\dist\js\app-legacy.js" />
-    <Resource Include="View\dist\js\chunk-22597bdf-legacy.js" />
-    <Resource Include="View\dist\js\chunk-d3526ecc-legacy.js" />
-    <Resource Include="View\dist\js\chunk-vendors-legacy.js" />
     <Content Include="View\vue.config.js" />
     <Content Include="View\jest.config.js" />
     <Content Include="View\postcss.config.js" />
