@@ -9,24 +9,33 @@ using System.Windows.Resources;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
-    public class PackUriResourceHandler : CfxResourceHandler
+    internal class LocalUriResourceHandler : CfxResourceHandler
     {
-        private static readonly Regex _PackUrl = new Regex(@"^pack:\/\/", RegexOptions.Compiled);
-        private static readonly Regex _OldPackUrl = new Regex(@"^pack:\/\/application:,,,\/", RegexOptions.Compiled);
+        private static readonly Regex _LocalUrl = new Regex(@"^local:\/\/", RegexOptions.Compiled);
         private const string Prefix = @"pack://application:,,,/";
-        private static readonly ConcurrentDictionary<ulong,PackUriResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, PackUriResourceHandler>();
+        private static readonly ConcurrentDictionary<ulong,LocalUriResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, LocalUriResourceHandler>();
 
         private readonly string _Url;
         private readonly ulong _Id;
         private readonly StreamResourceInfo _StreamResourceInfo;
         private readonly IWebSessionLogger _Logger;
 
-        public PackUriResourceHandler(CfxRequest request, IWebSessionLogger logger)
+        internal static LocalUriResourceHandler FromPackUrl(CfxRequest request, IWebSessionLogger logger) 
+        {
+            return new LocalUriResourceHandler(request, logger);
+        }
+
+        internal static LocalUriResourceHandler FromLocalUrl(CfxRequest request, IWebSessionLogger logger)
+        {
+            return new LocalUriResourceHandler(request, logger, UpdateUrl(request.Url));
+        }
+
+        private LocalUriResourceHandler(CfxRequest request, IWebSessionLogger logger, Uri uriUrl = null)
         {
             _Url = request.Url;
             _Id = request.Identifier;
             _Logger = logger;
-            var uri = UpdateUrl(_Url);
+            var uri = uriUrl ?? new Uri(_Url);
             try
             {
                 _StreamResourceInfo = System.Windows.Application.GetResourceStream(uri);
@@ -42,14 +51,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _PackUriResourceHandlers.TryAdd(_Id, this);
         }
 
-        internal static string UpdateLoadUrl(string url)
-        {
-            return _OldPackUrl.Replace(url, "pack://");
-        }
-
         private static Uri UpdateUrl(string url)
         {
-            var newUrl = _PackUrl.Replace(url, Prefix);
+            var newUrl = _LocalUrl.Replace(url, Prefix);
             return new Uri(newUrl);
         }
 

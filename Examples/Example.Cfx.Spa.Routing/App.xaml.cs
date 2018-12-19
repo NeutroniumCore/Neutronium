@@ -17,7 +17,7 @@ namespace Example.Cfx.Spa.Routing
         public bool Debug => (Mode != ApplicationMode.Production);
         public Uri Uri => (Mode == ApplicationMode.Dev) ?
                                 new Uri("http://localhost:8080/index.html") :
-                                new Uri("pack://application:,,,/View/dist/index.html");
+                                new Uri("local://View/dist/index.html");
 
         public static App MainApplication => Current as App;
 

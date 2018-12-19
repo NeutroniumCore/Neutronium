@@ -9,7 +9,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             Create+= (s, e) =>
             {
-                var handler = new PackUriResourceHandler(e.Request, webSessionLogger);
+                var handler = LocalUriResourceHandler.FromPackUrl(e.Request, webSessionLogger);
                 e.SetReturnValue(handler);
             };
         }

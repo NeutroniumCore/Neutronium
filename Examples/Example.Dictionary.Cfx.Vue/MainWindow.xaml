@@ -12,7 +12,7 @@
     </Window.Resources>
 
     <Grid Background="Black">
-        <wpf:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="wcBrowser" Uri="pack://application:,,,/View/Main/dist/index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <wpf:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="wcBrowser" Uri="local://View/Main/dist/index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 
     <Window.Visibility>

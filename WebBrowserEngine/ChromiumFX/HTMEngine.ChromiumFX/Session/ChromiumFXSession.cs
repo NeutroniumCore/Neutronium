@@ -17,6 +17,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         private readonly Action<CfxOnBeforeCommandLineProcessingEventArgs> _CommandLineHandler;
         private readonly string _CurrentDirectory;
         private readonly PackUriSchemeHandlerFactory _PackUriSchemeHandlerFactory;
+        private readonly LocalUriSchemeHandlerFactory _LocalUriSchemeHandlerFactory;
 
         private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler, IWebSessionLogger webSessionLogger) 
         {
@@ -30,9 +31,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             ChromiumWebBrowser.Initialize(true);
 
             _PackUriSchemeHandlerFactory = new PackUriSchemeHandlerFactory(webSessionLogger);
+            _LocalUriSchemeHandlerFactory = new LocalUriSchemeHandlerFactory(webSessionLogger);
             //need this to make request interception work
             CfxRuntime.RegisterSchemeHandlerFactory("pack", null, _PackUriSchemeHandlerFactory);
-        }   
+            CfxRuntime.RegisterSchemeHandlerFactory("local", null, _LocalUriSchemeHandlerFactory);
+        }
 
         private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";
         private string GetPath(string relativePath) 
