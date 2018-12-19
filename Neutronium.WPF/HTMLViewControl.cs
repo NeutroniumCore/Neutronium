@@ -28,7 +28,7 @@ namespace Neutronium.WPF
             set => SetValue(UriProperty, value);
         }
 
-        [Obsolete("RelativeSource is deprecated, please use Uri with pack url instead (pack://application:,,,/{path} ).")]
+        [Obsolete("RelativeSource is deprecated, please use Uri with local url instead (local://{path} ).")]
         public string RelativeSource
         {
             set
@@ -36,7 +36,7 @@ namespace Neutronium.WPF
                 if (DesignerProperties.GetIsInDesignMode(this))
                     return;
 
-                Trace.TraceWarning($@"Deprecated. Change RelativeSouce=""{value}"" for Uri=""pack://application:,,,/{value.Replace("\\", "/")}"" instead after setting files Build Action to Resource.");
+                Trace.TraceWarning($@"Deprecated. Change RelativeSouce=""{value}"" for Uri=""local://{value.Replace("\\", "/")}"" instead after setting files Build Action to Resource.");
 
                 var path = $"{Assembly.GetExecutingAssembly().GetPath()}\\{value}";
                 if (!File.Exists(path))

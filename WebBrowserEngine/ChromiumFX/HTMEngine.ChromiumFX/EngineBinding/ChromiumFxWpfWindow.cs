@@ -19,6 +19,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
     {
         private readonly ChromiumFxControl _ChromiumFxControl;
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
+        private readonly IWebSessionLogger _Logger;
         private readonly ChromiumFxControlWebBrowserWindow _ChromiumFxControlWebBrowserWindow;
         private IntPtr _DebugWindowHandle = IntPtr.Zero;
         private CfxClient _DebugCfxClient;
@@ -32,7 +33,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public ChromiumFxWpfWindow(IWebSessionLogger logger) 
         {
-            var logger1 = logger;
+            _Logger = logger;
             _ChromiumFxControl = new ChromiumFxControl()
             {
                 Visibility = Visibility.Hidden,
@@ -41,9 +42,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
-
+            _ChromiumWebBrowser.RequestHandler.OnBeforeResourceLoad += RequestHandler_OnBeforeResourceLoad;
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
             _ChromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, logger);         
+        }
+
+        private void RequestHandler_OnBeforeResourceLoad(object sender, CfxOnBeforeResourceLoadEventArgs e)
+        {
+            _Logger.Info($"Loading: {e.Request.Url}");
+            e.SetReturnValue(CfxReturnValue.Continue);
         }
 
         public void Inject(Key keyToInject) 
