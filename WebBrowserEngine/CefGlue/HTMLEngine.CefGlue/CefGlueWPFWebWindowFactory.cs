@@ -1,5 +1,4 @@
-﻿using System;
-using Neutronium.Core;
+﻿using Neutronium.Core;
 using Neutronium.WebBrowserEngine.CefGlue.CefSession;
 using Neutronium.WPF;
 using Xilium.CefGlue;
@@ -18,8 +17,9 @@ namespace Neutronium.WebBrowserEngine.CefGlue
 
         public IWebSessionLogger WebSessionLogger { get; set; }
 
-        public CefGlueWPFWebWindowFactory( CefSettings iCefSettings = null)
+        public CefGlueWPFWebWindowFactory(IWebSessionLogger logger = null, CefSettings iCefSettings = null)
         {
+            WebSessionLogger = logger;
             _ICefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded(iCefSettings);
         }
 

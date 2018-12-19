@@ -41,6 +41,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
+
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
             _ChromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, logger);         
         }

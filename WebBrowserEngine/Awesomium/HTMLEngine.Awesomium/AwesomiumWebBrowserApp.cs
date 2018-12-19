@@ -1,12 +1,13 @@
-﻿using Neutronium.WPF;
+﻿using Neutronium.Core;
+using Neutronium.WPF;
 
 namespace Neutronium.WebBrowserEngine.Awesomium
 {
     public abstract class AwesomiumWebBrowserApp : HTMLApp
     {
-        protected override IWPFWebWindowFactory GetWindowFactory()
+        protected override IWPFWebWindowFactory GetWindowFactory(IWebSessionLogger logger)
         {
-           return new AwesomiumWPFWebWindowFactory();
+           return new AwesomiumWPFWebWindowFactory(logger);
         }
     }
 }

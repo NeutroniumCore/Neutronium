@@ -28,8 +28,9 @@ namespace Neutronium.WebBrowserEngine.Awesomium
                 WebCore.Initialize(_WebConfig);
         }
 
-        public AwesomiumWPFWebWindowFactory(string webSessionPath=null) 
+        public AwesomiumWPFWebWindowFactory(IWebSessionLogger logger=null, string webSessionPath =null)
         {
+            WebSessionLogger = logger;
             if (_Session != null)
                 return;
 

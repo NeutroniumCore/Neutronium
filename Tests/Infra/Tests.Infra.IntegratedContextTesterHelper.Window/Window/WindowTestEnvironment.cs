@@ -8,7 +8,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
     public sealed class WindowTestEnvironment : IWindowTestHTMLEngineEnvironment
     {
         private bool _IsInit = false;
-        private IWPFWebWindowFactory _WPFWebWindowFactory;
+        private IWPFWebWindowFactory _WpfWebWindowFactory;
         private readonly WindowTestContext _WindowTestContext;
 
         public WpfThread WpfThread { get; private set; }
@@ -23,8 +23,8 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
         private void DoRegister() 
         {
             var engine = HTMLEngineFactory.Engine;
-            _WPFWebWindowFactory = _WindowTestContext.WPFWebWindowFactory();
-            engine.RegisterHTMLEngine(_WPFWebWindowFactory);
+            _WpfWebWindowFactory = _WindowTestContext.WPFWebWindowFactory();
+            engine.RegisterHTMLEngine(_WpfWebWindowFactory);
             engine.RegisterJavaScriptFramework(_WindowTestContext.FrameworkManager);
         }
 
@@ -42,7 +42,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Window
 
         private void OnThreadEnded(object sender, EventArgs e)
         {
-            _WPFWebWindowFactory.Dispose();
+            _WpfWebWindowFactory.Dispose();
         }
 
         public IWPFWindowWrapper GetWindowWrapper(Func<System.Windows.Window> ifactory = null) 

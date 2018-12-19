@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Neutronium.Core;
 using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.WPF
@@ -13,7 +14,8 @@ namespace Neutronium.WPF
         {
             Args = e.Args;
             var engine = HTMLEngineFactory.Engine;
-            engine.RegisterHTMLEngine(GetWindowFactory());
+            var factory = GetWindowFactory(engine.WebSessionLogger);
+            engine.RegisterHTMLEngine(factory);
             engine.RegisterJavaScriptFramework(GetJavascriptUIFrameworkManager());
             OnStartUp(engine);
             base.OnStartup(e);
@@ -46,7 +48,7 @@ namespace Neutronium.WPF
         {            
         } 
 
-        protected abstract IWPFWebWindowFactory GetWindowFactory();
+        protected abstract IWPFWebWindowFactory GetWindowFactory(IWebSessionLogger logger);
 
         protected abstract IJavascriptFrameworkManager GetJavascriptUIFrameworkManager();
     }

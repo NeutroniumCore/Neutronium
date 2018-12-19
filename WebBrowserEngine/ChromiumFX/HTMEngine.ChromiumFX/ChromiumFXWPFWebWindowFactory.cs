@@ -22,13 +22,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
         public CfxBrowserSettings BrtowserSettings => ChromiumWebBrowser.DefaultBrowserSettings;
         public IWebSessionLogger WebSessionLogger { get; set; }
 
-        public ChromiumFXWPFWebWindowFactory(Action<CfxSettings> settingsUpdater=null, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler=null)
+        public ChromiumFXWPFWebWindowFactory(IWebSessionLogger logger=null, Action<CfxSettings> settingsUpdater=null, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler=null)
         {
-            _Session = ChromiumFxSession.GetSession((settings) => 
+            WebSessionLogger = logger;
+            _Session = ChromiumFxSession.GetSession(WebSessionLogger, (settings) => 
             {
                 settingsUpdater?.Invoke(settings);
                 Settings = settings;
-            }, commadLineHandler, WebSessionLogger);
+            }, commadLineHandler);
         }
 
         public IWPFWebWindow Create()

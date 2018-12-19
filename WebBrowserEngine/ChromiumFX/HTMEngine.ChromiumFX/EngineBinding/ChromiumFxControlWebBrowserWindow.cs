@@ -208,7 +208,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     return path.AbsolutePath;
 
                 case "pack":
-                    return PackUriSchemeHandlerFactory.UpdateLoadUrl(path.ToString());
+                    return PackUriResourceHandler.UpdateLoadUrl(path.ToString());
 
                 default:
                     return path.ToString();

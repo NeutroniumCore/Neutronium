@@ -1,5 +1,6 @@
 ﻿using Chromium;
 using Chromium.Event;
+using Neutronium.Core;
 using Neutronium.WPF;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx
@@ -8,8 +9,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
     {
         protected virtual bool DisableWebSecurity => false;
 
-        protected override IWPFWebWindowFactory GetWindowFactory() =>
-            new ChromiumFXWPFWebWindowFactory(UpdateChromiumSettings, PrivateUpdateLineCommandArg);
+        protected override IWPFWebWindowFactory GetWindowFactory(IWebSessionLogger logger) =>
+            new ChromiumFXWPFWebWindowFactory(logger, UpdateChromiumSettings, PrivateUpdateLineCommandArg);
 
         protected virtual void UpdateChromiumSettings(CfxSettings settings) 
         {         

@@ -2,33 +2,55 @@
 using Chromium.Event;
 using Neutronium.Core;
 using System;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Resources;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
     public class PackUriResourceHandler : CfxResourceHandler
     {
-        private readonly Uri _Uri;
-        private readonly StreamResourceInfo _StreamResourceInfo;
+        private static readonly Regex _PackUrl = new Regex(@"^pack:\/\/", RegexOptions.Compiled);
+        private static readonly Regex _OldPackUrl = new Regex(@"^pack:\/\/application:,,,\/", RegexOptions.Compiled);
+        private const string Prefix = @"pack://application:,,,/";
+        private static readonly ConcurrentDictionary<ulong,PackUriResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, PackUriResourceHandler>();
 
-        public PackUriResourceHandler(Uri packUri, IWebSessionLogger logger)
+        private readonly string _Url;
+        private readonly ulong _Id;
+        private readonly StreamResourceInfo _StreamResourceInfo;
+        private readonly IWebSessionLogger _Logger;
+
+        public PackUriResourceHandler(CfxRequest request, IWebSessionLogger logger)
         {
-            _Uri = packUri;
+            _Url = request.Url;
+            _Id = request.Identifier;
+            _Logger = logger;
+            var uri = UpdateUrl(_Url);
             try
             {
-                _StreamResourceInfo = System.Windows.Application.GetResourceStream(packUri);
+                _StreamResourceInfo = System.Windows.Application.GetResourceStream(uri);
             }
             catch (Exception exception)
             {
-                logger?.Error(() => $"Unable to find pack ressource:{packUri} exception:{exception}");
+                _Logger?.Error(() => $"Unable to find pack ressource:{_Url} exception:{exception}");
             }
 
             GetResponseHeaders += PackUriResourceHandler_GetResponseHeaders;
             ReadResponse += PackUriResourceHandler_ReadResponse;
             ProcessRequest += PackUriResourceHandler_ProcessRequest;
-            CanGetCookie += PackUriResourceHandler_CanGetCookie;
-            CanSetCookie += PackUriResourceHandler_CanSetCookie;
+            _PackUriResourceHandlers.TryAdd(_Id, this);
+        }
+
+        internal static string UpdateLoadUrl(string url)
+        {
+            return _OldPackUrl.Replace(url, "pack://");
+        }
+
+        private static Uri UpdateUrl(string url)
+        {
+            var newUrl = _PackUrl.Replace(url, Prefix);
+            return new Uri(newUrl);
         }
 
         private void PackUriResourceHandler_GetResponseHeaders(object sender, CfxGetResponseHeadersEventArgs responeHeader)
@@ -55,11 +77,24 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 return;
             }
 
+            var stream = _StreamResourceInfo.Stream;
             var buffer = new byte[readResponse.BytesToRead];
-            var bytesRead = _StreamResourceInfo.Stream.Read(buffer, 0, readResponse.BytesToRead);
+            var bytesRead = stream.Read(buffer, 0, readResponse.BytesToRead);
             System.Runtime.InteropServices.Marshal.Copy(buffer, 0, readResponse.DataOut, bytesRead);
             readResponse.BytesRead = bytesRead;
-            readResponse.SetReturnValue(bytesRead > 0);
+            readResponse.SetReturnValue(true);
+
+            if (stream.Position != stream.Length)
+                return;
+
+            Clean();
+            _Logger?.Info($"Loaded: {_Url}");
+        }
+
+        private void Clean()
+        {
+            _PackUriResourceHandlers.TryRemove(_Id, out _);
+            _StreamResourceInfo?.Stream.Dispose();
         }
 
         private void PackUriResourceHandler_ProcessRequest(object sender, CfxProcessRequestEventArgs processRequest)
@@ -67,24 +102,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             processRequest.Callback.Continue();
             processRequest.SetReturnValue(true);
         }
-        private void PackUriResourceHandler_CanSetCookie(object sender, CfxResourceHandlerCanSetCookieEventArgs e)
-        {
-            e.SetReturnValue(true);
-        }
-
-        private void PackUriResourceHandler_CanGetCookie(object sender, CfxCanGetCookieEventArgs e)
-        {
-            e.SetReturnValue(true);
-        }
 
         public override string ToString()
         {
-            return _Uri.ToString();
+            return _Url.ToString();
         }
 
         private string GetMineType()
         {
-            var extension = Path.GetExtension(_Uri.AbsoluteUri).Replace(".", "");
+            var extension = Path.GetExtension(_Url).Replace(".", "");
             return CfxRuntime.GetMimeType(extension);
         }
     }
