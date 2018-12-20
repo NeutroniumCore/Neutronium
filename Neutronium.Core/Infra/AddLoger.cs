@@ -40,6 +40,16 @@ namespace Neutronium.Core.Infra
             Do(l => l.Error(information));
         }
 
+        public void Warning(Func<string> information)
+        {
+            Do(l => l.Error(information));
+        }
+
+        public void Warning(string information)
+        {
+            Do(l => l.Error(information));
+        }
+
         public void Info(Func<string> information)
         {
             Do(l => l.Info(information));

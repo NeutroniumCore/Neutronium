@@ -72,5 +72,15 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         {
             Log(exception.Message);
         }
+
+        public void Warning(string information)
+        {
+            Log(information);
+        }
+
+        public void Warning(Func<string> information)
+        {
+            Log(information);
+        }
     }
 }

@@ -29,6 +29,14 @@ namespace Neutronium.Core.Log
         {
         }
 
+        public void Warning(string information)
+        {
+        }
+
+        public void Warning(Func<string> information)
+        {
+        }
+
         public void LogBrowser(ConsoleMessageArgs iInformation, Uri url) 
         {
         }

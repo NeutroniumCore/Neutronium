@@ -50,5 +50,15 @@ namespace Neutronium.Core.Log
         {
             Log($"WebBrowser Error Exception raised: - {exception.Message}");
         }
+
+        public void Warning(string information)
+        {
+            Trace.TraceWarning($"{_Header} - Error: {information}");
+        }
+
+        public void Warning(Func<string> information)
+        {
+            Warning(information());
+        }
     }
 }

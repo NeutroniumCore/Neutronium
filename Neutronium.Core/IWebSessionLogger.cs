@@ -1,8 +1,7 @@
 ﻿using System;
 using Neutronium.Core.WebBrowserEngine.Window;
 
-namespace Neutronium.Core
-{
+namespace Neutronium.Core {
     /// <summary>
     /// Interface to implement to receive event from browser
     /// </summary>
@@ -27,6 +26,16 @@ namespace Neutronium.Core
         /// called for information logging 
         /// </summary>
         void Info(Func<string> information);
+
+        /// <summary>
+        /// called for warning 
+        /// </summary>
+        void Warning(string information);
+
+        /// <summary>
+        /// called for warning 
+        /// </summary>
+        void Warning(Func<string> information);
 
         /// <summary>
         /// called on critical event 

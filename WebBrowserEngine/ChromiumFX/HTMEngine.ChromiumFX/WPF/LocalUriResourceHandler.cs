@@ -7,8 +7,10 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Resources;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF {
-    internal class LocalUriResourceHandler : CfxResourceHandler {
+namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
+{
+    internal class LocalUriResourceHandler : CfxResourceHandler
+    {
         private const string Prefix = @"pack://application:,,,/";
         private static readonly Regex _LocalUrl = new Regex(@"^local:\/\/", RegexOptions.Compiled);
         private static readonly ConcurrentDictionary<ulong, LocalUriResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, LocalUriResourceHandler>();
@@ -141,7 +143,5 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF {
         {
             return Url.ToString();
         }
-
-      
     }
 }
