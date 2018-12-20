@@ -63,9 +63,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             {
                return System.Windows.Application.GetResourceStream(uri);
             }
-            catch (Exception exception)
+            catch
             {
-                _Logger?.Error(() => $"Unable to find pack ressource:{Url} exception:{exception}");
+                _Logger?.Warning(() => $"Unable to find pack ressource:{Url}");
             }
             return null;
         }

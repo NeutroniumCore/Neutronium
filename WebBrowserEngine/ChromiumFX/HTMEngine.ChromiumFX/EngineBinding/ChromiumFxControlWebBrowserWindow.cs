@@ -11,7 +11,6 @@ using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using System.Windows;
-using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
