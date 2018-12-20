@@ -28,6 +28,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
+            ChromiumWebBrowser.OnRegisterCustomSchemes += ChromiumWebBrowser_OnRegisterCustomSchemes;
             ChromiumWebBrowser.Initialize(true);
 
             _PackUriSchemeHandlerFactory = new PackUriSchemeHandlerFactory(webSessionLogger);
@@ -35,6 +36,18 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             //need this to make request interception work
             CfxRuntime.RegisterSchemeHandlerFactory("pack", null, _PackUriSchemeHandlerFactory);
             CfxRuntime.RegisterSchemeHandlerFactory("local", null, _LocalUriSchemeHandlerFactory);
+        }
+
+        private static void ChromiumWebBrowser_OnRegisterCustomSchemes(CfxOnRegisterCustomSchemesEventArgs e)
+        {
+            RegisterCustomScheme("pack", e);
+            RegisterCustomScheme("local", e);
+        }
+
+        private static void RegisterCustomScheme(string scheme, CfxOnRegisterCustomSchemesEventArgs e)
+        {
+            //Not sure if this is needed or not, seeting true for isStandard will crash Chromium
+            e.Registrar.AddCustomScheme(scheme, false, true, false, true, true, true);
         }
 
         private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";
