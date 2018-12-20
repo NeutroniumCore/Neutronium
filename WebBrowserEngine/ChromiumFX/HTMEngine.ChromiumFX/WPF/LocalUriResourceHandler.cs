@@ -7,18 +7,26 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Resources;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
-{
-    internal class LocalUriResourceHandler : CfxResourceHandler
-    {
-        private static readonly Regex _LocalUrl = new Regex(@"^local:\/\/", RegexOptions.Compiled);
+namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF {
+    internal class LocalUriResourceHandler : CfxResourceHandler {
         private const string Prefix = @"pack://application:,,,/";
-        private static readonly ConcurrentDictionary<ulong,LocalUriResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, LocalUriResourceHandler>();
+        private static readonly Regex _LocalUrl = new Regex(@"^local:\/\/", RegexOptions.Compiled);
+        private static readonly ConcurrentDictionary<ulong, LocalUriResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, LocalUriResourceHandler>();
 
-        private readonly string _Url;
-        private readonly ulong _Id;
+        private string Url => _Request.Url;
+        private bool IsPrefetch => _Request.ResourceType == CfxResourceType.Prefetch;
+        private string MineType
+        {
+            get
+            {
+                var extension = Path.GetExtension(Url).Replace(".", "");
+                return CfxRuntime.GetMimeType(extension);
+            }
+        }
+
         private readonly StreamResourceInfo _StreamResourceInfo;
         private readonly IWebSessionLogger _Logger;
+        private readonly CfxRequest _Request;
 
         internal static LocalUriResourceHandler FromPackUrl(CfxRequest request, IWebSessionLogger logger) 
         {
@@ -32,23 +40,32 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         private LocalUriResourceHandler(CfxRequest request, IWebSessionLogger logger, Uri uriUrl = null)
         {
-            _Url = request.Url;
-            _Id = request.Identifier;
+            _Request = request;
             _Logger = logger;
-            var uri = uriUrl ?? new Uri(_Url);
-            try
-            {
-                _StreamResourceInfo = System.Windows.Application.GetResourceStream(uri);
-            }
-            catch (Exception exception)
-            {
-                _Logger?.Error(() => $"Unable to find pack ressource:{_Url} exception:{exception}");
-            }
+            var uri = uriUrl ?? new Uri(Url);
+            _StreamResourceInfo = GetStreamResourceInfo(uri);
 
             GetResponseHeaders += PackUriResourceHandler_GetResponseHeaders;
             ReadResponse += PackUriResourceHandler_ReadResponse;
             ProcessRequest += PackUriResourceHandler_ProcessRequest;
-            _PackUriResourceHandlers.TryAdd(_Id, this);
+            _PackUriResourceHandlers.TryAdd(_Request.Identifier, this);
+        }
+
+        private StreamResourceInfo GetStreamResourceInfo(Uri uri)
+        {
+            if (IsPrefetch)
+            {
+                return null;
+            }
+            try 
+            {
+               return System.Windows.Application.GetResourceStream(uri);
+            }
+            catch (Exception exception)
+            {
+                _Logger?.Error(() => $"Unable to find pack ressource:{Url} exception:{exception}");
+            }
+            return null;
         }
 
         private static Uri UpdateUrl(string url)
@@ -57,9 +74,17 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return new Uri(newUrl);
         }
 
-        private void PackUriResourceHandler_GetResponseHeaders(object sender, CfxGetResponseHeadersEventArgs responeHeader)
+        private void PackUriResourceHandler_GetResponseHeaders(object sender, CfxGetResponseHeadersEventArgs responseHeader)
         {
-            var response = responeHeader.Response;
+            var response = responseHeader.Response;
+            if (IsPrefetch)
+            {
+                _Logger?.Info($"Loading ignored (prefetch): {Url}");
+                responseHeader.ResponseLength = 0;
+                SetSuccess(response);
+                return;
+            }
+
             if (_StreamResourceInfo == null)
             {
                 response.Status = 404;
@@ -67,8 +92,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 return;
             }
 
-            responeHeader.ResponseLength = _StreamResourceInfo.Stream.Length;
-            response.MimeType = GetMineType();
+            responseHeader.ResponseLength = _StreamResourceInfo.Stream.Length;
+            SetSuccess(response);
+        }
+
+        private void SetSuccess(CfxResponse response)
+        {
+            response.MimeType = MineType;
             response.Status = 200;
             response.StatusText = "OK";
         }
@@ -92,12 +122,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 return;
 
             Clean();
-            _Logger?.Info($"Loaded: {_Url}");
+            _Logger?.Info($"Loaded: {Url}");
         }
 
         private void Clean()
         {
-            _PackUriResourceHandlers.TryRemove(_Id, out _);
+            _PackUriResourceHandlers.TryRemove(_Request.Identifier, out _);
             _StreamResourceInfo?.Stream.Dispose();
         }
 
@@ -109,13 +139,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 
         public override string ToString()
         {
-            return _Url.ToString();
+            return Url.ToString();
         }
 
-        private string GetMineType()
-        {
-            var extension = Path.GetExtension(_Url).Replace(".", "");
-            return CfxRuntime.GetMimeType(extension);
-        }
+      
     }
 }
