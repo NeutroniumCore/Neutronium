@@ -55,6 +55,7 @@ namespace Neutronium.WPF
         public void RegisterHTMLEngine(IWPFWebWindowFactory wpfWebWindowFactory)
         {
             _Engines[wpfWebWindowFactory.Name] = wpfWebWindowFactory;
+            wpfWebWindowFactory.WebSessionLogger = _WebSessionLogger;
         }
 
         private IJavascriptFrameworkManager PrivateResolveJavaScriptFramework(string frameworkName) 

@@ -14,7 +14,7 @@ namespace Neutronium.WPF.Test
         private readonly IJavascriptFrameworkManager _JavascripEngine2;
         private readonly IJavascriptFrameworkManager _JavascripEngine3;
         private readonly HTMLEngineFactory _HTMLEngineFactory = new HTMLEngineFactory();
-        private readonly IWebSessionLogger _iWebSessionLogger;
+        private readonly IWebSessionLogger _WebSessionLogger;
 
         public HTMLEngineFactoryTest() 
         {
@@ -22,7 +22,7 @@ namespace Neutronium.WPF.Test
             _JavascripEngine1 = CreateJavascriptFactory("One");
             _JavascripEngine2 = CreateJavascriptFactory("Two");
             _JavascripEngine3 = CreateJavascriptFactory("Three");
-            _iWebSessionLogger = Substitute.For<IWebSessionLogger>();
+            _WebSessionLogger = Substitute.For<IWebSessionLogger>();
         }
 
         private IWPFWebWindowFactory CreateFactory(string name)
@@ -48,19 +48,19 @@ namespace Neutronium.WPF.Test
         [Fact]
         public void WebSessionWatcher_SetEngineWatcher_WhenWebSessionWatcher_IsCalledBeforeRegisterHTMLEngine() 
         {
-            _HTMLEngineFactory.WebSessionLogger = _iWebSessionLogger;
+            _HTMLEngineFactory.WebSessionLogger = _WebSessionLogger;
             _HTMLEngineFactory.RegisterHTMLEngine(_WPFWebWindowFactory);
 
-            _WPFWebWindowFactory.WebSessionLogger.Should().Be(_iWebSessionLogger);
+            _WPFWebWindowFactory.WebSessionLogger.Should().Be(_WebSessionLogger);
         }
 
         [Fact]
         public void WebSessionWatcher_SetEngineWatcher_WhenWebSessionWatcher_IsCalledAfterRegisterHTMLEngine() 
         {
             _HTMLEngineFactory.RegisterHTMLEngine(_WPFWebWindowFactory);
-            _HTMLEngineFactory.WebSessionLogger = _iWebSessionLogger;
+            _HTMLEngineFactory.WebSessionLogger = _WebSessionLogger;
            
-            _WPFWebWindowFactory.WebSessionLogger.Should().Be(_iWebSessionLogger);
+            _WPFWebWindowFactory.WebSessionLogger.Should().Be(_WebSessionLogger);
         }
 
         [Fact]
