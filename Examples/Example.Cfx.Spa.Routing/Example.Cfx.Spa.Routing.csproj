@@ -68,6 +68,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MoreCollection, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MoreCollection.2.0.0\lib\net45\MoreCollection.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -97,7 +100,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ApplicationMode.cs" />
     <Compile Include="App_Start\ApplicationViewModel.cs" />
     <Compile Include="App_Start\ApplicationViewModelBuilder.cs" />
     <Compile Include="App_Start\BeforeRouterResult.cs" />
@@ -113,6 +115,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="SetUp\ApplicationMode.cs" />
+    <Compile Include="SetUp\ApplicationSetUp.cs" />
+    <Compile Include="SetUp\ApplicationSetUpBuilder.cs" />
     <Compile Include="ViewModel\AboutViewModel.cs" />
     <Compile Include="ViewModel\ApplicationInformation.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

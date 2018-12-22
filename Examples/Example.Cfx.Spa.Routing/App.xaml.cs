@@ -3,7 +3,7 @@ using Neutronium.JavascriptFramework.Vue;
 using Neutronium.WebBrowserEngine.ChromiumFx;
 using Neutronium.WPF;
 using System;
-using System.Linq;
+using Example.Cfx.Spa.Routing.SetUp;
 
 namespace Example.Cfx.Spa.Routing
 {
@@ -12,14 +12,19 @@ namespace Example.Cfx.Spa.Routing
     /// </summary>
     public partial class App : ChromiumFxWebBrowserApp
     {
-        public ApplicationMode Mode { get; private set; }
-        public bool RunTimeOnly => (Mode != ApplicationMode.Dev);
-        public bool Debug => (Mode != ApplicationMode.Production);
-        public Uri Uri => (Mode == ApplicationMode.Dev) ?
-                                new Uri("http://localhost:8080/index.html") :
-                                new Uri("local://View/dist/index.html");
+        public bool? Debug => _ApplicationSetUp?.Debug;
+        public Uri Uri => _ApplicationSetUp?.Uri;
+
+        private readonly ApplicationSetUpBuilder _ApplicationSetUpBuilder;
+        private ApplicationSetUp _ApplicationSetUp;
 
         public static App MainApplication => Current as App;
+
+        public App()
+        {
+            var uri = new Uri("local://View/dist/index.html");
+            _ApplicationSetUpBuilder = new ApplicationSetUpBuilder(uri);
+        }
 
         protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager()
         {
@@ -28,18 +33,13 @@ namespace Example.Cfx.Spa.Routing
 
         protected override void OnStartUp(IHTMLEngineFactory factory)
         {
-            Mode = GetApplicationMode(Args);
-            factory.RegisterJavaScriptFrameworkAsDefault(new VueSessionInjectorV2 { RunTimeOnly = RunTimeOnly });
-            base.OnStartUp(factory);
-        }
-
-        private static ApplicationMode GetApplicationMode(string[] args)
-        {
 #if DEBUG
-            var normalizedArgs = args.Select(arg => arg.ToLower()).ToList();
-            return (normalizedArgs.Contains("-dev")) ? ApplicationMode.Dev : (normalizedArgs.Contains("-prod")) ? ApplicationMode.Production : ApplicationMode.Test;
+            _ApplicationSetUp = _ApplicationSetUpBuilder.BuildFromApplicationArguments(Args);
+#else
+            _ApplicationSetUp = _ApplicationSetUpBuilder.BuildForProduction();
 #endif
-            return ApplicationMode.Production;
+            factory.RegisterJavaScriptFrameworkAsDefault(new VueSessionInjectorV2 { RunTimeOnly = true });
+            base.OnStartUp(factory);
         }
     }
 }
