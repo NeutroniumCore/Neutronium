@@ -46,8 +46,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
         private static void RegisterCustomScheme(string scheme, CfxOnRegisterCustomSchemesEventArgs e)
         {
-            //Not sure if this is needed or not, seeting true for isStandard will crash Chromium
-            e.Registrar.AddCustomScheme(scheme, false, true, false, true, true, true);
+            //Not sure if this is needed or not, setting true for isStandard will crash Chromium
+            e.Registrar.AddCustomScheme(scheme, false, true, false, true, true, false);
         }
 
         private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";

@@ -3,6 +3,7 @@ using Chromium.Event;
 using Neutronium.Core;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Resources;
@@ -30,7 +31,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private readonly IWebSessionLogger _Logger;
         private readonly CfxRequest _Request;
 
-        internal static LocalUriResourceHandler FromPackUrl(CfxRequest request, IWebSessionLogger logger) 
+        internal static LocalUriResourceHandler FromPackUrl(CfxRequest request, IWebSessionLogger logger)
         {
             return new LocalUriResourceHandler(request, logger);
         }
@@ -59,13 +60,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             {
                 return null;
             }
-            try 
+            try
             {
-               return System.Windows.Application.GetResourceStream(uri);
+                return System.Windows.Application.GetResourceStream(uri);
             }
             catch
             {
-                _Logger?.Warning(() => $"Unable to find pack ressource:{Url}");
+                _Logger?.Warning(() => $"Unable to find pack resource:{Url}");
             }
             return null;
         }
@@ -103,6 +104,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             response.MimeType = MineType;
             response.Status = 200;
             response.StatusText = "OK";
+            response.SetHeaderMap(new List<string[]>
+            {
+                new[] { "Access-Control-Allow-Origin", "*"}
+            });
         }
 
         private void PackUriResourceHandler_ReadResponse(object sender, CfxReadResponseEventArgs readResponse)
