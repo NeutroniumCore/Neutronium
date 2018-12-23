@@ -12,8 +12,8 @@ namespace ChromiumFXRenderProcess
         static void Main() 
         {
             CfxRuntime.LibCefDirPath = $@"{CefRepo}\Release";
-            var retval = CfxRuntime.ExecuteProcess();
-            Environment.Exit(retval);
+            var returnValue = CfxRuntime.ExecuteProcess();
+            Environment.Exit(returnValue);
         }
 
         private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";

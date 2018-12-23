@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,6 +11,7 @@ using Neutronium.WPF.Internal;
 using Chromium.Event;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.WebBrowserEngine.ChromiumFx.Helper;
+using WindowStyle = Chromium.WindowStyle;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
@@ -24,6 +24,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private IntPtr _DebugWindowHandle = IntPtr.Zero;
         private CfxClient _DebugCfxClient;
         private CfxLifeSpanHandler _DebugCfxLifeSpanHandler;
+        private CfxDisplayHandler _DisplayHandler;
 
         public UIElement UIElement => _ChromiumFxControl;
         public bool IsUIElementAlwaysTopMost => true;
@@ -76,8 +77,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return true;
         }
 
-        private void DisplayDebug(CfxGetLoadHandlerEventHandler handler = null, Chromium.WindowStyle style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN | Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE)
+        private void DisplayDebug()
         {
+            const WindowStyle style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN |
+                                      Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE;
             var cfxWindowInfo = new CfxWindowInfo
             {
                 Style= style,
@@ -90,9 +93,24 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             };
 
             _DebugCfxClient = new CfxClient();
+            _DebugCfxClient.GetDisplayHandler += _DebugCfxClient_GetDisplayHandler;
             _DebugCfxClient.GetLifeSpanHandler += DebugClient_GetLifeSpanHandler;
-            if (handler!=null) _DebugCfxClient.GetLoadHandler += handler;
             _ChromiumWebBrowser.BrowserHost.ShowDevTools(cfxWindowInfo, _DebugCfxClient, new CfxBrowserSettings(), null);
+        }
+
+        private void _DebugCfxClient_GetDisplayHandler(object sender, CfxGetDisplayHandlerEventArgs e)
+        {
+            if (_DisplayHandler == null)
+            {
+                _DisplayHandler = new CfxDisplayHandler();
+                _DisplayHandler.OnConsoleMessage += Handler_OnConsoleMessage;
+            }
+            e.SetReturnValue(_DisplayHandler);
+        }
+
+        private void Handler_OnConsoleMessage(object sender, CfxOnConsoleMessageEventArgs e)
+        {
+            e.SetReturnValue(true);
         }
 
         private void DebugClient_GetLifeSpanHandler(object sender, CfxGetLifeSpanHandlerEventArgs e)

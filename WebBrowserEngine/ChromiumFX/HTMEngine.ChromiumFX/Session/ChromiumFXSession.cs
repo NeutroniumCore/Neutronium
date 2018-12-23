@@ -1,12 +1,12 @@
-﻿using System;
-using Chromium;
+﻿using Chromium;
 using Chromium.Event;
 using Chromium.WebBrowser;
 using Chromium.WebBrowser.Event;
-using Neutronium.Core.Infra;
-using System.Threading;
-using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 using Neutronium.Core;
+using Neutronium.Core.Infra;
+using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
+using System;
+using System.Threading;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 {
@@ -19,7 +19,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         private readonly PackUriSchemeHandlerFactory _PackUriSchemeHandlerFactory;
         private readonly LocalUriSchemeHandlerFactory _LocalUriSchemeHandlerFactory;
 
-        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler, IWebSessionLogger webSessionLogger) 
+        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler, IWebSessionLogger webSessionLogger)
         {
             _CurrentDirectory = this.GetType().Assembly.GetPath();
             _SettingsBuilder = settingsBuilder;
@@ -51,7 +51,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         }
 
         private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";
-        private string GetPath(string relativePath) 
+        private string GetPath(string relativePath)
         {
             return System.IO.Path.Combine(_CurrentDirectory, relativePath);
         }
@@ -64,9 +64,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         private void ChromiumWebBrowser_OnBeforeCfxInitialize(OnBeforeCfxInitializeEventArgs e)
         {
             var settings = e.Settings;
+            settings.LogSeverity = CfxLogSeverity.Error;
 
             _SettingsBuilder?.Invoke(settings);
-         
+
             settings.LocalesDirPath = GetPath($@"{CefRepo}\Resources\locales");
             settings.Locale = Thread.CurrentThread.CurrentCulture.ToString();
             settings.ResourcesDirPath = GetPath($@"{CefRepo}\Resources");
@@ -84,7 +85,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             return _Session;
         }
 
-        public void Dispose() 
+        public void Dispose()
         {
             CfxRuntime.Shutdown();
         }

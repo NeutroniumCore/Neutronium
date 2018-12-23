@@ -50,7 +50,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (e.ErrorCode == CfxErrorCode.Aborted)
             {
                 //Aborted is raised during hot-reload
-                //We will not poluate log nor stop the application
+                //We will not pollute log nor stop the application
                 return;
             }
                 
