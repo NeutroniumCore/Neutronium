@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Chromium;
+using Chromium.Event;
+using Chromium.WebBrowser;
+using Neutronium.Core;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WebBrowserEngine.ChromiumFx.Helper;
+using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
+using Neutronium.WPF.Internal;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Chromium;
-using Chromium.WebBrowser;
-using Neutronium.Core;
-using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
-using Neutronium.WPF.Internal;
-using Chromium.Event;
-using Neutronium.Core.WebBrowserEngine.Control;
-using Neutronium.WebBrowserEngine.ChromiumFx.Helper;
 using WindowStyle = Chromium.WindowStyle;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
@@ -25,6 +25,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private CfxClient _DebugCfxClient;
         private CfxLifeSpanHandler _DebugCfxLifeSpanHandler;
         private CfxDisplayHandler _DisplayHandler;
+        private CfxBrowserHost _BrowserHost;
 
         public UIElement UIElement => _ChromiumFxControl;
         public bool IsUIElementAlwaysTopMost => true;
@@ -32,7 +33,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public ChromiumWebBrowser ChromiumWebBrowser => _ChromiumWebBrowser;
         public event EventHandler<DebugEventArgs> DebugToolOpened;
 
-        public ChromiumFxWpfWindow(IWebSessionLogger logger) 
+        public ChromiumFxWpfWindow(IWebSessionLogger logger)
         {
             _Logger = logger;
             _ChromiumFxControl = new ChromiumFxControl()
@@ -43,9 +44,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 ContextMenu = new ContextMenu() { Visibility = Visibility.Collapsed }
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
+            _ChromiumWebBrowser.LoadHandler.OnLoadEnd += LoadHandler_OnLoadEnd;
             _ChromiumWebBrowser.RequestHandler.OnBeforeResourceLoad += RequestHandler_OnBeforeResourceLoad;
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
-            _ChromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, logger);         
+            _ChromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, logger);
+        }
+
+        private void LoadHandler_OnLoadEnd(object sender, CfxOnLoadEndEventArgs e)
+        {
+            //Important browserHost may change in some corner cases
+            _BrowserHost = _BrowserHost ?? _ChromiumWebBrowser.BrowserHost;
         }
 
         private void RequestHandler_OnBeforeResourceLoad(object sender, CfxOnBeforeResourceLoadEventArgs e)
@@ -54,17 +62,17 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             e.SetReturnValue(CfxReturnValue.Continue);
         }
 
-        public void Inject(Key keyToInject) 
+        public void Inject(Key keyToInject)
         {
-            var cxKeyEvent = new CfxKeyEvent() 
+            var cxKeyEvent = new CfxKeyEvent()
             {
-                WindowsKeyCode = (int) keyToInject
+                WindowsKeyCode = (int)keyToInject
             };
 
             _ChromiumWebBrowser.Browser.Host.SendKeyEvent(cxKeyEvent);
         }
 
-        public bool OnDebugToolsRequest() 
+        public bool OnDebugToolsRequest()
         {
             if (_DebugWindowHandle != IntPtr.Zero)
             {
@@ -73,17 +81,17 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }
 
             DisplayDebug();
-            DebugToolOpened?.Invoke(this, new DebugEventArgs(true));         
+            DebugToolOpened?.Invoke(this, new DebugEventArgs(true));
             return true;
         }
 
         private void DisplayDebug()
         {
-            const WindowStyle style = Chromium.WindowStyle.WS_OVERLAPPEDWINDOW | Chromium.WindowStyle.WS_CLIPCHILDREN |
-                                      Chromium.WindowStyle.WS_CLIPSIBLINGS | Chromium.WindowStyle.WS_VISIBLE;
+            const WindowStyle style = WindowStyle.WS_OVERLAPPEDWINDOW | WindowStyle.WS_CLIPCHILDREN |
+                                      WindowStyle.WS_CLIPSIBLINGS | WindowStyle.WS_VISIBLE;
             var cfxWindowInfo = new CfxWindowInfo
             {
-                Style= style,
+                Style = style,
                 ParentWindow = IntPtr.Zero,
                 WindowName = "Neutronium Chromium Dev Tools",
                 X = 200,
@@ -95,7 +103,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _DebugCfxClient = new CfxClient();
             _DebugCfxClient.GetDisplayHandler += _DebugCfxClient_GetDisplayHandler;
             _DebugCfxClient.GetLifeSpanHandler += DebugClient_GetLifeSpanHandler;
-            _ChromiumWebBrowser.BrowserHost.ShowDevTools(cfxWindowInfo, _DebugCfxClient, new CfxBrowserSettings(), null);
+            _BrowserHost.ShowDevTools(cfxWindowInfo, _DebugCfxClient, new CfxBrowserSettings(), null);
         }
 
         private void _DebugCfxClient_GetDisplayHandler(object sender, CfxGetDisplayHandlerEventArgs e)
@@ -139,9 +147,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _DebugWindowHandle = e.Browser.Host.WindowHandle;
         }
 
-        public void CloseDebugTools() 
+        public void CloseDebugTools()
         {
-            _ChromiumWebBrowser.BrowserHost.CloseDevTools();
+            _BrowserHost.CloseDevTools();
             DebugToolOpened?.Invoke(this, new DebugEventArgs(false));
         }
 

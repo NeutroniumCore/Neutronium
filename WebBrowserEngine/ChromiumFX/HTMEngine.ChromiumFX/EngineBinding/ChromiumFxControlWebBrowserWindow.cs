@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Chromium;
+﻿using Chromium;
 using Chromium.Event;
 using Chromium.Remote;
 using Chromium.Remote.Event;
@@ -10,6 +7,9 @@ using Chromium.WebBrowser.Event;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
@@ -53,7 +53,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 //We will not pollute log nor stop the application
                 return;
             }
-                
+
             _Logger.Error($@"Unable to load ""{e.FailedUrl}"": ""{e.ErrorCode}"". Please check that the resource exists, has the correct ""Content"" and ""Build Type"" value or is correctly served.");
             if (!e.Frame.IsMain)
                 return;
@@ -87,8 +87,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     break;
 
                 default:
-                    e.SetReturnValue(true);
                     _Logger.Error($@"Navigation to {request.Url} triggered by ""{request.TransitionType}"" has been cancelled. It is not possible to trigger a page loading from javascript that may corrupt session and hot-reload. Use Neutronium API to alter HTML view.");
+                    e.SetReturnValue(true);
+                    var browser = e.Browser;
+                    if (_ChromiumWebBrowser.Browser != browser)
+                    {
+                        _Logger.Info("Closing link browser");
+                        browser.Host.CloseBrowser(true);
+                    }
                     break;
             }
         }
@@ -113,7 +119,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 return;
 
             var rank = (int)ContextMenuId.MENU_ID_USER_FIRST;
-            _Commands.ForEach(command => 
+            _Commands.ForEach(command =>
             {
                 model.AddItem(rank, command.Name);
                 model.SetEnabled(rank++, command.Enabled);
