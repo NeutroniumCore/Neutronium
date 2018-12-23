@@ -206,33 +206,34 @@ namespace Neutronium.Core.Navigation
 
         public void Reload()
         {
-            Reload(false);
+            Reload(true);
         }
 
         private void Crashed(object sender, BrowserCrashedArgs e)
         {
             _webSessionLogger.Error("WebView crashed trying recover");
-            Reload(true);
+            Reload(false);
         }
 
         private void ModerWindow_OnClientReload(object sender, ClientReloadArgs e)
         {
             _webSessionLogger.Error("Page changes detected reloading bindings.");
-            Reload(false);
+            Reload(true);
         }
 
-        private void Reload(bool forceClean)
+        private void Reload(bool hotReloadContext)
         {
+            var dest = _CurrentWebControl?.HtmlWindow?.Url ?? Url;
             var vm = GetMainViewModel(Binding);
             var mode = Binding.Mode;
 
-            if (forceClean)
+            if (!hotReloadContext)
             {
                 CleanWebControl(ref _CurrentWebControl);
             }
             Binding = null;
 
-            Navigate(Url, vm, mode);
+            Navigate(dest, vm, mode);
         }
 
         private IJavascriptFrameworkManager GetInjectorFactory(Uri uri)
