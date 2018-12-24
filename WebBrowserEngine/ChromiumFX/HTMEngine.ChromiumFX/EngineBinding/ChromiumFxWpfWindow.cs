@@ -51,6 +51,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private void LoadHandler_OnLoadEnd(object sender, CfxOnLoadEndEventArgs e)
         {
+            if (!e.Frame.IsMain)
+                return;
+
             //Important browserHost may change in some corner cases
             _BrowserHost = _BrowserHost ?? _ChromiumWebBrowser.BrowserHost;
         }

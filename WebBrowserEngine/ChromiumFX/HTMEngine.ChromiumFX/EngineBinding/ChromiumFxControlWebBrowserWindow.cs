@@ -150,6 +150,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private void OnV8ContextCreated(object sender, CfrOnContextCreatedEventArgs e)
         {
+            if (!e.Frame.IsMain)
+                return;
+
             MainFrame = new ChromiumFxWebView(e.Browser, _Logger);
 
             var beforeJavascriptExecuted = BeforeJavascriptExecuted;
