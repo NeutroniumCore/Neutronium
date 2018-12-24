@@ -12,11 +12,14 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
     internal class NeutroniumResourceHandler : CfxResourceHandler
     {
-        private const string Prefix = @"pack://application:,,,/";
+        private const string SecureScheme = "https";
+        private const string Host = "application";
+        private const string PackPrefix = @"pack://application:,,,/";
         private static readonly Regex _HttpsUrl = new Regex(@"^https:\/\/application\/", RegexOptions.Compiled);
         private static readonly ConcurrentDictionary<ulong, NeutroniumResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, NeutroniumResourceHandler>();
 
         private string Url => _Request.Url;
+        private string LocalPath => _Uri.LocalPath;
         private bool IsPrefetch => _Request.ResourceType == CfxResourceType.Prefetch;
         private string MineType
         {
@@ -30,18 +33,25 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private readonly StreamResourceInfo _StreamResourceInfo;
         private readonly IWebSessionLogger _Logger;
         private readonly CfxRequest _Request;
+        private readonly Uri _Uri;
 
         public static CfxResourceHandler FromHttpsUrl(CfxRequest request, IWebSessionLogger logger)
         {
             return new NeutroniumResourceHandler(request, logger, UpdateHttpsUrl(request.Url));
         }
 
+        private static Uri UpdateHttpsUrl(string url)
+        {
+            var newUrl = _HttpsUrl.Replace(url, PackPrefix);
+            return new Uri(newUrl);
+        }
+
         public static string UpdatePackUrl(Uri path)
         {
             var newUri = new UriBuilder(path)
             {
-                Host = "application",
-                Scheme = "https"
+                Host = Host,
+                Scheme = SecureScheme
             };
             return newUri.ToString();
         }
@@ -50,8 +60,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             _Request = request;
             _Logger = logger;
-            var uri = uriUrl ?? new Uri(Url);
-            _StreamResourceInfo = GetStreamResourceInfo(uri);
+            _Uri = uriUrl ?? new Uri(Url);
+            _StreamResourceInfo = GetStreamResourceInfo(_Uri);
 
             GetResponseHeaders += PackUriResourceHandler_GetResponseHeaders;
             ReadResponse += PackUriResourceHandler_ReadResponse;
@@ -71,15 +81,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             }
             catch
             {
-                _Logger?.Warning(() => $"Unable to find pack resource:{Url}");
+                _Logger?.Warning(NotFound);
             }
             return null;
-        }
-
-        private static Uri UpdateHttpsUrl(string url)
-        {
-            var newUrl = _HttpsUrl.Replace(url, Prefix);
-            return new Uri(newUrl);
         }
 
         private void PackUriResourceHandler_GetResponseHeaders(object sender, CfxGetResponseHeadersEventArgs responseHeader)
@@ -87,7 +91,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             var response = responseHeader.Response;
             if (IsPrefetch)
             {
-                _Logger?.Info($"Loading ignored (prefetch): {Url}");
+                _Logger?.Info(Prefetch);
                 responseHeader.ResponseLength = 0;
                 SetSuccess(response);
                 return;
@@ -134,8 +138,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                 return;
 
             Clean();
-            _Logger?.Info($"Loaded: {Url}");
+            _Logger?.Info(Loaded);
         }
+
+        private string Loaded() => $"Loaded: {LocalPath}";
+        private string Prefetch() => $"Loading ignored (prefetch): {LocalPath}";
+        private string NotFound() => $"Unable to find pack resource:{LocalPath}";
 
         private void Clean()
         {
