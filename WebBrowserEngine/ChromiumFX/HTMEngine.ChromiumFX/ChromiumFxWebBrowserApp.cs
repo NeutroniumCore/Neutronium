@@ -7,7 +7,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
 {
     public abstract class ChromiumFxWebBrowserApp : HTMLApp
     {
-        protected virtual bool DisableWebSecurity => true;
+        protected virtual bool DisableWebSecurity => false;
 
         protected override IWPFWebWindowFactory GetWindowFactory(IWebSessionLogger logger) =>
             new ChromiumFXWPFWebWindowFactory(logger, UpdateChromiumSettings, PrivateUpdateLineCommandArg);
@@ -20,9 +20,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
         {
             var commandLine = beforeLineCommand.CommandLine;
             commandLine.AppendSwitch("disable-gpu");
-            // Needed to avoid crash when using devtools application tab with custom schema
-            commandLine.AppendSwitch("disable-kill-after-bad-ipc");
-
             if (DisableWebSecurity)
                 commandLine.AppendSwitch("disable-web-security");
             UpdateLineCommandArg(beforeLineCommand);
