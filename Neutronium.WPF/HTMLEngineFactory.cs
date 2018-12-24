@@ -74,7 +74,7 @@ namespace Neutronium.WPF
         public IJavascriptFrameworkManager ResolveJavaScriptFramework(string frameworkName) 
         {
             var res = PrivateResolveJavaScriptFramework(frameworkName);
-            _WebSessionLogger.Debug($"Resolving Javascript framekork using: {res?.Name}");
+            _WebSessionLogger.Debug($"Resolving Javascript framework using: {res?.Name}");
             return res;
         }
 

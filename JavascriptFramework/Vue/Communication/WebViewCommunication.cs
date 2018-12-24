@@ -1,8 +1,8 @@
-﻿using System;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using System.Collections.Generic;
-using MoreCollection.Extensions;
+﻿using MoreCollection.Extensions;
 using Neutronium.Core.Infra;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using System;
+using System.Collections.Generic;
 
 namespace Neutronium.JavascriptFramework.Vue.Communication
 {
@@ -49,9 +49,9 @@ namespace Neutronium.JavascriptFramework.Vue.Communication
 
         public IDisposable Connect(IWebView first, IWebView second)
         {
-            var disp1 = SubscribeAll(first, GetDispatchAction(second, PostMessage));
-            var disp2 = SubscribeAll(second, GetDispatchAction(first, PostMessage));
-            return new ComposedDisposable(disp1, disp2);
+            var subscribe1 = SubscribeAll(first, GetDispatchAction(second, PostMessage));
+            var subscribe2 = SubscribeAll(second, GetDispatchAction(first, PostMessage));
+            return new ComposedDisposable(subscribe1, subscribe2);
         }
 
         private static string PostMessage(string channel, string message)

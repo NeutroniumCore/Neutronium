@@ -86,7 +86,7 @@ namespace Neutronium.Core.Navigation
 
         private void Switch(IHtmlBinding binding, HtmlLogicWindow window, TaskCompletionSource<IHtmlBinding> tcs)
         {
-            var oldvm = GetMainViewModel(Binding);
+            var oldViewModel = GetMainViewModel(Binding);
             var fireFirstLoad = false;
             Binding = binding;
 
@@ -110,16 +110,16 @@ namespace Neutronium.Core.Navigation
 
             var rootVm = GetMainViewModel(Binding);
 
-            var inav = _UseINavigable ? rootVm as INavigable : null;
-            if (inav != null)
-                inav.Navigation = this;
+            var navigable = _UseINavigable ? rootVm as INavigable : null;
+            if (navigable != null)
+                navigable.Navigation = this;
             _Window.State = WindowLogicalState.Opened;
 
             _Window.OpenAsync().ContinueWith(t => EndAnimation(rootVm));
 
             _Navigating = false;
 
-            FireNavigate(rootVm, oldvm);
+            FireNavigate(rootVm, oldViewModel);
 
             tcs?.SetResult(Binding);
 
