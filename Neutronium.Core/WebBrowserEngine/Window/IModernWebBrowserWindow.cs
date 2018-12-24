@@ -16,7 +16,7 @@ namespace Neutronium.Core.WebBrowserEngine.Window
 
         /// <summary>
         /// event fired when client browser try to load an HTML page
-        /// this is useful when using webpack hot reloasd in order to plug correct
+        /// this is useful when using webpack hot reload in order to plug correct
         /// binding
         /// </summary>
         event EventHandler<ClientReloadArgs> OnClientReload;

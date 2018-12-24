@@ -170,14 +170,14 @@ namespace Neutronium.Core.Binding
             return res;
         }
 
-        public async void OnJavaScriptObjectChanges(IJavascriptObject objectchanged, string propertyName, IJavascriptObject newValue)
+        public async void OnJavaScriptObjectChanges(IJavascriptObject objectChanged, string propertyName, IJavascriptObject newValue)
         {
             try
             {
-                if (!(_SessionCache.GetCached(objectchanged) is JsGenericObject currentfather))
+                if (!(_SessionCache.GetCached(objectChanged) is JsGenericObject currentFather))
                     return;
 
-                var propertyUpdater = currentfather.GetPropertyUpdater(propertyName);
+                var propertyUpdater = currentFather.GetPropertyUpdater(propertyName);
                 if (!propertyUpdater.IsSettable)
                 {
                     LogReadOnlyProperty(propertyName);
@@ -190,7 +190,7 @@ namespace Neutronium.Core.Binding
 
                 await Context.RunOnUiContextAsync(() =>
                 {
-                    using (_ListenerUpdater.GetPropertySilenter(currentfather.CValue, propertyName))
+                    using (_ListenerUpdater.GetPropertySilenter(currentFather.CValue, propertyName))
                     {
                         var oldValue = propertyUpdater.GetCurrentChildValue();
 
@@ -207,7 +207,7 @@ namespace Neutronium.Core.Binding
 
                         if (Equals(actualValue, glue.CValue))
                         {
-                            var old = currentfather.UpdateGlueProperty(propertyUpdater, glue);
+                            var old = currentFather.UpdateGlueProperty(propertyUpdater, glue);
                             bridgeUpdater.Remove(old);
                             bridgeUpdater.CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
                             return;
@@ -215,7 +215,7 @@ namespace Neutronium.Core.Binding
 
                         if (!Equals(oldValue, actualValue))
                         {
-                            _ListenerUpdater.OnCSharpPropertyChanged(currentfather.CValue, propertyName);
+                            _ListenerUpdater.OnCSharpPropertyChanged(currentFather.CValue, propertyName);
                         }                        
                     }
                 });
@@ -294,13 +294,13 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newbridgedchild, Action<IJsCsGlue> performAfterBuild)
+        private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newBridgeChild, Action<IJsCsGlue> performAfterBuild)
         {
-            _UnrootedEntities.Add(newbridgedchild.AddRef());
+            _UnrootedEntities.Add(newBridgeChild.AddRef());
             return new BridgeUpdater(updater => 
             {
-                updater.InjectDetached(newbridgedchild.GetJsSessionValue());
-                performAfterBuild(newbridgedchild);
+                updater.InjectDetached(newBridgeChild.GetJsSessionValue());
+                performAfterBuild(newBridgeChild);
             });
         }
 
@@ -328,8 +328,8 @@ namespace Neutronium.Core.Binding
             if (javascriptObject == null)
                 return null;
 
-            if (Context.WebView.Converter.GetSimpleValue(javascriptObject, out var targetvalue, targetType)) {
-                return new JsBasicObject(javascriptObject, targetvalue);
+            if (Context.WebView.Converter.GetSimpleValue(javascriptObject, out var targetValue, targetType)) {
+                return new JsBasicObject(javascriptObject, targetValue);
             }
 
             if (targetType?.IsEnum == true)
@@ -338,8 +338,8 @@ namespace Neutronium.Core.Binding
                 if (!intValue.HasValue)
                     return null;
 
-                targetvalue = Enum.ToObject(targetType, intValue.Value);
-                return new JsEnum(javascriptObject, (Enum)targetvalue);
+                targetValue = Enum.ToObject(targetType, intValue.Value);
+                return new JsEnum(javascriptObject, (Enum)targetValue);
             }
 
             var res = _SessionCache.GetCached(javascriptObject);

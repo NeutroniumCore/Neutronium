@@ -11,34 +11,34 @@ namespace Example.Localization.Cfx.Vue.ViewModel
         private Dictionary<string, string> _Localization;
         public Dictionary<string, string> Localization
         {
-            get { return _Localization; }
-            private set { Set(ref _Localization, value, nameof(Localization)); }
+            get => _Localization;
+            private set => Set(ref _Localization, value, nameof(Localization));
         }
 
-        private string _Langage;
-        public string Langage
+        private string _Language;
+        public string Language
         {
-            get { return _Langage; }
+            get => _Language;
             set
             {
-                if (Set(ref _Langage, value, nameof(Langage)))
+                if (Set(ref _Language, value, nameof(Language)))
                 {
-                    UpdateLangage();
+                    UpdateLanguage();
                 }           
             }
         }
 
-        private void UpdateLangage()
+        private void UpdateLanguage()
         {
-            var rs = Resource.ResourceManager.GetResourceSet(new CultureInfo(_Langage), true, true);
+            var rs = Resource.ResourceManager.GetResourceSet(new CultureInfo(_Language), true, true);
             Localization = rs.Cast<DictionaryEntry>().ToDictionary(dicEntry => (string)dicEntry.Key, dicEntry => (string)dicEntry.Value);            
         }
 
-        public string[] Langages => new[] {"en-US", "pt-BR", "fr-FR"};
+        public string[] Languages => new[] {"en-US", "pt-BR", "fr-FR"};
 
         public MainViewModel()
         {
-            Langage = "en-US";
+            Language = "en-US";
         }
     }
 }
