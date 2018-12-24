@@ -146,26 +146,26 @@ namespace Neutronium.Core.Navigation
 
             _Navigating = true;
 
-            var oldvm = GetMainViewModel(Binding) as INavigable;
+            var oldViewModel = GetMainViewModel(Binding) as INavigable;
 
-            if (_UseINavigable && (oldvm != null))
+            if (_UseINavigable && (oldViewModel != null))
             {
-                oldvm.Navigation = null;
+                oldViewModel.Navigation = null;
             }
 
             if (_CurrentWebControl != null)
             {
                 _CurrentWebControl.HtmlWindow.Crashed -= Crashed;
                 if (_CurrentWebControl.HtmlWindow is IModernWebBrowserWindow modern)
-                    modern.OnClientReload -= ModerWindow_OnClientReload;
+                    modern.OnClientReload -= ModernWindow_OnClientReload;
             }
 
-            var closetask = (_CurrentWebControl != null) ? _Window.CloseAsync() : TaskHelper.Ended();
+            var closeTask = (_CurrentWebControl != null) ? _Window.CloseAsync() : TaskHelper.Ended();
 
             _NextWebControl = _WebViewLifeCycleManager.Create();
             _NextWebControl.HtmlWindow.ConsoleMessage += ConsoleMessage;
 
-            var moderWindow = _NextWebControl.HtmlWindow as IModernWebBrowserWindow;
+            var modernWindow = _NextWebControl.HtmlWindow as IModernWebBrowserWindow;
 
             var injectorFactory = GetInjectorFactory(uri);
             var engine = new HtmlViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
@@ -173,32 +173,32 @@ namespace Neutronium.Core.Navigation
             var dataContext = new DataContextViewModel(viewModel);
             var builder = HtmlBinding.GetBindingBuilder(engine, dataContext, mode);
 
-            if (moderWindow != null)
+            if (modernWindow != null)
             {
                 var debugContext = _WebViewLifeCycleManager.DebugContext;
 
                 void Before(object o, BeforeJavascriptExcecutionArgs e)
                 {
-                    moderWindow.BeforeJavascriptExecuted -= Before;
+                    modernWindow.BeforeJavascriptExecuted -= Before;
                     e.JavascriptExecutor(_JavascriptFrameworkManager.GetMainScript(debugContext));
                 }
-                moderWindow.BeforeJavascriptExecuted += Before;
-                moderWindow.OnClientReload += ModerWindow_OnClientReload;
+                modernWindow.BeforeJavascriptExecuted += Before;
+                modernWindow.OnClientReload += ModernWindow_OnClientReload;
             }
             var tcs = new TaskCompletionSource<IHtmlBinding>();
             var debug = _WebViewLifeCycleManager.DebugContext;
 
-            async void Sourceupdate(object o, LoadEndEventArgs e)
+            async void SourceUpdate(object o, LoadEndEventArgs e)
             {
-                _NextWebControl.HtmlWindow.LoadEnd -= Sourceupdate;
-                var bind = await builder.CreateBinding(debug).WaitWith(closetask);
+                _NextWebControl.HtmlWindow.LoadEnd -= SourceUpdate;
+                var bind = await builder.CreateBinding(debug).WaitWith(closeTask);
                 _NextWebControl.UiDispatcher.Dispatch(() =>
                     Switch(bind, dataContext.Window, tcs)
                 );
             }
 
             Url = uri;
-            _NextWebControl.HtmlWindow.LoadEnd += Sourceupdate;
+            _NextWebControl.HtmlWindow.LoadEnd += SourceUpdate;
             _NextWebControl.HtmlWindow.NavigateTo(uri);
 
             return tcs.Task;
@@ -215,15 +215,15 @@ namespace Neutronium.Core.Navigation
             Reload(false);
         }
 
-        private void ModerWindow_OnClientReload(object sender, ClientReloadArgs e)
+        private void ModernWindow_OnClientReload(object sender, ClientReloadArgs e)
         {
-            _webSessionLogger.Error("Page changes detected reloading bindings.");
-            Reload(true);
+            _webSessionLogger.Info("Page changes detected reloading bindings.");
+            Reload(true, new Uri(e.Url));
         }
 
-        private void Reload(bool hotReloadContext)
+        private void Reload(bool hotReloadContext, Uri url = null)
         {
-            var dest = _CurrentWebControl?.HtmlWindow?.Url ?? Url;
+            var dest = url ?? _CurrentWebControl?.HtmlWindow?.Url ?? Url;
             var vm = GetMainViewModel(Binding);
             var mode = Binding.Mode;
 

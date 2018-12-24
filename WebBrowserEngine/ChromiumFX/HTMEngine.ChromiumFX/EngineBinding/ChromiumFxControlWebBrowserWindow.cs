@@ -1,9 +1,7 @@
 ﻿using Chromium;
 using Chromium.Event;
-using Chromium.Remote;
 using Chromium.Remote.Event;
 using Chromium.WebBrowser;
-using Chromium.WebBrowser.Event;
 using Neutronium.Core;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
@@ -11,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
@@ -19,7 +18,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         private readonly ChromiumWebBrowser _ChromiumWebBrowser;
         private readonly IDispatcher _Dispatcher;
         private readonly IWebSessionLogger _Logger;
-        private CfrBrowser _WebBrowser;
+        private CfxBrowser _CfxWebBrowser;
         private bool _FirstLoad = true;
         private bool _SendLoadOnContextCreated = false;
 
@@ -39,7 +38,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _ChromiumWebBrowser.RequestHandler.OnBeforeBrowse += RequestHandler_OnBeforeBrowse;
             _ChromiumWebBrowser.DisplayHandler.OnConsoleMessage += OnConsoleMessage;
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
-            _ChromiumWebBrowser.RemoteBrowserCreated += OnChromiumWebBrowser_RemoteBrowserCreated;
             _ChromiumWebBrowser.ContextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
             _ChromiumWebBrowser.ContextMenuHandler.OnContextMenuCommand += ContextMenuHandler_OnContextMenuCommand;
             _ChromiumWebBrowser.RequestHandler.OnRenderProcessTerminated += RequestHandler_OnRenderProcessTerminated;
@@ -83,20 +81,27 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
                 case CfxTransitionType.ClientRedirectFlag:
                     e.SetReturnValue(true);
-                    _Dispatcher.Dispatch(() => OnClientReload?.Invoke(this, new ClientReloadArgs(request.Url)));
+                    FireReload();
                     break;
 
                 default:
                     _Logger.Error($@"Navigation to {request.Url} triggered by ""{request.TransitionType}"" has been cancelled. It is not possible to trigger a page loading from javascript that may corrupt session and hot-reload. Use Neutronium API to alter HTML view.");
                     e.SetReturnValue(true);
                     var browser = e.Browser;
-                    if (_ChromiumWebBrowser.Browser != browser)
+                    var url = _CfxWebBrowser.Host?.VisibleNavigationEntry?.Url;
+                    if (!_CfxWebBrowser.IsSame(browser))
                     {
-                        _Logger.Info("Closing link browser");
-                        browser.Host.CloseBrowser(true);
+                        _Logger.Warning("Closing link browser");
+                        browser.Host.CloseBrowser(false);
                     }
+                    FireReload(url ?? request.ReferrerUrl);
                     break;
             }
+        }
+
+        private void FireReload(string url = null)
+        {
+            _Dispatcher.Dispatch(() => OnClientReload?.Invoke(this, new ClientReloadArgs(url)));
         }
 
         private void RequestHandler_OnRenderProcessTerminated(object sender, CfxOnRenderProcessTerminatedEventArgs e)
@@ -143,11 +148,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             command.Invoke();
         }
 
-        private void OnChromiumWebBrowser_RemoteBrowserCreated(object sender, RemoteBrowserCreatedEventArgs e)
-        {
-            _WebBrowser = e.Browser;
-        }
-
         private void OnV8ContextCreated(object sender, CfrOnContextCreatedEventArgs e)
         {
             MainFrame = new ChromiumFxWebView(e.Browser, _Logger);
@@ -172,6 +172,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             if (!e.Frame.IsMain)
                 return;
+
+            _CfxWebBrowser = e.Browser;
 
             if (_FirstLoad)
             {
@@ -211,6 +213,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             {
                 case "file":
                     return path.AbsolutePath;
+
+                case "pack":
+                    return NeutroniumResourceHandler.UpdatePackUrl(path);
 
                 default:
                     return path.ToString();
