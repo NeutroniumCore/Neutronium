@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Example.Cfx.Spa.Routing.App_Start;
+﻿using Example.Cfx.Spa.Routing.App_Start;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
-namespace Example.Cfx.Spa.Routing {
-    public class NavigationViewModel: ViewModelBase {
+namespace Example.Cfx.Spa.Routing
+{
+    public class NavigationViewModel : ViewModelBase
+    {
         public IResultCommand<string, BeforeRouterResult> BeforeResolveCommand { get; }
         public ISimpleCommand<string> AfterResolveCommand { get; }
 
         private string _Route;
-        public string Route {
+        public string Route
+        {
             get => _Route;
             private set => Set(ref _Route, value, nameof(Route));
         }
@@ -25,7 +29,8 @@ namespace Example.Cfx.Spa.Routing {
 
         private object _ViewModel;
 
-        public NavigationViewModel(IRouterSolver routerSolver) {
+        public NavigationViewModel(IRouterSolver routerSolver)
+        {
             _RouterSolver = routerSolver;
             AfterResolveCommand = new RelaySimpleCommand<string>(AfterResolve);
             BeforeResolveCommand = RelayResultCommand.Create<string, BeforeRouterResult>(BeforeResolve);
@@ -34,23 +39,27 @@ namespace Example.Cfx.Spa.Routing {
         public static NavigationViewModel Create(IRouterSolver routerSolver)
             => new NavigationViewModel(routerSolver);
 
-        private BeforeRouterResult BeforeResolve(string routeName) {
+        private BeforeRouterResult BeforeResolve(string routeName)
+        {
             var context = GetRouteContext(routeName);
             return (context == null) ? BeforeRouterResult.Cancel() : Navigate(context);
         }
 
-        private BeforeRouterResult Navigate(RouteContext to) {
+        private BeforeRouterResult Navigate(RouteContext to)
+        {
             var routingEventArgs = new RoutingEventArgs(to, Route, _ViewModel);
             OnNavigating?.Invoke(this, routingEventArgs);
 
-            if (routingEventArgs.Cancel) {
+            if (routingEventArgs.Cancel)
+            {
                 _CurrentNavigations.Dequeue();
                 to.Complete();
                 return BeforeRouterResult.Cancel();
             }
 
             var redirect = routingEventArgs.RedirectedTo;
-            if (string.IsNullOrEmpty(redirect)) {
+            if (string.IsNullOrEmpty(redirect))
+            {
                 _ViewModel = to.ViewModel;
                 return BeforeRouterResult.Ok(_ViewModel);
             }
@@ -59,12 +68,14 @@ namespace Example.Cfx.Spa.Routing {
             return BeforeRouterResult.CreateRedirect(redirect);
         }
 
-        private RouteContext GetRouteContext(string routeName) {
+        private RouteContext GetRouteContext(string routeName)
+        {
             if (_CurrentNavigations.Count == 0)
                 return CreateRouteContext(routeName);
 
             var context = _CurrentNavigations.Peek();
-            if (context.Route != routeName) {
+            if (context.Route != routeName)
+            {
                 Console.WriteLine($"Navigation inconsistency: from browser {routeName}, from context: {context.Route}");
                 return null;
             }
@@ -72,25 +83,34 @@ namespace Example.Cfx.Spa.Routing {
             return context;
         }
 
-        private RouteContext CreateRouteContext(string routeName) {
+        private RouteContext CreateRouteContext(string routeName)
+        {
             return CreateRouteContext(GetViewModelFromRoute(routeName), routeName);
         }
 
-        private object GetViewModelFromRoute(string routeName) {
+        private object GetViewModelFromRoute(string routeName)
+        {
             var type = _RouterSolver.SolveType(routeName);
             return Activator.CreateInstance(type);
         }
 
-        private RouteContext CreateRouteContext(object viewModel, string routeName) {
+        private RouteContext CreateRouteContext(object viewModel, string routeName)
+        {
             var routeContext = new RouteContext(viewModel, routeName);
             _CurrentNavigations.Enqueue(routeContext);
             return routeContext;
         }
 
-        private void AfterResolve(string routeName) {
+        private void AfterResolve(string routeName)
+        {
+            //Possible on hot-reload or after crash recovery
+            if ((routeName == Route) && (_CurrentNavigations.Count==0))
+                return;
+
             var context = _CurrentNavigations.Dequeue();
-            if (context.Route != routeName) {
-                Console.WriteLine($"Navigation inconsistency: from browser {routeName}, from context: {context.Route}. Maybe rerouted?");
+            if (context.Route != routeName)
+            {
+                Trace.WriteLine($"Navigation inconsistency: from browser {routeName}, from context: {context.Route}. Maybe rerouted?");
             }
             context.Complete();
 
@@ -98,10 +118,12 @@ namespace Example.Cfx.Spa.Routing {
             OnNavigated?.Invoke(this, new RoutedEventArgs(context));
         }
 
-        public Task Navigate(object viewModel, string routeName) {
+        public Task Navigate(object viewModel, string routeName)
+        {
             var route = routeName ?? _RouterSolver.SolveRoute(viewModel.GetType());
 
-            if (Route == route) {
+            if (Route == route)
+            {
                 if (!ReferenceEquals(_ViewModel, viewModel))
                     OnNavigated?.Invoke(this, new RoutedEventArgs(viewModel, route));
 
@@ -114,20 +136,23 @@ namespace Example.Cfx.Spa.Routing {
             return routeContext.Task;
         }
 
-        public async Task Navigate<T>(NavigationContext<T> context = null) {
+        public async Task Navigate<T>(NavigationContext<T> context = null)
+        {
             var resolutionKey = context?.ResolutionKey;
             var vm = Activator.CreateInstance<T>();
             context?.BeforeNavigate(vm);
             await Navigate(vm, context?.RouteName);
         }
 
-        public async Task Navigate(Type type, NavigationContext context = null) {
+        public async Task Navigate(Type type, NavigationContext context = null)
+        {
             var resolutionKey = context?.ResolutionKey;
             var vm = Activator.CreateInstance(type);
             await Navigate(vm, context?.RouteName);
         }
 
-        public Task Navigate(string routeName) {
+        public Task Navigate(string routeName)
+        {
             if (Route == routeName)
                 return Task.FromResult(0);
 
