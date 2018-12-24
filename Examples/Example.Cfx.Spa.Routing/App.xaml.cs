@@ -22,7 +22,7 @@ namespace Example.Cfx.Spa.Routing
 
         public App()
         {
-            var uri = new Uri("local://View/dist/index.html");
+            var uri = new Uri("pack://application:,,,/View/dist/index.html");
             _ApplicationSetUpBuilder = new ApplicationSetUpBuilder(uri);
         }
 

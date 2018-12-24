@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <wpf:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="wcBrowser" Uri="local://View/Main/dist/index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <wpf:HTMLViewControl IsDebug="true" JavascriptUIEngine="VueInjectorV2" x:Name="wcBrowser" Uri="pack://application:,,,/View/Main/dist/index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Window>

@@ -7,8 +7,8 @@
 
         <div class="col-md-2">
             <span>{{Localization.Language}}</span>
-            <select v-model="Langage">
-                <option v-for="lang in Langages" :value="lang" :key="lang">{{lang}}</option>
+            <select v-model="Language">
+                <option v-for="lang in Languages" :value="lang" :key="lang">{{lang}}</option>
             </select>
         </div>
 

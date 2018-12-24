@@ -10,11 +10,11 @@ using System.Windows.Resources;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
-    internal class LocalUriResourceHandler : CfxResourceHandler
+    internal class NeutroniumResourceHandler : CfxResourceHandler
     {
         private const string Prefix = @"pack://application:,,,/";
-        private static readonly Regex _LocalUrl = new Regex(@"^local:\/\/", RegexOptions.Compiled);
-        private static readonly ConcurrentDictionary<ulong, LocalUriResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, LocalUriResourceHandler>();
+        private static readonly Regex _HttpsUrl = new Regex(@"^https:\/\/application\/", RegexOptions.Compiled);
+        private static readonly ConcurrentDictionary<ulong, NeutroniumResourceHandler> _PackUriResourceHandlers = new ConcurrentDictionary<ulong, NeutroniumResourceHandler>();
 
         private string Url => _Request.Url;
         private bool IsPrefetch => _Request.ResourceType == CfxResourceType.Prefetch;
@@ -31,17 +31,22 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private readonly IWebSessionLogger _Logger;
         private readonly CfxRequest _Request;
 
-        internal static LocalUriResourceHandler FromPackUrl(CfxRequest request, IWebSessionLogger logger)
+        public static CfxResourceHandler FromHttpsUrl(CfxRequest request, IWebSessionLogger logger)
         {
-            return new LocalUriResourceHandler(request, logger);
+            return new NeutroniumResourceHandler(request, logger, UpdateHttpsUrl(request.Url));
         }
 
-        internal static LocalUriResourceHandler FromLocalUrl(CfxRequest request, IWebSessionLogger logger)
+        public static string UpdatePackUrl(Uri path)
         {
-            return new LocalUriResourceHandler(request, logger, UpdateUrl(request.Url));
+            var newUri = new UriBuilder(path)
+            {
+                Host = "application",
+                Scheme = "https"
+            };
+            return newUri.ToString();
         }
 
-        private LocalUriResourceHandler(CfxRequest request, IWebSessionLogger logger, Uri uriUrl = null)
+        private NeutroniumResourceHandler(CfxRequest request, IWebSessionLogger logger, Uri uriUrl = null)
         {
             _Request = request;
             _Logger = logger;
@@ -71,9 +76,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return null;
         }
 
-        private static Uri UpdateUrl(string url)
+        private static Uri UpdateHttpsUrl(string url)
         {
-            var newUrl = _LocalUrl.Replace(url, Prefix);
+            var newUrl = _HttpsUrl.Replace(url, Prefix);
             return new Uri(newUrl);
         }
 
@@ -144,9 +149,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             processRequest.SetReturnValue(true);
         }
 
-        public override string ToString()
-        {
-            return Url.ToString();
-        }
+        public override string ToString() => Url;
     }
 }

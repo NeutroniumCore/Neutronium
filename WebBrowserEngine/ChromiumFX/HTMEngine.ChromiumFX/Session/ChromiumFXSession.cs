@@ -16,38 +16,22 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         private readonly Action<CfxSettings> _SettingsBuilder;
         private readonly Action<CfxOnBeforeCommandLineProcessingEventArgs> _CommandLineHandler;
         private readonly string _CurrentDirectory;
-        private readonly PackUriSchemeHandlerFactory _PackUriSchemeHandlerFactory;
-        private readonly LocalUriSchemeHandlerFactory _LocalUriSchemeHandlerFactory;
+        private readonly NeutroniumSchemeHandlerFactory _NeutroniumSchemeHandlerFactory;
 
-        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler, IWebSessionLogger webSessionLogger)
+        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commandLineHandler, IWebSessionLogger webSessionLogger)
         {
             _CurrentDirectory = this.GetType().Assembly.GetPath();
             _SettingsBuilder = settingsBuilder;
-            _CommandLineHandler = commadLineHandler;
+            _CommandLineHandler = commandLineHandler;
             CfxRuntime.LibCefDirPath = GetPath($@"{CefRepo}\Release");
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
-            ChromiumWebBrowser.OnRegisterCustomSchemes += ChromiumWebBrowser_OnRegisterCustomSchemes;
             ChromiumWebBrowser.Initialize(true);
 
-            _PackUriSchemeHandlerFactory = new PackUriSchemeHandlerFactory(webSessionLogger);
-            _LocalUriSchemeHandlerFactory = new LocalUriSchemeHandlerFactory(webSessionLogger);
+            _NeutroniumSchemeHandlerFactory = new NeutroniumSchemeHandlerFactory(webSessionLogger);
             //need this to make request interception work
-            CfxRuntime.RegisterSchemeHandlerFactory("pack", null, _PackUriSchemeHandlerFactory);
-            CfxRuntime.RegisterSchemeHandlerFactory("local", null, _LocalUriSchemeHandlerFactory);
-        }
-
-        private static void ChromiumWebBrowser_OnRegisterCustomSchemes(CfxOnRegisterCustomSchemesEventArgs e)
-        {
-            RegisterCustomScheme("pack", e);
-            RegisterCustomScheme("local", e);
-        }
-
-        private static void RegisterCustomScheme(string scheme, CfxOnRegisterCustomSchemesEventArgs e)
-        {
-            //Not sure if this is needed or not, setting true for isStandard will crash Chromium
-            e.Registrar.AddCustomScheme(scheme, false, true, false, true, true, false);
+            CfxRuntime.RegisterSchemeHandlerFactory("https", "application", _NeutroniumSchemeHandlerFactory);
         }
 
         private static string CefRepo => (IntPtr.Size == 8) ? "cef64" : "cef";
