@@ -55,15 +55,11 @@ namespace Neutronium.Core.JavascriptFramework
         /// <summary>
         /// Run debug Vm tool
         /// </summary>
-        /// <param name="runJavascript">
-        /// execute javascript in the current window
+        /// <param name="debugHelper">
+        /// debug facility to inject code and open additional window
         /// </param>
-        /// <param name="openNewWindow">
-        /// open a HTML window with the given path and given action on WebViews:
-        /// first is the current, second is the debug webview returning a
-        /// disposable function called when window is closed
-        /// </param>
-        void DebugVm(Action<string> runJavascript, Action<string, int, int, Func<IWebView, IWebView, IDisposable>> openNewWindow);
+        void DebugVm(IDebugFacility debugHelper);
+
 
         /// <summary>
         /// return main javascript debug including framework code

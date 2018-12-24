@@ -29,7 +29,7 @@ namespace Neutronium.JavascriptFramework.mobx
             return new MobxViewModelManager(webView, listener, logger);
         }
 
-        public void DebugVm(Action<string> runJavascript, Action<string, int, int, Func<IWebView, IWebView, IDisposable>> openNewWindow) 
+        public void DebugVm(IDebugFacility debugHelper) 
         {
         }
 

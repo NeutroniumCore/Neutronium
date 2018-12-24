@@ -33,17 +33,17 @@ namespace Neutronium.JavascriptFramework.Vue
             return new VueVmManager(webView, listener, debugMode ? _WebViewCommunication : null, logger);
         }
 
-        public void DebugVm(Action<string> runJavascript, Action<string, int, int, Func<IWebView, IWebView, IDisposable>> openNewWindow)
+        public void DebugVm(IDebugFacility debugHelper)
         {
-            openNewWindow(@"DebugTools\Window\index.html", 800, 700, RegisterDebugWindowHook);
+            debugHelper.OpenNewWindow(@"DebugTools\Window\index.html", 800, 700, RegisterDebugWindowHook);
         }
 
         private IDisposable RegisterDebugWindowHook(IWebView current, IWebView debugWebView)
         {
-            var disp = _WebViewCommunication.Connect(current, debugWebView);
-            var disp2 = _WebViewCommunication.Subscribe(debugWebView, "main:inject", _ => InjectBackend(current));
-            var disconnector = new DisposableAction(() => _WebViewCommunication.Disconnect(debugWebView));
-            return new ComposedDisposable(disp, disp2, disconnector);
+            var connection1 = _WebViewCommunication.Connect(current, debugWebView);
+            var connection2 = _WebViewCommunication.Subscribe(debugWebView, "main:inject", _ => InjectBackend(current));
+            var disconnect = new DisposableAction(() => _WebViewCommunication.Disconnect(debugWebView));
+            return new ComposedDisposable(connection1, connection2, disconnect);
         }
 
         private void InjectBackend(IWebView current)

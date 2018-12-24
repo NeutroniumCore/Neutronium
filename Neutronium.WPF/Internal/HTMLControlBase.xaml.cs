@@ -373,8 +373,9 @@ namespace Neutronium.WPF.Internal
                 _VmDebugWindow.Activate();
                 return;
             }
-            _Injector?.DebugVm(script => WpfDoubleBrowserNavigator.ExcecuteJavascript(script),
-                                (path, width, height, onCreate) => ShowHTMLWindow(path, width, height, debug => onCreate(WpfDoubleBrowserNavigator.HTMLWindow.MainFrame, debug)));
+
+            var facility = new DebugFacility(WpfDoubleBrowserNavigator, ShowHTMLWindow);
+            _Injector?.DebugVm(facility);
 
             if (_VmDebugWindow == null)
                 _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
