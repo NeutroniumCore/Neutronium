@@ -45,7 +45,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             };
             _ChromiumWebBrowser = _ChromiumFxControl.ChromiumWebBrowser;
             _ChromiumWebBrowser.LoadHandler.OnLoadEnd += LoadHandler_OnLoadEnd;
-            _ChromiumWebBrowser.RequestHandler.OnBeforeResourceLoad += RequestHandler_OnBeforeResourceLoad;
             var dispatcher = new WPFUIDispatcher(_ChromiumFxControl.Dispatcher);
             _ChromiumFxControlWebBrowserWindow = new ChromiumFxControlWebBrowserWindow(_ChromiumWebBrowser, dispatcher, logger);
         }
@@ -54,12 +53,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         {
             //Important browserHost may change in some corner cases
             _BrowserHost = _BrowserHost ?? _ChromiumWebBrowser.BrowserHost;
-        }
-
-        private void RequestHandler_OnBeforeResourceLoad(object sender, CfxOnBeforeResourceLoadEventArgs e)
-        {
-            _Logger.Info($"Loading: {e.Request.Url}");
-            e.SetReturnValue(CfxReturnValue.Continue);
         }
 
         public void Inject(Key keyToInject)
