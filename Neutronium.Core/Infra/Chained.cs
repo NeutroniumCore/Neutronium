@@ -25,21 +25,21 @@ namespace Neutronium.Core.Infra
             }
         }
 
-        internal T Reduce(Func<T, T, T> agregate, T from = default(T)) => Reduce<T, T>(Identity, agregate, from);
+        internal T Reduce(Func<T, T, T> aggregate, T from = default(T)) => Reduce<T, T>(Identity, aggregate, from);
 
         private static T Identity(T value) => value;
 
-        internal TValue Reduce<TValue>(Func<T, TValue> compute, Func<TValue, TValue, TValue> agregate, TValue from = default(TValue))
-            => Reduce<TValue, TValue>(compute, agregate, from);
+        internal TValue Reduce<TValue>(Func<T, TValue> compute, Func<TValue, TValue, TValue> aggregate, TValue from = default(TValue))
+            => Reduce<TValue, TValue>(compute, aggregate, from);
 
-        internal TResult Reduce<TValue, TResult>(Func<T, TValue> compute, Func<TResult, TValue, TResult> agregate, TResult from = default(TResult))
+        internal TResult Reduce<TValue, TResult>(Func<T, TValue> compute, Func<TResult, TValue, TResult> aggregate, TResult from = default(TResult))
         {
             var current = this;
             var result = from;
             while (current != null)
             {
                 var value = compute(current.Value);
-                result = agregate(result, value);
+                result = aggregate(result, value);
                 current = current.Next;
             }
             return result;

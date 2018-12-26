@@ -1,24 +1,25 @@
-﻿using System;
+﻿using Example.Cfx.Spa.Routing.SetUp.ScriptRunner;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Example.Cfx.Spa.Routing.SetUp
 {
-    public class ApplicationSetUpBuilder
+    public class ApplicationSetUpBuilder: IDisposable
     {
         private const string Mode = "mode";
         private const string Live = "live";
         private const string Dev = "dev";
         private const string Prod = "prod";
-        private const string Port = "port";
         private const string Url = "url";
 
         private static readonly Regex _Switch = new Regex("^-", RegexOptions.Compiled);
         private static readonly Regex _SwitchWithValue = new Regex("^-(\\w+)=(.*)$", RegexOptions.Compiled);
-
-        private readonly Uri _ProductionUri;
         private readonly ApplicationMode _Default;
-        private readonly int _DefaultPort;
+        private readonly NpmRunner _NpmRunner;
+
+        public Uri Uri { get; set; }
 
         private static readonly Dictionary<string, ApplicationMode> _Modes = new Dictionary<string, ApplicationMode>
         {
@@ -27,28 +28,36 @@ namespace Example.Cfx.Spa.Routing.SetUp
             [Prod] = ApplicationMode.Production
         };
 
-        public ApplicationSetUpBuilder(Uri productionUri, ApplicationMode @default = ApplicationMode.Dev, int defaultPort = 8080)
+        public ApplicationSetUpBuilder(string viewDirectory = "View", ApplicationMode @default = ApplicationMode.Dev,
+            string liveScript = "live") :
+            this(new Uri($"pack://application:,,,/{viewDirectory}/dist/index.html"), 
+                @default, 
+                new NpmRunner(viewDirectory, liveScript))
         {
-            _ProductionUri = productionUri;
-            _DefaultPort = defaultPort;
+        }
+
+        internal ApplicationSetUpBuilder(Uri productionUri, ApplicationMode @default, NpmRunner npmRunner)
+        {
+            Uri = productionUri;
             _Default = @default;
+            _NpmRunner = npmRunner;
         }
 
         public ApplicationSetUp BuildForProduction()
         {
-            return new ApplicationSetUp(ApplicationMode.Production, _ProductionUri);
+            return new ApplicationSetUp(ApplicationMode.Production, Uri);
         }
 
-        public ApplicationSetUp BuildFromApplicationArguments(string[] arguments)
+        public Task<ApplicationSetUp> BuildFromApplicationArguments(string[] arguments)
         {
             var argument = ParseArguments(arguments);
             return BuildFromArgument(argument);
         }
 
-        private ApplicationSetUp BuildFromArgument(IDictionary<string, string> argumentsDictionary)
+        private async Task<ApplicationSetUp> BuildFromArgument(IDictionary<string, string> argumentsDictionary)
         {
             var mode = GetApplicationMode(argumentsDictionary);
-            var uri = BuildDevUri(mode, argumentsDictionary);
+            var uri = await BuildDevUri(mode, argumentsDictionary).ConfigureAwait(false);
             return new ApplicationSetUp(mode, uri);
         }
 
@@ -61,18 +70,15 @@ namespace Example.Cfx.Spa.Routing.SetUp
             return _Default;
         }
 
-        private Uri BuildDevUri(ApplicationMode mode, IDictionary<string, string> argumentsDictionary)
+        private async Task<Uri> BuildDevUri(ApplicationMode mode, IDictionary<string, string> argumentsDictionary)
         {
             if (argumentsDictionary.TryGetValue(Url, out var uri))
                 return new Uri(uri);
 
             if (mode != ApplicationMode.Live)
-                return _ProductionUri;
+                return Uri;
 
-            if (!argumentsDictionary.TryGetValue(Port, out var portString) ||
-                !int.TryParse(portString, out var port))
-                port = _DefaultPort;
-
+            var port = await _NpmRunner.GetPortAsync().ConfigureAwait(false);
             return new Uri($"http://localhost:{port}/index.html");
         }
 
@@ -98,6 +104,11 @@ namespace Example.Cfx.Spa.Routing.SetUp
                 arg[switchValue] = match.Groups[2].Value; ;
             }
             return arg;
+        }
+
+        public void Dispose()
+        {
+            _NpmRunner?.Dispose();
         }
     }
 }

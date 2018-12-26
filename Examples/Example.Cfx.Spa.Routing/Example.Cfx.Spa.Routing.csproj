@@ -118,6 +118,8 @@
     <Compile Include="SetUp\ApplicationMode.cs" />
     <Compile Include="SetUp\ApplicationSetUp.cs" />
     <Compile Include="SetUp\ApplicationSetUpBuilder.cs" />
+    <Compile Include="SetUp\ScriptRunner\NpmRunner.cs" />
+    <Compile Include="SetUp\ScriptRunner\ProcessExtension.cs" />
     <Compile Include="ViewModel\AboutViewModel.cs" />
     <Compile Include="ViewModel\ApplicationInformation.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
