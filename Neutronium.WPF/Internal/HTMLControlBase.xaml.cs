@@ -1,4 +1,18 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Neutronium.Core;
+using Neutronium.Core.Exceptions;
+using Neutronium.Core.Extension;
+using Neutronium.Core.Infra;
+using Neutronium.Core.Infra.VM;
+using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.Navigation;
+using Neutronium.Core.WebBrowserEngine.Control;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WPF.Internal.DebugTools;
+using Neutronium.WPF.Internal.ViewModel;
+using Neutronium.WPF.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -8,19 +22,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Neutronium.Core;
-using Neutronium.Core.Exceptions;
-using Neutronium.Core.Infra.VM;
-using Neutronium.Core.JavascriptFramework;
-using Neutronium.Core.Navigation;
-using Neutronium.Core.WebBrowserEngine.Control;
-using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.WPF.Internal.DebugTools;
-using Neutronium.WPF.Utils;
-using Microsoft.Win32;
-using Neutronium.Core.Extension;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.WPF.Internal.ViewModel;
 
 namespace Neutronium.WPF.Internal
 {
@@ -162,18 +163,11 @@ namespace Neutronium.WPF.Internal
 
         private string ComputeProposedDirectory()
         {
-            var path = _WpfDoubleBrowserNavigator?.HTMLWindow?.Url?.AbsolutePath;
+            var path = DirectoryHelper.GetCurrentDirectory();
             if (path == null)
                 return _SaveDirectory;
 
-            var directory = Path.GetDirectoryName(path); ;
-            var transformed = directory.Replace(@"\bin\Debug", string.Empty);
-            transformed = transformed.Replace(@"\bin\Release", string.Empty);
-
-            if (transformed.Length == directory.Length)
-                return _SaveDirectory;
-
-            var dataFolder = Path.Combine(Path.GetDirectoryName(transformed), "data");
+            var dataFolder = Path.Combine(path, "View", "data");
             return Directory.Exists(dataFolder) ? dataFolder : _SaveDirectory;
         }
 
@@ -204,12 +198,12 @@ namespace Neutronium.WPF.Internal
             if (_WpfWebWindowFactory.IsModern)
                 return;
 
-            var windoInfo = HTMLEngineFactory.Engine.ResolveToolbar();
-            if (windoInfo != null)
+            var windowInfo = HTMLEngineFactory.Engine.ResolveToolbar();
+            if (windowInfo != null)
             {
-                _DebugControl = new DebugControlNeutronium(windoInfo.AbsolutePath, windoInfo.Framework.Name)
+                _DebugControl = new DebugControlNeutronium(windowInfo.AbsolutePath, windowInfo.Framework.Name)
                 {
-                    Height = windoInfo.Height
+                    Height = windowInfo.Height
                 };
             }
             else
@@ -289,14 +283,14 @@ namespace Neutronium.WPF.Internal
             yield return GetContextMenuItem("About Neutronium", _DebugInformation.ShowInfo);
         }
 
-        private ContextMenuItem GetContextMenuItem(string itemName, ICommand command, bool enabled=true)
+        private ContextMenuItem GetContextMenuItem(string itemName, ICommand command, bool enabled = true)
         {
             void DoAction()
             {
                 if (command.CanExecute(null)) command.Execute(null);
             }
 
-            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action) DoAction), itemName, enabled);
+            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, (Action)DoAction), itemName, enabled);
         }
 
         private void OnDisplayFired(object sender, DisplayEvent e)
@@ -374,7 +368,7 @@ namespace Neutronium.WPF.Internal
                 return;
             }
 
-            var facility = new DebugFacility(WpfDoubleBrowserNavigator, ShowHTMLWindow);
+            var facility = new DebugFacility(WpfDoubleBrowserNavigator, ShowHtmlWindow);
             _Injector?.DebugVm(facility);
 
             if (_VmDebugWindow == null)
@@ -383,7 +377,7 @@ namespace Neutronium.WPF.Internal
                 _DebugInformation.IsDebuggingVm = true;
         }
 
-        private void ShowHTMLWindow(string path, int width, int height, Func<IWebView, IDisposable> injectedCode)
+        private void ShowHtmlWindow(string path, int width, int height, Func<IWebView, IDisposable> injectedCode)
         {
             _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", width, height, injectedCode);
             _VmDebugWindow.Closed += _VmDebugWindow_Closed;
@@ -456,12 +450,12 @@ namespace Neutronium.WPF.Internal
 
         IWebBrowserWindowProvider IWebViewLifeCycleManager.Create()
         {
-            var webwindow = _WpfWebWindowFactory.Create();
-            var ui = webwindow.UIElement;
+            var window = _WpfWebWindowFactory.Create();
+            var ui = window.UIElement;
             Panel.SetZIndex(ui, 0);
 
             this.MainGrid.Children.Add(ui);
-            var res = new WPFHTMLWindowProvider(webwindow, this);
+            var res = new WPFHTMLWindowProvider(window, this);
             res.OnDisposed += OnWindowDisposed;
             return res;
         }
@@ -484,12 +478,11 @@ namespace Neutronium.WPF.Internal
 
         public void Inject(Key keyToInject)
         {
-            var wpfacess = (WpfDoubleBrowserNavigator.WebControl as WPFHTMLWindowProvider);
-            if (wpfacess == null)
+            if (!(WpfDoubleBrowserNavigator.WebControl is WPFHTMLWindowProvider windowProvider))
                 return;
 
-            var wpfweb = wpfacess.WPFWebWindow;
-            wpfweb?.Inject(keyToInject);
+            var wpfWebWindow = windowProvider.WPFWebWindow;
+            wpfWebWindow?.Inject(keyToInject);
         }
 
         public override string ToString() => UniqueName;
