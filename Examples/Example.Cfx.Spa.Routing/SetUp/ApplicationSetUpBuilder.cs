@@ -54,6 +54,12 @@ namespace Example.Cfx.Spa.Routing.SetUp
             return BuildFromArgument(argument);
         }
 
+        public async Task<ApplicationSetUp> BuildFromMode(ApplicationMode mode)
+        {
+            var uri = await BuildUri(mode).ConfigureAwait(false);
+            return new ApplicationSetUp(mode, uri);
+        }
+
         private async Task<ApplicationSetUp> BuildFromArgument(IDictionary<string, string> argumentsDictionary)
         {
             var mode = GetApplicationMode(argumentsDictionary);
@@ -75,6 +81,11 @@ namespace Example.Cfx.Spa.Routing.SetUp
             if (argumentsDictionary.TryGetValue(Url, out var uri))
                 return new Uri(uri);
 
+            return await BuildUri(mode).ConfigureAwait(false);
+        }
+
+        private async Task<Uri> BuildUri(ApplicationMode mode)
+        {
             if (mode != ApplicationMode.Live)
                 return Uri;
 
