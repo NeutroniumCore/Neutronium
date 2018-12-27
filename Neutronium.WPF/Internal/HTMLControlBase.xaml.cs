@@ -111,6 +111,7 @@ namespace Neutronium.WPF.Internal
         public event EventHandler<NavigationEvent> OnNavigate;
         public event EventHandler<FirstLoadEvent> OnFirstLoad;
         public event EventHandler<DisplayEvent> OnDisplay;
+        public event EventHandler<DebugMenuOpeningEvent> OnDebugMenuOpening;
 
         public void Reload()
         {
@@ -146,16 +147,16 @@ namespace Neutronium.WPF.Internal
             if (binding == null)
                 return;
 
-            var savefile = new SaveFileDialog
+            var saveFileDialog = new SaveFileDialog
             {
                 FileName = "vm.cjson",
                 InitialDirectory = ComputeProposedDirectory()
             };
 
-            if (savefile.ShowDialog() != true)
+            if (saveFileDialog.ShowDialog() != true)
                 return;
 
-            var fileName = savefile.FileName;
+            var fileName = saveFileDialog.FileName;
             _SaveDirectory = Path.GetDirectoryName(fileName);
             var content = binding.AsCircularVersionedJson();
             File.WriteAllLines(fileName, new[] { content });
@@ -267,8 +268,21 @@ namespace Neutronium.WPF.Internal
             if (!IsDebug)
                 return;
 
-            var modern = _WpfDoubleBrowserNavigator.HTMLWindow as IModernWebBrowserWindow;
-            modern?.RegisterContextMenuItem(GetMenu())?.RegisterContextMenuItem(GetAbout());
+            if (!(_WpfDoubleBrowserNavigator.HTMLWindow is IModernWebBrowserWindow modern))
+                return;
+
+            var items = FireDebugMenuOpeningEvent();
+
+            modern.RegisterContextMenuItem(GetMenu())
+                    .RegisterContextMenuItem(items)
+                    .RegisterContextMenuItem(GetAbout());
+        }
+
+        private List<ContextMenuItem> FireDebugMenuOpeningEvent()
+        {
+            var args = new DebugMenuOpeningEvent();
+            OnDebugMenuOpening?.Invoke(this, args);
+            return args.AdditionalMenuItems;
         }
 
         private IEnumerable<ContextMenuItem> GetMenu()

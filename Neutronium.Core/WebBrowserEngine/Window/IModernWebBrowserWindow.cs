@@ -24,13 +24,13 @@ namespace Neutronium.Core.WebBrowserEngine.Window
 
         /// <summary>
         /// Add a new item in contextmenu
-        /// <param name="contextMenuItens">
+        /// <param name="contextMenuItems">
         /// items to be added to the contextMenu
         /// </param>
         /// <returns>
         /// current browser
         /// </returns>
         /// </summary>
-        IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItens);
+        IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItems);
     }
 }

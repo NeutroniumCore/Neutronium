@@ -132,10 +132,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _MenuSeparatorIndex.ForEach(index => model.InsertSeparatorAt(index));
         }
 
-        public IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItens)
+        public IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItems)
         {
-            _Commands.AddRange(contextMenuItens);
-            _MenuSeparatorIndex.Insert(0, _Commands.Count);
+            var oldCount = _Commands.Count;
+            _Commands.AddRange(contextMenuItems);
+            var currentCount = _Commands.Count;
+            if (oldCount != currentCount)
+                _MenuSeparatorIndex.Insert(0, currentCount);
             return this;
         }
 
