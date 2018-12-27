@@ -1,4 +1,5 @@
 ﻿using System;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Example.Cfx.Spa.Routing
 {
@@ -14,8 +15,14 @@ namespace Example.Cfx.Spa.Routing
 
         public MainWindow()
         {
-            this.Initialized += MainWindow_Initialized;
+            Initialized += MainWindow_Initialized;
             InitializeComponent();
+            HtmlView.OnDebugMenuOpening += HtmlView_OnDebugMenuOpening;
+        }
+
+        private void HtmlView_OnDebugMenuOpening(object sender, Neutronium.WPF.DebugMenuOpeningEvent e)
+        {
+            e.AdditionalMenuItems.Add(new ContextMenuItem(() => HtmlView.ReloadAsync(), "Reload", true));
         }
 
         private void MainWindow_Initialized(object sender, EventArgs e)
@@ -33,7 +40,7 @@ namespace Example.Cfx.Spa.Routing
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            this.HtmlView.Dispose();
+            HtmlView.Dispose();
         }
     }
 }
