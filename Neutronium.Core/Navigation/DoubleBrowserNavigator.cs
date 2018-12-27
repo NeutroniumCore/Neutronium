@@ -17,6 +17,7 @@ namespace Neutronium.Core.Navigation
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
         private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private readonly IUrlSolver _UrlSolver;
+        private Uri CurrentUrl => _CurrentWebControl?.HtmlWindow?.Url ?? Url;
         private IWebBrowserWindowProvider _CurrentWebControl;
         private IWebBrowserWindowProvider _NextWebControl;
         private IHtmlBinding _HTMLBinding;
@@ -206,8 +207,22 @@ namespace Neutronium.Core.Navigation
 
         public Task ReloadAsync()
         {
+            return SafeReloadAsync();
+        }
+
+        public Task SwitchViewAsync(Uri target)
+        {
+            var newUri = new UriBuilder(target)
+            {
+                Fragment = CurrentUrl.Fragment
+            };
+            return SafeReloadAsync(newUri.Uri);
+        }
+
+        private Task SafeReloadAsync(Uri target= null)
+        {
             var dispatcher = _CurrentWebControl?.UiDispatcher;
-            return dispatcher?.RunAsync(() => Reload(true)) ?? Task.CompletedTask;
+            return dispatcher?.RunAsync(() => Reload(true, target)) ?? Task.CompletedTask;
         }
 
         private void Crashed(object sender, BrowserCrashedArgs e)
@@ -224,7 +239,7 @@ namespace Neutronium.Core.Navigation
 
         private void Reload(bool hotReloadContext, Uri url = null)
         {
-            var dest = url ?? _CurrentWebControl?.HtmlWindow?.Url ?? Url;
+            var dest = url ?? CurrentUrl;
             var vm = GetMainViewModel(Binding);
             var mode = Binding.Mode;
 

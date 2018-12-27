@@ -116,7 +116,20 @@ namespace Neutronium.WPF.Internal
 
         public Task ReloadAsync()
         {
-            return _WpfDoubleBrowserNavigator?.ReloadAsync() ?? Task.CompletedTask;
+            return DoOnDebug(browser => browser.ReloadAsync());
+        }
+
+        public Task SwitchViewAsync(Uri target)
+        {
+            return DoOnDebug(browser => browser.SwitchViewAsync(target));
+        }
+
+        private Task DoOnDebug(Func<DoubleBrowserNavigator, Task> execute)
+        {
+            if ((_WpfDoubleBrowserNavigator == null) || (!IsDebug))
+                return Task.CompletedTask;
+
+            return execute(_WpfDoubleBrowserNavigator);
         }
 
         protected HTMLControlBase(IUrlSolver urlSolver)
