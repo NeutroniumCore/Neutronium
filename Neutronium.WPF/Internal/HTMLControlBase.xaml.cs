@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -113,9 +114,9 @@ namespace Neutronium.WPF.Internal
         public event EventHandler<DisplayEvent> OnDisplay;
         public event EventHandler<DebugMenuOpeningEvent> OnDebugMenuOpening;
 
-        public void Reload()
+        public Task ReloadAsync()
         {
-            _WpfDoubleBrowserNavigator?.Reload();
+            return _WpfDoubleBrowserNavigator?.ReloadAsync() ?? Task.CompletedTask;
         }
 
         protected HTMLControlBase(IUrlSolver urlSolver)
@@ -271,7 +272,7 @@ namespace Neutronium.WPF.Internal
             if (!(_WpfDoubleBrowserNavigator.HTMLWindow is IModernWebBrowserWindow modern))
                 return;
 
-            var items = FireDebugMenuOpeningEvent();
+            var items = FireDebugMenuOpeningEvent().Select(Transform);
 
             modern.RegisterContextMenuItem(GetMenu())
                     .RegisterContextMenuItem(items)
@@ -295,6 +296,12 @@ namespace Neutronium.WPF.Internal
         private IEnumerable<ContextMenuItem> GetAbout()
         {
             yield return GetContextMenuItem("About Neutronium", _DebugInformation.ShowInfo);
+        }
+
+        private ContextMenuItem Transform(ContextMenuItem original)
+        {
+            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, original.Command),
+                original.Name, original.Enabled);
         }
 
         private ContextMenuItem GetContextMenuItem(string itemName, ICommand command, bool enabled = true)

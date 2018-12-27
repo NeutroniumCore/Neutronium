@@ -204,9 +204,10 @@ namespace Neutronium.Core.Navigation
             return tcs.Task;
         }
 
-        public void Reload()
+        public Task ReloadAsync()
         {
-            Reload(true);
+            var dispatcher = _CurrentWebControl?.UiDispatcher;
+            return dispatcher?.RunAsync(() => Reload(true)) ?? Task.CompletedTask;
         }
 
         private void Crashed(object sender, BrowserCrashedArgs e)
