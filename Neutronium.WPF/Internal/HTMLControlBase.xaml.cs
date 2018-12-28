@@ -10,6 +10,7 @@ using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.MVVMComponents;
+using Neutronium.MVVMComponents.Relay;
 using Neutronium.WPF.Internal.DebugTools;
 using Neutronium.WPF.Internal.ViewModel;
 using Neutronium.WPF.Utils;
@@ -24,11 +25,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.WPF.Internal
 {
-    public abstract partial class HTMLControlBase : IWebViewLifeCycleManager, IDisposable
+    public abstract partial class HTMLControlBase : IWebViewLifeCycleManager, IWebViewComponent, IDisposable
     {
         private UserControl _DebugControl;
         private readonly DebugInformation _DebugInformation;
@@ -109,14 +109,14 @@ namespace Neutronium.WPF.Internal
             }
         }
 
-        public IDictionary<string, ICommand<HTMLControlBase>> DebugCommands
+        public IDictionary<string, ICommand<IWebViewComponent>> DebugCommands
         {
-            get => (IDictionary<string, ICommand<HTMLControlBase>>)GetValue(DebugCommandsProperty);
+            get => (IDictionary<string, ICommand<IWebViewComponent>>)GetValue(DebugCommandsProperty);
             set => SetValue(DebugCommandsProperty, value);
         }
 
         public static readonly DependencyProperty DebugCommandsProperty =
-            DependencyProperty.Register(nameof(DebugCommands), typeof(IDictionary<string, ICommand<HTMLControlBase>>), typeof(HTMLControlBase), new PropertyMetadata(defaultValue: null));
+            DependencyProperty.Register(nameof(DebugCommands), typeof(IDictionary<string, ICommand<IWebViewComponent>>), typeof(HTMLControlBase), new PropertyMetadata(defaultValue: null));
 
         public abstract string UniqueName { get; }
 
@@ -124,14 +124,19 @@ namespace Neutronium.WPF.Internal
         public event EventHandler<FirstLoadEvent> OnFirstLoad;
         public event EventHandler<DisplayEvent> OnDisplay;
 
-        public Task ReloadAsync()
+        Task IWebViewComponent.ReloadAsync()
         {
             return DoOnDebug(browser => browser.ReloadAsync());
         }
 
-        public Task SwitchViewAsync(Uri target)
+        Task IWebViewComponent.SwitchViewAsync(Uri target)
         {
             return DoOnDebug(browser => browser.SwitchViewAsync(target));
+        }
+
+        void IWebViewComponent.ExecuteJavascript(string code)
+        {
+            _WpfDoubleBrowserNavigator?.ExecuteJavascript(code);
         }
 
         private Task DoOnDebug(Func<DoubleBrowserNavigator, Task> execute)
@@ -302,7 +307,7 @@ namespace Neutronium.WPF.Internal
                     .RegisterContextMenuItem(GetAbout());
         }
 
-        private ContextMenuItem Transform(string name, ICommand<HTMLControlBase> original)
+        private ContextMenuItem Transform(string name, ICommand<IWebViewComponent> original)
         {
             var command = new RelayToogleCommand(() => original.Execute(this), original.CanExecute(this));
             return GetContextMenuItem(name, command);

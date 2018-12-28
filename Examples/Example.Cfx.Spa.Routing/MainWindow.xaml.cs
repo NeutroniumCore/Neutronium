@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Example.Cfx.Spa.Routing.SetUp;
-using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.Core.Navigation;
 using Neutronium.MVVMComponents;
-using Neutronium.WPF.Internal;
 
 namespace Example.Cfx.Spa.Routing
 {
@@ -17,7 +16,7 @@ namespace Example.Cfx.Spa.Routing
         private SetUpViewModel SetUp => App.SetUp;
         public bool? Debug => SetUp.Debug;
         public Uri Uri => SetUp.Uri;
-        public IDictionary<string, ICommand<HTMLControlBase>> DebugCommands => SetUp.DebugCommands;
+        public IDictionary<string, ICommand<IWebViewComponent>> DebugCommands => SetUp.DebugCommands;
 
         public MainWindow()
         {

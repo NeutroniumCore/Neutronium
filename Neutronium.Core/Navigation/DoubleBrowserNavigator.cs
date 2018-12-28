@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Neutronium.Core.Navigation
 {
-    public class DoubleBrowserNavigator : INavigationSolver
+    public class DoubleBrowserNavigator : INavigationSolver, IWebViewComponent
     {
         private readonly IWebViewLifeCycleManager _WebViewLifeCycleManager;
         private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
@@ -257,7 +257,7 @@ namespace Neutronium.Core.Navigation
             return _JavascriptFrameworkManager;
         }
 
-        public void ExcecuteJavascript(string code)
+        public void ExecuteJavascript(string code)
         {
             try
             {

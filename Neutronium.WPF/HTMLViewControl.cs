@@ -10,7 +10,6 @@ using Neutronium.Core.Navigation;
 using Neutronium.WPF.Internal;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Neutronium.WPF
 {

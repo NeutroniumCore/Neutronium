@@ -18,7 +18,7 @@ namespace Neutronium.WPF.Internal.DebugTools
 
         public void RunJavascript(string code)
         {
-            _WpfDoubleBrowserNavigator.ExcecuteJavascript(code);
+            _WpfDoubleBrowserNavigator.ExecuteJavascript(code);
         }
 
         public void OpenNewWindow(string path, int width, int height, Func<IWebView, IWebView, IDisposable> injectCode)
