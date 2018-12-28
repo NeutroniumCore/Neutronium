@@ -70,7 +70,7 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 
         public async Task<bool> Cancel()
         {
-            if (_State == State.Closed)
+            if ((_State == State.Closed) || (_State == State.NotStarted))
                 return false;
 
             _State = State.Closing;
