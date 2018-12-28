@@ -6,7 +6,7 @@ using Neutronium.MVVMComponents.Helper;
 namespace Neutronium.MVVMComponents.Relay
 {
     /// <summary>
-    /// ISimpleCommand implmentation based on an action taking one argument
+    /// ISimpleCommand implementation based on an action taking one argument
     /// <seealso cref="ISimpleCommand"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>

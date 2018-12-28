@@ -6,7 +6,7 @@ namespace Neutronium.MVVMComponents.Helper
     {
         public static bool IsClass<T>() 
         {
-#if NET45
+#if NET472
             return typeof(T).IsClass;
 #else
             return typeof(T).GetTypeInfo().IsClass;

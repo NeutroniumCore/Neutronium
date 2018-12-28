@@ -17,7 +17,7 @@ namespace Neutronium.MVVMComponents.Relay
         private bool _ShouldExecute = true;
         public bool ShouldExecute
         {
-            get { return _ShouldExecute; }
+            get => _ShouldExecute;
             set 
             {
                 if (_ShouldExecute == value)

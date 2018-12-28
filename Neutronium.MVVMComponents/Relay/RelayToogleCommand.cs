@@ -15,9 +15,15 @@ namespace Neutronium.MVVMComponents.Relay
             _Execute = execute;
         }
 
+        public RelayToogleCommand(Action execute, bool shouldExecute)
+        {
+            _Execute = execute;
+            _ShouldExecute = shouldExecute;
+        }
+
         public bool ShouldExecute
         {
-            get { return _ShouldExecute; }
+            get => _ShouldExecute;
             set 
             {
                 if (_ShouldExecute == value)
