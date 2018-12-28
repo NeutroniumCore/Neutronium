@@ -31,7 +31,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
             private set => Set(ref _Mode, value, nameof(Mode));
         }
 
-        public IDictionary<string,ICommand<IWebViewComponent>> DebugCommands { get; } = new Dictionary<string, ICommand<IWebViewComponent>>();
+        public IDictionary<string,ICommand<ICompleteWebViewComponent>> DebugCommands { get; } = new Dictionary<string, ICommand<ICompleteWebViewComponent>>();
 
         private readonly ApplicationSetUpBuilder _Builder;
         private ApplicationSetUp _ApplicationSetUp;
@@ -71,11 +71,11 @@ namespace Example.Cfx.Spa.Routing.SetUp
             switch (Mode)
             {
                 case ApplicationMode.Live:
-                    DebugCommands["Reload"] = new RelayToogleCommand<IWebViewComponent>(htmlView => htmlView.ReloadAsync());
+                    DebugCommands["Reload"] = new RelayToogleCommand<ICompleteWebViewComponent>(htmlView => htmlView.ReloadAsync());
                     break;
 
                 case ApplicationMode.Dev:
-                    DebugCommands["ToLive"] = new RelayToogleCommand<IWebViewComponent>(GoLive);
+                    DebugCommands["ToLive"] = new RelayToogleCommand<ICompleteWebViewComponent>(GoLive);
                     break;
             }
         }

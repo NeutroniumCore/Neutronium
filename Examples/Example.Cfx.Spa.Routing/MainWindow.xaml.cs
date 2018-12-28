@@ -16,7 +16,7 @@ namespace Example.Cfx.Spa.Routing
         private SetUpViewModel SetUp => App.SetUp;
         public bool? Debug => SetUp.Debug;
         public Uri Uri => SetUp.Uri;
-        public IDictionary<string, ICommand<IWebViewComponent>> DebugCommands => SetUp.DebugCommands;
+        public IDictionary<string, ICommand<ICompleteWebViewComponent>> DebugCommands => SetUp.DebugCommands;
 
         public MainWindow()
         {

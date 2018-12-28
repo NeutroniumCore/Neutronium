@@ -7,23 +7,23 @@ namespace Neutronium.WPF.Internal.DebugTools
 {
     internal class DebugFacility: IDebugFacility
     {
-        private readonly DoubleBrowserNavigator _WpfDoubleBrowserNavigator;
+        private readonly ICompleteWebViewComponent _WebViewComponent;
         private readonly Action<string, int, int, Func<IWebView, IDisposable>> _ShowWindow;
 
-        public DebugFacility(DoubleBrowserNavigator wpfDoubleBrowserNavigator, Action<string, int, int, Func<IWebView, IDisposable>> showWindow)
+        public DebugFacility(ICompleteWebViewComponent webViewComponent)
         {
-            _WpfDoubleBrowserNavigator = wpfDoubleBrowserNavigator;
-            _ShowWindow = showWindow;
+            _WebViewComponent = webViewComponent;
         }
 
         public void RunJavascript(string code)
         {
-            _WpfDoubleBrowserNavigator.ExecuteJavascript(code);
+            _WebViewComponent.ExecuteJavascript(code);
         }
 
         public void OpenNewWindow(string path, int width, int height, Func<IWebView, IWebView, IDisposable> injectCode)
         {
-            _ShowWindow(path, width, height, debug => injectCode(_WpfDoubleBrowserNavigator.HTMLWindow.MainFrame, debug));
+            var mainFrame = _WebViewComponent.HTMLWindow.MainFrame;
+            _WebViewComponent.ShowHtmlWindow(path, width, height, debug => injectCode(mainFrame, debug));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Navigation
 {
@@ -9,6 +10,11 @@ namespace Neutronium.Core.Navigation
     /// </summary>
     public interface IWebViewComponent
     {
+        /// <summary>
+        /// Returns the underlying IWebBrowserWindow
+        /// </summary>
+        IWebBrowserWindow HTMLWindow { get; }
+
         /// <summary>
         /// Reload the current page without changing the bindings, usefull on hot-reload context
         /// </summary>

@@ -28,7 +28,7 @@ using System.Windows.Threading;
 
 namespace Neutronium.WPF.Internal
 {
-    public abstract partial class HTMLControlBase : IWebViewLifeCycleManager, IWebViewComponent, IDisposable
+    public abstract partial class HTMLControlBase : IWebViewLifeCycleManager, ICompleteWebViewComponent, IDisposable
     {
         private UserControl _DebugControl;
         private readonly DebugInformation _DebugInformation;
@@ -65,7 +65,7 @@ namespace Neutronium.WPF.Internal
         private static void DebugChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as HTMLControlBase;
-            control.DebugChanged((bool)e.NewValue);
+            control?.DebugChanged((bool)e.NewValue);
         }
 
         public bool IsHTMLLoaded
@@ -109,20 +109,22 @@ namespace Neutronium.WPF.Internal
             }
         }
 
-        public IDictionary<string, ICommand<IWebViewComponent>> DebugCommands
+        public IDictionary<string, ICommand<ICompleteWebViewComponent>> DebugCommands
         {
-            get => (IDictionary<string, ICommand<IWebViewComponent>>)GetValue(DebugCommandsProperty);
+            get => (IDictionary<string, ICommand<ICompleteWebViewComponent>>)GetValue(DebugCommandsProperty);
             set => SetValue(DebugCommandsProperty, value);
         }
 
         public static readonly DependencyProperty DebugCommandsProperty =
-            DependencyProperty.Register(nameof(DebugCommands), typeof(IDictionary<string, ICommand<IWebViewComponent>>), typeof(HTMLControlBase), new PropertyMetadata(defaultValue: null));
+            DependencyProperty.Register(nameof(DebugCommands), typeof(IDictionary<string, ICommand<ICompleteWebViewComponent>>), typeof(HTMLControlBase), new PropertyMetadata(defaultValue: null));
 
         public abstract string UniqueName { get; }
 
         public event EventHandler<NavigationEvent> OnNavigate;
         public event EventHandler<FirstLoadEvent> OnFirstLoad;
         public event EventHandler<DisplayEvent> OnDisplay;
+
+        IWebBrowserWindow IWebViewComponent.HTMLWindow => _WpfDoubleBrowserNavigator?.HTMLWindow;
 
         Task IWebViewComponent.ReloadAsync()
         {
@@ -137,6 +139,13 @@ namespace Neutronium.WPF.Internal
         void IWebViewComponent.ExecuteJavascript(string code)
         {
             _WpfDoubleBrowserNavigator?.ExecuteJavascript(code);
+        }
+
+        void ICompleteWebViewComponent.ShowHtmlWindow(string path, int width, int height, Func<IWebView, IDisposable> injectedCode)
+        {
+            _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", width, height, injectedCode);
+            _VmDebugWindow.Closed += _VmDebugWindow_Closed;
+            _VmDebugWindow.Show();
         }
 
         private Task DoOnDebug(Func<DoubleBrowserNavigator, Task> execute)
@@ -307,7 +316,7 @@ namespace Neutronium.WPF.Internal
                     .RegisterContextMenuItem(GetAbout());
         }
 
-        private ContextMenuItem Transform(string name, ICommand<IWebViewComponent> original)
+        private ContextMenuItem Transform(string name, ICommand<ICompleteWebViewComponent> original)
         {
             var command = new RelayToogleCommand(() => original.Execute(this), original.CanExecute(this));
             return GetContextMenuItem(name, command);
@@ -410,20 +419,13 @@ namespace Neutronium.WPF.Internal
                 return;
             }
 
-            var facility = new DebugFacility(WpfDoubleBrowserNavigator, ShowHtmlWindow);
+            var facility = new DebugFacility(this);
             _Injector?.DebugVm(facility);
 
             if (_VmDebugWindow == null)
                 _DebugInformation.IsDebuggingVm = !_DebugInformation.IsDebuggingVm;
             else
                 _DebugInformation.IsDebuggingVm = true;
-        }
-
-        private void ShowHtmlWindow(string path, int width, int height, Func<IWebView, IDisposable> injectedCode)
-        {
-            _VmDebugWindow = GetWHMLWindow(path, "Neutronium ViewModel Debugger", width, height, injectedCode);
-            _VmDebugWindow.Closed += _VmDebugWindow_Closed;
-            _VmDebugWindow.Show();
         }
 
         private void _VmDebugWindow_Closed(object sender, EventArgs e)
@@ -479,6 +481,7 @@ namespace Neutronium.WPF.Internal
         }
 
         private string _WebSessionPath = null;
+
         public string SessionPath
         {
             get => _WebSessionPath;
