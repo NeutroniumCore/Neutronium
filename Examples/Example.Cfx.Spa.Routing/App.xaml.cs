@@ -2,7 +2,6 @@
 using Neutronium.JavascriptFramework.Vue;
 using Neutronium.WebBrowserEngine.ChromiumFx;
 using Neutronium.WPF;
-using System;
 using System.Windows;
 using Example.Cfx.Spa.Routing.SetUp;
 
@@ -13,17 +12,15 @@ namespace Example.Cfx.Spa.Routing
     /// </summary>
     public partial class App : ChromiumFxWebBrowserApp
     {
-        public bool? Debug => _ApplicationSetUp?.Debug;
-        public Uri Uri => _ApplicationSetUp?.Uri;
+        public static SetUpViewModel SetUp => (Current as App)?.SetUpViewModel;
 
+        private SetUpViewModel SetUpViewModel { get; }
         private readonly ApplicationSetUpBuilder _ApplicationSetUpBuilder;
-        private ApplicationSetUp _ApplicationSetUp;
-
-        public static App MainApplication => Current as App;
 
         public App()
         {
             _ApplicationSetUpBuilder = new ApplicationSetUpBuilder("View");
+            SetUpViewModel = new SetUpViewModel(_ApplicationSetUpBuilder);
         }
 
         protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager()
@@ -40,9 +37,9 @@ namespace Example.Cfx.Spa.Routing
         protected override void OnStartUp(IHTMLEngineFactory factory)
         {
 #if DEBUG
-            _ApplicationSetUp = _ApplicationSetUpBuilder.BuildFromApplicationArguments(Args).Result;
+            SetUpViewModel.InitFromArgs(Args).Wait();
 #else
-            _ApplicationSetUp = _ApplicationSetUpBuilder.BuildForProduction();
+            SetUpViewModel.InitForProduction();
 #endif
 
             factory.RegisterJavaScriptFrameworkAsDefault(new VueSessionInjectorV2 { RunTimeOnly = true });

@@ -9,6 +9,7 @@ using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.MVVMComponents;
 using Neutronium.WPF.Internal.DebugTools;
 using Neutronium.WPF.Internal.ViewModel;
 using Neutronium.WPF.Utils;
@@ -23,6 +24,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Neutronium.MVVMComponents.Relay;
 
 namespace Neutronium.WPF.Internal
 {
@@ -107,12 +109,20 @@ namespace Neutronium.WPF.Internal
             }
         }
 
+        public IDictionary<string, ICommand<HTMLControlBase>> DebugCommands
+        {
+            get => (IDictionary<string, ICommand<HTMLControlBase>>)GetValue(DebugCommandsProperty);
+            set => SetValue(DebugCommandsProperty, value);
+        }
+
+        public static readonly DependencyProperty DebugCommandsProperty =
+            DependencyProperty.Register(nameof(DebugCommands), typeof(IDictionary<string, ICommand<HTMLControlBase>>), typeof(HTMLControlBase), new PropertyMetadata(defaultValue: null));
+
         public abstract string UniqueName { get; }
 
         public event EventHandler<NavigationEvent> OnNavigate;
         public event EventHandler<FirstLoadEvent> OnFirstLoad;
         public event EventHandler<DisplayEvent> OnDisplay;
-        public event EventHandler<DebugMenuOpeningEvent> OnDebugMenuOpening;
 
         public Task ReloadAsync()
         {
@@ -249,7 +259,7 @@ namespace Neutronium.WPF.Internal
             _Injector = engine.ResolveJavaScriptFramework(JavascriptUIEngine);
 
             if (_Injector == null)
-                throw ExceptionHelper.Get($"Not able to find JavascriptUIEngine {JavascriptUIEngine}. Please register the correspoding Javascript UIEngine.");
+                throw ExceptionHelper.Get($"Not able to find JavascriptUIEngine {JavascriptUIEngine}. Please register the corresponding Javascript UIEngine.");
 
             _WpfDoubleBrowserNavigator = GetDoubleBrowserNavigator();
 
@@ -285,18 +295,17 @@ namespace Neutronium.WPF.Internal
             if (!(_WpfDoubleBrowserNavigator.HTMLWindow is IModernWebBrowserWindow modern))
                 return;
 
-            var items = FireDebugMenuOpeningEvent().Select(Transform);
+            var items = DebugCommands?.Select(command => Transform(command.Key, command.Value));
 
             modern.RegisterContextMenuItem(GetMenu())
                     .RegisterContextMenuItem(items)
                     .RegisterContextMenuItem(GetAbout());
         }
 
-        private List<ContextMenuItem> FireDebugMenuOpeningEvent()
+        private ContextMenuItem Transform(string name, ICommand<HTMLControlBase> original)
         {
-            var args = new DebugMenuOpeningEvent();
-            OnDebugMenuOpening?.Invoke(this, args);
-            return args.AdditionalMenuItems;
+            var command = new RelayToogleCommand(() => original.Execute(this), original.CanExecute(this));
+            return GetContextMenuItem(name, command);
         }
 
         private IEnumerable<ContextMenuItem> GetMenu()
@@ -309,12 +318,6 @@ namespace Neutronium.WPF.Internal
         private IEnumerable<ContextMenuItem> GetAbout()
         {
             yield return GetContextMenuItem("About Neutronium", _DebugInformation.ShowInfo);
-        }
-
-        private ContextMenuItem Transform(ContextMenuItem original)
-        {
-            return new ContextMenuItem(() => Dispatcher.BeginInvoke(DispatcherPriority.Input, original.Command),
-                original.Name, original.Enabled);
         }
 
         private ContextMenuItem GetContextMenuItem(string itemName, ICommand command, bool enabled = true)
@@ -334,20 +337,20 @@ namespace Neutronium.WPF.Internal
 
         private void DoShowInfo()
         {
-            var windoInfo = HTMLEngineFactory.Engine.ResolveAboutScreen();
-            if (windoInfo != null)
+            var windowInfo = HTMLEngineFactory.Engine.ResolveAboutScreen();
+            if (windowInfo != null)
             {
                 if (_LoadingAbout)
                     return;
 
                 _LoadingAbout = true;
-                var aboutWindow = new NeutroniumWindow(windoInfo.AbsolutePath, windoInfo.Framework.Name)
+                var aboutWindow = new NeutroniumWindow(windowInfo.AbsolutePath, windowInfo.Framework.Name)
                 {
                     Title = "About",
                     Owner = Window,
                     DataContext = new About(_WpfWebWindowFactory, _Injector),
-                    Width = windoInfo.Width,
-                    Height = windoInfo.Height
+                    Width = windowInfo.Width,
+                    Height = windowInfo.Height
                 };
 
                 void Handler(object o, EventArgs e)

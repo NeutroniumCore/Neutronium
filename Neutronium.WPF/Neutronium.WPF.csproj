@@ -93,7 +93,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DebugMenuOpeningEvent.cs" />
     <Compile Include="Internal\DebugTools\DebugFacility.cs" />
     <Compile Include="Windows\Chromeless.cs" />
     <Compile Include="HTMLApp.cs" />

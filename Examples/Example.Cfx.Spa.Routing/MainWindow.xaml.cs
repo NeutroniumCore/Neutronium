@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using Example.Cfx.Spa.Routing.SetUp;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.MVVMComponents;
+using Neutronium.WPF.Internal;
 
 namespace Example.Cfx.Spa.Routing
 {
@@ -10,19 +14,15 @@ namespace Example.Cfx.Spa.Routing
     {
         private ApplicationViewModelBuilder _ApplicationViewModelBuilder;
 
-        public bool? Debug => App.MainApplication.Debug;
-        public Uri Uri => App.MainApplication.Uri;
+        private SetUpViewModel SetUp => App.SetUp;
+        public bool? Debug => SetUp.Debug;
+        public Uri Uri => SetUp.Uri;
+        public IDictionary<string, ICommand<HTMLControlBase>> DebugCommands => SetUp.DebugCommands;
 
         public MainWindow()
         {
-            Initialized += MainWindow_Initialized;
+            Initialized += MainWindow_Initialized;          
             InitializeComponent();
-            HtmlView.OnDebugMenuOpening += HtmlView_OnDebugMenuOpening;
-        }
-
-        private void HtmlView_OnDebugMenuOpening(object sender, Neutronium.WPF.DebugMenuOpeningEvent e)
-        {
-            e.AdditionalMenuItems.Add(new ContextMenuItem(() => HtmlView.ReloadAsync(), "Reload", true));
         }
 
         private void MainWindow_Initialized(object sender, EventArgs e)

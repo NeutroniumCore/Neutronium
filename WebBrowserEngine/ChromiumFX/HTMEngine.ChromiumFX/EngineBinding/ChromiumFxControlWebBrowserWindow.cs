@@ -134,6 +134,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItems)
         {
+            if (contextMenuItems == null)
+                return this;
+
             var oldCount = _Commands.Count;
             _Commands.AddRange(contextMenuItems);
             var currentCount = _Commands.Count;

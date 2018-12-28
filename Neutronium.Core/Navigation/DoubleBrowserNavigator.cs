@@ -41,11 +41,11 @@ namespace Neutronium.Core.Navigation
             set => _webSessionLogger = value;
         }
 
-        public DoubleBrowserNavigator(IWebViewLifeCycleManager lifecycler, IUrlSolver urlSolver, IJavascriptFrameworkManager javascriptFrameworkManager)
+        public DoubleBrowserNavigator(IWebViewLifeCycleManager lifeCycleManager, IUrlSolver urlSolver, IJavascriptFrameworkManager javascriptFrameworkManager)
         {
             _webSessionLogger = new BasicLogger();
             _JavascriptFrameworkManager = javascriptFrameworkManager;
-            _WebViewLifeCycleManager = lifecycler;
+            _WebViewLifeCycleManager = lifeCycleManager;
             _UrlSolver = urlSolver;
         }
 
@@ -214,7 +214,7 @@ namespace Neutronium.Core.Navigation
         {
             var newUri = new UriBuilder(target)
             {
-                Fragment = CurrentUrl.Fragment
+                Fragment = CurrentUrl.Fragment.Replace("#",String.Empty)
             };
             return SafeReloadAsync(newUri.Uri);
         }

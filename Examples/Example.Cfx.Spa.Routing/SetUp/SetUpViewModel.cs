@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
+using Neutronium.WPF.Internal;
 
 namespace Example.Cfx.Spa.Routing.SetUp
 {
@@ -29,8 +31,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
             private set => Set(ref _Mode, value, nameof(Mode));
         }
 
-        private readonly RelayToogleCommand _ToLive;
-        public ICommandWithoutParameter ToLive => _ToLive;
+        public IDictionary<string,ICommand<HTMLControlBase>> DebugCommands { get; } = new Dictionary<string, ICommand<HTMLControlBase>>();
 
         private readonly ApplicationSetUpBuilder _Builder;
         private ApplicationSetUp _ApplicationSetUp;
@@ -38,23 +39,21 @@ namespace Example.Cfx.Spa.Routing.SetUp
         public SetUpViewModel(ApplicationSetUpBuilder builder)
         {
             _Builder = builder;
-            _ToLive = new RelayToogleCommand(GoLive)
-            {
-                ShouldExecute = false
-            };
         }
 
-        private async void GoLive()
+        private async void GoLive(HTMLControlBase viewControl)
         {
             if (Mode != ApplicationMode.Dev)
                 return;
 
             UpdateSetUp(await _Builder.BuildFromMode(ApplicationMode.Live));
+            await viewControl.SwitchViewAsync(Uri);
         }
 
-        public async Task InitFromArgs(string[] args) 
+        public async Task InitFromArgs(string[] args)
         {
-            UpdateSetUp(await _Builder.BuildFromApplicationArguments(args));
+            var setup = await _Builder.BuildFromApplicationArguments(args).ConfigureAwait(false);
+            UpdateSetUp(setup);
         }
 
         public void InitForProduction()
@@ -68,7 +67,17 @@ namespace Example.Cfx.Spa.Routing.SetUp
             Uri = _ApplicationSetUp.Uri;
             Mode = _ApplicationSetUp.Mode;
             Debug = _ApplicationSetUp.Debug;
-            _ToLive.ShouldExecute = Mode == ApplicationMode.Dev;
+            DebugCommands.Clear();
+            switch (Mode)
+            {
+                case ApplicationMode.Live:
+                    DebugCommands["Reload"] = new RelayToogleCommand<HTMLControlBase>(htmlView => htmlView.ReloadAsync());
+                    break;
+
+                case ApplicationMode.Dev:
+                    DebugCommands["ToLive"] = new RelayToogleCommand<HTMLControlBase>(GoLive);
+                    break;
+            }
         }
     }
 }
