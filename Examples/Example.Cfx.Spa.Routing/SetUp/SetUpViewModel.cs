@@ -75,7 +75,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
                     break;
 
                 case ApplicationMode.Dev:
-                    DebugCommands["ToLive"] = new RelayToogleCommand<ICompleteWebViewComponent>(GoLive);
+                    DebugCommands["To Live"] = new RelayToogleCommand<ICompleteWebViewComponent>(GoLive);
                     break;
             }
         }
