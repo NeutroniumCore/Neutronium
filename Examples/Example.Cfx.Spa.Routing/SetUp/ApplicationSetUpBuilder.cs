@@ -1,12 +1,13 @@
 ﻿using Example.Cfx.Spa.Routing.SetUp.ScriptRunner;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Example.Cfx.Spa.Routing.SetUp
 {
-    public class ApplicationSetUpBuilder: IDisposable
+    public class ApplicationSetUpBuilder : IDisposable
     {
         private const string Mode = "mode";
         private const string Live = "live";
@@ -30,8 +31,8 @@ namespace Example.Cfx.Spa.Routing.SetUp
 
         public ApplicationSetUpBuilder(string viewDirectory = "View", ApplicationMode @default = ApplicationMode.Dev,
             string liveScript = "live") :
-            this(new Uri($"pack://application:,,,/{viewDirectory}/dist/index.html"), 
-                @default, 
+            this(new Uri($"pack://application:,,,/{viewDirectory}/dist/index.html"),
+                @default,
                 new NpmRunner(viewDirectory, liveScript))
         {
         }
@@ -54,9 +55,9 @@ namespace Example.Cfx.Spa.Routing.SetUp
             return BuildFromArgument(argument);
         }
 
-        public async Task<ApplicationSetUp> BuildFromMode(ApplicationMode mode)
+        public async Task<ApplicationSetUp> BuildFromMode(ApplicationMode mode, Action<string> onNpmLog = null)
         {
-            var uri = await BuildUri(mode).ConfigureAwait(false);
+            var uri = await BuildUri(mode, onNpmLog).ConfigureAwait(false);
             return new ApplicationSetUp(mode, uri);
         }
 
@@ -84,12 +85,19 @@ namespace Example.Cfx.Spa.Routing.SetUp
             return await BuildUri(mode).ConfigureAwait(false);
         }
 
-        private async Task<Uri> BuildUri(ApplicationMode mode)
+        private async Task<Uri> BuildUri(ApplicationMode mode, Action<string> onNpmLog = null)
         {
             if (mode != ApplicationMode.Live)
                 return Uri;
 
+            void OnDataReceived(object _, DataReceivedEventArgs dataReceived)
+            {
+                onNpmLog?.Invoke(dataReceived.Data);
+            }
+
+            _NpmRunner.OutputDataReceived += OnDataReceived;
             var port = await _NpmRunner.GetPortAsync().ConfigureAwait(false);
+            _NpmRunner.OutputDataReceived -= OnDataReceived;
             return new Uri($"http://localhost:{port}/index.html");
         }
 

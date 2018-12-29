@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
@@ -46,7 +48,23 @@ namespace Example.Cfx.Spa.Routing.SetUp
             if (Mode != ApplicationMode.Dev)
                 return;
 
-            UpdateSetUp(await _Builder.BuildFromMode(ApplicationMode.Live));
+            var resourceLoader = new ResourceReader("SetUp.script", this);
+            var createOverlay = resourceLoader.Load("loading.js");
+            viewControl.ExecuteJavascript(createOverlay);
+
+            var updateOverlay = resourceLoader.Load("update.js");
+            var messageCount = 0;
+            void OnNpmLog(string information)
+            {
+                if (messageCount++ < 2)
+                    return;
+
+                var text = JavascriptNamer.GetCreateExpression(information);
+                var code = updateOverlay.Replace("{information}", text);
+                viewControl.ExecuteJavascript(code);
+            }
+
+            UpdateSetUp(await _Builder.BuildFromMode(ApplicationMode.Live, OnNpmLog));
             await viewControl.SwitchViewAsync(Uri);
         }
 

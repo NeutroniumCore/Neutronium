@@ -1,0 +1,19 @@
+{
+  "name": "overlay-neutronium",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Loading.js",
+  "scripts": {
+    "build": "webpack --output ./loading.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ansi-html": "0.0.7",
+    "html-entities": "^1.2.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2"
+  }
+}

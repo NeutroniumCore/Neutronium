@@ -1,10 +1,10 @@
 ﻿using Application.SetUp.Script;
+using Neutronium.Core.Infra;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Neutronium.Core.Infra;
 
 namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 {
@@ -19,6 +19,8 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
         private readonly TaskCompletionSource<string> _StopKeyCompletionSource = new TaskCompletionSource<string>();
         private Task<string> StopKeyAsync => _StopKeyCompletionSource.Task;
         private State _State = State.NotStarted;
+
+        public event DataReceivedEventHandler OutputDataReceived;
 
         private enum State
         {
@@ -96,15 +98,14 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             {
                 case State.Initializing:
                     TryParsePort(data);
-                    return;
+                    break;
 
                 case State.Closing:
                     TryParseKey(data);
-                    return;
-
-                default:
-                    return;
+                    break;
             };
+
+            OutputDataReceived?.Invoke(this, e);
         }
 
         private void TryParsePort(string data)

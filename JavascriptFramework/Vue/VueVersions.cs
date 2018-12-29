@@ -32,9 +32,9 @@ namespace Neutronium.JavascriptFramework.Vue
 
         public ResourceReader GetVueResource() => new ResourceReader($"scripts.{Version}", this);
 
-        private VueVersion(string framewokVersion, string name, string version, bool supportRuntime, DebugToolsUI debugToolsUI)
+        private VueVersion(string frameworkVersion, string name, string version, bool supportRuntime, DebugToolsUI debugToolsUI)
         {
-            FrameworkNameVersion = framewokVersion;
+            FrameworkNameVersion = frameworkVersion;
             Name = name;
             Version = version;
             DebugToolsUI = debugToolsUI;
