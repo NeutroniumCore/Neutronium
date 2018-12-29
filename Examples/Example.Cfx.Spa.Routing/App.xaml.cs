@@ -3,6 +3,8 @@ using Neutronium.JavascriptFramework.Vue;
 using Neutronium.WebBrowserEngine.ChromiumFx;
 using Neutronium.WPF;
 using System.Windows;
+using Chromium;
+using Chromium.WebBrowser;
 using Example.Cfx.Spa.Routing.SetUp;
 
 namespace Example.Cfx.Spa.Routing
@@ -26,6 +28,13 @@ namespace Example.Cfx.Spa.Routing
         protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager()
         {
             return new VueSessionInjector();
+        }
+
+        protected override void UpdateChromiumSettings(CfxSettings settings)
+        {
+            var black = new CfxColor(255, 0, 0, 0);
+            ChromiumWebBrowser.DefaultBrowserSettings.BackgroundColor = black;
+            settings.BackgroundColor = black;
         }
 
         protected override void OnExit(ExitEventArgs e)
