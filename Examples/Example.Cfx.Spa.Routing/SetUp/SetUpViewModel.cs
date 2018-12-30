@@ -4,34 +4,18 @@ using System.Threading.Tasks;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using Neutronium.Example.ViewModel.Infra;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
 
 namespace Example.Cfx.Spa.Routing.SetUp
 {
-    public class SetUpViewModel: ViewModelBase
+    public class SetUpViewModel
     {
-        private Uri _Uri;
-        public Uri Uri
-        {
-            get => _Uri;
-            private set => Set(ref _Uri, value, nameof(Uri));
-        }
+        public Uri Uri { get; private set; }
 
-        private bool _Debug;
-        public bool Debug
-        {
-            get => _Debug;
-            private set => Set(ref _Debug, value, nameof(Debug));
-        }
+        public bool Debug { get; private set; }
 
-        private ApplicationMode _Mode;
-        public ApplicationMode Mode
-        {
-            get => _Mode;
-            private set => Set(ref _Mode, value, nameof(Mode));
-        }
+        public ApplicationMode Mode { get; private set; }
 
         public IDictionary<string,ICommand<ICompleteWebViewComponent>> DebugCommands { get; } = new Dictionary<string, ICommand<ICompleteWebViewComponent>>();
 

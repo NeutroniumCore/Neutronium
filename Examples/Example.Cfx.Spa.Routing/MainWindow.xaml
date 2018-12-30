@@ -21,7 +21,7 @@
         <WPF:BoolToHiddenConverter x:Key="BoolToHidden"/>
     </Window.Resources>
     <Grid Background="Black">
-        <WPF:HTMLViewControl x:Name="HtmlView" DebugCommands="{Binding ElementName=Root, Path=DebugCommands}"  IsDebug="{Binding ElementName=Root, Path=Debug}" Uri="{Binding ElementName=Root, Path=Uri}"  />
+        <WPF:HTMLViewControl x:Name="HtmlView" DebugCommands="{Binding ElementName=Root, Path=SetUp.DebugCommands}"  IsDebug="{Binding ElementName=Root, Path=SetUp.Debug}" Uri="{Binding ElementName=Root, Path=SetUp.Uri}"  />
     </Grid>
     <Window.Visibility>
         <Binding ElementName="HtmlView" Path="IsHTMLLoaded" Converter="{StaticResource BoolToHidden}"/>
