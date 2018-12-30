@@ -11,11 +11,9 @@ namespace Example.Cfx.Spa.Routing.SetUp
 {
     public class SetUpViewModel
     {
-        public Uri Uri { get; private set; }
-
-        public bool Debug { get; private set; }
-
-        public ApplicationMode Mode { get; private set; }
+        public Uri Uri => _ApplicationSetUp.Uri;
+        public bool Debug => _ApplicationSetUp.Debug;
+        public ApplicationMode Mode => _ApplicationSetUp.Mode;
 
         public IDictionary<string,ICommand<ICompleteWebViewComponent>> DebugCommands { get; } = new Dictionary<string, ICommand<ICompleteWebViewComponent>>();
 
@@ -66,9 +64,6 @@ namespace Example.Cfx.Spa.Routing.SetUp
         private void UpdateSetUp(ApplicationSetUp applicationSetUp)
         {
             _ApplicationSetUp = applicationSetUp;
-            Uri = _ApplicationSetUp.Uri;
-            Mode = _ApplicationSetUp.Mode;
-            Debug = _ApplicationSetUp.Debug;
             DebugCommands.Clear();
             switch (Mode)
             {
