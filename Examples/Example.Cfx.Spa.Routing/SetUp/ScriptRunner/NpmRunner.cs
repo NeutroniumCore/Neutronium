@@ -93,6 +93,7 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
         {
             var data = e.Data;
             Trace.WriteLine($"npm console: {data}");
+            OutputDataReceived?.Invoke(this, e);
 
             switch (_State)
             {
@@ -104,8 +105,6 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
                     TryParseKey(data);
                     break;
             };
-
-            OutputDataReceived?.Invoke(this, e);
         }
 
         private void TryParsePort(string data)
