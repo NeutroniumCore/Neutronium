@@ -21,29 +21,24 @@ namespace Neutronium.Core.Navigation
         private IWebBrowserWindowProvider _CurrentWebControl;
         private IWebBrowserWindowProvider _NextWebControl;
         private IHtmlBinding _HTMLBinding;
-        private IWebSessionLogger _webSessionLogger;
+        private IWebSessionLogger _WebSessionLogger;
         private bool _Disposed = false;
         private bool _Navigating = false;
-        private bool _UseINavigable = false;
         private HtmlLogicWindow _Window;
 
         public Uri Url { get; private set; }
         public IWebBrowserWindowProvider WebControl => _CurrentWebControl;
         public IWebBrowserWindow HTMLWindow => _CurrentWebControl?.HtmlWindow;
-        public bool UseINavigable
-        {
-            get => _UseINavigable;
-            set => _UseINavigable = value;
-        }
+        public bool UseINavigable { get; set; } = false;
 
         public IWebSessionLogger WebSessionLogger
         {
-            set => _webSessionLogger = value;
+            set => _WebSessionLogger = value;
         }
 
         public DoubleBrowserNavigator(IWebViewLifeCycleManager lifeCycleManager, IUrlSolver urlSolver, IJavascriptFrameworkManager javascriptFrameworkManager)
         {
-            _webSessionLogger = new BasicLogger();
+            _WebSessionLogger = new BasicLogger();
             _JavascriptFrameworkManager = javascriptFrameworkManager;
             _WebViewLifeCycleManager = lifeCycleManager;
             _UrlSolver = urlSolver;
@@ -53,7 +48,7 @@ namespace Neutronium.Core.Navigation
         {
             try
             {
-                _webSessionLogger.LogBrowser(e, Url);
+                _WebSessionLogger.LogBrowser(e, Url);
             }
             catch
             {
@@ -111,7 +106,7 @@ namespace Neutronium.Core.Navigation
 
             var rootVm = GetMainViewModel(Binding);
 
-            var navigable = _UseINavigable ? rootVm as INavigable : null;
+            var navigable = UseINavigable ? rootVm as INavigable : null;
             if (navigable != null)
                 navigable.Navigation = this;
             _Window.State = WindowLogicalState.Opened;
@@ -149,7 +144,7 @@ namespace Neutronium.Core.Navigation
 
             var oldViewModel = GetMainViewModel(Binding) as INavigable;
 
-            if (_UseINavigable && (oldViewModel != null))
+            if (UseINavigable && (oldViewModel != null))
             {
                 oldViewModel.Navigation = null;
             }
@@ -169,7 +164,7 @@ namespace Neutronium.Core.Navigation
             var modernWindow = _NextWebControl.HtmlWindow as IModernWebBrowserWindow;
 
             var injectorFactory = GetInjectorFactory(uri);
-            var engine = new HtmlViewEngine(_NextWebControl, injectorFactory, _webSessionLogger);
+            var engine = new HtmlViewEngine(_NextWebControl, injectorFactory, _WebSessionLogger);
 
             var dataContext = new DataContextViewModel(viewModel);
             var builder = HtmlBinding.GetBindingBuilder(engine, dataContext, mode);
@@ -207,11 +202,13 @@ namespace Neutronium.Core.Navigation
 
         public Task ReloadAsync()
         {
+            _WebSessionLogger.Info("Reloading to same page.");
             return SafeReloadAsync();
         }
 
         public Task SwitchViewAsync(Uri target)
         {
+            _WebSessionLogger.Info($"Switching to uri: {target}");
             var newUri = new UriBuilder(target)
             {
                 Fragment = CurrentUrl.Fragment.Replace("#",String.Empty)
@@ -227,13 +224,13 @@ namespace Neutronium.Core.Navigation
 
         private void Crashed(object sender, BrowserCrashedArgs e)
         {
-            _webSessionLogger.Error("WebView crashed trying recover");
+            _WebSessionLogger.Error("WebView crashed trying recover");
             Reload(false);
         }
 
         private void ModernWindow_OnClientReload(object sender, ClientReloadArgs e)
         {
-            _webSessionLogger.Info("Page changes detected reloading bindings.");
+            _WebSessionLogger.Info("Page changes detected reloading bindings.");
             Reload(true, new Uri(e.Url));
         }
 
@@ -265,7 +262,7 @@ namespace Neutronium.Core.Navigation
             }
             catch (Exception e)
             {
-                _webSessionLogger.Error($"Can not execute javascript: {code}, reason: {e}");
+                _WebSessionLogger.Error($"Can not execute javascript: {code}, reason: {e}");
             }
         }
 
