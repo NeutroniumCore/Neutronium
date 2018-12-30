@@ -49,7 +49,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium
             WebSessionLogger.WebBrowserError(e.Exception, () => e.Cancel = true);
         }
 
-        public IWPFWebWindow Create() 
+        public IWPFWebWindow Create(bool useNeutroniumSettings) 
         {
             return new AwesomiumWPFWebWindow(_Session, _WebConfig);
         }

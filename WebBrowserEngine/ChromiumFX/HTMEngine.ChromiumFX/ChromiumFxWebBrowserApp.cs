@@ -9,12 +9,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
     {
         protected virtual bool DisableWebSecurity => false;
 
-        protected override IWPFWebWindowFactory GetWindowFactory(IWebSessionLogger logger) =>
-            new ChromiumFXWPFWebWindowFactory(logger, UpdateChromiumSettings, PrivateUpdateLineCommandArg);
+        protected virtual void UpdateChromiumSettings(CfxSettings settings) { }
 
-        protected virtual void UpdateChromiumSettings(CfxSettings settings) 
-        {         
-        }
+        protected virtual void UpdateChromiumBrowserSettings(CfxBrowserSettings browserSettings) { }
+
+        protected virtual void UpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEventArgs beforeLineCommand) { }
+
+        protected override IWPFWebWindowFactory GetWindowFactory(IWebSessionLogger logger) => new ChromiumFXWPFWebWindowFactory(logger, UpdateChromiumSettings, UpdateChromiumBrowserSettings, PrivateUpdateLineCommandArg);
 
         private void PrivateUpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEventArgs beforeLineCommand)
         {
@@ -23,10 +24,6 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
             if (DisableWebSecurity)
                 commandLine.AppendSwitch("disable-web-security");
             UpdateLineCommandArg(beforeLineCommand);
-        }
-
-        protected virtual void UpdateLineCommandArg(CfxOnBeforeCommandLineProcessingEventArgs beforeLineCommand)
-        {
         }
     }
 }

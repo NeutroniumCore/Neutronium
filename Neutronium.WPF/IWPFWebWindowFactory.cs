@@ -9,12 +9,12 @@ namespace Neutronium.WPF
     public interface IWPFWebWindowFactory : IDisposable
     {
         /// <summary>
-        /// Get the name of unferlying javascript engine
+        /// Get the name of underlying javascript engine
         /// </summary>
         string EngineName { get; }
 
         /// <summary>
-        /// Get the version of unferlying javascript engine
+        /// Get the version of underlying javascript engine
         /// </summary>
         string EngineVersion { get; }
 
@@ -32,10 +32,13 @@ namespace Neutronium.WPF
         /// <summary>
         /// Create a new IWPFWebWindow 
         /// </summary>
+        ///<param name="useNeutroniumSettings">
+        /// indicates if browser should use dedicated neutronium settings
+        /// </param>
         /// <returns>
         /// a new IWPFWebWindow <see cref="IWPFWebWindow"/>
         ///</returns>
-        IWPFWebWindow Create();
+        IWPFWebWindow Create(bool useNeutroniumSettings);
 
         /// <summary>
         /// get IsModern value

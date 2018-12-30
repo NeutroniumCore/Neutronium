@@ -1,15 +1,15 @@
-﻿using System;
-using Chromium;
+﻿using Chromium;
+using Chromium.Event;
 using Chromium.WebBrowser;
 using Neutronium.Core;
 using Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding;
 using Neutronium.WebBrowserEngine.ChromiumFx.Session;
 using Neutronium.WPF;
-using Chromium.Event;
+using System;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx
 {
-    public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory 
+    public class ChromiumFXWPFWebWindowFactory : IWPFWebWindowFactory
     {
         private readonly ChromiumFxSession _Session;
 
@@ -22,19 +22,19 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx
         public CfxBrowserSettings BrowserSettings => ChromiumWebBrowser.DefaultBrowserSettings;
         public IWebSessionLogger WebSessionLogger { get; set; }
 
-        public ChromiumFXWPFWebWindowFactory(IWebSessionLogger logger=null, Action<CfxSettings> settingsUpdater=null, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler=null)
+        public ChromiumFXWPFWebWindowFactory(IWebSessionLogger logger = null, Action<CfxSettings> settingsUpdater = null, Action<CfxBrowserSettings> browserSettingsUpdater = null, Action<CfxOnBeforeCommandLineProcessingEventArgs> commandLineHandler = null)
         {
             WebSessionLogger = logger;
-            _Session = ChromiumFxSession.GetSession(WebSessionLogger, (settings) => 
+            _Session = ChromiumFxSession.GetSession(WebSessionLogger, (settings) =>
             {
                 settingsUpdater?.Invoke(settings);
                 Settings = settings;
-            }, commadLineHandler);
+            }, browserSettingsUpdater, commandLineHandler);
         }
 
-        public IWPFWebWindow Create()
+        public IWPFWebWindow Create(bool useNeutroniumSettings)
         {
-            return new ChromiumFxWpfWindow(WebSessionLogger);
+            return new ChromiumFxWpfWindow(WebSessionLogger, useNeutroniumSettings);
         }
 
         public void Dispose()

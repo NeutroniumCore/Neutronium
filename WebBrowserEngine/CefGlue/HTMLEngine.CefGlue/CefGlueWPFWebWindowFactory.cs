@@ -23,7 +23,7 @@ namespace Neutronium.WebBrowserEngine.CefGlue
             _ICefCoreSession = CefCoreSessionSingleton.GetAndInitIfNeeded(iCefSettings);
         }
 
-        public IWPFWebWindow Create()
+        public IWPFWebWindow Create(bool useNeutroniumSettings)
         {
             return new CefGlueWPFWebWindow(_ICefCoreSession.CefApp);
         }

@@ -7,6 +7,7 @@ using Neutronium.Core.Infra;
 using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 using System;
 using System.Threading;
+using Neutronium.WebBrowserEngine.ChromiumFx.Util;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 {
@@ -18,7 +19,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
         private readonly string _CurrentDirectory;
         private readonly NeutroniumSchemeHandlerFactory _NeutroniumSchemeHandlerFactory;
 
-        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commandLineHandler, IWebSessionLogger webSessionLogger)
+        private ChromiumFxSession(Action<CfxSettings> settingsBuilder, Action<CfxBrowserSettings> browserSettingsUpdater, Action<CfxOnBeforeCommandLineProcessingEventArgs> commandLineHandler, IWebSessionLogger webSessionLogger)
         {
             _CurrentDirectory = this.GetType().Assembly.GetPath();
             _SettingsBuilder = settingsBuilder;
@@ -28,6 +29,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
             ChromiumWebBrowser.Initialize(true);
+
+            browserSettingsUpdater?.Invoke(NeutroniumSettings.NeutroniumBrowserSettings);
 
             _NeutroniumSchemeHandlerFactory = new NeutroniumSchemeHandlerFactory(webSessionLogger);
             //need this to make request interception work
@@ -60,12 +63,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
             settings.NoSandbox = true;
         }
 
-        internal static ChromiumFxSession GetSession(IWebSessionLogger logger, Action<CfxSettings> settingsBuilder, Action<CfxOnBeforeCommandLineProcessingEventArgs> commadLineHandler)
+        internal static ChromiumFxSession GetSession(IWebSessionLogger logger, Action<CfxSettings> settingsBuilder, Action<CfxBrowserSettings> browserSettingsUpdater, Action<CfxOnBeforeCommandLineProcessingEventArgs> commandLineHandler)
         {
             if (_Session != null)
                 return _Session;
 
-            _Session = new ChromiumFxSession(settingsBuilder, commadLineHandler, logger);
+            _Session = new ChromiumFxSession(settingsBuilder, browserSettingsUpdater, commandLineHandler, logger);
             return _Session;
         }
 

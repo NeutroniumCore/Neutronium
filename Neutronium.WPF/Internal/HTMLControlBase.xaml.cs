@@ -389,7 +389,7 @@ namespace Neutronium.WPF.Internal
 
         private HTMLSimpleWindow GetWHMLWindow(string path, string title, int width, int height, Func<IWebView, IDisposable> onWebViewCreated = null)
         {
-            return new HTMLSimpleWindow(_WpfWebWindowFactory.Create(), path, onWebViewCreated)
+            return new HTMLSimpleWindow(_WpfWebWindowFactory.Create(false), path, onWebViewCreated)
             {
                 Owner = Window,
                 Title = title,
@@ -495,7 +495,7 @@ namespace Neutronium.WPF.Internal
 
         IWebBrowserWindowProvider IWebViewLifeCycleManager.Create()
         {
-            var window = _WpfWebWindowFactory.Create();
+            var window = _WpfWebWindowFactory.Create(true);
             var ui = window.UIElement;
             Panel.SetZIndex(ui, 0);
 
@@ -509,11 +509,8 @@ namespace Neutronium.WPF.Internal
         {
             var res = sender as WPFHTMLWindowProvider;
             res.OnDisposed -= OnWindowDisposed;
-            if (_VmDebugWindow != null)
-            {
-                _VmDebugWindow.Close();
-                _VmDebugWindow = null;
-            }
+            _VmDebugWindow?.Close();
+            _VmDebugWindow = null;
         }
 
         IDispatcher IWebViewLifeCycleManager.GetDisplayDispatcher()

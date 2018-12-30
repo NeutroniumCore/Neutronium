@@ -1,15 +1,16 @@
-﻿using System.Windows;
+﻿using Chromium.Event;
+using Chromium.WebBrowser;
+using Neutronium.WebBrowserEngine.ChromiumFx.Util;
+using Neutronium.WPF;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
-using Neutronium.WebBrowserEngine.ChromiumFx.Util;
-using Chromium.Event;
-using Neutronium.WPF;
-using System.Windows.Interop;
-using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Interop;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
@@ -23,10 +24,21 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private IntPtr _BrowserHandle;
         private Matrix _Matrix = new Matrix(1, 0, 0, 1, 0, 0);
 
-        public ChromiumFxControl()
+        public ChromiumWebBrowser ChromiumWebBrowser { get; }
+
+        public ChromiumFxControl(bool useNeutroniumSettings)
         {
             InitializeComponent();
             this.Loaded += ChromiumFxControl_Loaded;
+            ChromiumWebBrowser = new ChromiumWebBrowser(false)
+            {
+                Dock = DockStyle.Fill
+            };
+            var settings = useNeutroniumSettings ?
+                 NeutroniumSettings.NeutroniumBrowserSettings : ChromiumWebBrowser.DefaultBrowserSettings;
+            ChromiumWebBrowser.CreateBrowser(settings);
+            Host.Child = ChromiumWebBrowser;
+
             ChromiumWebBrowser.BrowserCreated += ChromiumWebBrowser_BrowserCreated;
             ChromiumWebBrowser.RequestHandler.OnQuotaRequest += RequestHandler_OnQuotaRequest;
 

@@ -10,6 +10,5 @@
     <UserControl.Resources>
     </UserControl.Resources>
     <WindowsFormsHost x:Name="Host" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-        <chromiumFxWebBrowser:ChromiumWebBrowser x:Name="ChromiumWebBrowser" Dock="Fill" />
     </WindowsFormsHost>
 </UserControl>

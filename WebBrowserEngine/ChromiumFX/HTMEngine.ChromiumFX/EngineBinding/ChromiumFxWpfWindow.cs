@@ -33,10 +33,10 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public ChromiumWebBrowser ChromiumWebBrowser => _ChromiumWebBrowser;
         public event EventHandler<DebugEventArgs> DebugToolOpened;
 
-        public ChromiumFxWpfWindow(IWebSessionLogger logger)
+        public ChromiumFxWpfWindow(IWebSessionLogger logger, bool useNeutroniumSettings)
         {
             _Logger = logger;
-            _ChromiumFxControl = new ChromiumFxControl()
+            _ChromiumFxControl = new ChromiumFxControl(useNeutroniumSettings)
             {
                 Visibility = Visibility.Hidden,
                 VerticalAlignment = VerticalAlignment.Stretch,
