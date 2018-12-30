@@ -4,7 +4,6 @@ using Neutronium.WebBrowserEngine.ChromiumFx;
 using Neutronium.WPF;
 using System.Windows;
 using Chromium;
-using Chromium.WebBrowser;
 using Example.Cfx.Spa.Routing.SetUp;
 
 namespace Example.Cfx.Spa.Routing
@@ -30,17 +29,10 @@ namespace Example.Cfx.Spa.Routing
             return new VueSessionInjector();
         }
 
-        protected override void UpdateChromiumSettings(CfxSettings settings)
+        protected override void UpdateChromiumBrowserSettings(CfxBrowserSettings browserSettings)
         {
             var black = new CfxColor(255, 0, 0, 0);
-            ChromiumWebBrowser.DefaultBrowserSettings.BackgroundColor = black;
-            settings.BackgroundColor = black;
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            _ApplicationSetUpBuilder.Dispose();
-            base.OnExit(e);
+            browserSettings.BackgroundColor = black;
         }
 
         protected override void OnStartUp(IHTMLEngineFactory factory)
@@ -53,6 +45,12 @@ namespace Example.Cfx.Spa.Routing
 
             factory.RegisterJavaScriptFrameworkAsDefault(new VueSessionInjectorV2 { RunTimeOnly = true });
             base.OnStartUp(factory);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            _ApplicationSetUpBuilder.Dispose();
+            base.OnExit(e);
         }
     }
 }
