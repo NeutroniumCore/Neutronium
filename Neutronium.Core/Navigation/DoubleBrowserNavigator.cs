@@ -140,6 +140,9 @@ namespace Neutronium.Core.Navigation
             if (uri == null)
                 throw ExceptionHelper.GetArgument($"ViewModel not registered: {viewModel.GetType()}");
 
+            if (_Navigating)
+                return null;
+
             _Navigating = true;
 
             var oldViewModel = GetMainViewModel(Binding) as INavigable;
