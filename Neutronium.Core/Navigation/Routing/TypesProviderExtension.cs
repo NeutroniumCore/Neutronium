@@ -95,6 +95,23 @@ namespace Neutronium.Core.Navigation.Routing
         }
 
         /// <summary>
+        /// Filter ITypesProvider returning only types in a given namespace or in a child namespace
+        /// <seealso cref="ITypesProvider"/>
+        /// </summary>
+        /// <param name="typeProvider"></param>
+        /// <param name="value">
+        /// namespace name
+        /// </param>
+        /// <returns>
+        /// a new ITypesProvider with types in the given namespace
+        /// </returns>
+        public static ITypesProvider InParentNamespace(this ITypesProvider typeProvider, string value)
+        {
+            var childNamespaceStart = $"{value}.";
+            return new TypesProvider(typeProvider.Types.Where(t => t.Namespace== value || t.Namespace?.StartsWith(childNamespaceStart) == true));
+        }
+
+        /// <summary>
         /// Add types of two ITypesProvider
         /// <seealso cref="ITypesProvider"/>
         /// </summary>
