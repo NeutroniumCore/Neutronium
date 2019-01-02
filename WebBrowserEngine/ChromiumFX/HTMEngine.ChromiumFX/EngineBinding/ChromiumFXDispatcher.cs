@@ -105,7 +105,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             return Result;
         }
 
-        private void LogException(Exception exception, string message = "Exception encountred during task dispatch")
+        private void LogException(Exception exception, string message = "Exception encountered during task dispatch")
         {
             _Logger?.Info($"{message}: {exception}");
         }

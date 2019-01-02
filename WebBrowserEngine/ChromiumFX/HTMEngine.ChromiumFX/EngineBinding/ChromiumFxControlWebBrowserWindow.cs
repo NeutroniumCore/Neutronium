@@ -174,6 +174,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private void OnConsoleMessage(object sender, CfxOnConsoleMessageEventArgs e)
         {
+            e.SetReturnValue(false);
             ConsoleMessage?.Invoke(this, new ConsoleMessageArgs(e.Message, e.Source, e.Line));
         }
 
