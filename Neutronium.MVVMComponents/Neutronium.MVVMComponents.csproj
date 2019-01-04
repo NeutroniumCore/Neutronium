@@ -6,7 +6,7 @@
     <AssemblyName>Neutronium.MVVMComponents</AssemblyName>
     <RootNamespace>Neutronium.MVVMComponents</RootNamespace>
     <Authors>David Desmaisons</Authors>
-    <Version>1.4.0</Version>
+    <Version>1.5.0</Version>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/NeutroniumCore/Neutronium</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE</PackageLicenseUrl>
@@ -14,9 +14,12 @@
     <PackageId>Neutronium.MVVMComponents</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags></PackageTags>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
-    <PackageReleaseNotes>Update to .NET Standard</PackageReleaseNotes>
+    <AssemblyVersion>1.5.0.0</AssemblyVersion>
+    <FileVersion>1.5.0.0</FileVersion>
+    <PackageReleaseNotes>- Update to .NET framework
+-Add IWindowViewModel
+-Add new ToogleCommand constructor</PackageReleaseNotes>
     <Platforms>AnyCPU;x86</Platforms>
+    <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
   </PropertyGroup>
 </Project>

@@ -6,7 +6,7 @@
     <RootNamespace>Neutronium.JavascriptFramework.Vue</RootNamespace>
     <AssemblyName>Neutronium.JavascriptFramework.Vue</AssemblyName>
     <Authors>David Desmaisons</Authors>
-    <Version>1.4.0.0</Version>
+    <Version>1.5.0.0</Version>
     <PackageProjectUrl>https://github.com/NeutroniumCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NeutroniumCore/Neutronium</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE</PackageLicenseUrl>
@@ -14,11 +14,11 @@
     <PackageId>NNeutronium.JavascriptFramework.Vue</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>HTML, Chromium, MVVM, WPF, mobx</PackageTags>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
-    <PackageReleaseNotes>Update to vue version 2.5.17
-Improved performance on read-only</PackageReleaseNotes>
+    <AssemblyVersion>1.5.0.0</AssemblyVersion>
+    <FileVersion>1.5.0.0</FileVersion>
+    <PackageReleaseNotes>Update dependencies</PackageReleaseNotes>
     <Platforms>AnyCPU;x86</Platforms>
+    <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
