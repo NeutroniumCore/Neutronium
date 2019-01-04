@@ -106,7 +106,6 @@
     <None Include="View\mainview\dist\manifest.json" />
     <Resource Include="View\mainview\dist\static\css\main.css.map" />
     <None Include="View\mainview\data\vm.cjson" />
-    <None Include="View\mainview\package-lock.json" />
     <None Include="View\mainview\package.json" />
     <None Include="View\mainview\public\manifest.json" />
     <None Include="View\mainview\README.md" />
