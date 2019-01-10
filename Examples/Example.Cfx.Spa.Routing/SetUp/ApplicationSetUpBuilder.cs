@@ -15,8 +15,8 @@ namespace Example.Cfx.Spa.Routing.SetUp
         private const string Prod = "prod";
         private const string Url = "url";
 
-        private static readonly Regex _Switch = new Regex("^-", RegexOptions.Compiled);
-        private static readonly Regex _SwitchWithValue = new Regex("^-(\\w+)=(.*)$", RegexOptions.Compiled);
+        private static readonly Regex _Switch = new Regex("^--", RegexOptions.Compiled);
+        private static readonly Regex _SwitchWithValue = new Regex("^--(\\w+)=(.*)$", RegexOptions.Compiled);
         private readonly ApplicationMode _Default;
         private readonly NpmRunner _NpmRunner;
 
