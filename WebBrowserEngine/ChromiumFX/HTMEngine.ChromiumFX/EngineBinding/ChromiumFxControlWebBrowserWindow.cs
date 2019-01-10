@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
+using Neutronium.Core.Infra;
 using Neutronium.WebBrowserEngine.ChromiumFx.WPF;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
@@ -33,14 +34,36 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             _Logger = logger;
             _Dispatcher = dispatcher;
             _ChromiumWebBrowser = chromiumWebBrowser;
-            _ChromiumWebBrowser.LoadHandler.OnLoadEnd += OnLoadEnd;
-            _ChromiumWebBrowser.LoadHandler.OnLoadError += LoadHandler_OnLoadError;
-            _ChromiumWebBrowser.RequestHandler.OnBeforeBrowse += RequestHandler_OnBeforeBrowse;
             _ChromiumWebBrowser.DisplayHandler.OnConsoleMessage += OnConsoleMessage;
             _ChromiumWebBrowser.OnV8ContextCreated += OnV8ContextCreated;
-            _ChromiumWebBrowser.ContextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
-            _ChromiumWebBrowser.ContextMenuHandler.OnContextMenuCommand += ContextMenuHandler_OnContextMenuCommand;
-            _ChromiumWebBrowser.RequestHandler.OnRenderProcessTerminated += RequestHandler_OnRenderProcessTerminated;
+            _ChromiumWebBrowser.LifeSpanHandler.OnBeforePopup += LifeSpanHandler_OnBeforePopup;
+            ListenToLoadHandler(_ChromiumWebBrowser.LoadHandler);
+            ListenToContextMenuHandler(_ChromiumWebBrowser.ContextMenuHandler);
+            ListenToRequestHandler(_ChromiumWebBrowser.RequestHandler);
+        }
+
+        private void ListenToLoadHandler(CfxLoadHandler loadHandler)
+        {
+            loadHandler.OnLoadEnd += OnLoadEnd;
+            loadHandler.OnLoadError += LoadHandler_OnLoadError;
+        }
+
+        private void ListenToContextMenuHandler(CfxContextMenuHandler contextMenuHandler)
+        {
+            contextMenuHandler.OnBeforeContextMenu += OnBeforeContextMenu;
+            contextMenuHandler.OnContextMenuCommand += ContextMenuHandler_OnContextMenuCommand;
+        }
+
+        private void ListenToRequestHandler(CfxRequestHandler requestHandler)
+        {
+            requestHandler.OnBeforeBrowse += RequestHandler_OnBeforeBrowse;
+            requestHandler.OnRenderProcessTerminated += RequestHandler_OnRenderProcessTerminated;
+        }
+
+        private void LifeSpanHandler_OnBeforePopup(object sender, CfxOnBeforePopupEventArgs e)
+        {
+            ProcessHelper.OpenUrlInBrowser(e.TargetUrl);
+            e.SetReturnValue(true);
         }
 
         private void LoadHandler_OnLoadError(object sender, CfxOnLoadErrorEventArgs e)
@@ -87,13 +110,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 default:
                     _Logger.Error($@"Navigation to {request.Url} triggered by ""{request.TransitionType}"" has been cancelled. It is not possible to trigger a page loading from javascript that may corrupt session and hot-reload. Use Neutronium API to alter HTML view.");
                     e.SetReturnValue(true);
-                    var browser = e.Browser;
                     var url = _CfxWebBrowser.Host?.VisibleNavigationEntry?.Url;
-                    if (!_CfxWebBrowser.IsSame(browser))
-                    {
-                        _Logger.Warning("Closing link browser");
-                        browser.Host.CloseBrowser(false);
-                    }
                     FireReload(url ?? request.ReferrerUrl);
                     break;
             }
