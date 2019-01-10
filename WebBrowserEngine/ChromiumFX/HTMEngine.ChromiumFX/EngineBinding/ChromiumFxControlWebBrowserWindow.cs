@@ -27,6 +27,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public Uri Url => _ChromiumWebBrowser.Url;
         public bool IsLoaded => !_ChromiumWebBrowser.IsLoading;
         private readonly List<ContextMenuItem> _Commands = new List<ContextMenuItem>();
+        private readonly List<IEnumerable<ContextMenuItem>> _CommandDescription = new List<IEnumerable<ContextMenuItem>>();
+
         private readonly List<int> _MenuSeparatorIndex = new List<int>();
 
         public ChromiumFxControlWebBrowserWindow(ChromiumWebBrowser chromiumWebBrowser, IDispatcher dispatcher, IWebSessionLogger logger)
@@ -140,6 +142,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (model.Count != 0)
                 return;
 
+            ComputeCommands();
             var rank = (int)ContextMenuId.MENU_ID_USER_FIRST;
             _Commands.ForEach(command =>
             {
@@ -151,15 +154,25 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         public IModernWebBrowserWindow RegisterContextMenuItem(IEnumerable<ContextMenuItem> contextMenuItems)
         {
-            if (contextMenuItems == null)
-                return this;
+            if (contextMenuItems != null)
+                _CommandDescription.Add(contextMenuItems);
 
-            var oldCount = _Commands.Count;
-            _Commands.AddRange(contextMenuItems);
-            var currentCount = _Commands.Count;
-            if (oldCount != currentCount)
-                _MenuSeparatorIndex.Insert(0, currentCount);
             return this;
+        }
+
+        private void ComputeCommands()
+        {
+            _Commands.Clear();
+            _MenuSeparatorIndex.Clear();
+
+            foreach (var contextMenuItems in _CommandDescription)
+            {
+                var oldCount = _Commands.Count;
+                _Commands.AddRange(contextMenuItems);
+                var currentCount = _Commands.Count;
+                if (oldCount != currentCount)
+                    _MenuSeparatorIndex.Insert(0, currentCount);
+            }
         }
 
         private void ContextMenuHandler_OnContextMenuCommand(object sender, CfxOnContextMenuCommandEventArgs e)
