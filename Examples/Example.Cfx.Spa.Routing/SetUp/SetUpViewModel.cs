@@ -8,8 +8,10 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
 
-namespace Example.Cfx.Spa.Routing.SetUp {
-    public class SetUpViewModel {
+namespace Example.Cfx.Spa.Routing.SetUp
+{
+    public class SetUpViewModel
+    {
         public Uri Uri => _ApplicationSetUp.Uri;
         public bool Debug => _ApplicationSetUp.Debug;
         public ApplicationMode Mode => _ApplicationSetUp.Mode;
@@ -19,21 +21,51 @@ namespace Example.Cfx.Spa.Routing.SetUp {
         private readonly ApplicationSetUpBuilder _Builder;
         private ApplicationSetUp _ApplicationSetUp;
 
-        public SetUpViewModel(ApplicationSetUpBuilder builder) {
+        public SetUpViewModel(ApplicationSetUpBuilder builder)
+        {
             _Builder = builder;
         }
 
-        private async void GoLive(IWebViewComponent viewControl) {
+        private async void GoLive(IWebViewComponent viewControl)
+        {
             if (Mode != ApplicationMode.Dev)
                 return;
 
-            var resourceLoader = new ResourceReader("SetUp.script", this);
+            var resourceLoader = GetResourceReader();
             var createOverlay = resourceLoader.Load("loading.js");
             viewControl.ExecuteJavascript(createOverlay);
 
+            var cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            DebugCommands.Clear();
+            DebugCommands["Cancel to live"] = new RelayToogleCommand<ICompleteWebViewComponent>
+            (_ => {
+                cancellationTokenSource.Cancel();
+                UpdateCommands();
+            });
+
+            try
+            {
+                await Task.Run(() => DoGoLive(viewControl, token), token);
+            }
+            catch (TaskCanceledException)
+            {
+                var removeOverlay = resourceLoader.Load("removeOverlay.js");
+                viewControl.ExecuteJavascript(removeOverlay);
+                return;
+            }         
+
+            await viewControl.SwitchViewAsync(Uri);
+        }
+
+        private async Task DoGoLive(IWebViewComponent viewControl, CancellationToken token)
+        {
+            var resourceLoader = GetResourceReader();
             var updateOverlay = resourceLoader.Load("update.js");
             var messageCount = 0;
-            void OnNpmLog(string information) {
+            void OnNpmLog(string information)
+            {
                 if (messageCount++ < 2)
                     return;
 
@@ -42,35 +74,33 @@ namespace Example.Cfx.Spa.Routing.SetUp {
                 viewControl.ExecuteJavascript(code);
             }
 
-            var cancellationTokenSource = new CancellationTokenSource();
-
-            DebugCommands.Clear();
-            DebugCommands["Cancel to live"] = new RelayToogleCommand<ICompleteWebViewComponent>(_ => {
-                cancellationTokenSource.Cancel();
-                UpdateCommands();
-            });
-
-            UpdateSetUp(await _Builder.BuildFromMode(ApplicationMode.Live, cancellationTokenSource.Token, OnNpmLog));
-            await viewControl.SwitchViewAsync(Uri);
+            UpdateSetUp(await _Builder.BuildFromMode(ApplicationMode.Live, token, OnNpmLog));
         }
 
-        public async Task InitFromArgs(string[] args) {
+        private ResourceReader GetResourceReader() => new ResourceReader("SetUp.script", this);
+
+        public async Task InitFromArgs(string[] args)
+        {
             var setup = await _Builder.BuildFromApplicationArguments(args).ConfigureAwait(false);
             UpdateSetUp(setup);
         }
 
-        public void InitForProduction() {
+        public void InitForProduction()
+        {
             UpdateSetUp(_Builder.BuildForProduction());
         }
 
-        private void UpdateSetUp(ApplicationSetUp applicationSetUp) {
+        private void UpdateSetUp(ApplicationSetUp applicationSetUp)
+        {
             _ApplicationSetUp = applicationSetUp;
             UpdateCommands();
         }
 
-        private void UpdateCommands() {
+        private void UpdateCommands()
+        {
             DebugCommands.Clear();
-            switch (Mode) {
+            switch (Mode)
+            {
                 case ApplicationMode.Live:
                     DebugCommands["Reload"] = new RelayToogleCommand<ICompleteWebViewComponent>(htmlView => htmlView.ReloadAsync());
                     break;
@@ -81,7 +111,8 @@ namespace Example.Cfx.Spa.Routing.SetUp {
             }
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return _ApplicationSetUp?.ToString() ?? "Not initialized";
         }
     }

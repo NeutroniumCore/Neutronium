@@ -99,15 +99,9 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             _PortFinderCompletionSource = new TaskCompletionSource<int>();
         }
 
-        public async Task<bool> Cancel()
+        public Task<bool> Cancel()
         {
-            var closed = await Stop(State.Closing, State.Closed).ConfigureAwait(false);
-            if (!closed)
-                return false;
-
-            _Process.Dispose();
-            _Process = null;
-            return true;
+            return Stop(State.Closing, State.Closed);
         }
 
         private async Task<bool> Stop(State transitionState, State finalState)
@@ -127,6 +121,11 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             standardInput.WriteLine();
             standardInput.WriteLine(await StopKeyAsync.ConfigureAwait(false));
             _State = finalState;
+
+            _Process.ErrorDataReceived -= Process_ErrorDataReceived;
+            _Process.OutputDataReceived -= Process_OutputDataReceived;
+            _Process.Dispose();
+            _Process = null;
             return true;
         }
 
@@ -141,6 +140,7 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
                     TryParsePort(data);
                     break;
 
+                case State.Cancelling:
                 case State.Closing:
                     TryParseKey(data);
                     break;
@@ -167,7 +167,6 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
                 return;
 
             _StopKeyCompletionSource.TrySetResult(match.Groups[1].Value);
-            _State = State.Running;
         }
 
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)

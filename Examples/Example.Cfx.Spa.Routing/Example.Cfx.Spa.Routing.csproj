@@ -204,6 +204,7 @@
     </Content>
     <EmbeddedResource Include="SetUp\script\update.js" />
     <EmbeddedResource Include="SetUp\script\loading.js" />
+    <EmbeddedResource Include="SetUp\script\removeOverlay.js" />
     <Content Include="SetUp\script\src\index.js" />
     <Content Include="View\.eslintrc.js" />
     <Content Include="View\.gitignore" />
