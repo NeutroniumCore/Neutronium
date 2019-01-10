@@ -5,6 +5,7 @@ using Neutronium.WPF;
 using System.Windows;
 using Chromium;
 using Example.Cfx.Spa.Routing.SetUp;
+using System.Diagnostics;
 
 namespace Example.Cfx.Spa.Routing
 {
@@ -38,6 +39,7 @@ namespace Example.Cfx.Spa.Routing
         protected override void OnStartUp(IHTMLEngineFactory factory)
         {
 #if DEBUG
+            _ApplicationSetUpBuilder.OnRunnerMessageReceived += (_, e) => Trace.WriteLine(e.Message);
             SetUpViewModel.InitFromArgs(Args).Wait();
 #else
             SetUpViewModel.InitForProduction();

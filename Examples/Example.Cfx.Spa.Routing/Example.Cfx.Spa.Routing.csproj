@@ -118,6 +118,7 @@
     <Compile Include="SetUp\ApplicationMode.cs" />
     <Compile Include="SetUp\ApplicationSetUp.cs" />
     <Compile Include="SetUp\ApplicationSetUpBuilder.cs" />
+    <Compile Include="SetUp\ScriptRunner\MessageEventArgs.cs" />
     <Compile Include="SetUp\ScriptRunner\NpmRunner.cs" />
     <Compile Include="SetUp\ScriptRunner\ProcessExtension.cs" />
     <Compile Include="SetUp\SetUpViewModel.cs" />

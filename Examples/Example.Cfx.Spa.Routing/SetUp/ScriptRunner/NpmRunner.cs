@@ -1,10 +1,11 @@
-﻿using Application.SetUp.Script;
-using Neutronium.Core.Infra;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
+using Application.SetUp.Script;
+using Neutronium.Core.Infra;
 
 namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 {
@@ -15,18 +16,20 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 
         private Process _Process;
         private readonly string _Script;
-        private readonly TaskCompletionSource<int> _PortFinderCompletionSource = new TaskCompletionSource<int>();
+        private TaskCompletionSource<int> _PortFinderCompletionSource = new TaskCompletionSource<int>();
         private readonly TaskCompletionSource<string> _StopKeyCompletionSource = new TaskCompletionSource<string>();
         private Task<string> StopKeyAsync => _StopKeyCompletionSource.Task;
         private State _State = State.NotStarted;
+        private readonly string _WorkingDirectory;
 
-        public event DataReceivedEventHandler OutputDataReceived;
+        public event EventHandler<MessageEventArgs> OnMessageReceived;
 
         private enum State
         {
             NotStarted,
             Initializing,
             Running,
+            Cancelling,
             Closing,
             Closed
         };
@@ -35,15 +38,20 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
         {
             _Script = script;
             var root = DirectoryHelper.GetCurrentDirectory();
-            var workingDirectory = Path.Combine(root, directory);
+            _WorkingDirectory = Path.Combine(root, directory);
 
-            _Process = new Process
+            _Process = CreateProcess();
+        }
+
+        private Process CreateProcess()
+        {
+            var process = new Process
             {
                 StartInfo =
                 {
                     FileName = "cmd",
                     RedirectStandardInput = true,
-                    WorkingDirectory = workingDirectory,
+                    WorkingDirectory = _WorkingDirectory,
                     CreateNoWindow = true,
                     ErrorDialog = false,
                     RedirectStandardError = true,
@@ -52,48 +60,80 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
                 }
             };
 
-            _Process.ErrorDataReceived += Process_ErrorDataReceived;
-            _Process.OutputDataReceived += Process_OutputDataReceived;
+            process.ErrorDataReceived += Process_ErrorDataReceived;
+            process.OutputDataReceived += Process_OutputDataReceived;
+
+            return process;
         }
 
-        public Task<int> GetPortAsync()
+        public Task<int> GetPortAsync(CancellationToken cancellationToken)
         {
-            if (_State == State.NotStarted)
-            {
-                _Process.Start();
-                _Process.StandardInput.WriteLine($"npm run {_Script}");
-                _Process.BeginErrorReadLine();
-                _Process.BeginOutputReadLine();
-                _State = State.Initializing;
-            }
-
+            Start(cancellationToken);
             return _PortFinderCompletionSource.Task;
+        }
+
+        private void Start(CancellationToken cancellationToken)
+        {
+            cancellationToken.Register(() => StopIfNeed(cancellationToken));
+
+            if (_State != State.NotStarted)
+                return;
+
+            _Process.Start();
+            _Process.StandardInput.WriteLine($"npm run {_Script}");
+            _Process.BeginErrorReadLine();
+            _Process.BeginOutputReadLine();
+            _State = State.Initializing;
+        }
+
+        private async void StopIfNeed(CancellationToken cancellationToken)
+        {
+            if (!_PortFinderCompletionSource.TrySetCanceled(cancellationToken))
+                return;
+
+            var stopped = await Stop(State.Cancelling, State.NotStarted).ConfigureAwait(false);
+            if (!stopped)
+                return;
+
+            _Process = CreateProcess();
+            _PortFinderCompletionSource = new TaskCompletionSource<int>();
         }
 
         public async Task<bool> Cancel()
         {
-            if ((_State == State.Closed) || (_State == State.NotStarted))
+            var closed = await Stop(State.Closing, State.Closed).ConfigureAwait(false);
+            if (!closed)
                 return false;
 
-            _State = State.Closing;
+            _Process.Dispose();
+            _Process = null;
+            return true;
+        }
 
+        private async Task<bool> Stop(State transitionState, State finalState)
+        {
+            if ((_State == State.Closed) || (_State == State.NotStarted) || (_State == State.Cancelling))
+                return false;
+
+            var currentState = _State;
+            _State = transitionState;
             if (!_Process.SendControlC())
+            {
+                _State = currentState;
                 return false;
+            }
 
             var standardInput = _Process.StandardInput;
             standardInput.WriteLine();
             standardInput.WriteLine(await StopKeyAsync.ConfigureAwait(false));
-            _Process.Dispose();
-            _Process = null;
-            _State = State.Closed;
+            _State = finalState;
             return true;
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             var data = e.Data;
-            Trace.WriteLine($"npm console: {data}");
-            OutputDataReceived?.Invoke(this, e);
+            OnMessageReceived?.Invoke(this, new MessageEventArgs(e.Data, false));
 
             switch (_State)
             {
@@ -132,12 +172,14 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            Trace.WriteLine($"npm console error: {e.Data}");
+            OnMessageReceived?.Invoke(this, new MessageEventArgs(e.Data, true));
         }
 
         public void Dispose()
         {
             Cancel().Wait();
         }
+
+        public override string ToString() => _State.ToString();
     }
 }
