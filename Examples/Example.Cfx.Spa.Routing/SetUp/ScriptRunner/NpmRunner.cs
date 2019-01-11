@@ -13,12 +13,13 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
         private static readonly Regex _LocalHost = new Regex(@"http:\/\/localhost:(\d{1,4})", RegexOptions.Compiled);
         private static readonly Regex _Key = new Regex(@"\((\w)\/\w\)\?", RegexOptions.Compiled);
 
-        private Process _Process;
+        private readonly Lazy<Process> _Process;
+        private Process ResolvedProcess => _Process.Value;
         private readonly string _Script;
-        private TaskCompletionSource<int> _PortFinderCompletionSource = new TaskCompletionSource<int>();
+        private readonly TaskCompletionSource<int> _PortFinderCompletionSource = new TaskCompletionSource<int>();
         private readonly TaskCompletionSource<string> _StopKeyCompletionSource = new TaskCompletionSource<string>();
         private Task<string> StopKeyAsync => _StopKeyCompletionSource.Task;
-        private State _State = State.NotStarted;
+        private volatile State _State = State.NotStarted;
         private readonly string _WorkingDirectory;
 
         public event EventHandler<MessageEventArgs> OnMessageReceived;
@@ -38,8 +39,7 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             _Script = script;
             var root = DirectoryHelper.GetCurrentDirectory();
             _WorkingDirectory = Path.Combine(root, directory);
-
-            _Process = CreateProcess();
+            _Process = new Lazy<Process>(CreateProcess);
         }
 
         private Process CreateProcess()
@@ -61,21 +61,16 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 
             process.ErrorDataReceived += Process_ErrorDataReceived;
             process.OutputDataReceived += Process_OutputDataReceived;
-
+            process.Start();
+            process.BeginErrorReadLine();
+            process.BeginOutputReadLine();
             return process;
         }
 
         public Task<int> GetPortAsync(CancellationToken cancellationToken)
         {
-            var currentTask = _PortFinderCompletionSource.Task;
-            if (currentTask.IsCompleted && !currentTask.IsCanceled)
-                return _PortFinderCompletionSource.Task;
-
-            if (currentTask.IsCanceled)
-                _PortFinderCompletionSource = new TaskCompletionSource<int>();
-
             Start(cancellationToken);
-            return _PortFinderCompletionSource.Task;
+            return _PortFinderCompletionSource.Task.WithCancellation(cancellationToken);
         }
 
         private void Start(CancellationToken cancellationToken)
@@ -85,76 +80,62 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             if (_State != State.NotStarted)
                 return;
 
-            _Process.Start();
-            _Process.StandardInput.WriteLine($"npm run {_Script}");
-            _Process.BeginErrorReadLine();
-            _Process.BeginOutputReadLine();
+            _State = State.Initializing;
+            ResolvedProcess.StandardInput.WriteLine($"npm run {_Script}");        
         }
 
         private async void StopIfNeed(CancellationToken cancellationToken)
         {
-            if (!_PortFinderCompletionSource.TrySetCanceled(cancellationToken))
+            if (_PortFinderCompletionSource.Task.IsCompleted)
                 return;
 
-            var stopped = await Stop(State.Cancelling, State.NotStarted).ConfigureAwait(false);
-            if (!stopped)
-                return;
-
-            _Process = CreateProcess();
+            await Stop(State.Cancelling, State.NotStarted);
         }
 
-        public Task<bool> Cancel()
+        public async Task<bool> Cancel()
         {
-            return Stop(State.Closing, State.Closed);
-        }
+            if (!_Process.IsValueCreated)
+                return true;
 
-        private static int _Count = 0;
+            var res = await Stop(State.Closing, State.Closed).ConfigureAwait(false);
+            if (!res)
+                return false;
+
+            ResolvedProcess.ErrorDataReceived -= Process_ErrorDataReceived;
+            ResolvedProcess.OutputDataReceived -= Process_OutputDataReceived;
+            ResolvedProcess.Dispose();
+            return true;
+        }
 
         private async Task<bool> Stop(State transitionState, State finalState)
         {
-            var c = _Count++;
-            if ((_State == State.Closed) || (_State == State.Cancelling))
+            if ((_State == State.Closed) || (_State == State.Cancelling)) {
                 return false;
+            }       
 
-            Console.WriteLine($"started {c}");
             if (_State == State.NotStarted)
             {
-                CleanProcess();
-                _State = finalState;
-                Console.WriteLine($"done 0 {c}");
+                _State = finalState;             
                 return true;
             }
 
             var currentState = _State;
             _State = transitionState;
-            if (!_Process.SendControlC())
+            if (!ResolvedProcess.SendControlC())
             {
                 _State = currentState;
                 return false;
             }
 
-            var standardInput = _Process.StandardInput;
+            var standardInput = ResolvedProcess.StandardInput;
             standardInput.WriteLine();
             standardInput.WriteLine(await StopKeyAsync.ConfigureAwait(false));
             _State = finalState;
-            CleanProcess();
-            Console.WriteLine($"done {c}");
             return true;
-        }
-
-        private void CleanProcess()
-        {
-            _Process.ErrorDataReceived -= Process_ErrorDataReceived;
-            _Process.OutputDataReceived -= Process_OutputDataReceived;
-            _Process.Dispose();
-            _Process = null;
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (_State == State.NotStarted)
-                _State = State.Initializing;
-
             var data = e.Data;
             OnMessageReceived?.Invoke(this, new MessageEventArgs(e.Data, false));
 

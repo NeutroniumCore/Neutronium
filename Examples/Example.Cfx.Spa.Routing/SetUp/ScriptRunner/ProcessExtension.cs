@@ -20,7 +20,6 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 
         public static bool SendControlC(this Process process)
         {
-            Console.WriteLine(process.Id);
             if (!AttachConsole((uint)process.Id))
                 return false;
 

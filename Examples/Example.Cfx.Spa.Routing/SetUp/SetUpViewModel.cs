@@ -64,10 +64,9 @@ namespace Example.Cfx.Spa.Routing.SetUp
         {
             var resourceLoader = GetResourceReader();
             var updateOverlay = resourceLoader.Load("update.js");
-            var messageCount = 0;
             void OnNpmLog(string information)
             {
-                if (messageCount++ < 2)
+                if (information == null)
                     return;
 
                 var text = JavascriptNamer.GetCreateExpression(information);
