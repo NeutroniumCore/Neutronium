@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Application.SetUp.Script
+namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 {
     public static class ProcessExtension
     {
@@ -20,6 +20,7 @@ namespace Application.SetUp.Script
 
         public static bool SendControlC(this Process process)
         {
+            Console.WriteLine(process.Id);
             if (!AttachConsole((uint)process.Id))
                 return false;
 

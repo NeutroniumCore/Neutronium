@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Neutronium.Core.Infra;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.SetUp.Script;
-using Neutronium.Core.Infra;
 
 namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 {
@@ -68,6 +67,13 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 
         public Task<int> GetPortAsync(CancellationToken cancellationToken)
         {
+            var currentTask = _PortFinderCompletionSource.Task;
+            if (currentTask.IsCompleted && !currentTask.IsCanceled)
+                return _PortFinderCompletionSource.Task;
+
+            if (currentTask.IsCanceled)
+                _PortFinderCompletionSource = new TaskCompletionSource<int>();
+
             Start(cancellationToken);
             return _PortFinderCompletionSource.Task;
         }
@@ -83,7 +89,6 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             _Process.StandardInput.WriteLine($"npm run {_Script}");
             _Process.BeginErrorReadLine();
             _Process.BeginOutputReadLine();
-            _State = State.Initializing;
         }
 
         private async void StopIfNeed(CancellationToken cancellationToken)
@@ -96,7 +101,6 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
                 return;
 
             _Process = CreateProcess();
-            _PortFinderCompletionSource = new TaskCompletionSource<int>();
         }
 
         public Task<bool> Cancel()
@@ -104,10 +108,22 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             return Stop(State.Closing, State.Closed);
         }
 
+        private static int _Count = 0;
+
         private async Task<bool> Stop(State transitionState, State finalState)
         {
-            if ((_State == State.Closed) || (_State == State.NotStarted) || (_State == State.Cancelling))
+            var c = _Count++;
+            if ((_State == State.Closed) || (_State == State.Cancelling))
                 return false;
+
+            Console.WriteLine($"started {c}");
+            if (_State == State.NotStarted)
+            {
+                CleanProcess();
+                _State = finalState;
+                Console.WriteLine($"done 0 {c}");
+                return true;
+            }
 
             var currentState = _State;
             _State = transitionState;
@@ -121,16 +137,24 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             standardInput.WriteLine();
             standardInput.WriteLine(await StopKeyAsync.ConfigureAwait(false));
             _State = finalState;
+            CleanProcess();
+            Console.WriteLine($"done {c}");
+            return true;
+        }
 
+        private void CleanProcess()
+        {
             _Process.ErrorDataReceived -= Process_ErrorDataReceived;
             _Process.OutputDataReceived -= Process_OutputDataReceived;
             _Process.Dispose();
             _Process = null;
-            return true;
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
+            if (_State == State.NotStarted)
+                _State = State.Initializing;
+
             var data = e.Data;
             OnMessageReceived?.Invoke(this, new MessageEventArgs(e.Data, false));
 
@@ -157,7 +181,8 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
             if (!int.TryParse(portString, out var port))
                 return;
 
-            _PortFinderCompletionSource.TrySetResult(port);
+            _State = State.Running;
+            _PortFinderCompletionSource.TrySetResult(port);    
         }
 
         private void TryParseKey(string data)

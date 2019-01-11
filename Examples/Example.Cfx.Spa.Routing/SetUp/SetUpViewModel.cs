@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Neutronium.Core.Infra;
+﻿using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Example.Cfx.Spa.Routing.SetUp
 {
@@ -40,7 +40,8 @@ namespace Example.Cfx.Spa.Routing.SetUp
 
             DebugCommands.Clear();
             DebugCommands["Cancel to live"] = new RelayToogleCommand<ICompleteWebViewComponent>
-            (_ => {
+            (_ =>
+            {
                 cancellationTokenSource.Cancel();
                 UpdateCommands();
             });
@@ -54,7 +55,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
                 var removeOverlay = resourceLoader.Load("removeOverlay.js");
                 viewControl.ExecuteJavascript(removeOverlay);
                 return;
-            }         
+            }
 
             await viewControl.SwitchViewAsync(Uri);
         }
