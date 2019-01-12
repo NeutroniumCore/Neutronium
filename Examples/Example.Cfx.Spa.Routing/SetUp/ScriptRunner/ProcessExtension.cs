@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Application.SetUp.Script
+namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 {
     public static class ProcessExtension
     {

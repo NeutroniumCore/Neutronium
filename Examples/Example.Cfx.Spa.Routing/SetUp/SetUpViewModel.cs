@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Neutronium.Core.Infra;
+﻿using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 using Neutronium.MVVMComponents.Relay;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Example.Cfx.Spa.Routing.SetUp
 {
@@ -15,7 +16,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
         public bool Debug => _ApplicationSetUp.Debug;
         public ApplicationMode Mode => _ApplicationSetUp.Mode;
 
-        public IDictionary<string,ICommand<ICompleteWebViewComponent>> DebugCommands { get; } = new Dictionary<string, ICommand<ICompleteWebViewComponent>>();
+        public IDictionary<string, ICommand<ICompleteWebViewComponent>> DebugCommands { get; } = new Dictionary<string, ICommand<ICompleteWebViewComponent>>();
 
         private readonly ApplicationSetUpBuilder _Builder;
         private ApplicationSetUp _ApplicationSetUp;
@@ -30,15 +31,42 @@ namespace Example.Cfx.Spa.Routing.SetUp
             if (Mode != ApplicationMode.Dev)
                 return;
 
-            var resourceLoader = new ResourceReader("SetUp.script", this);
+            var resourceLoader = GetResourceReader();
             var createOverlay = resourceLoader.Load("loading.js");
             viewControl.ExecuteJavascript(createOverlay);
 
+            var cancellationTokenSource = new CancellationTokenSource();
+            var token = cancellationTokenSource.Token;
+
+            DebugCommands.Clear();
+            DebugCommands["Cancel to live"] = new RelayToogleCommand<ICompleteWebViewComponent>
+            (_ =>
+            {
+                cancellationTokenSource.Cancel();
+                UpdateCommands();
+            });
+
+            try
+            {
+                await Task.Run(() => DoGoLive(viewControl, token), token);
+            }
+            catch (TaskCanceledException)
+            {
+                var removeOverlay = resourceLoader.Load("removeOverlay.js");
+                viewControl.ExecuteJavascript(removeOverlay);
+                return;
+            }
+
+            await viewControl.SwitchViewAsync(Uri);
+        }
+
+        private async Task DoGoLive(IWebViewComponent viewControl, CancellationToken token)
+        {
+            var resourceLoader = GetResourceReader();
             var updateOverlay = resourceLoader.Load("update.js");
-            var messageCount = 0;
             void OnNpmLog(string information)
             {
-                if (messageCount++ < 2)
+                if (information == null)
                     return;
 
                 var text = JavascriptNamer.GetCreateExpression(information);
@@ -46,9 +74,10 @@ namespace Example.Cfx.Spa.Routing.SetUp
                 viewControl.ExecuteJavascript(code);
             }
 
-            UpdateSetUp(await _Builder.BuildFromMode(ApplicationMode.Live, OnNpmLog));
-            await viewControl.SwitchViewAsync(Uri);
+            UpdateSetUp(await _Builder.BuildFromMode(ApplicationMode.Live, token, OnNpmLog));
         }
+
+        private ResourceReader GetResourceReader() => new ResourceReader("SetUp.script", this);
 
         public async Task InitFromArgs(string[] args)
         {
@@ -64,6 +93,11 @@ namespace Example.Cfx.Spa.Routing.SetUp
         private void UpdateSetUp(ApplicationSetUp applicationSetUp)
         {
             _ApplicationSetUp = applicationSetUp;
+            UpdateCommands();
+        }
+
+        private void UpdateCommands()
+        {
             DebugCommands.Clear();
             switch (Mode)
             {
@@ -75,6 +109,11 @@ namespace Example.Cfx.Spa.Routing.SetUp
                     DebugCommands["To Live"] = new RelayToogleCommand<ICompleteWebViewComponent>(GoLive);
                     break;
             }
+        }
+
+        public override string ToString()
+        {
+            return _ApplicationSetUp?.ToString() ?? "Not initialized";
         }
     }
 }
