@@ -13,8 +13,9 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
         private static readonly Regex _LocalHost = new Regex(@"http:\/\/localhost:(\d{1,4})", RegexOptions.Compiled);
         private static readonly Regex _Key = new Regex(@"\((\w)\/\w\)\?", RegexOptions.Compiled);
 
-        private readonly Lazy<Process> _Process;
         private Process ResolvedProcess => _Process.Value;
+
+        private readonly Lazy<Process> _Process;
         private readonly string _Script;
         private readonly TaskCompletionSource<int> _PortFinderCompletionSource = new TaskCompletionSource<int>();
         private readonly TaskCompletionSource<string> _StopKeyCompletionSource = new TaskCompletionSource<string>();
@@ -81,7 +82,7 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
                 return;
 
             _State = State.Initializing;
-            ResolvedProcess.StandardInput.WriteLine($"npm run {_Script}");        
+            ResolvedProcess.StandardInput.WriteLine($"npm run {_Script}");
         }
 
         private async void StopIfNeed(CancellationToken cancellationToken)
@@ -95,7 +96,10 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
         public async Task<bool> Cancel()
         {
             if (!_Process.IsValueCreated)
+            {
+                _State = State.Closed;
                 return true;
+            }
 
             var res = await Stop(State.Closing, State.Closed).ConfigureAwait(false);
             if (!res)
@@ -109,14 +113,15 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
 
         private async Task<bool> Stop(State transitionState, State finalState)
         {
-            if ((_State == State.Closed) || (_State == State.Cancelling)) {
-                return false;
-            }       
-
-            if (_State == State.NotStarted)
+            switch (_State)
             {
-                _State = finalState;             
-                return true;
+                case State.Closed:
+                case State.Cancelling:
+                    return false;
+
+                case State.NotStarted:
+                    _State = finalState;
+                    return true;
             }
 
             var currentState = _State;
@@ -163,7 +168,7 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
                 return;
 
             _State = State.Running;
-            _PortFinderCompletionSource.TrySetResult(port);    
+            _PortFinderCompletionSource.TrySetResult(port);
         }
 
         private void TryParseKey(string data)

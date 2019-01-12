@@ -1,7 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Example.Cfx.Spa.Routing.SetUp {
+namespace Example.Cfx.Spa.Routing.SetUp
+{
     public static class TaskExtensions
     {
         public static Task<T> AsTask<T>(this CancellationToken token)
