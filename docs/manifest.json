@@ -28,12 +28,23 @@
       "version": ""
     },
     {
+      "type": "Resource",
+      "source_relative_path": "images/logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "F6p22EbU1wYuxPakfcwU5g=="
+          "hash": "heJVP++Sedz1uEMs2pr6TA=="
         }
       },
       "is_incremental": false,
@@ -45,7 +56,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "CQgyD9ortJnnGLrFvo1M2w=="
+          "hash": "SUFgwqZ0QsELqGxg9NS6vw=="
         }
       },
       "is_incremental": false,
@@ -67,6 +78,11 @@
         },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         }
       }
