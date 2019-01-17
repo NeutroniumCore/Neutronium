@@ -12,7 +12,22 @@
       "output": {
         ".html": {
           "relative_path": "articles/getting-started.html",
-          "hash": "WovQg4yo+Gp7eS+c+in8uQ=="
+          "hash": "3NwEUS7Jzr2lu9D8vB0ROg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "articles/large-project.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/large-project.html",
+          "hash": "ga6EWnjlSJsompYqIJX3Dg=="
         }
       },
       "is_incremental": false,
@@ -27,7 +42,216 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "FWCiCZNXAgbY72vqBVb7xA=="
+          "hash": "6GocGjvZn7oK48QhTmGA1g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_01.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_01.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_02.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_02.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_02a.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_02a.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_02b.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_02b.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_02c.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_02c.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_02d.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_02d.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_02e.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_02e.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_02f.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_02f.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_03.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_03.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_04.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_04.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_05.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_05.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_06.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_06.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_07.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_07.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_08.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_08.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_09.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_09.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_10.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_10.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_11.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_11.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_11b.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_11b.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/large/webpack_12.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/large/webpack_12.png"
         }
       },
       "is_incremental": false,
@@ -111,6 +335,160 @@
       "version": ""
     },
     {
+      "type": "Resource",
+      "source_relative_path": "images/tools/About.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/About.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/ContextMenu-About.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/ContextMenu-About.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/ContextMenu-Save-vm.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/ContextMenu-Save-vm.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/ContextMenu-Vm-debug.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/ContextMenu-Vm-debug.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/ContextMenu-inspect.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/ContextMenu-inspect.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/ContextMenu.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/ContextMenu.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/DebugToolBar.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/DebugToolBar.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/Toolbar-about.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/Toolbar-about.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/Toolbar-inspect.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/Toolbar-inspect.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/Toolbar-save.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/Toolbar-save.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/Toolbar-vm.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/Toolbar-vm.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/Toolbar.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/Toolbar.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/VueTools.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/VueTools.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/VueTools2.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/VueTools2.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
@@ -151,13 +529,13 @@
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build"
-        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }

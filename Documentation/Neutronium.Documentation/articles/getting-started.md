@@ -120,7 +120,7 @@ public partial class MainWindow : Window
 
 #### 5. Install HTML/Vue template
 
-It is strongly recommended to use `vue cli neutronium` to bootstrap the project and develop Neutronium application [described here](./Build_large_project_with_Vue.js_and_Webpack.md).
+It is strongly recommended to use `vue cli neutronium` to bootstrap the project and develop Neutronium application [described here](./large-project.html).
 
 In this example you should install template under View folder creating a MainView view.
 
@@ -128,7 +128,7 @@ In this example you should install template under View folder creating a MainVie
 
 Follow steps 2 to 5 from new project set-up.
 
-If it is not possible to change App inheritence, Neutronium should be initialized once like this:
+If it is not possible to change App inheritance, Neutronium should be initialized once like this:
 ```CSharp
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.WebBrowserEngine.ChromiumFx;

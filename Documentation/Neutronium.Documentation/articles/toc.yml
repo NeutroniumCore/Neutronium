@@ -1,2 +1,4 @@
 - name: Getting started
   href: getting-started.html
+- name: Build large project
+  href: large-project.html
