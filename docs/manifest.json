@@ -12,7 +12,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/getting-started.html",
-          "hash": "mmi/mJX7ImAbSzjyTeLPzg=="
+          "hash": "WovQg4yo+Gp7eS+c+in8uQ=="
         }
       },
       "is_incremental": false,
@@ -35,10 +35,10 @@
     },
     {
       "type": "Resource",
-      "source_relative_path": "images/Set-Up/fs2.png",
+      "source_relative_path": "images/logo.png",
       "output": {
         "resource": {
-          "relative_path": "images/Set-Up/fs2.png"
+          "relative_path": "images/logo.png"
         }
       },
       "is_incremental": false,
@@ -46,10 +46,10 @@
     },
     {
       "type": "Resource",
-      "source_relative_path": "images/logo.png",
+      "source_relative_path": "images/template/fs2.png",
       "output": {
         "resource": {
-          "relative_path": "images/logo.png"
+          "relative_path": "images/template/fs2.png"
         }
       },
       "is_incremental": false,
@@ -151,13 +151,13 @@
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }

@@ -41,7 +41,7 @@ Neutronium template uses [vue-cli](https://cli.vuejs.org/) and [vue-cli-plugin-n
 #### 1. Create a WPF application
 #### 2. Install nuget `Neutronium.ChromiumFx.Vue`
 
-<img src="../images/Set-Up/fs2.png"><br>
+<img src="../images/template/fs2.png"><br>
 
 #### 3. Update `App.cs` and `App.xaml` to initialize Neutronium engines
 
