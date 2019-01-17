@@ -229,3 +229,4 @@ FakesAssemblies/
 Resources
 /.vs/Neutronium/v15/sqlite3/storage.ide
 /.vs/Neutronium/v15/Server/sqlite3
+/Documentation/Neutronium.Documentation/log.txt
