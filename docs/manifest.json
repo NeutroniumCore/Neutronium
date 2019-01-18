@@ -8,6 +8,21 @@
         "InvalidFileLink"
       ],
       "type": "Conceptual",
+      "source_relative_path": "articles/architecture.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/architecture.html",
+          "hash": "9p8OgmLs8Yk3CkPcCxKuBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
       "source_relative_path": "articles/component-overview.md",
       "output": {
         ".html": {
@@ -72,7 +87,18 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "Etl4FhA3xymZip662Pcv2w=="
+          "hash": "PCcpAhZ753Q/ojUtcJS8zQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/architecture.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/architecture.png"
         }
       },
       "is_incremental": false,

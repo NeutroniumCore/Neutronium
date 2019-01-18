@@ -4,5 +4,7 @@
   href: component-overview.html
 - name: Debug tools
   href: debug.html
+- name: Architecture
+  href: architecture.html
 - name: Build large project
   href: large-project.html

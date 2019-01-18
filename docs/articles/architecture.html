@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Architecture </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Architecture ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="architecture">Architecture</h1>
+
+<h2 id="overview">Overview</h2>
+<p>Neutronium presents a layered, pluggable architecture:</p>
+<p><img src="../images/architecture.png" alt=""></p>
+<ul>
+<li><p><code>Neutronium.Core</code> provides core binding, synchronization and javascript manipulation being abstracted from real web browser implementation by an abstraction layer. This allows Neutronium to support various Web browser.</p>
+</li>
+<li><p><code>Neutronium.WPF</code> provides WPF user controls as well as any WPF dependent features.</p>
+</li>
+<li><p><code>WebBrowserEngines</code>:</p>
+<ul>
+<li><p><code>Neutronium.WebBrowserEngine.ChromiumFx</code> provides binding to ChromiumFx which the recommended web browser to run Neutronium.</p>
+</li>
+<li><p><code>Neutronium.WebBrowserEngine.CefGlue</code> provides binding to CefGlue which the  web browser mainly used for automated tests.</p>
+</li>
+</ul>
+</li>
+<li><p><code>JavascriptFrameworks</code>:</p>
+<ul>
+<li><p><code>Neutronium.JavascriptFrameworks.Vue</code> provides Vue.js binding and any vue specific feature.</p>
+</li>
+<li><p><code>Neutronium.JavascriptFrameworks.knockout</code> provides knockout.js binding and any vue specific feature.</p>
+</li>
+</ul>
+</li>
+<li><p><code>Neutronium.MVVMComponents</code> provides additional abstraction to MVVM interfaces such as:</p>
+</li>
+</ul>
+<pre><code class="lang-CSharp">public interface IResultCommand
+{
+    Task&lt;object&gt; Execute(object argument);
+}
+</code></pre>
+<pre><code class="lang-CSharp">public interface ISimpleCommand
+{
+    void Execute(object argument);
+}
+</code></pre>
+<p><code>Neutonium.Core</code> provides binding to <code>Neutronium.MVVMComponents</code> interfaces</p>
+<p>See detailed specification <a href="./MVVMComponents.md">here</a></p>
+<h2 id="nuget-packages">Nuget packages</h2>
+<p>To simplify deployment Neutronium provide two main alternative packages:</p>
+<ul>
+<li><a href="https://www.nuget.org/packages/Neutronium.ChromiumFx.Vue/">Neutronium.ChromiumFx.Vue</a></li>
+<li><a href="https://www.nuget.org/packages/Neutronium.ChromiumFx.Knockout/">Neutronium.ChromiumFx.Knockout</a></li>
+</ul>
+<p>Both includes all dependencies needed to run a Neutronium project including ChromiumFx web browser binding and vue or knockout framework.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/architecture.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

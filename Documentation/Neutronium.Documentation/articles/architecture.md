@@ -1,12 +1,10 @@
-<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
-
 # Architecture
 
 ## Overview
 
 Neutronium presents a layered, pluggable architecture:
 
-![](../images/Architecture.png)
+![](../images/architecture.png)
 
 
 * `Neutronium.Core` provides core binding, synchronization and javascript manipulation being abstracted from real web browser implementation by an abstraction layer. This allows Neutronium to support various Web browser.
@@ -30,7 +28,7 @@ Neutronium presents a layered, pluggable architecture:
 ```CSharp
 public interface IResultCommand
 {
-    Task<object> Execute(object iargument);
+    Task<object> Execute(object argument);
 }
 ```
 
@@ -53,8 +51,6 @@ To simplify deployment Neutronium provide two main alternative packages:
 * [Neutronium.ChromiumFx.Knockout](https://www.nuget.org/packages/Neutronium.ChromiumFx.Knockout/)
 
 Both includes all dependencies needed to run a Neutronium project including ChromiumFx web browser binding and vue or knockout framework.
-
-[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Debug.md) - [F.A.Q](./FAQ.md)
 
 
 
