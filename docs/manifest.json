@@ -8,11 +8,26 @@
         "InvalidFileLink"
       ],
       "type": "Conceptual",
+      "source_relative_path": "articles/debug.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/debug.html",
+          "hash": "Ox+mJa7Q7IFLatIuYhf2Bw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
       "source_relative_path": "articles/getting-started.md",
       "output": {
         ".html": {
           "relative_path": "articles/getting-started.html",
-          "hash": "3NwEUS7Jzr2lu9D8vB0ROg=="
+          "hash": "JbCpBVbrJ9ziyXlgDjUXiA=="
         }
       },
       "is_incremental": false,
@@ -27,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/large-project.html",
-          "hash": "ga6EWnjlSJsompYqIJX3Dg=="
+          "hash": "pcX1slAc2Rdvb3zfJ4VLaA=="
         }
       },
       "is_incremental": false,
@@ -42,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "6GocGjvZn7oK48QhTmGA1g=="
+          "hash": "nysCoXSUmRDUcSq/72vtew=="
         }
       },
       "is_incremental": false,
@@ -402,6 +417,17 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "images/tools/DebugInspect.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/DebugInspect.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "images/tools/DebugToolBar.png",
       "output": {
         "resource": {
@@ -483,6 +509,17 @@
       "output": {
         "resource": {
           "relative_path": "images/tools/VueTools2.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/about-64-bits.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/about-64-bits.png"
         }
       },
       "is_incremental": false,

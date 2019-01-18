@@ -1,4 +1,6 @@
 - name: Getting started
   href: getting-started.html
+- name: Debug tools
+  href: debug.html
 - name: Build large project
   href: large-project.html
