@@ -5,6 +5,8 @@
     "content": [
       {
         "files": [
+          "versions/**.md",
+          "versions/**/toc.yml",
           "articles/**.md",
           "articles/**/toc.yml",
           "toc.yml",
