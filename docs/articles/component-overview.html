@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Component Overview </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Component Overview ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="component-overview">Component Overview</h1>
+
+<h2 id="usercontrol">UserControl</h2>
+<p>Neutronium exposes two WPF UserControls: <strong>HTMLViewControl</strong> and <strong>HTMLWindow</strong> both are embedding a WebBrowser and share main implementation.</p>
+<h3 id="common-api">Common API:</h3>
+<ul>
+<li><p><strong>IsDebug</strong> property allows use of <a href="./debug.html">debug tools</a>, use false in production mode.</p>
+</li>
+<li><p><strong>HTMLEngine</strong>:
+The name of the WebBrowser to be used in this view. If only one WebBrowser is registered (which should be the case normally), you don´t need to set-up this value. See <a href="#htmlenginefactory">HTMLEngineFactory section</a> for more details.
+Current Options: Awesomium, Cef.Glue, ChromiumFx</p>
+</li>
+<li><p><strong>JavascriptUIEngine</strong>:
+The name of the javascript framework to be used in this view. If only one JavascriptUIEngine is registered, you don´t need to set-up this value. See <a href="#htmlenginefactory">HTMLEngineFactory section</a> for more details.
+Current Options: VueInjector, KnockoutInjector</p>
+</li>
+<li><p><strong>IDisposable</strong>
+You should call IDisposable Dispose method on both component when closing the window to prevent leaks due to event listening.</p>
+</li>
+</ul>
+<h3 id="htmlviewcontrol">HTMLViewControl</h3>
+<p>Use <strong>HTMLViewControl</strong> if you have one HTML view and a DataContext.</p>
+<pre><code class="lang-HTML">&lt;Window
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:wpf=&quot;clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF&quot;
+        x:Class=&quot;Example.Awesomium.Vue.UI.MainWindow&quot;
+        Height=&quot;350&quot; Width=&quot;525&quot;&gt;
+    &lt;Grid&gt;
+       &lt;wpf:HTMLViewControl Uri=&quot;pack://application:,,,/View/dist/index.html&quot;/&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<ul>
+<li><strong>Uri</strong>:</li>
+</ul>
+<p>Reference the location of the HTML file. When local files are reference pack uri should be used (file properties should be <em>Resource</em>, <em>None</em> ). <a href="./Reference_Files.md">Click here for complete description on how to reference file</a></p>
+<ul>
+<li><strong>Deprecated: RelativeSource</strong>:</li>
+</ul>
+<p>Reference the location of the HTML file (properties should be <em>Content</em>, <em>Copy Always</em> ). Please use uri with pack url instead. <a href="./Reference_Files.md">Click here for complete description on how to reference file</a></p>
+<ul>
+<li><strong>DataContext</strong>:</li>
+</ul>
+<p>As any WPF component, DataContext is used to create the binding with the ViewModel. Note that DataContext is not set, the HTML will not be displayed.</p>
+<h3 id="htmlwindow">HTMLWindow</h3>
+<p>Use <strong>HTMLWindow</strong> if you have various HTML files and DataContext. This control implements navigation APIs;</p>
+<pre><code class="lang-HTML">&lt;Window
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:wpf=&quot;clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF&quot;
+        x:Class=&quot;Example.ChromiumFx.Vue.Navigation.MainWindow&quot;
+        Title=&quot;HTML5 vs WPF&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
+    &lt;Grid&gt;
+        &lt;wpf:HTMLWindow  UseINavigable=&quot;True&quot; IsDebug=&quot;True&quot; x:Name=&quot;HTMLWindow&quot;/&gt;
+
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<ul>
+<li><strong>UseINavigable</strong>
+If true, Neutronium calls set <em>INavigable</em> property <em>Navigation</em> with corresponding <em>INavigationSolver</em></li>
+</ul>
+<p>See <a href="./Navigation.md">Navigation API</a> to complete description of how to use this component.</p>
+<h2 id="important-note">Important Note</h2>
+<p>When <strong>using <a href="https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8">templates</a></strong> HTMLEngineFactory API are done by boilerplate file. So in this case, <strong>you can pull next section.</strong></p>
+<h2 id="htmlenginefactory">HTMLEngineFactory</h2>
+<p>At its core Neutronium is abstracted from javascript library and WebBrowser implementation: this is why you can plug Knockout or Vue engine or use different WebBrowsers.</p>
+<p>You need to register these abstractions in the static <strong>HTMLEngineFactory.Engine</strong> in order to be able to use them.</p>
+<p>Ex:</p>
+<pre><code class="lang-CSharp"> var engine = HTMLEngineFactory.Engine;
+ engine.RegisterHTMLEngine(new ChromiumFXWPFWebWindowFactory());
+ engine.RegisterJavaScriptFramework(new VueSessionInjector());      
+</code></pre>
+<p><strong>Available HTMLEngines:</strong></p>
+<pre><code>ChromiumFXWPFWebWindowFactory, CefGlueWPFWebWindowFactory, AwesomiumWPFWebWindowFactory
+</code></pre>
+<p><strong>Note that Recommended engine is ChromiumFXWPFWebWindowFactory.</strong> AwesomiumWPFWebWindowFactory is present for legacy reason and CefGlueWPFWebWindowFactory is used for test purposes.</p>
+<p><strong>Available JavaScriptFrameworks:</strong></p>
+<pre><code>VueSessionInjector, KnockoutFrameworkManager
+</code></pre>
+<p>You need to dispose the engine when closing the session:</p>
+<pre><code class="lang-CSharp">HTMLEngineFactory.Engine.Dispose();
+</code></pre>
+<h2 id="built-in-wpf-application">Built-in WPF Application</h2>
+<p>Each WebBrowser implementation makes available an abstract implementation of an WPF application that register the corresponding WebBrowser and dispose the HTMLEngineFactory  when application ended. The only thinks you need is to register the javascript engine.</p>
+<p>Ex: using ChromiumFx and corresponding ChromiumFxWebBrowserApp :</p>
+<pre><code class="lang-CSharp">public class WebBrowserApp : ChromiumFxWebBrowserApp 
+{
+    protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager() 
+    {
+        return new VueSessionInjector();
+    }
+}
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/component-overview.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

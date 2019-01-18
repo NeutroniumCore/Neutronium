@@ -1,5 +1,7 @@
 - name: Getting started
   href: getting-started.html
+- name: Component overview
+  href: component-overview.html
 - name: Debug tools
   href: debug.html
 - name: Build large project

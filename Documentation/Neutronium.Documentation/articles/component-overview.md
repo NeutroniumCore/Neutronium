@@ -1,5 +1,3 @@
-<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
-
 # Component Overview
 
 ## UserControl
@@ -7,7 +5,7 @@
 Neutronium exposes two WPF UserControls: **HTMLViewControl** and **HTMLWindow** both are embedding a WebBrowser and share main implementation.
 
 ### Common API:
-* **IsDebug** property allows use of [debug tools](./Debug.md), use false in production mode.
+* **IsDebug** property allows use of [debug tools](./debug.html), use false in production mode.
 
 * **HTMLEngine**:
 The name of the WebBrowser to be used in this view. If only one WebBrowser is registered (which should be the case normally), you don´t need to set-up this value. See [HTMLEngineFactory section](#htmlenginefactory) for more details.
@@ -125,13 +123,6 @@ public class WebBrowserApp : ChromiumFxWebBrowserApp
 }
 ```
 
-## See Next:
- 
-[Vue Binding](./Vue_Binding.md)
-
-[knockout Binding](./Knockout_Binding.md)    
-
-[How to set up a project](./SetUp.md) - [Debug Tools](./Tools.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)
 
 
 

@@ -8,6 +8,21 @@
         "InvalidFileLink"
       ],
       "type": "Conceptual",
+      "source_relative_path": "articles/component-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/component-overview.html",
+          "hash": "gfrxKJ/Hv0O2KCniXZMvVw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
       "source_relative_path": "articles/debug.md",
       "output": {
         ".html": {
@@ -57,7 +72,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "nysCoXSUmRDUcSq/72vtew=="
+          "hash": "Etl4FhA3xymZip662Pcv2w=="
         }
       },
       "is_incremental": false,
