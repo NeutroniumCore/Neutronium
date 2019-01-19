@@ -12,7 +12,7 @@
 * Support of `byte` and `sbyte` types.
 * Conversion of dictionary with key string to javascript object.
 * Support dynamic objects conversion: both `ExpandoObject` and inheritors of `DynamicObject`.
-* Support to [Bindable attribute](./Binding_in_Depth.md#binding-support).
+* Support to [Bindable attribute](../binding/binding.html#binding-support).
 * Introduction of `ICommand<T>`, `ISimpleCommand<T>` and `ICommandWithoutParameter` as well as corresponding `RelayCommand` to better control command argument type. See [here](./MVVMComponents.md) for full details
 
 ## WPF Component

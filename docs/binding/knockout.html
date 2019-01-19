@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>What is new in version 1.0.0? </title>
+    <title>knockout binding </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="What is new in version 1.0.0? ">
+    <meta name="title" content="knockout binding ">
     <meta name="generator" content="docfx 2.40.7.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -67,50 +67,87 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="what-is-new-in-version-100">What is new in version 1.0.0?</h1>
+<h1 id="knockout-binding">knockout binding</h1>
 
-<h2 id="binding">Binding</h2>
-<ul>
-<li><p>Massive performance improvement on updates from C# on both large data and frequent updates scenario.</p>
-<p>V.0.6.0<br>
-<img src="../images/performance/perf0.6.gif"><br></p>
-<p>V.1.0.0<br>
-<img src="../images/performance/perf1.0.gif"><br></p>
-</li>
-<li><p>Support of <code>byte</code> and <code>sbyte</code> types.</p>
-</li>
-<li><p>Conversion of dictionary with key string to javascript object.</p>
-</li>
-<li><p>Support dynamic objects conversion: both <code>ExpandoObject</code> and inheritors of <code>DynamicObject</code>.</p>
-</li>
-<li><p>Support to <a href="../binding/binding.html#binding-support">Bindable attribute</a>.</p>
-</li>
-<li><p>Introduction of <code>ICommand&lt;T&gt;</code>, <code>ISimpleCommand&lt;T&gt;</code> and <code>ICommandWithoutParameter</code> as well as corresponding <code>RelayCommand</code> to better control command argument type. See <a href="./MVVMComponents.md">here</a> for full details</p>
-</li>
-</ul>
-<h2 id="wpf-component">WPF Component</h2>
-<ul>
-<li>Support of pack-uri allowing usage of <code>resource</code> type file to be used as HTML, CSS and javascript files thanks to <a href="https://github.com/lhyqy5">lhyqy5</a>. Documentation <a href="./Using_packuri.md">here</a>.</li>
-</ul>
-<h2 id="vuejs-integration">Vue.js integration</h2>
-<ul>
-<li>Upgrade to <strong>Vue.js v2.5.2</strong></li>
-<li>Upgrade to <strong>Vue devtools v3.1.3</strong></li>
-<li>Possibility to set Vue instance options (useful for using <code>vue-router</code> or <code>vue-i18n</code> for example) <a href="../articles/large-project.html">see here</a>.</li>
-<li>Performance improvement on update from C#</li>
-</ul>
-<h2 id="tooling">Tooling</h2>
-<ul>
-<li>Compatible with <a href="https://github.com/NeutroniumCore/neutronium-vue">neutronium-vue vue-cli version 4.0.0</a></li>
-</ul>
-<h2 id="migrating-to-version-100">Migrating to version 1.0.0</h2>
-<ul>
-<li>If you need to upgrade from v.0.6.0, see here the <a href="./migrate1.0.html">guidelines</a></li>
-</ul>
-<h2 id="bug-fix">Bug Fix:</h2>
-<ul>
-<li>Correction of reentrance bug on update from javascript causing none update in some edge cases.</li>
-</ul>
+<p>See complete example at: <a href="https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Ko.UI">Example.ChromiumFX.Ko.UI</a></p>
+<p>Knockout binding is provided by the <code>Neutronium.JavascriptFramework.Knockout</code> assembly that exposes the injector:<br>
+<code>KnockoutFrameworkManager</code>   registered name <strong>KnockoutInjector</strong><br></p>
+<p>Given the following ViewModel:</p>
+<pre><code class="lang-CSharp">public class Skill
+{
+	public string Type { get;}
+	public string Name { get;}
+
+	public Skill (string name, string skillType)
+	{
+		Name = name;
+		Type = skillType;
+	}
+}
+
+public class Person: ViewModelBase
+{
+	private string _Name;
+	public string Name
+	{
+		get { return _Name; }
+		set { Set(ref _Name, value, &quot;Name&quot;); }
+	}
+
+	private Skill _MainSkill;
+	public Skill MainSkill
+	{
+		get { return _MainSkill; }
+		set { Set(ref _MainSkill, value, &quot;MainSkill&quot;); }
+	}
+	   
+	public IList&lt;Skill&gt; Skills { get; private set; }
+
+	public ICommand RemoveSkill { get; private set; }
+	
+	public Person()
+	{
+		Skills = new ObservableCollection&lt;Skill&gt;();
+		RemoveSkill = new RelayCommand&lt;Skill&gt;(s=&gt; this.Skills.Remove(s));
+	}	  
+}
+</code></pre>
+<h2 id="bind-to-a-property">Bind to a property:</h2>
+<pre><code class="lang-HTML">&lt;span data-bind=&quot;text:Name&quot;&gt;&lt;/span&gt;
+</code></pre>
+<h2 id="bind-to-a-nested-property">Bind to a nested property:</h2>
+<pre><code class="lang-HTML">&lt;span data-bind=&quot;Skill().Name&quot;&gt;&lt;/span&gt;
+</code></pre>
+<h2 id="bind-to-a-collection">Bind to a Collection:</h2>
+<pre><code class="lang-HTML">&lt;div data-bind=&quot;foreach: Skills()&quot;&gt;
+     &lt;div &gt;&lt;span data-bind=&quot;text:Type&quot;&gt;&lt;/span&gt;&lt;/div &gt;
+&lt;/div&gt;
+</code></pre>
+<p>Note that you need the parenthesis as arrays are mapped to observable value which value is an observable array.</p>
+<h2 id="bind-to-a-command-with-custom-binding-">Bind to a Command with custom binding :</h2>
+<pre><code class="lang-HTML">&lt;button data-bind=&quot;command: $data.RemoveSkill&quot;&gt;&lt;/button&gt;
+</code></pre>
+<p>By default the command will be called if CanExecute is true on click with element context as command argument.</p>
+<h2 id="bind-to-a-command-with-custom-binding--1">Bind to a Command with custom binding :</h2>
+<pre><code class="lang-HTML">&lt;button data-bind=&quot;command: $data.RemoveSkill&quot;&gt;&lt;/button&gt;
+</code></pre>
+<p>The command will be called if CanExecute is true on click with element context as command argument.</p>
+<h2 id="bind-to-a-command-with-custom-binding-on-different-event">Bind to a Command with custom binding on different event:</h2>
+<pre><code class="lang-HTML">&lt;button data-bind=&quot;command: $data.RemoveSkill, commandoption: { event:'dblclick'}&quot;&gt;
+&lt;/button&gt;
+</code></pre>
+<p>This will call Execute if CanExecute is true with element context as parameter on button double click.</p>
+<h2 id="special-hook">Special Hook</h2>
+<p>It is possible to create a register method on the global ko object.
+This method should take one argument which is the ViewModel.
+It will called before calling ko.applyBindings, so it can be used to register computed properties.</p>
+<p>Example:</p>
+<pre><code class="lang-javascript">ko.register = function (vm) {
+   vm.count = ko.computed( function() {
+       return this.Skills().length;
+   }, vm);
+}
+</code></pre>
 </article>
           </div>
           
@@ -119,7 +156,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/versions/version1.0.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/binding/knockout.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

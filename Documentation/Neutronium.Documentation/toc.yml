@@ -1,5 +1,7 @@
 - name: Articles
   href: articles/
+- name: Binding explained
+  href: binding/
 - name: Version and Migrations
   href: versions/
 - name: View on Github
