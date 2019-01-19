@@ -53,6 +53,21 @@
         "InvalidFileLink"
       ],
       "type": "Conceptual",
+      "source_relative_path": "articles/faq.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/faq.html",
+          "hash": "JF8tdKNg/NvmvTPN5T2eCw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
       "source_relative_path": "articles/getting-started.md",
       "output": {
         ".html": {
@@ -87,7 +102,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "PCcpAhZ753Q/ojUtcJS8zQ=="
+          "hash": "45vnMlqDQIswkO7qF7aXxg=="
         }
       },
       "is_incremental": false,
@@ -473,6 +488,17 @@
       "output": {
         "resource": {
           "relative_path": "images/tools/ContextMenu.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/tools/ContextMenuWithPrint.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/tools/ContextMenuWithPrint.png"
         }
       },
       "is_incremental": false,

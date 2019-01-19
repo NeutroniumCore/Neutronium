@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Frequently Asked Questions </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Frequently Asked Questions ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
+
+<h2 id="why-neutronium">Why Neutronium?</h2>
+<p>The idea behind Neutronium is to provide a HTML-CSS-Javascript UI engine empowered with two way bindings supporting all features of WPF MVVM bindings.
+This way Neutronium can be as &quot;replacement&quot; of WPF.</p>
+<h2 id="how-neutronium-compares-with-other-libraries">How Neutronium compares with other libraries?</h2>
+<ul>
+<li><a href="http://electron.atom.io/">Electron</a></li>
+</ul>
+<p>Neutronium is electron for .NET? Well, kind of. Neutronium however is a higher abstraction so that you don't need to care about Chromium implementation such as renderer or browser processes.</p>
+<ul>
+<li><a href="http://www.awesomium.com/">Awesomium</a>, <a href="http://xilium.bitbucket.org/cefglue/">CefGlue</a>, <a href="https://bitbucket.org/chromiumfx/chromiumfx">ChromiumFx</a>, <a href="https://github.com/cefsharp/CefSharp">CefSharp</a></li>
+</ul>
+<p>All are libraries offering binding to Chromium using proprietary binding (Awesomium), or <a href="https://en.wikipedia.org/wiki/Chromium_Embedded_Framework">Chromium Embedded Framework</a> bindings. All of them present much lower level of integration than Neutronium. Note that internally Neutronium uses ChromiumFx.</p>
+<ul>
+<li><a href="https://github.com/chromelyapps/Chromely">Chromely</a></li>
+</ul>
+<p>Provides bindings to Chromium Embedded Framework for NET/.NET Core. Main difference with Neutronium: Chromely is a cross-platform solution whereas Neutronium is currently only for windows. Same as frameworks below, this is a simpler integration compared to Neutronium.</p>
+<ul>
+<li><a href="https://github.com/Microsoft/react-native-windows">react-native-windows</a></li>
+</ul>
+<p>Provides react to WPF/UWP bindings. Almost the contrary approach as Neutronium as react-to-native converts react to native UI component whereas Neutronium uses embedded web browser.</p>
+<h2 id="why-vuejs">Why vue.js?</h2>
+<p><a href="http://vuejs.org/">Vue.js</a> is providing C# to javascript binding in Neutronium application. Neutronium Core provide a generic architecture (see more <a href="..%5Carticles%5Carchitecture.html">here</a>) where javascript framework can be plugged in. This framework should provide reactivity with two way bindings and listeners patterns and should not be to opinionated in order to fit Neutronium MVVM workflow.</p>
+<p>First version of neutronium was only using <a href="http://knockoutjs.com/">knockout.js</a> which is compliant with these features.</p>
+<p>Then appeared <a href="http://vuejs.org/">Vue.js</a> which is also has same prerequisites but quickly with a much larger community. Vue.js beyond reactivity provides great tooling, powerful template engine, router, etc... As such Vue.js is the preferred option to develop with Neutronium.</p>
+<h2 id="is-neutronium-cross-platform">Is Neutronium cross-platform?</h2>
+<p>No, Currently Neutronium is windows only.</p>
+<p>Whereas Neutronium infrastructure is currently build for .Net 4.7.2 and .Net Standard 2.0, there is currently no Web engine binding for .Net.Core.</p>
+<p>This may be provided in the future thought check <a href="https://github.com/NeutroniumCore/Neutronium/issues/58">this issue</a> for complete discussion.</p>
+<h2 id="is-it-possible-to-configure-same-origin-policy-or-other-browser-features-in-a-neutronium-application">Is it possible to configure <code>same origin policy</code> or other browser features in a Neutronium application?</h2>
+<p><a href="./Accessing_Chromium_API.md">See here</a></p>
+<h2 id="how-to-implement-a-frameless-html-window">How to implement a frameless HTML window?</h2>
+<h3 id="1-in-the-html-markup">1. In the HTML markup:</h3>
+<p>Since version 0.6.0, Neutronium implements out of the box support for CSS property <code>-webkit-app-region: drag</code>:</p>
+<pre><code class="lang-HTML">&lt;div style=&quot;-webkit-app-region: drag&quot;&gt;
+&lt;/div&gt;
+</code></pre>
+<p>This property make the whole div draggable.</p>
+<p>You have to use <code>no-drag</code> value for buttons or other clickable regions with the draggable elements:</p>
+<pre><code class="lang-CSS">button {
+   -webkit-app-region: no-drag;
+}
+</code></pre>
+<h3 id="2-window-buttons">2. Window Buttons:</h3>
+<p>In order to help implement window interaction, Neutronium.WPF provides <a href="https://github.com/NeutroniumCore/Neutronium/blob/master/Neutronium.WPF/ViewModel/WindowViewModel.cs">WindowViewModel</a> that exposes the <code>Close</code>, <code>Minize</code>, <code>Maximize</code> commands so that you can use it as a ViewModel for buttons</p>
+<pre><code class="lang-CSharp">//window is the WPF window
+var viewModel = new WindowViewModel(window);
+</code></pre>
+<h3 id="3-wpf-window">3. WPF window:</h3>
+<p>To make a WPF window chromeless, Neutronium.WPF provides <a href="https://github.com/NeutroniumCore/Neutronium/blob/master/Neutronium.WPF/Windows/Chromeless.cs">Chromeless</a> behavior:</p>
+<pre><code class="lang-HTML">&lt;Window x:Class=&quot;CodeVizualization.MainWindow&quot;
+    xmlns:neutronium=&quot;clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF&quot;   
+    xmlns:i=&quot;clr-namespace:System.Windows.Interactivity; assembly=System.Windows.Interactivity&quot;&gt;
+    &lt;i:Interaction.Behaviors&gt;
+        &lt;neutronium:Chromeless /&gt;
+    &lt;/i:Interaction.Behaviors&gt;
+</code></pre>
+<p>This behavior creates a frameless window and takes care of expected drag-and-drop behavior.</p>
+<p>See <a href="https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFx.Vue.Chromeless">Example.ChromiumFx.Vue.Chromeless</a> example for a working example of frameless Neutronium Window.<br>
+<a href="https://github.com/NeutroniumCore/codegravity">Codegravity</a> and <a href="https://github.com/NeutroniumCore/Neutronium.SPA.Demo">Neutronium.SPA.Demo</a> projects are also frameless window implementations.</p>
+<h2 id="how-to-display-window-only-when-html-control-is-rendering"><strong>How to display Window only when HTML control is rendering?</strong></h2>
+<p><code>HTMLViewControl</code> and <code>HTMLWindow</code> both have a <code>IsHTMLLoaded</code> property that is set to true when HTML is rendered, so it is possible to bind the window visibility to this property.</p>
+<p>Furthermore Neutronium.WPF provide a <code>BoolToHiddenConverter</code> that performs adequate conversion from <code>IsHTMLLoaded</code> to visibility transforming <code>false</code> into <code>Hidden</code> (standard <code>BooleanToVisibility</code> converts false into <code>Collapsed</code>).</p>
+<p>Ex:</p>
+<pre><code class="lang-HTML">&lt;Window x:Class=&quot;MainWindow&quot;
+        xmlns:neutronium=&quot;clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF&quot;&gt;
+
+&lt;Window.Resources&gt;
+    &lt;neutronium:BoolToHiddenConverter x:Key=&quot;BoolToHidden&quot;/&gt;
+&lt;/Window.Resources&gt;
+    
+&lt;Grid&gt;
+    &lt;neutronium:HTMLViewControl x:Name=&quot;HtmlView&quot; RelativeSource=&quot;View\index.html&quot; /&gt;
+&lt;/Grid&gt;
+
+&lt;Window.Visibility&gt;
+    &lt;Binding ElementName=&quot;HtmlView&quot; Path=&quot;IsHTMLLoaded&quot; Converter=&quot;{StaticResource BoolToHidden}&quot;/&gt;
+&lt;/Window.Visibility&gt;
+</code></pre>
+<h2 id="is-it-possible-to-print-the-content-of-the-page">Is it possible to print the content of the page?</h2>
+<p>With <a href="http://magpcss.org/ceforum/apidocs3/projects/%28default%29/CefContextMenuHandler.html#OnBeforeContextMenu">CEF APIs</a>, it is possible to customize context menu and add a print command back to a Neutronium application.</p>
+<p>To do so,</p>
+<ol>
+<li>register an event on browser OnDisplay</li>
+</ol>
+<pre><code class="lang-CSharp">private void Window_Loaded(object sender, RoutedEventArgs e)
+{
+    HTMLViewControl.OnDisplay += WcBrowser_OnDisplay;        
+}
+</code></pre>
+<ol start="2">
+<li>Add an event on <code>ContextMenuHandler OnBeforeContextMenu</code></li>
+</ol>
+<pre><code class="lang-CSharp">private void WcBrowser_OnDisplay(object sender, Neutronium.Core.Navigation.DisplayEvent e)
+{
+    var windowCfx = wcBrowser.WPFWebWindow as IWPFCfxWebWindow;
+    var cfxBrowser = windowCfx.ChromiumWebBrowser;
+    cfxBrowser.ContextMenuHandler.OnBeforeContextMenu += ContextMenuHandler_OnBeforeContextMenu;
+}
+</code></pre>
+<ol start="3">
+<li>In <code>ContextMenuHandler_OnBeforeContextMenu</code> add the Print command</li>
+</ol>
+<pre><code class="lang-CSharp">private void ContextMenuHandler_OnBeforeContextMenu(object sender, Chromium.Event.CfxOnBeforeContextMenuEventArgs e)
+{
+    var model = e.Model;
+    model.InsertItemAt(0,(int)ContextMenuId.MENU_ID_PRINT, &quot;Print&quot;);
+    model.InsertSeparatorAt(1);
+}
+</code></pre>
+<p>Result:<br>
+<img src="../images/tools/ContextMenuWithPrint.png" alt=""></p>
+<p>See <a href="https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Vue.SOP">Example.ChromiumFX.Vue.SOP</a> for working example.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/faq.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
