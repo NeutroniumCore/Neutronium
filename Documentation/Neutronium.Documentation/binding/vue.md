@@ -107,7 +107,7 @@ This will call Execute with skill as parameter if CanExecute is true on button d
 
 ## Vue-cli: neutronium-vue
 
-Neutronium provides a vue-cli template `neutronium-vue`. This is recommended tool when building mid or large scale Neutronium application. If you use it, you may pull to [next chapter](./Build_large_project_with_Vue.js_and_Webpack.md).
+Neutronium provides a vue-cli template `neutronium-vue`. This is recommended tool when building mid or large scale Neutronium application. See [here](../articles/large-project.html) for reference.
 
 
 ## Mixins:
@@ -239,7 +239,7 @@ export default {
 
 ### Advanced: `IResultCommand` support
 
-Neutronium provides binding to [IResultCommand](./MVVMComponents.md#iresultcommand) making possible to call a C# function returning a Task from javascript and receiving the response as a promise.
+Neutronium provides binding to [IResultCommand](./mvvm-components.html#iresultcommand) making possible to call a C# function returning a Task from javascript and receiving the response as a promise.
 
 Npm module [neutronium-vue-resultcommand-topromise](https://github.com/NeutroniumCore/neutronium-vue-resultcommand-topromise) is an helper to obtain promise from resultCommand on the javascript side.
 

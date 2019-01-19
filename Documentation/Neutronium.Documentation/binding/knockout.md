@@ -1,4 +1,4 @@
-# knockout binding 
+# Knockout binding 
 
 See complete example at: [Example.ChromiumFX.Ko.UI](https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Ko.UI)
 

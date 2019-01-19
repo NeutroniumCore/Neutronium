@@ -5,12 +5,12 @@
     "content": [
       {
         "files": [
-          "versions/**.md",
-          "versions/**/toc.yml",
-          "binding/**.md",
-          "binding/**/toc.yml",
           "articles/**.md",
           "articles/**/toc.yml",
+          "binding/**.md",
+          "binding/**/toc.yml",
+          "versions/**.md",
+          "versions/**/toc.yml",
           "toc.yml",
           "*.md"
         ]

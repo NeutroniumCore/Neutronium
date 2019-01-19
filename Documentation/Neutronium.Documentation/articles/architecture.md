@@ -40,7 +40,7 @@ public interface ISimpleCommand
 ```
 `Neutonium.Core` provides binding to `Neutronium.MVVMComponents` interfaces 
 
-See detailed specification [here](./MVVMComponents.md)
+See detailed specification [here](../binding//mvvm-components.html)
 
 
 ## Nuget packages

@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Neutronium.MVVMComponents </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Neutronium.MVVMComponents ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="neutroniummvvmcomponents">Neutronium.MVVMComponents</h1>
+
+<p>This assembly provides base interface and implementation that extends C# MVVM.</p>
+<p>Neutronium.Core provides binding to all interfaces so that you can use them in javascript binding.</p>
+<h2 id="isimplecommand"><code>ISimpleCommand</code></h2>
+<p><code>ISimpleCommand</code> is comparable to a <code>ICommand</code> that can always be executed.</p>
+<pre><code class="lang-CSharp">public interface ISimpleCommand
+{
+    /// &lt;summary&gt;
+    /// Execute the command with the corresponding argument
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;argument&quot;&gt;&lt;/param&gt;
+    void Execute(object argument);
+}
+</code></pre>
+<p><strong>In version 1.0.0:</strong></p>
+<p><code>ISimpleCommand</code> present the following changes.</p>
+<pre><code class="lang-CSharp">public interface ISimpleCommand
+{
+    /// &lt;summary&gt;
+    /// Execute the command with no argument
+    /// &lt;/summary&gt;
+    void Execute();
+}
+</code></pre>
+<p>If you need to pass argument to the <code>execute</code> method use the new <code>ISimpleCommand&lt;T&gt;</code>.</p>
+<h2 id="isimplecommandt"><code>ISimpleCommand&lt;T&gt;</code></h2>
+<p><code>ISimpleCommand&lt;T&gt;</code> is the typed version of <code>ISimpleCommand</code>.</p>
+<pre><code class="lang-CSharp">public interface ISimpleCommand&lt;T&gt;
+{
+    /// &lt;summary&gt;
+    /// Execute the command with the corresponding argument
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;argument&quot;&gt;&lt;/param&gt;
+    void Execute(T argument);
+}
+</code></pre>
+<h2 id="icommandt"><code>ICommand&lt;T&gt;</code></h2>
+<p><code>ICommand&lt;T&gt;</code> is comparable to a typed <code>ICommand</code>.</p>
+<pre><code class="lang-CSharp">public interface ICommand&lt;in T&gt; : IUpdatableCommand
+{
+    /// &lt;summary&gt;
+    /// Execute the command with the corresponding argument
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;argument&quot;&gt;&lt;/param&gt;
+    void Execute(T argument);
+
+    /// &lt;summary&gt;
+    /// Defines the method that determines whether the command can execute in its current
+    /// state.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;parameter&quot;&gt;
+    /// Data used by the command. If the command does not require data to be passed,
+    /// this object can be set to null.
+    /// &lt;/param&gt;
+    /// &lt;returns&gt;
+    /// true if this command can be executed; otherwise, false.
+    /// &lt;/returns&gt;
+    bool CanExecute(T parameter);
+}
+</code></pre>
+<h2 id="icommandwithoutparameter"><code>ICommandWithoutParameter</code></h2>
+<p><code>ICommandWithoutParameter</code> is comparable to a <code>ICommand</code> that does not need any argument.</p>
+<pre><code class="lang-CSharp">public interface ICommandWithoutParameter : IUpdatableCommand
+{
+    /// &lt;summary&gt;
+    /// Execute the command
+    /// &lt;/summary&gt;
+    void Execute();
+
+    /// &lt;summary&gt;
+    ///  Determines whether the command can execute in its current
+    ///  state.
+    /// &lt;/summary&gt;
+    /// &lt;returns&gt;
+    /// true if this command can be executed; otherwise, false.
+    /// &lt;/returns&gt;
+    bool CanExecute { get; }
+}
+</code></pre>
+<h1 id="implementations">Implementations</h1>
+<p>Neutronium.MVVMComponents provides build-in implementation for ISimpleCommand that should cover all use cases.
+Starting with version 1.0.0. <code>RelaySimpleCommand</code> and <code>RelaySimpleCommand&lt;T&gt;</code> also implements ICommand so that they can be used in Neutronium as well as traditional WPF application.</p>
+<h3 id="relaysimplecommand"><code>RelaySimpleCommand</code></h3>
+<pre><code class="lang-CSharp">public class RelaySimpleCommand : ISimpleCommand
+{
+    private readonly Action _Do;
+
+    public RelaySimpleCommand(Action doAction)
+    {
+        _Do = doAction;
+    }
+
+    public void Execute(object argument)
+    {
+        _Do();
+    }
+}
+</code></pre>
+<h3 id="relaysimplecommandt"><code>RelaySimpleCommand&lt;T&gt;</code></h3>
+<pre><code class="lang-CSharp">public class RelaySimpleCommand&lt;T&gt; : ISimpleCommand where T:class
+{
+    private readonly Action&lt;T&gt; _Do;
+
+    public RelaySimpleCommand(Action&lt;T&gt; doAction)
+    {
+        _Do = doAction;
+    }
+
+    public void Execute(object argument)
+    {
+        _Do(argument as T);
+    }
+}
+</code></pre>
+<p><strong>Starting from version 1.0.</strong></p>
+<h3 id="relaytaskcommand-and-relaytooglecommand"><code>RelayTaskCommand</code> and <code>RelayToogleCommand</code></h3>
+<p>Provides implementation for both <code>ICommand</code> and <code>ICommandWithoutParameter</code></p>
+<h3 id="relaytaskcommandt-and-relaytooglecommandt"><code>RelayTaskCommand&lt;T&gt;</code> and <code>RelayToogleCommand&lt;T&gt;</code></h3>
+<p>Provides implementation for both <code>ICommand&lt;T&gt;</code> and <code>ICommand</code></p>
+<h2 id="iresultcommand"><code>IResultCommand</code></h2>
+<p><code>IResultCommand</code> is comparable to a command that would allow to asynchronously return a result.</p>
+<pre><code class="lang-CSharp">public interface IResultCommand
+{
+    /// &lt;summary&gt;
+    /// return asynchronously a result given a specific argument
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;argument&quot;&gt;&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    Task&lt;object&gt; Execute(object argument);
+}
+</code></pre>
+<p>Neutronium.Core provides build-in implementation and factory to create IResultCommand that should cover all most cases.</p>
+<h2 id="factory">Factory</h2>
+<h3 id="relayresultcommand"><code>RelayResultCommand</code></h3>
+<p><code>RelayResultCommand</code>  is a static factory that creates <code>IResultCommand</code> from synchronous function.</p>
+<pre><code class="lang-CSharp">public static class RelayResultCommand
+{
+    /// &lt;summary&gt;
+    /// Create a IResultCommand from given function
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name=&quot;TIn&quot;&gt;&lt;/typeparam&gt;
+    /// &lt;typeparam name=&quot;TResult&quot;&gt;
+    /// &lt;/typeparam&gt;
+    /// &lt;param name=&quot;function&quot;&gt;
+    /// &lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    public static IResultCommand Create&lt;TIn, TResult&gt;(Func&lt;TIn, TResult&gt; function)
+
+    /// &lt;summary&gt;
+    /// Create a IResultCommand from given function
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name=&quot;TResult&quot;&gt;&lt;/typeparam&gt;
+    /// &lt;param name=&quot;function&quot;&gt;&lt;/param&gt;
+    /// &lt;returns&gt;&lt;/returns&gt;
+    public static IResultCommand Create&lt;TResult&gt;(Func&lt;TResult&gt; function)
+}
+</code></pre>
+<h2 id="implementations-1">Implementations</h2>
+<h3 id="relayresultcommandtin-tresult"><code>RelayResultCommand&lt;TIn, TResult&gt;</code></h3>
+<p>Create a IResultCommand from a Func&lt;TIn, Task<tresult>&gt; where TIn is the argument type<p>
+<pre><code class="lang-CSharp">public RelayResultCommand(Func&lt;TIn, Task&lt;TResult&gt;&gt; resultBuilder)
+</code></pre>
+</tresult></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/binding/mvvvm-components.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
