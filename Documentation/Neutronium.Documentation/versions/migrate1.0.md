@@ -1,5 +1,3 @@
-<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
-
 # Migration from version 0.6.0 to 1.0.0
 
 ## Breaking changes
@@ -26,7 +24,7 @@ For:
 window.glueHelper.setOption({mixins : [localMixin]});
 ```
 
-Even better you can use `install.js` file to register mixin if using [neutronium-vue template](./Build_large_project_with_Vue.js_and_Webpack.md#installjs-file).
+Even better you can use `install.js` file to register mixin if using [neutronium-vue template](../articles/large-project.html#installjs-file).
 
 ### ViewModel binding
 

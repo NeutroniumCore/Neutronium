@@ -28,7 +28,7 @@
 * Compatible with [neutronium-vue vue-cli version 4.0.0](https://github.com/NeutroniumCore/neutronium-vue)
 
 ## Migrating to version 1.0.0
-* If you need to upgrade from v.0.6.0, see here the [guidelines](./Migrate_from_0_6_to_version_1_0.md)
+* If you need to upgrade from v.0.6.0, see here the [guidelines](./migrate1.0.html)
 
 ## Bug Fix:
 * Correction of reentrance bug on update from javascript causing none update in some edge cases.

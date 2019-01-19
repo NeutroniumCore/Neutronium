@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Migration from version 1.1.0 to 1.2.0 </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Migration from version 1.1.0 to 1.2.0 ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="migration-from-version-110-to-120">Migration from version 1.1.0 to 1.2.0</h1>
+
+<h2 id="attention-point">Attention Point</h2>
+<h3 id="builds">Builds:</h3>
+<p>Version 1.2.0 supports x64 builds. There some gotchas thought:</p>
+<ul>
+<li>Make sure to disable project flag &quot;Prefer 32-bit&quot; (Properties&gt;Build).</li>
+<li>Make sure that all the projects of the solution have the same platform value. Supported values: <code>x86</code>, <code>x64</code> or <code>Any CPU</code>.</li>
+</ul>
+<h3 id="dependency">Dependency:</h3>
+<ul>
+<li>Manually uninstall nuget: <code>Unofficial.Cef.for.Chromiumfx 3.2924.0</code> (recommended)</li>
+</ul>
+<h2 id="template-created-from-neutronium-vue">Template created from <code>neutronium-vue</code></h2>
+<ol>
+<li>Update dependencies version in <code>package.json</code>:</li>
+</ol>
+<pre><code>    &quot;vue&quot;: &quot;^2.5.13&quot;,
+    &quot;vue-template-compiler&quot;: &quot;^2.5.13&quot;
+</code></pre>
+<ol start="2">
+<li>Update <code>main.js</code> file.</li>
+</ol>
+<ul>
+<li>First install <code>neutronium-vm-loader</code>:</li>
+</ul>
+<pre><code class="lang-bash">npm install --save-dev neutronium-vm-loader
+</code></pre>
+<ul>
+<li>Then update <code>main.js</code><br>
+From:</li>
+</ul>
+<pre><code class="lang-js">import Vue from 'vue'
+import App from './App.vue'
+import rawVm from '../data/vm'
+import CircularJson from 'circular-json'
+import {install} from './install'
+
+function updateVm(vm) {
+    var window = vm.__window__
+    if (window) {
+        delete vm.__window__
+        return { ViewModel: vm, Window: window }
+    }
+    return vm;
+}
+const vm = updateVm(CircularJson.parse(rawVm));
+
+install(Vue)
+new Vue({
+    components:{
+        App
+    },
+    el: '#main',
+    data: vm
+})
+</code></pre>
+<p>To:</p>
+<pre><code class="lang-js">import Vue from 'vue'
+import App from './App.vue'
+import rawVm from '../data/vm'
+import {install} from './install'
+import { createVM } from 'neutronium-vm-loader'
+
+const vm = createVM(rawVm);
+
+install(Vue)
+new Vue({
+    components:{
+        App
+    },
+    el: '#main',
+    data: vm
+})
+</code></pre>
+<ol start="3">
+<li>Optional step: update <code>dist\index.html</code></li>
+</ol>
+<p>If you want to take advantage of the possibility of loading Vue runtime only to improve performance, perform the following changes:</p>
+<ul>
+<li>Update <code>dist\index.html</code></li>
+</ul>
+<p>From:</p>
+<pre><code class="lang-HTML">&lt;body&gt;
+    &lt;div id=&quot;main&quot;&gt;
+      &lt;App :view-model=&quot;$data.ViewModel&quot; :__window__=&quot;$data.Window&quot;&gt;
+      &lt;/App&gt;
+    &lt;/div&gt;
+    &lt;script src=&quot;./build.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+</code></pre>
+<p>To:</p>
+<pre><code class="lang-HTML">&lt;body&gt;
+    &lt;div id=&quot;main&quot;&quot;&gt;
+    &lt;/div&gt;
+    &lt;script src=&quot;./build.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+</code></pre>
+<ul>
+<li>Update <code>entry.js</code></li>
+</ul>
+<p>From:</p>
+<pre><code class="lang-js">import Vue from 'vue'
+import App from './App.vue'
+import {install, vueInstanceOption} from './install'
+import vueHelper from 'vueHelper'
+
+install(Vue)
+vueHelper.setOption(vueInstanceOption)
+Vue.component('app', App)
+</code></pre>
+<p>To:</p>
+<pre><code class="lang-js">import Vue from 'vue'
+import App from './App.vue'
+import {install, vueInstanceOption} from './install'
+import vueHelper from 'vueHelper'
+
+
+function buildVueOption(vm) {
+    var option = vueInstanceOption(vm);
+    option.render = function (h) {
+        const prop = {
+            props: {
+                viewModel: this.$data.ViewModel,
+                __window__: this.$data.Window
+            }
+        };
+        return h(App, prop);
+    }
+    return option;
+}
+
+install(Vue)
+vueHelper.setOption(buildVueOption)
+</code></pre>
+<p>-Finally to use runtime only Vue in Neutronium change in <code>App.xaml.cs</code>:</p>
+<pre><code class="lang-CSharp">factory.RegisterJavaScriptFramework(new VueSessionInjectorV2());
+</code></pre>
+<p>To:</p>
+<pre><code class="lang-CSharp">factory.RegisterJavaScriptFramework(new VueSessionInjectorV2 {RunTimeOnly = true});
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/versions/migrate1.2.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

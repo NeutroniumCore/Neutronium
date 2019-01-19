@@ -1,5 +1,3 @@
-<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
-
 # Migration from version 1.1.0 to 1.2.0
 
 ## Attention Point

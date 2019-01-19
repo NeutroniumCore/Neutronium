@@ -619,12 +619,39 @@
       "log_codes": [
         "InvalidFileLink"
       ],
+      "type": "Conceptual",
+      "source_relative_path": "versions/migrate1.0.md",
+      "output": {
+        ".html": {
+          "relative_path": "versions/migrate1.0.html",
+          "hash": "5Dt3S6XplyI6Qqj39lfoKg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "versions/migrate1.2.md",
+      "output": {
+        ".html": {
+          "relative_path": "versions/migrate1.2.html",
+          "hash": "Y99W4W6BYXwofv9trjd+vw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Toc",
       "source_relative_path": "versions/toc.yml",
       "output": {
         ".html": {
           "relative_path": "versions/toc.html",
-          "hash": "67oOmVG9bWowy2pTlzom6w=="
+          "hash": "7R13t40EepQAUJ5N+GmI9g=="
         }
       },
       "is_incremental": false,
@@ -639,7 +666,7 @@
       "output": {
         ".html": {
           "relative_path": "versions/version1.0.html",
-          "hash": "Xkdxz7r7KnMQgAzjFSO+1g=="
+          "hash": "zzQ93KGMVx4oc0j/7jwxWA=="
         }
       },
       "is_incremental": false,
