@@ -4,6 +4,8 @@
   href: getting-started.html
 - name: Component overview
   href: component-overview.html
+- name: Reference files
+  href: reference.html
 - name: Debug tools
   href: debug.html
 - name: Architecture

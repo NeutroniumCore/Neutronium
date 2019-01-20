@@ -38,11 +38,11 @@ Use **HTMLViewControl** if you have one HTML view and a DataContext.
 
 * **Uri**:
 
-Reference the location of the HTML file. When local files are reference pack uri should be used (file properties should be _Resource_, _None_ ). [Click here for complete description on how to reference file](./Reference_Files.md)
+Reference the location of the HTML file. When local files are reference pack uri should be used (file properties should be _Resource_, _None_ ). [Click here for complete description on how to reference file](./reference.html)
 
 * **Deprecated: RelativeSource**:
 
-Reference the location of the HTML file (properties should be _Content_, _Copy Always_ ). Please use uri with pack url instead. [Click here for complete description on how to reference file](./Reference_Files.md)
+Reference the location of the HTML file (properties should be _Content_, _Copy Always_ ). Please use uri with pack url instead. [Click here for complete description on how to reference file](./reference.html)
 
 * **DataContext**:
 

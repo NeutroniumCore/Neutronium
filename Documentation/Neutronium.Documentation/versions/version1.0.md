@@ -13,10 +13,10 @@
 * Conversion of dictionary with key string to javascript object.
 * Support dynamic objects conversion: both `ExpandoObject` and inheritors of `DynamicObject`.
 * Support to [Bindable attribute](../binding/binding.html#binding-support).
-* Introduction of `ICommand<T>`, `ISimpleCommand<T>` and `ICommandWithoutParameter` as well as corresponding `RelayCommand` to better control command argument type. See [here](./MVVMComponents.md) for full details
+* Introduction of `ICommand<T>`, `ISimpleCommand<T>` and `ICommandWithoutParameter` as well as corresponding `RelayCommand` to better control command argument type. See [here](../binding/mvvm-components.html) for full details
 
 ## WPF Component
-* Support of pack-uri allowing usage of `resource` type file to be used as HTML, CSS and javascript files thanks to [lhyqy5](https://github.com/lhyqy5). Documentation [here](./Using_packuri.md).
+* Support of pack-uri allowing usage of `resource` type file to be used as HTML, CSS and javascript files thanks to [lhyqy5](https://github.com/lhyqy5). Documentation [here](../articles/reference.html).
 
 ## Vue.js integration
 * Upgrade to **Vue.js v2.5.2**

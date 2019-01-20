@@ -2,7 +2,7 @@
 
 ## Breaking changes
 ### C# changes
-* `ISimpleCommand` signature changed. You should migrate to wether `ISimpleCommand<T>` or `ISimpleCommand` is no argument needs to be passed. Complete details [here](./MVVMComponents.md)
+* `ISimpleCommand` signature changed. You should migrate to wether `ISimpleCommand<T>` or `ISimpleCommand` is no argument needs to be passed. Complete details [here](../binding/mvvm-components.html)
 
 * `IHTMLBinding` has been renamed `IHtmlBinding`
 
