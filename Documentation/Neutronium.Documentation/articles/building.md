@@ -1,17 +1,15 @@
-<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
-
-# Builds
+# Building a Neutronium application
 
 ## 32 and 64 bits build supported
    Since version 1.2.0. it is possible to use 64 build version of ChromiumFx.<br>
-  If you build a neutronium project for x64 platform, the 64 bits build version of CEF will be used.
+    If you build a neutronium project for x64 platform, the 64 bits build version of CEF will be used.<br>
   AnyCPU builds use 64 bits build version of CEF.
    
 ## Checking version using about Window:
 
 Check `platform` information in the about window:
 
-![debug buttons](../images/about-64-bits.png)
+![debug buttons](../images/tools/about-64-bits.png)
 
 
 ## Gotchas:

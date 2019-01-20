@@ -6,6 +6,8 @@
   href: component-overview.html
 - name: Reference files
   href: reference.html
+- name: Building a Neutronium application
+  href: building.html
 - name: Debug tools
   href: debug.html
 - name: Architecture

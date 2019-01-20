@@ -19,6 +19,18 @@
       "version": ""
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "articles/building.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/building.html",
+          "hash": "rxivHRfIwTeCCPSa9XwKLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "log_codes": [
         "InvalidFileLink"
       ],
@@ -129,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "XxPRcpqIHmT2vqIzbG1tsA=="
+          "hash": "K8sbboEESjuOvTDRbJg+ig=="
         }
       },
       "is_incremental": false,
