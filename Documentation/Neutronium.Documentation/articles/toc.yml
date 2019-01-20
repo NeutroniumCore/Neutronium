@@ -6,10 +6,12 @@
   href: component-overview.html
 - name: Reference files
   href: reference.html
-- name: Building a Neutronium application
-  href: building.html
+- name: Builds
+  href: builds.html
 - name: Debug tools
   href: debug.html
+- name: Accessing Chromium API
+  href: chromium-api.html
 - name: Architecture
   href: architecture.html
 - name: Build large project

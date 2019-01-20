@@ -43,7 +43,7 @@ This may be provided in the future thought check [this issue](https://github.com
 
 ##  Is it possible to configure `same origin policy` or other browser features in a Neutronium application?
 
-[See here](./Accessing_Chromium_API.md)
+[See here](./chromium-api.html)
 
 
 ## How to implement a frameless HTML window?

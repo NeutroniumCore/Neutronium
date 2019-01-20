@@ -1,6 +1,4 @@
-<p align="center"><img <p align="center"><img width="100"src="../../Deploy/logo.png"></p>
-
-# Acessing Chromium API
+# Accessing Chromium API
 
 Neutronium provides some hooks when you need to access some low-level Chromium API
 
@@ -37,5 +35,3 @@ protected override void UpdateChromiumSettings(CfxSettings settings)
     // edit settings here
 }
 ```
-
-[How to set up a project](./SetUp.md) - [Overview](./Overview.md) - [Debug Tools](./Debug.md) - [Architecture](./Architecture.md) - [F.A.Q](./FAQ.md)

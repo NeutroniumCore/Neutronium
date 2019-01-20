@@ -31,6 +31,18 @@
       "version": ""
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "articles/chromium-api.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/chromium-api.html",
+          "hash": "h0CRfExr6HfnREiE6Lp5yg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "log_codes": [
         "InvalidFileLink"
       ],
@@ -69,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/faq.html",
-          "hash": "JF8tdKNg/NvmvTPN5T2eCw=="
+          "hash": "4Btnp3UZktYrw3Gc9/HX0w=="
         }
       },
       "is_incremental": false,
@@ -141,7 +153,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "K8sbboEESjuOvTDRbJg+ig=="
+          "hash": "vHtHM0+zcSuSF0XkSulDfQ=="
         }
       },
       "is_incremental": false,
@@ -815,14 +827,14 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {
