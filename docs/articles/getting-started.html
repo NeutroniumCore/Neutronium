@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Getting started with Neutronium </title>
+    <title>Getting started </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Getting started with Neutronium ">
+    <meta name="title" content="Getting started ">
     <meta name="generator" content="docfx 2.40.7.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -67,118 +67,86 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="getting-started-with-neutronium">Getting started with Neutronium</h1>
+<h1 id="getting-started">Getting started</h1>
 
-<h2 id="using-neutronium-template">Using Neutronium template</h2>
-<p>The best way to start with Neutronium is to download template C# solution <a href="https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8">from visual studio gallery</a>.</p>
-<p>Template application will install nuget dependencies and scaffold a very simple solution including simple View HTML and View Model.</p>
-<h3 id="1-download-neutronium-template-from-visual-studio-gallery">1. Download Neutronium template from visual studio gallery<br></h3>
-<p><img src="../images/template/ti1.png"><br></p>
-<h3 id="2-install-template">2. Install template<br></h3>
-<p><img src="../images/template/ti2.png"><br></p>
-<h3 id="3-in-visual-studio-choose-new-project-neutronium-template">3. In Visual Studio, choose new project, Neutronium Template<br></h3>
-<p><img src="../images/template/tu1.png"><br>
-<img src="../images/template/tu2.png"><br>
-<img src="../images/template/tu3.png"><br></p>
-<h3 id="4-build-the-project-using-restore-missing-nuget-option">4. Build the project using restore missing nuget option</h3>
-<h3 id="5-build-vue-files-using-npm">5. Build vue files using npm</h3>
-<pre><code>In project folder:
-</code></pre>
-<pre><code class="lang-bash">$ cd View
-$ cd Main
-$ npm install
-$ npm run build
-</code></pre>
-<p>Neutronium template uses <a href="https://cli.vuejs.org/">vue-cli</a> and <a href="https://github.com/NeutroniumCore/vue-cli-plugin-neutronium">vue-cli-plugin-neutronium</a>.</p>
-<p><a href="./large-project.html">See here</a> detailed description how to use it.</p>
-<h2 id="from-scratch">From scratch</h2>
-<h3 id="new-project">New project</h3>
-<h4 id="1-create-a-wpf-application">1. Create a WPF application</h4>
-<h4 id="2-install-nuget-neutroniumchromiumfxvue">2. Install nuget <code>Neutronium.ChromiumFx.Vue</code></h4>
-<p><img src="../images/template/fs2.png"><br></p>
-<h4 id="3-update-appcs-and-appxaml-to-initialize-neutronium-engines">3. Update <code>App.cs</code> and <code>App.xaml</code> to initialize Neutronium engines</h4>
-<p><code>App.cs</code></p>
-<pre><code class="lang-CSharp">using Neutronium.Core.JavascriptFramework;
-using Neutronium.WebBrowserEngine.ChromiumFx;
-using Neutronium.JavascriptFramework.Vue;
-
-namespace NeutroniumApplication
+<h2 id="install-neutronium">Install Neutronium</h2>
+<p>As described in <a href=".%5Cinstalling.html">Installing section</a>.</p>
+<h2 id="creating-a-binding">Creating a binding</h2>
+<p>HTML view files treats DataContext ViewModel as the current javascript ViewModel.</p>
+<p>For example, considering a DataContext that is an instance of <code>Person</code> with:</p>
+<pre><code class="lang-CSharp">
+public class ViewModelBase : INotifyPropertyChanged
 {
-    /// &lt;summary&gt;
-    /// Interaction logic for App.xaml
-    /// &lt;/summary&gt;
-    public partial class App : ChromiumFxWebBrowserApp
-    {
-        protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager()
-        {
-            return new VueSessionInjectorV2();
-        }
-    }
-}
-</code></pre>
-<p><code>App.xaml</code></p>
-<pre><code class="lang-HTML">&lt;neutroniumCfx:ChromiumFxWebBrowserApp x:Class=&quot;NeutronimApplication.App&quot;
-             xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-             xmlns:local=&quot;clr-namespace:NeutronimApplication&quot;
-             xmlns:neutroniumCfx=&quot;clr-namespace:Neutronium.WebBrowserEngine.ChromiumFx;assembly=Neutronium.WebBrowserEngine.ChromiumFx&quot;                                 
-             StartupUri=&quot;MainWindow.xaml&quot;&gt;
-    &lt;neutroniumCfx:ChromiumFxWebBrowserApp.Resources&gt;
-    &lt;/neutroniumCfx:ChromiumFxWebBrowserApp.Resources&gt;
-&lt;/neutroniumCfx:ChromiumFxWebBrowserApp&gt;
-</code></pre>
-<h4 id="4-update-mainwindowcs-and-mainwindowxaml-to-use-neutronium-usercontrol">4. Update <code>MainWindow.cs</code> and <code>MainWindow.xaml</code> to use Neutronium UserControl</h4>
-<p><code>MainWindow.cs</code></p>
-<pre><code class="lang-CSharp">public partial class MainWindow : Window
-{
-	public MainWindow()
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected void Set&lt;T&gt;(ref T pnv, T value, string pn)
 	{
-		InitializeComponent();
-		
-		// Initialize application and set-up a none-null dataContext here
-		// If the data context is null nothing will be displayed
-		DataContext = ..
-	}
-
-	protected override void OnClosed(EventArgs e)
-	{
-		this.HtmlView.Dispose();
+		pnv = value;
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pn));
 	}
 }
-</code></pre>
-<p><code>MainWindow.xaml</code></p>
-<pre><code class="lang-HTML">&lt;Window x:Class=&quot;NeutronimApplication.MainWindow&quot;
-        xmlns:neutronium=&quot;clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF&quot; 
-        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
-        xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
-        xmlns:local=&quot;clr-namespace:NeutronimApplication&quot;
-        mc:Ignorable=&quot;d&quot;
-        Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
-    &lt;Grid&gt;
-        &lt;neutronium:HTMLViewControl x:Name=&quot;HtmlView&quot; IsDebug=&quot;True&quot; Uri=&quot;pack://application:,,,//View/MainView/dist/index.html&quot; HorizontalAlignment=&quot;Stretch&quot; VerticalAlignment=&quot;Stretch&quot;/&gt;
-    &lt;/Grid&gt;
-&lt;/Window&gt;
-</code></pre>
-<h4 id="5-install-htmlvue-template">5. Install HTML/Vue template</h4>
-<p>It is strongly recommended to use <code>vue cli neutronium</code> to bootstrap the project and develop Neutronium application <a href="./large-project.html">described here</a>.</p>
-<p>In this example you should install template under View folder creating a MainView view.</p>
-<h3 id="for-an-existing-wpf-project">For an existing WPF project</h3>
-<p>Follow steps 2 to 5 from new project set-up.</p>
-<p>If it is not possible to change App inheritance, Neutronium should be initialized once like this:</p>
-<pre><code class="lang-CSharp">using Neutronium.Core.JavascriptFramework;
-using Neutronium.WebBrowserEngine.ChromiumFx;
-using Neutronium.JavascriptFramework.Vue;
 
-\\....
-var engine = HTMLEngineFactory.Engine;
-engine.RegisterHTMLEngine(new ChromiumFXWPFWebWindowFactory());
-engine.RegisterJavaScriptFramework(new VueSessionInjectorV2());
+public class Skill
+{
+	public string Type { get;}
+	public string Name { get;}
+
+	public Skill (string name, string skillType)
+	{
+		Name = name;
+		Type = skillType;
+	}
+}
+
+public class Person: ViewModelBase
+{
+	private string _LastName;
+	public string LastName
+	{
+		get { return _LastName; }
+		set { Set(ref _LastName, value, &quot;LastName&quot;); }
+	}
+
+	private string _Name;
+	public string Name
+	{
+		get { return _Name; }
+		set { Set(ref _Name, value, &quot;Name&quot;); }
+	}
+		   
+	public IList&lt;Skill&gt; Skills { get; private set; }
+
+	public ICommand RemoveSkill { get; private set; }
+	
+	public Person()
+	{
+		Skills = new ObservableCollection&lt;Skill&gt;();
+		RemoveSkill = new RelayCommand&lt;Skill&gt;(s=&gt; this.Skills.Remove(s));
+	}	  
+}
 </code></pre>
-<p>In this case, you should call on application shutdown:</p>
-<pre><code class="lang-CSharp">HTMLEngineFactory.Engine.Dispose();
+<p>A valid HTML view using vue would be:</p>
+<pre><code class="lang-HTML">&lt;!doctype html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;Vue.js Example&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;input type=&quot;text&quot; v-model=&quot;Name&quot; placeholder=&quot;First name&quot; &gt;
+		&lt;ul&gt;
+			&lt;li v-for=&quot;skill in Skills&quot;&gt;
+				&lt;span&gt;{{skill.Type}}:{{skill.Name}}&lt;/span&gt;
+				&lt;button @click=&quot;RemoveSkill.Execute(skill)&quot;&gt;Remove skill&lt;/button&gt;
+			&lt;/li&gt;
+		&lt;/ul&gt;
+		&lt;div&gt;
+			&lt;h2&gt;{{Name}}&lt;/h2&gt;
+			&lt;h2&gt;{{LastName}}&lt;/h2&gt;
+		&lt;/div&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
+<p>Please see <a href="../binding/knockout.html">Knockout</a> and <a href="../binding/vue.html">Vue</a> binding sections for more details.</p>
 </article>
           </div>
           

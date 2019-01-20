@@ -1,7 +1,7 @@
 - name: Binding in Depth
   href: binding.html
 - name: Neutronium MVVMComponents
-  href: mvvvm-components.html
+  href: mvvm-components.html
 - name: Vue Binding
   href: vue.html
 - name: Knockout Binding

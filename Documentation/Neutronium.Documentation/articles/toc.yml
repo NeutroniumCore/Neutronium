@@ -1,3 +1,5 @@
+- name: Installing Neutronium
+  href: installing.html
 - name: Getting started
   href: getting-started.html
 - name: Component overview

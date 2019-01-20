@@ -72,7 +72,22 @@
       "output": {
         ".html": {
           "relative_path": "articles/getting-started.html",
-          "hash": "JbCpBVbrJ9ziyXlgDjUXiA=="
+          "hash": "y40j3H2i5qdVkBoshS1B4Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "articles/installing.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/installing.html",
+          "hash": "DnIjmI1Vp721ZOvkPOT1Fw=="
         }
       },
       "is_incremental": false,
@@ -102,7 +117,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "45vnMlqDQIswkO7qF7aXxg=="
+          "hash": "rc5+XxdNiD5apGTqDLzEwQ=="
         }
       },
       "is_incremental": false,
@@ -156,7 +171,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/toc.html",
-          "hash": "UfjefocXjL5pcUH+rtjRyg=="
+          "hash": "WoZVZ1FTyKP0fi/mWuNttw=="
         }
       },
       "is_incremental": false,
@@ -704,7 +719,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "NLCEGVStgBFAB6xy2/knwg=="
+          "hash": "LrjTudb5A+KtgsvEEiK+lQ=="
         }
       },
       "is_incremental": false,
