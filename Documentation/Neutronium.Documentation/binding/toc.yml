@@ -2,9 +2,9 @@
   href: binding.html
 - name: Neutronium MVVMComponents
   href: mvvm-components.html
-- name: Binding internals
-  href: how.html
 - name: Vue Binding
   href: vue.html
 - name: Knockout Binding
   href: knockout.html
+- name: Binding internals
+  href: how.html

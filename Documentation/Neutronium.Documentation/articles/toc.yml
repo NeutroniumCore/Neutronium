@@ -12,6 +12,4 @@
   href: debug.html
 - name: Accessing Chromium API
   href: chromium-api.html
-- name: Build large project
-  href: large-project.html
 

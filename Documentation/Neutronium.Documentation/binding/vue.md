@@ -137,7 +137,7 @@ Vue._vmMixin = [localMixin];
 ```
 
 * For version>= 1.0.0
-    * With Vue-cli `neutronium-vue` use `install.js` hooks: [see here for more details](../articles/large-project.html).
+    * With Vue-cli `neutronium-vue` use `install.js` hooks: [see here for more details](../vue/vue-cli-plugin.html).
 
     * If not using vue-cli, you can use:
 ```javascript

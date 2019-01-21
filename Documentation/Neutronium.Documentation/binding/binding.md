@@ -28,7 +28,7 @@
 
 * Tracking of collection changes is supported listening **_INotifyCollectionChanged_** interface. This way, any collection implementing this interface will be updated in the view when changing. This provides native integration with [**_ObservableCollection<T>_**](https://msdn.microsoft.com/en-us/library/ms668604(v=vs.110).aspx).
 
-* Changes in HTML View are propagated to ViewModel using knockoutjs subscription or Vuejs watch (both property and collection). This allows you for example to have a collection binding to the selected items in the HTML view that will bind to your ViewModel collection.
+* Changes in HTML View are propagated to ViewModel using Knockout.js subscription or Vue.js watch (both property and collection). This allows you for example to have a collection binding to the selected items in the HTML view that will bind to your ViewModel collection.
 
 * **_ICommand_**, **_ISimpleCommand_**, **_ICommandWithoutParemeter_**, **_IResultCommand_** and their generic versions are converted to javascript function so you can execute them using knockout or Vue.
 
@@ -42,7 +42,7 @@
     [Bindable(false)]
     public string InvisibleFromNeutroniumBinding {get; set;}
 ```
-Property marked as readonly will not be updatable from javascript:
+Property marked as read-only will not be updatable from javascript:
 ```CSharp
     [Bindable(true, BindingDirection.OneWay)]
     public string NotSettableFromNeutroniumBinding {get; set;}
@@ -60,11 +60,11 @@ public class ViewModel
 }
 ```
 
-## Complex viewmodel supported
+## Complex viewModel supported
 
--Nested ViewModel fully supported
+- Nested ViewModel fully supported
 
--One to one object mapping (that is if you have a same object referenced n times in your C# ViewModel, it will be mapped only one time and reference n times in the javascript session).
+- One to one object mapping (that is if you have a same object referenced n times in your C# ViewModel, it will be mapped only one time and reference n times in the javascript session).
 
 
 ## Limitations

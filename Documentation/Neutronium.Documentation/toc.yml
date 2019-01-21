@@ -1,10 +1,12 @@
 - name: Overview
   href: overview/
-- name: Articles
+- name: Working with Neutronium
   href: articles/
-- name: Binding explained
+- name: Binding
   href: binding/
-- name: Version and Migrations
+- name: Vue utilities
+  href: vue/
+- name: Version and migrations
   href: versions/
 - name: View on Github
   href: https://github.com/NeutroniumCore/Neutronium

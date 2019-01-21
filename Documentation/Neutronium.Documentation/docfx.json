@@ -13,6 +13,8 @@
           "overview/**/toc.yml",
           "versions/**.md",
           "versions/**/toc.yml",
+          "vue/**.md",
+          "vue/**/toc.yml",
           "toc.yml",
           "*.md"
         ]

@@ -22,7 +22,7 @@
   * To add a dedicated HTML component to an already existent Wpf application
 
 
-Screen-shot from Neutronium application:
+Screen-shots from Neutronium application:
 
 <img src="../images/examples/reactive-trader.gif" width="650px">><br>
 <img src="../images/examples/codedependency.png" width="650px">><br>

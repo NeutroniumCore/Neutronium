@@ -1,4 +1,4 @@
-# Vue cli template
+# Vue-cli plugin
 
 Neutronium provides a vue-cli 3 plugin [vue-cli-plugin-neutronium](https://github.com/NeutroniumCore/vue-cli-plugin-neutronium) that provides many advantages to develop large project with Neutronium vue:
 * During development use web-pack-dev-server and chrome to create the UI
@@ -170,10 +170,7 @@ export {
 
 ## Tips:
 
-You can generate a Json from viewModel captured in a Neutronium debug session using [Neutronium debug tools](./Debug.html) and use it as data.json in order to create the view with a realistic ViewModel. 
+You can generate a Json from viewModel captured in a Neutronium debug session using [Neutronium debug tools](../articles/debug.html) and use it as data.json in order to create the view with a realistic ViewModel. 
 
 ![SaveVM](../images/tools/ContextMenu-Save-vm.png)
-
-### [Additional vue.js components](./Using_aditional_dedicated_vue.js_component.md)
-
 

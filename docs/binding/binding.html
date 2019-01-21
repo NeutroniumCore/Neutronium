@@ -99,7 +99,7 @@ String, char, int, uint, short, ushort, long, ulong, double, decimal, float, byt
 </li>
 <li><p>Tracking of collection changes is supported listening <strong><em>INotifyCollectionChanged</em></strong> interface. This way, any collection implementing this interface will be updated in the view when changing. This provides native integration with <a href="https://msdn.microsoft.com/en-us/library/ms668604(v=vs.110).aspx"><strong><em>ObservableCollection<t></t></em></strong></a>.</p>
 </li>
-<li><p>Changes in HTML View are propagated to ViewModel using knockoutjs subscription or Vuejs watch (both property and collection). This allows you for example to have a collection binding to the selected items in the HTML view that will bind to your ViewModel collection.</p>
+<li><p>Changes in HTML View are propagated to ViewModel using Knockout.js subscription or Vue.js watch (both property and collection). This allows you for example to have a collection binding to the selected items in the HTML view that will bind to your ViewModel collection.</p>
 </li>
 <li><p><strong><em>ICommand</em></strong>, <strong><em>ISimpleCommand</em></strong>, <strong><em>ICommandWithoutParemeter</em></strong>, <strong><em>IResultCommand</em></strong> and their generic versions are converted to javascript function so you can execute them using knockout or Vue.</p>
 <p>See <a href="./vue.html">Vue</a> and <a href="./knockout.html">Knockout.js</a> binding section for details.</p>
@@ -112,7 +112,7 @@ Property marked as bindable false will not be visible from javascript:</p>
 <pre><code class="lang-CSharp">    [Bindable(false)]
     public string InvisibleFromNeutroniumBinding {get; set;}
 </code></pre>
-<p>Property marked as readonly will not be updatable from javascript:</p>
+<p>Property marked as read-only will not be updatable from javascript:</p>
 <pre><code class="lang-CSharp">    [Bindable(true, BindingDirection.OneWay)]
     public string NotSettableFromNeutroniumBinding {get; set;}
 </code></pre>
@@ -127,9 +127,13 @@ public class ViewModel
     public string SettableFromNeutroniumBinding {get; set;}
 }
 </code></pre>
-<h2 id="complex-viewmodel-supported">Complex viewmodel supported</h2>
-<p>-Nested ViewModel fully supported</p>
-<p>-One to one object mapping (that is if you have a same object referenced n times in your C# ViewModel, it will be mapped only one time and reference n times in the javascript session).</p>
+<h2 id="complex-viewmodel-supported">Complex viewModel supported</h2>
+<ul>
+<li><p>Nested ViewModel fully supported</p>
+</li>
+<li><p>One to one object mapping (that is if you have a same object referenced n times in your C# ViewModel, it will be mapped only one time and reference n times in the javascript session).</p>
+</li>
+</ul>
 <h2 id="limitations">Limitations</h2>
 <p>By design only public property are mapped during binding. So it may be a good idea to use internal for property that have no effect on the view, as it may improve binding performance.</p>
 <p>Fields independent from their accessibility are not mapped.</p>
