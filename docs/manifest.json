@@ -4,27 +4,12 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
-      "source_relative_path": "articles/architecture.md",
+      "source_relative_path": "articles/builds.md",
       "output": {
         ".html": {
-          "relative_path": "articles/architecture.html",
-          "hash": "TjENbCEqTmX/1z0fZdxvHw=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/building.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/building.html",
-          "hash": "rxivHRfIwTeCCPSa9XwKLg=="
+          "relative_path": "articles/builds.html",
+          "hash": "3pI7NlZI0Wa7LnOtnIjqfQ=="
         }
       },
       "is_incremental": false,
@@ -67,21 +52,6 @@
         ".html": {
           "relative_path": "articles/debug.html",
           "hash": "LCf34r40la5msZSbVYjwGg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "articles/faq.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/faq.html",
-          "hash": "4Btnp3UZktYrw3Gc9/HX0w=="
         }
       },
       "is_incremental": false,
@@ -153,7 +123,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "vHtHM0+zcSuSF0XkSulDfQ=="
+          "hash": "zni5JDdaN4ViHeh7OztsXA=="
         }
       },
       "is_incremental": false,
@@ -168,7 +138,19 @@
       "output": {
         ".html": {
           "relative_path": "binding/binding.html",
-          "hash": "OaBjRnUuJWYO5A5oiL4a/g=="
+          "hash": "j+7VvqsN/YHfNZ69i/jIrA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "binding/how.md",
+      "output": {
+        ".html": {
+          "relative_path": "binding/how.html",
+          "hash": "kydRhLvvyQfEWSbEEFhYBA=="
         }
       },
       "is_incremental": false,
@@ -207,7 +189,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/toc.html",
-          "hash": "WoZVZ1FTyKP0fi/mWuNttw=="
+          "hash": "9+z5RL1Otheyv7+fYC7LTA=="
         }
       },
       "is_incremental": false,
@@ -234,6 +216,94 @@
       "output": {
         "resource": {
           "relative_path": "images/architecture.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/examples/Code-gravity.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/examples/Code-gravity.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/examples/MusicCoverFinder.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/examples/MusicCoverFinder.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/examples/SPA.Demo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/examples/SPA.Demo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/examples/codedependency.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/examples/codedependency.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/examples/kryptex.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/examples/kryptex.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/examples/reactive trader-2.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/examples/reactive trader-2.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/examples/reactive trader.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/examples/reactive trader.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/examples/reactive-trader.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/examples/reactive-trader.gif"
         }
       },
       "is_incremental": false,
@@ -735,6 +805,17 @@
       "version": ""
     },
     {
+      "type": "Resource",
+      "source_relative_path": "images/uml.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/uml.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
@@ -750,12 +831,81 @@
       "log_codes": [
         "InvalidFileLink"
       ],
+      "type": "Conceptual",
+      "source_relative_path": "overview/architecture.md",
+      "output": {
+        ".html": {
+          "relative_path": "overview/architecture.html",
+          "hash": "p2irjepBvqOBfUpW4d1h+g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "overview/faq.md",
+      "output": {
+        ".html": {
+          "relative_path": "overview/faq.html",
+          "hash": "b4Wj96VvDTAJDvn0HS4ceg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "overview/made.md",
+      "output": {
+        ".html": {
+          "relative_path": "overview/made.html",
+          "hash": "ktXzGmmov7Y/5MGC1a2gAw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "overview/neutronium.md",
+      "output": {
+        ".html": {
+          "relative_path": "overview/neutronium.html",
+          "hash": "8xXk6s+EQUob6t37nOeHtQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "overview/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "overview/toc.html",
+          "hash": "CTbUDcbaMtKkbwb6Ub06uw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "LrjTudb5A+KtgsvEEiK+lQ=="
+          "hash": "QpnxGP+FIsxj2MD3maWpCQ=="
         }
       },
       "is_incremental": false,
@@ -832,13 +982,13 @@
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "ConceptualDocumentProcessor": {
-          "can_incremental": false,
           "incrementalPhase": "build"
         }
       }

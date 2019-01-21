@@ -69,6 +69,7 @@ public class ViewModel
 
 ## Limitations
 By design only public property are mapped during binding. So it may be a good idea to use internal for property that have no effect on the view, as it may improve binding performance.
+
 Fields independent from their accessibility are not mapped.
 
 

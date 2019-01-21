@@ -12,9 +12,6 @@
   href: debug.html
 - name: Accessing Chromium API
   href: chromium-api.html
-- name: Architecture
-  href: architecture.html
 - name: Build large project
   href: large-project.html
-- name: F.A.Q.
-  href: faq.html
+

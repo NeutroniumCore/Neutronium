@@ -9,6 +9,8 @@
           "articles/**/toc.yml",
           "binding/**.md",
           "binding/**/toc.yml",
+          "overview/**.md",
+          "overview/**/toc.yml",
           "versions/**.md",
           "versions/**/toc.yml",
           "toc.yml",

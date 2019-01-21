@@ -27,7 +27,7 @@ Provides react to WPF/UWP bindings. Almost the contrary approach as Neutronium a
 
 ## Why vue.js?
 
-[Vue.js](http://vuejs.org/) is providing C# to javascript binding in Neutronium application. Neutronium Core provide a generic architecture (see more [here](..\articles\architecture.html)) where javascript framework can be plugged in. This framework should provide reactivity with two way bindings and listeners patterns and should not be to opinionated in order to fit Neutronium MVVM workflow.
+[Vue.js](http://vuejs.org/) is providing C# to javascript binding in Neutronium application. Neutronium Core provide a generic architecture (see more [here](../overview/architecture.html)) where javascript framework can be plugged in. This framework should provide reactivity with two way bindings and listeners patterns and should not be to opinionated in order to fit Neutronium MVVM workflow.
 
 First version of neutronium was only using [knockout.js](http://knockoutjs.com/) which is compliant with these features.
 
@@ -43,7 +43,7 @@ This may be provided in the future thought check [this issue](https://github.com
 
 ##  Is it possible to configure `same origin policy` or other browser features in a Neutronium application?
 
-[See here](./chromium-api.html)
+[See here](../articles/chromium-api.html)
 
 
 ## How to implement a frameless HTML window?
