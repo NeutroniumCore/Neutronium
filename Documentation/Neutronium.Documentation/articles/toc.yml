@@ -10,6 +10,8 @@
   href: builds.html
 - name: Debug tools
   href: debug.html
+- name: Navigation
+  href: navigation.html
 - name: Accessing Chromium API
   href: chromium-api.html
 

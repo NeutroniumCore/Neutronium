@@ -24,7 +24,7 @@ For:
 window.glueHelper.setOption({mixins : [localMixin]});
 ```
 
-Even better you can use `install.js` file to register mixin if using [neutronium-vue template](.../vue/vue-cli-plugin.html#installjs-file).
+Even better you can use `install.js` file to register mixin if using [neutronium-vue template](.../tools/vue-cli-plugin.html#installjs-file).
 
 ### ViewModel binding
 

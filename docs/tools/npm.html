@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Builds </title>
+    <title>Vue.js utilities </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Builds ">
+    <meta name="title" content="Vue.js utilities ">
     <meta name="generator" content="docfx 2.40.7.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -67,20 +67,24 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="builds">Builds</h1>
+<h1 id="vuejs-utilities">Vue.js utilities</h1>
 
-<h2 id="32-and-64-bits-builds-are-supported">32 and 64 bits builds are supported</h2>
-<p>Since version 1.2.0. it is possible to use 64 build version of ChromiumFx.<br>
-If you build a Neutronium project for x64 platform, the 64 bits build version of CEF will be used.<br>
-AnyCPU builds use 64 bits build version of CEF.</p>
-<h2 id="checking-version-using-about-window">Checking version using about Window:</h2>
-<p>Check <code>platform</code> information in the about window:</p>
-<p><img src="../images/tools/about-64-bits.png" alt="debug buttons"></p>
-<h2 id="gotchas">Gotchas:</h2>
-<ul>
-<li>Make sure that all the projects of the solution have the same platform value. Supported values: <code>x86</code>, <code>x64</code> or <code>Any CPU</code>.</li>
-<li>Make sure that the flag <code>Prefer 32-bit</code> of the project (Properties&gt;Build) is set to false.</li>
-</ul>
+<p>When using Vue.js you may use optional component that are designed to improve productivity.<br>
+These component are available via npm.<br>
+This list may grow over time:</p>
+<h2 id="neutronium-vue-command-mixin">neutronium-vue-command-mixin</h2>
+<p>Provide a mixin to build command component based on <code>ICommand</code>.<br>
+See <a href="https://github.com/David-Desmaisons/neutronium-vue-command-mixin">neutronium-vue-command-mixin</a> for more.</p>
+<h2 id="neutronium-vue-simple-command-mixin">neutronium-vue-simple-command-mixin</h2>
+<p>Provide a mixin to build command component based on <code>ISimpleCommand</code>.<br>
+See <a href="https://github.com/NeutroniumCore/neutronium-vue-simple-command-mixin">neutronium-vue-simple-command-mixin</a> for more.</p>
+<h2 id="neutronium-vue-resultcommand-topromise">neutronium-vue-resultcommand-topromise</h2>
+<p>Provide a function helper to convert <code>IResultCommand</code> result into promise.<br>
+See <a href="https://github.com/NeutroniumCore/neutronium-vue-resultcommand-topromise">neutronium-vue-simple-command-mixin</a> for more.</p>
+<h2 id="neutronium-vue-root-vm-access">neutronium-vue-root-vm-access</h2>
+<p>Vue plugin to access vm as $rootVm from any Vue component.<br>
+See <a href="https://github.com/NeutroniumCore/neutronium-vue-root-vm-access">neutronium-vue-root-vm-access</a> for more.</p>
+<p>All these packages are added automatically when using <a href=".%5Cvue-cli-plugin.html">Neutronium vue-cli plugin</a></p>
 </article>
           </div>
           
@@ -89,7 +93,7 @@ AnyCPU builds use 64 bits build version of CEF.</p>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/builds.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/tools/npm.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

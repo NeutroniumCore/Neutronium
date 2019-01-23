@@ -11,10 +11,10 @@
           "binding/**/toc.yml",
           "overview/**.md",
           "overview/**/toc.yml",
+          "tools/**.md",
+          "tools/**/toc.yml",
           "versions/**.md",
           "versions/**/toc.yml",
-          "vue/**.md",
-          "vue/**/toc.yml",
           "toc.yml",
           "*.md"
         ]

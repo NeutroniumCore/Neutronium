@@ -69,11 +69,53 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="getting-started">Getting started</h1>
 
-<h2 id="install-neutronium">Install Neutronium</h2>
-<p>As described in <a href=".%5Cinstalling.html">Installing section</a>.</p>
+<h2 id="work-with-neutronium-templates">Work with Neutronium templates</h2>
+<h3 id="neutronium-vue-application">Neutronium Vue Application</h3>
+<ul>
+<li><p>Vue start-up project shipped with <a href="https://github.com/NeutroniumCore/vue-cli-plugin-neutronium">neutronium vue-cli plugin</a> that uses webpack to bundle javascript files.
+Use:<br></p>
+<ul>
+<li><code>npm run serve</code> to develop application in the browser.<br>
+In this mode, the application is using data provided by the <code>\data\vm.cjson</code> file. Use Neutronium <code>export</code> command to generate such file.</li>
+<li><code>npm run live</code> to serve js file in way that can be used in hot-reload mode. See below.</li>
+<li><code>npm run build</code> to create js file that while be loaded and used inNeutronium application.</li>
+</ul>
+</li>
+<li><p>This application can be runt in 3 modes:</p>
+<ul>
+<li><code>live</code>
+development mode with hot-reload enable. In this mode, it is possible to edit javascript, CSS and HTML and to see the changes in a running Neutronium application. Note: when running, it is not needed to run manually <code>npm run live</code> this will be called automatically by the application.</li>
+<li><code>dev</code> test mode: Neutronium debug is allowed but files from the build are used. No hot-reload</li>
+<li><code>prod</code> production mode: no Neutronium debug allowed. Build files are used</li>
+</ul>
+<p>Switch between these modes using the command line argument:</p>
+</li>
+<li><p>Command line argument</p>
+<pre><code>  Usage:
+      --mode=live
+      -m=dev --url=http://localhost:9090/index.html
+      -u=http://localhost:9091/index.html
+
+  Options:
+      -m --mode=(live|dev|prod)    Set application mode.
+      -u --url=&lt;uri&gt;   Set view url
+</code></pre>
+</li>
+</ul>
+<p align="center"><img src="../images/template/configuration-template.png" width="700px"><br></p>
+<p>Complete documentation can be found <a href="https://github.com/NeutroniumCore/Neutronium.Simple.Template">here</a></p>
+<h3 id="neutroniumvuespa">Neutronium.Vue.SPA</h3>
+<p>This template contains all of <code>Neutronium Vue Application</code> template features. In addition, it contains:</p>
+<ul>
+<li>Dependency injection using <code>CommonServiceLocator</code> pattern so that it is possible to switch IOC implementation. The template comes with <a href="http://www.ninject.org">Ninject</a> but <a href="https://github.com/David-Desmaisons/ReactiveTrader/tree/neutronium_implementation">Neutronium ReactiveTrader</a> is an example using <a href="https://autofac.org">Autofac</a>.</li>
+<li>Routing integrated with <a href="https://router.vuejs.org/en/">vue-router</a></li>
+<li>Localization via <a href="https://kazupon.github.io/vue-i18n/en/">vue-i18n</a></li>
+</ul>
+<p>Complete documentation can be found <a href="https://github.com/NeutroniumCore/Neutronium.SPA.Template">here</a></p>
+<p>It can be used as a start-up for a new application as well as a starting point to create your own template</p>
 <h2 id="creating-a-binding">Creating a binding</h2>
-<p>HTMLViewControl and HTMLWindow uses DataContext as the current javascript ViewModel.</p>
-<p>For example, considering a DataContext that is an instance of <code>Person</code> with:</p>
+<p>HTMLViewControl and HTMLWindow uses <code>DataContext</code> dependency property as the current javascript ViewModel.</p>
+<p>For example, considering an HTMLViewControl with a DataContext set to an instance of <code>Person</code> with:</p>
 <pre><code class="lang-CSharp">
 public class ViewModelBase : INotifyPropertyChanged
 {
@@ -146,6 +188,7 @@ public class Person: ViewModelBase
 	&lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
+<p>That's it Neutronium will take care of tracking changes and updating the view accordingly.</p>
 <p>Please see <a href="../binding/knockout.html">Knockout</a> and <a href="../binding/vue.html">Vue</a> binding sections for more details.</p>
 </article>
           </div>

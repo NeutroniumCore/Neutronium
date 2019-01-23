@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/builds.html",
-          "hash": "3pI7NlZI0Wa7LnOtnIjqfQ=="
+          "hash": "IgqaxD2OvAhYXZYmm/lTsg=="
         }
       },
       "is_incremental": false,
@@ -36,7 +36,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/component-overview.html",
-          "hash": "Uaiir2sFykRZMNwUgy7BXw=="
+          "hash": "kWBTaiElQfA/ecQmSSLDrA=="
         }
       },
       "is_incremental": false,
@@ -51,7 +51,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/debug.html",
-          "hash": "EZ7PhwaXwJBk1B00smFtXg=="
+          "hash": "IagtFERd5VQpOFzBr6rcKQ=="
         }
       },
       "is_incremental": false,
@@ -66,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/getting-started.html",
-          "hash": "lxqBGusqNRXazar21gB7jA=="
+          "hash": "HgrfcfjMxpoKfne7+p3yWw=="
         }
       },
       "is_incremental": false,
@@ -81,7 +81,22 @@
       "output": {
         ".html": {
           "relative_path": "articles/installing.html",
-          "hash": "0kCvp7BfmCWYsrf4rfASiA=="
+          "hash": "W3i6lBmNB7cG4HjJkcib4A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "articles/navigation.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/navigation.html",
+          "hash": "yTwSDCiJ1IaDkCS820vpYg=="
         }
       },
       "is_incremental": false,
@@ -108,7 +123,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "MBvJGMhSPzzALSxk7jzmLA=="
+          "hash": "d+jyg8nBs20MLO9HncrAuQ=="
         }
       },
       "is_incremental": false,
@@ -516,6 +531,17 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "images/logo/bb-logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo/bb-logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "images/performance/perf0.6.gif",
       "output": {
         "resource": {
@@ -531,6 +557,17 @@
       "output": {
         "resource": {
           "relative_path": "images/performance/perf1.0.gif"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/template/configuration-template.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/template/configuration-template.png"
         }
       },
       "is_incremental": false,
@@ -890,7 +927,64 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "A6EibwMafd7Uoo0U+/Nm+Q=="
+          "hash": "tzlOakxPlGz8Doik26D/fw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "tools/building-block.md",
+      "output": {
+        ".html": {
+          "relative_path": "tools/building-block.html",
+          "hash": "YcBezQe2avEURt95mCyZQg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "tools/npm.md",
+      "output": {
+        ".html": {
+          "relative_path": "tools/npm.html",
+          "hash": "BOY7VExF+YZvUpv5B6TBzA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "tools/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "tools/toc.html",
+          "hash": "YFFnL7udTBIcMKITMsyT0w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "tools/vue-cli-plugin.md",
+      "output": {
+        ".html": {
+          "relative_path": "tools/vue-cli-plugin.html",
+          "hash": "1h5PtKvVZEcIDd9zUCaj8A=="
         }
       },
       "is_incremental": false,
@@ -905,7 +999,7 @@
       "output": {
         ".html": {
           "relative_path": "versions/migrate1.0.html",
-          "hash": "4m55M5vvGk8YHoAm/i1yTQ=="
+          "hash": "byl4dE3DRAZ6bzN7S+ZrKw=="
         }
       },
       "is_incremental": false,
@@ -947,52 +1041,7 @@
       "output": {
         ".html": {
           "relative_path": "versions/version1.0.html",
-          "hash": "4bpqlOL6XsF8fDgD4hzwpA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "vue/npm.md",
-      "output": {
-        ".html": {
-          "relative_path": "vue/npm.html",
-          "hash": "ckzACIyl19pYc/kwJaT4nQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Toc",
-      "source_relative_path": "vue/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "vue/toc.html",
-          "hash": "7R0RV35YTur6lScn0PiV0g=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
-      "type": "Conceptual",
-      "source_relative_path": "vue/vue-cli-plugin.md",
-      "output": {
-        ".html": {
-          "relative_path": "vue/vue-cli-plugin.html",
-          "hash": "bgdwD94ZzZOYQpyxZLkT7w=="
+          "hash": "/ofOroKFmFAWBI79oIYlDA=="
         }
       },
       "is_incremental": false,
@@ -1007,14 +1056,14 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {

@@ -31,7 +31,7 @@ $ npm run build
 
 Neutronium template uses [vue-cli](https://cli.vuejs.org/) and [vue-cli-plugin-neutronium](https://github.com/NeutroniumCore/vue-cli-plugin-neutronium).
 
-[See here](../vue/vue-cli-plugin.html) detailed description how to use it.
+[See here](../tools/vue-cli-plugin.html) detailed description how to use it.
 
 
 ## From scratch
@@ -120,7 +120,7 @@ public partial class MainWindow : Window
 
 #### 5. Install HTML/Vue template
 
-It is strongly recommended to use `vue cli neutronium` to bootstrap the project and develop Neutronium application [described here](../vue/vue-cli-plugin.html).
+It is strongly recommended to use `vue cli neutronium` to bootstrap the project and develop Neutronium application [described here](../tools/vue-cli-plugin.html).
 
 In this example you should install template under View folder creating a MainView view.
 

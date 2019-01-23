@@ -4,8 +4,8 @@
   href: articles/
 - name: Binding
   href: binding/
-- name: Vue utilities
-  href: vue/
+- name: Additional tools
+  href: tools/
 - name: Version and migrations
   href: versions/
 - name: View on Github

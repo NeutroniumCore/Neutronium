@@ -41,7 +41,7 @@ An adaption of [knockout-view] a debug tool [displaying ViewModel is used](https
 
 ![SaveVM](../images/tools/ContextMenu-Save-vm.png)
 
-Allows to save the value of the bound DataContext to a circular JSON (`.cjson`). This is a very interesting feature when coupled with [neutronium vue webpack template](../vue/vue-cli-plugin.html). Indeed neutronium Webpack configuration can use this files as "fake" ViewModel. 
+Allows to save the value of the bound DataContext to a circular JSON (`.cjson`). This is a very interesting feature when coupled with [neutronium vue webpack template](../tools/vue-cli-plugin.html). Indeed neutronium Webpack configuration can use this files as "fake" ViewModel. 
 
 This is very powerful when coupled with live reload feature as saving a ViewModel will update the corresponding browser when using `npm run dev`.
 

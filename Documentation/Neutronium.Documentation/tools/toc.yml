@@ -2,5 +2,6 @@
   href: vue-cli-plugin.html
 - name: Vue.js utilities
   href: npm.html
-  
+- name: Neutronium building block
+  href: building-block.html
 

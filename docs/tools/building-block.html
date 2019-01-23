@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Builds </title>
+    <title>Neutronium Building </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Builds ">
+    <meta name="title" content="Neutronium Building ">
     <meta name="generator" content="docfx 2.40.7.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -67,20 +67,27 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="builds">Builds</h1>
+<h1 id="neutronium-building">Neutronium Building</h1>
 
-<h2 id="32-and-64-bits-builds-are-supported">32 and 64 bits builds are supported</h2>
-<p>Since version 1.2.0. it is possible to use 64 build version of ChromiumFx.<br>
-If you build a Neutronium project for x64 platform, the 64 bits build version of CEF will be used.<br>
-AnyCPU builds use 64 bits build version of CEF.</p>
-<h2 id="checking-version-using-about-window">Checking version using about Window:</h2>
-<p>Check <code>platform</code> information in the about window:</p>
-<p><img src="../images/tools/about-64-bits.png" alt="debug buttons"></p>
-<h2 id="gotchas">Gotchas:</h2>
+<p align="center"><img><p align="center"><img width="200" src="../images/logo/bb-logo.png"></p>
+<p>Neutronium BuildingBlocks is a separated project that helps to build Neutronium application.</p>
+<p>Is has its own <a href="https://github.com/NeutroniumCore/Neutronium.BuildingBlocks/blob/master/README.md">github repo</a> and its own <a href="https://www.nuget.org/packages/Neutronium.BuildingBlocks.Standard/">nuget packages</a>.</p>
+<h2 id="description">Description</h2>
+<p>Neutronium.BuildingBlocks provides opinionated solutions to build <a href="https://github.com/NeutroniumCore/Neutronium">Neutronium</a> application:</p>
+<h3 id="applicationtools">ApplicationTools</h3>
+<p>Provides interfaces for common application features such as native message box, native file and directory picker...</p>
+<h3 id="wpf">Wpf</h3>
+<p>Provides an implementation for <code>ApplicationTools</code> interfaces based on Wpf framework.</p>
+<h3 id="application">Application</h3>
+<p>Provides solution for application architecture including:</p>
 <ul>
-<li>Make sure that all the projects of the solution have the same platform value. Supported values: <code>x86</code>, <code>x64</code> or <code>Any CPU</code>.</li>
-<li>Make sure that the flag <code>Prefer 32-bit</code> of the project (Properties&gt;Build) is set to false.</li>
+<li>routing (integrated with vue via <a href="https://github.com/NeutroniumCore/vue-cli-plugin-neutronium">vue-cli-plugin-neutronium</a>).</li>
+<li>Dependency injection for main View-models</li>
+<li>API for modal and notifications</li>
 </ul>
+<h3 id="setup">SetUp</h3>
+<p>Aims at making it easy to switch between different debug modes and make the usage of <code>live reload</code> easy. It provides utility to run npm scripts and to manage application mode.</p>
+<p>See <a href="https://github.com/NeutroniumCore/Neutronium.BuildingBlocks/blob/master/README.md">github repo</a> for complete documentation.</p>
 </article>
           </div>
           
@@ -89,7 +96,7 @@ AnyCPU builds use 64 bits build version of CEF.</p>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/builds.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/tools/building-block.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

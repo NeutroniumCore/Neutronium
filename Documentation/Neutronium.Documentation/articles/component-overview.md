@@ -70,7 +70,7 @@ Use **HTMLWindow** if you have various HTML files and DataContext. This control 
 * **UseINavigable**
 If true, Neutronium calls set _INavigable_ property _Navigation_ with corresponding _INavigationSolver_
 
-See [Navigation API](./Navigation.md) to complete description of how to use this component.
+See [Navigation API](./navigation.html) to complete description of how to use this component.
 
 
 ## Important Note
