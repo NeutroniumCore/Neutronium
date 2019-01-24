@@ -167,19 +167,19 @@ That's it!
 Examples
 --------
 
-[here](./Documentation/Content/Examples.md)
+[here](https://neutroniumcore.github.io/Neutronium/overview/made.html)
 
 Get started
 ----------
 
 Best way to start with Neutronium is to download template C# solution [from visual studio gallery](https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8).
 
-[See Here](./Documentation/Content/SetUp.md) for detailed instructions.
+[See Here](https://neutroniumcore.github.io/Neutronium/articles/installing.html) for detailed instructions.
 
 Complete Documentation
 ----------------------
 
-[Here](./Documentation/Content/Intro.md)
+[Here](http://neutroniumcore.github.io/Neutronium/)
 
 
 Comparison with other libraries:
