@@ -71,7 +71,7 @@
 
 <p>This assembly provides base interface and implementation that extends C# MVVM.</p>
 <p>Neutronium.Core provides binding to all interfaces so that you can use them in javascript binding.</p>
-<h2 id="isimplecommand"><code>ISimpleCommand</code></h2>
+<h2 id="isimplecommand">ISimpleCommand</h2>
 <p><code>ISimpleCommand</code> is comparable to a <code>ICommand</code> that can always be executed.</p>
 <pre><code class="lang-CSharp">public interface ISimpleCommand
 {
@@ -93,7 +93,7 @@
 }
 </code></pre>
 <p>If you need to pass argument to the <code>execute</code> method use the new <code>ISimpleCommand&lt;T&gt;</code>.</p>
-<h2 id="isimplecommandt"><code>ISimpleCommand&lt;T&gt;</code></h2>
+<h2 id="isimplecommand-1">ISimpleCommand<t></t></h2>
 <p><code>ISimpleCommand&lt;T&gt;</code> is the typed version of <code>ISimpleCommand</code>.</p>
 <pre><code class="lang-CSharp">public interface ISimpleCommand&lt;T&gt;
 {
@@ -104,7 +104,7 @@
     void Execute(T argument);
 }
 </code></pre>
-<h2 id="icommandt"><code>ICommand&lt;T&gt;</code></h2>
+<h2 id="icommand">ICommand<t></t></h2>
 <p><code>ICommand&lt;T&gt;</code> is comparable to a typed <code>ICommand</code>.</p>
 <pre><code class="lang-CSharp">public interface ICommand&lt;in T&gt; : IUpdatableCommand
 {
@@ -128,7 +128,7 @@
     bool CanExecute(T parameter);
 }
 </code></pre>
-<h2 id="icommandwithoutparameter"><code>ICommandWithoutParameter</code></h2>
+<h2 id="icommandwithoutparameter">ICommandWithoutParameter</h2>
 <p><code>ICommandWithoutParameter</code> is comparable to a <code>ICommand</code> that does not need any argument.</p>
 <pre><code class="lang-CSharp">public interface ICommandWithoutParameter : IUpdatableCommand
 {
@@ -150,7 +150,7 @@
 <h1 id="implementations">Implementations</h1>
 <p>Neutronium.MVVMComponents provides build-in implementation for ISimpleCommand that should cover all use cases.
 Starting with version 1.0.0. <code>RelaySimpleCommand</code> and <code>RelaySimpleCommand&lt;T&gt;</code> also implements ICommand so that they can be used in Neutronium as well as traditional WPF application.</p>
-<h3 id="relaysimplecommand"><code>RelaySimpleCommand</code></h3>
+<h3 id="relaysimplecommand">RelaySimpleCommand</h3>
 <pre><code class="lang-CSharp">public class RelaySimpleCommand : ISimpleCommand
 {
     private readonly Action _Do;
@@ -166,7 +166,7 @@ Starting with version 1.0.0. <code>RelaySimpleCommand</code> and <code>RelaySimp
     }
 }
 </code></pre>
-<h3 id="relaysimplecommandt"><code>RelaySimpleCommand&lt;T&gt;</code></h3>
+<h3 id="relaysimplecommand-1">RelaySimpleCommand<t></t></h3>
 <pre><code class="lang-CSharp">public class RelaySimpleCommand&lt;T&gt; : ISimpleCommand where T:class
 {
     private readonly Action&lt;T&gt; _Do;
@@ -183,11 +183,11 @@ Starting with version 1.0.0. <code>RelaySimpleCommand</code> and <code>RelaySimp
 }
 </code></pre>
 <p><strong>Starting from version 1.0.</strong></p>
-<h3 id="relaytaskcommand-and-relaytooglecommand"><code>RelayTaskCommand</code> and <code>RelayToogleCommand</code></h3>
+<h3 id="relaytaskcommand-and-relaytooglecommand">RelayTaskCommand and RelayToogleCommand</h3>
 <p>Provides implementation for both <code>ICommand</code> and <code>ICommandWithoutParameter</code></p>
-<h3 id="relaytaskcommandt-and-relaytooglecommandt"><code>RelayTaskCommand&lt;T&gt;</code> and <code>RelayToogleCommand&lt;T&gt;</code></h3>
+<h3 id="relaytaskcommand-and-relaytooglecommand-1">RelayTaskCommand<t> and RelayToogleCommand<t></t></t></h3>
 <p>Provides implementation for both <code>ICommand&lt;T&gt;</code> and <code>ICommand</code></p>
-<h2 id="iresultcommand"><code>IResultCommand</code></h2>
+<h2 id="iresultcommand">IResultCommand</h2>
 <p><code>IResultCommand</code> is comparable to a command that would allow to asynchronously return a result.</p>
 <pre><code class="lang-CSharp">public interface IResultCommand
 {
@@ -201,7 +201,7 @@ Starting with version 1.0.0. <code>RelaySimpleCommand</code> and <code>RelaySimp
 </code></pre>
 <p>Neutronium.Core provides build-in implementation and factory to create IResultCommand that should cover all most cases.</p>
 <h2 id="factory">Factory</h2>
-<h3 id="relayresultcommand"><code>RelayResultCommand</code></h3>
+<h3 id="relayresultcommand">RelayResultCommand</h3>
 <p><code>RelayResultCommand</code>  is a static factory that creates <code>IResultCommand</code> from synchronous function.</p>
 <pre><code class="lang-CSharp">public static class RelayResultCommand
 {
@@ -226,7 +226,7 @@ Starting with version 1.0.0. <code>RelaySimpleCommand</code> and <code>RelaySimp
 }
 </code></pre>
 <h2 id="implementations-1">Implementations</h2>
-<h3 id="relayresultcommandtin-tresult"><code>RelayResultCommand&lt;TIn, TResult&gt;</code></h3>
+<h3 id="relayresultcommandtin-tresult">RelayResultCommand&lt;TIn, TResult&gt;</h3>
 <p>Create a IResultCommand from a Func&lt;TIn, Task<tresult>&gt; where TIn is the argument type<p>
 <pre><code class="lang-CSharp">public RelayResultCommand(Func&lt;TIn, Task&lt;TResult&gt;&gt; resultBuilder)
 </code></pre>
