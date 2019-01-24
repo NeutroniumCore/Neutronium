@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Installing Neutronium </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Installing Neutronium ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="installing-neutronium">Installing Neutronium</h1>
+
+<h2 id="using-neutronium-template">Using Neutronium template</h2>
+<p>The best way to start with Neutronium is to download template C# solution <a href="https://visualstudiogallery.msdn.microsoft.com/c7679997-e25b-4a79-a65f-30758fb756d8">from visual studio gallery</a>.</p>
+<p>Template application will install nuget dependencies and scaffold a very simple solution including simple View HTML and View Model.</p>
+<h3 id="1-download-neutronium-template-from-visual-studio-gallery">1. Download Neutronium template from visual studio gallery<br></h3>
+<p><img src="../images/template/ti1.png"><br></p>
+<h3 id="2-install-template">2. Install template<br></h3>
+<p><img src="../images/template/ti2.png"><br></p>
+<h3 id="3-in-visual-studio-choose-new-project-neutronium-template">3. In Visual Studio, choose new project, Neutronium Template<br></h3>
+<p><img src="../images/template/tu1.png"><br>
+<img src="../images/template/tu2.png"><br>
+<img src="../images/template/tu3.png"><br></p>
+<h3 id="4-build-the-project-using-restore-missing-nuget-option">4. Build the project using restore missing nuget option</h3>
+<h3 id="5-build-vue-files-using-npm">5. Build vue files using npm</h3>
+<pre><code>In project folder:
+</code></pre>
+<pre><code class="lang-bash">$ cd View
+$ cd Main
+$ npm install
+$ npm run build
+</code></pre>
+<p>Neutronium template uses <a href="https://cli.vuejs.org/">vue-cli</a> and <a href="https://github.com/NeutroniumCore/vue-cli-plugin-neutronium">vue-cli-plugin-neutronium</a>.</p>
+<p><a href="../tools/vue-cli-plugin.html">See here</a> detailed description how to use it.</p>
+<h2 id="from-scratch">From scratch</h2>
+<h3 id="new-project">New project</h3>
+<h4 id="1-create-a-wpf-application">1. Create a WPF application</h4>
+<h4 id="2-install-nuget-neutroniumchromiumfxvue">2. Install nuget <code>Neutronium.ChromiumFx.Vue</code></h4>
+<p><img src="../images/template/fs2.png"><br></p>
+<h4 id="3-update-appcs-and-appxaml-to-initialize-neutronium-engines">3. Update <code>App.cs</code> and <code>App.xaml</code> to initialize Neutronium engines</h4>
+<p><code>App.cs</code></p>
+<pre><code class="lang-CSharp">using Neutronium.Core.JavascriptFramework;
+using Neutronium.WebBrowserEngine.ChromiumFx;
+using Neutronium.JavascriptFramework.Vue;
+
+namespace NeutroniumApplication
+{
+    /// &lt;summary&gt;
+    /// Interaction logic for App.xaml
+    /// &lt;/summary&gt;
+    public partial class App : ChromiumFxWebBrowserApp
+    {
+        protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager()
+        {
+            return new VueSessionInjectorV2();
+        }
+    }
+}
+</code></pre>
+<p><code>App.xaml</code></p>
+<pre><code class="lang-HTML">&lt;neutroniumCfx:ChromiumFxWebBrowserApp x:Class=&quot;NeutronimApplication.App&quot;
+             xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+             xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+             xmlns:local=&quot;clr-namespace:NeutronimApplication&quot;
+             xmlns:neutroniumCfx=&quot;clr-namespace:Neutronium.WebBrowserEngine.ChromiumFx;assembly=Neutronium.WebBrowserEngine.ChromiumFx&quot;                                 
+             StartupUri=&quot;MainWindow.xaml&quot;&gt;
+    &lt;neutroniumCfx:ChromiumFxWebBrowserApp.Resources&gt;
+    &lt;/neutroniumCfx:ChromiumFxWebBrowserApp.Resources&gt;
+&lt;/neutroniumCfx:ChromiumFxWebBrowserApp&gt;
+</code></pre>
+<h4 id="4-update-mainwindowcs-and-mainwindowxaml-to-use-neutronium-usercontrol">4. Update <code>MainWindow.cs</code> and <code>MainWindow.xaml</code> to use Neutronium UserControl</h4>
+<p><code>MainWindow.cs</code></p>
+<pre><code class="lang-CSharp">public partial class MainWindow : Window
+{
+	public MainWindow()
+	{
+		InitializeComponent();
+		
+		// Initialize application and set-up a none-null dataContext here
+		// If the data context is null nothing will be displayed
+		DataContext = ..
+	}
+
+	protected override void OnClosed(EventArgs e)
+	{
+		this.HtmlView.Dispose();
+	}
+}
+</code></pre>
+<p><code>MainWindow.xaml</code></p>
+<pre><code class="lang-HTML">&lt;Window x:Class=&quot;NeutronimApplication.MainWindow&quot;
+        xmlns:neutronium=&quot;clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF&quot; 
+        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+        xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+        xmlns:local=&quot;clr-namespace:NeutronimApplication&quot;
+        mc:Ignorable=&quot;d&quot;
+        Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
+    &lt;Grid&gt;
+        &lt;neutronium:HTMLViewControl x:Name=&quot;HtmlView&quot; IsDebug=&quot;True&quot; Uri=&quot;pack://application:,,,//View/MainView/dist/index.html&quot; HorizontalAlignment=&quot;Stretch&quot; VerticalAlignment=&quot;Stretch&quot;/&gt;
+    &lt;/Grid&gt;
+&lt;/Window&gt;
+</code></pre>
+<h4 id="5-install-htmlvue-template">5. Install HTML/Vue template</h4>
+<p>It is strongly recommended to use <code>vue cli neutronium</code> to bootstrap the project and develop Neutronium application <a href="../tools/vue-cli-plugin.html">described here</a>.</p>
+<p>In this example you should install template under View folder creating a MainView view.</p>
+<h3 id="for-an-existing-wpf-project">For an existing WPF project</h3>
+<p>Follow steps 2 to 5 from new project set-up.</p>
+<p>If it is not possible to change App inheritance, Neutronium should be initialized once like this:</p>
+<pre><code class="lang-CSharp">using Neutronium.Core.JavascriptFramework;
+using Neutronium.WebBrowserEngine.ChromiumFx;
+using Neutronium.JavascriptFramework.Vue;
+
+\\....
+var engine = HTMLEngineFactory.Engine;
+engine.RegisterHTMLEngine(new ChromiumFXWPFWebWindowFactory());
+engine.RegisterJavaScriptFramework(new VueSessionInjectorV2());
+</code></pre>
+<p>In this case, you should call on application shutdown:</p>
+<pre><code class="lang-CSharp">HTMLEngineFactory.Engine.Dispose();
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/installing.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

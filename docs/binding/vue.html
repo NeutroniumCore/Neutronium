@@ -1,0 +1,323 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Vue binding </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Vue binding ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="vue-binding">Vue binding</h1>
+
+<h2 id="important">Important:</h2>
+<p>Vue binding will be automatically applyed inside an HTML element with the main id.<br>
+So all HTML depending on vue should be wrapped inside a main div:</p>
+<pre><code class="lang-HTML">&lt;div id=&quot;main&quot;&gt;
+   &lt;!-- Your vue logic here --&gt;
+&lt;/div&gt;
+</code></pre>
+<p>See Complete Example: <a href="https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFX.Vue.UI">Example.ChromiumFX.Vue.UI</a></p>
+<p>Vue binding is provided by the <code>Neutronium.JavascriptFramework.Vue</code> assembly that exposes the following injectors:<br>
+<strong>For Vue.js 1.0</strong>: <code>VueSessionInjector</code>   registered name <strong>VueInjector</strong><br>
+<strong>For Vue.js 2.0</strong>: <code>VueSessionInjectorV2</code> registered name <strong>VueInjectorV2</strong><br></p>
+<p>Given the following ViewModel:</p>
+<pre><code class="lang-CSharp">public class Skill
+{
+	public string Type { get;}
+	public string Name { get;}
+
+	public Skill (string name, string skillType)
+	{
+		Name = name;
+		Type = skillType;
+	}
+}
+
+public class Person: ViewModelBase
+{
+	private string _Name;
+	public string Name
+	{
+		get { return _Name; }
+		set { Set(ref _Name, value, &quot;Name&quot;); }
+	}
+
+	private Skill _MainSkill;
+	public Skill MainSkill
+	{
+		get { return _MainSkill; }
+		set { Set(ref _MainSkill, value, &quot;MainSkill&quot;); }
+	}
+	   
+	public IList&lt;Skill&gt; Skills { get; private set; }
+	public ICommand RemoveSkill { get; private set; }
+ 	public ICommand AddSkill { get; private set; }
+	
+	public Person()
+	{
+		Skills = new ObservableCollection&lt;Skill&gt;();
+		RemoveSkill = new RelayCommand&lt;Skill&gt;(s=&gt; this.Skills.Remove(s));
+		AddSkill = new RelayCommand(_ =&gt; this.Skills.Add(new Skill(&quot;Vue.js&quot;, &quot;javascript&quot;));
+	}	  
+}
+</code></pre>
+<h2 id="bind-to-a-property">Bind to a property:</h2>
+<pre><code class="lang-HTML">&lt;span&gt;{{Name}}&lt;/span&gt;
+</code></pre>
+<h2 id="bind-to-a-nested-property">Bind to a nested property:</h2>
+<pre><code class="lang-HTML">&lt;span&gt;{{Skill.Name}}&lt;/span&gt;
+</code></pre>
+<h2 id="bind-to-a-collection">Bind to a Collection:</h2>
+<pre><code class="lang-HTML">&lt;div v-for:&quot;skill in Skills&quot;&gt;{{skill.Name}}&lt;/div&gt;
+</code></pre>
+<h2 id="bind-to-a-command">Bind to a Command:</h2>
+<p>Recommended way to use Neutronium is to use the <a href="https://github.com/NeutroniumCore/neutronium-vue">vue-cli</a> and <a href="https://github.com/NeutroniumCore/neutronium-vue-command-mixin">vue-mixin-command</a> to bind with command. But it is possible to use low level API to bind with command:</p>
+<pre><code class="lang-HTML">&lt;button @:click:&quot;RemoveSkill.Execute(skill)&quot;&gt;&lt;/button&gt;
+</code></pre>
+<h2 id="bind-to-a-command-using-built-in-v-command">Bind to a Command using built-in v-command:</h2>
+<pre><code class="lang-HTML">&lt;button v-command:&quot;AddSkill&quot;&gt;&lt;\button&gt;
+</code></pre>
+<p>This will call Execute with null as parameter if CanExecute is true on button click.</p>
+<h2 id="bind-to-a-command-using-built-in-v-command-with-argument">Bind to a Command using built-in v-command with argument:</h2>
+<pre><code class="lang-HTML">&lt;button v-command:&quot;RemoveSkill&quot; :commandarg=&quot;skill&quot;&gt;&lt;/button&gt;
+</code></pre>
+<p>This will call Execute with skill as parameter if CanExecute is true on button click.</p>
+<h2 id="bind-to-a-command-using-built-in-v-command-on-specific-event">Bind to a Command using built-in v-command on specific event:</h2>
+<pre><code class="lang-HTML">&lt;button v-command.dblclick:&quot;RemoveSkill&quot; :commandarg=&quot;skill&quot;&gt;&lt;/button&gt;
+</code></pre>
+<p>This will call Execute with skill as parameter if CanExecute is true on button double click.</p>
+<h2 id="vue-cli-neutronium-vue">Vue-cli: neutronium-vue</h2>
+<p>Neutronium provides a vue-cli template <code>neutronium-vue</code>. This is recommended tool when building mid or large scale Neutronium application. See <a href="../articles/large-project.html">here</a> for reference.</p>
+<h2 id="mixins">Mixins:</h2>
+<h3 id="register-mixins">Register Mixins:</h3>
+<ul>
+<li><p>For version&lt; 1.0.0</p>
+<p>To add mixins to main Vue instance you can set Vue._vmMixim to an array of mixins. These mixins will be applyed by Neutronium before creating the Vue instance:</p>
+</li>
+</ul>
+<pre><code class="lang-javascript">Vue._vmMixin = [myBinding, myBinding2];
+</code></pre>
+<p>For example you can use this hook to add computed properties to your Vm:</p>
+<pre><code class="lang-javascript">var localMixin = {
+        computed: {
+            count: function() {
+                return this.Skills.length;
+            }
+        }
+    };
+
+Vue._vmMixin = [localMixin];
+</code></pre>
+<ul>
+<li>For version&gt;= 1.0.0
+<ul>
+<li><p>With Vue-cli <code>neutronium-vue</code> use <code>install.js</code> hooks: <a href="../vue/vue-cli-plugin.html">see here for more details</a>.</p>
+</li>
+<li><p>If not using vue-cli, you can use:</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="lang-javascript">window.glueHelper.setOption({mixins : [localMixin]});
+</code></pre>
+<p>This will add the corresponding mixins to vue root instance.</p>
+<h3 id="built-in-mixin">Built-in mixin</h3>
+<p>Neutronium comes with some built-in plugins to simplify binding.
+There are available as properties of object window.glueHelper.
+If using <code>vue-cli</code>, you will rather use npm to install these mixins.</p>
+<ul>
+<li><strong>glueHelper.enumMixin</strong></li>
+</ul>
+<p>This mixin allows to easily create image binding for enum.</p>
+<p>Given the enum:</p>
+<pre><code class="lang-C#">public enum Genre
+{
+   Male,
+   Female
+}
+</code></pre>
+<p>You need to add to the VM a property named enumImages that properties will match the enum values.
+Ex:</p>
+<pre><code class="lang-javascript">var localMixin = {
+    data: {
+        enumImages: {
+           Genre: {
+               Male: &quot;images/male.png&quot;,
+               Female: &quot;images/female.png&quot;
+           }
+        }
+   }
+};
+
+//Register enumMixin and localMixin
+Vue._vmMixin = [localMixin, glueHelper.enumMixin];
+
+//or with neutronium version&gt;= 1.0.0
+window.glueHelper.setOption({mixins : [localMixin, glueHelper.enumMixin]});
+</code></pre>
+<p>Then you can use the <strong>enumImage</strong> method that <strong>glueHelper.enumMixin</strong> will add to the vue instance:
+HTML</p>
+<pre><code class="lang-HTML">&lt;img height=&quot;50&quot; width=&quot;50&quot; :src=&quot;enumImage(genre)&quot;&gt;
+</code></pre>
+<ul>
+<li><strong>Command mixin</strong></li>
+</ul>
+<p>When using <code>vue-cli</code>, you should import the npm module: <a href="https://github.com/NeutroniumCore/neutronium-vue-command-mixin">neutronium-vue-command-mixin</a>.</p>
+<p>Otherwise command-mixin is available through <code>glueHelper.commandMixin</code>.</p>
+<p>This mixin is used to create component based on command.
+It defines two props command and arg:</p>
+<pre><code class="lang-javascript">command:{
+    type: Object,
+    default: null
+},
+arg: {
+    type: Object,
+    default: null
+}
+</code></pre>
+<p>Define self-explanatory method : <strong>execute</strong></p>
+<p>and self-explanatory computed: <strong>canExecute</strong></p>
+<p>If you implement <strong>beforeCommand</strong> method, it will be called before the command Execute</p>
+<p>Here is an example of usage (vue-cli context):</p>
+<p>Template</p>
+<pre><code class="lang-HTML">&lt;template&gt;
+  &lt;div class=&quot;ui button&quot; :class=&quot;{'disabled': !canExecute}&quot; @click=&quot;execute&quot;&gt;   
+    &lt;slot&gt;&lt;/slot&gt;  
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre>
+<p>javascript:</p>
+<pre><code class="lang-javascript">import commandMixin from 'neutronium-vue-command-mixin'
+export default {
+  mixins:[commandMixin]
+}
+</code></pre>
+<h3 id="advanced-iresultcommand-support">Advanced: <code>IResultCommand</code> support</h3>
+<p>Neutronium provides binding to <a href="./mvvm-components.html#iresultcommand">IResultCommand</a> making possible to call a C# function returning a Task from javascript and receiving the response as a promise.</p>
+<p>Npm module <a href="https://github.com/NeutroniumCore/neutronium-vue-resultcommand-topromise">neutronium-vue-resultcommand-topromise</a> is an helper to obtain promise from resultCommand on the javascript side.</p>
+<p>Example:</p>
+<p>To bind to C# ResultCommand property:</p>
+<pre><code class="lang-CSharp">public class ViewModel
+{
+    public IResultCommand ResultCommand {get;} 
+    
+    public ViewModel()
+    {
+        ResultCommand = RelayResultCommand.Create&lt;string, int&gt;(Count);
+    }
+
+    private int? Count(string routeName)
+    {
+       return routeName?.Lenght;
+    }
+}
+</code></pre>
+<p>Do on javascript side:</p>
+<pre><code class="lang-javascript">import {toPromise} from 'neutronium-vue-resultcommand-topromise'
+
+const promise = toPromise(viewModel.ResultCommand, 'countLetterNumber');
+promise.then((ok)=&gt;{
+     //Ok code
+ }, (error) =&gt;{
+ //Error handling
+})
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/binding/vue.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

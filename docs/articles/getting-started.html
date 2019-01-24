@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Getting started </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Getting started ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="getting-started">Getting started</h1>
+
+<h2 id="work-with-neutronium-templates">Work with Neutronium templates</h2>
+<h3 id="neutronium-vue-application">Neutronium Vue Application</h3>
+<ul>
+<li><p>Vue start-up project shipped with <a href="https://github.com/NeutroniumCore/vue-cli-plugin-neutronium">neutronium vue-cli plugin</a> that uses webpack to bundle javascript files.
+Use:<br></p>
+<ul>
+<li><code>npm run serve</code> to develop application in the browser.<br>
+In this mode, the application is using data provided by the <code>\data\vm.cjson</code> file. Use Neutronium <code>export</code> command to generate such file.</li>
+<li><code>npm run live</code> to serve js file in way that can be used in hot-reload mode. See below.</li>
+<li><code>npm run build</code> to create js file that while be loaded and used inNeutronium application.</li>
+</ul>
+</li>
+<li><p>This application can be runt in 3 modes:</p>
+<ul>
+<li><code>live</code>
+development mode with hot-reload enable. In this mode, it is possible to edit javascript, CSS and HTML and to see the changes in a running Neutronium application. Note: when running, it is not needed to run manually <code>npm run live</code> this will be called automatically by the application.</li>
+<li><code>dev</code> test mode: Neutronium debug is allowed but files from the build are used. No hot-reload</li>
+<li><code>prod</code> production mode: no Neutronium debug allowed. Build files are used</li>
+</ul>
+<p>Switch between these modes using the command line argument:</p>
+</li>
+<li><p>Command line argument</p>
+<pre><code>  Usage:
+      --mode=live
+      -m=dev --url=http://localhost:9090/index.html
+      -u=http://localhost:9091/index.html
+
+  Options:
+      -m --mode=(live|dev|prod)    Set application mode.
+      -u --url=&lt;uri&gt;   Set view url
+</code></pre>
+</li>
+</ul>
+<p align="center"><img src="../images/template/configuration-template.png" width="700px"><br></p>
+<p>Complete documentation can be found <a href="https://github.com/NeutroniumCore/Neutronium.Simple.Template">here</a></p>
+<h3 id="neutroniumvuespa">Neutronium.Vue.SPA</h3>
+<p>This template contains all of <code>Neutronium Vue Application</code> template features. In addition, it contains:</p>
+<ul>
+<li>Dependency injection using <code>CommonServiceLocator</code> pattern so that it is possible to switch IOC implementation. The template comes with <a href="http://www.ninject.org">Ninject</a> but <a href="https://github.com/David-Desmaisons/ReactiveTrader/tree/neutronium_implementation">Neutronium ReactiveTrader</a> is an example using <a href="https://autofac.org">Autofac</a>.</li>
+<li>Routing integrated with <a href="https://router.vuejs.org/en/">vue-router</a></li>
+<li>Localization via <a href="https://kazupon.github.io/vue-i18n/en/">vue-i18n</a></li>
+</ul>
+<p>Complete documentation can be found <a href="https://github.com/NeutroniumCore/Neutronium.SPA.Template">here</a></p>
+<p>It can be used as a start-up for a new application as well as a starting point to create your own template</p>
+<h2 id="creating-a-binding">Creating a binding</h2>
+<p>HTMLViewControl and HTMLWindow uses <code>DataContext</code> dependency property as the current javascript ViewModel.</p>
+<p>For example, considering an HTMLViewControl with a DataContext set to an instance of <code>Person</code> with:</p>
+<pre><code class="lang-CSharp">
+public class ViewModelBase : INotifyPropertyChanged
+{
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected void Set&lt;T&gt;(ref T pnv, T value, string pn)
+	{
+		pnv = value;
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(pn));
+	}
+}
+
+public class Skill
+{
+	public string Type { get;}
+	public string Name { get;}
+
+	public Skill (string name, string skillType)
+	{
+		Name = name;
+		Type = skillType;
+	}
+}
+
+public class Person: ViewModelBase
+{
+	private string _LastName;
+	public string LastName
+	{
+		get { return _LastName; }
+		set { Set(ref _LastName, value, &quot;LastName&quot;); }
+	}
+
+	private string _Name;
+	public string Name
+	{
+		get { return _Name; }
+		set { Set(ref _Name, value, &quot;Name&quot;); }
+	}
+		   
+	public IList&lt;Skill&gt; Skills { get; private set; }
+
+	public ICommand RemoveSkill { get; private set; }
+	
+	public Person()
+	{
+		Skills = new ObservableCollection&lt;Skill&gt;();
+		RemoveSkill = new RelayCommand&lt;Skill&gt;(s=&gt; this.Skills.Remove(s));
+	}	  
+}
+</code></pre>
+<p>A valid HTML view using vue would be:</p>
+<pre><code class="lang-HTML">&lt;!doctype html&gt;
+&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;Vue.js Example&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;input type=&quot;text&quot; v-model=&quot;Name&quot; placeholder=&quot;First name&quot; &gt;
+		&lt;ul&gt;
+			&lt;li v-for=&quot;skill in Skills&quot;&gt;
+				&lt;span&gt;{{skill.Type}}:{{skill.Name}}&lt;/span&gt;
+				&lt;button @click=&quot;RemoveSkill.Execute(skill)&quot;&gt;Remove skill&lt;/button&gt;
+			&lt;/li&gt;
+		&lt;/ul&gt;
+		&lt;div&gt;
+			&lt;h2&gt;{{Name}}&lt;/h2&gt;
+			&lt;h2&gt;{{LastName}}&lt;/h2&gt;
+		&lt;/div&gt;
+	&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>That's it Neutronium will take care of tracking changes and updating the view accordingly.</p>
+<p>Please see <a href="../binding/knockout.html">Knockout</a> and <a href="../binding/vue.html">Vue</a> binding sections for more details.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/getting-started.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

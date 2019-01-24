@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Navigation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Navigation ">
+    <meta name="generator" content="docfx 2.40.7.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="navigation">Navigation</h1>
+
+<h2 id="routing-or-javascript-side-navigation">Routing or javascript-side navigation</h2>
+<p>This is the recommended navigation when creating a large Neutronium application:</p>
+<ul>
+<li>A C# implementation is provided as part of <a href="../tools/building-block.html#Application">Neutronium Building Blodk</a></li>
+<li>A Vue implementation using <a href="https://router.vuejs.org/">vue-router</a> is provided by <a href="../tools/vue-cli-plugin#Application">vue-cli plugin</a></li>
+</ul>
+<p>In this architecture:</p>
+<ul>
+<li>Navigation convention is created on the c# side</li>
+<li>Javascript as the responsibility of</li>
+</ul>
+<p>A full example integrating these two components is provided in the <a href="https://github.com/NeutroniumCore/Neutronium.SPA.Template">Neutronium.SPA template</a>.</p>
+<h3 id="creating-navigation">Creating navigation</h3>
+<p><strong><em>INavigationBuilder</em></strong> is meant to build the application routing by associating a viewModel type to a specific HTML file. HTMLWindow exposes the public property INavigationBuilder NavigationBuilder. If the same ViewModel type can be displayed using different View you can use the Id string to discriminate the Views.</p>
+<pre><code class="lang-CSharp">public interface INavigationBuilder
+{
+   void Register&lt;T&gt;(string path,string Id=null); 
+   void RegisterAbsolute&lt;T&gt;(string path, string Id = null); 
+   void Register&lt;T&gt;(Uri path, string Id = null); 
+}
+</code></pre>
+<p>Example for javascript routing navigation:</p>
+<pre><code class="lang-CSharp">   var navigatorBuilder = myHTMLWindow.NavigationBuilder;
+   navigatorBuilder.Register&lt;Vm1&gt;(&quot;vm1&quot;);
+   navigatorBuilder.Register&lt;Vm2&gt;(&quot;vm2&quot;);
+   navigatorBuilder.Register&lt;Vm2&gt;(&quot;vm3&quot;, &quot;alternative&quot;);
+</code></pre>
+<p>Example for C# navigation:</p>
+<pre><code class="lang-CSharp">   var navigatorBuilder = myHTMLWindow.NavigationBuilder;
+   navigatorBuilder.Register&lt;Vm1&gt;(&quot;View\\index.html&quot;);
+   navigatorBuilder.Register&lt;Vm2&gt;(&quot;View\\index2.html&quot;);
+   navigatorBuilder.Register&lt;Vm2&gt;(&quot;View\\index3.html&quot;, &quot;alternative&quot;);
+</code></pre>
+<p>Once the routing is done, you can navigate from ViewModel to ViewModel using the INavigationSolver interface implements by the HTMLWindow:</p>
+<h2 id="c-side-navigation">C#-side navigation</h2>
+<h3 id="creating-navigation-1">Creating navigation</h3>
+<p>To use navigation, you have to use HTMLWindow UserControl instead of HTMLViewControl.</p>
+<p>The main difference between the two is that HTMLWindow exposes an <strong><em>INavigationBuilder</em></strong> interface and implements <strong><em>INavigationSolver</em></strong>.</p>
+<pre><code class="lang-CSharp">public interface INavigationSolver : IDisposable
+{
+   bool UseINavigable { get; set; }
+   Task NavigateAsync(object viewModel, string Id = null, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay);
+   event EventHandler&lt;NavigationEvent&gt; OnNavigate;
+}
+</code></pre>
+<p>The NavigateAsync method will find the HTLM page associated with the viewModel using the INavigationBuilder resolution and apply a binding between the View and the ViewModel using the corresponding iMode.</p>
+<p>Ex:</p>
+<pre><code class="lang-CSharp">    //Navigate to View\index.html
+    await myHTMLWindow.NavigateAsync(vm);
+
+    //Navigate to View\index2.html
+    await myHTMLWindow.NavigateAsync(vm2);
+
+    //Navigate to View\index3.html
+    await myHTMLWindow.NavigateAsync(vm2, &quot;alternative&quot;);
+</code></pre>
+<p>OnNavigate event is called every time the ViewModel changes.
+If UseINavigable is set to true and the ViewModel implements the INavigable interface the Navigation setter is called during navigation allowing that a ViewModel knows the INavigationSolver and use it to navigate to another ViewModel.</p>
+<pre><code class="lang-CSharp">public interface INavigable
+{
+   INavigationSolver Navigation { get; set; }
+} 
+</code></pre>
+<h3 id="convention-navigation">Convention Navigation</h3>
+<p>Since Core version 0.5.0, Neutronium has navigation helper that provides short-cut for navigation based on convention. For example:</p>
+<pre><code class="lang-CSharp">public static void Register(INavigationBuilder builder)
+{
+    // Create a convention for the corresponding builder
+    // Every type will be registered using the template
+    // &quot;View\{vm}\dist\index.HTML&quot; where VM will be the class
+    // name without postfix &quot;ViewModel&quot; if nay
+    var convention = builder.GetTemplateConvention(@&quot;View\{vm}\dist\index.HTML&quot;);
+
+    // Use fluent helper to register class from same assembly as RoutingConfiguration
+    // in &quot;NeutoniumDemo.ViewModel&quot; namespace excluding ApplicationMenuViewModel
+    typeof(RoutingConfiguration).GetTypesFromSameAssembly()
+                                .InNamespace(&quot;NeutoniumDemo.ViewModel&quot;)
+                                .Except(typeof(ApplicationMenuViewModel))
+                                .Register(convention);
+}
+</code></pre>
+<p>See <a href="../../Neutronium.Core/Navigation/Routing/BuilderExtension.cs">BuilderExtension.cs</a>,  <a href="../../Neutronium.Core/Navigation/Routing/TypesProviderExtension.cs">TypesProviderExtension.cs</a> and <a href="../../Neutronium.Core/Navigation/Routing/ITypesProvider.cs">ITypesProvider.cs</a> for detailed API description.</p>
+<h3 id="transition">Transition</h3>
+<p>HTMLWindow UserControl embeds two WebBrowser used to ensure smooth transition between view: one is used to display the current view, the other is used when NavigateAsync is called: the next view is then loaded in the second WebControl, the ViewModel is then bound and finally this WebControl becomes visible.</p>
+<p>During this process, it is possible to display javascript animation when one view is closing and when one View is first displayed.</p>
+<p>This possible due to custom hook implemented by both Vue and knockout binding</p>
+<h4 id="for-knockout">For knockout</h4>
+<p>You can use custom bindings <strong><em>onopened</em></strong> and <strong><em>onclose</em></strong>. Ex:</p>
+<pre><code class="lang-HTML">&lt;div class=&quot;box&quot; data-bind=&quot;onopened:OnEnter, onclose:OnClose&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p>where:</p>
+<ul>
+<li>OnEnter is a function receiving one unique argument which is the element that owns the binding. It is called when the HTLM View is displayed.</li>
+<li>OnClose is a function receiving as a first argument a callback to be called when the animation is over and as second argument the element that owns the binding. It is very important to always call the callback as the new View will only be displayed after the callback is called.</li>
+</ul>
+<p>Ex:</p>
+<pre><code class="lang-javascript">function OnEnter(element){
+    $(element).addClass(&quot;boxanimated&quot;);
+}
+      
+function OnClose(callback, element){
+    $(element).removeClass(&quot;boxanimated&quot;);
+    setTimeout(callback, 2000);
+}
+</code></pre>
+<p>Full example can be found in the projects:</p>
+<ul>
+<li><a href="https://github.com/David-Desmaisons/Neutronium/tree/master/Examples/Example.CefGlue.Ko.BasicNavigation">Example.CefGlue.Ko.BasicNavigation</a></li>
+<li><a href="https://github.com/David-Desmaisons/Neutronium/tree/master/Examples/Example.CefGlue.Ko.Navigation">Example.CefGlue.Ko.Navigation</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/navigation.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
