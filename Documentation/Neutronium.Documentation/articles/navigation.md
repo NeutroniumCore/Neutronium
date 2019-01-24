@@ -1,53 +1,94 @@
 # Navigation
 
+## Overview
+
+Navigation allows to switch view depending on the current viewModel.<br/>
+Neutronium supports:
+* Javascript-side navigation (or routing navigation) where view changes are made by javscript routing
+* C# navigation where view changes are provided by altering the Html displayed
+
+It is **strongly recommended** to **use javascript-side navigation** as it integrates better with javascript framework and is more powerful. 
+
+C# navigation exists mainly for historical reason and no new features will be provided.
+
 ## Routing or javascript-side navigation
 
-This is the recommended navigation when creating a large Neutronium application:
+### Overview
+
+The solution is composed of:
 * A C# implementation is provided as part of [Neutronium Building Blodk](../tools/building-block.html#Application)
 * A Vue implementation using [vue-router](https://router.vuejs.org/) is provided by [vue-cli plugin](../tools/vue-cli-plugin#Application)
 
 In this architecture:
 * Navigation convention is created on the c# side
-* Javascript as the responsibility of  
+* Javascript as the responsibility of changing page displayed using vue-router.
+* Navigation can be triggered both on javascript or C# side.
 
 A full example integrating these two components is provided in the [Neutronium.SPA template](https://github.com/NeutroniumCore/Neutronium.SPA.Template).
 
 ### Creating navigation
 
-**_INavigationBuilder_** is meant to build the application routing by associating a viewModel type to a specific HTML file. HTMLWindow exposes the public property INavigationBuilder NavigationBuilder. If the same ViewModel type can be displayed using different View you can use the Id string to discriminate the Views.
+`Router` that implements [`IRouterBuilder`](https://neutroniumcore.github.io/Neutronium.BuildingBlocks/application/Neutronium.BuildingBlocks.Application.Navigation.IRouterBuilder.html) is meant to build the application routing by associating a viewModel type to a specific HTML file. HTMLWindow exposes the public property INavigationBuilder NavigationBuilder.<br/>
+If the same ViewModel type can be displayed using different View you can use the Id string to discriminate the Views.
 
 ```CSharp
-public interface INavigationBuilder
+public interface IRouterBuilder
 {
-   void Register<T>(string path,string Id=null); 
-   void RegisterAbsolute<T>(string path, string Id = null); 
-   void Register<T>(Uri path, string Id = null); 
+  IRouterBuilder Register(Type type, string routerName, bool defaultType = true);
+  IRouterBuilder Register<T>(string routerName, bool defaultType = true);
 }
 ```
 
 Example for javascript routing navigation:
 ```CSharp
-   var navigatorBuilder = myHTMLWindow.NavigationBuilder;
-   navigatorBuilder.Register<Vm1>("vm1");
-   navigatorBuilder.Register<Vm2>("vm2");
-   navigatorBuilder.Register<Vm2>("vm3", "alternative");
-```
-
-Example for C# navigation:
-```CSharp
-   var navigatorBuilder = myHTMLWindow.NavigationBuilder;
-   navigatorBuilder.Register<Vm1>("View\\index.html");
-   navigatorBuilder.Register<Vm2>("View\\index2.html");
-   navigatorBuilder.Register<Vm2>("View\\index3.html", "alternative");
+   routerBuilder.Register<Vm1>("vm1");
+   routerBuilder.Register<Vm2>("vm2");
+   routerBuilder.Register<Vm2>("vm3", "alternative");
 ```
  
-Once the routing is done, you can navigate from ViewModel to ViewModel using the INavigationSolver interface implements by the HTMLWindow:
+Once the routing is done, you can navigate from ViewModel to ViewModel using the [`INavigator`](https://neutroniumcore.github.io/Neutronium.BuildingBlocks/application/Neutronium.BuildingBlocks.Application.Navigation.INavigator.html) interface:
 
+```CSharp
+public interface INavigator
+{
+  event EventHandler<RoutingEventArgs> OnNavigating;
+  event EventHandler<RoutedEventArgs> OnNavigated;
 
+  Task Navigate(object viewModel, string routeName = null);
+  Task Navigate(string routeName);
+  Task Navigate<T>(NavigationContext<T> context = null);
+  Task Navigate(Type type, NavigationContext context = null);
+}
+```
 
+Or on the javascript side, using the route name as registered with the router builder.
 
+### Convention Navigation
 
-## C#-side navigation
+Since Core version 0.5.0, Neutronium has navigation helper that provides short-cut for navigation based on convention. For example:
+
+```CSharp
+public static void Register(IRouterBuilder builder)
+{
+    // Create a convention for the corresponding builder
+    // Every type will be registered using the template
+    // "View\{vm}\dist\index.HTML" where VM will be the class
+    // name without postfix "ViewModel" if nay
+    var convention = builder.GetTemplateConvention(@"View\{vm}\dist\index.HTML");
+
+    // Use fluent helper to register class from same assembly as RoutingConfiguration
+    // in "NeutoniumDemo.ViewModel" namespace excluding ApplicationMenuViewModel
+    typeof(RoutingConfiguration).GetTypesFromSameAssembly()
+                                .InNamespace("NeutoniumDemo.ViewModel")
+                                .Except(typeof(ApplicationMenuViewModel))
+                                .Register(convention);
+}
+```
+
+## C# side navigation
+
+Please consider using [routing navigation](#routing-or-javascript-side-navigation) instead.<br/>
+C# navigation exists mainly for historical reason and no new features will be provided.
 
 ### Creating navigation
 
@@ -111,8 +152,7 @@ public static void Register(INavigationBuilder builder)
 }
 ```
 
-See [BuilderExtension.cs](../../Neutronium.Core/Navigation/Routing/BuilderExtension.cs),  [TypesProviderExtension.cs](../../Neutronium.Core/Navigation/Routing/TypesProviderExtension.cs) and [ITypesProvider.cs](../../Neutronium.Core/Navigation/Routing/ITypesProvider.cs) for detailed API description.
-
+See [BuilderExtension.cs](https://github.com/NeutroniumCore/Neutronium/blob/master/Neutronium.Core/Navigation/Routing/BuilderExtension.cs),  [TypesProviderExtension.cs](https://github.com/NeutroniumCore/Neutronium/blob/master/Neutronium.Core/Navigation/Routing/TypesProviderExtension.cs) and [ITypesProvider.cs](https://github.com/NeutroniumCore/Neutronium/blob/master/Neutronium.Core/Navigation/Routing/ITypesProvider.cs) for detailed API description.
 
 
 ### Transition

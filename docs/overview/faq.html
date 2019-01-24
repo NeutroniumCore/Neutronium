@@ -128,7 +128,7 @@ var viewModel = new WindowViewModel(window);
 <p>This behavior creates a frameless window and takes care of expected drag-and-drop behavior.</p>
 <p>See <a href="https://github.com/NeutroniumCore/Neutronium/tree/master/Examples/Example.ChromiumFx.Vue.Chromeless">Example.ChromiumFx.Vue.Chromeless</a> example for a working example of frameless Neutronium Window.<br>
 <a href="https://github.com/NeutroniumCore/codegravity">Codegravity</a> and <a href="https://github.com/NeutroniumCore/Neutronium.SPA.Demo">Neutronium.SPA.Demo</a> projects are also frameless window implementations.</p>
-<h2 id="how-to-display-window-only-when-html-control-is-rendering"><strong>How to display Window only when HTML control is rendering?</strong></h2>
+<h2 id="how-to-display-window-only-when-html-control-is-rendering">How to display Window only when HTML control is rendering?</h2>
 <p><code>HTMLViewControl</code> and <code>HTMLWindow</code> both have a <code>IsHTMLLoaded</code> property that is set to true when HTML is rendered, so it is possible to bind the window visibility to this property.</p>
 <p>Furthermore Neutronium.WPF provide a <code>BoolToHiddenConverter</code> that performs adequate conversion from <code>IsHTMLLoaded</code> to visibility transforming <code>false</code> into <code>Hidden</code> (standard <code>BooleanToVisibility</code> converts false into <code>Collapsed</code>).</p>
 <p>Ex:</p>

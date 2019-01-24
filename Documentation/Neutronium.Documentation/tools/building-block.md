@@ -3,14 +3,15 @@
 
 <p align="center"><img <p align="center"><img width="200"src="../images/logo/bb-logo.png"></p>
 
+## Overview
 
-Neutronium BuildingBlocks is a separated project that helps to build Neutronium application.
+
+Neutronium BuildingBlocks is a separated project that provides opinionated solutions to build [Neutronium](https://github.com/NeutroniumCore/Neutronium) application:
 
 Is has its own [github repo](https://github.com/NeutroniumCore/Neutronium.BuildingBlocks/blob/master/README.md) and its own [nuget packages](https://www.nuget.org/packages/Neutronium.BuildingBlocks.Standard/).
 
 
-## Description
-Neutronium.BuildingBlocks provides opinionated solutions to build [Neutronium](https://github.com/NeutroniumCore/Neutronium) application:
+## Assemblies
 
 ### ApplicationTools
 Provides interfaces for common application features such as native message box, native file and directory picker...
@@ -28,4 +29,4 @@ Provides solution for application architecture including:
 Aims at making it easy to switch between different debug modes and make the usage of `live reload` easy. It provides utility to run npm scripts and to manage application mode.
 
 
-See [github repo](https://github.com/NeutroniumCore/Neutronium.BuildingBlocks/blob/master/README.md) for complete documentation.
+See [complete documentation](https://neutroniumcore.github.io/Neutronium.BuildingBlocks/) for more information.

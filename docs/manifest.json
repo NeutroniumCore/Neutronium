@@ -96,7 +96,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/navigation.html",
-          "hash": "yTwSDCiJ1IaDkCS820vpYg=="
+          "hash": "48xXCAyOtbJkcRsmBN0bWA=="
         }
       },
       "is_incremental": false,
@@ -174,7 +174,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/mvvm-components.html",
-          "hash": "8CvuReFJ2RSCDKD4i4YJDg=="
+          "hash": "DDHkgKfL6ps1GOu14mETHg=="
         }
       },
       "is_incremental": false,
@@ -204,7 +204,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/vue.html",
-          "hash": "RbInv7fk0xIf9MKchkMOog=="
+          "hash": "U9QIDH/YSLZBCAwXin/j2w=="
         }
       },
       "is_incremental": false,
@@ -535,6 +535,17 @@
       "output": {
         "resource": {
           "relative_path": "images/logo/bb-logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/mvvm.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/mvvm.png"
         }
       },
       "is_incremental": false,
@@ -873,7 +884,7 @@
       "output": {
         ".html": {
           "relative_path": "overview/faq.html",
-          "hash": "b4Wj96VvDTAJDvn0HS4ceg=="
+          "hash": "id+tjBGLmBl0o33kR/5QPg=="
         }
       },
       "is_incremental": false,
@@ -897,7 +908,7 @@
       "output": {
         ".html": {
           "relative_path": "overview/neutronium.html",
-          "hash": "mKG1gFPorCMsVdby9WJfMw=="
+          "hash": "TOmJKXqB5TZS2MmlAIqksg=="
         }
       },
       "is_incremental": false,
@@ -939,7 +950,7 @@
       "output": {
         ".html": {
           "relative_path": "tools/building-block.html",
-          "hash": "YcBezQe2avEURt95mCyZQg=="
+          "hash": "HbCyUj48ixkl3+4Ubdwb1Q=="
         }
       },
       "is_incremental": false,
@@ -969,7 +980,7 @@
       "output": {
         ".html": {
           "relative_path": "tools/toc.html",
-          "hash": "YFFnL7udTBIcMKITMsyT0w=="
+          "hash": "yRN+vnH+66/qL8I3DjNg7w=="
         }
       },
       "is_incremental": false,
@@ -1056,14 +1067,14 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {

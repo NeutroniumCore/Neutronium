@@ -5,7 +5,7 @@ This assembly provides base interface and implementation that extends C# MVVM.
 Neutronium.Core provides binding to all interfaces so that you can use them in javascript binding.
 
 
-## `ISimpleCommand` 
+## ISimpleCommand
 
 `ISimpleCommand` is comparable to a `ICommand` that can always be executed. 
 
@@ -38,7 +38,7 @@ public interface ISimpleCommand
 If you need to pass argument to the `execute` method use the new `ISimpleCommand<T>`.
 
 
-## `ISimpleCommand<T>`
+## ISimpleCommand<T>
 
 `ISimpleCommand<T>` is the typed version of `ISimpleCommand`. 
 
@@ -54,7 +54,7 @@ public interface ISimpleCommand<T>
 }
 ```
 
-## `ICommand<T>` 
+## ICommand<T>
 
 `ICommand<T>` is comparable to a typed `ICommand`. 
 
@@ -83,7 +83,7 @@ public interface ICommand<in T> : IUpdatableCommand
 }
 ```
 
-## `ICommandWithoutParameter` 
+## ICommandWithoutParameter
 
 `ICommandWithoutParameter` is comparable to a `ICommand` that does not need any argument. 
 
@@ -113,7 +113,7 @@ Neutronium.MVVMComponents provides build-in implementation for ISimpleCommand th
 Starting with version 1.0.0. `RelaySimpleCommand` and `RelaySimpleCommand<T>` also implements ICommand so that they can be used in Neutronium as well as traditional WPF application.
 
 
-### `RelaySimpleCommand`
+### RelaySimpleCommand
 
 ```CSharp
 public class RelaySimpleCommand : ISimpleCommand
@@ -132,7 +132,7 @@ public class RelaySimpleCommand : ISimpleCommand
 }
 ```
 
-### `RelaySimpleCommand<T>`
+### RelaySimpleCommand<T>
 
 ```CSharp
 public class RelaySimpleCommand<T> : ISimpleCommand where T:class
@@ -153,15 +153,15 @@ public class RelaySimpleCommand<T> : ISimpleCommand where T:class
 
 **Starting from version 1.0.**
 
-### `RelayTaskCommand` and `RelayToogleCommand`
+### RelayTaskCommand and RelayToogleCommand
 
 Provides implementation for both `ICommand` and `ICommandWithoutParameter`
 
-### `RelayTaskCommand<T>` and `RelayToogleCommand<T>`
+### RelayTaskCommand<T> and RelayToogleCommand<T>
 
 Provides implementation for both `ICommand<T>` and `ICommand`
 
-## `IResultCommand`
+## IResultCommand
 
 `IResultCommand` is comparable to a command that would allow to asynchronously return a result.
 
@@ -181,7 +181,7 @@ Neutronium.Core provides build-in implementation and factory to create IResultCo
 
 ## Factory
 
-### `RelayResultCommand` 
+### RelayResultCommand
 `RelayResultCommand`  is a static factory that creates `IResultCommand` from synchronous function.
 
 ```CSharp
@@ -210,7 +210,7 @@ public static class RelayResultCommand
 
 ## Implementations
 
-### `RelayResultCommand<TIn, TResult>`
+### RelayResultCommand<TIn, TResult>
 
 Create a IResultCommand from a Func<TIn, Task<TResult>> where TIn is the argument type
 

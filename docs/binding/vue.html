@@ -128,129 +128,78 @@ public class Person: ViewModelBase
 <pre><code class="lang-HTML">&lt;span&gt;{{Skill.Name}}&lt;/span&gt;
 </code></pre>
 <h2 id="bind-to-a-collection">Bind to a Collection:</h2>
-<pre><code class="lang-HTML">&lt;div v-for:&quot;skill in Skills&quot;&gt;{{skill.Name}}&lt;/div&gt;
+<pre><code class="lang-HTML">&lt;div v-for:&quot;skill in Skills&quot; :key=&quot;skill.Name&quot;&gt;{{skill.Name}}&lt;/div&gt;
 </code></pre>
 <h2 id="bind-to-a-command">Bind to a Command:</h2>
 <p>Recommended way to use Neutronium is to use the <a href="https://github.com/NeutroniumCore/neutronium-vue">vue-cli</a> and <a href="https://github.com/NeutroniumCore/neutronium-vue-command-mixin">vue-mixin-command</a> to bind with command. But it is possible to use low level API to bind with command:</p>
 <pre><code class="lang-HTML">&lt;button @:click:&quot;RemoveSkill.Execute(skill)&quot;&gt;&lt;/button&gt;
 </code></pre>
-<h2 id="bind-to-a-command-using-built-in-v-command">Bind to a Command using built-in v-command:</h2>
-<pre><code class="lang-HTML">&lt;button v-command:&quot;AddSkill&quot;&gt;&lt;\button&gt;
+<h2 id="using-command-mixin">Using command mixin:</h2>
+<p>When using the vue-cli 3 plugin template <a href="https://github.com/NeutroniumCore/vue-cli-plugin-neutronium"><code>vue-cli-plugin-neutronium</code></a> which is the recommended tool when building mid or large scale Neutronium application (<a href="../articles/large-project.html">reference here</a>).<br></p>
+<h3 id="install">Install:</h3>
+<pre><code class="lang-bash">npm install --save neutronium-vue-command-mixin
 </code></pre>
-<p>This will call Execute with null as parameter if CanExecute is true on button click.</p>
-<h2 id="bind-to-a-command-using-built-in-v-command-with-argument">Bind to a Command using built-in v-command with argument:</h2>
-<pre><code class="lang-HTML">&lt;button v-command:&quot;RemoveSkill&quot; :commandarg=&quot;skill&quot;&gt;&lt;/button&gt;
-</code></pre>
-<p>This will call Execute with skill as parameter if CanExecute is true on button click.</p>
-<h2 id="bind-to-a-command-using-built-in-v-command-on-specific-event">Bind to a Command using built-in v-command on specific event:</h2>
-<pre><code class="lang-HTML">&lt;button v-command.dblclick:&quot;RemoveSkill&quot; :commandarg=&quot;skill&quot;&gt;&lt;/button&gt;
-</code></pre>
-<p>This will call Execute with skill as parameter if CanExecute is true on button double click.</p>
-<h2 id="vue-cli-neutronium-vue">Vue-cli: neutronium-vue</h2>
-<p>Neutronium provides a vue-cli template <code>neutronium-vue</code>. This is recommended tool when building mid or large scale Neutronium application. See <a href="../articles/large-project.html">here</a> for reference.</p>
-<h2 id="mixins">Mixins:</h2>
-<h3 id="register-mixins">Register Mixins:</h3>
+<h3 id="usage">Usage</h3>
+<p>Provide mixin to easily integrate ICommand in vue.js using Neutronium.
+Component this mixin exposes:</p>
+<h3 id="props">Props</h3>
 <ul>
-<li><p>For version&lt; 1.0.0</p>
-<p>To add mixins to main Vue instance you can set Vue._vmMixim to an array of mixins. These mixins will be applyed by Neutronium before creating the Vue instance:</p>
+<li><p><code>command</code><br>
+Type: <code>Object</code><br>
+Required: <code>true</code><br>
+The property corresponding to the C# command.</p>
+</li>
+<li><p><code>arg</code><br>
+Type: <code>Object</code><br>
+Required: <code>false</code><br>
+The argument that will be passed to comand when execute is called.</p>
 </li>
 </ul>
-<pre><code class="lang-javascript">Vue._vmMixin = [myBinding, myBinding2];
-</code></pre>
-<p>For example you can use this hook to add computed properties to your Vm:</p>
-<pre><code class="lang-javascript">var localMixin = {
-        computed: {
-            count: function() {
-                return this.Skills.length;
-            }
-        }
-    };
-
-Vue._vmMixin = [localMixin];
-</code></pre>
+<h3 id="computed">Computed</h3>
 <ul>
-<li>For version&gt;= 1.0.0
+<li><code>canExecute</code><br>
+Type: <code>Boolean</code><br>
+true if Command CanExecute is true.</li>
+</ul>
+<h3 id="method">Method</h3>
 <ul>
-<li><p>With Vue-cli <code>neutronium-vue</code> use <code>install.js</code> hooks: <a href="../vue/vue-cli-plugin.html">see here for more details</a>.</p>
-</li>
-<li><p>If not using vue-cli, you can use:</p>
-</li>
+<li><code>execute</code><br>
+Call the corresponding command with the argument <code>arg</code><br></li>
+</ul>
+<h3 id="events">Events</h3>
+<ul>
+<li><p><code>beforeExecute</code><br>
+Called before calling command execute if CanExecute is true. <br>
+The event argument provides two properties: <br></p>
+<ul>
+<li><code>arg</code>: <code>Object</code> the command argument,</li>
+<li><code>cancel</code>: <code>false</code> set it to true to cancel the execution</li>
 </ul>
 </li>
+<li><p><code>afterExecute</code><br>
+Called after calling command execute.<br>
+The event argument is the command argument.<br></p>
+</li>
 </ul>
-<pre><code class="lang-javascript">window.glueHelper.setOption({mixins : [localMixin]});
-</code></pre>
-<p>This will add the corresponding mixins to vue root instance.</p>
-<h3 id="built-in-mixin">Built-in mixin</h3>
-<p>Neutronium comes with some built-in plugins to simplify binding.
-There are available as properties of object window.glueHelper.
-If using <code>vue-cli</code>, you will rather use npm to install these mixins.</p>
-<ul>
-<li><strong>glueHelper.enumMixin</strong></li>
-</ul>
-<p>This mixin allows to easily create image binding for enum.</p>
-<p>Given the enum:</p>
-<pre><code class="lang-C#">public enum Genre
-{
-   Male,
-   Female
-}
-</code></pre>
-<p>You need to add to the VM a property named enumImages that properties will match the enum values.
-Ex:</p>
-<pre><code class="lang-javascript">var localMixin = {
-    data: {
-        enumImages: {
-           Genre: {
-               Male: &quot;images/male.png&quot;,
-               Female: &quot;images/female.png&quot;
-           }
-        }
-   }
-};
-
-//Register enumMixin and localMixin
-Vue._vmMixin = [localMixin, glueHelper.enumMixin];
-
-//or with neutronium version&gt;= 1.0.0
-window.glueHelper.setOption({mixins : [localMixin, glueHelper.enumMixin]});
-</code></pre>
-<p>Then you can use the <strong>enumImage</strong> method that <strong>glueHelper.enumMixin</strong> will add to the vue instance:
-HTML</p>
-<pre><code class="lang-HTML">&lt;img height=&quot;50&quot; width=&quot;50&quot; :src=&quot;enumImage(genre)&quot;&gt;
-</code></pre>
-<ul>
-<li><strong>Command mixin</strong></li>
-</ul>
-<p>When using <code>vue-cli</code>, you should import the npm module: <a href="https://github.com/NeutroniumCore/neutronium-vue-command-mixin">neutronium-vue-command-mixin</a>.</p>
-<p>Otherwise command-mixin is available through <code>glueHelper.commandMixin</code>.</p>
-<p>This mixin is used to create component based on command.
-It defines two props command and arg:</p>
-<pre><code class="lang-javascript">command:{
-    type: Object,
-    default: null
-},
-arg: {
-    type: Object,
-    default: null
-}
-</code></pre>
-<p>Define self-explanatory method : <strong>execute</strong></p>
-<p>and self-explanatory computed: <strong>canExecute</strong></p>
-<p>If you implement <strong>beforeCommand</strong> method, it will be called before the command Execute</p>
-<p>Here is an example of usage (vue-cli context):</p>
-<p>Template</p>
+<h3 id="example">Example</h3>
+<p>Declaring buttonCommand component in a .vue file (using semantic ui):</p>
 <pre><code class="lang-HTML">&lt;template&gt;
   &lt;div class=&quot;ui button&quot; :class=&quot;{'disabled': !canExecute}&quot; @click=&quot;execute&quot;&gt;   
     &lt;slot&gt;&lt;/slot&gt;  
   &lt;/div&gt;
 &lt;/template&gt;
-</code></pre>
-<p>javascript:</p>
-<pre><code class="lang-javascript">import commandMixin from 'neutronium-vue-command-mixin'
+&lt;script&gt;
+import comandMixin from 'neutronium-vue-command-mixin'
+
 export default {
-  mixins:[commandMixin]
+  mixins:[comandMixin]
 }
+&lt;/script&gt;
+</code></pre>
+<p>Using buttonCommand:</p>
+<pre><code class="lang-HTML">&lt;button-command :command=&quot;compute&quot; :arg=&quot;argument&quot;&gt;
+Submit
+&lt;/button-command&gt; 
 </code></pre>
 <h3 id="advanced-iresultcommand-support">Advanced: <code>IResultCommand</code> support</h3>
 <p>Neutronium provides binding to <a href="./mvvm-components.html#iresultcommand">IResultCommand</a> making possible to call a C# function returning a Task from javascript and receiving the response as a promise.</p>
