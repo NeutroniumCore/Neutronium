@@ -4,6 +4,7 @@
 [![Build status](https://img.shields.io/appveyor/ci/David-Desmaisons/Neutronium.svg?maxAge=2592000)](https://ci.appveyor.com/project/David-Desmaisons/neutronium)
 [![NuGet Badge](https://buildstats.info/nuget/Neutronium.Core)](https://www.nuget.org/packages/Neutronium.Core/)
 [![MIT License](https://img.shields.io/github/license/NeutroniumCore/Neutronium.svg)](https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE)
+[![github](https://img.shields.io/github/stars/NeutroniumCore/Neutronium.svg?label=Stars&style=social)](https://github.com/NeutroniumCore/Neutronium/)
 
 What is Neutronium?
 -------------------
