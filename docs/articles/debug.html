@@ -105,17 +105,17 @@ Neutronium will log binding errors as well as console.log message from the HTML 
 <pre><code class="lang-CSharp">    public interface IWebSessionLogger
     {
         /// &lt;summary&gt;
-        /// called for debug logging
+        /// Called for debug logging
         /// &lt;/summary&gt;
         void Debug(Func&lt;string&gt; information);
 
         /// &lt;summary&gt;
-        /// called for debug logging
+        /// Called for debug logging
         /// &lt;/summary&gt;
         void Debug(string information);
 
         /// &lt;summary&gt;
-        /// called for information logging
+        /// Called for information logging
         /// &lt;/summary&gt;
         void Info(string information);
 
@@ -125,25 +125,44 @@ Neutronium will log binding errors as well as console.log message from the HTML 
         void Info(Func&lt;string&gt; information);
 
         /// &lt;summary&gt;
-        /// called on critical event 
+        /// Called for warning 
+        /// &lt;/summary&gt;
+        void Warning(string information);
+
+        /// &lt;summary&gt;
+        /// Called for warning 
+        /// &lt;/summary&gt;
+        void Warning(Func&lt;string&gt; information);
+
+        /// &lt;summary&gt;
+        /// Called on critical event 
         /// &lt;/summary&gt;
         void Error(string information);
 
         /// &lt;summary&gt;
-        /// called on critical event 
+        /// Called on critical event 
         /// &lt;/summary&gt;
         void Error(Func&lt;string&gt; information);
 
         /// &lt;summary&gt;
-        /// called on each console log called by browser 
+        /// Called on each console log called by browser 
         /// &lt;/summary&gt;
-        void LogBrowser(ConsoleMessageArgs iInformation, Uri url);
+        void LogBrowser(ConsoleMessageArgs information, Uri url);
 
         /// &lt;summary&gt;
-        /// called in case of browser critical error
+        /// Called in case of browser critical error
         /// &lt;/summary&gt;
+        /// &lt;param name=&quot;exception&quot;&gt;
+        /// Exception responsible for the error
+        /// &lt;/param&gt;
+        /// &lt;param name=&quot;cancel&quot;&gt;
+        /// Action to be called to cancel browser closing,
+        /// has an effect only with Awesomium
+        /// &lt;/param&gt;
         void WebBrowserError(Exception exception, Action cancel);
     }
+}
+
 </code></pre>
 <p>And then setting Neutronium Engine session logger:</p>
 <pre><code class="lang-CSharp">var myLogger = new MyLogger();
@@ -158,7 +177,7 @@ HTMLEngineFactory.Engine.WebSessionLogger = myLogger;
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/Improve-documentation/Documentation/Neutronium.Documentation/articles/debug.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/NeutroniumCore/Neutronium/blob/master/Documentation/Neutronium.Documentation/articles/debug.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

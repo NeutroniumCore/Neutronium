@@ -8,17 +8,17 @@ namespace Neutronium.Core {
     public interface IWebSessionLogger
     {
         /// <summary>
-        /// called for debug logging
+        /// Called for debug logging
         /// </summary>
         void Debug(Func<string> information);
 
         /// <summary>
-        /// called for debug logging
+        /// Called for debug logging
         /// </summary>
         void Debug(string information);
 
         /// <summary>
-        /// called for information logging
+        /// Called for information logging
         /// </summary>
         void Info(string information);
 
@@ -28,33 +28,40 @@ namespace Neutronium.Core {
         void Info(Func<string> information);
 
         /// <summary>
-        /// called for warning 
+        /// Called for warning 
         /// </summary>
         void Warning(string information);
 
         /// <summary>
-        /// called for warning 
+        /// Called for warning 
         /// </summary>
         void Warning(Func<string> information);
 
         /// <summary>
-        /// called on critical event 
+        /// Called on critical event 
         /// </summary>
         void Error(string information);
 
         /// <summary>
-        /// called on critical event 
+        /// Called on critical event 
         /// </summary>
         void Error(Func<string> information);
 
         /// <summary>
-        /// called on each consolo log called by browser 
+        /// Called on each console log called by browser 
         /// </summary>
         void LogBrowser(ConsoleMessageArgs information, Uri url);
 
         /// <summary>
-        /// called in case of browser critical error
+        /// Called in case of browser critical error
         /// </summary>
+        /// <param name="exception">
+        /// Exception responsible for the error
+        /// </param>
+        /// <param name="cancel">
+        /// Action to be called to cancel browser closing,
+        /// has an effect only with Awesomium
+        /// </param>
         void WebBrowserError(Exception exception, Action cancel);
     }
 }
