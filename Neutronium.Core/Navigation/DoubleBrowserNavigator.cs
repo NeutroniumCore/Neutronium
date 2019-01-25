@@ -214,12 +214,12 @@ namespace Neutronium.Core.Navigation
             _WebSessionLogger.Info($"Switching to uri: {target}");
             var newUri = new UriBuilder(target)
             {
-                Fragment = CurrentUrl.Fragment.Replace("#",String.Empty)
+                Fragment = CurrentUrl.Fragment.Replace("#", String.Empty)
             };
             return SafeReloadAsync(newUri.Uri);
         }
 
-        private Task SafeReloadAsync(Uri target= null)
+        private Task SafeReloadAsync(Uri target = null)
         {
             var dispatcher = _CurrentWebControl?.UiDispatcher;
             return dispatcher?.RunAsync(() => Reload(true, target)) ?? Task.CompletedTask;
@@ -234,7 +234,8 @@ namespace Neutronium.Core.Navigation
         private void ModernWindow_OnClientReload(object sender, ClientReloadArgs e)
         {
             _WebSessionLogger.Info("Page changes detected reloading bindings.");
-            Reload(true, new Uri(e.Url));
+            var uri = (e.Url != null) ? new Uri(e.Url) : null;
+            Reload(true, uri);
         }
 
         private void Reload(bool hotReloadContext, Uri url = null)
