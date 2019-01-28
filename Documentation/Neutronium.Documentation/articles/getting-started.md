@@ -44,6 +44,8 @@ Complete documentation can be found [here](https://github.com/NeutroniumCore/Neu
 
 It can be used as a start-up for a new application as well as a starting point to create your own template
 
+[Check complete documentaion of the template](https://neutroniumcore.github.io/Neutronium.SPA.Template/)
+
 
 ## Creating a binding
 
