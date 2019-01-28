@@ -197,7 +197,7 @@ namespace Neutronium.WPF.Internal
             var fileName = saveFileDialog.FileName;
             _SaveDirectory = Path.GetDirectoryName(fileName);
             var content = binding.AsCircularVersionedJson();
-            File.WriteAllLines(fileName, new[] { content });
+            Task.Run(() => File.WriteAllLines(fileName, new[] { content }));
         }
 
         private string ComputeProposedDirectory()
