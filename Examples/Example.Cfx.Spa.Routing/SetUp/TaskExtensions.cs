@@ -12,9 +12,9 @@ namespace Example.Cfx.Spa.Routing.SetUp
             return tcs.Task;
         }
 
-        public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken token)
+        public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken token, bool configureAwait= true)
         {
-            return await await Task.WhenAny(task, token.AsTask<T>());
+            return await await Task.WhenAny(task, token.AsTask<T>()).ConfigureAwait(configureAwait);
         }
     }
 }

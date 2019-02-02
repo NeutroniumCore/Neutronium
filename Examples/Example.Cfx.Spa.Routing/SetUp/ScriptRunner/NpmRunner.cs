@@ -71,7 +71,7 @@ namespace Example.Cfx.Spa.Routing.SetUp.ScriptRunner
         public Task<int> GetPortAsync(CancellationToken cancellationToken)
         {
             Start(cancellationToken);
-            return _PortFinderCompletionSource.Task.WithCancellation(cancellationToken);
+            return _PortFinderCompletionSource.Task.WithCancellation(cancellationToken, false);
         }
 
         private void Start(CancellationToken cancellationToken)
