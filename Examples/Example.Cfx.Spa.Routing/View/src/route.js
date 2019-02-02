@@ -5,7 +5,7 @@ import { toPromise } from "neutronium-vue-resultcommand-topromise";
 function route({ name, children, component }) {
   return {
     exact: true,
-    path: name,
+    path: `/${name}`,
     name,
     children,
     component
@@ -41,7 +41,7 @@ function getRouterViewModel(router) {
 }
 
 /*eslint no-unused-vars: ["error", { "args": "none" }]*/
-router.beforeEach((to, from, next) => {
+router.beforeEach((async (to, from, next) => {
   const routerViewModel = getRouterViewModel(router);
   if (!routerViewModel) {
     next();
@@ -54,22 +54,20 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
-  const promise = toPromise(navigator, to.name);
-  promise.then(
-    ok => {
-      if (!ok.Continue) {
-        next(false);
-      } else if (ok.Redirect) {
-        next({ name: ok.Redirect });
-      } else {
-        router.app.ViewModel.CurrentViewModel = ok.To;
-        next();
-      }
-    },
-    error => {
-      next(error);
+  try {
+    const navigationResult = await toPromise(navigator, name);
+    if (!navigationResult.Continue) {
+      next(false);
+    } else if (navigationResult.Redirect) {
+      next({ name: navigationResult.Redirect });
+    } else {
+      router.app.ViewModel.CurrentViewModel = navigationResult.To;
+      next();
     }
-  );
+  }
+  catch (error) {
+    next(error);
+  }
 });
 
 /*eslint no-unused-vars: ["error", { "args": "none" }]*/
