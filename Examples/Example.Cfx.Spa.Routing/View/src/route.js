@@ -5,8 +5,8 @@ import { toPromise } from "neutronium-vue-resultcommand-topromise";
 function route({ name, children, component }) {
   return {
     exact: true,
-    path: `/${name}`,
-    name: name,
+    path: name,
+    name,
     children,
     component
   };

@@ -1,6 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ assembly name="$(SolutionDir)\Example.Cfx.Spa.Routing\bin\Debug\Neutronium SPA.exe" #>
+<#@ assembly name="$(TargetPath)" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Globalization" #>
 <#@ import namespace="System.Resources" #>
