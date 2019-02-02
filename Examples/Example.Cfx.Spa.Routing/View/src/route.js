@@ -15,7 +15,7 @@ function route({ name, children, component }) {
 const routes = routeDefinitions.map(route);
 
 const router = new Router({
-  mode: 'hash',
+  mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes
 });
