@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve ./src/main.js --open --port 9000",
-    "build": "vue-cli-service build --entry ./src/entry.js --modern",
+    "serve": "vue-cli-service serve ./src/neutronium/main.js --open --port 9000",
+    "build": "vue-cli-service build --entry ./src/neutronium/entry.js --modern",
     "lint": "vue-cli-service lint",
-    "live": "vue-cli-service serve ./src/entry.js --port 8080 --mode integrated",
+    "live": "vue-cli-service serve ./src/neutronium/entry.js --port 8080 --mode integrated",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {

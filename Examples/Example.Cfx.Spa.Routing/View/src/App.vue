@@ -45,7 +45,7 @@ import applicationFooter from "./components/applicationFooter";
 import topMenu from "./components/topMenu";
 import modal from "./components/modal";
 import applicationNotification from "./components/applicationNotification";
-import { menu } from "./route";
+import { menu } from "@/neutronium/route";
 
 import routeDefinitions from "./routeDefinitions";
 const firstRouteDefinition = routeDefinitions[0];

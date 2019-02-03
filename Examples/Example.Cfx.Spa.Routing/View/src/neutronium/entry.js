@@ -1,6 +1,6 @@
 import Vue from "vue";
-import App from "./App.vue";
-import { install, vueInstanceOption } from "./install";
+import App from "@/App.vue";
+import { install, vueInstanceOption } from "@/install";
 import vueHelper from "vueHelper";
 
 function buildVueOption(vm) {

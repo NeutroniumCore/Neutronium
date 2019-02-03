@@ -1,5 +1,5 @@
 import Router from "vue-router";
-import routeDefinitions from "./routeDefinitions";
+import routeDefinitions from "@/routeDefinitions";
 import { toPromise } from "neutronium-vue-resultcommand-topromise";
 
 function route({ name, children, component, redirect }) {

@@ -3,7 +3,7 @@ import "@mdi/font/css/materialdesignicons.css";
 import "font-awesome/css/font-awesome.css";
 
 import Vue_Router from "vue-router";
-import { router } from "./route";
+import { router } from "@/neutronium/route";
 import VueI18n from "vue-i18n";
 import messages from "./message";
 import Notifications from "vue-notification";
