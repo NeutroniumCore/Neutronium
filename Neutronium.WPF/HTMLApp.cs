@@ -5,6 +5,10 @@ using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.WPF
 {
+    /// <summary>
+    /// Base Wpf application implementation for Neutronium application.
+    /// Provides Neutronium application set-up
+    /// </summary>
     public abstract class HTMLApp : Application
     {
         private bool _Registered;
@@ -46,8 +50,13 @@ namespace Neutronium.WPF
 
         protected virtual void OnStartUp(IHTMLEngineFactory factory) 
         {            
-        } 
+        }
 
+        /// <summary>
+        /// Overrode by browser implementation to provide IWPFWebWindowFactory
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <returns></returns>
         protected abstract IWPFWebWindowFactory GetWindowFactory(IWebSessionLogger logger);
 
         protected abstract IJavascriptFrameworkManager GetJavascriptUIFrameworkManager();
