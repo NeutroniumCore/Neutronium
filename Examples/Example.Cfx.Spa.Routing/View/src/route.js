@@ -2,20 +2,21 @@ import Router from "vue-router";
 import routeDefinitions from "./routeDefinitions";
 import { toPromise } from "neutronium-vue-resultcommand-topromise";
 
-function route({ name, children, component }) {
+function route({ name, children, component, redirect }) {
   return {
     exact: true,
     path: `/${name}`,
     name,
     children,
-    component
+    component,
+    redirect
   };
 }
 
 const routes = routeDefinitions.map(route);
 
 const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   scrollBehavior: () => ({ y: 0 }),
   routes
 });
@@ -40,8 +41,12 @@ function getRouterViewModel(router) {
   return viewModel.Router;
 }
 
+function preprocessPath(path) {
+  return path.substring(1);
+}
+
 /*eslint no-unused-vars: ["error", { "args": "none" }]*/
-router.beforeEach((async (to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const routerViewModel = getRouterViewModel(router);
   if (!routerViewModel) {
     next();
@@ -54,8 +59,10 @@ router.beforeEach((async (to, from, next) => {
     return;
   }
 
+  const destination = preprocessPath(to.path);
+
   try {
-    const navigationResult = await toPromise(navigator, name);
+    const navigationResult = await toPromise(navigator, destination);
     if (!navigationResult.Continue) {
       next(false);
     } else if (navigationResult.Redirect) {
@@ -81,7 +88,8 @@ router.afterEach((to, from, next) => {
   if (!navigator) {
     return;
   }
-  navigator.Execute(to.name);
+  const destination = preprocessPath(to.path);
+  navigator.Execute(destination);
 });
 
 export { router, menu };

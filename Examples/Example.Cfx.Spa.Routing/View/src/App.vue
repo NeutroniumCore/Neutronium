@@ -75,17 +75,13 @@ export default {
       menu
     };
   },
-  mounted() {
-    window.location.hash == "#/" &&
-      (!!this.$route.name || this.$router.replace(firstRoute));
-  },
   methods: {
     /*eslint no-unused-vars: ["error", { "args": "none" }]*/
     onNotified(notification) {}
   },
   watch: {
-    "viewModel.Router.Route": function(name) {
-      if (name) this.$router.push({ name });
+    "viewModel.Router.Route": function(path) {
+      if (name) this.$router.push({ path });
     },
     "viewModel.Modal": function(value) {
       this.modal = value != null;

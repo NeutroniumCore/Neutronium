@@ -1,5 +1,9 @@
 const routeDefinitions = [
   {
+    name: "",
+    redirect: { name: "main" }
+  },
+  {
     name: "main",
     component: () => import("./pages/main.vue"),
     menu: { icon: "fa-television" }
