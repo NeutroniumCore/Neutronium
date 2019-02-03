@@ -14,6 +14,14 @@ function route({ name, children, component, redirect }) {
 }
 
 const routes = routeDefinitions.map(route);
+if (!routes.some(r => r.path === "/")) {
+  routes.push({
+    exact: true,
+    path: "/",
+    name: "",
+    redirect: { name: routes[0].name }
+  })
+}
 
 const router = new Router({
   mode: 'hash',
