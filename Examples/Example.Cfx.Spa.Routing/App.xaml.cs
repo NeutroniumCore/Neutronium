@@ -19,6 +19,8 @@ namespace Example.Cfx.Spa.Routing
         private SetUpViewModel SetUpViewModel { get; }
         private readonly ApplicationSetUpBuilder _ApplicationSetUpBuilder;
 
+        protected override bool AllowGpu => true;
+
         public App()
         {
             _ApplicationSetUpBuilder = new ApplicationSetUpBuilder("View");
