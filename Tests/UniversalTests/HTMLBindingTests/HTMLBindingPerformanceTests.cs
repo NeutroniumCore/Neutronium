@@ -223,13 +223,13 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.GetArrayLength().Should().Be(2);
 
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
 
                     await Task.Delay(150);
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
                     var iis = 500;
@@ -253,7 +253,7 @@ namespace Tests.Universal.HTMLBindingTests
                     stopWatch.Stop();
                     var ts = stopWatch.ElapsedMilliseconds;
                     _Logger.Info($"Perf: {((double)(ts)) / 1000} sec for {iis} iterations");
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     CheckVsExpectation(ts, TestPerformanceKind.TwoWay_Collection);
                 }
