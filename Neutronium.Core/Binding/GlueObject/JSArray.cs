@@ -174,7 +174,8 @@ namespace Neutronium.Core.Binding.GlueObject
         public BridgeUpdater GetRemoveUpdater(int index, int count)
         {
             var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, count));
-            var oldChildren = Enumerable.Range(0, count).Select( idx => { 
+            var oldChildren = Enumerable.Range(0, count).Select(_ =>
+            {
                 var old = Items[index];
                 Items.RemoveAt(index);
                 return old;

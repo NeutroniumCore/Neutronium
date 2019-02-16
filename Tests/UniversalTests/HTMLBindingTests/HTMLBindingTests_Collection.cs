@@ -282,7 +282,6 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
         public async Task TwoWay_Collection_Updates_CSharp_From_JS_Update()
         {
