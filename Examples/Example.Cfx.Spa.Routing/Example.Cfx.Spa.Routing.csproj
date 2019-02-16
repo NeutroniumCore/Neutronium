@@ -211,6 +211,7 @@
     <Content Include="View\.gitignore" />
     <Resource Include="View\dist\**" />
     <Resource Include="View\src\assets\logo.png" />
+    <Content Include="View\babel.config.js" />
     <Content Include="View\src\neutronium\entry.js" />
     <Content Include="View\src\neutronium\main.js" />
     <Content Include="View\src\neutronium\route.js" />
