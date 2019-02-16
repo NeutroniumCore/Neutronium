@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using MoreCollection.Extensions;
+using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.CollectionChanges;
+using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using MoreCollection.Extensions;
-using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Binding.Listeners;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
@@ -26,7 +26,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public JsArray(IEnumerable collection, Type individual)
         {
-            CValue = collection;            
+            CValue = collection;
             _IndividualType = individual;
         }
 
@@ -46,7 +46,7 @@ namespace Neutronium.Core.Binding.GlueObject
             }
         }
 
-        public void VisitChildren(Action<IJsCsGlue> visit) 
+        public void VisitChildren(Action<IJsCsGlue> visit)
         {
             foreach (var item in Items)
                 visit(item);
@@ -131,12 +131,36 @@ namespace Neutronium.Core.Binding.GlueObject
             return updater;
         }
 
+        private static BridgeUpdater CheckForRemove(BridgeUpdater updater, List<IJsCsGlue> glues)
+        {
+            glues.ForEach(glue =>
+            {
+                if (glue.Release())
+                    updater.Remove(glue);
+            });
+            return updater;
+        }
+
         public BridgeUpdater GetReplaceUpdater(IJsCsGlue glue, int index)
         {
             var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, 1, glue));
             var old = Items[index];
             Items[index] = glue.AddRef();
             return CheckForRemove(bridgeUpdater, old);
+        }
+
+        public BridgeUpdater GetReplaceUpdater(List<IJsCsGlue> glues, int index)
+        {
+            var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, glues.Count, glues));
+
+            var oldChildren = new List<IJsCsGlue>();
+            glues.ForEach(glue =>
+            {
+                var old = Items[index];
+                Items[index] = glue.AddRef();
+                oldChildren.Add(old);
+            });
+            return CheckForRemove(bridgeUpdater, oldChildren);
         }
 
         public BridgeUpdater GetMoveUpdater(int oldIndex, int newIndex)

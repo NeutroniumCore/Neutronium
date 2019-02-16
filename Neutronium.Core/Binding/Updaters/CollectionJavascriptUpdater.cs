@@ -42,11 +42,7 @@ namespace Neutronium.Core.Binding.Updaters
                     return GetAddUpdater(array);
 
                 case NotifyCollectionChangedAction.Replace:
-                    var newValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
-                    if (newValue == null)
-                        return null;
-                    NewJsValues.Add(newValue);
-                    return array.GetReplaceUpdater(newValue, _Change.NewStartingIndex);
+                    return GetReplaceUpdater(array);
 
                 case NotifyCollectionChangedAction.Remove:
                     return array.GetRemoveUpdater(_Change.OldStartingIndex, _Change.OldItems.Count);
@@ -64,18 +60,28 @@ namespace Neutronium.Core.Binding.Updaters
 
         private BridgeUpdater GetAddUpdater(JsArray array)
         {
+            InitValuesFromNewItems();
             if (_Change.NewItems.Count == 1)
             {
-                var newValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
-                if (newValue == null)
-                    return null;
-                NewJsValues.Add(newValue);
-                return array.GetAddUpdater(newValue, _Change.NewStartingIndex);
+                return array.GetAddUpdater(_NewJsValues[0], _Change.NewStartingIndex);
             }
+            return array.GetAddUpdater(_NewJsValues, _Change.NewStartingIndex);
+        }
 
+        private BridgeUpdater GetReplaceUpdater(JsArray array)
+        {
+            InitValuesFromNewItems();
+            if (_Change.NewItems.Count == 1)
+            {
+                return array.GetReplaceUpdater(_NewJsValues[0], _Change.NewStartingIndex);
+            }
+            return array.GetReplaceUpdater(_NewJsValues, _Change.NewStartingIndex);
+        }
+
+        private void InitValuesFromNewItems()
+        {
             _NewJsValues = _Change.NewItems.Cast<object>().Select(item => _JsUpdateHelper.Map(item))
                 .ToList();
-            return array.GetAddUpdater(_NewJsValues, _Change.NewStartingIndex);
         }
 
         public void OnJsContext()
