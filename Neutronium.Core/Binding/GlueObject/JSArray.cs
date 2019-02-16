@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using MoreCollection.Extensions;
+using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.CollectionChanges;
+using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using MoreCollection.Extensions;
-using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Binding.Listeners;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 
@@ -26,7 +26,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         public JsArray(IEnumerable collection, Type individual)
         {
-            CValue = collection;            
+            CValue = collection;
             _IndividualType = individual;
         }
 
@@ -46,7 +46,7 @@ namespace Neutronium.Core.Binding.GlueObject
             }
         }
 
-        public void VisitChildren(Action<IJsCsGlue> visit) 
+        public void VisitChildren(Action<IJsCsGlue> visit)
         {
             foreach (var item in Items)
                 visit(item);
@@ -113,10 +113,31 @@ namespace Neutronium.Core.Binding.GlueObject
             return new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, 0, glue));
         }
 
+        public BridgeUpdater GetAddUpdater(IList<IJsCsGlue> glues, int startIndex)
+        {
+            var index = startIndex;
+            glues.ForEach(glue =>
+            {
+                Items.Insert(index++, glue);
+                glue.AddRef();
+            });
+            return new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, startIndex, 0, glues));
+        }
+
         private static BridgeUpdater CheckForRemove(BridgeUpdater updater, IJsCsGlue glue)
         {
             if (glue.Release())
                 updater.Remove(glue);
+            return updater;
+        }
+
+        private static BridgeUpdater CheckForRemove(BridgeUpdater updater, List<IJsCsGlue> glues)
+        {
+            glues.ForEach(glue =>
+            {
+                if (glue.Release())
+                    updater.Remove(glue);
+            });
             return updater;
         }
 
@@ -128,6 +149,20 @@ namespace Neutronium.Core.Binding.GlueObject
             return CheckForRemove(bridgeUpdater, old);
         }
 
+        public BridgeUpdater GetReplaceUpdater(List<IJsCsGlue> glues, int index)
+        {
+            var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, glues.Count, glues));
+
+            var oldChildren = glues.Select((glue, idx) =>
+            {
+                var currentIndex = index + idx;
+                var old = Items[currentIndex];
+                Items[currentIndex] = glue.AddRef();
+                return old;
+            }).ToList();
+            return CheckForRemove(bridgeUpdater, oldChildren);
+        }
+
         public BridgeUpdater GetMoveUpdater(int oldIndex, int newIndex)
         {
             var item = Items[oldIndex];
@@ -136,12 +171,16 @@ namespace Neutronium.Core.Binding.GlueObject
             return new BridgeUpdater(viewModelUpdater => MoveJavascriptCollection(viewModelUpdater, item.GetJsSessionValue(), oldIndex, newIndex));
         }
 
-        public BridgeUpdater GetRemoveUpdater(int index)
+        public BridgeUpdater GetRemoveUpdater(int index, int count)
         {
-            var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, 1));
-            var old = Items[index];
-            Items.RemoveAt(index);
-            return CheckForRemove(bridgeUpdater, old);
+            var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, count));
+            var oldChildren = Enumerable.Range(0, count).Select(_ =>
+            {
+                var old = Items[index];
+                Items.RemoveAt(index);
+                return old;
+            }).ToList();
+            return CheckForRemove(bridgeUpdater, oldChildren);
         }
 
         public BridgeUpdater GetResetUpdater()
@@ -158,6 +197,11 @@ namespace Neutronium.Core.Binding.GlueObject
         private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number, IJsCsGlue glue)
         {
             viewModelUpdater?.SpliceCollection(CachableJsValue, index, number, glue.GetJsSessionValue());
+        }
+
+        private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number, IList<IJsCsGlue> glues)
+        {
+            viewModelUpdater?.SpliceCollection(CachableJsValue, index, number, glues.Select(glue => glue.GetJsSessionValue()).ToList());
         }
 
         private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number)

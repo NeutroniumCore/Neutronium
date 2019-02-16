@@ -49,16 +49,16 @@ namespace Tests.Universal.HTMLBindingTests
 
         protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);
 
-        protected void Check(IJavascriptObject coll, IList<Skill> iskill) 
+        protected void CheckCollection(IJavascriptObject coll, IList<Skill> skill) 
         {
-            coll.GetArrayLength().Should().Be(iskill.Count);
+            coll.GetArrayLength().Should().Be(skill.Count);
 
-            for (var  i = 0; i < iskill.Count; i++) 
+            for (var  i = 0; i < skill.Count; i++) 
             {
                 var c = coll.GetValue(i);
 
-                (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(iskill[i].Name);
-                (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(iskill[i].Type);
+                (GetSafe(() => GetStringAttribute(c, "Name"))).Should().Be(skill[i].Name);
+                (GetSafe(() => GetStringAttribute(c, "Type"))).Should().Be(skill[i].Type);
             }
         }
     }

@@ -5,9 +5,11 @@ using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using MoreCollection.Extensions;
 
 namespace Neutronium.Core.Binding.Updaters
 {
@@ -48,7 +50,7 @@ namespace Neutronium.Core.Binding.Updaters
             return new CollectionJavascriptUpdater(this, sender, e);
         }
 
-        public IJavascriptUpdater GetUpdaterForExcecutionChanged(object sender)
+        public IJavascriptUpdater GetUpdaterForExecutionChanged(object sender)
         {
             return new CommandJavascriptUpdater(this, sender);
         }
@@ -89,6 +91,39 @@ namespace Neutronium.Core.Binding.Updaters
         public void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off)
         {
             updater.CleanAfterChangesOnUiThread(off, _SessionCache);
+        }
+
+        public void UpdateOnJavascriptContext(BridgeUpdater updater, IList<IJsCsGlue> values)
+        {
+            if (values == null || values.Count == 0)
+            {
+                RunUpdaterOnJsContext(updater);
+                return;
+            }
+
+            if (_Context.JavascriptFrameworkIsMappingObject)
+            {
+                UpdateOnJavascriptContextWithMapping(updater, values).DoNotWait();
+                return;
+            }
+
+            UpdateOnJavascriptContextWithoutMapping(updater, values);
+        }
+
+        private void UpdateOnJavascriptContextWithoutMapping(BridgeUpdater updater, IEnumerable<IJsCsGlue> values)
+        {
+            values.ForEach(UpdateJavascriptValue);
+            RunUpdaterOnJsContext(updater);
+        }
+
+        private async Task UpdateOnJavascriptContextWithMapping(BridgeUpdater updater, IList<IJsCsGlue> values)
+        {
+            values.ForEach(UpdateJavascriptValue);
+            foreach (var jsCsGlue in values)
+            {
+                await _SessionMapper.InjectInHtmlSession(jsCsGlue);
+            }    
+            RunUpdaterOnJsContext(updater);
         }
 
         public void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value)

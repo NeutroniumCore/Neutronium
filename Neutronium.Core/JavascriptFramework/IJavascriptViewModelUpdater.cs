@@ -72,6 +72,24 @@ namespace Neutronium.Core.JavascriptFramework
         /// <param name="number">
         /// number argument
         /// </param>
+        /// <param name="items">
+        /// item argument
+        /// </param>
+        void SpliceCollection(IJavascriptObject array, int index, int number, IList<IJavascriptObject> items);
+
+        /// <summary>
+        /// Update javascript collection without raising listeners events
+        /// performing javascript splice operation https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+        /// </summary>
+        /// <param name="array">
+        /// collection to be updated
+        /// </param>
+        /// <param name="index">
+        /// index argument
+        /// </param>
+        /// <param name="number">
+        /// number argument
+        /// </param>
         void SpliceCollection(IJavascriptObject array, int index, int number);
 
         /// <summary>

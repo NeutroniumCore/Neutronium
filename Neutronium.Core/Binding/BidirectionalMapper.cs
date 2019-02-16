@@ -47,8 +47,8 @@ namespace Neutronium.Core.Binding
             _BuilderStrategyFactory = strategyFactory ?? new StandardStrategyFactory();
             Mode = mode;
             _Logger = logger;
-            var javascriptObjecChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
-            Context = contextBuilder.GetMainContext(javascriptObjecChanges);
+            var javascriptObjectChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
+            Context = contextBuilder.GetMainContext(javascriptObjectChanges);
             _SessionCache = new SessionCacher();
             var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _SessionCache);
             _ListenerUpdater = ListenToCSharp ? new ListenerUpdater(jsUpdateHelper) : null;

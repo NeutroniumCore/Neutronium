@@ -15,20 +15,26 @@ namespace Tests.Universal.HTMLBindingTests
 {
     public abstract partial class HtmlBindingTests
     {
-        private static void Checkstring(IJavascriptObject coll, IEnumerable<string> iskill)
+        private static void CheckStringCollection(IJavascriptObject actual, IEnumerable<string> expected)
         {
-            var javaCollection = Enumerable.Range(0, coll.GetArrayLength()).Select(i => coll.GetValue(i).GetStringValue());
-            javaCollection.Should().Equal(iskill);
+            var javaCollection = Enumerable.Range(0, actual.GetArrayLength()).Select(i => actual.GetValue(i).GetStringValue());
+            javaCollection.Should().Equal(expected);
         }
 
-        private static void CheckDecimalCollection(IJavascriptObject coll, IList<decimal> iskill)
+        private static void CheckIntCollection(IJavascriptObject actual, IEnumerable<int> expected)
         {
-            coll.GetArrayLength().Should().Be(iskill.Count);
+            var javaCollection = Enumerable.Range(0, actual.GetArrayLength()).Select(i => actual.GetValue(i).GetIntValue());
+            javaCollection.Should().Equal(expected);
+        }
 
-            for (var i = 0; i < iskill.Count; i++)
+        private static void CheckDecimalCollection(IJavascriptObject coll, IList<decimal> skill)
+        {
+            coll.GetArrayLength().Should().Be(skill.Count);
+
+            for (var i = 0; i < skill.Count; i++)
             {
                 var c = (decimal)coll.GetValue(i).GetDoubleValue();
-                c.Should().Be(iskill[i]);
+                c.Should().Be(skill[i]);
             }
         }
 
@@ -46,7 +52,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col.Should().NotBeNull();
                     col.GetArrayLength().Should().Be(2);
 
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     DoSafeUI(() =>
                     {
@@ -56,7 +62,7 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(1000);
                     col = GetCollectionAttribute(js, "Skills");
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     DoSafeUI(() =>
                     {
@@ -65,7 +71,7 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     DoSafeUI(() =>
                     {
@@ -74,7 +80,7 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     DoSafeUI(() =>
                     {
@@ -83,7 +89,7 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     DoSafeUI(() =>
                     {
@@ -93,7 +99,7 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     DoSafeUI(() =>
                     {
@@ -102,7 +108,7 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
                 }
             };
 
@@ -133,7 +139,143 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(1000);
                     var col = GetCollectionAttribute(js, "Skills");
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Collection_Updates_After_AddRange_Changes()
+        {
+            var dataContext = new VmWithRangeCollection<int>();
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var addedItems = new[] { 1, 2, 3, 4 };
+                    var js = mb.JsRootObject;
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.List.AddRange(addedItems);
+                    });
+
+                    await Task.Delay(500);
+                    var col = GetCollectionAttribute(js, "List");
+                    col.Should().NotBeNull();
+                    CheckIntCollection(col, addedItems);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Collection_Updates_After_InsertRange_Changes()
+        {
+            var dataContext = new VmWithRangeCollection<int>();
+            dataContext.List.AddRange(new[] { 1, 4 });
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.List.InsertRange(1, new[] { 2, 3 });
+                    });
+
+                    await Task.Delay(500);
+                    var col = GetCollectionAttribute(js, "List");
+                    col.Should().NotBeNull();
+                    CheckIntCollection(col, new[] { 1, 2, 3, 4 });
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_Collection_Updates_After_RemoveRange_Changes()
+        {
+            var dataContext = new VmWithRangeCollection<int>();
+            dataContext.List.AddRange(new[] { 1, 2, 3, 4, 5 });
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.List.RemoveRange(1, 3);
+                    });
+
+                    await Task.Delay(500);
+                    var col = GetCollectionAttribute(js, "List");
+                    col.Should().NotBeNull();
+                    CheckIntCollection(col, new[] { 1, 5 });
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Collection_Updates_After_ReplaceRange_Changes()
+        {
+            var dataContext = new VmWithRangeCollection<int>();
+            dataContext.List.AddRange(new[] { 1, 20, 30, 40, 5 });
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.List.ReplaceRange(1, 3, new[] { 2, 3, 4 });
+                    });
+
+                    await Task.Delay(500);
+                    var col = GetCollectionAttribute(js, "List");
+                    col.Should().NotBeNull();
+                    CheckIntCollection(col, new[] { 1, 2, 3, 4, 5 });
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Collection_Updates_After_ReplaceRange_One_Collection_Changes()
+        {
+            var dataContext = new VmWithRangeCollection<int>();
+            dataContext.List.AddRange(new[] { 100, 200 });
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.List.ReplaceRange(new[] { 1, 2, 3, 4, 5 });
+                    });
+
+                    await Task.Delay(500);
+                    var col = GetCollectionAttribute(js, "List");
+                    col.Should().NotBeNull();
+                    CheckIntCollection(col, new[] { 1, 2, 3, 4, 5 });
                 }
             };
 
@@ -155,7 +297,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.GetArrayLength().Should().Be(2);
 
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     var coll = GetAttribute(js, "Skills");
                     Call(coll, "push", (root.GetAttribute("Skills") as JsArray).Items[0].GetJsSessionValue());
@@ -169,7 +311,7 @@ namespace Tests.Universal.HTMLBindingTests
                     });
 
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     Call(coll, "pop");
 
@@ -180,7 +322,7 @@ namespace Tests.Universal.HTMLBindingTests
                     });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     Call(coll, "shift");
 
@@ -190,7 +332,7 @@ namespace Tests.Universal.HTMLBindingTests
                         _DataContext.Skills.Should().HaveCount(1);
                     });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
 
                     Call(coll, "unshift",
@@ -202,7 +344,7 @@ namespace Tests.Universal.HTMLBindingTests
                         _DataContext.Skills.Should().HaveCount(2);
                     });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     DoSafeUI(() =>
                     {
@@ -212,7 +354,7 @@ namespace Tests.Universal.HTMLBindingTests
                     _DataContext.Skills.Should().HaveCount(3);
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     col.Should().NotBeNull();
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     Call(coll, "reverse");
 
@@ -222,7 +364,7 @@ namespace Tests.Universal.HTMLBindingTests
                         _DataContext.Skills.Should().HaveCount(3);
                     });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
                 }
             };
 
@@ -232,11 +374,11 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Maps_String_Collection()
         {
-            var datacontext = new VmWithList<string>();
+            var dataContext = new VmWithList<string>();
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -244,42 +386,42 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     col.GetArrayLength().Should().Be(0);
                     await Task.Delay(200);
-                    Checkstring(col, datacontext.List);
+                    CheckStringCollection(col, dataContext.List);
 
                     DoSafeUI(() =>
                     {
-                        datacontext.List.Add("titi");
+                        dataContext.List.Add("titi");
                     });
                     await Task.Delay(200);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
-                    Checkstring(col, datacontext.List);
+                    CheckStringCollection(col, dataContext.List);
 
                     DoSafeUI(() =>
                     {
-                        datacontext.List.Add("kiki");
-                        datacontext.List.Add("toto");
+                        dataContext.List.Add("kiki");
+                        dataContext.List.Add("toto");
                     });
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
-                    Checkstring(col, datacontext.List);
+                    CheckStringCollection(col, dataContext.List);
 
                     DoSafeUI(() =>
                     {
-                        datacontext.List.Move(0, 2);
+                        dataContext.List.Move(0, 2);
                     });
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
-                    Checkstring(col, datacontext.List);
+                    CheckStringCollection(col, dataContext.List);
 
                     DoSafeUI(() =>
                     {
-                        datacontext.List.Move(2, 1);
+                        dataContext.List.Move(2, 1);
                     });
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
-                    Checkstring(col, datacontext.List);
+                    CheckStringCollection(col, dataContext.List);
 
-                    var comp = new List<string>(datacontext.List) { "newvalue" };
+                    var comp = new List<string>(dataContext.List) { "newvalue" };
 
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     var chcol = GetAttribute(js, "List");
@@ -289,17 +431,17 @@ namespace Tests.Universal.HTMLBindingTests
 
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    datacontext.List.Should().Equal(comp);
-                    Checkstring(col, datacontext.List);
+                    dataContext.List.Should().Equal(comp);
+                    CheckStringCollection(col, dataContext.List);
 
                     DoSafeUI(() =>
                     {
-                        datacontext.List.Clear();
+                        dataContext.List.Clear();
                     });
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    Checkstring(col, datacontext.List);
+                    CheckStringCollection(col, dataContext.List);
                 }
             };
 
@@ -337,12 +479,12 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Maps_None_Generic_List()
         {
-            var datacontext = new VmWithList();
-            datacontext.List.Add(888);
+            var dataContext = new VmWithList();
+            dataContext.List.Add(888);
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -358,8 +500,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(350);
 
-                    datacontext.List.Should().HaveCount(2);
-                    datacontext.List[1].Should().Be("newvalue");
+                    dataContext.List.Should().HaveCount(2);
+                    dataContext.List[1].Should().Be("newvalue");
                 }
             };
 
@@ -369,11 +511,11 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Maps_Decimal_Collection()
         {
-            var datacontext = new VmWithList<decimal>();
+            var dataContext = new VmWithList<decimal>();
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -381,35 +523,35 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     col.GetArrayLength().Should().Be(0);
 
-                    CheckDecimalCollection(col, datacontext.List);
+                    CheckDecimalCollection(col, dataContext.List);
 
                     DoSafeUI(() =>
                     {
-                        datacontext.List.Add(3);
+                        dataContext.List.Add(3);
                     });
 
                     await Task.Delay(150);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    CheckDecimalCollection(col, datacontext.List);
+                    CheckDecimalCollection(col, dataContext.List);
 
                     DoSafeUI(() =>
                     {
-                        datacontext.List.Add(10.5m);
-                        datacontext.List.Add(126);
+                        dataContext.List.Add(10.5m);
+                        dataContext.List.Add(126);
                     });
 
                     await Task.Delay(150);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    CheckDecimalCollection(col, datacontext.List);
+                    CheckDecimalCollection(col, dataContext.List);
 
                     await Task.Delay(100);
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    CheckDecimalCollection(col, datacontext.List);
+                    CheckDecimalCollection(col, dataContext.List);
 
-                    var comp = new List<decimal>(datacontext.List) { 0.55m };
+                    var comp = new List<decimal>(dataContext.List) { 0.55m };
 
                     var res = GetAttribute(js, "List");
                     Call(res, "push", _WebView.Factory.CreateDouble(0.55));
@@ -418,8 +560,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
 
-                    comp.Should().Equal(datacontext.List);
-                    CheckDecimalCollection(col, datacontext.List);
+                    comp.Should().Equal(dataContext.List);
+                    CheckDecimalCollection(col, dataContext.List);
                 }
             };
 
@@ -441,7 +583,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetCollectionAttribute(js, "Skills");
                     col.GetArrayLength().Should().Be(2);
 
-                    Check(col, _DataContext.Skills);
+                    CheckCollection(col, _DataContext.Skills);
 
                     var coll = GetAttribute(js, "Skills");
                     Call(coll, "push", _WebView.Factory.CreateString("Whatever"));
