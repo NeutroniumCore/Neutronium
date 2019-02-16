@@ -49,7 +49,7 @@ namespace Neutronium.Core.Binding.Updaters
                     return array.GetReplaceUpdater(newValue, _Change.NewStartingIndex);
 
                 case NotifyCollectionChangedAction.Remove:
-                    return array.GetRemoveUpdater(_Change.OldStartingIndex);
+                    return array.GetRemoveUpdater(_Change.OldStartingIndex, _Change.OldItems.Count);
 
                 case NotifyCollectionChangedAction.Reset:
                     return array.GetResetUpdater(); ;

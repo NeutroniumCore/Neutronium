@@ -200,6 +200,34 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
+
+        [Fact]
+        public async Task TwoWay_Collection_Updates_After_RemoveRange_Changes()
+        {
+            var dataContext = new VmWithRangeCollection();
+            dataContext.List.AddRange(new[] { 1, 2, 3, 4, 5 });
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.List.RemoveRange(1, 3);
+                    });
+
+                    await Task.Delay(500);
+                    var col = GetCollectionAttribute(js, "List");
+                    col.Should().NotBeNull();
+                    CheckIntCollection(col, new[] { 1, 5 });
+                }
+            };
+
+            await RunAsync(test);
+        }
+
         [Fact]
         public async Task TwoWay_Collection_Updates_CSharp_From_JS_Update()
         {

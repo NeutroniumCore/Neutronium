@@ -147,9 +147,9 @@ namespace Neutronium.Core.Binding.GlueObject
             return new BridgeUpdater(viewModelUpdater => MoveJavascriptCollection(viewModelUpdater, item.GetJsSessionValue(), oldIndex, newIndex));
         }
 
-        public BridgeUpdater GetRemoveUpdater(int index)
+        public BridgeUpdater GetRemoveUpdater(int index, int count)
         {
-            var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, 1));
+            var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, count));
             var old = Items[index];
             Items.RemoveAt(index);
             return CheckForRemove(bridgeUpdater, old);
