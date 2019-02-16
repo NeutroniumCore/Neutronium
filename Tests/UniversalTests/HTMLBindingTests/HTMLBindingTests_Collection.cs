@@ -149,7 +149,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Collection_Updates_After_AddRange_Changes()
         {
-            var dataContext = new VmWithRangeCollection();
+            var dataContext = new VmWithRangeCollection<int>();
             var test = new TestInContextAsync()
             {
                 Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
@@ -176,7 +176,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Collection_Updates_After_InsertRange_Changes()
         {
-            var dataContext = new VmWithRangeCollection();
+            var dataContext = new VmWithRangeCollection<int>();
             dataContext.List.AddRange(new[] { 1, 4 });
             var test = new TestInContextAsync()
             {
@@ -204,7 +204,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Collection_Updates_After_RemoveRange_Changes()
         {
-            var dataContext = new VmWithRangeCollection();
+            var dataContext = new VmWithRangeCollection<int>();
             dataContext.List.AddRange(new[] { 1, 2, 3, 4, 5 });
             var test = new TestInContextAsync()
             {
@@ -231,7 +231,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Collection_Updates_After_ReplaceRange_Changes()
         {
-            var dataContext = new VmWithRangeCollection();
+            var dataContext = new VmWithRangeCollection<int>();
             dataContext.List.AddRange(new[] { 1, 20, 30, 40, 5 });
             var test = new TestInContextAsync()
             {

@@ -153,13 +153,13 @@ namespace Neutronium.Core.Binding.GlueObject
         {
             var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, glues.Count, glues));
 
-            var oldChildren = new List<IJsCsGlue>();
-            glues.ForEach(glue =>
+            var oldChildren = glues.Select((glue, idx) =>
             {
-                var old = Items[index];
-                Items[index] = glue.AddRef();
-                oldChildren.Add(old);
-            });
+                var currentIndex = index + idx;
+                var old = Items[currentIndex];
+                Items[currentIndex] = glue.AddRef();
+                return old;
+            }).ToList();
             return CheckForRemove(bridgeUpdater, oldChildren);
         }
 
@@ -174,9 +174,12 @@ namespace Neutronium.Core.Binding.GlueObject
         public BridgeUpdater GetRemoveUpdater(int index, int count)
         {
             var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, count));
-            var old = Items[index];
-            Items.RemoveAt(index);
-            return CheckForRemove(bridgeUpdater, old);
+            var oldChildren = Enumerable.Range(0, count).Select( idx => { 
+                var old = Items[index];
+                Items.RemoveAt(index);
+                return old;
+            }).ToList();
+            return CheckForRemove(bridgeUpdater, oldChildren);
         }
 
         public BridgeUpdater GetResetUpdater()

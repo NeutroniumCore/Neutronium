@@ -2,8 +2,8 @@
 
 namespace Tests.Universal.HTMLBindingTests.Helper
 {
-    public class VmWithRangeCollection
+    public class VmWithRangeCollection<T>
     {
-        public ObservableRangeCollection<int> List { get;  } = new ObservableRangeCollection<int>();
+        public ObservableRangeCollection<T> List { get;  } = new ObservableRangeCollection<T>();
     }
 }

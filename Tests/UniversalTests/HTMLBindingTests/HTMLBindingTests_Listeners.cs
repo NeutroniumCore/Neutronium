@@ -2,12 +2,13 @@
 using MoreCollection.Extensions;
 using Neutronium.Core;
 using Neutronium.Core.Test.Helper;
+using Neutronium.Example.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Neutronium.Example.ViewModel;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
+using Tests.Universal.HTMLBindingTests.Helper;
 using Xunit;
 
 namespace Tests.Universal.HTMLBindingTests
@@ -477,6 +478,97 @@ namespace Tests.Universal.HTMLBindingTests
             };
 
             await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Unlistens_To_Elements_Removed_From_List_By_RangeRemove()
+        {
+            var root = BuildVmWithRangeCollection();
+            var removed = new[] { root.List[1], root.List[2] };
+            var remain = new[] { root.List[0], root.List[3] };
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    await DoSafeAsyncUI(() => root.List.RemoveRange(1, 2));
+
+                    await Task.Delay(100);
+
+                    removed.ForEach(child => child.ListenerCount.Should().Be(0));
+                    remain.ForEach(child => child.ListenerCount.Should().Be(1));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Unlistens_To_Elements_Removed_From_List_By_RangeReplace()
+        {
+            var root = BuildVmWithRangeCollection();
+            var removed = new[] { root.List[1], root.List[2] };
+            var remain = new List<BasicTestViewModel> { root.List[0], root.List[3] };
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var newOnes = new[]
+                    {
+                        new BasicTestViewModel(),
+                        new BasicTestViewModel(),
+                    };
+                    remain.AddRange(newOnes);
+                    await DoSafeAsyncUI(() => root.List.ReplaceRange(1, 2, newOnes));
+
+                    await Task.Delay(100);
+
+                    removed.ForEach(child => child.ListenerCount.Should().Be(0));
+                    remain.ForEach(child => child.ListenerCount.Should().Be(1));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Unlistens_To_Elements_Respect_Added_Element_From_List_By_RangeReplace()
+        {
+            var root = BuildVmWithRangeCollection();
+            var remain = new List<BasicTestViewModel> { root.List[0], root.List[1], root.List[2], root.List[3] };
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var oldNewOnes = new[]
+                    {
+                        root.List[2],
+                        root.List[1],
+                    };
+                    await DoSafeAsyncUI(() => root.List.ReplaceRange(1, 2, oldNewOnes));
+
+                    await Task.Delay(100);
+
+                    remain.ForEach(child => child.ListenerCount.Should().Be(1));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        private static VmWithRangeCollection<BasicTestViewModel> BuildVmWithRangeCollection()
+        {
+            var root = new VmWithRangeCollection<BasicTestViewModel>();
+            root.List.AddRange(new[]
+            {
+                new BasicTestViewModel(),
+                new BasicTestViewModel(),
+                new BasicTestViewModel(),
+                new BasicTestViewModel()
+            });
+            return root;
         }
 
         [Fact]

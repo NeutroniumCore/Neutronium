@@ -14,7 +14,6 @@ namespace Neutronium.Core.Binding.Updaters
         private BridgeUpdater _BridgeUpdater;
         private List<IJsCsGlue> _NewJsValues;
 
-        private List<IJsCsGlue> NewJsValues => _NewJsValues ?? (_NewJsValues = new List<IJsCsGlue>());
         public bool NeedToRunOnJsContext => _BridgeUpdater?.HasUpdatesOnJavascriptContext == true;
 
         public CollectionJavascriptUpdater(IJsUpdateHelper jsUpdateHelper, object sender, NotifyCollectionChangedEventArgs change)
@@ -48,7 +47,7 @@ namespace Neutronium.Core.Binding.Updaters
                     return array.GetRemoveUpdater(_Change.OldStartingIndex, _Change.OldItems.Count);
 
                 case NotifyCollectionChangedAction.Reset:
-                    return array.GetResetUpdater(); ;
+                    return array.GetResetUpdater();
 
                 case NotifyCollectionChangedAction.Move:
                     return array.GetMoveUpdater(_Change.OldStartingIndex, _Change.NewStartingIndex);
