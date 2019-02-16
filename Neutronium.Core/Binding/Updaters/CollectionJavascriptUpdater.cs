@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding.GlueObject;
+﻿using System.Collections.Generic;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 using System.Collections.Specialized;
 
@@ -10,8 +11,9 @@ namespace Neutronium.Core.Binding.Updaters
         private readonly object _Sender;
         private readonly NotifyCollectionChangedEventArgs _Change;
         private BridgeUpdater _BridgeUpdater;
-        private IJsCsGlue _NewJsValue;
+        private List<IJsCsGlue> _NewJsValues;
 
+        private List<IJsCsGlue> NewJsValues => _NewJsValues ?? (_NewJsValues = new List<IJsCsGlue>());
         public bool NeedToRunOnJsContext => _BridgeUpdater?.HasUpdatesOnJavascriptContext == true;
 
         public CollectionJavascriptUpdater(IJsUpdateHelper jsUpdateHelper, object sender, NotifyCollectionChangedEventArgs change)
@@ -33,19 +35,22 @@ namespace Neutronium.Core.Binding.Updaters
 
         private BridgeUpdater GetBridgeUpdater(JsArray array)
         {
+            var newValue = default(IJsCsGlue);
             switch (_Change.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    _NewJsValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
-                    if (_NewJsValue == null)
+                    newValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
+                    if (newValue == null)
                         return null;
-                    return array.GetAddUpdater(_NewJsValue, _Change.NewStartingIndex);
+                    NewJsValues.Add(newValue);
+                    return array.GetAddUpdater(newValue, _Change.NewStartingIndex);
 
                 case NotifyCollectionChangedAction.Replace:
-                    _NewJsValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
-                    if (_NewJsValue == null)
+                    newValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
+                    if (newValue == null)
                         return null;
-                    return array.GetReplaceUpdater(_NewJsValue, _Change.NewStartingIndex);
+                    NewJsValues.Add(newValue);
+                    return array.GetReplaceUpdater(newValue, _Change.NewStartingIndex);
 
                 case NotifyCollectionChangedAction.Remove:
                     return array.GetRemoveUpdater(_Change.OldStartingIndex);
@@ -63,7 +68,7 @@ namespace Neutronium.Core.Binding.Updaters
 
         public void OnJsContext()
         {
-            _JsUpdateHelper.UpdateOnJavascriptContext(_BridgeUpdater, _NewJsValue);
+            _JsUpdateHelper.UpdateOnJavascriptContext(_BridgeUpdater, _NewJsValues);
         }
     }
 }

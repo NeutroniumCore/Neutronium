@@ -209,20 +209,21 @@
     <Content Include="SetUp\script\src\index.js" />
     <Content Include="View\.eslintrc.js" />
     <Content Include="View\.gitignore" />
-	<Resource Include="View\dist\**" />
+    <Resource Include="View\dist\**" />
+    <Resource Include="View\src\assets\logo.png" />
+    <Content Include="View\src\neutronium\entry.js" />
+    <Content Include="View\src\neutronium\main.js" />
+    <Content Include="View\src\neutronium\route.js" />
     <Content Include="View\vue.config.js" />
     <Content Include="View\jest.config.js" />
     <Content Include="View\postcss.config.js" />
     <Resource Include="View\public\favicon.ico" />
     <Content Include="View\public\index.html" />
-    <Content Include="View\src\entry.js" />
     <Content Include="View\src\install.js" />
-    <Content Include="View\src\main.js" />
     <Content Include="View\src\message.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>message.json</LastGenOutput>
     </Content>
-    <Content Include="View\src\route.js" />
     <Content Include="View\src\routeDefinitions.js" />
     <Content Include="View\tests\unit\.eslintrc.js" />
     <Content Include="View\tests\unit\example.spec.js" />

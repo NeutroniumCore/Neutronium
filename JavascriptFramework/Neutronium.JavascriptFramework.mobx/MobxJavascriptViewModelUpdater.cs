@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using MoreCollection.Extensions;
+﻿using MoreCollection.Extensions;
 using Neutronium.Core;
 using Neutronium.Core.Extension;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+using System;
+using System.Collections.Generic;
 
-namespace Neutronium.JavascriptFramework.mobx 
+namespace Neutronium.JavascriptFramework.mobx
 {
-    public class MobxJavascriptViewModelUpdater : IJavascriptViewModelUpdater 
+    public class MobxJavascriptViewModelUpdater : IJavascriptViewModelUpdater
     {
         private readonly IWebView _WebView;
         private readonly IJavascriptObject _Listener;
@@ -20,7 +20,7 @@ namespace Neutronium.JavascriptFramework.mobx
 
         private MobxVmUpdater Updater => _Updater ?? (_Updater = new MobxVmUpdater(_MobxHelperLazy.Value));
 
-        public MobxJavascriptViewModelUpdater(IWebView webView, Lazy<IJavascriptObject> helper, IJavascriptObject listener, IWebSessionLogger logger) 
+        public MobxJavascriptViewModelUpdater(IWebView webView, Lazy<IJavascriptObject> helper, IJavascriptObject listener, IWebSessionLogger logger)
         {
             _WebView = webView;
             _Listener = listener;
@@ -28,7 +28,7 @@ namespace Neutronium.JavascriptFramework.mobx
             _MobxHelperLazy = helper;
         }
 
-        public void AddProperty(IJavascriptObject father, string propertyName, IJavascriptObject value) 
+        public void AddProperty(IJavascriptObject father, string propertyName, IJavascriptObject value)
         {
             var property = _Properties.GetOrAddEntity(propertyName, CreateProperty);
             Updater.AddProperty.ExecuteFunctionNoResult(_WebView, null, father, property, value);
@@ -39,7 +39,7 @@ namespace Neutronium.JavascriptFramework.mobx
             Updater.ClearCollection.ExecuteFunctionNoResult(_WebView, null, array);
         }
 
-        public void InjectDetached(IJavascriptObject javascriptObject) 
+        public void InjectDetached(IJavascriptObject javascriptObject)
         {
             UpdateVm(javascriptObject);
         }
@@ -59,6 +59,19 @@ namespace Neutronium.JavascriptFramework.mobx
         public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject item)
         {
             SilentSplice(array, index, number, item);
+        }
+
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IList<IJavascriptObject> items)
+        {
+            var parameters = new IJavascriptObject[items.Count + 3];
+            parameters[0] = array;
+            parameters[1] = _WebView.Factory.CreateInt(index);
+            parameters[2] = _WebView.Factory.CreateInt(number);
+            var idx = 3;
+            items.ForEach(item => parameters[idx++] = item);
+
+            Updater.SilentSplice.ExecuteFunctionNoResult(_WebView, null, parameters);
+            items.ForEach(UpdateVm);
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)

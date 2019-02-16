@@ -112,7 +112,7 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void OnCommandCanExecuteChanged(object sender, EventArgs e)
         {
-            var updater = _JsUpdaterFactory.GetUpdaterForExcecutionChanged(sender);
+            var updater = _JsUpdaterFactory.GetUpdaterForExecutionChanged(sender);
             ScheduleChanges(updater);
         }
 

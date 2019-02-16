@@ -52,6 +52,18 @@ namespace Neutronium.JavascriptFramework.Vue
             Add(array, index, number, added);
         }
 
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IList<IJavascriptObject> items)
+        {
+            var parameters = new IJavascriptObject[items.Count + 2];
+            parameters[0] = _WebView.Factory.CreateInt(index);
+            parameters[1] = _WebView.Factory.CreateInt(number);
+            var idx = 2;
+            items.ForEach(item => parameters[idx++] = item);
+
+            array.InvokeNoResult("silentSplice", _WebView, parameters);
+            items.ForEach(Inject);
+        }
+
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)
         {
             var updater = Updater;

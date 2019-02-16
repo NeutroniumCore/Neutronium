@@ -90,19 +90,19 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
             await WebView.RunAsync(async () =>
             {
-                var errormessage = exception?.Message ?? "Faulted";
-                await promise.InvokeAsync("reject", WebView, WebView.Factory.CreateString(errormessage));
+                var errorMessage = exception?.Message ?? "Faulted";
+                await promise.InvokeAsync("reject", WebView, WebView.Factory.CreateString(errorMessage));
             });
         }
 
-        private async void SetResult(IJavascriptObject promise, IJsCsGlue bridgevalue)
+        private async void SetResult(IJavascriptObject promise, IJsCsGlue bridgeValue)
         {
             if (promise == null)
                 return;
 
             await WebView.RunAsync(async () =>
             {
-                await promise.InvokeAsync("fullfill", WebView, bridgevalue.GetJsSessionValue());
+                await promise.InvokeAsync("fullfill", WebView, bridgeValue.GetJsSessionValue());
             });
         }
 

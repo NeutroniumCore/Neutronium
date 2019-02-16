@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding.GlueObject;
+﻿using System.Collections.Generic;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.Updaters
@@ -9,5 +10,6 @@ namespace Neutronium.Core.Binding.Updaters
         IJsCsGlue Map(object value);
         void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off);
         void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value);
+        void UpdateOnJavascriptContext(BridgeUpdater updater, IList<IJsCsGlue> value);
     }
 }

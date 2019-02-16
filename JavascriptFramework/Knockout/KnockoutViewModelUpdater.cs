@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MoreCollection.Extensions;
+using Neutronium.Core;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using MoreCollection.Extensions;
-using Neutronium.Core;
+using System;
+using System.Collections.Generic;
 
 namespace Neutronium.JavascriptFramework.Knockout
 {
@@ -12,9 +12,9 @@ namespace Neutronium.JavascriptFramework.Knockout
         private readonly IWebView _WebView;
         private readonly IWebSessionLogger _Logger;
 
-        private readonly IDictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>> _Silenters = 
+        private readonly IDictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>> _Silenters =
                     new Dictionary<IJavascriptObject, IDictionary<string, IJavascriptObject>>();
- 
+
         internal KnockoutViewModelUpdater(IWebView webView, IWebSessionLogger logger)
         {
             _WebView = webView;
@@ -58,6 +58,16 @@ namespace Neutronium.JavascriptFramework.Knockout
         public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject added)
         {
             array.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), added);
+        }
+
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IList<IJavascriptObject> items)
+        {
+            var parameters = new IJavascriptObject[items.Count + 2];
+            parameters[0] = _WebView.Factory.CreateInt(index);
+            parameters[1] = _WebView.Factory.CreateInt(number);
+            var idx = 2;
+            items.ForEach(item => parameters[idx++] = item);
+            array.InvokeAsync("silentsplice", _WebView, parameters);
         }
 
         public void SpliceCollection(IJavascriptObject array, int index, int number)
