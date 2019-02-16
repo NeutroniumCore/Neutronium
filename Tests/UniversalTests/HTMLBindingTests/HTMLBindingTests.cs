@@ -1,13 +1,11 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
 using Neutronium.Core;
-using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra.Reflection;
 using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
-using Newtonsoft.Json;
 using NSubstitute;
 using System;
 using System.Dynamic;
@@ -66,35 +64,6 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task OneWay_JSON_ToString()
-        {
-            var test = new TestInContext()
-            {
-                Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.OneWay),
-                Test = (binding) =>
-                {
-                    var jsbridge = ((HtmlBinding)binding).JsBrideRootObject;
-                    var alm = jsbridge.ToString();
-
-                    JsArray arr = null;
-                    jsbridge.VisitDescendantsSafe(glue =>
-                    {
-                        arr = arr ?? glue as JsArray;
-                        return glue != null;
-                    });
-
-                    var m = JsonConvert.DeserializeObject<dynamic>(jsbridge.ToString());
-                    ((string)m.LastName).Should().Be("Desmaisons");
-                    ((string)m.Name).Should().Be("O Monstro");
-
-                    binding.ToString().Should().Be(alm);
-                }
-            };
-
-            await RunAsync(test);
-        }
-
-        [Fact]
         public async Task Bind_Throws_Exception_Without_Framework()
         {
             using (Tester(TestContext.EmptyWithJs))
@@ -105,9 +74,9 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     await HtmlBinding.Bind(_ViewEngine, new object(), JavascriptBindingMode.OneTime);
                 }
-                catch (AggregateException agregate)
+                catch (AggregateException aggregate)
                 {
-                    ex = agregate.Flatten().InnerException as NeutroniumException;
+                    ex = aggregate.Flatten().InnerException as NeutroniumException;
                 }
                 catch (NeutroniumException myex)
                 {
@@ -396,7 +365,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res2 = GetStringAttribute(One, "LastName");
                     res2.Should().Be("Desmaisons");
 
-                    //Test no stackoverflow in case of circular refernce
+                    //Test no stackoverflow in case of circular reference
                     var jsbridge = (mb as HtmlBinding).JsBrideRootObject;
                     string alm = jsbridge.ToString();
                     alm.Should().NotBeNull();
@@ -438,11 +407,11 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Update_CSharp_From_JS()
         {
-            var datacontext = new SimpleViewModel() { Name = "teste0" };
+            var dataContext = new SimpleViewModel() { Name = "teste0" };
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -456,7 +425,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(50);
 
-                    datacontext.Name.Should().Be(expected);
+                    dataContext.Name.Should().Be(expected);
                     _Logger.Info("Test ended sucessfully");
                 }
             };

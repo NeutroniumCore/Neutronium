@@ -147,7 +147,7 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Collection_Updates_Range_Changes()
+        public async Task TwoWay_Collection_Updates_After_AddRange_Changes()
         {
             var dataContext = new VmWithRangeCollection();
             var test = new TestInContextAsync()
@@ -155,7 +155,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    var addedItems = new[] {1, 2, 3, 4};
+                    var addedItems = new[] { 1, 2, 3, 4 };
                     var js = mb.JsRootObject;
 
                     DoSafeUI(() =>
@@ -167,6 +167,33 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetCollectionAttribute(js, "List");
                     col.Should().NotBeNull();
                     CheckIntCollection(col, addedItems);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Collection_Updates_After_InsertRange_Changes()
+        {
+            var dataContext = new VmWithRangeCollection();
+            dataContext.List.AddRange(new[] { 1, 4 });
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var js = mb.JsRootObject;
+
+                    DoSafeUI(() =>
+                    {
+                        dataContext.List.InsertRange(1, new[] { 2, 3 });
+                    });
+
+                    await Task.Delay(500);
+                    var col = GetCollectionAttribute(js, "List");
+                    col.Should().NotBeNull();
+                    CheckIntCollection(col, new[] { 1, 2, 3, 4 });
                 }
             };
 

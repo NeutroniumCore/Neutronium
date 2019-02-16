@@ -2,6 +2,7 @@
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace Neutronium.Core.Binding.Updaters
 {
@@ -35,18 +36,13 @@ namespace Neutronium.Core.Binding.Updaters
 
         private BridgeUpdater GetBridgeUpdater(JsArray array)
         {
-            var newValue = default(IJsCsGlue);
             switch (_Change.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    newValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
-                    if (newValue == null)
-                        return null;
-                    NewJsValues.Add(newValue);
-                    return array.GetAddUpdater(newValue, _Change.NewStartingIndex);
+                    return GetAddUpdater(array);
 
                 case NotifyCollectionChangedAction.Replace:
-                    newValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
+                    var newValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
                     if (newValue == null)
                         return null;
                     NewJsValues.Add(newValue);
@@ -64,6 +60,22 @@ namespace Neutronium.Core.Binding.Updaters
                 default:
                     return null;
             }
+        }
+
+        private BridgeUpdater GetAddUpdater(JsArray array)
+        {
+            if (_Change.NewItems.Count == 1)
+            {
+                var newValue = _JsUpdateHelper.Map(_Change.NewItems[0]);
+                if (newValue == null)
+                    return null;
+                NewJsValues.Add(newValue);
+                return array.GetAddUpdater(newValue, _Change.NewStartingIndex);
+            }
+
+            _NewJsValues = _Change.NewItems.Cast<object>().Select(item => _JsUpdateHelper.Map(item))
+                .ToList();
+            return array.GetAddUpdater(_NewJsValues, _Change.NewStartingIndex);
         }
 
         public void OnJsContext()
