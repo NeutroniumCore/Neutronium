@@ -16,8 +16,8 @@
     <PackageTags></PackageTags>
     <AssemblyVersion>1.5.1.0</AssemblyVersion>
     <FileVersion>1.5.1.0</FileVersion>
-    <PackageReleaseNotes>-Adding API to switch view for hot-reload
--Improve Type provider extension
+    <PackageReleaseNotes>-Improve Type provider extension
+-Support Range Collection update
 </PackageReleaseNotes>
     <Platforms>AnyCPU;x86</Platforms>
     <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
