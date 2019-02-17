@@ -60,9 +60,9 @@ namespace Neutronium.JavascriptFramework.Knockout
             array.InvokeAsync("silentsplice", _WebView, _WebView.Factory.CreateInt(index), _WebView.Factory.CreateInt(number), added);
         }
 
-        public void SpliceCollection(IJavascriptObject array, int index, int number, IList<IJavascriptObject> items)
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject[] items)
         {
-            var parameters = new IJavascriptObject[items.Count + 2];
+            var parameters = new IJavascriptObject[items.Length + 2];
             parameters[0] = _WebView.Factory.CreateInt(index);
             parameters[1] = _WebView.Factory.CreateInt(number);
             var idx = 2;

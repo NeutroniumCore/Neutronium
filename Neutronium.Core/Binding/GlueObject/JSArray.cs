@@ -201,7 +201,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number, IList<IJsCsGlue> glues)
         {
-            viewModelUpdater?.SpliceCollection(CachableJsValue, index, number, glues.Select(glue => glue.GetJsSessionValue()).ToList());
+            viewModelUpdater?.SpliceCollection(CachableJsValue, index, number, glues.Select(glue => glue.GetJsSessionValue()).ToArray());
         }
 
         private void Splice(IJavascriptViewModelUpdater viewModelUpdater, int index, int number)

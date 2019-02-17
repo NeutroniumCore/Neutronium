@@ -214,6 +214,16 @@
         return vm;
     };
 
+    var injectAll = function (vms) {
+        if (!vueVm || !vms)
+            return;
+
+        var count = vms.length;
+        for (var i = 0; i < count; i++) {
+            inject(vms[i]);
+        }
+    };
+
     var fufillOnReady;
     var ready = new Promise(function (fullfill) {
         fufillOnReady = fullfill;
@@ -359,6 +369,7 @@
         silentChange,
         addProperty,
         inject,
+        injectAll,
         silentChangeAndInject,
         disposeSilenters,
         injectDetached,

@@ -61,9 +61,9 @@ namespace Neutronium.JavascriptFramework.mobx
             SilentSplice(array, index, number, item);
         }
 
-        public void SpliceCollection(IJavascriptObject array, int index, int number, IList<IJavascriptObject> items)
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject[] items)
         {
-            var parameters = new IJavascriptObject[items.Count + 3];
+            var parameters = new IJavascriptObject[items.Length + 3];
             parameters[0] = array;
             parameters[1] = _WebView.Factory.CreateInt(index);
             parameters[2] = _WebView.Factory.CreateInt(number);

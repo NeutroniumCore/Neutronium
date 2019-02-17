@@ -11,7 +11,7 @@ namespace Neutronium.JavascriptFramework.Vue
     {
         private readonly IWebView _WebView;
         private readonly Lazy<IJavascriptObject> _VueHelper;
-        private readonly IJavascriptObject[] _ArgumentsforUpdate = new IJavascriptObject[3];
+        private readonly IJavascriptObject[] _ArgumentsForUpdate = new IJavascriptObject[3];
         private VueVmUpdater _Updater;
         private VueVmUpdater Updater => _Updater ?? (_Updater = new VueVmUpdater(_VueHelper.Value));
 
@@ -52,16 +52,16 @@ namespace Neutronium.JavascriptFramework.Vue
             Add(array, index, number, added);
         }
 
-        public void SpliceCollection(IJavascriptObject array, int index, int number, IList<IJavascriptObject> items)
+        public void SpliceCollection(IJavascriptObject array, int index, int number, IJavascriptObject[] items)
         {
-            var parameters = new IJavascriptObject[items.Count + 2];
+            var parameters = new IJavascriptObject[items.Length + 2];
             parameters[0] = _WebView.Factory.CreateInt(index);
             parameters[1] = _WebView.Factory.CreateInt(number);
             var idx = 2;
             items.ForEach(item => parameters[idx++] = item);
 
             array.InvokeNoResult("silentSplice", _WebView, parameters);
-            items.ForEach(Inject);
+            _VueHelper.Value.InvokeNoResult("injectAll", _WebView, items);
         }
 
         public void UpdateProperty(IJavascriptObject father, string propertyName, IJavascriptObject value, bool childAllowWrite)
@@ -74,10 +74,10 @@ namespace Neutronium.JavascriptFramework.Vue
 
         private IJavascriptObject[] GetArgumentsforUpdate(IJavascriptObject father, IJavascriptObject property, IJavascriptObject value)
         {
-            _ArgumentsforUpdate[0] = father;
-            _ArgumentsforUpdate[1] = property;
-            _ArgumentsforUpdate[2] = value;
-            return _ArgumentsforUpdate;
+            _ArgumentsForUpdate[0] = father;
+            _ArgumentsForUpdate[1] = property;
+            _ArgumentsForUpdate[2] = value;
+            return _ArgumentsForUpdate;
         }
 
         private IJavascriptObject CreateProperty(string propertyName) => _WebView.Factory.CreateString(propertyName);
