@@ -6,7 +6,7 @@
     <AssemblyName>Neutronium.JavascriptFramework.Knockout</AssemblyName>
     <RootNamespace>Neutronium.JavascriptFramework.Knockout</RootNamespace>
     <Authors>David Desmaisons</Authors>
-    <Version>1.5.1.0</Version>
+    <Version>1.5.2.0</Version>
     <PackageProjectUrl>https://github.com/NeutroniumCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NeutroniumCore/Neutronium</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE</PackageLicenseUrl>
@@ -14,8 +14,8 @@
     <PackageId>Neutronium.JavascriptFramework.Knockout</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>HTML, Chromium, MVVM, WPF, knockout.js</PackageTags>
-    <AssemblyVersion>1.5.1.0</AssemblyVersion>
-    <FileVersion>1.5.1.0</FileVersion>
+    <AssemblyVersion>1.5.2.0</AssemblyVersion>
+    <FileVersion>1.5.2.0</FileVersion>
     <PackageReleaseNotes>Support range collection update.</PackageReleaseNotes>
     <Platforms>AnyCPU;x86</Platforms>
     <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
