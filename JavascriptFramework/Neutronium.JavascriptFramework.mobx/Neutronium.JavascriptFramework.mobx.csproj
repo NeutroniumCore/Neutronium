@@ -14,9 +14,9 @@
     <PackageId>Neutronium.JavascriptFramework.mobx</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>HTML, Chromium, MVVM, WPF, mobx</PackageTags>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <FileVersion>1.5.0.0</FileVersion>
-    <PackageReleaseNotes>Update dependencies</PackageReleaseNotes>
+    <AssemblyVersion>1.5.1.0</AssemblyVersion>
+    <FileVersion>1.5.1.0</FileVersion>
+    <PackageReleaseNotes>Support range collection update.</PackageReleaseNotes>
     <Platforms>AnyCPU;x86</Platforms>
     <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
   </PropertyGroup>

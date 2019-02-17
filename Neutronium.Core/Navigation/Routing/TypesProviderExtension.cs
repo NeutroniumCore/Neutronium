@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace Neutronium.Core.Navigation.Routing
 {
+    /// <summary>
+    /// Provide extension methods for ITypesProvider
+    /// </summary>
     public static class TypesProviderExtension
     {
         /// <summary>
@@ -95,6 +98,23 @@ namespace Neutronium.Core.Navigation.Routing
         }
 
         /// <summary>
+        /// Filter ITypesProvider returning only types in a given namespace
+        /// using same namespace as provided type
+        /// <seealso cref="ITypesProvider"/>
+        /// </summary>
+        /// <param name="typeProvider"></param>
+        /// <param name="type">
+        /// </param>
+        /// <returns>
+        /// a new ITypesProvider with types in the given namespace
+        /// </returns>
+        public static ITypesProvider InNamespaceOf(this ITypesProvider typeProvider, Type type)
+        {
+            var @namespace = type.Namespace;
+            return typeProvider.InNamespace(@namespace);
+        }
+
+        /// <summary>
         /// Filter ITypesProvider returning only types in a given namespace or in a child namespace
         /// <seealso cref="ITypesProvider"/>
         /// </summary>
@@ -109,6 +129,23 @@ namespace Neutronium.Core.Navigation.Routing
         {
             var childNamespaceStart = $"{value}.";
             return new TypesProvider(typeProvider.Types.Where(t => t.Namespace== value || t.Namespace?.StartsWith(childNamespaceStart) == true));
+        }
+
+        /// <summary>
+        /// Filter ITypesProvider returning only types in a given namespace or in a child namespace
+        /// <seealso cref="ITypesProvider"/>
+        /// </summary>
+        /// <param name="typeProvider"></param>
+        /// <param name="type">
+        /// namespace name
+        /// </param>
+        /// <returns>
+        /// a new ITypesProvider with types in the given namespace
+        /// </returns>
+        public static ITypesProvider InParentNamespaceOf(this ITypesProvider typeProvider, Type type)
+        {
+            var @namespace = type.Namespace;
+            return typeProvider.InParentNamespace(@namespace);
         }
 
         /// <summary>
