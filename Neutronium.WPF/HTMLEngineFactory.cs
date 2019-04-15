@@ -106,6 +106,7 @@ namespace Neutronium.WPF
 
         public void Dispose()
         {
+            _WebSessionLogger.Info(() => "Diposing HTMLEngine");
             OnEngines(fact => fact.Dispose());
             _Engines.Clear();
         }
