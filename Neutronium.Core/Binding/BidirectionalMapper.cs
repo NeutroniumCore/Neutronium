@@ -163,7 +163,7 @@ namespace Neutronium.Core.Binding
 
             if ((root.CValue != null) && (res == null))
             {
-                throw ExceptionHelper.GetUnexpected();
+                throw NeutroniumExceptionHelper.GetUnexpected();
             }
 
             await jvm.UpdateTask;

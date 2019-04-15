@@ -14,13 +14,13 @@ namespace Neutronium.Core.Extension
                 var res = @this.CreateObject($"new Enum('{@enum.GetType().Name}',{Convert.ToInt32(@enum)},'{@enum.ToString()}','{@enum.GetDescription()}')");
 
                 if ((res == null) || (!res.IsObject))
-                    throw ExceptionHelper.GetUnexpected();
+                    throw NeutroniumExceptionHelper.GetUnexpected();
 
                 return res;
             }
             catch
             {
-                throw ExceptionHelper.Get($"Unexpected Error creating enum: {@enum}");
+                throw NeutroniumExceptionHelper.Get($"Unexpected Error creating enum: {@enum}");
             }
         }
     }

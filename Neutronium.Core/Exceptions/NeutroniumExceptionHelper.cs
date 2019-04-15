@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Exceptions
 {
-    public static class ExceptionHelper
+    public static class NeutroniumExceptionHelper
     {
         public static Exception Get(string message)
         {

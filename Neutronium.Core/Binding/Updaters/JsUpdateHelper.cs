@@ -60,7 +60,7 @@ namespace Neutronium.Core.Binding.Updaters
             if (_Context.UiDispatcher.IsInContext())
                 return;
 
-            throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
+            throw NeutroniumExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
 
         public void DispatchInJavascriptContext(Action action)

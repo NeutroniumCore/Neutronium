@@ -22,14 +22,14 @@ namespace Neutronium.Core.Navigation
             }
             catch (ArgumentException)
             {
-                throw ExceptionHelper.GetArgument($"A same ViewModel type can not be registered twice {type}");
+                throw NeutroniumExceptionHelper.GetArgument($"A same ViewModel type can not be registered twice {type}");
             }
         }
 
         private void CheckPath(string path)
         {
             if (!File.Exists(path))
-                throw ExceptionHelper.GetArgument($"Registered path does not exist: {path}");
+                throw NeutroniumExceptionHelper.GetArgument($"Registered path does not exist: {path}");
         }
 
         private Uri CreateUri(string path)

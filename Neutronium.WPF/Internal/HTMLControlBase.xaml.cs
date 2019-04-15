@@ -268,12 +268,12 @@ namespace Neutronium.WPF.Internal
             _WpfWebWindowFactory = engine.ResolveJavaScriptEngine(HTMLEngine);
 
             if (_WpfWebWindowFactory == null)
-                throw ExceptionHelper.Get($"Not able to find WebEngine {HTMLEngine}");
+                throw NeutroniumExceptionHelper.Get($"Not able to find WebEngine {HTMLEngine}");
 
             _Injector = engine.ResolveJavaScriptFramework(JavascriptUIEngine);
 
             if (_Injector == null)
-                throw ExceptionHelper.Get($"Not able to find JavascriptUIEngine {JavascriptUIEngine}. Please register the corresponding Javascript UIEngine.");
+                throw NeutroniumExceptionHelper.Get($"Not able to find JavascriptUIEngine {JavascriptUIEngine}. Please register the corresponding Javascript UIEngine.");
 
             _WpfDoubleBrowserNavigator = GetDoubleBrowserNavigator();
 

@@ -138,7 +138,7 @@ namespace Neutronium.Core.Navigation
         private Task<IHtmlBinding> Navigate(Uri uri, object viewModel, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
             if (uri == null)
-                throw ExceptionHelper.GetArgument($"ViewModel not registered: {viewModel.GetType()}");
+                throw NeutroniumExceptionHelper.GetArgument($"ViewModel not registered: {viewModel.GetType()}");
 
             if (_Navigating)
                 return null;
@@ -277,7 +277,7 @@ namespace Neutronium.Core.Navigation
 
             var viewPath = _UrlSolver.Solve(viewModel, id);
             if (viewPath == null)
-                throw ExceptionHelper.Get($"Unable to locate ViewModel {viewModel}");
+                throw NeutroniumExceptionHelper.Get($"Unable to locate ViewModel {viewModel}");
 
             return await Navigate(viewPath, viewModel, mode);
         }
