@@ -18,6 +18,10 @@ namespace Neutronium.Core.Binding.Updaters
         {
             _Command = command;
             _JsUpdateHelper = jsUpdateHelper;
+
+            if (_Command == null)
+                return;
+
             _JsCommandBase = _JsUpdateHelper.GetCached<JsCommandBase>(_Command);
 
             if (_JsCommandBase == null)
