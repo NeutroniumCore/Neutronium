@@ -1,7 +1,7 @@
 <p align="center"><img width="100"src="./Deploy/logo.svg?sanitize=true"></p>
 <h1 align="center">Neutronium</h1>
 
-[![Build status](https://img.shields.io/appveyor/ci/David-Desmaisons/Neutronium.svg?maxAge=2592000)](https://ci.appveyor.com/project/David-Desmaisons/neutronium)
+[![Build status](https://img.shields.io/appveyor/ci/David-Desmaisons/Neutronium.svg)](https://ci.appveyor.com/project/David-Desmaisons/neutronium)
 [![NuGet Badge](https://buildstats.info/nuget/Neutronium.Core)](https://www.nuget.org/packages/Neutronium.Core/)
 [![MIT License](https://img.shields.io/github/license/NeutroniumCore/Neutronium.svg)](https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE)
 
