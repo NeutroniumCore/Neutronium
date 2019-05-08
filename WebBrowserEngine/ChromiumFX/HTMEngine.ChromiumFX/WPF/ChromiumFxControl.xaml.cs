@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
+using Neutronium.Core.Exceptions;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
 {
@@ -76,13 +77,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             var resilientGetHandle = new Resilient(() => ChromeWidgetHandleFinder.TryFindHandle(_BrowserHandle, out _ChromeWidgetHostHandle));
 
             await resilientGetHandle.WithTimeOut(100).StartIn(100);
-            _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, _ChromeWidgetHostHandle, OnWebBroswerMessage);
+            _ChromeWidgetMessageInterceptor = new BrowserWidgetMessageInterceptor(this.ChromiumWebBrowser, _ChromeWidgetHostHandle, OnWebBrowserMessage);
         }
 
         private void ChromiumFxControl_Loaded(object sender, RoutedEventArgs e)
         {
             this.Loaded -= ChromiumFxControl_Loaded;
             _Window = Window.GetWindow(this);
+            if (_Window == null)
+                throw ExceptionHelper.Get("Neutronium UserControls should be inserted in Window before being loaded");
+
             _WindowHandle = new WindowInteropHelper(_Window).Handle;
             _Window.Closed += Window_Closed;
             _Window.LocationChanged += _Window_LocationChanged;
@@ -112,7 +116,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _Matrix = HdiHelper.GetDisplayScaleFactor(_WindowHandle);
         }
 
-        private bool OnWebBroswerMessage(Message message)
+        private bool OnWebBrowserMessage(Message message)
         {
             switch (message.Msg)
             {
@@ -120,7 +124,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
                     if (!IsInDragRegion(message))
                         break;
 
-                    Dispatcher.BeginInvoke(new Action(ToogleMaximize));
+                    Dispatcher.BeginInvoke(new Action(ToggleMaximize));
                     return true;
 
                 case NativeMethods.WindowsMessage.WM_LBUTTONDOWN:
@@ -153,7 +157,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return new System.Drawing.Point(x, y);
         }
 
-        private void ToogleMaximize()
+        private void ToggleMaximize()
         {
             _Window.WindowState = (_Window.WindowState == WindowState.Maximized) ? WindowState.Normal : WindowState.Maximized;
         }
