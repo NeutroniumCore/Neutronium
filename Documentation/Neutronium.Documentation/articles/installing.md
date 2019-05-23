@@ -125,7 +125,7 @@ public partial class MainWindow : Window
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <neutronium:HTMLViewControl x:Name="HtmlView" IsDebug="True" Uri="pack://application:,,,//View/MainView/dist/index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <neutronium:HTMLViewControl x:Name="HtmlView" IsDebug="True" Uri="pack://application:,,,/View/Main/dist/index.html" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>
 </Window>
 ```
