@@ -51,6 +51,9 @@ Neutronium template uses [vue-cli](https://cli.vuejs.org/) and [vue-cli-plugin-n
 ### New project
 
 #### 1. Create a WPF application
+
+Create a normal WPF application, but make sure that the flag "Prefer 32-bit" of the project (Properties>Build) is set to false.
+
 #### 2. Install nuget `Neutronium.ChromiumFx.Vue`
 
 <img src="../images/template/fs2.png"><br>
