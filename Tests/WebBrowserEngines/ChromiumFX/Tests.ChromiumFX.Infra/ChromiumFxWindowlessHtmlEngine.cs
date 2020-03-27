@@ -36,9 +36,9 @@ namespace Tests.ChromiumFX.Infra
 
         private async Task InitAsync(string path, IWebSessionLogger logger ) 
         {
-            var taskload = _WpfThread.Dispatcher.Invoke(() => RawInit(path));      
+            var taskLoad = _WpfThread.Dispatcher.Invoke(() => RawInit(path));      
             WebView = await _ChromiumFXWebViewTask;
-            await taskload;
+            _CfxBrowser = await taskLoad;
             _ChromiumFXHTMLWindowProvider = new ChromiumFXHTMLWindowProvider(_CfxClient, WebView, new Uri(path));
         }
 
@@ -47,19 +47,16 @@ namespace Tests.ChromiumFX.Infra
             return new CfxBrowserSettings();
         }
 
-        private Task RawInit(string path) 
+        private Task<CfxBrowser> RawInit(string path) 
         {  
-            var loadTaskCompletionSource = new TaskCompletionSource<int>();
+            var loadTaskCompletionSource = new TaskCompletionSource<CfxBrowser>();
             var cfxWindowInfo = new CfxWindowInfo();
-            cfxWindowInfo.SetAsWindowless(IntPtr.Zero);
-
             _CfxClient = new CfxClient();
 
             var loadHandler = new CfxLoadHandler();
             loadHandler.OnLoadEnd += (sender, args) => 
             {
-                _CfxBrowser = args.Browser;
-                loadTaskCompletionSource.TrySetResult(0);
+                loadTaskCompletionSource.TrySetResult(args.Browser);
             };
             _CfxClient.GetLoadHandler += (o, e) => e.SetReturnValue(loadHandler); 
 
@@ -69,7 +66,7 @@ namespace Tests.ChromiumFX.Infra
             var renderHandler = new CfxRenderHandler();
             _CfxClient.GetRenderHandler += (sender, e) => e.SetReturnValue(renderHandler);
 
-            if (!CfxBrowserHost.CreateBrowser(cfxWindowInfo, _CfxClient, path, GetSettings(), null))
+            if (!CfxBrowserHost.CreateBrowser(cfxWindowInfo, _CfxClient, path, GetSettings(), null, null))
                 throw new Exception("Problem initializing CEF");
 
             return loadTaskCompletionSource.Task;
@@ -77,8 +74,8 @@ namespace Tests.ChromiumFX.Infra
 
         public void Dispose() 
         {
-            var browserhost = _CfxBrowser.Host;
-            browserhost.CloseBrowser(true);
+            var browserHost = _CfxBrowser.Host;
+            browserHost.CloseBrowser(true);
             _CfxBrowser.Dispose();
             _CfxClient.Dispose();
         }

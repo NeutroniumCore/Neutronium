@@ -68,7 +68,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             if (value.IsDate) 
             {
                 var dateValue = value.DateValue;
-                res = dateValue.ToUniversalTime(dateValue);
+                res = CfrTime.ToUniversalTime(dateValue);
                 return true;
             }
 

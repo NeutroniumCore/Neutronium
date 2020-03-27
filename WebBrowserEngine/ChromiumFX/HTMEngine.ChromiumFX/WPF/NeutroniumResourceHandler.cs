@@ -21,6 +21,8 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         private string Url => _Request.Url;
         private string LocalPath => _Uri.LocalPath;
         private bool IsPrefetch => _Request.ResourceType == CfxResourceType.Prefetch;
+        private bool _Done = false;
+
         private string MineType
         {
             get
@@ -64,9 +66,15 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _StreamResourceInfo = GetStreamResourceInfo(_Uri);
 
             GetResponseHeaders += PackUriResourceHandler_GetResponseHeaders;
-            ReadResponse += PackUriResourceHandler_ReadResponse;
-            ProcessRequest += PackUriResourceHandler_ProcessRequest;
+            Read += PackUriResourceHandler_ReadResponse;
+            Open += NeutroniumResourceHandler_Open;
             _PackUriResourceHandlers.TryAdd(_Request.Identifier, this);
+        }
+
+        private void NeutroniumResourceHandler_Open(object sender, CfxOpenEventArgs e)
+        {
+            e.HandleRequest = true;
+            e.SetReturnValue(true);
         }
 
         private StreamResourceInfo GetStreamResourceInfo(Uri uri)
@@ -119,11 +127,16 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             });
         }
 
-        private void PackUriResourceHandler_ReadResponse(object sender, CfxReadResponseEventArgs readResponse)
+        private void PackUriResourceHandler_ReadResponse(object sender, CfxResourceHandlerReadEventArgs readResponse)
         {
             if (_StreamResourceInfo == null)
             {
                 readResponse.SetReturnValue(false);
+                return;
+            }
+
+            if (_Done)
+            {
                 return;
             }
 
@@ -149,12 +162,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
         {
             _PackUriResourceHandlers.TryRemove(_Request.Identifier, out _);
             _StreamResourceInfo?.Stream.Dispose();
+            _Done = true;
         }
 
         private void PackUriResourceHandler_ProcessRequest(object sender, CfxProcessRequestEventArgs processRequest)
         {
-            processRequest.Callback.Continue();
             processRequest.SetReturnValue(true);
+            processRequest.Callback.Continue();
         }
 
         public override string ToString() => Url;

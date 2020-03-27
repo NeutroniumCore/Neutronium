@@ -28,7 +28,12 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.Session
 
             ChromiumWebBrowser.OnBeforeCfxInitialize += ChromiumWebBrowser_OnBeforeCfxInitialize;
             ChromiumWebBrowser.OnBeforeCommandLineProcessing += ChromiumWebBrowser_OnBeforeCommandLineProcessing;
-            ChromiumWebBrowser.Initialize(true);
+
+            int value = CfxRuntime.ExecuteProcess();
+            if (value >= 0)
+                Environment.Exit(value);
+            CfxRuntime.EnableHighDpiSupport();
+            ChromiumWebBrowser.Initialize();
 
             browserSettingsUpdater?.Invoke(NeutroniumSettings.NeutroniumBrowserSettings);
 
