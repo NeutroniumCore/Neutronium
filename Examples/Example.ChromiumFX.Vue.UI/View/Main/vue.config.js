@@ -1,4 +1,4 @@
 module.exports = {
-  baseUrl: "./",
+  publicPath: "./",
   filenameHashing: false
 };
