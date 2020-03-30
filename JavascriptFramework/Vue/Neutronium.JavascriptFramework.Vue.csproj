@@ -6,18 +6,18 @@
     <RootNamespace>Neutronium.JavascriptFramework.Vue</RootNamespace>
     <AssemblyName>Neutronium.JavascriptFramework.Vue</AssemblyName>
     <Authors>David Desmaisons</Authors>
-    <Version>1.5.2.0</Version>
+    <Version>1.6.0.0</Version>
     <PackageProjectUrl>https://github.com/NeutroniumCore</PackageProjectUrl>
     <RepositoryUrl>https://github.com/NeutroniumCore/Neutronium</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE</PackageLicenseUrl>
     <Description>Neutronium is a MVVM HTLM View engine for C# application. This is the javascript binding based on vue.js framework.</Description>
     <PackageId>Neutronium.JavascriptFramework.Vue</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageTags>HTML, Chromium, MVVM, WPF, mobx</PackageTags>
-    <AssemblyVersion>1.5.2.0</AssemblyVersion>
-    <FileVersion>1.5.2.0</FileVersion>
-    <PackageReleaseNotes>Support range collection update.</PackageReleaseNotes>
-    <Platforms>AnyCPU;x86</Platforms>
+    <PackageTags>HTML, Chromium, MVVM, WPF, Vue.js</PackageTags>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
+    <FileVersion>1.6.0.0</FileVersion>
+    <PackageReleaseNotes>update to vue 2.6.11</PackageReleaseNotes>
+    <Platforms>AnyCPU;x86;x64</Platforms>
     <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
   </PropertyGroup>
 
@@ -26,8 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="scripts\vue2\vue.es5.min.js" />
-    <None Remove="scripts\vue2\vue.runtime.es5.min.js" />
+    <None Remove="scripts\vue2\vue.runtime.js" />
   </ItemGroup>
   
   <ItemGroup>
@@ -35,8 +34,10 @@
   </ItemGroup>
 
  <ItemGroup>
+    <EmbeddedResource Include="scripts\hook.js" />
     <EmbeddedResource Include="scripts\vue2\vue.es5.min.js" />
     <EmbeddedResource Include="scripts\vue2\vue.runtime.es5.min.js" />
+    <EmbeddedResource Include="scripts\vue2\vue.runtime.js" />
     <EmbeddedResource Include="scripts\vueGlue.js" />
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +73,6 @@
     <Content Include="resource\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="scripts\hook.js" />
     <Content Include="scripts\subscribeArray.es5.js">
       <DependentUpon>subscribeArray.js</DependentUpon>
     </Content>
