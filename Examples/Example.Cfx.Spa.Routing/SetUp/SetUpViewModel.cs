@@ -26,9 +26,19 @@ namespace Example.Cfx.Spa.Routing.SetUp
             _Builder = builder;
         }
 
-        private async void GoLive(IWebViewComponent viewControl)
+        private async void GoPreBuild(ICompleteWebViewComponent viewControl)
         {
-            if (Mode != ApplicationMode.Dev)
+            await ChangeMode(viewControl, ApplicationMode.Dev, "to prebuilt");
+        }
+
+        private async void GoLive(ICompleteWebViewComponent viewControl)
+        {
+            await ChangeMode(viewControl, ApplicationMode.Live, "to live");
+        }
+
+        private async Task ChangeMode(IWebViewComponent viewControl, ApplicationMode destination, string change)
+        {
+            if (Mode == destination)
                 return;
 
             var resourceLoader = GetResourceReader();
@@ -39,7 +49,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
             var token = cancellationTokenSource.Token;
 
             DebugCommands.Clear();
-            DebugCommands["Cancel to live"] = new RelayToogleCommand<ICompleteWebViewComponent>
+            DebugCommands[$"Cancel {change}"] = new RelayToogleCommand<ICompleteWebViewComponent>
             (_ =>
             {
                 cancellationTokenSource.Cancel();
@@ -48,7 +58,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
 
             try
             {
-                await Task.Run(() => DoGoLive(viewControl, token), token);
+                await Task.Run(() => DoGoLive(viewControl, destination, token), token);
             }
             catch (TaskCanceledException)
             {
@@ -60,7 +70,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
             await viewControl.SwitchViewAsync(Uri);
         }
 
-        private async Task DoGoLive(IWebViewComponent viewControl, CancellationToken token)
+        private async Task DoGoLive(IWebViewComponent viewControl, ApplicationMode destination, CancellationToken token)
         {
             var resourceLoader = GetResourceReader();
             var updateOverlay = resourceLoader.Load("update.js");
@@ -74,7 +84,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
                 viewControl.ExecuteJavascript(code);
             }
 
-            UpdateSetUp(await _Builder.BuildFromMode(ApplicationMode.Live, token, OnNpmLog));
+            UpdateSetUp(await _Builder.BuildFromMode(destination, token, OnNpmLog));
         }
 
         private ResourceReader GetResourceReader() => new ResourceReader("SetUp.script", this);
@@ -103,6 +113,7 @@ namespace Example.Cfx.Spa.Routing.SetUp
             {
                 case ApplicationMode.Live:
                     DebugCommands["Reload"] = new RelayToogleCommand<ICompleteWebViewComponent>(htmlView => htmlView.ReloadAsync());
+                    DebugCommands["To Prebuilt"] = new RelayToogleCommand<ICompleteWebViewComponent>(GoPreBuild);
                     break;
 
                 case ApplicationMode.Dev:

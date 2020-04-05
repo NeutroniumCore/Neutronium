@@ -244,6 +244,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
         public void NavigateTo(Uri path)
         {
             var url = GetPathFromUri(path);
+            UpdateClientSideRouteIfNeeded(path);
             _ChromiumWebBrowser.LoadUrl(url);
         }
 
@@ -255,11 +256,25 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                     return path.AbsolutePath;
 
                 case "pack":
-                    return NeutroniumResourceHandler.UpdatePackUrl(path);
+                    return NeutroniumResourceHandler.GetLoadPackUrl(path);
 
                 default:
                     return path.ToString();
             }
+        }
+
+        private void UpdateClientSideRouteIfNeeded(Uri path)
+        {
+            if ((path.Scheme!= "pack") || (string.IsNullOrEmpty(path.Fragment)))
+                return;
+
+            void UpdateLocation(object _, BeforeJavascriptExcecutionArgs e)
+            {
+                BeforeJavascriptExecuted -= UpdateLocation;
+                e.JavascriptExecutor($"window.location.href = '{NeutroniumResourceHandler.GetFullPackUrl(path)}';");
+            }
+
+            BeforeJavascriptExecuted += UpdateLocation;
         }
 
         public event EventHandler<LoadEndEventArgs> LoadEnd;

@@ -48,14 +48,22 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return new Uri(newUrl);
         }
 
-        public static string UpdatePackUrl(Uri path)
+        public static string GetLoadPackUrl(Uri path)
         {
-            var newUri = new UriBuilder(path)
+            var newUri = GetUriPackBuilder(path);
+            newUri.Fragment = null;
+            return newUri.ToString();
+        }
+
+        public static string GetFullPackUrl(Uri path) => GetUriPackBuilder(path).ToString();
+
+        private static UriBuilder GetUriPackBuilder(Uri path)
+        {
+            return new UriBuilder(path)
             {
                 Host = Host,
                 Scheme = SecureScheme
             };
-            return newUri.ToString();
         }
 
         private NeutroniumResourceHandler(CfxRequest request, IWebSessionLogger logger, Uri uriUrl = null)
