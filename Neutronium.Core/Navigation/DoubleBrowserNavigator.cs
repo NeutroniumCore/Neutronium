@@ -240,10 +240,12 @@ namespace Neutronium.Core.Navigation
 
         private void Reload(bool hotReloadContext, Uri url = null)
         {
+            if (Binding == null)
+                return;
+
             var dest = url ?? CurrentUrl;
             var vm = GetMainViewModel(Binding);
             var mode = Binding.Mode;
-
             if (!hotReloadContext)
             {
                 CleanWebControl(ref _CurrentWebControl);
