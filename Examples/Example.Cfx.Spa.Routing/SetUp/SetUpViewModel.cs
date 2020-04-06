@@ -1,4 +1,4 @@
-﻿using Neutronium.Core.Infra;
+using Neutronium.Core.Infra;
 using Neutronium.Core.Navigation;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
@@ -109,10 +109,12 @@ namespace Example.Cfx.Spa.Routing.SetUp
         private void UpdateCommands()
         {
             DebugCommands.Clear();
+
+            DebugCommands["Reload"] = new RelayToogleCommand<ICompleteWebViewComponent>(htmlView => htmlView.ReloadAsync());
+
             switch (Mode)
             {
                 case ApplicationMode.Live:
-                    DebugCommands["Reload"] = new RelayToogleCommand<ICompleteWebViewComponent>(htmlView => htmlView.ReloadAsync());
                     DebugCommands["To Prebuilt"] = new RelayToogleCommand<ICompleteWebViewComponent>(GoPreBuild);
                     break;
 
