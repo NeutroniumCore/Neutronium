@@ -55,6 +55,11 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             return newUri.ToString();
         }
 
+        public static string GetLoadHttpsUrl(Uri path)
+        {
+            return new UriBuilder(path) { Fragment = null }.Uri.ToString();
+        }
+
         public static string GetFullPackUrl(Uri path) => GetUriPackBuilder(path).ToString();
 
         private static UriBuilder GetUriPackBuilder(Uri path)

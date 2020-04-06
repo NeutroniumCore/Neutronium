@@ -258,6 +258,9 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
                 case "pack":
                     return NeutroniumResourceHandler.GetLoadPackUrl(path);
 
+                case "https":
+                    return NeutroniumResourceHandler.GetLoadHttpsUrl(path);
+
                 default:
                     return path.ToString();
             }
@@ -265,7 +268,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 
         private void UpdateClientSideRouteIfNeeded(Uri path)
         {
-            if ((path.Scheme!= "pack") || (string.IsNullOrEmpty(path.Fragment)))
+            if (!isPack(path) || (string.IsNullOrEmpty(path.Fragment)))
                 return;
 
             void UpdateLocation(object _, BeforeJavascriptExcecutionArgs e)
@@ -275,6 +278,13 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
             }
 
             BeforeJavascriptExecuted += UpdateLocation;
+        }
+
+        private bool isPack(Uri path)
+        {
+            var scheme = path.Scheme;
+            return ((scheme == "pack") || (scheme == "https"));
+
         }
 
         public event EventHandler<LoadEndEventArgs> LoadEnd;
