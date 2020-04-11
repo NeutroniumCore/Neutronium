@@ -223,4 +223,6 @@ This project is a continuation and improvement of [MVVM-for-awesomium.](https://
 Support
 -------
 
-Many thanks to [JetBrains](https://www.jetbrains.com) for support!
+[![Jetbrains logo](./Deploy/jetbrains-variant-3.svg?sanitize=true)](https://www.jetbrains.com/?from=Neutronium)
+
+Many thanks to [JetBrains](https://www.jetbrains.com/?from=Neutronium) for support and awesome [Resharper](https://www.jetbrains.com/resharper/?from=Neutronium)!
