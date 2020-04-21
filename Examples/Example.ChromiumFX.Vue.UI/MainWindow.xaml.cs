@@ -11,6 +11,8 @@ namespace Example.ChromiumFX.Vue.UI
     public partial class MainWindow : Window
     {
         private Skill _FirstSkill;
+        private readonly DispatcherTimer _UpdateTimer;
+        private readonly DispatcherTimer _GarbageCollectorTimer;
 
         public MainWindow()
         {
@@ -31,12 +33,23 @@ namespace Example.ChromiumFX.Vue.UI
 
             DataContext = datacontext;
 
-            var timer = new DispatcherTimer 
+            _UpdateTimer = new DispatcherTimer 
             {
                 Interval = TimeSpan.FromMilliseconds(100)
             };
-            timer.Tick += (o, e) => Update(datacontext);
-            timer.Start();
+            _UpdateTimer.Tick += (o, e) => Update(datacontext);
+            _UpdateTimer.Start();
+
+            _GarbageCollectorTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(2000)
+            };
+            _GarbageCollectorTimer.Tick += (o, e) =>
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            };
+            _GarbageCollectorTimer.Start();
         }
 
         private static void Update(Person person) => person.Count += 1;
