@@ -11,7 +11,6 @@ namespace Neutronium.Core.Test.WebBrowserEngine.JavascriptObject
         [InlineData("cat", "'cat'")]
         [InlineData(@"\", @"'\\'")]
         [InlineData("\n", @"'\n'")]
-        [InlineData("\n", @"'\n'")]
         [InlineData("\r", @"'\r'")]
         [InlineData("\b", @"'\b'")]
         [InlineData("\f", @"'\f'")]
