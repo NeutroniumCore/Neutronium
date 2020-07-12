@@ -373,6 +373,13 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     await DoSafeAsyncUI(() => breaker.Child = null);
 
+                    //This block allow to wait for another loop of UI/Js context thread to be executed
+                    {
+                        var child = default(BasicTestViewModel);
+                        await DoSafeAsyncUI(() => child = breaker.Child);
+                        child.Should().BeNull();
+                    }
+
                     survivores.ForEach(sur => sur.ListenerCount.Should().Be(1));
                     cleaned.ForEach(sur => sur.ListenerCount.Should().Be(0));
                 }
