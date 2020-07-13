@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal abstract class JsBasicTypedGCAgnostic<T>
+    internal abstract class JsBasicTypedGcAgnostic<T>
     {
         public IJavascriptObject JsValue { get; private set; }
         public T TypedValue { get; }
@@ -12,12 +12,12 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
         public JsCsGlueType Type => JsCsGlueType.Basic;
         public uint JsId => 0;
 
-        protected JsBasicTypedGCAgnostic(T value)
+        protected JsBasicTypedGcAgnostic(T value)
         {
             TypedValue = value;
         }
 
-        protected JsBasicTypedGCAgnostic(IJavascriptObject jsValue, T value)
+        protected JsBasicTypedGcAgnostic(IJavascriptObject jsValue, T value)
         {
             TypedValue = value;
             JsValue = jsValue;

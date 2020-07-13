@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal abstract class JsBasicTyped<T> : JsBasicTypedGCAgnostic<T>
+    internal abstract class JsBasicTyped<T> : JsBasicTypedGcAgnostic<T>
     {
         public bool Release() => false;
 
