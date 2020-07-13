@@ -211,7 +211,6 @@ namespace Neutronium.Core.Test.Binding
         [InlineData(1U)]
         [InlineData(1UL)]
         [InlineData(true)]
-        [InlineData("")]
         public void Map_maps_clr_number(object number)
         {
             var res = _CSharpToJavascriptConverter.Map(number);
@@ -220,6 +219,19 @@ namespace Neutronium.Core.Test.Binding
 
             res.GetType().BaseType.Should().Be(expectedType);
         }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("abcd")]
+        public void Map_maps_string(string number)
+        {
+            var res = _CSharpToJavascriptConverter.Map(number);
+
+            var expectedType = typeof(JsBasicGarbageCollectedTyped<>).MakeGenericType(number.GetType());
+
+            res.GetType().BaseType.Should().Be(expectedType);
+        }
+
 
         [Fact]
         public void Map_maps_nullable_value()
