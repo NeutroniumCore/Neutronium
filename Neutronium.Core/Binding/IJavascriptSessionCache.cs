@@ -13,7 +13,7 @@ namespace Neutronium.Core.Binding
 
         void RemoveFromJsToCSharp(IJsCsGlue value);
 
-        IJsCsGlue GetCached(IJavascriptObject globalkey);
+        IJsCsGlue GetCached(IJavascriptObject globalKey);
 
         IJsCsGlue GetCached(uint id);
     }
