@@ -127,5 +127,10 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         {
             return _UIDispatcher.Evaluate(doact);
         }
+
+        protected Task<T> EvaluateSafeUIAsync<T>(Func<T> doact)
+        {
+            return _UIDispatcher.EvaluateAsync(doact);
+        }
     }
 }

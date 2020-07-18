@@ -5,8 +5,10 @@ using Neutronium.Core.Test.Helper;
 using Neutronium.Example.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Neutronium.Core.Binding.GlueObject;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Tests.Universal.HTMLBindingTests.Helper;
 using Xunit;
@@ -375,8 +377,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     //This block allow to wait for another loop of UI/Js context thread to be executed
                     {
-                        var child = default(BasicTestViewModel);
-                        await DoSafeAsyncUI(() => child = breaker.Child);
+                        var child = await EvaluateSafeUIAsync(() => breaker.Child);
                         child.Should().BeNull();
                     }
 
@@ -607,27 +608,25 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_Listens_To_All_Changes()
         {
             var child = new BasicTestViewModel();
-            var datacontext = new BasicTestViewModel { Child = child };
+            var dataContext = new BasicTestViewModel { Child = child };
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() => datacontext.Child = null);
+                    DoSafeUI(() => dataContext.Child = null);
 
                     await Task.Delay(300);
 
                     var third = new BasicTestViewModel();
                     child.Child = third;
 
-                    DoSafeUI(() => datacontext.Child = child);
+                    await DoSafeAsyncUI(() => dataContext.Child = child);
 
-                    await Task.Delay(300);
-
-                    DoSafeUI(() => third.Value = 3);
+                    await DoSafeAsyncUI(() => third.Value = 3);
 
                     await Task.Delay(300);
 
@@ -637,15 +636,15 @@ namespace Tests.Universal.HTMLBindingTests
                     var value = GetIntAttribute(child2, "Value");
                     value.Should().Be(3);
 
-                    var newvalue = 44;
-                    var intJS = _WebView.Factory.CreateInt(newvalue);
+                    var newValue = 44;
+                    var intJS = _WebView.Factory.CreateInt(newValue);
                     SetAttribute(child2, "Value", intJS);
 
                     await Task.Delay(300);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
-                        third.Value.Should().Be(newvalue);
+                        third.Value.Should().Be(newValue);
                     });
                 }
             };
