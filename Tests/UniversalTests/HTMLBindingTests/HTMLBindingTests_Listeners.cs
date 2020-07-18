@@ -626,6 +626,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => dataContext.Child = child);
 
+                    await Task.Delay(300);
+
                     await DoSafeAsyncUI(() => third.Value = 3);
 
                     await Task.Delay(300);
