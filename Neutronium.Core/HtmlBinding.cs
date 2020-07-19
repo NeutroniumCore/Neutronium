@@ -12,22 +12,22 @@ namespace Neutronium.Core
     {
         private static int _Count;
         private static readonly HashSet<IHtmlBinding> _Bindings = new HashSet<IHtmlBinding>();
-        private readonly BidirectionalMapper _BirectionalMapper;
+        private readonly BidirectionalMapper _BidirectionalMapper;
         private readonly HtmlViewContext _Context;
         private readonly IWebSessionLogger _Logger;
         private readonly int _Current = _Count++;
 
         public IJavascriptSessionInjector JavascriptUiFramework => _Context.JavascriptSessionInjector;
-        public IJavascriptObject JsRootObject => _BirectionalMapper.JsValueRoot.GetJsSessionValue();
-        public JavascriptBindingMode Mode => _BirectionalMapper.Mode;
+        public IJavascriptObject JsRootObject => _BidirectionalMapper.JsValueRoot.GetJsSessionValue();
+        public JavascriptBindingMode Mode => _BidirectionalMapper.Mode;
         public IWebView Context => _Context.WebView;
-        public object Root => _BirectionalMapper.JsValueRoot.CValue;
-        public IJsCsGlue JsBrideRootObject => _BirectionalMapper.JsValueRoot;
+        public object Root => _BidirectionalMapper.JsValueRoot.CValue;
+        public IJsCsGlue JsBrideRootObject => _BidirectionalMapper.JsValueRoot;
 
         internal HtmlBinding(BidirectionalMapper convertToJso, IWebSessionLogger logger)
         {
             _Context = convertToJso.Context;
-            _BirectionalMapper = convertToJso;
+            _BidirectionalMapper = convertToJso;
             _Logger = logger;           
             _Bindings.Add(this);
             _Logger.Debug(() => $"HTML_Binding {_Current} created");
@@ -35,12 +35,12 @@ namespace Neutronium.Core
 
         public override string ToString()
         {
-            return _BirectionalMapper.JsValueRoot.ToString();
+            return _BidirectionalMapper.JsValueRoot.ToString();
         }
 
         public void Dispose()
         {            
-            _BirectionalMapper.Dispose();
+            _BidirectionalMapper.Dispose();
             _Bindings.Remove(this);
             _Logger.Debug(() => $"HTML_Binding {_Current} disposed");
         }
