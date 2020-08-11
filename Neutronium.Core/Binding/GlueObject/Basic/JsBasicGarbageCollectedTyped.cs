@@ -14,11 +14,11 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
             return (IJsCsGlue) this;
         }
 
-        internal JsBasicGarbageCollectedTyped(T value) : base(value)
+        protected JsBasicGarbageCollectedTyped(T value) : base(value)
         {
         }
 
-        internal JsBasicGarbageCollectedTyped(IJavascriptObject jsValue, T value) : base(jsValue, value)
+        protected JsBasicGarbageCollectedTyped(IJavascriptObject jsValue, T value) : base(jsValue, value)
         {
         }
     }

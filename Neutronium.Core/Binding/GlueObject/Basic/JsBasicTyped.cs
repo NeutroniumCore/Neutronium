@@ -8,11 +8,11 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
 
         public IJsCsGlue AddRef() => (IJsCsGlue)this;
 
-        internal JsBasicTyped(T value) : base(value)
+        protected JsBasicTyped(T value) : base(value)
         {
         }
 
-        internal JsBasicTyped(IJavascriptObject jsValue, T value) : base(jsValue, value)
+        protected JsBasicTyped(IJavascriptObject jsValue, T value) : base(jsValue, value)
         {
         }
     }
