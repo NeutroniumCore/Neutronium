@@ -52,9 +52,9 @@ namespace Neutronium.Core.Binding
             _FromJavascriptGlobal[id] = cachableGlue;
         }
 
-        private void CacheGlobal(IJavascriptObject jsobject, IJsCsMappedBridge ibo)
+        private void CacheGlobal(IJavascriptObject jsObject, IJsCsMappedBridge ibo)
         {
-            var id = jsobject.GetID();
+            var id = jsObject.GetID();
             if (id == 0)
                 return;
 
@@ -67,9 +67,9 @@ namespace Neutronium.Core.Binding
             return _FromCSharp.GetOrDefault(key);
         }
 
-        public IJsCsGlue GetCached(IJavascriptObject globalkey) 
+        public IJsCsGlue GetCached(IJavascriptObject globalKey) 
         {
-            var id = globalkey.GetID();
+            var id = globalKey.GetID();
             return (id == 0) ? null : _FromJavascriptGlobal.GetOrDefault(id);
         }
 
@@ -83,10 +83,10 @@ namespace Neutronium.Core.Binding
             return new JavascriptMapper(root, Update, RegisterMapping, RegisterCollectionMapping);
         }
 
-        internal void Update(IJsCsMappedBridge observableBridge, IJavascriptObject jsobject)
+        internal void Update(IJsCsMappedBridge observableBridge, IJavascriptObject jsObject)
         {
-            observableBridge.SetMappedJsValue(jsobject);
-            CacheGlobal(jsobject, observableBridge);
+            observableBridge.SetMappedJsValue(jsObject);
+            CacheGlobal(jsObject, observableBridge);
         }
 
         internal void RegisterMapping(IJavascriptObject father, string att, IJavascriptObject child)
@@ -102,9 +102,9 @@ namespace Neutronium.Core.Binding
         internal void RegisterCollectionMapping(IJavascriptObject jsFather, string att, int index, IJavascriptObject child)
         {
             var father = GetCached(jsFather);
-            var jsos = (att == null) ? father : ((JsGenericObject)father).GetAttribute(att);
+            var jsObject = (att == null) ? father : ((JsGenericObject)father).GetAttribute(att);
 
-            Update(((JsArray)jsos).Items[index] as IJsCsMappedBridge, child);
+            Update(((JsArray)jsObject).Items[index] as IJsCsMappedBridge, child);
         }
     }
 }

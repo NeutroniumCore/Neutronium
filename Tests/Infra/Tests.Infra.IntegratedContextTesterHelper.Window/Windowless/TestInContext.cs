@@ -3,8 +3,12 @@ using Neutronium.Core;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {
-    public class TestInContext : TestContextBase
+    public class TestInContext<TContext> : TestContextBase<TContext> where TContext : IDisposable
     {
-        public Action<IHtmlBinding> Test { get; set; }
+        public Action<TContext> Test { get; set; }
+    } 
+
+    public class TestInContext : TestInContext<IHtmlBinding>
+    {
     }
 }

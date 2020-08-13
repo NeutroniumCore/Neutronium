@@ -46,7 +46,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_NoneCircular()
+        public void Map_Creates_JSGlueObject_None_Circular_With_Correct_ToString()
         {
             var testObject = new TestClass();
             var res = _CSharpToJavascriptConverter.Map(testObject);
@@ -55,7 +55,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_Nested()
+        public void Map_Creates_JSGlueObject_nested_With_Correct_ToString()
         {
             var testObject = new TestClass
             {
@@ -67,7 +67,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_CircularRoot()
+        public void Map_Creates_JSGlueObject_With_Circular_Root_With_Correct_ToString()
         {
             var testObject = new TestClass();
             testObject.Property1 = testObject;
@@ -77,7 +77,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_CircularProperty()
+        public void Map_Creates_JSGlueObject_With_Circular_Property_With_Correct_ToString()
         {
             var testObject = new TestClass();
             var testObject2 = new TestClass();
@@ -89,7 +89,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_CircularNestedProperty()
+        public void Map_Creates_JSGlueObject_With_Circular_NestedProperty_With_Correct_ToString()
         {
             var testObject = new TestClass();
             var testObject2 = new TestClass();
@@ -104,7 +104,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_CircularListProperty()
+        public void Map_Creates_JSGlueObject_With_Circular_ListProperty_With_Correct_ToString()
         {
             var testObject = new TestClass();
             var tesObject2 = new TestClass();
@@ -117,7 +117,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_ListSimple()
+        public void Map_Creates_JSGlueObject_Simple_List_With_Correct_ToString()
         {
             var testObject = new TestClass();
             testObject.Children.Add(testObject);
@@ -127,7 +127,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_TransformingQuote()
+        public void Map_Creates_JSGlueObject_With_Correct_ToString_TransformingQuote()
         {
             var testObject = new StringClass
             {
@@ -139,7 +139,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_TransformingSlash()
+        public void Map_Creates_JSGlueObject_With_Correct_ToString_TransformingSlash()
         {
             var testObject = new StringClass
             {
@@ -151,7 +151,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_WithSingleQuote()
+        public void Map_Creates_JSGlueObject_With_Single_Quote_String_With_Correct_ToString()
         {
             var testObject = new StringClass
             {
@@ -169,7 +169,7 @@ namespace Neutronium.Core.Test.Binding
         [InlineData('\t', "\\t")]
         [InlineData('\f', "\\f")]
         [InlineData('\b', "\\b")]
-        public void Map_CreateJSGlueObject_WithCorrectToString_Char(char value, string expected)
+        public void Map_Creates_JSGlueObject_With_Char_With_Correct_ToString(char value, string expected)
         {
             var testObject = new { Value = value};
             var res = _CSharpToJavascriptConverter.Map(testObject);
@@ -181,7 +181,7 @@ namespace Neutronium.Core.Test.Binding
         [InlineData(double.NaN, "NaN")]
         [InlineData(double.NegativeInfinity, "-Infinity")]
         [InlineData(double.PositiveInfinity, "Infinity")]
-        public void Map_CreateJSGlueObject_WithCorrectToString_SpecicalDoubleValue(double value, string json)
+        public void Map_Creates_JSGlueObject_With_Special_Double_value_With_Correct_ToString(double value, string json)
         {
             var testObject = new DoubleClass
             {
@@ -193,7 +193,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_CreateJSGlueObject_WithCorrectToString_ListProperty()
+        public void Map_Creates_JSGlueObject_With_List_Property_With_Correct_ToString()
         {
             var testObject = new TestClass();
             var testObject2 = new TestClass();
@@ -211,8 +211,7 @@ namespace Neutronium.Core.Test.Binding
         [InlineData(1U)]
         [InlineData(1UL)]
         [InlineData(true)]
-        [InlineData("")]
-        public void Map_maps_clr_number(object number)
+        public void Map_Maps_Clr_Number(object number)
         {
             var res = _CSharpToJavascriptConverter.Map(number);
 
@@ -221,8 +220,20 @@ namespace Neutronium.Core.Test.Binding
             res.GetType().BaseType.Should().Be(expectedType);
         }
 
+        [Theory]
+        [InlineData("")]
+        [InlineData("abcd")]
+        public void Map_Maps_String(string stringValue)
+        {
+            var res = _CSharpToJavascriptConverter.Map(stringValue);
+
+            var expectedType = typeof(JsBasicGarbageCollectedTyped<string>);
+
+            res.GetType().BaseType.Should().Be(expectedType);
+        }
+
         [Fact]
-        public void Map_maps_nullable_value()
+        public void Map_Maps_Nullable_Value()
         {
             var vm = new NullableTestViewModel
             {
@@ -238,7 +249,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_ISimpleCommand()
+        public void Map_Maps_ISimpleCommand()
         {
             var command = Substitute.For<ISimpleCommand>();
 
@@ -248,7 +259,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_gives_priority_to_ISimpleCommand()
+        public void Map_Gives_Priority_To_ISimpleCommand()
         {
             var command = Substitute.For<ISimpleCommand, ICommand>();
 
@@ -258,7 +269,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_ISimpleCommand_Generic()
+        public void Map_Maps_ISimpleCommand_Generic()
         {
             var command = Substitute.For<ISimpleCommand<string>>();
 
@@ -268,7 +279,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_gives_priority_to_ISimpleCommand_generic()
+        public void Map_Gives_Priority_To_ISimpleCommand_Generic()
         {
             var command = Substitute.For<ISimpleCommand<string>, ICommand>();
 
@@ -278,7 +289,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_ICommand()
+        public void Map_Maps_ICommand()
         {
             var command = Substitute.For<ICommand>();
 
@@ -288,7 +299,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_ICommand_Generic()
+        public void Map_Maps_ICommand_Generic()
         {
             var command = Substitute.For<ICommand<string>>();
 
@@ -298,7 +309,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_gives_priority_to_ICommand_generic()
+        public void Map_Gives_Priority_To_ICommand_Generic()
         {
             var command = Substitute.For<ICommand<string>, ICommand>();
 
@@ -308,7 +319,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_ICommandWithoutParameter_Generic()
+        public void Map_Maps_ICommandWithoutParameter_Generic()
         {
             var command = Substitute.For<ICommandWithoutParameter>();
 
@@ -318,7 +329,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_gives_priority_to_ICommandWithoutParameter()
+        public void Map_Gives_Priority_To_ICommandWithoutParameter()
         {
             var command = Substitute.For<ICommandWithoutParameter, ICommand>();
 
@@ -328,7 +339,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_IResultCommand()
+        public void Map_Maps_IResultCommand()
         {
             var command = Substitute.For<IResultCommand<string>>();
 
@@ -338,7 +349,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_IResultCommand_With_TArg()
+        public void Map_Maps_IResultCommand_With_TArg()
         {
             var command = Substitute.For<IResultCommand<string, int>>();
 
@@ -348,7 +359,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_dictionary()
+        public void Map_Maps_Dictionary()
         {
             var vm = new Dictionary<string, object>
             {
@@ -363,7 +374,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_expandoObject()
+        public void Map_Maps_ExpandoObject()
         {
             dynamic vm = new ExpandoObject();
             vm.integer = 1;
@@ -388,7 +399,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_maps_DynamicObject()
+        public void Map_Maps_DynamicObject()
         {
             var vm = new MyDynamicObject();
             var res = _CSharpToJavascriptConverter.Map(vm);
@@ -396,7 +407,7 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void Map_performance_test()
+        public void Map_Performance_Test()
         {
             var converter = GetCSharpToJavascriptConverterForPerformance();
             var vm = SimpleReadOnlyTestViewModel.BuildBigVm();
@@ -413,145 +424,145 @@ namespace Neutronium.Core.Test.Binding
         }
 
         [Fact]
-        public void AsCircularVersionedJson_adds_default_version()
+        public void AsCircularVersionedJson_Adds_Default_Version()
         {
             var vm = new object();
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""version"":{CurrentVersion}}}");
+            var cJson = res.AsCircularVersionedJson();
+            cJson.Should().Be($@"{{""version"":{CurrentVersion}}}");
         }
 
         [Theory, AutoData]
-        public void AsCircularVersionedJson_adds_version(int version)
+        public void AsCircularVersionedJson_Adds_Version(int version)
         {
             var vm = new object();
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularVersionedJson(version);
-            cjson.Should().Be($@"{{""version"":{version}}}");
+            var cJson = res.AsCircularVersionedJson(version);
+            cJson.Should().Be($@"{{""version"":{version}}}");
         }
 
         [Fact]
-        public void AsCircularVersionedJson_exports_ISimpleCommand()
+        public void AsCircularVersionedJson_Exports_ISimpleCommand()
         {
             var command = Substitute.For<ISimpleCommand>();
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
+            var cJson = res.AsCircularVersionedJson();
+            cJson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
         }
 
         [Fact]
-        public void AsCircularVersionedJson_exports_ISimpleCommand_T()
+        public void AsCircularVersionedJson_Exports_ISimpleCommand_T()
         {
             var command = Substitute.For<ISimpleCommand<string>>();
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
+            var cJson = res.AsCircularVersionedJson();
+            cJson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
         }
 
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void AsCircularVersionedJson_exports_ICommand(bool canExecute)
+        public void AsCircularVersionedJson_Exports_ICommand(bool canExecute)
         {
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(canExecute);
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()}),""version"":{CurrentVersion}}}");
+            var cJson = res.AsCircularVersionedJson();
+            cJson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()}),""version"":{CurrentVersion}}}");
         }
 
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void AsCircularVersionedJson_exports_ICommand_T(bool canExecute)
+        public void AsCircularVersionedJson_Exports_ICommand_T(bool canExecute)
         {
             var command = Substitute.For<ICommand<int>>();
             command.CanExecute(Arg.Any<int>()).Returns(canExecute);
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
+            var cJson = res.AsCircularVersionedJson();
+            cJson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
         }
 
         [Fact]
-        public void AsCircularVersionedJson_exports_IResultCommand_T()
+        public void AsCircularVersionedJson_Exports_IResultCommand_T()
         {
             var command = Substitute.For<IResultCommand<int>>();
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularVersionedJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
+            var cJson = res.AsCircularVersionedJson();
+            cJson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
         }
 
         [Fact]
-        public void AsCircularJson_exports_ISimpleCommand()
+        public void AsCircularJson_Exports_ISimpleCommand()
         {
             var command = Substitute.For<ISimpleCommand>();
             var vm = new { Command = command};
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularJson();
-            cjson.Should().Be(@"{""Command"":cmd(true)}");
+            var cJson = res.AsCircularJson();
+            cJson.Should().Be(@"{""Command"":cmd(true)}");
         }
 
         [Fact]
-        public void AsCircularJson_exports_ISimpleCommand_T()
+        public void AsCircularJson_Exports_ISimpleCommand_T()
         {
             var command = Substitute.For<ISimpleCommand<string>>();
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularJson();
-            cjson.Should().Be(@"{""Command"":cmd(true)}");
+            var cJson = res.AsCircularJson();
+            cJson.Should().Be(@"{""Command"":cmd(true)}");
         }
 
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void AsCircularJson_exports_ICommand(bool canExecute)
+        public void AsCircularJson_Exports_ICommand(bool canExecute)
         {
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(canExecute);
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularJson();
-            cjson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()})}}");
+            var cJson = res.AsCircularJson();
+            cJson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()})}}");
         }
 
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void AsCircularJson_exports_ICommand_T(bool canExecute)
+        public void AsCircularJson_Exports_ICommand_T(bool canExecute)
         {
             var command = Substitute.For<ICommand<int>>();
             command.CanExecute(Arg.Any<int>()).Returns(canExecute);
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true)}}");
+            var cJson = res.AsCircularJson();
+            cJson.Should().Be($@"{{""Command"":cmd(true)}}");
         }
 
         [Fact]
-        public void AsCircularJson_exports_IResultCommand_T()
+        public void AsCircularJson_Exports_IResultCommand_T()
         {
             var command = Substitute.For<IResultCommand<int>>();
             var vm = new { Command = command };
             var res = _CSharpToJavascriptConverter.Map(vm);
 
-            var cjson = res.AsCircularJson();
-            cjson.Should().Be($@"{{""Command"":cmd(true)}}");
+            var cJson = res.AsCircularJson();
+            cJson.Should().Be($@"{{""Command"":cmd(true)}}");
         }
 
         protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);

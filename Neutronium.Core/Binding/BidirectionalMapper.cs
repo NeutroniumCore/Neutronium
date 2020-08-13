@@ -36,20 +36,20 @@ namespace Neutronium.Core.Binding
 
         private readonly object _RootObject;
 
-        internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, JavascriptBindingMode mode, IWebSessionLogger logger, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
-            this(root, contextBuilder, null, strategyFactory, mode, logger)
+        internal BidirectionalMapper(object root, HtmlViewEngine engine, JavascriptBindingMode mode, IWebSessionLogger logger, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
+            this(root, engine, null, strategyFactory, mode, logger, null)
         {
         }
 
         internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, IGlueFactory glueFactory,
-            IJavascriptObjectBuilderStrategyFactory strategyFactory, JavascriptBindingMode mode, IWebSessionLogger logger)
+            IJavascriptObjectBuilderStrategyFactory strategyFactory, JavascriptBindingMode mode, IWebSessionLogger logger, SessionCacher sessionCacher)
         {
             _BuilderStrategyFactory = strategyFactory ?? new StandardStrategyFactory();
             Mode = mode;
             _Logger = logger;
             var javascriptObjectChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
             Context = contextBuilder.GetMainContext(javascriptObjectChanges);
-            _SessionCache = new SessionCacher();
+            _SessionCache = sessionCacher ?? new SessionCacher();
             var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _SessionCache);
             _ListenerUpdater = ListenToCSharp ? new ListenerUpdater(jsUpdateHelper) : null;
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _ListenerUpdater?.On);
@@ -107,11 +107,11 @@ namespace Neutronium.Core.Binding
         private void RegisterJavascriptHelper()
         {
             var resource = new ResourceReader("scripts", this);
-            var infa = resource.Load("Infra.js")
+            var infra = resource.Load("Infra.js")
                 .Replace(NeutroniumConstants.ReadOnlyFlagTemplate, NeutroniumConstants.ReadOnlyFlag)
                 .Replace("{{ReadOnly}}", ((int)ObjectObservability.ReadOnly).ToString());
 
-            Context.WebView.ExecuteJavaScript(infa);
+            Context.WebView.ExecuteJavaScript(infra);
         }
 
         private Task RunInJavascriptContext(Func<Task> run)

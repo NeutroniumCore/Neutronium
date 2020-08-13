@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Neutronium.Core;
 using Neutronium.Core.Binding;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 
 namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
 {
-    public class TestContextBase
+    public class TestContextBase<TContext> where TContext: IDisposable
     {
         public TestContext Path { get; set; }
 
-        public Func<HtmlViewEngine, Task<IHtmlBinding>> Bind { get; set; }
+        public Func<HtmlViewEngine, Task<TContext>> Bind { get; set; }
     }
 }

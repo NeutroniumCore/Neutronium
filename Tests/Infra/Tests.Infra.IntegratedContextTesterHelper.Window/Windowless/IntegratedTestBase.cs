@@ -1,5 +1,4 @@
-﻿using Neutronium.Core;
-using Neutronium.Core.Binding;
+﻿using Neutronium.Core.Binding;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 using System;
@@ -35,7 +34,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return tester;
         }
 
-        private async Task RunAsync(TestContextBase test, Func<IHtmlBinding, Task> Run, string memberName)
+        private async Task RunAsync<TContext>(TestContextBase<TContext> test, Func<TContext, Task> run, string memberName) where TContext:IDisposable
         {
             _Logger.Info($"Starting {memberName}");
             using (Tester(test.Path))
@@ -44,61 +43,61 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
                 var mb = await EvaluateSafeUI(() => test.Bind(_ViewEngine));
                 _Logger.Info("End Binding");
                 _Logger.Info("Begin Run");
-                await Run(mb);
+                await run(mb);
                 _Logger.Info("Ending Run");
                 await DoSafeAsyncUI(() => mb.Dispose());
                 _Logger.Info($"Ending {memberName}");
             }
         }
 
-        protected Task RunAsync(TestInContext test, [CallerMemberName] string memberName = "")
+        protected Task RunAsync<TContext>(TestInContext<TContext> test, [CallerMemberName] string memberName = "") where TContext : IDisposable
         {
             return RunAsync(test, mb => RunInContext(() => test.Test(mb)), memberName);
         }
 
-        protected Task RunAsync(TestInContextAsync test, [CallerMemberName] string memberName = "")
+        protected Task RunAsync<TContext>(TestInContextAsync<TContext> test, [CallerMemberName] string memberName = "") where TContext : IDisposable
         {
             return RunAsync(test, mb => RunInContext(async () => await test.Test(mb)), memberName);
         }
 
-        protected void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        protected void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
         {
-            _JavascriptFrameworkExtractor.SetAttribute(father, attibutename, value);
+            _JavascriptFrameworkExtractor.SetAttribute(father, attributeName, value);
         }
 
-        protected void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        protected void AddAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
         {
-            _JavascriptFrameworkExtractor.AddAttribute(father, attibutename, value);
+            _JavascriptFrameworkExtractor.AddAttribute(father, attributeName, value);
         }
 
-        protected IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
+        protected IJavascriptObject GetAttribute(IJavascriptObject value, string attributeName)
         {
-            return _JavascriptFrameworkExtractor.GetAttribute(value, attibutename);
+            return _JavascriptFrameworkExtractor.GetAttribute(value, attributeName);
         }
 
-        protected IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename)
+        protected IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attributeName)
         {
-            return _JavascriptFrameworkExtractor.GetCollectionAttribute(value, attibutename);
+            return _JavascriptFrameworkExtractor.GetCollectionAttribute(value, attributeName);
         }
 
-        protected string GetStringAttribute(IJavascriptObject value, string attibutename)
+        protected string GetStringAttribute(IJavascriptObject value, string attributeName)
         {
-            return _JavascriptFrameworkExtractor.GetStringAttribute(value, attibutename);
+            return _JavascriptFrameworkExtractor.GetStringAttribute(value, attributeName);
         }
 
-        protected int GetIntAttribute(IJavascriptObject value, string attibutename)
+        protected int GetIntAttribute(IJavascriptObject value, string attributeName)
         {
-            return _JavascriptFrameworkExtractor.GetIntAttribute(value, attibutename);
+            return _JavascriptFrameworkExtractor.GetIntAttribute(value, attributeName);
         }
 
-        protected double GetDoubleAttribute(IJavascriptObject value, string attibutename)
+        protected double GetDoubleAttribute(IJavascriptObject value, string attributeName)
         {
-            return _JavascriptFrameworkExtractor.GetDoubleAttribute(value, attibutename);
+            return _JavascriptFrameworkExtractor.GetDoubleAttribute(value, attributeName);
         }
 
-        protected bool GetBoolAttribute(IJavascriptObject value, string attibutename)
+        protected bool GetBoolAttribute(IJavascriptObject value, string attributeName)
         {
-            return _JavascriptFrameworkExtractor.GetBoolAttribute(value, attibutename);
+            return _JavascriptFrameworkExtractor.GetBoolAttribute(value, attributeName);
         }
 
         protected IJavascriptObject GetRootViewModel()
@@ -106,9 +105,9 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return _JavascriptFrameworkExtractor.GetRootViewModel();
         }
 
-        protected void DoSafeUI(Action doact)
+        protected void DoSafeUI(Action act)
         {
-            _UIDispatcher.Run(doact);
+            _UIDispatcher.Run(act);
         }
 
         protected Task WaitAnotherUiCycleAsync()
@@ -118,14 +117,19 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return tcs.Task;
         }
 
-        protected async Task DoSafeAsyncUI(Action doact)
+        protected async Task DoSafeAsyncUI(Action act)
         {
-            await _UIDispatcher.RunAsync(doact);
+            await _UIDispatcher.RunAsync(act);
         }
 
-        protected T EvaluateSafeUI<T>(Func<T> doact)
+        protected T EvaluateSafeUI<T>(Func<T> compute)
         {
-            return _UIDispatcher.Evaluate(doact);
+            return _UIDispatcher.Evaluate(compute);
+        }
+
+        protected Task<T> EvaluateSafeUIAsync<T>(Func<T> compute)
+        {
+            return _UIDispatcher.EvaluateAsync(compute);
         }
     }
 }

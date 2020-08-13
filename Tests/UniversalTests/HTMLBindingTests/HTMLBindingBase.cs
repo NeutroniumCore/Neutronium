@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Neutronium.Core;
 using Neutronium.Core.Binding;
 using Neutronium.Core.Test.Helper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Example.ViewModel;
 using NSubstitute;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit.Abstractions;
 
 namespace Tests.Universal.HTMLBindingTests
 {
-    public class HtmlBindingBase : IntegratedTestBase 
+    public class HtmlBindingBase : IntegratedTestBase
     {
         protected readonly Person _DataContext;
         protected ICommand _Command;
@@ -27,16 +27,27 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-        protected Task<IHtmlBinding> Bind(HtmlViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        protected async Task<IHtmlBinding> Bind(HtmlViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
-            return HtmlBinding.Bind(engine, dataContext, mode);
+            var withContext =  await BindInContext(engine, dataContext, mode);
+            return withContext.Binding;
+        }
+
+        protected async Task<BindingInContext> BindInContext(HtmlViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
+        {
+            var cacher = new SessionCacher();
+            var mapper = new BidirectionalMapper(dataContext, engine, null, null, mode, engine.Logger, cacher);
+            var builder = new BindingBuilder(mapper, engine.Logger) as IBindingBuilder;
+            var binding = await builder.CreateBinding(false);
+            return new BindingInContext(binding, cacher);
         }
 
         protected HtmlBindingBase(IWindowLessHTMLEngineProvider testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
             _Command = Substitute.For<ICommand>();
-            _DataContext = new Person(_Command) {
+            _DataContext = new Person(_Command)
+            {
                 Name = "O Monstro",
                 LastName = "Desmaisons",
                 Local = new Local() { City = "Florianopolis", Region = "SC" },
@@ -49,11 +60,11 @@ namespace Tests.Universal.HTMLBindingTests
 
         protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);
 
-        protected void CheckCollection(IJavascriptObject coll, IList<Skill> skill) 
+        protected void CheckCollection(IJavascriptObject coll, IList<Skill> skill)
         {
             coll.GetArrayLength().Should().Be(skill.Count);
 
-            for (var  i = 0; i < skill.Count; i++) 
+            for (var i = 0; i < skill.Count; i++)
             {
                 var c = coll.GetValue(i);
 
