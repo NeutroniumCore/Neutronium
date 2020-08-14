@@ -33,17 +33,17 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
             foreach (var propertyInfo in properties) 
             {
-                object childvalue = null;
+                object childValue = null;
                 try 
                 {
-                    childvalue = propertyInfo.Get(parentObject);
+                    childValue = propertyInfo.Get(parentObject);
                 }
                 catch (Exception exception)
                 {
                     LogIntrospectionError(propertyInfo.Name, parentObject, exception);
                 }
 
-                var child = _Converter.Map(childvalue).AddRef();
+                var child = _Converter.Map(childValue).AddRef();
                 attributes[index++] = child;
             }
             return attributes;
