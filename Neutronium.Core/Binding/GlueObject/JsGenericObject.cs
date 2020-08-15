@@ -108,7 +108,7 @@ namespace Neutronium.Core.Binding.GlueObject
 
         internal IJsCsGlue UpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue)
         {
-            return PrivateUpdateGlueProperty(attributeDescription, glue).ToBeCleaned;
+            return PrivateUpdateGlueProperty(attributeDescription, glue).OldReference;
         }
 
         private UpdateInformation PrivateUpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue) 
@@ -116,12 +116,12 @@ namespace Neutronium.Core.Binding.GlueObject
             var oldGlue = attributeDescription.Child;
             var index = _TypePropertyAccessor.GetIndex(attributeDescription.PropertyAccessor);
             _Attributes.Apply(index, glue.AddRef());
-            return new UpdateInformation { AddedProperty = index.Insert, ToBeCleaned = (oldGlue?.Release() == true) ? oldGlue : null };
+            return new UpdateInformation {AddedProperty = index.Insert, OldReference = oldGlue};
         }
 
         private struct UpdateInformation 
         {
-            public IJsCsGlue ToBeCleaned { get; set; }
+            public IJsCsGlue OldReference { get; set; }
             public bool AddedProperty { get; set; }
         }
 
@@ -141,7 +141,7 @@ namespace Neutronium.Core.Binding.GlueObject
                     propertyUpdater.PropertyName, glue.GetJsSessionValue()));
             }                        
 
-            return updater.Remove(update.ToBeCleaned);
+            return updater.CheckForRemove(update.OldReference);
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

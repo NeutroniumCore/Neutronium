@@ -53,14 +53,25 @@ namespace Neutronium.Core.Binding.GlueObject
             }
         }
 
-        internal BridgeUpdater Remove(IJsCsGlue old)
+        internal BridgeUpdater CheckForRemove(IEnumerable<IJsCsGlue> glues)
         {
-            if (old == null)
-                return this;
+            glues.ForEach(CheckForRemoveNoReturn);
+            return this;
+        }
+
+        internal BridgeUpdater CheckForRemove(IJsCsGlue old)
+        {
+            CheckForRemoveNoReturn(old);
+            return this;
+        }
+
+        internal void CheckForRemoveNoReturn(IJsCsGlue old)
+        {
+            if (old?.Release() != true)
+                return;
 
             _ExitingObjects = _ExitingObjects ?? new HashSet<IJsCsGlue>();
             CollectAllRemoved(old, _ExitingObjects);
-            return this;
         }
 
         private static void CollectAllRemoved(IJsCsGlue old, ISet<IJsCsGlue> toRemove)

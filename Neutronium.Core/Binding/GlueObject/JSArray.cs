@@ -99,11 +99,8 @@ namespace Neutronium.Core.Binding.GlueObject
 
             collectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, list));
 
-            collectionChanges.IndividualChanges.Where(ch => ch.CollectionChangeType == CollectionChangeType.Add)
-                .ForEach(ch => ch.Object.AddRef());
-
-            collectionChanges.IndividualChanges.Where(ch => ch.CollectionChangeType == CollectionChangeType.Remove)
-                .ForEach(ch => CheckForRemove(updater, ch.Object));
+            collectionChanges.GetGlues(CollectionChangeType.Add).ForEach(glue => glue.AddRef());
+            updater.CheckForRemove(collectionChanges.GetGlues(CollectionChangeType.Remove));
         }
 
         public BridgeUpdater GetAddUpdater(IJsCsGlue glue, int index)
@@ -116,51 +113,30 @@ namespace Neutronium.Core.Binding.GlueObject
         public BridgeUpdater GetAddUpdater(IList<IJsCsGlue> glues, int startIndex)
         {
             var index = startIndex;
-            glues.ForEach(glue =>
-            {
-                Items.Insert(index++, glue);
-                glue.AddRef();
-            });
+            glues.ForEach(glue => Items.Insert(index++, glue.AddRef()));
             return new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, startIndex, 0, glues));
-        }
-
-        private static BridgeUpdater CheckForRemove(BridgeUpdater updater, IJsCsGlue glue)
-        {
-            if (glue.Release())
-                updater.Remove(glue);
-            return updater;
-        }
-
-        private static BridgeUpdater CheckForRemove(BridgeUpdater updater, List<IJsCsGlue> glues)
-        {
-            glues.ForEach(glue =>
-            {
-                if (glue.Release())
-                    updater.Remove(glue);
-            });
-            return updater;
         }
 
         public BridgeUpdater GetReplaceUpdater(IJsCsGlue glue, int index)
         {
             var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, 1, glue));
-            var old = Items[index];
-            Items[index] = glue.AddRef();
-            return CheckForRemove(bridgeUpdater, old);
+            var old = ReplaceAndReturnOld(index, glue.AddRef());
+            return bridgeUpdater.CheckForRemove(old);
         }
 
         public BridgeUpdater GetReplaceUpdater(List<IJsCsGlue> glues, int index)
         {
             var bridgeUpdater = new BridgeUpdater(viewModelUpdater => Splice(viewModelUpdater, index, glues.Count, glues));
+            glues.ForEach(glue => glue.AddRef());
+            var oldChildren = glues.Select((glue, idx) => ReplaceAndReturnOld(index + idx, glue));
+            return bridgeUpdater.CheckForRemove(oldChildren);
+        }
 
-            var oldChildren = glues.Select((glue, idx) =>
-            {
-                var currentIndex = index + idx;
-                var old = Items[currentIndex];
-                Items[currentIndex] = glue.AddRef();
-                return old;
-            }).ToList();
-            return CheckForRemove(bridgeUpdater, oldChildren);
+        private IJsCsGlue ReplaceAndReturnOld(int index, IJsCsGlue newValue)
+        {
+            var old = Items[index];
+            Items[index] = newValue;
+            return old;
         }
 
         public BridgeUpdater GetMoveUpdater(int oldIndex, int newIndex)
@@ -179,17 +155,13 @@ namespace Neutronium.Core.Binding.GlueObject
                 var old = Items[index];
                 Items.RemoveAt(index);
                 return old;
-            }).ToList();
-            return CheckForRemove(bridgeUpdater, oldChildren);
+            });
+            return bridgeUpdater.CheckForRemove(oldChildren);
         }
 
         public BridgeUpdater GetResetUpdater()
         {
-            var bridgeUpdater = new BridgeUpdater(ClearAllJavascriptCollection);
-            foreach (var item in Items)
-            {
-                CheckForRemove(bridgeUpdater, item);
-            }
+            var bridgeUpdater = new BridgeUpdater(ClearAllJavascriptCollection).CheckForRemove(Items);
             Items.Clear();
             return bridgeUpdater;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.CollectionChanges
@@ -12,7 +13,7 @@ namespace Neutronium.Core.Binding.CollectionChanges
         internal CollectionChanges(IJavascriptToCSharpConverter jsCsBridgeCache, JavascriptCollectionChanges changes, Type targetedType)
         {
             IndividualChanges = changes.Changes
-                           .Select(jvchnage => new IndividualCollectionChange(jvchnage, jsCsBridgeCache, targetedType))
+                           .Select(collectionChange => new IndividualCollectionChange(collectionChange, jsCsBridgeCache, targetedType))
                            .OrderBy(idc => idc, this).ToArray();
         }
 
@@ -23,5 +24,8 @@ namespace Neutronium.Core.Binding.CollectionChanges
 
             return ((x.CollectionChangeType == CollectionChangeType.Add)? 1 : -1) * (x.Index - y.Index);
         }
+
+        public IEnumerable<IJsCsGlue> GetGlues(CollectionChangeType @type) => 
+            IndividualChanges.Where(ch => ch.CollectionChangeType == @type).Select(glue => glue.Object);
     }
 }

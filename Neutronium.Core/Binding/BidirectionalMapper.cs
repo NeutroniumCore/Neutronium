@@ -208,8 +208,8 @@ namespace Neutronium.Core.Binding
                         if (Equals(actualValue, glue.CValue))
                         {
                             var old = currentFather.UpdateGlueProperty(propertyUpdater, glue);
-                            bridgeUpdater.Remove(old);
-                            bridgeUpdater.CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
+                            bridgeUpdater.CheckForRemove(old)
+                                        .CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
                             return;
                         }
 
