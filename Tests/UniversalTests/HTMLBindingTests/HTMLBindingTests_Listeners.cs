@@ -241,7 +241,6 @@ namespace Tests.Universal.HTMLBindingTests
             }
         }
 
-
         [Theory]
         [MemberData(nameof(CircularData))]
         public async Task OneTime_Does_Not_Listen_To_Any_Object(ViewModelTestBase datacontext,
@@ -388,7 +387,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Theory]
         [MemberData(nameof(CircularDataBreaker))]
         public async Task TwoWay_Unlistens_When_Object_Is_Not_Part_of_The_Graph_Respecting_Cycle_Transient_Changes(
-            BasicTestViewModel root, BasicTestViewModel breaker, BasicTestViewModel[] survivores,
+            BasicTestViewModel root, BasicTestViewModel breaker, BasicTestViewModel[] survivors,
             BasicTestViewModel[] cleaned)
         {
             var tempChild1 = new BasicTestViewModel();
@@ -405,9 +404,44 @@ namespace Tests.Universal.HTMLBindingTests
                         breaker.Child = null;
                     });
 
-                    survivores.ForEach(sur => sur.ListenerCount.Should().Be(1));
+                    survivors.ForEach(sur => sur.ListenerCount.Should().Be(1));
                     cleaned.ForEach(sur => sur.ListenerCount.Should().Be(0));
                     new[] { tempChild1, tempChild2 }.ForEach(sur => sur.ListenerCount.Should().Be(0));
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_Listens_after_set_from_javascript_side()
+        {
+            var root = new BasicTestTwoChildrenViewModel();
+            var child = new BasicTestViewModel();
+
+            root.Child1 = child;
+
+            var test = new TestInContextAsync()
+            {
+                Bind = (win) => Bind(win, root, JavascriptBindingMode.TwoWay),
+                Test = async (mb) =>
+                {
+                    var rootJs = mb.JsRootObject;
+                    var childJs = rootJs.GetValue("Child1");
+                    SetAttribute(rootJs, "Child2", childJs);
+
+                    await Task.Delay(100);
+
+                    await DoSafeAsyncUI(() =>
+                    {
+                        root.Child2.Should().Be(child);
+                        root.Child1 = null;
+                    });
+
+                    await Task.Delay(100);
+
+                    child.ListenerCount.Should().Be(1);
                 }
             };
 
