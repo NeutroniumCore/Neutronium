@@ -184,43 +184,10 @@ namespace Neutronium.Core.Binding
                     return;
                 }
 
-                var targetType = propertyUpdater.TargetType;
-                var glue = GetCachedOrCreateBasic(newValue, targetType);
-                var bridgeUpdater = new BridgeUpdater(_SessionCache);
+                var glue = GetCachedOrCreateBasic(newValue, propertyUpdater.TargetType);
+                var bridgeUpdater = await Context.EvaluateOnUiContextAsync(() => UpdateOnUiContextChangeFromJs(propertyUpdater, glue));
 
-                await Context.RunOnUiContextAsync(() =>
-                {
-                    using (_ListenerUpdater.GetPropertySilenter(currentFather.CValue, propertyName))
-                    {
-                        var oldValue = propertyUpdater.GetCurrentChildValue();
-
-                        try
-                        {
-                            propertyUpdater.Set(glue.CValue);
-                        }
-                        catch (Exception exception)
-                        {
-                            LogSetError(propertyName, targetType, glue.CValue, exception);
-                        }
-
-                        var actualValue = propertyUpdater.GetCurrentChildValue();
-
-                        if (Equals(actualValue, glue.CValue))
-                        {
-                            var old = currentFather.UpdateGlueProperty(propertyUpdater, glue);
-                            bridgeUpdater.CheckForRemove(old)
-                                        .CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
-                            return;
-                        }
-
-                        if (!Equals(oldValue, actualValue))
-                        {
-                            _ListenerUpdater.OnCSharpPropertyChanged(currentFather.CValue, propertyName);
-                        }                        
-                    }
-                });
-
-                if (!bridgeUpdater.HasUpdatesOnJavascriptContext)
+                if (bridgeUpdater?.HasUpdatesOnJavascriptContext != true)
                     return;
 
                 await Context.RunOnJavascriptContextAsync(() =>
@@ -231,6 +198,42 @@ namespace Neutronium.Core.Binding
             catch (Exception exception)
             {
                 LogJavascriptSetException(exception);
+            }
+        }
+
+        private BridgeUpdater UpdateOnUiContextChangeFromJs(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
+        {
+            var currentFather = propertyUpdater.Father;
+            using (_ListenerUpdater.GetPropertySilenter(currentFather.CValue, propertyUpdater.PropertyName))
+            {
+                var oldValue = propertyUpdater.GetCurrentChildValue();
+
+                try
+                {
+                    propertyUpdater.Set(glue.CValue);
+                }
+                catch (Exception exception)
+                {
+                    LogSetError(propertyUpdater.PropertyName, propertyUpdater.TargetType, glue.CValue, exception);
+                }
+
+                var actualValue = propertyUpdater.GetCurrentChildValue();
+
+                if (Equals(actualValue, glue.CValue))
+                {
+                    var bridgeUpdater = new BridgeUpdater(_SessionCache);
+                    var old = currentFather.UpdateGlueProperty(propertyUpdater, glue);
+                    bridgeUpdater.CheckForRemove(old)
+                        .CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
+                    return bridgeUpdater;
+                }
+
+                if (!Equals(oldValue, actualValue))
+                {
+                    _ListenerUpdater.OnCSharpPropertyChanged(currentFather.CValue, propertyUpdater.PropertyName);
+                }
+
+                return null;
             }
         }
 
