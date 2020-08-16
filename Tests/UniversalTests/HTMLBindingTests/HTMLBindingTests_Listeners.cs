@@ -428,7 +428,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     var rootJs = mb.JsRootObject;
-                    var childJs = rootJs.GetValue("Child1");
+                    var childJs = GetAttribute(rootJs, "Child1");
                     SetAttribute(rootJs, "Child2", childJs);
 
                     await Task.Delay(100);
