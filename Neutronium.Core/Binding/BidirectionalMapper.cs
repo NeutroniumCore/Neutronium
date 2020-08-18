@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.GlueObject;
@@ -190,10 +190,7 @@ namespace Neutronium.Core.Binding
                 if (bridgeUpdater?.HasUpdatesOnJavascriptContext != true)
                     return;
 
-                await Context.RunOnJavascriptContextAsync(() =>
-                {
-                    bridgeUpdater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
-                });
+                await Context.RunOnJavascriptContextAsync(() => _JsUpdateHelper.UpdateOnJavascriptContext(bridgeUpdater));
             }
             catch (Exception exception)
             {
@@ -221,10 +218,8 @@ namespace Neutronium.Core.Binding
 
                 if (Equals(actualValue, glue.CValue))
                 {
-                    var bridgeUpdater = new BridgeUpdater(_SessionCache);
-                    var old = currentFather.UpdateGlueProperty(propertyUpdater, glue);
-                    bridgeUpdater.CheckForRemove(old)
-                        .CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
+                    var bridgeUpdater = currentFather.GetUpdaterChangeOnJsContext(propertyUpdater, glue);
+                    _JsUpdateHelper.UpdateOnUiContext(bridgeUpdater, _ListenerUpdater.Off);
                     return bridgeUpdater;
                 }
 
@@ -260,20 +255,17 @@ namespace Neutronium.Core.Binding
                     return;
 
                 var collectionChanges = res.GetChanger(changes, this);
-
-                var updater = new BridgeUpdater(_SessionCache);
+                var updater = new BridgeUpdater();
                 await Context.RunOnUiContextAsync(() =>
-                {
-                    UpdateCollection(res, res.CValue, collectionChanges, updater);
-                });
+                    UpdateCollectionAfterJavascriptChanges(res, res.CValue, collectionChanges, updater)
+                );
 
                 if (!updater.HasUpdatesOnJavascriptContext)
                     return;
 
                 await Context.RunOnJavascriptContextAsync(() =>
-                {
-                    updater.UpdateOnJavascriptContext(Context.ViewModelUpdater);
-                });
+                    _JsUpdateHelper.UpdateOnJavascriptContext(updater)
+                );
             }
             catch (Exception exception)
             {
@@ -281,7 +273,7 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private void UpdateCollection(JsArray array, object collection, CollectionChanges.CollectionChanges change, BridgeUpdater updater)
+        private void UpdateCollectionAfterJavascriptChanges(JsArray array, object collection, CollectionChanges.CollectionChanges change, BridgeUpdater updater)
         {
             try
             {
@@ -289,7 +281,7 @@ namespace Neutronium.Core.Binding
                 {
                     array.UpdateEventArgsFromJavascript(change, updater);
                 }
-                updater.CleanAfterChangesOnUiThread(_ListenerUpdater.Off);
+                _JsUpdateHelper.UpdateOnUiContext(updater, _ListenerUpdater.Off);
             }
             catch (Exception exception)
             {

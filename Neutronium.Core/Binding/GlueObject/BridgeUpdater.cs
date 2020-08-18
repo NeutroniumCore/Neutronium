@@ -12,36 +12,24 @@ namespace Neutronium.Core.Binding.GlueObject
         private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject;
         private HashSet<IJsCsGlue> _ExitingObjects;
 
-        internal IJavascriptSessionCache Cache { get; set; }
         internal bool HasUpdatesOnJavascriptContext => (_UpdateJavascriptObject != null) || (_ExitingObjects?.Count > 0);
 
-        public BridgeUpdater(Action<IJavascriptViewModelUpdater> update)
+        public BridgeUpdater(Action<IJavascriptViewModelUpdater> update = null)
         {
             _UpdateJavascriptObject = update;
         }
 
-        public BridgeUpdater(IJavascriptSessionCache cache)
-        {
-            Cache = cache;
-        }
-
-        public void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater)
+        public void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater, IJavascriptSessionCache cache)
         {
             _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
             if (_ExitingObjects == null)
                 return;
 
-            _ExitingObjects.ForEach(Cache.RemoveFromJsToCSharp);
+            _ExitingObjects.ForEach(cache.RemoveFromJsToCSharp);
             javascriptViewModelUpdater.UnListen(_ExitingObjects.Where(exiting => (exiting as JsGenericObject)?.HasReadWriteProperties == true).Select(glue => glue.JsValue));
         }
 
         internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener, IJavascriptSessionCache cache)
-        {
-            Cache = cache;
-            CleanAfterChangesOnUiThread(offListener);
-        }
-
-        internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener)
         {
             if (_ExitingObjects==null)
                 return;
@@ -49,7 +37,7 @@ namespace Neutronium.Core.Binding.GlueObject
             foreach (var exiting in _ExitingObjects)
             {
                 exiting.ApplyOnListenable(offListener);
-                Cache.RemoveFromCSharpToJs(exiting);
+                cache.RemoveFromCSharpToJs(exiting);
             }
         }
 

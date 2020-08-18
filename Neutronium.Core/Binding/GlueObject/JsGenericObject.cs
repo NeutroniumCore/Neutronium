@@ -106,9 +106,10 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        internal IJsCsGlue UpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue)
+        internal BridgeUpdater GetUpdaterChangeOnJsContext(AttibuteUpdater attributeDescription, IJsCsGlue glue)
         {
-            return PrivateUpdateGlueProperty(attributeDescription, glue).OldReference;
+            var context = PrivateUpdateGlueProperty(attributeDescription, glue);
+            return new BridgeUpdater().CheckForRemove(context.OldReference);
         }
 
         private UpdateInformation PrivateUpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue) 
@@ -125,7 +126,7 @@ namespace Neutronium.Core.Binding.GlueObject
             public bool AddedProperty { get; set; }
         }
 
-        public BridgeUpdater GetUpdater(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
+        public BridgeUpdater GetUpdaterChangeOnCSharpContext(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
         {
             var update = PrivateUpdateGlueProperty(propertyUpdater, glue);
 

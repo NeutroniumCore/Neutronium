@@ -11,5 +11,6 @@ namespace Neutronium.Core.Binding.Updaters
         void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off);
         void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value);
         void UpdateOnJavascriptContext(BridgeUpdater updater, IList<IJsCsGlue> value);
+        void UpdateOnJavascriptContext(BridgeUpdater updater);
     }
 }

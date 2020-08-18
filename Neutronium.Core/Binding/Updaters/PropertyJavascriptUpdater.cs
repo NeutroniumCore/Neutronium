@@ -40,7 +40,7 @@ namespace Neutronium.Core.Binding.Updaters
             if (_NewJsValue == null)
                 return;
 
-            _BridgeUpdater = currentfather.GetUpdater(propertyUpdater, _NewJsValue);
+            _BridgeUpdater = currentfather.GetUpdaterChangeOnCSharpContext(propertyUpdater, _NewJsValue);
             _JsUpdateHelper.UpdateOnUiContext(_BridgeUpdater, off);
         }
 

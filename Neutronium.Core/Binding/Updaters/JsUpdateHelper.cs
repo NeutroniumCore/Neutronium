@@ -97,7 +97,7 @@ namespace Neutronium.Core.Binding.Updaters
         {
             if (values == null || values.Count == 0)
             {
-                RunUpdaterOnJsContext(updater);
+                UpdateOnJavascriptContext(updater);
                 return;
             }
 
@@ -113,7 +113,7 @@ namespace Neutronium.Core.Binding.Updaters
         private void UpdateOnJavascriptContextWithoutMapping(BridgeUpdater updater, IEnumerable<IJsCsGlue> values)
         {
             values.ForEach(UpdateJavascriptValue);
-            RunUpdaterOnJsContext(updater);
+            UpdateOnJavascriptContext(updater);
         }
 
         private async Task UpdateOnJavascriptContextWithMapping(BridgeUpdater updater, IList<IJsCsGlue> values)
@@ -123,14 +123,14 @@ namespace Neutronium.Core.Binding.Updaters
             {
                 await _SessionMapper.InjectInHtmlSession(jsCsGlue);
             }    
-            RunUpdaterOnJsContext(updater);
+            UpdateOnJavascriptContext(updater);
         }
 
         public void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value)
         {
             if (value == null)
             {
-                RunUpdaterOnJsContext(updater);
+                UpdateOnJavascriptContext(updater);
                 return;
             }
 
@@ -146,14 +146,14 @@ namespace Neutronium.Core.Binding.Updaters
         private void UpdateOnJavascriptContextWithoutMapping(BridgeUpdater updater, IJsCsGlue value)
         {
             UpdateJavascriptValue(value);
-            RunUpdaterOnJsContext(updater);
+            UpdateOnJavascriptContext(updater);
         }
 
         private async Task UpdateOnJavascriptContextWithMapping(BridgeUpdater updater, IJsCsGlue value)
         {
             UpdateJavascriptValue(value);
             await _SessionMapper.InjectInHtmlSession(value);
-            RunUpdaterOnJsContext(updater);
+            UpdateOnJavascriptContext(updater);
         }
 
         private void UpdateJavascriptValue(IJsCsGlue value)
@@ -161,9 +161,9 @@ namespace Neutronium.Core.Binding.Updaters
             _BuilderStrategy.Value.UpdateJavascriptValue(value);
         }
 
-        private void RunUpdaterOnJsContext(BridgeUpdater updater)
+        public void UpdateOnJavascriptContext(BridgeUpdater updater)
         {
-            updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater);
+            updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater, _SessionCache);
         }
     }
 }
