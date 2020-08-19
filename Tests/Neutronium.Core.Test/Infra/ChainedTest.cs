@@ -44,24 +44,45 @@ namespace Neutronium.Core.Test.Infra
             visited.Should().BeEquivalentTo(collection);
         }
 
-        private class Number
+        [Theory, AutoData]
+        public void MapFilter_maps_collection(List<int> collectionOfInt)
         {
-            public int Value { get; set; }
+            int Transform(int value) => value * 2;
+            var first = FromEnumerable(collectionOfInt);
+            var expected = collectionOfInt.Select(Transform);
+
+            var res = first.MapFilter(Transform);
+
+            ToEnumerable(res).Should().BeEquivalentTo(expected);
         }
 
         [Theory, AutoData]
-        public void Reduce_reduces_collection(List<int> collectionOfInt)
+        public void MapFilter_filter_collection(List<int> collectionOfInt)
         {
-            var collection = collectionOfInt.Select(c => new Number {Value = c}).ToList();
-            var first = FromEnumerable(collection);
-            var expected = collectionOfInt.Aggregate(89, (ag, v) => ag - v);
+            int Transform(int value) => value;
+            bool Filter(int value) => value % 2 == 0;
 
-            var value = first.Reduce<int>(ob => ob.Value, (ag, v) => ag - v, 89);
+            var first = FromEnumerable(collectionOfInt);
+            var expected = collectionOfInt.Where(Filter);
 
-            value.Should().Be(expected);
+            var res = first.MapFilter(Transform, Filter);
+
+            ToEnumerable(res).Should().BeEquivalentTo(expected);
         }
 
-        private static Chained<T> FromEnumerable<T>(IEnumerable<T> collection) where T : class
+        [Theory, AutoData]
+        public void MapFilter_returns_null_when_there_is_no_element(List<int> collectionOfInt)
+        {
+            int Transform(int value) => value;
+            bool Filter(int value) => false;
+            var first = FromEnumerable(collectionOfInt);
+
+            var res = first.MapFilter(Transform, Filter);
+
+            res.Should().BeNull();
+        }
+
+        private static Chained<T> FromEnumerable<T>(IEnumerable<T> collection)
         {
             var first = default(Chained<T>);
             var last = default(Chained<T>);
@@ -71,6 +92,16 @@ namespace Neutronium.Core.Test.Infra
                 first = first ?? last;
             });
             return first;
+        }
+
+        private static IEnumerable<T> ToEnumerable<T>(Chained<T> collection)
+        {
+            var current = collection;
+            while (current != null)
+            {
+                yield return current.Value;
+                current = current.Next;
+            }
         }
     }
 }

@@ -40,10 +40,10 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes = attributes;
         }
 
-        public AttibuteUpdater GetPropertyUpdater(string propertyName)
+        public AttributeUpdater GetPropertyUpdater(string propertyName)
         {
             var propertyAcessor = GetPropertyAccessor(propertyName);
-            return new AttibuteUpdater(this, propertyAcessor, GetGlueFromPropertyAccessor(propertyAcessor));
+            return new AttributeUpdater(this, propertyAcessor, GetGlueFromPropertyAccessor(propertyAcessor));
         }
 
         public IJsCsGlue GetAttribute(string propertyName)
@@ -106,13 +106,13 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        internal BridgeUpdater GetUpdaterChangeOnJsContext(AttibuteUpdater attributeDescription, IJsCsGlue glue)
+        internal BridgeUpdater GetUpdaterChangeOnJsContext(AttributeUpdater attributeDescription, IJsCsGlue glue)
         {
             var context = PrivateUpdateGlueProperty(attributeDescription, glue);
             return new BridgeUpdater().CheckForRemove(context.OldReference);
         }
 
-        private UpdateInformation PrivateUpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue) 
+        private UpdateInformation PrivateUpdateGlueProperty(AttributeUpdater attributeDescription, IJsCsGlue glue) 
         {
             var oldGlue = attributeDescription.Child;
             var index = _TypePropertyAccessor.GetIndex(attributeDescription.PropertyAccessor);
@@ -126,7 +126,7 @@ namespace Neutronium.Core.Binding.GlueObject
             public bool AddedProperty { get; set; }
         }
 
-        public BridgeUpdater GetUpdaterChangeOnCSharpContext(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
+        public BridgeUpdater GetUpdaterChangeOnCSharpContext(AttributeUpdater propertyUpdater, IJsCsGlue glue)
         {
             var update = PrivateUpdateGlueProperty(propertyUpdater, glue);
 

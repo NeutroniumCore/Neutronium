@@ -3,7 +3,7 @@ using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal struct AttibuteUpdater
+    internal struct AttributeUpdater
     {
         public bool IsValid => PropertyAccessor != null;
         public bool IsSettable => IsValid && PropertyAccessor.IsSettable;
@@ -18,10 +18,10 @@ namespace Neutronium.Core.Binding.GlueObject
 
         private object CachedChildValue => Child?.CValue;
 
-        public AttibuteUpdater(JsGenericObject father, PropertyAccessor propertyAcessor, IJsCsGlue child)
+        public AttributeUpdater(JsGenericObject father, PropertyAccessor propertyAccessor, IJsCsGlue child)
         {
             Child = child;
-            PropertyAccessor = propertyAcessor;
+            PropertyAccessor = propertyAccessor;
             Father = father;
         }
 

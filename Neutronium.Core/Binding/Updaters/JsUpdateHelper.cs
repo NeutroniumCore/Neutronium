@@ -39,19 +39,19 @@ namespace Neutronium.Core.Binding.Updaters
             OnJavascriptSessionReady?.Invoke(this, e);
         }
 
-        public IJavascriptUpdater GetUpdaterForPropertyChanged(object sender, string propertyName)
+        public IJavascriptUIContextUpdater GetUpdaterForPropertyChanged(object sender, string propertyName)
         {
-            return new PropertyJavascriptUpdater(this, sender, propertyName);
+            return new PropertyJavascriptUiContextUpdater(this, sender, propertyName);
         }
 
-        public IJavascriptUpdater GetUpdaterForNotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        public IJavascriptUIContextUpdater GetUpdaterForNotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            return new CollectionJavascriptUpdater(this, sender, e);
+            return new CollectionJavascriptUiContextUpdater(this, sender, e);
         }
 
-        public IJavascriptUpdater GetUpdaterForExecutionChanged(object sender)
+        public IJavascriptUIContextUpdater GetUpdaterForExecutionChanged(object sender)
         {
-            return new CommandJavascriptUpdater(this, sender);
+            return new CommandJavascriptUiContextUpdater(this, sender);
         }
 
         public void CheckUiContext()

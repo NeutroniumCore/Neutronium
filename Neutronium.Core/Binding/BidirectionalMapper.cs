@@ -198,7 +198,7 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private BridgeUpdater UpdateOnUiContextChangeFromJs(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
+        private BridgeUpdater UpdateOnUiContextChangeFromJs(AttributeUpdater propertyUpdater, IJsCsGlue glue)
         {
             var currentFather = propertyUpdater.Father;
             using (_ListenerUpdater.GetPropertySilenter(currentFather.CValue, propertyUpdater.PropertyName))
