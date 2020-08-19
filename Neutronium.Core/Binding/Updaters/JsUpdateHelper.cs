@@ -7,7 +7,6 @@ using Neutronium.Core.Infra;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using MoreCollection.Extensions;
 
@@ -40,9 +39,9 @@ namespace Neutronium.Core.Binding.Updaters
             OnJavascriptSessionReady?.Invoke(this, e);
         }
 
-        public IJavascriptUpdater GetUpdaterForPropertyChanged(object sender, PropertyChangedEventArgs e)
+        public IJavascriptUpdater GetUpdaterForPropertyChanged(object sender, string propertyName)
         {
-            return new PropertyJavascriptUpdater(this, sender, e);
+            return new PropertyJavascriptUpdater(this, sender, propertyName);
         }
 
         public IJavascriptUpdater GetUpdaterForNotifyCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

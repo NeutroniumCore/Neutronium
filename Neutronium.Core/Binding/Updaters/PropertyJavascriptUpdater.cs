@@ -1,6 +1,5 @@
 ﻿using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
-using System.ComponentModel;
 
 namespace Neutronium.Core.Binding.Updaters
 {
@@ -15,11 +14,11 @@ namespace Neutronium.Core.Binding.Updaters
 
         public bool NeedToRunOnJsContext => _BridgeUpdater != null;
 
-        internal PropertyJavascriptUpdater(IJsUpdateHelper jsUpdateHelper, object sender, PropertyChangedEventArgs e)
+        internal PropertyJavascriptUpdater(IJsUpdateHelper jsUpdateHelper, object sender, string propertyName)
         {
             _JsUpdateHelper = jsUpdateHelper;
             _Sender = sender;
-            _PropertyName = e.PropertyName;
+            _PropertyName = propertyName;
         }
 
         public void OnUiContext(ObjectChangesListener off)

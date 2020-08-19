@@ -95,13 +95,13 @@ namespace Neutronium.Core.Binding.Listeners
 
         internal void OnCSharpPropertyChanged(object sender, string propertyName)
         {
-            OnCSharpPropertyChanged(sender, new PropertyChangedEventArgs(propertyName));
+            var updater = _JsUpdaterFactory.GetUpdaterForPropertyChanged(sender, propertyName);
+            ScheduleChanges(updater);
         }
 
-        private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            var updater = _JsUpdaterFactory.GetUpdaterForPropertyChanged(sender, e);
-            ScheduleChanges(updater);
+            OnCSharpPropertyChanged(sender, propertyChangedEventArgs.PropertyName);
         }
 
         private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -139,7 +139,7 @@ namespace Neutronium.Core.Binding.Listeners
             _First = _Last = null;
         }
 
-        public Silenter<INotifyCollectionChanged> GetColllectionSilenter(object target)
+        public Silenter<INotifyCollectionChanged> GetCollectionSilenter(object target)
         {
             return Silenter.GetSilenter(_Collection, target);
         }

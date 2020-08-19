@@ -277,7 +277,7 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                using (_ListenerUpdater.GetColllectionSilenter(collection))
+                using (_ListenerUpdater.GetCollectionSilenter(collection))
                 {
                     array.UpdateEventArgsFromJavascript(change, updater);
                 }
