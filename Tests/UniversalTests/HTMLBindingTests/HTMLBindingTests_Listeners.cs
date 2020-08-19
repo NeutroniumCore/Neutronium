@@ -707,6 +707,13 @@ namespace Tests.Universal.HTMLBindingTests
                     cSharpToJsCache.GetCached(stringValue2).Should().NotBeNull();
                 });
 
+            async Task UpdateRoot(Action<VmWithTwoStrings> update)
+            {
+                await DoSafeAsyncUI(() => update(root));
+
+                await Task.Delay(100);
+            }
+
             var test = new TestInContextAsync<BindingInContext>()
             {
                 Bind = (win) => BindInContext(win, root, JavascriptBindingMode.TwoWay),
@@ -716,33 +723,33 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await CacheShouldHaveOnlyString1(cache);
 
-                    await DoSafeAsyncUI(() =>
+                    await UpdateRoot((vm) =>
                     {
-                        root.String2 = stringValue2;
+                        vm.String2 = stringValue2;
                     });
                     await CacheShouldHaveBothString(cache);
 
-                    await DoSafeAsyncUI(() =>
+                    await UpdateRoot((vm) =>
                     {
-                        root.String2 = null;
+                        vm.String2 = null;
                     });
                     await CacheShouldHaveOnlyString1(cache);
 
-                    await DoSafeAsyncUI(() =>
+                    await UpdateRoot((vm) =>
                     {
-                        root.String2 = stringValue;
+                        vm.String2 = stringValue;
                     });
                     await CacheShouldHaveOnlyString1(cache);
 
-                    await DoSafeAsyncUI(() =>
+                    await UpdateRoot((vm) =>
                     {
-                        root.String1 = null;
+                        vm.String1 = null;
                     });
                     await CacheShouldHaveOnlyString1(cache);
 
-                    await DoSafeAsyncUI(() =>
+                    await UpdateRoot((vm) =>
                     {
-                        root.String2 = null;
+                        vm.String2 = null;
                     });
                     await CacheShouldHaveNoString(cache);
                 }
