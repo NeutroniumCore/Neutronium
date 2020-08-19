@@ -45,6 +45,9 @@ namespace Neutronium.Core.Binding.Updaters
 
         public void OnJsContext()
         {
+            if (!NeedToRunOnJsContext)
+                return;
+
             _JsUpdateHelper.UpdateOnJavascriptContext(_BridgeUpdater, _NewJsValue);
         }
     }

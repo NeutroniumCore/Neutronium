@@ -81,16 +81,7 @@ namespace Neutronium.Core.Binding.Listeners
             if (!needUpdateOnJsContext)
                 return;
 
-            void PerformOnJsContext(IJavascriptUpdater updater)
-            {
-                if (!updater.NeedToRunOnJsContext) return;
-                updater.OnJsContext();
-            }
-
-            _JsUpdaterFactory.DispatchInJavascriptContext(() =>
-            {
-                @from.ForEach(PerformOnJsContext);
-            });
+            _JsUpdaterFactory.DispatchInJavascriptContext(() => @from.ForEach(updater => updater.OnJsContext()));
         }
 
         internal void OnCSharpPropertyChanged(object sender, string propertyName)

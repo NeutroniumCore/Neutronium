@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using Neutronium.Core.Binding.GlueObject.Executable;
+﻿using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.Listeners;
 
 namespace Neutronium.Core.Binding.Updaters
@@ -12,7 +11,6 @@ namespace Neutronium.Core.Binding.Updaters
         private byte _UpdateCount;
 
         public bool NeedToRunOnJsContext { get; private set; } = false;
-
 
         public CommandJavascriptUpdater(IJsUpdateHelper jsUpdateHelper, object command)
         {
@@ -45,6 +43,9 @@ namespace Neutronium.Core.Binding.Updaters
 
         public void OnJsContext()
         {
+            if (!NeedToRunOnJsContext)
+                return;
+
             _JsCommandBase.SetUpdateCountOnJsContext();
         }
     }
