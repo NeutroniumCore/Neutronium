@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _UpdateJavascriptObject = update;
         }
 
-        public void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater, IJavascriptSessionCache cache)
+        internal void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater, IJavascriptSessionCache cache)
         {
             _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
             if (_ExitingObjects == null)
@@ -53,7 +53,7 @@ namespace Neutronium.Core.Binding.GlueObject
             return this;
         }
 
-        internal void CheckForRemoveNoReturn(IJsCsGlue old)
+        private void CheckForRemoveNoReturn(IJsCsGlue old)
         {
             if (old?.Release() != true)
                 return;
