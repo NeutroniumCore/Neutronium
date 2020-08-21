@@ -100,7 +100,7 @@ namespace Neutronium.Core.Binding.Listeners
             ScheduleChanges(updater);
         }
 
-        public void ScheduleChanges(IJavascriptUIContextUpdater uiContextUpdater)
+        private void ScheduleChanges(IJavascriptUIContextUpdater uiContextUpdater)
         {
             _JsUpdaterFactory.CheckUiContext();
             Enqueue(uiContextUpdater);
