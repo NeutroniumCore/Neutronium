@@ -21,13 +21,12 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             return (e.Length > 0) ? e[0] : null;
         }
 
-        protected override async Task<MayBe<TResult>> ExecuteOnUiThread(bool context)
+        protected override Task<TResult> ExecuteOnUiThread(bool context)
         {
-            var res = await _JsResultCommand.Execute();
-            return new MayBe<TResult>(res);
+            return _JsResultCommand.Execute();
         }
 
-        protected override MayBe<bool> ExecuteOnJsContextThread(IJavascriptObject[] e)
+        protected override MayBe<bool> GetArgumentValueOnJsContext(IJavascriptObject[] e)
         {
             return new MayBe<bool>(true);
         }

@@ -22,7 +22,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             return (e.Length > 1) ? e[1] : null;
         }
 
-        protected override MayBe<TArg> ExecuteOnJsContextThread(IJavascriptObject[] e)
+        protected override MayBe<TArg> GetArgumentValueOnJsContext(IJavascriptObject[] e)
         {
             var argument = JavascriptToCSharpConverter.GetFirstArgument<TArg>(e);
             if (!argument.Success)
@@ -32,10 +32,9 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             return argument;
         }
 
-        protected override async Task<MayBe<TResult>> ExecuteOnUiThread(TArg argument)
+        protected override Task<TResult> ExecuteOnUiThread(TArg argument)
         {
-            var value = await _JsResultCommand.Execute(argument);
-            return new MayBe<TResult>(value);
+            return _JsResultCommand.Execute(argument);
         }
     }
 }

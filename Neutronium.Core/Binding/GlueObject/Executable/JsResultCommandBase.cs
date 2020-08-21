@@ -16,10 +16,8 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
         protected IWebView WebView => _HtmlViewContext.WebView;
         private IDispatcher UiDispatcher => _HtmlViewContext.UiDispatcher;
-
-        private uint _JsId;
-        public uint JsId => _JsId;
-        public void SetJsId(uint jsId) => _JsId = jsId;
+        public uint JsId { get; private set; }
+        public void SetJsId(uint jsId) => JsId = jsId;
 
         protected IWebSessionLogger Logger => _HtmlViewContext.Logger;
         protected readonly IJavascriptToCSharpConverter JavascriptToCSharpConverter;
@@ -55,26 +53,23 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public void VisitChildren(Action<IJsCsGlue> visit) { }
 
-        protected abstract Task<MayBe<TResult>> ExecuteOnUiThread(TJsContext context);
-        protected abstract MayBe<TJsContext> ExecuteOnJsContextThread(IJavascriptObject[] e);
+        protected abstract Task<TResult> ExecuteOnUiThread(TJsContext context);
+        protected abstract MayBe<TJsContext> GetArgumentValueOnJsContext(IJavascriptObject[] e);
         protected abstract IJavascriptObject GetPromise(IJavascriptObject[] e);
 
         public async void Execute(IJavascriptObject[] arguments)
         {
             var promise = GetPromise(arguments);
-            var context = ExecuteOnJsContextThread(arguments);
-            if (!context.Success)
+            var argument = GetArgumentValueOnJsContext(arguments);
+            if (!argument.Success)
                 return;
 
             try
             {
                 await await UiDispatcher.EvaluateAsync(async () =>
                 {
-                    var res = await ExecuteOnUiThread(context.Value);
-                    if (!res.Success)
-                        return;
-
-                    JavascriptToCSharpConverter.RegisterInSession(res.Value, bridge => SetResult(promise, bridge));
+                    var res = await ExecuteOnUiThread(argument.Value);
+                    JavascriptToCSharpConverter.RegisterInSession(res, bridge => SetResult(promise, bridge));
                 });
             }
             catch (Exception exception)
