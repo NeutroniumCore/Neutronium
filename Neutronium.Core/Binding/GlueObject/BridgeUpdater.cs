@@ -9,19 +9,19 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     public class BridgeUpdater
     {
-        private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject;
+        private readonly Action<IJavascriptViewModelUpdater> _UpdateOnJsContext;
         private HashSet<IJsCsGlue> _ExitingObjects;
 
-        internal bool HasUpdatesOnJavascriptContext => (_UpdateJavascriptObject != null) || (_ExitingObjects?.Count > 0);
+        internal bool HasUpdatesOnJavascriptContext => (_UpdateOnJsContext != null) || (_ExitingObjects?.Count > 0);
 
-        public BridgeUpdater(Action<IJavascriptViewModelUpdater> update = null)
+        public BridgeUpdater(Action<IJavascriptViewModelUpdater> updateOnJsContext = null)
         {
-            _UpdateJavascriptObject = update;
+            _UpdateOnJsContext = updateOnJsContext;
         }
 
         internal void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater, IJavascriptSessionCache cache)
         {
-            _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
+            _UpdateOnJsContext?.Invoke(javascriptViewModelUpdater);
             if (_ExitingObjects == null)
                 return;
 
