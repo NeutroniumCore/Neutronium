@@ -92,15 +92,15 @@ namespace Neutronium.Core.Binding.GlueObject
             }
         }
 
-        public void UpdateEventArgsFromJavascript(CollectionChanges.CollectionChanges collectionChanges, BridgeUpdater updater)
+        public BridgeUpdater UpdateEventArgsFromJavascript(CollectionChanges.CollectionChanges collectionChanges)
         {
             if (!(CValue is IList list))
-                return;
+                return null;
 
             collectionChanges.IndividualChanges.ForEach(c => ReplayChanges(c, list));
 
             collectionChanges.GetGlues(CollectionChangeType.Add).ForEach(glue => glue.AddRef());
-            updater.CheckForRemove(collectionChanges.GetGlues(CollectionChangeType.Remove));
+            return new BridgeUpdater().CheckForRemove(collectionChanges.GetGlues(CollectionChangeType.Remove));
         }
 
         public BridgeUpdater GetAddUpdater(IJsCsGlue glue, int index)

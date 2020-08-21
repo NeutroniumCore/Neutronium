@@ -251,16 +251,15 @@ namespace Neutronium.Core.Binding
         {
             try
             {
-                if (!(_SessionCache.GetCached(changes.Collection) is JsArray res))
+                if (!(_SessionCache.GetCached(changes.Collection) is JsArray jsArray))
                     return;
 
-                var collectionChanges = res.GetChanger(changes, this);
-                var updater = new BridgeUpdater();
-                await Context.RunOnUiContextAsync(() =>
-                    UpdateCollectionAfterJavascriptChanges(res, res.CValue, collectionChanges, updater)
+                var collectionChanges = jsArray.GetChanger(changes, this);
+                var updater = await Context.EvaluateOnUiContextAsync(() =>
+                    UpdateCollectionAfterJavascriptChanges(jsArray, jsArray.CValue, collectionChanges)
                 );
 
-                if (!updater.HasUpdatesOnJavascriptContext)
+                if (updater?.HasUpdatesOnJavascriptContext != true)
                     return;
 
                 await Context.RunOnJavascriptContextAsync(() =>
@@ -273,13 +272,14 @@ namespace Neutronium.Core.Binding
             }
         }
 
-        private void UpdateCollectionAfterJavascriptChanges(JsArray array, object collection, CollectionChanges.CollectionChanges change, BridgeUpdater updater)
+        private BridgeUpdater UpdateCollectionAfterJavascriptChanges(JsArray array, object collection, CollectionChanges.CollectionChanges change)
         {
+            var updater = default(BridgeUpdater);
             try
             {
                 using (_ListenerUpdater.GetCollectionSilenter(collection))
                 {
-                    array.UpdateEventArgsFromJavascript(change, updater);
+                    updater = array.UpdateEventArgsFromJavascript(change);
                 }
                 _JsUpdateHelper.UpdateOnUiContext(updater, _ListenerUpdater.Off);
             }
@@ -287,6 +287,7 @@ namespace Neutronium.Core.Binding
             {
                 LogJavascriptSetException(exception);
             }
+            return updater;
         }
 
         private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newBridgeChild, Action<IJsCsGlue> performAfterBuild)

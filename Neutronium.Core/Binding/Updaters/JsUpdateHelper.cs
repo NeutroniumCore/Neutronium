@@ -89,7 +89,7 @@ namespace Neutronium.Core.Binding.Updaters
 
         public void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off)
         {
-            updater.CleanAfterChangesOnUiThread(off, _SessionCache);
+            updater?.CleanAfterChangesOnUiThread(off, _SessionCache);
         }
 
         public void UpdateOnJavascriptContext(BridgeUpdater updater, IList<IJsCsGlue> values)
