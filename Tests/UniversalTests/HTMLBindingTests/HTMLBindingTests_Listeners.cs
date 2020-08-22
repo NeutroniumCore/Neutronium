@@ -404,6 +404,8 @@ namespace Tests.Universal.HTMLBindingTests
                         breaker.Child = null;
                     });
 
+                    await Task.Delay(100);
+
                     survivors.ForEach(sur => sur.ListenerCount.Should().Be(1));
                     cleaned.ForEach(sur => sur.ListenerCount.Should().Be(0));
                     new[] { tempChild1, tempChild2 }.ForEach(sur => sur.ListenerCount.Should().Be(0));
