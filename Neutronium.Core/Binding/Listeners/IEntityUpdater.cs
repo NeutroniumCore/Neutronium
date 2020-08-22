@@ -1,6 +1,6 @@
 ﻿namespace Neutronium.Core.Binding.Listeners
 {
-    public interface IEntityUpdater<T>
+    public interface IEntityUpdater<in T>
     {
         void OnEnter(T item);
 
