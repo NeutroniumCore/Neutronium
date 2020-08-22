@@ -49,7 +49,7 @@ namespace Neutronium.Core.Binding.Updaters
         private Tuple<BridgeUpdater, List<IJsCsGlue>> GetUpdater(Func<IJsCsGlue, int, BridgeUpdater> oneChangeBridgeCreator, 
             Func<List<IJsCsGlue>, int, BridgeUpdater> manyChangesBridgeCreator)
         {
-            var newValues = InitValuesFromNewItems();
+            var newValues = GetJsGluesForNewItems();
             var bridgeUpdater = _Change.NewItems.Count == 1
                 ? oneChangeBridgeCreator(newValues[0], _Change.NewStartingIndex)
                 : manyChangesBridgeCreator(newValues, _Change.NewStartingIndex);
@@ -57,7 +57,7 @@ namespace Neutronium.Core.Binding.Updaters
             return Tuple.Create(bridgeUpdater, newValues);
         }
 
-        private List<IJsCsGlue> InitValuesFromNewItems() =>  _Change.NewItems.Cast<object>().Select(item => _JsUpdateHelper.Map(item)).ToList();
+        private List<IJsCsGlue> GetJsGluesForNewItems() =>  _Change.NewItems.Cast<object>().Select(item => _JsUpdateHelper.Map(item)).ToList();
 
         public IJavascriptJsContextUpdater ExecuteOnUiContext(ObjectChangesListener off)
         {

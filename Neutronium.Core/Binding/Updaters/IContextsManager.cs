@@ -5,7 +5,7 @@ namespace Neutronium.Core.Binding.Updaters
 {
     internal interface IContextsManager
     {
-        bool isInUiContext { get; }
+        bool IsInUiContext { get; }
         void CheckUiContext();     
         void DispatchInJavascriptContext(Action action);
         void DispatchInUiContext(Action action);

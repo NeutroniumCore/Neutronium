@@ -24,7 +24,7 @@ namespace Neutronium.Core.Binding.Updaters
 
         internal CSharpToJavascriptConverter JsObjectBuilder { get; set; }
 
-        public bool isInUiContext => _Context.UiDispatcher.IsInContext();
+        public bool IsInUiContext => _Context.UiDispatcher.IsInContext();
 
         internal JsUpdateHelper(ISessionMapper sessionMapper, HtmlViewContext context, Func<IJavascriptObjectBuilderStrategy> strategy, SessionCacher sessionCache)
         {
