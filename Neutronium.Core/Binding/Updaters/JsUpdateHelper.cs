@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using MoreCollection.Extensions;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Updaters
 {
@@ -62,22 +63,22 @@ namespace Neutronium.Core.Binding.Updaters
             throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
 
-        public void DispatchInJavascriptContext(Action action)
-        {
-            _Context.WebView.Dispatch(action);
-        }
+        public void DispatchInJavascriptContext(Action action) => _Context.WebView.Dispatch(action);
 
-        public void DispatchInUiContext(Action action)
-        {
-            _Context.UiDispatcher.Dispatch(action);
-        }
+        public void DispatchInUiContext(Action action) => _Context.UiDispatcher.Dispatch(action);
 
-        public void DispatchInUiContextBindingPriority(Action action)
-        {
-            _Context.UiDispatcher.DispatchWithBindingPriority(action);
-        }
+        public void DispatchInUiContextBindingPriority(Action action) => _Context.UiDispatcher.DispatchWithBindingPriority(action);
+
+        public Task<T> EvaluateOnUiContextAsync<T>(Func<T> compute) => _Context.EvaluateOnUiContextAsync(compute);
+
+        public Task RunOnJavascriptContextAsync(Action execute) => _Context.RunOnJavascriptContextAsync(execute);
 
         public T GetCached<T>(object value) where T : class
+        {
+            return _SessionCache.GetCached(value) as T;
+        }
+
+        public T GetCachedFromJsObject<T>(IJavascriptObject value) where T : class
         {
             return _SessionCache.GetCached(value) as T;
         }

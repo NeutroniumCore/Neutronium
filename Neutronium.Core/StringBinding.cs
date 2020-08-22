@@ -35,13 +35,13 @@ namespace Neutronium.Core
 
         public static async Task<IHtmlBinding> Bind(HtmlViewEngine engine, string viewModel)
         {
-            var context = engine.GetMainContext(null);
+            var context = engine.GetMainContext();
             var mainView = context.WebView;
 
             var root = await mainView.EvaluateAsync(() =>
                 {
                     var json = mainView.GetGlobal().GetValue("JSON");
-                    context.InitOnJsContext(false);
+                    context.InitOnJsContext(null, false);
                     return json.Invoke("parse", mainView, mainView.Factory.CreateString(viewModel));
                 });
 

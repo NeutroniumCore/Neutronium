@@ -23,9 +23,9 @@ namespace Neutronium.Core.Binding
             Logger = logger;
         }
 
-        public HtmlViewContext GetMainContext(IJavascriptChangesObserver javascriptChangesObserver)
+        public HtmlViewContext GetMainContext()
         {
-            return new HtmlViewContext(HtmlWindow, _HtmlWindowProvider.UiDispatcher, _FrameworkManager, javascriptChangesObserver, Logger);
+            return new HtmlViewContext(HtmlWindow, _HtmlWindowProvider.UiDispatcher, _FrameworkManager, Logger);
         }
 
         internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)

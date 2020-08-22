@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
@@ -17,23 +18,21 @@ namespace Neutronium.Core.Binding
 
         private IJavascriptObject _Listener;
         private IJavascriptViewModelManager _VmManager;
-        private readonly IJavascriptChangesObserver _JavascriptChangesObserver;
         private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private readonly IWebBrowserWindow _IWebBrowserWindow;
 
         public HtmlViewContext(IWebBrowserWindow webBrowserWindow, IUiDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
-                                IJavascriptChangesObserver javascriptChangesObserver, IWebSessionLogger logger)
+            IWebSessionLogger logger)
         {
             _IWebBrowserWindow = webBrowserWindow;
             Logger = logger;
             UiDispatcher = uiDispatcher;
-            _JavascriptChangesObserver = javascriptChangesObserver;
             _JavascriptFrameworkManager = javascriptFrameworkManager;
         }
 
-        public void InitOnJsContext(bool debugMode)
+        internal void InitOnJsContext(IJavascriptChangesListener javascriptChangesListener, bool debugMode)
         {
-            var builder = new BinderBuilder(WebView, _JavascriptChangesObserver);
+            var builder = new BinderBuilder(WebView, javascriptChangesListener);
             _Listener = builder.BuildListener();
             _VmManager = _JavascriptFrameworkManager.CreateManager(WebView, _Listener, Logger, debugMode);
             ViewModelUpdater = _VmManager.ViewModelUpdater;

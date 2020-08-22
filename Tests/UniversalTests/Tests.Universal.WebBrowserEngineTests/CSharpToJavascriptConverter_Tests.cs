@@ -71,7 +71,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             _GlueFactory = new GlueFactory(null, _CSharpMapper, null, _ObjectChangesListener);
             _CSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
             _JavascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
-            _HtmlViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _JavascriptFrameworkManager, null, _Logger);
+            _HtmlViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _JavascriptFrameworkManager, _Logger);
             _ConverTOJSO = new CSharpToJavascriptConverter(_CSharpMapper, _GlueFactory, _Logger);
             _Test = new TestClass { S1 = "string", I1 = 25 };
             _Tests = new List<TestClass>

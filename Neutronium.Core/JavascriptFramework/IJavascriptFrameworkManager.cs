@@ -36,7 +36,9 @@ namespace Neutronium.Core.JavascriptFramework
         /// IWebView
         /// </param>
         /// <param name="listener">
-        /// listener to call on changes 
+        /// listener to call on changes that implement two methods:
+        ///  - TrackChanges(root: object, propertyName: string, newValue: object)
+        ///  - TrackCollectionChanges(collection: array, values: object[], types: string[], indexes: int[])
         /// </param>
         /// <param name="logger">
         /// logger

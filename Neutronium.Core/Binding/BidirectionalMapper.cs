@@ -16,12 +16,13 @@ using Neutronium.Core.Binding.Updaters;
 
 namespace Neutronium.Core.Binding
 {
-    public class BidirectionalMapper : IDisposable, IJavascriptToCSharpConverter, IJavascriptChangesObserver, ISessionMapper
+    public class BidirectionalMapper : IDisposable, IJavascriptToCSharpConverter, ISessionMapper
     {
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _JsObjectBuilder;
         private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
-        private readonly CSharpListenerJavascriptUpdater _CSharpListenerJavascriptUpdater;
+        private readonly ICSharpChangesListener _CSharpListenerJavascriptUpdater;
+        private readonly IJavascriptChangesListener _JavascriptChangesListener;
         private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
         private readonly SessionCacher _SessionCache;
         private readonly IJsUpdateHelper _JsUpdateHelper;
@@ -29,7 +30,7 @@ namespace Neutronium.Core.Binding
         private IJavascriptObjectBuilderStrategy _BuilderStrategy;
         private IJavascriptSessionInjector _SessionInjector;
 
-        public IJsCsGlue JsValueRoot { get; private set; }
+        public IJsCsGlue JsValueRoot { get; }
         public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
         public JavascriptBindingMode Mode { get; }
         public HtmlViewContext Context { get; }
@@ -47,8 +48,7 @@ namespace Neutronium.Core.Binding
             _BuilderStrategyFactory = strategyFactory ?? new StandardStrategyFactory();
             Mode = mode;
             _Logger = logger;
-            var javascriptObjectChanges = (mode == JavascriptBindingMode.TwoWay) ? (IJavascriptChangesObserver)this : null;
-            Context = contextBuilder.GetMainContext(javascriptObjectChanges);
+            Context = contextBuilder.GetMainContext();
             _SessionCache = sessionCacher ?? new SessionCacher();
             var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _SessionCache);
             _CSharpListenerJavascriptUpdater = ListenToCSharp ? new CSharpListenerJavascriptUpdater(jsUpdateHelper) : null;
@@ -57,6 +57,8 @@ namespace Neutronium.Core.Binding
             jsUpdateHelper.JsObjectBuilder =  _JsObjectBuilder;
             _JsUpdateHelper = jsUpdateHelper;
             _RootObject = root;
+            _JavascriptChangesListener = (Mode == JavascriptBindingMode.TwoWay) ? 
+                new JavascriptListenerCSharpUpdater(_CSharpListenerJavascriptUpdater, _JsUpdateHelper, this, _Logger) : null;
 
             _JsUpdateHelper.CheckUiContext();
             JsValueRoot = _JsObjectBuilder.Map(_RootObject);
@@ -86,7 +88,7 @@ namespace Neutronium.Core.Binding
         private void InitOnJavascriptContext(bool debugMode)
         {
             RegisterJavascriptHelper();
-            Context.InitOnJsContext(debugMode);
+            Context.InitOnJsContext(_JavascriptChangesListener, debugMode);
             _SessionInjector = Context.JavascriptSessionInjector;
             _BuilderStrategy = _BuilderStrategyFactory.GetStrategy(Context.WebView, _SessionCache, Context.JavascriptFrameworkIsMappingObject);
             _BuilderStrategy.UpdateJavascriptValue(JsValueRoot);
@@ -168,126 +170,6 @@ namespace Neutronium.Core.Binding
 
             await jvm.UpdateTask;
             return res;
-        }
-
-        public async void OnJavaScriptObjectChanges(IJavascriptObject objectChanged, string propertyName, IJavascriptObject newValue)
-        {
-            try
-            {
-                if (!(_SessionCache.GetCached(objectChanged) is JsGenericObject currentFather))
-                    return;
-
-                var propertyUpdater = currentFather.GetPropertyUpdater(propertyName);
-                if (!propertyUpdater.IsSettable)
-                {
-                    LogReadOnlyProperty(propertyName);
-                    return;
-                }
-
-                var glue = GetCachedOrCreateBasic(newValue, propertyUpdater.TargetType);
-                var bridgeUpdater = await Context.EvaluateOnUiContextAsync(() => UpdateOnUiContextChangeFromJs(propertyUpdater, glue));
-
-                if (bridgeUpdater?.HasUpdatesOnJavascriptContext != true)
-                    return;
-
-                await Context.RunOnJavascriptContextAsync(() => _JsUpdateHelper.UpdateOnJavascriptContext(bridgeUpdater));
-            }
-            catch (Exception exception)
-            {
-                LogJavascriptSetException(exception);
-            }
-        }
-
-        private BridgeUpdater UpdateOnUiContextChangeFromJs(AttributeUpdater propertyUpdater, IJsCsGlue glue)
-        {
-            var currentFather = propertyUpdater.Father;
-            using (_CSharpListenerJavascriptUpdater.GetPropertySilenter(currentFather.CValue, propertyUpdater.PropertyName))
-            {
-                var oldValue = propertyUpdater.GetCurrentChildValue();
-
-                try
-                {
-                    propertyUpdater.Set(glue.CValue);
-                }
-                catch (Exception exception)
-                {
-                    LogSetError(propertyUpdater.PropertyName, propertyUpdater.TargetType, glue.CValue, exception);
-                }
-
-                var actualValue = propertyUpdater.GetCurrentChildValue();
-
-                if (Equals(actualValue, glue.CValue))
-                {
-                    var bridgeUpdater = currentFather.GetUpdaterChangeOnJsContext(propertyUpdater, glue);
-                    _JsUpdateHelper.UpdateOnUiContext(bridgeUpdater, _CSharpListenerJavascriptUpdater.Off);
-                    return bridgeUpdater;
-                }
-
-                if (!Equals(oldValue, actualValue))
-                {
-                    _CSharpListenerJavascriptUpdater.OnCSharpPropertyChanged(currentFather.CValue, propertyUpdater.PropertyName);
-                }
-
-                return null;
-            }
-        }
-
-        private void LogSetError(string propertyName, Type targetType, object @object, Exception exception)
-        {
-            _Logger.Info($"Unable to set C# from javascript object: property: {propertyName} of {targetType}, javascript value {@object}. Exception {exception} was thrown.");
-        }
-
-        private void LogReadOnlyProperty(string propertyName) 
-        {
-            _Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
-        }
-
-        private void LogJavascriptSetException(Exception exception) 
-        {
-            _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {exception.Message}");
-        }
-
-        public async void OnJavaScriptCollectionChanges(JavascriptCollectionChanges changes)
-        {
-            try
-            {
-                if (!(_SessionCache.GetCached(changes.Collection) is JsArray jsArray))
-                    return;
-
-                var collectionChanges = jsArray.GetChanger(changes, this);
-                var updater = await Context.EvaluateOnUiContextAsync(() =>
-                    UpdateCollectionAfterJavascriptChanges(jsArray, jsArray.CValue, collectionChanges)
-                );
-
-                if (updater?.HasUpdatesOnJavascriptContext != true)
-                    return;
-
-                await Context.RunOnJavascriptContextAsync(() =>
-                    _JsUpdateHelper.UpdateOnJavascriptContext(updater)
-                );
-            }
-            catch (Exception exception)
-            {
-                LogJavascriptSetException(exception);
-            }
-        }
-
-        private BridgeUpdater UpdateCollectionAfterJavascriptChanges(JsArray array, object collection, CollectionChanges.CollectionChanges change)
-        {
-            var updater = default(BridgeUpdater);
-            try
-            {
-                using (_CSharpListenerJavascriptUpdater.GetCollectionSilenter(collection))
-                {
-                    updater = array.UpdateEventArgsFromJavascript(change);
-                }
-                _JsUpdateHelper.UpdateOnUiContext(updater, _CSharpListenerJavascriptUpdater.Off);
-            }
-            catch (Exception exception)
-            {
-                LogJavascriptSetException(exception);
-            }
-            return updater;
         }
 
         private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newBridgeChild, Action<IJsCsGlue> performAfterBuild)

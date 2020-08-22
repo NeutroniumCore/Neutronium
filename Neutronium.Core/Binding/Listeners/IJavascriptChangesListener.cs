@@ -1,11 +1,12 @@
-﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using Neutronium.Core.JavascriptFramework;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.JavascriptFramework
+namespace Neutronium.Core.Binding.Listeners
 {
     /// <summary>
     /// javascript observer for changes occuring on ViewModel
     /// </summary>
-    public interface IJavascriptChangesObserver
+    internal interface IJavascriptChangesListener
     {
         /// <summary>
         /// Method to be called when an object property value has changed

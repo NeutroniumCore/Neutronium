@@ -9,7 +9,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal class CSharpListenerJavascriptUpdater
+    internal class CSharpListenerJavascriptUpdater : ICSharpChangesListener
     {
         public ObjectChangesListener On { get; }
         public ObjectChangesListener Off { get; }
@@ -77,7 +77,7 @@ namespace Neutronium.Core.Binding.Listeners
             _JsUpdaterFactory.DispatchInJavascriptContext(() => jsContextUpdated.ForEach(updater => updater.ExecuteOnJsContext()));
         }
 
-        internal void OnCSharpPropertyChanged(object sender, string propertyName)
+        public void ReportPropertyChanged(object sender, string propertyName)
         {
             var updater = _JsUpdaterFactory.GetUpdaterForPropertyChanged(sender, propertyName);
             ScheduleChanges(updater);
@@ -85,7 +85,7 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            OnCSharpPropertyChanged(sender, propertyChangedEventArgs.PropertyName);
+            ReportPropertyChanged(sender, propertyChangedEventArgs.PropertyName);
         }
 
         private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
