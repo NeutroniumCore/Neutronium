@@ -1,17 +1,17 @@
-﻿using Neutronium.Core.Binding.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using MoreCollection.Extensions;
+using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Threading.Tasks;
-using MoreCollection.Extensions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding.Updaters
+namespace Neutronium.Core.Binding.Updater
 {
     internal class JsUpdateHelper : IJsUpdateHelper, IJsUpdaterFactory
     {

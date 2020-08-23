@@ -3,7 +3,7 @@ using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding.Updaters
+namespace Neutronium.Core.Binding.Updater
 {
     internal interface IJsUpdateHelper : IContextsManager
     {

@@ -11,8 +11,8 @@ using Neutronium.Core.Binding.Builder;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject.Basic;
+using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.Infra.Reflection;
-using Neutronium.Core.Binding.Updaters;
 
 namespace Neutronium.Core.Binding
 {

@@ -1,7 +1,7 @@
 ﻿using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.Listeners;
 
-namespace Neutronium.Core.Binding.Updaters
+namespace Neutronium.Core.Binding.Updater
 {
     internal class CommandJavascriptUiContextUpdater : IJavascriptUIContextUpdater
     {

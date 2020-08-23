@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Neutronium.Core.Binding.Updaters
+namespace Neutronium.Core.Binding.Updater
 {
     internal interface IContextsManager
     {

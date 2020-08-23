@@ -1,10 +1,10 @@
 ﻿using System;
-using Neutronium.Core.Binding.Updaters;
 using Neutronium.Core.Infra;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using Neutronium.Core.Binding.Updater;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.Listeners

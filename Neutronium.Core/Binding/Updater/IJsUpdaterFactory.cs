@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 
-namespace Neutronium.Core.Binding.Updaters
+namespace Neutronium.Core.Binding.Updater
 {
     internal interface IJsUpdaterFactory: IContextsManager
     {

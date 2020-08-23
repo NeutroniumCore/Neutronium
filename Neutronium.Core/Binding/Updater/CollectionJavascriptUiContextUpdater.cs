@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Binding.Listeners;
 using System.Collections.Specialized;
 using System.Linq;
+using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Listeners;
 
-namespace Neutronium.Core.Binding.Updaters
+namespace Neutronium.Core.Binding.Updater
 {
     internal class CollectionJavascriptUiContextUpdater : IJavascriptUIContextUpdater
     {

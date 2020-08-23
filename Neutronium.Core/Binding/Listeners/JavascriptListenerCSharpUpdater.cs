@@ -1,10 +1,10 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding.Updaters
+namespace Neutronium.Core.Binding.Listeners
 {
     internal class JavascriptListenerCSharpUpdater: IJavascriptChangesListener
     {
