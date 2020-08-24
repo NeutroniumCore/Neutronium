@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Converter
 {
-    public interface IJavascriptToCSharpConverter
+    public interface IJavascriptToGlueMapper
     {
         IJsCsGlue GetCachedOrCreateBasic(IJavascriptObject key, Type targetType);
     }

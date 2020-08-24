@@ -23,7 +23,7 @@ namespace Neutronium.Core.Binding
         private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
         private readonly ICSharpChangesListener _CSharpListenerJavascriptUpdater;
         private readonly IJavascriptChangesListener _JavascriptChangesListener;
-        private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
         private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
         private readonly SessionCacher _SessionCache;
         private readonly IJsUpdateHelper _JsUpdateHelper;
@@ -52,16 +52,16 @@ namespace Neutronium.Core.Binding
             Context = contextBuilder.GetMainContext();
             _SessionCache = sessionCacher ?? new SessionCacher();
             var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _SessionCache);
-            _JavascriptToCSharpConverter = new JavascriptToCSharpConverter(_JsUpdateHelper, _SessionCache);
+            _JavascriptToGlueMapper = new JavascriptToGlueMapper(jsUpdateHelper, _SessionCache);
 
             _CSharpListenerJavascriptUpdater = ListenToCSharp ? new CSharpListenerJavascriptUpdater(jsUpdateHelper) : null;
-            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _JavascriptToCSharpConverter, _CSharpListenerJavascriptUpdater?.On);
+            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _JavascriptToGlueMapper, _CSharpListenerJavascriptUpdater?.On);
             _JsObjectBuilder = new CSharpToGlueMapper(_SessionCache, glueFactory, _Logger);
             jsUpdateHelper.GlueMapper =  _JsObjectBuilder;
             _JsUpdateHelper = jsUpdateHelper;
             _RootObject = root;
             _JavascriptChangesListener = (Mode == JavascriptBindingMode.TwoWay) ? 
-                new JavascriptListenerCSharpUpdater(_CSharpListenerJavascriptUpdater, _JsUpdateHelper, _JavascriptToCSharpConverter) : null;
+                new JavascriptListenerCSharpUpdater(_CSharpListenerJavascriptUpdater, _JsUpdateHelper, _JavascriptToGlueMapper) : null;
 
             _JsUpdateHelper.CheckUiContext();
             JsValueRoot = _JsObjectBuilder.Map(_RootObject);
