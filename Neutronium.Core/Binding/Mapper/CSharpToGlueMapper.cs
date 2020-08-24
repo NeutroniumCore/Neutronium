@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Windows.Input;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Infra.Reflection;
 using Neutronium.MVVMComponents;
 
-namespace Neutronium.Core.Binding.GlueBuilder
+namespace Neutronium.Core.Binding.Mapper
 {
     internal class CSharpToGlueMapper : ICSharpToGlueMapper
     {

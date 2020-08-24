@@ -1,7 +1,7 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
 
-namespace Neutronium.Core.Binding.GlueBuilder
+namespace Neutronium.Core.Binding.Mapper
 {
     internal interface ICSharpToGlueMapper
     {

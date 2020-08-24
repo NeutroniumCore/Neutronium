@@ -4,7 +4,7 @@ using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding.Converter
+namespace Neutronium.Core.Binding.Mapper
 {
     internal class JavascriptToGlueMapper : IJavascriptToGlueMapper
     {

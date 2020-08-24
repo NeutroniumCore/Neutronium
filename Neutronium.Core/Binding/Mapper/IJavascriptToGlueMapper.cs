@@ -2,9 +2,9 @@
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding.Converter
+namespace Neutronium.Core.Binding.Mapper
 {
-    public interface IJavascriptToGlueMapper
+    internal interface IJavascriptToGlueMapper
     {
         IJsCsGlue GetCachedOrCreateBasic(IJavascriptObject key, Type targetType);
     }

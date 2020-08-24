@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueBuilder 

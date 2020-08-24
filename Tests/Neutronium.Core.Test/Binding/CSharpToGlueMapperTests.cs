@@ -17,6 +17,7 @@ using Neutronium.MVVMComponents;
 using Xunit.Abstractions;
 using Newtonsoft.Json;
 using AutoFixture.Xunit2;
+using Neutronium.Core.Binding.Mapper;
 
 namespace Neutronium.Core.Test.Binding
 {

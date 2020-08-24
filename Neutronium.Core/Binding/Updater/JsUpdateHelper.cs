@@ -7,6 +7,7 @@ using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;

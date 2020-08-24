@@ -9,8 +9,8 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
 using MoreCollection.Extensions;
-using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueBuilder;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.Infra.Reflection;
 

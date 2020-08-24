@@ -1,13 +1,13 @@
 ﻿using System;
-using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.CollectionChanges
 {
-    public class IndividualCollectionChange
+    internal class IndividualCollectionChange
     {
-        public IndividualCollectionChange(IndividualJavascriptCollectionChange change, IJavascriptToGlueMapper converter, Type targetType)
+        internal IndividualCollectionChange(IndividualJavascriptCollectionChange change, IJavascriptToGlueMapper converter, Type targetType)
         {
             CollectionChangeType = change.CollectionChangeType;
              Index = change.Index;

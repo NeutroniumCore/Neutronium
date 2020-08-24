@@ -1,6 +1,5 @@
 ﻿using System;
-using Neutronium.Core.Binding;
-using Neutronium.Core.Binding.Converter;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
@@ -8,7 +7,7 @@ namespace Neutronium.Core.Extension
 {
     public static class JavascriptToCSharpConverterExtension
     {
-        public static MayBe<T> GetFirstArgument<T>(this IJavascriptToGlueMapper converter, IJavascriptObject[] javascriptObjects)
+        internal static MayBe<T> GetFirstArgument<T>(this IJavascriptToGlueMapper converter, IJavascriptObject[] javascriptObjects)
         {
             if (javascriptObjects.Length == 0)
                 return new MayBe<T>();
@@ -24,7 +23,7 @@ namespace Neutronium.Core.Extension
             }
         }
 
-        public static object GetFirstArgumentOrNull(this IJavascriptToGlueMapper converter, IJavascriptObject[] javascriptObjects)
+        internal static object GetFirstArgumentOrNull(this IJavascriptToGlueMapper converter, IJavascriptObject[] javascriptObjects)
         {
             return javascriptObjects.Length == 0 ? null : converter.GetArgument(javascriptObjects[0], null);
         }

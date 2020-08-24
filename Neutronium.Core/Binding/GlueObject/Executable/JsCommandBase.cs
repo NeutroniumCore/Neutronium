@@ -1,13 +1,13 @@
 ﻿using System;
 using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Binding.Converter;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    public abstract class JsCommandBase : GlueBase
+    internal abstract class JsCommandBase : GlueBase
     {
         private readonly HtmlViewContext _HtmlViewContext;
         private byte _Count = 1;
@@ -17,7 +17,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public JsCsGlueType Type => JsCsGlueType.Command;
 
-        protected readonly IJavascriptToGlueMapper JavascriptToGlueMapper;
+        protected internal readonly IJavascriptToGlueMapper JavascriptToGlueMapper;
         protected IWebView WebView => _HtmlViewContext.WebView;
         protected IDispatcher UiDispatcher => _HtmlViewContext.UiDispatcher;
         protected IWebSessionLogger Logger => _HtmlViewContext.Logger;
@@ -27,7 +27,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         internal byte NextUpdateCount => (byte)((_Count == 1) ? 2 : 1);
         internal byte CurrentUpdateCount => _Count;
 
-        protected JsCommandBase(HtmlViewContext context, IJavascriptToGlueMapper converter)
+        protected internal JsCommandBase(HtmlViewContext context, IJavascriptToGlueMapper converter)
         {
             JavascriptToGlueMapper = converter;
             _HtmlViewContext = context;

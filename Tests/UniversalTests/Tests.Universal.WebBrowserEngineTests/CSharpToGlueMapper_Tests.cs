@@ -16,6 +16,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Binding.Mapper;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {

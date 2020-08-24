@@ -1,6 +1,6 @@
 ﻿using System;
-using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;

@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Windows.Input;
-using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    public class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
+    internal class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
         private readonly ICommand _Command;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommand command): 
+        internal JsCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommand command): 
             base(context, converter)
         {
             _Command = command;

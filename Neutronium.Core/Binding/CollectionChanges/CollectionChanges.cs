@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.CollectionChanges
 {
-    public class CollectionChanges :  IComparer<IndividualCollectionChange>
+    internal class CollectionChanges :  IComparer<IndividualCollectionChange>
     {
-        public IEnumerable<IndividualCollectionChange> IndividualChanges { get; }
+        internal IEnumerable<IndividualCollectionChange> IndividualChanges { get; }
 
         internal CollectionChanges(IJavascriptToGlueMapper jsCsBridgeCache, JavascriptCollectionChanges changes, Type targetedType)
         {
