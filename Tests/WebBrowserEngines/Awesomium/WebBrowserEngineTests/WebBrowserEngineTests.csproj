@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Awe_JavascriptObjectConverter_Tests.cs" />
-    <Compile Include="Awe_SharpToJavascriptConverter_Tests.cs" />
+    <Compile Include="Awe_CSharpToGlueMapper_Tests.cs" />
     <Compile Include="Awe_WebViewDispatcher_Tests.cs" />
     <Compile Include="Infra\AwesomiumContext.cs" />
     <Compile Include="Infra\AwesomiumContextFixture.cs" />

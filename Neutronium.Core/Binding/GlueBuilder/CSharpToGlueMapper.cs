@@ -12,7 +12,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueBuilder
 {
-    internal class CSharpToJavascriptConverter
+    internal class CSharpToGlueMapper : ICSharpToGlueMapper
     {
         private readonly ICSharpToJsCache _Cacher;
         private readonly IGlueFactory _GlueFactory;
@@ -24,12 +24,12 @@ namespace Neutronium.Core.Binding.GlueBuilder
         private GlueObjectDynamicObjectBuilder _GlueObjectDynamicBuilder;
         private GlueObjectDynamicObjectBuilder GlueObjectDynamicBuilder => _GlueObjectDynamicBuilder ?? (_GlueObjectDynamicBuilder = new GlueObjectDynamicObjectBuilder(this));
 
-        private static readonly GenericMethodAccessor _SimpleFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildSimpleGenericCommand));
-        private static readonly GenericMethodAccessor _CommandFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildGenericCommand));
-        private static readonly GenericMethodAccessor _ResultCommandFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildResultCommand));
-        private static readonly GenericMethodAccessor _ResultCommandWithTArgFactory = GenericMethodAccessor.Get<CSharpToJavascriptConverter>(nameof(BuildResultCommandWithTarg));
+        private static readonly GenericMethodAccessor _SimpleFactory = GenericMethodAccessor.Get<CSharpToGlueMapper>(nameof(BuildSimpleGenericCommand));
+        private static readonly GenericMethodAccessor _CommandFactory = GenericMethodAccessor.Get<CSharpToGlueMapper>(nameof(BuildGenericCommand));
+        private static readonly GenericMethodAccessor _ResultCommandFactory = GenericMethodAccessor.Get<CSharpToGlueMapper>(nameof(BuildResultCommand));
+        private static readonly GenericMethodAccessor _ResultCommandWithTArgFactory = GenericMethodAccessor.Get<CSharpToGlueMapper>(nameof(BuildResultCommandWithTarg));
 
-        public CSharpToJavascriptConverter(ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
+        public CSharpToGlueMapper(ICSharpToJsCache cacher, IGlueFactory glueFactory, IWebSessionLogger logger)
         {
             _GlueFactory = glueFactory;
             _Logger = logger;
@@ -73,7 +73,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
             return converter(_GlueFactory, from);
         }
 
-        internal bool IsBasicType(Type type) => type.IsClr() || type?.IsEnum == true;
+        public bool IsBasicType(Type type) => type.IsClr() || type?.IsEnum == true;
 
         private static IJsCsGlue BuildEnum(IGlueFactory factory, object @object) => factory.BuildEnum((Enum)@object);
         private static IJsCsGlue BuildCommand(IGlueFactory factory, object @object) => factory.Build((ICommand)@object);
@@ -84,7 +84,6 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         private static IJsCsGlue BuildResultCommand<TRes>(IGlueFactory factory, object @object) => factory.Build((IResultCommand<TRes>)@object);
         private static IJsCsGlue BuildResultCommandWithTarg<TArg,TRes>(IGlueFactory factory, object @object) => factory.Build((IResultCommand<TArg, TRes>)@object);
-
 
         private Func<IGlueFactory, object, IJsCsGlue> GetConverter(Type type, object @object)
         {

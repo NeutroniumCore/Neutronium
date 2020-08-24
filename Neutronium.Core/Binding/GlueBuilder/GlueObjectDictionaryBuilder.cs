@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
     {
         private readonly Type _TargetType;
 
-        public GlueObjectDictionaryBuilder(CSharpToJavascriptConverter converter, Type targetType) : base(converter)
+        public GlueObjectDictionaryBuilder(ICSharpToGlueMapper converter, Type targetType) : base(converter)
         {
             _TargetType = targetType;
         }

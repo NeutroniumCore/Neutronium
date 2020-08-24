@@ -6,14 +6,14 @@ namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal sealed class GlueObjectDynamicObjectBuilder : GlueObjectDynamicBuilder
     {
-        public GlueObjectDynamicObjectBuilder(CSharpToJavascriptConverter converter):base(converter)
+        public GlueObjectDynamicObjectBuilder(ICSharpToGlueMapper converter):base(converter)
         {
         }
 
         public IJsCsGlue Convert(IGlueFactory factory, object @object)
         {
-            var propertyAcessor = new DynamicObjectPropertyAccessor((DynamicObject)@object);
-            return Convert(factory, @object, propertyAcessor);
+            var propertyAccessor = new DynamicObjectPropertyAccessor((DynamicObject)@object);
+            return Convert(factory, @object, propertyAccessor);
         }
     }
 }

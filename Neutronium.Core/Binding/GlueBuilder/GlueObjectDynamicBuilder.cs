@@ -6,28 +6,28 @@ namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal abstract class GlueObjectDynamicBuilder
     {
-        private readonly CSharpToJavascriptConverter _Converter;
+        private readonly ICSharpToGlueMapper _Converter;
 
-        protected GlueObjectDynamicBuilder(CSharpToJavascriptConverter converter)
+        protected GlueObjectDynamicBuilder(ICSharpToGlueMapper converter)
         {
             _Converter = converter;
         }
 
-        protected IJsCsGlue Convert(IGlueFactory factory, object @object, IGenericPropertyAcessor propertyAcessor)
+        protected IJsCsGlue Convert(IGlueFactory factory, object @object, IGenericPropertyAcessor propertyAccessor)
         {
-            var result = factory.Build(@object, propertyAcessor);
-            result.SetAttributes(MapNested(@object, propertyAcessor));
+            var result = factory.Build(@object, propertyAccessor);
+            result.SetAttributes(MapNested(@object, propertyAccessor));
             return result;
         }
 
-        private List<IJsCsGlue> MapNested(object parentObject, IGenericPropertyAcessor propertyAcessor)
+        private List<IJsCsGlue> MapNested(object parentObject, IGenericPropertyAcessor propertyAccessor)
         {
-            var properties = propertyAcessor.ReadProperties;
+            var properties = propertyAccessor.ReadProperties;
             var attributes = new List<IJsCsGlue>(properties.Count);
             foreach (var propertyInfo in properties) 
             {
-                var childvalue = propertyInfo.Get(parentObject);
-                var child = _Converter.Map(childvalue).AddRef();
+                var childValue = propertyInfo.Get(parentObject);
+                var child = _Converter.Map(childValue).AddRef();
                 attributes.Add(child);
             }
             return attributes;

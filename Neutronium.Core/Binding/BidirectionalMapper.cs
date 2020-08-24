@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding
     public class BidirectionalMapper : IDisposable, ISessionMapper, ICSharpUnrootedObjectManager
     {
         private readonly IWebSessionLogger _Logger;
-        private readonly CSharpToJavascriptConverter _JsObjectBuilder;
+        private readonly ICSharpToGlueMapper _JsObjectBuilder;
         private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
         private readonly ICSharpChangesListener _CSharpListenerJavascriptUpdater;
         private readonly IJavascriptChangesListener _JavascriptChangesListener;
@@ -56,8 +56,8 @@ namespace Neutronium.Core.Binding
 
             _CSharpListenerJavascriptUpdater = ListenToCSharp ? new CSharpListenerJavascriptUpdater(jsUpdateHelper) : null;
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _JavascriptToCSharpConverter, _CSharpListenerJavascriptUpdater?.On);
-            _JsObjectBuilder = new CSharpToJavascriptConverter(_SessionCache, glueFactory, _Logger);
-            jsUpdateHelper.JsObjectBuilder =  _JsObjectBuilder;
+            _JsObjectBuilder = new CSharpToGlueMapper(_SessionCache, glueFactory, _Logger);
+            jsUpdateHelper.GlueMapper =  _JsObjectBuilder;
             _JsUpdateHelper = jsUpdateHelper;
             _RootObject = root;
             _JavascriptChangesListener = (Mode == JavascriptBindingMode.TwoWay) ? 
@@ -175,16 +175,6 @@ namespace Neutronium.Core.Binding
             return res;
         }
 
-        private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newBridgeChild, Action<IJsCsGlue> performAfterBuild)
-        {
-            _UnrootedEntities.Add(newBridgeChild.AddRef());
-            return new BridgeUpdater(updater => 
-            {
-                updater.InjectDetached(newBridgeChild.GetJsSessionValue());
-                performAfterBuild(newBridgeChild);
-            });
-        }
-
         public void RegisterInSession(object newCSharpObject, Action<IJsCsGlue> performAfterBuild) 
         {
             _JsUpdateHelper.CheckUiContext();
@@ -197,6 +187,16 @@ namespace Neutronium.Core.Binding
             _JsUpdateHelper.DispatchInJavascriptContext(() =>
             {
                 _JsUpdateHelper.UpdateOnJavascriptContext(updater, value);
+            });
+        }
+
+        private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newBridgeChild, Action<IJsCsGlue> performAfterBuild)
+        {
+            _UnrootedEntities.Add(newBridgeChild.AddRef());
+            return new BridgeUpdater(updater =>
+            {
+                updater.InjectDetached(newBridgeChild.GetJsSessionValue());
+                performAfterBuild(newBridgeChild);
             });
         }
     }

@@ -9,9 +9,9 @@ namespace Neutronium.Core.Binding.GlueBuilder
     {
         private readonly IGenericPropertyAcessor _PropertyAccessor;
         private readonly IWebSessionLogger _Logger;
-        private readonly CSharpToJavascriptConverter _Converter;
+        private readonly ICSharpToGlueMapper _Converter;
 
-        public GlueObjectBuilder(CSharpToJavascriptConverter converter, IWebSessionLogger logger, Type type) 
+        public GlueObjectBuilder(ICSharpToGlueMapper converter, IWebSessionLogger logger, Type type) 
         {
             _Converter = converter;
             _Logger = logger;

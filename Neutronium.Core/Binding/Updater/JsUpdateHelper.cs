@@ -22,7 +22,7 @@ namespace Neutronium.Core.Binding.Updater
 
         public event EventHandler<EventArgs> OnJavascriptSessionReady;
 
-        internal CSharpToJavascriptConverter JsObjectBuilder { get; set; }
+        internal ICSharpToGlueMapper GlueMapper { get; set; }
 
         public bool IsInUiContext => _Context.UiDispatcher.IsInContext();
         public IWebSessionLogger Logger => _Context.Logger;
@@ -86,7 +86,7 @@ namespace Neutronium.Core.Binding.Updater
 
         public IJsCsGlue Map(object value)
         {
-            return JsObjectBuilder.Map(value);
+            return GlueMapper.Map(value);
         }
 
         public bool GetSimpleValue(IJavascriptObject value, out object targetValue, Type targetType = null)
