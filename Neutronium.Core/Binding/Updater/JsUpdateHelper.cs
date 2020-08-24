@@ -25,6 +25,7 @@ namespace Neutronium.Core.Binding.Updater
         internal CSharpToJavascriptConverter JsObjectBuilder { get; set; }
 
         public bool IsInUiContext => _Context.UiDispatcher.IsInContext();
+        public IWebSessionLogger Logger => _Context.Logger;
 
         internal JsUpdateHelper(ISessionMapper sessionMapper, HtmlViewContext context, Func<IJavascriptObjectBuilderStrategy> strategy, SessionCacher sessionCache)
         {
@@ -86,6 +87,11 @@ namespace Neutronium.Core.Binding.Updater
         public IJsCsGlue Map(object value)
         {
             return JsObjectBuilder.Map(value);
+        }
+
+        public bool GetSimpleValue(IJavascriptObject value, out object targetValue, Type targetType = null)
+        {
+            return _Context.WebView.Converter.GetSimpleValue(value, out targetValue, targetType);
         }
 
         public void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off)

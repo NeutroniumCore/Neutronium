@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.Builder;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -11,6 +12,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
     internal abstract class JsResultCommandBase<TResult, TJsContext> : GlueBase
     {
         private readonly HtmlViewContext _HtmlViewContext;
+        private readonly ICSharpUnrootedObjectManager _CSharpUnrootedObjectManager;
 
         public virtual IJavascriptObject CachableJsValue => JsValue;
         public JsCsGlueType Type => JsCsGlueType.ResultCommand;
@@ -22,11 +24,11 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         protected IWebSessionLogger Logger => _HtmlViewContext.Logger;
         protected readonly IJavascriptToCSharpConverter JavascriptToCSharpConverter;
 
-
-        protected JsResultCommandBase(HtmlViewContext context, IJavascriptToCSharpConverter converter)
+        protected JsResultCommandBase(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToCSharpConverter converter)
         {
             _HtmlViewContext = context;
             JavascriptToCSharpConverter = converter;
+            _CSharpUnrootedObjectManager = manager;
         }
 
         public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
@@ -69,7 +71,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
                 await await UiDispatcher.EvaluateAsync(async () =>
                 {
                     var res = await ExecuteOnUiThread(argument.Value);
-                    JavascriptToCSharpConverter.RegisterInSession(res, bridge => SetResult(promise, bridge));
+                    _CSharpUnrootedObjectManager.RegisterInSession(res, bridge => SetResult(promise, bridge));
                 });
             }
             catch (Exception exception)

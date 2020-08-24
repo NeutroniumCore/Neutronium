@@ -1,5 +1,6 @@
 ﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using System.Windows.Input;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueObject.Executable;
 
 namespace Neutronium.Core.Binding.GlueObject.Mapped

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -11,8 +12,8 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         private readonly IResultCommand<TArg, TResult> _JsResultCommand;
         public object CValue => _JsResultCommand;
 
-        public JsResultCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, IResultCommand<TArg, TResult> resultCommand) :
-            base(context, converter)
+        public JsResultCommand(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToCSharpConverter converter, IResultCommand<TArg, TResult> resultCommand) :
+            base(context, manager, converter)
         {
             _JsResultCommand = resultCommand;
         }

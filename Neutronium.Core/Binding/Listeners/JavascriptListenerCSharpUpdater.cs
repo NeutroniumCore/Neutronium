@@ -1,4 +1,5 @@
 ﻿using System;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.JavascriptFramework;
@@ -11,14 +12,14 @@ namespace Neutronium.Core.Binding.Listeners
         private readonly ICSharpChangesListener _IcSharpChangesListener;
         private readonly IJsUpdateHelper _JsUpdateHelper;
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
-        private readonly IWebSessionLogger _Logger;
 
-        public JavascriptListenerCSharpUpdater(ICSharpChangesListener icSharpChangesListener, IJsUpdateHelper jsUpdateHelper, IJavascriptToCSharpConverter javascriptToCSharpConverter, IWebSessionLogger logger)
+        private IWebSessionLogger Logger => _JsUpdateHelper.Logger;
+
+        public JavascriptListenerCSharpUpdater(ICSharpChangesListener icSharpChangesListener, IJsUpdateHelper jsUpdateHelper, IJavascriptToCSharpConverter javascriptToCSharpConverter)
         {
             _IcSharpChangesListener = icSharpChangesListener;
             _JsUpdateHelper = jsUpdateHelper;
             _JavascriptToCSharpConverter = javascriptToCSharpConverter;
-            _Logger = logger;
         }
 
         public async void OnJavaScriptCollectionChanges(JavascriptCollectionChanges changes)
@@ -130,17 +131,17 @@ namespace Neutronium.Core.Binding.Listeners
 
         private void LogSetError(string propertyName, Type targetType, object @object, Exception exception)
         {
-            _Logger.Info($"Unable to set C# from javascript object: property: {propertyName} of {targetType}, javascript value {@object}. Exception {exception} was thrown.");
+            Logger.Info($"Unable to set C# from javascript object: property: {propertyName} of {targetType}, javascript value {@object}. Exception {exception} was thrown.");
         }
 
         private void LogReadOnlyProperty(string propertyName)
         {
-            _Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
+            Logger.Info(() => $"Unable to set C# from javascript object: property: {propertyName} is readonly.");
         }
 
         private void LogJavascriptSetException(Exception exception)
         {
-            _Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {exception.Message}");
+            Logger.Error(() => $"Unable to update ViewModel from View, exception raised: {exception.Message}");
         }
     }
 }

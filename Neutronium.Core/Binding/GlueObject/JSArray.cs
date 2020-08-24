@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using Neutronium.Core.Binding.Converter;
 
 namespace Neutronium.Core.Binding.GlueObject
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.JavascriptFramework;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;

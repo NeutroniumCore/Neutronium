@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.GlueObject;
@@ -9,20 +9,21 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueBuilder;
-using Neutronium.Core.Binding.GlueObject.Basic;
 using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding
 {
-    public class BidirectionalMapper : IDisposable, IJavascriptToCSharpConverter, ISessionMapper
+    public class BidirectionalMapper : IDisposable, ISessionMapper, ICSharpUnrootedObjectManager
     {
         private readonly IWebSessionLogger _Logger;
         private readonly CSharpToJavascriptConverter _JsObjectBuilder;
         private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
         private readonly ICSharpChangesListener _CSharpListenerJavascriptUpdater;
         private readonly IJavascriptChangesListener _JavascriptChangesListener;
+        private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
         private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
         private readonly SessionCacher _SessionCache;
         private readonly IJsUpdateHelper _JsUpdateHelper;
@@ -51,14 +52,16 @@ namespace Neutronium.Core.Binding
             Context = contextBuilder.GetMainContext();
             _SessionCache = sessionCacher ?? new SessionCacher();
             var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _BuilderStrategy, _SessionCache);
+            _JavascriptToCSharpConverter = new JavascriptToCSharpConverter(_JsUpdateHelper, _SessionCache);
+
             _CSharpListenerJavascriptUpdater = ListenToCSharp ? new CSharpListenerJavascriptUpdater(jsUpdateHelper) : null;
-            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _CSharpListenerJavascriptUpdater?.On);
+            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _JavascriptToCSharpConverter, _CSharpListenerJavascriptUpdater?.On);
             _JsObjectBuilder = new CSharpToJavascriptConverter(_SessionCache, glueFactory, _Logger);
             jsUpdateHelper.JsObjectBuilder =  _JsObjectBuilder;
             _JsUpdateHelper = jsUpdateHelper;
             _RootObject = root;
             _JavascriptChangesListener = (Mode == JavascriptBindingMode.TwoWay) ? 
-                new JavascriptListenerCSharpUpdater(_CSharpListenerJavascriptUpdater, _JsUpdateHelper, this, _Logger) : null;
+                new JavascriptListenerCSharpUpdater(_CSharpListenerJavascriptUpdater, _JsUpdateHelper, _JavascriptToCSharpConverter) : null;
 
             _JsUpdateHelper.CheckUiContext();
             JsValueRoot = _JsObjectBuilder.Map(_RootObject);
@@ -195,34 +198,6 @@ namespace Neutronium.Core.Binding
             {
                 _JsUpdateHelper.UpdateOnJavascriptContext(updater, value);
             });
-        } 
-
-        public IJsCsGlue GetCachedOrCreateBasic(IJavascriptObject javascriptObject, Type targetType)
-        {
-            if (javascriptObject == null)
-                return null;
-
-            if (Context.WebView.Converter.GetSimpleValue(javascriptObject, out var targetValue, targetType)) {
-                return new JsBasicObject(javascriptObject, targetValue);
-            }
-
-            if (targetType?.IsEnum == true)
-            {
-                var intValue = javascriptObject.GetValue("intValue")?.GetIntValue();
-                if (!intValue.HasValue)
-                    return null;
-
-                targetValue = Enum.ToObject(targetType, intValue.Value);
-                return new JsEnum(javascriptObject, (Enum)targetValue);
-            }
-
-            var res = _SessionCache.GetCached(javascriptObject);
-            if (res != null)
-                return res;
-
-            var message = $"Unable to convert javascript object: {javascriptObject} to C# session. Value will be default to null. Please check javascript bindings.";
-            _Logger.Info(message);
-            throw new ArgumentException(message);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Neutronium.Core.Utils
         public CJsonConverter()
         {
             var cache = new SessionCacher();
-            var factory = new GlueFactory(null, cache, null, null);
+            var factory = new GlueFactory(null, cache, null, null, null);
             _Converter = new CSharpToJavascriptConverter(cache, factory, new NullLogger());
         }
 

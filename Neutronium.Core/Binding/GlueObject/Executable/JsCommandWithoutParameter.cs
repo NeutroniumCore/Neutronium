@@ -1,4 +1,5 @@
 ﻿using System;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;

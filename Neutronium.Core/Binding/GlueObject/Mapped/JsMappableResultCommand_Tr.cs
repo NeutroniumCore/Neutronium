@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.Binding.GlueObject.Executable;
+﻿using Neutronium.Core.Binding.Converter;
+using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
@@ -21,8 +22,8 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
             UpdateJsObject(_MappedJsValue);
         }
 
-        public JsMappableResultCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, IResultCommand<TResult> resultCommand)
-            :base(context, converter, resultCommand)
+        public JsMappableResultCommand(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToCSharpConverter converter, IResultCommand<TResult> resultCommand)
+            :base(context, manager, converter, resultCommand)
         {
         }
     }

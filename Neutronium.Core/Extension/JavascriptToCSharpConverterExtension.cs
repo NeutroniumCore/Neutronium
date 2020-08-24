@@ -1,5 +1,6 @@
 ﻿using System;
 using Neutronium.Core.Binding;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Windows.Input;
+using Neutronium.Core.Binding.Converter;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.Listeners;
@@ -12,13 +13,15 @@ namespace Neutronium.Core.Binding.GlueBuilder
     internal sealed class GlueFactory : GlueFactoryBase, IGlueFactory 
     {
         private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        private readonly ICSharpUnrootedObjectManager _CSharpUnrootedObjectManager;
         private readonly HtmlViewContext _HtmlViewContext;
 
-        public GlueFactory(HtmlViewContext context, ICSharpToJsCache cacher, IJavascriptToCSharpConverter converter, ObjectChangesListener onListener)
+        public GlueFactory(HtmlViewContext context, ICSharpToJsCache cacher, ICSharpUnrootedObjectManager manager, IJavascriptToCSharpConverter converter, ObjectChangesListener onListener)
             :base(cacher, onListener)
         {
             _HtmlViewContext = context;
             _JavascriptToCSharpConverter = converter;
+            _CSharpUnrootedObjectManager = manager;
         }
 
         public JsCommand Build(ICommand command)
@@ -48,12 +51,12 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         public JsResultCommand<TArg,TResult> Build<TArg, TResult>(IResultCommand<TArg, TResult> command)
         {
-            return Cache(command, new JsResultCommand<TArg, TResult>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsResultCommand<TArg, TResult>(_HtmlViewContext, _CSharpUnrootedObjectManager, _JavascriptToCSharpConverter, command));
         }
 
         public JsResultCommand<TResult> Build<TResult>(IResultCommand<TResult> command)
         {
-            return Cache(command, new JsResultCommand<TResult>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsResultCommand<TResult>(_HtmlViewContext, _CSharpUnrootedObjectManager, _JavascriptToCSharpConverter, command));
         }
 
         public JsGenericObject Build(object from, IGenericPropertyAcessor typePropertyAccessor)
