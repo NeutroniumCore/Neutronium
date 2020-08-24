@@ -22,7 +22,7 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
             UpdateJsObject(_MappedJsValue);
         }
 
-        public JsMappedCommandWithoutParameter(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommandWithoutParameter command)
+        public JsMappedCommandWithoutParameter(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommandWithoutParameter command)
             :base(context, converter, command)
         {
         }

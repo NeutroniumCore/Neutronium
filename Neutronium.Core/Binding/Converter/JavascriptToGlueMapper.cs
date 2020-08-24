@@ -6,12 +6,12 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Converter
 {
-    internal class JavascriptToCSharpConverter : IJavascriptToCSharpConverter
+    internal class JavascriptToGlueMapper : IJavascriptToGlueMapper
     {
         private readonly IJsUpdateHelper _JsUpdateHelper;
         private readonly SessionCacher _SessionCache;
 
-        public JavascriptToCSharpConverter(IJsUpdateHelper jsUpdateHelper, SessionCacher sessionCache)
+        public JavascriptToGlueMapper(IJsUpdateHelper jsUpdateHelper, SessionCacher sessionCache)
         {
             _JsUpdateHelper = jsUpdateHelper;
             _SessionCache = sessionCache;

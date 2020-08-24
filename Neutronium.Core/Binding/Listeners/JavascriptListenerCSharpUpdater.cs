@@ -11,15 +11,15 @@ namespace Neutronium.Core.Binding.Listeners
     {
         private readonly ICSharpChangesListener _IcSharpChangesListener;
         private readonly IJsUpdateHelper _JsUpdateHelper;
-        private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
 
         private IWebSessionLogger Logger => _JsUpdateHelper.Logger;
 
-        public JavascriptListenerCSharpUpdater(ICSharpChangesListener icSharpChangesListener, IJsUpdateHelper jsUpdateHelper, IJavascriptToCSharpConverter javascriptToCSharpConverter)
+        public JavascriptListenerCSharpUpdater(ICSharpChangesListener icSharpChangesListener, IJsUpdateHelper jsUpdateHelper, IJavascriptToGlueMapper javascriptToGlueMapper)
         {
             _IcSharpChangesListener = icSharpChangesListener;
             _JsUpdateHelper = jsUpdateHelper;
-            _JavascriptToCSharpConverter = javascriptToCSharpConverter;
+            _JavascriptToGlueMapper = javascriptToGlueMapper;
         }
 
         public async void OnJavaScriptCollectionChanges(JavascriptCollectionChanges changes)
@@ -30,7 +30,7 @@ namespace Neutronium.Core.Binding.Listeners
                 if (jsArray == null)
                     return;
 
-                var collectionChanges = jsArray.GetChanger(changes, _JavascriptToCSharpConverter);
+                var collectionChanges = jsArray.GetChanger(changes, _JavascriptToGlueMapper);
                 var updater = await _JsUpdateHelper.EvaluateOnUiContextAsync(() =>
                     UpdateCollectionAfterJavascriptChanges(jsArray, jsArray.CValue, collectionChanges)
                 );
@@ -81,7 +81,7 @@ namespace Neutronium.Core.Binding.Listeners
                     return;
                 }
 
-                var glue = _JavascriptToCSharpConverter.GetCachedOrCreateBasic(newValue, propertyUpdater.TargetType);
+                var glue = _JavascriptToGlueMapper.GetCachedOrCreateBasic(newValue, propertyUpdater.TargetType);
                 var bridgeUpdater = await _JsUpdateHelper.EvaluateOnUiContextAsync(() => UpdateOnUiContextChangeFromJs(propertyUpdater, glue));
 
                 if (bridgeUpdater?.HasUpdatesOnJavascriptContext != true)

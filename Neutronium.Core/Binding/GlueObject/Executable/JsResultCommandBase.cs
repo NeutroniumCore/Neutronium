@@ -22,12 +22,12 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         public void SetJsId(uint jsId) => JsId = jsId;
 
         protected IWebSessionLogger Logger => _HtmlViewContext.Logger;
-        protected readonly IJavascriptToCSharpConverter JavascriptToCSharpConverter;
+        protected readonly IJavascriptToGlueMapper JavascriptToGlueMapper;
 
-        protected JsResultCommandBase(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToCSharpConverter converter)
+        protected JsResultCommandBase(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToGlueMapper converter)
         {
             _HtmlViewContext = context;
-            JavascriptToCSharpConverter = converter;
+            JavascriptToGlueMapper = converter;
             _CSharpUnrootedObjectManager = manager;
         }
 

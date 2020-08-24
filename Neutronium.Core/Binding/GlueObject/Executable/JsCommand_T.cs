@@ -14,7 +14,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand<T> command) :
+        public JsCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommand<T> command) :
             base(context, converter)
         {
             _Command = command;
@@ -39,7 +39,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override void Execute(IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgument<T>(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgument<T>(e);
             if (!parameter.Success)
             {
                 Logger.Error($"Impossible to call Execute on command<{typeof(T)}>, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");
@@ -51,7 +51,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override async void CanExecuteCommand(params IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgument<T>(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgument<T>(e);
             if (!parameter.Success)
             {
                 Logger.Error($"Impossible to call CanExecuteCommand on command<{typeof(T)}>, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");

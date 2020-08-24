@@ -64,7 +64,7 @@ namespace Neutronium.Core.Binding.GlueObject
             sessionCache.Cache(this);
         }
 
-        public CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToCSharpConverter bridge)
+        public CollectionChanges.CollectionChanges GetChanger(JavascriptCollectionChanges changes, IJavascriptToGlueMapper bridge)
         {
             return new CollectionChanges.CollectionChanges(bridge, changes, _IndividualType);
         }

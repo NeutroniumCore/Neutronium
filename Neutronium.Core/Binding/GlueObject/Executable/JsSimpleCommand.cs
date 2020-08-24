@@ -10,7 +10,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         private readonly ISimpleCommand _JsSimpleCommand;
         public object CValue => _JsSimpleCommand;
 
-        public JsSimpleCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand):
+        public JsSimpleCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ISimpleCommand simpleCommand):
             base(context, converter)
         {
             _JsSimpleCommand = simpleCommand;

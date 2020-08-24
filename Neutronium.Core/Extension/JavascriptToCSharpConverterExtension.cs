@@ -8,7 +8,7 @@ namespace Neutronium.Core.Extension
 {
     public static class JavascriptToCSharpConverterExtension
     {
-        public static MayBe<T> GetFirstArgument<T>(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
+        public static MayBe<T> GetFirstArgument<T>(this IJavascriptToGlueMapper converter, IJavascriptObject[] javascriptObjects)
         {
             if (javascriptObjects.Length == 0)
                 return new MayBe<T>();
@@ -24,12 +24,12 @@ namespace Neutronium.Core.Extension
             }
         }
 
-        public static object GetFirstArgumentOrNull(this IJavascriptToCSharpConverter converter, IJavascriptObject[] javascriptObjects)
+        public static object GetFirstArgumentOrNull(this IJavascriptToGlueMapper converter, IJavascriptObject[] javascriptObjects)
         {
             return javascriptObjects.Length == 0 ? null : converter.GetArgument(javascriptObjects[0], null);
         }
 
-        private static object GetArgument(this IJavascriptToCSharpConverter converter, IJavascriptObject javascriptObject, Type targetType)
+        private static object GetArgument(this IJavascriptToGlueMapper converter, IJavascriptObject javascriptObject, Type targetType)
         {
             try
             {

@@ -13,46 +13,46 @@ namespace Neutronium.Core.Binding.GlueBuilder
 {
     internal sealed class GlueMappingFactory : GlueFactoryBase, IGlueFactory 
     {
-        private readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
         private readonly ICSharpUnrootedObjectManager _CSharpUnrootedObjectManager;
         private readonly HtmlViewContext _HtmlViewContext;
 
-        public GlueMappingFactory(HtmlViewContext context, ICSharpToJsCache cacher, ICSharpUnrootedObjectManager manager, IJavascriptToCSharpConverter converter, ObjectChangesListener onListener) :
+        public GlueMappingFactory(HtmlViewContext context, ICSharpToJsCache cacher, ICSharpUnrootedObjectManager manager, IJavascriptToGlueMapper converter, ObjectChangesListener onListener) :
             base(cacher, onListener)
         {
             _HtmlViewContext = context;
-            _JavascriptToCSharpConverter = converter;
+            _JavascriptToGlueMapper = converter;
             _CSharpUnrootedObjectManager = manager;
         }
 
         public JsCommand Build(ICommand command)
         {
-            return Cache(command, new JsMappableCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsMappableCommand(_HtmlViewContext, _JavascriptToGlueMapper, command));
         }
 
         public JsCommand<T> Build<T>(ICommand<T> command)
         {
-            return Cache(command, new JsMappedCommand<T>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsMappedCommand<T>(_HtmlViewContext, _JavascriptToGlueMapper, command));
         }
 
         public JsCommandWithoutParameter Build(ICommandWithoutParameter command)
         {
-            return Cache(command, new JsMappedCommandWithoutParameter(_HtmlViewContext, _JavascriptToCSharpConverter, command)); ;
+            return Cache(command, new JsMappedCommandWithoutParameter(_HtmlViewContext, _JavascriptToGlueMapper, command)); ;
         }
 
         public JsSimpleCommand Build(ISimpleCommand command)
         {
-            return Cache(command, new JsMappableSimpleCommand(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsMappableSimpleCommand(_HtmlViewContext, _JavascriptToGlueMapper, command));
         }
 
         public JsResultCommand<TArg, TResult> Build<TArg, TResult>(IResultCommand<TArg, TResult> command)
         {
-            return Cache(command, new JsMappableResultCommand<TArg, TResult>(_HtmlViewContext, _CSharpUnrootedObjectManager, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsMappableResultCommand<TArg, TResult>(_HtmlViewContext, _CSharpUnrootedObjectManager, _JavascriptToGlueMapper, command));
         }
 
         public JsResultCommand<TResult> Build<TResult>(IResultCommand<TResult> command)
         {
-            return Cache(command, new JsMappableResultCommand<TResult>(_HtmlViewContext, _CSharpUnrootedObjectManager, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsMappableResultCommand<TResult>(_HtmlViewContext, _CSharpUnrootedObjectManager, _JavascriptToGlueMapper, command));
         }
 
         public JsGenericObject Build(object from, IGenericPropertyAcessor typePropertyAccessor)
@@ -62,7 +62,7 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
         public JsSimpleCommand<T> Build<T>(ISimpleCommand<T> command) 
         {
-            return Cache(command, new JsMappableSimpleCommand<T>(_HtmlViewContext, _JavascriptToCSharpConverter, command));
+            return Cache(command, new JsMappableSimpleCommand<T>(_HtmlViewContext, _JavascriptToGlueMapper, command));
         }
 
         public JsArray BuildArray(IEnumerable source, Type basictype)

@@ -11,7 +11,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         private readonly IResultCommand<TResult> _JsResultCommand;
         public object CValue => _JsResultCommand;
        
-        public JsResultCommand(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToCSharpConverter converter, IResultCommand<TResult> resultCommand):
+        public JsResultCommand(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToGlueMapper converter, IResultCommand<TResult> resultCommand):
             base(context, manager, converter)
         {
             _JsResultCommand = resultCommand;

@@ -7,7 +7,7 @@ namespace Neutronium.Core.Binding.CollectionChanges
 {
     public class IndividualCollectionChange
     {
-        public IndividualCollectionChange(IndividualJavascriptCollectionChange change, IJavascriptToCSharpConverter converter, Type targetType)
+        public IndividualCollectionChange(IndividualJavascriptCollectionChange change, IJavascriptToGlueMapper converter, Type targetType)
         {
             CollectionChangeType = change.CollectionChangeType;
              Index = change.Index;

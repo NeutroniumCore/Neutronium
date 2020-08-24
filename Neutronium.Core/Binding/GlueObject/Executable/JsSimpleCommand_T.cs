@@ -13,7 +13,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => SetJsId(jsId);
 
-        public JsSimpleCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand<T> simpleCommand):
+        public JsSimpleCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ISimpleCommand<T> simpleCommand):
             base(context, converter)
         {
             _JsSimpleCommand = simpleCommand;
@@ -38,7 +38,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         void IExecutableGlue.Execute(IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgument<T>(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgument<T>(e);
             if (!parameter.Success) 
             {
                 Logger.Error($"Impossible to call simple command, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");

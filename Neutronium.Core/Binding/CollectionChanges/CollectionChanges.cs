@@ -11,7 +11,7 @@ namespace Neutronium.Core.Binding.CollectionChanges
     {
         public IEnumerable<IndividualCollectionChange> IndividualChanges { get; }
 
-        internal CollectionChanges(IJavascriptToCSharpConverter jsCsBridgeCache, JavascriptCollectionChanges changes, Type targetedType)
+        internal CollectionChanges(IJavascriptToGlueMapper jsCsBridgeCache, JavascriptCollectionChanges changes, Type targetedType)
         {
             IndividualChanges = changes.Changes
                            .Select(collectionChange => new IndividualCollectionChange(collectionChange, jsCsBridgeCache, targetedType))

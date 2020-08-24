@@ -13,7 +13,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommandWithoutParameter(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommandWithoutParameter command) :
+        public JsCommandWithoutParameter(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommandWithoutParameter command) :
             base(context, converter)
         {
             _Command = command;

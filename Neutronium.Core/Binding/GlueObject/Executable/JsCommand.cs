@@ -14,7 +14,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand command): 
+        public JsCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommand command): 
             base(context, converter)
         {
             _Command = command;
@@ -43,13 +43,13 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override void Execute(IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgumentOrNull(e);
             UiDispatcher.Dispatch(() => _Command.Execute(parameter));
         }
 
         public override async void CanExecuteCommand(params IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgumentOrNull(e);
             await UiDispatcher.RunAsync(() => _CanExecute = _Command.CanExecute(parameter));
             UpdateCanExecuteValue();
         }
