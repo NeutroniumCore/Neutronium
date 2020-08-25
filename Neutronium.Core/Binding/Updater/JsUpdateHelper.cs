@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using MoreCollection.Extensions;
-using Neutronium.Core.Binding.Builder;
-using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.JavascriptFrameworkMapper;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Exceptions;
-using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Updater
@@ -17,7 +14,7 @@ namespace Neutronium.Core.Binding.Updater
     internal class JsUpdateHelper : IJsUpdateHelper, IJsUpdaterFactory
     {
         private readonly HtmlViewContext _Context;
-        private readonly Lazy<IJavascriptObjectBuilderStrategy> _BuilderStrategy;
+        private readonly Lazy<IJavascriptFrameworkMapper> _JavascriptFrameworkMapper;
         private readonly ISessionMapper _SessionMapper;
         private readonly SessionCacher _SessionCache;
 
@@ -27,12 +24,13 @@ namespace Neutronium.Core.Binding.Updater
 
         public bool IsInUiContext => _Context.UiDispatcher.IsInContext();
         public IWebSessionLogger Logger => _Context.Logger;
+        private IJavascriptFrameworkMapper JavascriptFrameworkMapper => _JavascriptFrameworkMapper.Value;
 
-        internal JsUpdateHelper(ISessionMapper sessionMapper, HtmlViewContext context, Func<IJavascriptObjectBuilderStrategy> strategy, SessionCacher sessionCache)
+        internal JsUpdateHelper(ISessionMapper sessionMapper, HtmlViewContext context, Func<IJavascriptFrameworkMapper> frameworkMapper, SessionCacher sessionCache)
         {
             _SessionMapper = sessionMapper;
             _Context = context;
-            _BuilderStrategy = new Lazy<IJavascriptObjectBuilderStrategy>(strategy);
+            _JavascriptFrameworkMapper = new Lazy<IJavascriptFrameworkMapper>(frameworkMapper);
             _SessionCache = sessionCache;
             _SessionMapper.OnJavascriptSessionReady += _SessionMapper_OnJavascriptSessionReady;
         }
@@ -85,10 +83,7 @@ namespace Neutronium.Core.Binding.Updater
             return _SessionCache.GetCached(value) as T;
         }
 
-        public IJsCsGlue Map(object value)
-        {
-            return GlueMapper.Map(value);
-        }
+        public IJsCsGlue Map(object value) => GlueMapper.Map(value);
 
         public bool GetSimpleValue(IJavascriptObject value, out object targetValue, Type targetType = null)
         {
@@ -100,77 +95,10 @@ namespace Neutronium.Core.Binding.Updater
             updater?.CleanAfterChangesOnUiThread(off, _SessionCache);
         }
 
-        public void UpdateOnJavascriptContext(BridgeUpdater updater, IList<IJsCsGlue> values)
-        {
-            if (values == null || values.Count == 0)
-            {
-                UpdateOnJavascriptContext(updater);
-                return;
-            }
+        public void UpdateOnJavascriptContext(BridgeUpdater updater, IList<IJsCsGlue> values) => JavascriptFrameworkMapper.UpdateOnJavascriptContext(updater, values);
 
-            if (_Context.JavascriptFrameworkIsMappingObject)
-            {
-                UpdateOnJavascriptContextWithMapping(updater, values).DoNotWait();
-                return;
-            }
+        public void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value) => JavascriptFrameworkMapper.UpdateOnJavascriptContext(updater, value);
 
-            UpdateOnJavascriptContextWithoutMapping(updater, values);
-        }
-
-        private void UpdateOnJavascriptContextWithoutMapping(BridgeUpdater updater, IEnumerable<IJsCsGlue> values)
-        {
-            values.ForEach(UpdateJavascriptValue);
-            UpdateOnJavascriptContext(updater);
-        }
-
-        private async Task UpdateOnJavascriptContextWithMapping(BridgeUpdater updater, IList<IJsCsGlue> values)
-        {
-            values.ForEach(UpdateJavascriptValue);
-            foreach (var jsCsGlue in values)
-            {
-                await _SessionMapper.InjectInHtmlSession(jsCsGlue);
-            }    
-            UpdateOnJavascriptContext(updater);
-        }
-
-        public void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value)
-        {
-            if (value == null)
-            {
-                UpdateOnJavascriptContext(updater);
-                return;
-            }
-
-            if (_Context.JavascriptFrameworkIsMappingObject)
-            {
-                UpdateOnJavascriptContextWithMapping(updater, value).DoNotWait();
-                return;
-            }
-
-            UpdateOnJavascriptContextWithoutMapping(updater, value);
-        }
-
-        private void UpdateOnJavascriptContextWithoutMapping(BridgeUpdater updater, IJsCsGlue value)
-        {
-            UpdateJavascriptValue(value);
-            UpdateOnJavascriptContext(updater);
-        }
-
-        private async Task UpdateOnJavascriptContextWithMapping(BridgeUpdater updater, IJsCsGlue value)
-        {
-            UpdateJavascriptValue(value);
-            await _SessionMapper.InjectInHtmlSession(value);
-            UpdateOnJavascriptContext(updater);
-        }
-
-        private void UpdateJavascriptValue(IJsCsGlue value)
-        {
-            _BuilderStrategy.Value.UpdateJavascriptValue(value);
-        }
-
-        public void UpdateOnJavascriptContext(BridgeUpdater updater)
-        {
-            updater.UpdateOnJavascriptContext(_Context.ViewModelUpdater, _SessionCache);
-        }
+        public void UpdateOnJavascriptContext(BridgeUpdater updater) => JavascriptFrameworkMapper.UpdateOnJavascriptContext(updater);
     }
 }
