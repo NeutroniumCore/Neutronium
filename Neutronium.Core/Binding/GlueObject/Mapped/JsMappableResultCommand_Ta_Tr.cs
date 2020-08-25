@@ -1,5 +1,6 @@
 ﻿using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
@@ -11,22 +10,28 @@ using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.JavascriptFrameworkMapper;
 using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding
 {
-    public class BidirectionalMapper : IDisposable, ISessionMapper, ICSharpUnrootedObjectManager
+    public class BidirectionalMapper : IDisposable, IBindingLifeCicle
     {
         private readonly IWebSessionLogger _Logger;
+
         private readonly ICSharpToGlueMapper _CSharpToGlueMapper;
+        private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
+
         private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
+
         private readonly ICSharpChangesListener _CSharpChangesListener;
         private readonly IJavascriptChangesListener _JavascriptChangesListener;
-        private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
-        private readonly List<IJsCsGlue> _UnrootedEntities = new List<IJsCsGlue>();
+       
         private readonly SessionCacher _SessionCache;
         private readonly IJsUpdateHelper _JsUpdateHelper;
+
+        private readonly ICSharpUnrootedObjectManager _CSharpUnrootedObjectManager;
 
         private IJavascriptObjectBuilderStrategy _BuilderStrategy;
         private IJavascriptSessionInjector _SessionInjector;
@@ -36,7 +41,6 @@ namespace Neutronium.Core.Binding
         public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
         public JavascriptBindingMode Mode { get; }
         public HtmlViewContext Context { get; }
-
         private readonly object _RootObject;
 
         internal BidirectionalMapper(object root, HtmlViewEngine engine, JavascriptBindingMode mode, IWebSessionLogger logger, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
@@ -56,11 +60,13 @@ namespace Neutronium.Core.Binding
             _JavascriptToGlueMapper = new JavascriptToGlueMapper(jsUpdateHelper, _SessionCache);
 
             _CSharpChangesListener = ListenToCSharp ? new CSharpListenerJavascriptUpdater(jsUpdateHelper) : null;
-            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, this, _JavascriptToGlueMapper, _CSharpChangesListener?.On);
+            glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, _JavascriptToGlueMapper, _CSharpChangesListener?.On);
             _CSharpToGlueMapper = new CSharpToGlueMapper(_SessionCache, glueFactory, _Logger);
             jsUpdateHelper.GlueMapper =  _CSharpToGlueMapper;
             _JsUpdateHelper = jsUpdateHelper;
             _RootObject = root;
+            _CSharpUnrootedObjectManager = new CSharpUnrootedObjectManager(_JsUpdateHelper, _CSharpToGlueMapper);
+            glueFactory.UnrootedObjectManager = _CSharpUnrootedObjectManager;
             _JavascriptChangesListener = (Mode == JavascriptBindingMode.TwoWay) ? 
                 new JavascriptListenerCSharpUpdater(_CSharpChangesListener, _JsUpdateHelper, _JavascriptToGlueMapper) : null;
 
@@ -121,51 +127,20 @@ namespace Neutronium.Core.Binding
                 OnAllJsGlues(UnlistenGlue);
 
             Context.Dispose();
-            _UnrootedEntities.Clear();
+            _CSharpUnrootedObjectManager.Dispose();
             _Logger.Debug("BidirectionalMapper disposed");
             _BuilderStrategy?.Dispose();
         }
 
-        private void UnlistenGlue(IJsCsGlue exiting)
-        {
-            exiting.ApplyOnListenable(_CSharpChangesListener.Off);
-        }
+        private void UnlistenGlue(IJsCsGlue exiting) => exiting.ApplyOnListenable(_CSharpChangesListener.Off);
 
-        private void OnAllJsGlues(Action<IJsCsGlue> @do)
-        {
-            _SessionCache.AllElementsUiContext.ForEach(@do);
-        }
+        private void OnAllJsGlues(Action<IJsCsGlue> @do) => _SessionCache.AllElementsUiContext.ForEach(@do);
 
         private event EventHandler<EventArgs> _OnJavascriptSessionReady;
-        event EventHandler<EventArgs> ISessionMapper.OnJavascriptSessionReady
+        event EventHandler<EventArgs> IBindingLifeCicle.OnJavascriptSessionReady
         {
             add => _OnJavascriptSessionReady += value;
             remove => _OnJavascriptSessionReady -= value;
-        }
-
-        public void RegisterInSession(object newCSharpObject, Action<IJsCsGlue> performAfterBuild) 
-        {
-            _JsUpdateHelper.CheckUiContext();
-
-            var value = _CSharpToGlueMapper.Map(newCSharpObject);
-            if (value == null)
-                return;
-
-            var updater = GetUnrootedEntitiesUpdater(value, performAfterBuild);
-            _JsUpdateHelper.DispatchInJavascriptContext(() =>
-            {
-                _JsUpdateHelper.UpdateOnJavascriptContext(updater, value);
-            });
-        }
-
-        private BridgeUpdater GetUnrootedEntitiesUpdater(IJsCsGlue newBridgeChild, Action<IJsCsGlue> performAfterBuild)
-        {
-            _UnrootedEntities.Add(newBridgeChild.AddRef());
-            return new BridgeUpdater(updater =>
-            {
-                updater.InjectDetached(newBridgeChild.GetJsSessionValue());
-                performAfterBuild(newBridgeChild);
-            });
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             _CSharpMapper = Substitute.For<IJavascriptSessionCache>();
             _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { }, _ => { });
-            _GlueFactory = new GlueFactory(null, _CSharpMapper, null, null, _ObjectChangesListener);
+            _GlueFactory = new GlueFactory(null, _CSharpMapper, null, _ObjectChangesListener);
             _CSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
             _JavascriptFrameworkManager = Substitute.For<IJavascriptFrameworkManager>();
             _HtmlViewContext = new HtmlViewContext(WebBrowserWindow, GetTestUIDispacther(), _JavascriptFrameworkManager, _Logger);
@@ -177,7 +177,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         private CSharpToGlueMapper GetCircularBreakerConverter(IJavascriptSessionCache cacher)
         {
-            _GlueFactory = new GlueFactory(null, cacher, null, null,  _ObjectChangesListener);
+            _GlueFactory = new GlueFactory(null, cacher, null,  _ObjectChangesListener);
             return new CSharpToGlueMapper( cacher, _GlueFactory, _Logger);
         }
 
@@ -186,12 +186,12 @@ namespace Tests.Universal.WebBrowserEngineTests
         {
             await TestAsync(async () =>
             {
-                var ibridgeresult = await Map(_Tests);
+                var jsCsGlue = await Map(_Tests);
 
                 DoSafe(() =>
                 {
-                    ibridgeresult.Type.Should().Be(JsCsGlueType.Array);
-                    var resv = ibridgeresult.JsValue;
+                    jsCsGlue.Type.Should().Be(JsCsGlueType.Array);
+                    var resv = jsCsGlue.JsValue;
 
                     resv.Should().NotBeNull();
                     resv.IsArray.Should().BeTrue();

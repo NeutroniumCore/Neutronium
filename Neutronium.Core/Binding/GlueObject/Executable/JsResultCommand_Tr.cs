@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;

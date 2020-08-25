@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;

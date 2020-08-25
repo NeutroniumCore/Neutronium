@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Binding.Updater
 {
-    internal interface ISessionMapper
+    internal interface IBindingLifeCicle
     {
         event EventHandler<EventArgs> OnJavascriptSessionReady;
     }

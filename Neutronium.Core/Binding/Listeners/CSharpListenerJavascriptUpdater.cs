@@ -41,10 +41,10 @@ namespace Neutronium.Core.Binding.Listeners
             _Property = new ListenerRegister<INotifyPropertyChanged>(n => n.PropertyChanged += OnCSharpPropertyChanged, n => n.PropertyChanged -= OnCSharpPropertyChanged);
             _Collection = new ListenerRegister<INotifyCollectionChanged>(n => n.CollectionChanged += OnCSharpCollectionChanged, n => n.CollectionChanged -= OnCSharpCollectionChanged);
             var command = new ListenerRegister<ICommand>(c => c.CanExecuteChanged += OnCommandCanExecuteChanged, c => c.CanExecuteChanged -= OnCommandCanExecuteChanged);
-            var updatableCommand = new ListenerRegister<IUpdatableCommand>(c => c.CanExecuteChanged += OnCommandCanExecuteChanged, c => c.CanExecuteChanged -= OnCommandCanExecuteChanged);
+            var updateableCommand = new ListenerRegister<IUpdatableCommand>(c => c.CanExecuteChanged += OnCommandCanExecuteChanged, c => c.CanExecuteChanged -= OnCommandCanExecuteChanged);
 
-            On = new ObjectChangesListener(_Property.OnEnter, _Collection.OnEnter, command.OnEnter, updatableCommand.OnEnter);
-            Off = new ObjectChangesListener(_Property.OnExit, _Collection.OnExit, command.OnExit, updatableCommand.OnExit);
+            On = new ObjectChangesListener(_Property.OnEnter, _Collection.OnEnter, command.OnEnter, updateableCommand.OnEnter);
+            Off = new ObjectChangesListener(_Property.OnExit, _Collection.OnExit, command.OnExit, updateableCommand.OnExit);
         }
 
         private void _JsUpdaterFactory_OnJavascriptSessionReady(object sender, System.EventArgs e)

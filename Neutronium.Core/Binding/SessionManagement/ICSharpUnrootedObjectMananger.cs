@@ -1,9 +1,9 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
 
-namespace Neutronium.Core.Binding
+namespace Neutronium.Core.Binding.SessionManagement
 {
-    internal interface ICSharpUnrootedObjectManager
+    internal interface ICSharpUnrootedObjectManager: IDisposable
     {
         void RegisterInSession(object nv, Action<IJsCsGlue> performAfterBuild);
     }
