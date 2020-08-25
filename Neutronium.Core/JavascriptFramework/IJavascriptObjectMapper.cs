@@ -3,8 +3,7 @@
 namespace Neutronium.Core.JavascriptFramework
 {
     /// <summary>
-    /// Mapper used to create corresponde beetween simple javascript object
-    /// and corresponding observable javascript object
+    /// Mapper used to create observable javascript object from simple javascript object
     /// </summary>
     public interface IJavascriptObjectMapper 
     {

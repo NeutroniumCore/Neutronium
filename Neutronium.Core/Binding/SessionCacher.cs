@@ -4,6 +4,7 @@ using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject.Executable;
+using Neutronium.Core.Binding.JavascriptFrameworkMapper;
 
 namespace Neutronium.Core.Binding
 {
