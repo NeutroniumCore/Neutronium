@@ -16,7 +16,7 @@ using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding
 {
-    public class BidirectionalMapper : IDisposable, IBindingLifeCicle
+    public class BidirectionalMapper : IDisposable, IBindingLifeCycle
     {
         private readonly IWebSessionLogger _Logger;
 
@@ -137,7 +137,7 @@ namespace Neutronium.Core.Binding
         private void OnAllJsGlues(Action<IJsCsGlue> @do) => _SessionCache.AllElementsUiContext.ForEach(@do);
 
         private event EventHandler<EventArgs> _OnJavascriptSessionReady;
-        event EventHandler<EventArgs> IBindingLifeCicle.OnJavascriptSessionReady
+        event EventHandler<EventArgs> IBindingLifeCycle.OnJavascriptSessionReady
         {
             add => _OnJavascriptSessionReady += value;
             remove => _OnJavascriptSessionReady -= value;

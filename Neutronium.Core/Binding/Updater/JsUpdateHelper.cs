@@ -25,15 +25,15 @@ namespace Neutronium.Core.Binding.Updater
         public IWebSessionLogger Logger => _Context.Logger;
         private IJavascriptFrameworkMapper JavascriptFrameworkMapper => _JavascriptFrameworkMapper.Value;
 
-        internal JsUpdateHelper(IBindingLifeCicle bindingLifeCicle, HtmlViewContext context, Func<IJavascriptFrameworkMapper> frameworkMapper, SessionCacher sessionCache)
+        internal JsUpdateHelper(IBindingLifeCycle bindingLifeCycle, HtmlViewContext context, Func<IJavascriptFrameworkMapper> frameworkMapper, SessionCacher sessionCache)
         {
             _Context = context;
             _JavascriptFrameworkMapper = new Lazy<IJavascriptFrameworkMapper>(frameworkMapper);
             _SessionCache = sessionCache;
-            bindingLifeCicle.OnJavascriptSessionReady += BindingLifeCicleOnJavascriptSessionReady;
+            bindingLifeCycle.OnJavascriptSessionReady += BindingLifeCycleOnJavascriptSessionReady;
         }
 
-        private void BindingLifeCicleOnJavascriptSessionReady(object sender, EventArgs e)
+        private void BindingLifeCycleOnJavascriptSessionReady(object sender, EventArgs e)
         {
             OnJavascriptSessionReady?.Invoke(this, e);
         }
