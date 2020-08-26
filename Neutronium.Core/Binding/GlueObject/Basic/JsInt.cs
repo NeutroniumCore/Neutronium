@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
     {
         public JsInt(int value) : base(value) { }
 
-        void IJsCsGlue.SetJsValue(IJavascriptObject value, IJavascriptSessionCache cache) => base.SetJsValue(value);
+        void IJsCsGlue.SetJsValue(IJavascriptObject value, ISessionCache cache) => base.SetJsValue(value);
 
         public string GetCreationCode() => TypedValue.ToString(CultureInfo.InvariantCulture);
 

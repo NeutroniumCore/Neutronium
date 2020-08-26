@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MoreCollection.Extensions;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.Exceptions;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -11,12 +12,12 @@ namespace Neutronium.Core.Binding.JavascriptFrameworkMapper
 {
     internal class JavascriptFrameworkRealMapper : IJavascriptFrameworkMapper
     {
-        private readonly SessionCacher _SessionCache;
+        private readonly IInternalSessionCache _SessionCache;
         private readonly HtmlViewContext _Context;
         private readonly IJavascriptObjectBuilderStrategy _BuilderStrategy;
         private readonly IJavascriptSessionInjector _SessionInjector;
 
-        internal JavascriptFrameworkRealMapper(HtmlViewContext context, IJavascriptSessionInjector sessionInjector, SessionCacher sessionCache, IJavascriptObjectBuilderStrategy builderStrategy)
+        internal JavascriptFrameworkRealMapper(HtmlViewContext context, IJavascriptSessionInjector sessionInjector, IInternalSessionCache sessionCache, IJavascriptObjectBuilderStrategy builderStrategy)
         {
             _SessionInjector = sessionInjector;
             _SessionCache = sessionCache;

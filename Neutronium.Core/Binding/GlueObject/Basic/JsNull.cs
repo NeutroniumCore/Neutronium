@@ -16,7 +16,7 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
 
         public IJsCsGlue AddRef() => this;
 
-        void IJsCsGlue.SetJsValue(IJavascriptObject value, IJavascriptSessionCache cache)
+        void IJsCsGlue.SetJsValue(IJavascriptObject value, ISessionCache cache)
         {
             JsValue = value;
         }

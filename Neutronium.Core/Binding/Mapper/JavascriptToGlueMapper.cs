@@ -9,9 +9,9 @@ namespace Neutronium.Core.Binding.Mapper
     internal class JavascriptToGlueMapper : IJavascriptToGlueMapper
     {
         private readonly IJsUpdateHelper _JsUpdateHelper;
-        private readonly SessionCacher _SessionCache;
+        private readonly ISessionCache _SessionCache;
 
-        public JavascriptToGlueMapper(IJsUpdateHelper jsUpdateHelper, SessionCacher sessionCache)
+        public JavascriptToGlueMapper(IJsUpdateHelper jsUpdateHelper, ISessionCache sessionCache)
         {
             _JsUpdateHelper = jsUpdateHelper;
             _SessionCache = sessionCache;

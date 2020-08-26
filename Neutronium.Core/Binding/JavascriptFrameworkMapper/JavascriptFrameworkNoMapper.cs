@@ -9,11 +9,11 @@ namespace Neutronium.Core.Binding.JavascriptFrameworkMapper
 {
     internal class JavascriptFrameworkNoMapper : IJavascriptFrameworkMapper
     {
-        private readonly SessionCacher _SessionCache;
+        private readonly ISessionCache _SessionCache;
         private readonly HtmlViewContext _Context;
         private readonly IJavascriptObjectBuilderStrategy _BuilderStrategy;
 
-        internal JavascriptFrameworkNoMapper(HtmlViewContext context, SessionCacher sessionCache, IJavascriptObjectBuilderStrategy builderStrategy)
+        internal JavascriptFrameworkNoMapper(HtmlViewContext context, ISessionCache sessionCache, IJavascriptObjectBuilderStrategy builderStrategy)
         {
             _Context = context;
             _SessionCache = sessionCache;

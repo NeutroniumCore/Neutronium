@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Infra;
-using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.Binding.Builder;
-using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.JavascriptFrameworkMapper;
 using Neutronium.Core.Binding.Mapper;
@@ -18,42 +17,35 @@ namespace Neutronium.Core.Binding
 {
     public class BidirectionalMapper : IDisposable, IBindingLifeCycle
     {
-        private readonly IWebSessionLogger _Logger;
-
         private readonly ICSharpToGlueMapper _CSharpToGlueMapper;
         private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
 
-        private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
+        private IJavascriptFrameworkMapper _JavascriptFrameworkManager;
 
         private readonly ICSharpChangesListener _CSharpChangesListener;
         private readonly IJavascriptChangesListener _JavascriptChangesListener;
        
-        private readonly SessionCacher _SessionCache;
-        private readonly IJsUpdateHelper _JsUpdateHelper;
-
+        private readonly IInternalSessionCache _SessionCache;
         private readonly ICSharpUnrootedObjectManager _CSharpUnrootedObjectManager;
 
+        private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
         private IJavascriptObjectBuilderStrategy _BuilderStrategy;
-        private IJavascriptSessionInjector _SessionInjector;
-        private IJavascriptFrameworkMapper _JavascriptFrameworkManager;
 
         public IJsCsGlue JsValueRoot { get; }
         public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
         public JavascriptBindingMode Mode { get; }
         public HtmlViewContext Context { get; }
-        private readonly object _RootObject;
 
         internal BidirectionalMapper(object root, HtmlViewEngine engine, JavascriptBindingMode mode, IWebSessionLogger logger, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
-            this(root, engine, null, strategyFactory, mode, logger, null)
+            this(root, engine, null, strategyFactory, mode, null)
         {
         }
 
-        internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, IGlueFactory glueFactory,
-            IJavascriptObjectBuilderStrategyFactory strategyFactory, JavascriptBindingMode mode, IWebSessionLogger logger, SessionCacher sessionCacher)
+        internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, IGlueFactory glueFactory, IJavascriptObjectBuilderStrategyFactory strategyFactory, 
+            JavascriptBindingMode mode, IInternalSessionCache sessionCacher)
         {
             _BuilderStrategyFactory = strategyFactory ?? new StandardStrategyFactory();
             Mode = mode;
-            _Logger = logger;
             Context = contextBuilder.GetMainContext();
             _SessionCache = sessionCacher ?? new SessionCacher();
             var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _JavascriptFrameworkManager, _SessionCache);
@@ -61,30 +53,28 @@ namespace Neutronium.Core.Binding
 
             _CSharpChangesListener = ListenToCSharp ? new CSharpListenerJavascriptUpdater(jsUpdateHelper) : null;
             glueFactory = glueFactory ?? GlueFactoryFactory.GetFactory(Context, _SessionCache, _JavascriptToGlueMapper, _CSharpChangesListener?.On);
-            _CSharpToGlueMapper = new CSharpToGlueMapper(_SessionCache, glueFactory, _Logger);
+            _CSharpToGlueMapper = new CSharpToGlueMapper(_SessionCache, glueFactory, Context.Logger);
             jsUpdateHelper.GlueMapper =  _CSharpToGlueMapper;
-            _JsUpdateHelper = jsUpdateHelper;
-            _RootObject = root;
-            _CSharpUnrootedObjectManager = new CSharpUnrootedObjectManager(_JsUpdateHelper, _CSharpToGlueMapper);
+            
+            _CSharpUnrootedObjectManager = new CSharpUnrootedObjectManager(jsUpdateHelper, _CSharpToGlueMapper);
             glueFactory.UnrootedObjectManager = _CSharpUnrootedObjectManager;
             _JavascriptChangesListener = (Mode == JavascriptBindingMode.TwoWay) ? 
-                new JavascriptListenerCSharpUpdater(_CSharpChangesListener, _JsUpdateHelper, _JavascriptToGlueMapper) : null;
+                new JavascriptListenerCSharpUpdater(_CSharpChangesListener, jsUpdateHelper, _JavascriptToGlueMapper) : null;
 
-            _JsUpdateHelper.CheckUiContext();
-            JsValueRoot = _CSharpToGlueMapper.Map(_RootObject);
+            jsUpdateHelper.CheckUiContext();
+            JsValueRoot = _CSharpToGlueMapper.Map(root);
             JsValueRoot.AddRef();
         }
 
         internal Task UpdateJavascriptObjects(bool debugMode)
         {
-            return RunInJavascriptContext(() => InitOnJavascriptContext(debugMode));
+            return Context.WebView.Evaluate(() => InitOnJavascriptContext(debugMode));
         }
 
         private async Task InitOnJavascriptContext(bool debugMode)
         {
             RegisterJavascriptHelper();
             Context.InitOnJsContext(_JavascriptChangesListener, debugMode);
-            _SessionInjector = Context.JavascriptSessionInjector;
             _BuilderStrategy = _BuilderStrategyFactory.GetStrategy(Context.WebView, _SessionCache, Context.JavascriptFrameworkIsMappingObject);
             _BuilderStrategy.UpdateJavascriptValue(JsValueRoot);
 
@@ -95,8 +85,8 @@ namespace Neutronium.Core.Binding
 
         private Task RegisterMain(IJavascriptObject res)
         {
-            var registerTask = _SessionInjector.RegisterMainViewModel(res);
-            _JsUpdateHelper.DispatchInUiContext(JavascriptReady);
+            var registerTask = Context.JavascriptSessionInjector.RegisterMainViewModel(res);
+            Context.UiDispatcher.Dispatch(JavascriptReady);
             return registerTask;
         }
 
@@ -115,20 +105,15 @@ namespace Neutronium.Core.Binding
             Context.WebView.ExecuteJavaScript(infra);
         }
 
-        private Task RunInJavascriptContext(Func<Task> run)
-        {
-            return Context.WebView.Evaluate(run);
-        }
-
         public void Dispose()
         {
-            _JsUpdateHelper.CheckUiContext();
+            Context.CheckUiContext();
             if (ListenToCSharp)
                 OnAllJsGlues(UnlistenGlue);
 
             Context.Dispose();
             _CSharpUnrootedObjectManager.Dispose();
-            _Logger.Debug("BidirectionalMapper disposed");
+            Context.Logger.Debug("BidirectionalMapper disposed");
             _BuilderStrategy?.Dispose();
         }
 

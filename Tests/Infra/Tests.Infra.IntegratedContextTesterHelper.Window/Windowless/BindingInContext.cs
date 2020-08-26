@@ -7,9 +7,9 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
     public class BindingInContext : IDisposable
     {
         public IHtmlBinding Binding { get;}
-        public IJavascriptSessionCache Cache { get; }
+        public ISessionCache Cache { get; }
 
-        public BindingInContext(IHtmlBinding binding, IJavascriptSessionCache cache)
+        public BindingInContext(IHtmlBinding binding, ISessionCache cache)
         {
             Binding = binding;
             Cache = cache;

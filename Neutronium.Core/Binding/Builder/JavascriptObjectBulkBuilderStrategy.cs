@@ -15,13 +15,13 @@ namespace Neutronium.Core.Binding.Builder
         public IJavascriptObject ExecutableConstructor => _Factory.Value.ExecutableConstructor;
 
         private readonly IWebView _WebView;
-        private readonly IJavascriptSessionCache _Cache;
+        private readonly ISessionCache _Cache;
         private readonly Lazy<BulkJsHelper> _Factory;
         private readonly bool _Mapping;
         private IJavascriptObject BulkObjectsUpdater => _Factory.Value.BulkObjectsUpdater;
         private IJavascriptObject BulkArraysUpdater => _Factory.Value.BulkArraysUpdater;
 
-        public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        public JavascriptObjectBulkBuilderStrategy(IWebView webView, ISessionCache cache, bool mapping)
         {
             _Mapping = mapping;
             _WebView = webView;

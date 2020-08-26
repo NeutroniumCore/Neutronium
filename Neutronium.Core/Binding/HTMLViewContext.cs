@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Exceptions;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
@@ -28,6 +29,14 @@ namespace Neutronium.Core.Binding
             Logger = logger;
             UiDispatcher = uiDispatcher;
             _JavascriptFrameworkManager = javascriptFrameworkManager;
+        }
+
+        public void CheckUiContext()
+        {
+            if (UiDispatcher.IsInContext())
+                return;
+
+            throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
         }
 
         internal void InitOnJsContext(IJavascriptChangesListener javascriptChangesListener, bool debugMode)

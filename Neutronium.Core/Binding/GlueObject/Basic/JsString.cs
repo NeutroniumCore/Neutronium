@@ -15,6 +15,6 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder) => builder.RequestStringCreation(TypedValue);
 
-        void IJsCsGlue.SetJsValue(IJavascriptObject value, IJavascriptSessionCache cache) => base.SetJsValue(value);
+        void IJsCsGlue.SetJsValue(IJavascriptObject value, ISessionCache cache) => base.SetJsValue(value);
     }
 }

@@ -3,7 +3,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding
 {
-    public interface IJavascriptSessionCache : ICSharpToJsCache
+    public interface ISessionCache : ICSharpToJsCache
     {
         void Cache(IJsCsGlue value);
 

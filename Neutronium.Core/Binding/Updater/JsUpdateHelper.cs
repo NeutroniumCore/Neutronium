@@ -6,7 +6,6 @@ using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.JavascriptFrameworkMapper;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Binding.Mapper;
-using Neutronium.Core.Exceptions;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Updater
@@ -15,7 +14,7 @@ namespace Neutronium.Core.Binding.Updater
     {
         private readonly HtmlViewContext _Context;
         private readonly Lazy<IJavascriptFrameworkMapper> _JavascriptFrameworkMapper;
-        private readonly SessionCacher _SessionCache;
+        private readonly ISessionCache _SessionCache;
 
         public event EventHandler<EventArgs> OnJavascriptSessionReady;
 
@@ -25,7 +24,7 @@ namespace Neutronium.Core.Binding.Updater
         public IWebSessionLogger Logger => _Context.Logger;
         private IJavascriptFrameworkMapper JavascriptFrameworkMapper => _JavascriptFrameworkMapper.Value;
 
-        internal JsUpdateHelper(IBindingLifeCycle bindingLifeCycle, HtmlViewContext context, Func<IJavascriptFrameworkMapper> frameworkMapper, SessionCacher sessionCache)
+        internal JsUpdateHelper(IBindingLifeCycle bindingLifeCycle, HtmlViewContext context, Func<IJavascriptFrameworkMapper> frameworkMapper, ISessionCache sessionCache)
         {
             _Context = context;
             _JavascriptFrameworkMapper = new Lazy<IJavascriptFrameworkMapper>(frameworkMapper);
@@ -55,10 +54,7 @@ namespace Neutronium.Core.Binding.Updater
 
         public void CheckUiContext()
         {
-            if (_Context.UiDispatcher.IsInContext())
-                return;
-
-            throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
+            _Context.CheckUiContext();
         }
 
         public void DispatchInJavascriptContext(Action action) => _Context.WebView.Dispatch(action);

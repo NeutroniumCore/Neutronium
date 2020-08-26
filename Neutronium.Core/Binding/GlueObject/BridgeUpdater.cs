@@ -19,7 +19,7 @@ namespace Neutronium.Core.Binding.GlueObject
             _UpdateOnJsContext = updateOnJsContext;
         }
 
-        internal void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater, IJavascriptSessionCache cache)
+        internal void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater, ISessionCache cache)
         {
             _UpdateOnJsContext?.Invoke(javascriptViewModelUpdater);
             if (_ExitingObjects == null)
@@ -29,7 +29,7 @@ namespace Neutronium.Core.Binding.GlueObject
             javascriptViewModelUpdater.UnListen(_ExitingObjects.Where(exiting => (exiting as JsGenericObject)?.HasReadWriteProperties == true).Select(glue => glue.JsValue));
         }
 
-        internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener, IJavascriptSessionCache cache)
+        internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener, ISessionCache cache)
         {
             if (_ExitingObjects==null)
                 return;

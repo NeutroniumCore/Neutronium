@@ -17,6 +17,7 @@ using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 
 namespace Tests.Universal.WebBrowserEngineTests
 {
@@ -54,7 +55,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         private ArrayList _TestsNg;
         private HtmlViewContext _HtmlViewContext;
         private IGlueFactory _GlueFactory;
-        private IJavascriptSessionCache _CSharpMapper;
+        private ISessionCache _CSharpMapper;
         private IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private IWebBrowserWindow WebBrowserWindow => _WebBrowserWindowProvider.HtmlWindow;
         private ObjectChangesListener _ObjectChangesListener;
@@ -67,7 +68,7 @@ namespace Tests.Universal.WebBrowserEngineTests
 
         protected override void Init()
         {
-            _CSharpMapper = Substitute.For<IJavascriptSessionCache>();
+            _CSharpMapper = Substitute.For<ISessionCache>();
             _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { }, _ => { });
             _GlueFactory = new GlueFactory(null, _CSharpMapper, null, _ObjectChangesListener);
             _CSharpMapper.GetCached(Arg.Any<object>()).Returns((IJsCsGlue)null);
@@ -175,7 +176,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             });
         }
 
-        private CSharpToGlueMapper GetCircularBreakerConverter(IJavascriptSessionCache cacher)
+        private CSharpToGlueMapper GetCircularBreakerConverter(ISessionCache cacher)
         {
             _GlueFactory = new GlueFactory(null, cacher, null,  _ObjectChangesListener);
             return new CSharpToGlueMapper( cacher, _GlueFactory, _Logger);
@@ -361,7 +362,7 @@ namespace Tests.Universal.WebBrowserEngineTests
             });
         }
 
-        private async Task<IJsCsGlue> Map(object from, IJavascriptSessionCache cacher = null)
+        private async Task<IJsCsGlue> Map(object from, ISessionCache cacher = null)
         {
             cacher = cacher ?? _CSharpMapper;
             var res = await _HtmlViewContext.EvaluateOnUiContextAsync(() => _ConverTOJSO.Map(from));
@@ -374,7 +375,7 @@ namespace Tests.Universal.WebBrowserEngineTests
         }
 
 
-        private static IJavascriptObjectBuilderStrategy GetStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        private static IJavascriptObjectBuilderStrategy GetStrategy(IWebView webView, ISessionCache cache, bool mapping)
         {
             return webView.AllowBulkCreation ? (IJavascriptObjectBuilderStrategy)new JavascriptObjectBulkBuilderStrategy(webView, cache, mapping) :
                                              new JavascriptObjectSynchroneousBuilderStrategy(webView, cache, mapping);

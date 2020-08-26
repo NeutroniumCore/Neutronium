@@ -12,12 +12,12 @@ namespace Neutronium.Core.Binding.Builder
         internal IJavascriptObject CommandConstructor { get; }
         internal IJavascriptObject ExecutableConstructor { get; }
 
-        private readonly IJavascriptSessionCache _Cache;
+        private readonly ISessionCache _Cache;
 
         private readonly IJavascriptObject _CommandPrototype;
         private readonly IJavascriptObject _ExecutablePrototype;
 
-        internal BulkJsHelper(IJavascriptSessionCache cache, IWebView webView, IJavascriptObject helper)
+        internal BulkJsHelper(ISessionCache cache, IWebView webView, IJavascriptObject helper)
         {
             _Cache = cache;
 

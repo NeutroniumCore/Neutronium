@@ -18,13 +18,14 @@ using Xunit.Abstractions;
 using Newtonsoft.Json;
 using AutoFixture.Xunit2;
 using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 
 namespace Neutronium.Core.Test.Binding
 {
     public class CSharpToGlueMapperTests
     {
         private readonly CSharpToGlueMapper _CSharpToGlueMapper;
-        private readonly IJavascriptSessionCache _Cacher;
+        private readonly ISessionCache _Cacher;
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private readonly Dictionary<object, IJsCsGlue> _Cache = new Dictionary<object, IJsCsGlue>();
@@ -36,7 +37,7 @@ namespace Neutronium.Core.Test.Binding
         public CSharpToGlueMapperTests(ITestOutputHelper testOutputHelper)
         {
             _TestOutputHelper = testOutputHelper;
-            _Cacher = Substitute.For<IJavascriptSessionCache>();
+            _Cacher = Substitute.For<ISessionCache>();
             _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJsCsGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJsCsGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));

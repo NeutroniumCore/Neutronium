@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.JavascriptFramework;
-using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using MoreCollection.Extensions;
+using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.GlueObject.Executable;
 using Neutronium.Core.Binding.JavascriptFrameworkMapper;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding
+namespace Neutronium.Core.Binding.SessionManagement
 {
-    internal class SessionCacher : IJavascriptSessionCache
+    internal class SessionCacher : IInternalSessionCache
     {
         private readonly IDictionary<object, IJsCsGlue> _FromCSharp = new Dictionary<object, IJsCsGlue>();
         private readonly IDictionary<uint, IJsCsGlue> _FromJavascriptGlobal = new Dictionary<uint, IJsCsGlue>();

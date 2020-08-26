@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.Builder
         /// <summary>
         ///  returns javascript building strategy
         /// </summary>
-        public IJavascriptObjectBuilderStrategy GetStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        IJavascriptObjectBuilderStrategy IJavascriptObjectBuilderStrategyFactory.GetStrategy(IWebView webView, ISessionCache cache, bool mapping)
         {
             return webView.AllowBulkCreation ? (IJavascriptObjectBuilderStrategy)new JavascriptObjectMixtBuilderStrategy(webView, cache, mapping) :
                                              new JavascriptObjectSynchroneousBuilderStrategy(webView, cache, mapping);

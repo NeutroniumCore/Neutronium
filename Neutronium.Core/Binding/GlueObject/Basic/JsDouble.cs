@@ -8,7 +8,7 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
     {
         public JsDouble(double value) : base(value) { }
 
-        void IJsCsGlue.SetJsValue(IJavascriptObject value, IJavascriptSessionCache cache) => base.SetJsValue(value);
+        void IJsCsGlue.SetJsValue(IJavascriptObject value, ISessionCache cache) => base.SetJsValue(value);
 
         public string GetCreationCode() => JavascriptNamer.GetCreateDoubleString(TypedValue);
 

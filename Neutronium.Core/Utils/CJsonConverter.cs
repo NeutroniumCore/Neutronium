@@ -1,6 +1,7 @@
 ﻿using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Infra.VM;
 using Neutronium.Core.Log;
