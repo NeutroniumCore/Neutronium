@@ -398,7 +398,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var jsCommand = GetAttribute(js, "CommandGeneric");
                     DoSafe(() => Call(jsCommand, "Execute", _WebView.Factory.CreateInt(10)));
-                    await Task.Delay(100);
+                    await Task.Delay(150);
                     command.Received(1).Execute("10");
                 }
             };

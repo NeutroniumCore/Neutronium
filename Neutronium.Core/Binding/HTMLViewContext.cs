@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Exceptions;
 using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
@@ -13,30 +15,35 @@ namespace Neutronium.Core.Binding
         public IJavascriptSessionInjector JavascriptSessionInjector { get; private set; }
         public IJavascriptViewModelUpdater ViewModelUpdater { get; private set; }
         public bool JavascriptFrameworkIsMappingObject => _JavascriptFrameworkManager.IsMappingObject;
-        public IWebSessionLogger Logger => _Logger;
+        public IWebSessionLogger Logger { get; }
 
         private IJavascriptObject _Listener;
         private IJavascriptViewModelManager _VmManager;
-        private readonly IWebSessionLogger _Logger;
-        private readonly IJavascriptChangesObserver _JavascriptChangesObserver;
         private readonly IJavascriptFrameworkManager _JavascriptFrameworkManager;
         private readonly IWebBrowserWindow _IWebBrowserWindow;
 
         public HtmlViewContext(IWebBrowserWindow webBrowserWindow, IUiDispatcher uiDispatcher, IJavascriptFrameworkManager javascriptFrameworkManager,
-                                IJavascriptChangesObserver javascriptChangesObserver, IWebSessionLogger logger)
+            IWebSessionLogger logger)
         {
             _IWebBrowserWindow = webBrowserWindow;
-            _Logger = logger;
+            Logger = logger;
             UiDispatcher = uiDispatcher;
-            _JavascriptChangesObserver = javascriptChangesObserver;
             _JavascriptFrameworkManager = javascriptFrameworkManager;
         }
 
-        public void InitOnJsContext(bool debugMode)
+        public void CheckUiContext()
         {
-            var builder = new BinderBuilder(WebView, _JavascriptChangesObserver);
+            if (UiDispatcher.IsInContext())
+                return;
+
+            throw ExceptionHelper.Get("MVVM ViewModel should be updated from UI thread. Use await pattern and Dispatcher to do so.");
+        }
+
+        internal void InitOnJsContext(IJavascriptChangesListener javascriptChangesListener, bool debugMode)
+        {
+            var builder = new BinderBuilder(WebView, javascriptChangesListener);
             _Listener = builder.BuildListener();
-            _VmManager = _JavascriptFrameworkManager.CreateManager(WebView, _Listener, _Logger, debugMode);
+            _VmManager = _JavascriptFrameworkManager.CreateManager(WebView, _Listener, Logger, debugMode);
             ViewModelUpdater = _VmManager.ViewModelUpdater;
             JavascriptSessionInjector = _VmManager.Injector;
         }
@@ -60,7 +67,7 @@ namespace Neutronium.Core.Binding
         {
             _VmManager.Dispose();
             _Listener.Dispose();
-            _Logger.Debug("HTMLViewContext Disposed");
+            Logger.Debug("HTMLViewContext Disposed");
         }
     }
 }

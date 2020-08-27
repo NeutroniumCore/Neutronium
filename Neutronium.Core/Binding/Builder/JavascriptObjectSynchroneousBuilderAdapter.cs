@@ -11,11 +11,11 @@ namespace Neutronium.Core.Binding.Builder
     {
         private readonly IJsCsGlue _Object;
         private readonly IJavascriptObjectFactory _Factory;
-        private readonly IJavascriptSessionCache _Cache;
+        private readonly ISessionCache _Cache;
         private readonly bool _Mapping;
         private Action _AfterChildrenUpdates;
 
-        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IJsCsGlue @object, bool mapping)
+        public JavascriptObjectSynchroneousBuilderAdapter(IJavascriptObjectFactory factory, ISessionCache cache, IJsCsGlue @object, bool mapping)
         {
             _Mapping = mapping;
             _Factory = factory;

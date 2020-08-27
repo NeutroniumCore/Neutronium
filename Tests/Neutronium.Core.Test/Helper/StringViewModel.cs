@@ -1,19 +1,11 @@
 ﻿namespace Neutronium.Core.Test.Helper
 {
-    public class BasicTestViewModel : ViewModelTestBase
+    public class StringViewModel
     {
-        private BasicTestViewModel _Child;
-        public BasicTestViewModel Child
-        {
-            get => _Child;
-            set => Set(ref _Child, value);
-        }
+        public string Value1 { get; set; }
 
-        private int _Value = -1;
-        public int Value
-        {
-            get => _Value;
-            set => Set(ref _Value, value);
-        }
+        public string Value2 { get; set; }
+
+        public string Value3 { get; set; }
     }
 }

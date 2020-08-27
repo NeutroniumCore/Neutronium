@@ -15,13 +15,13 @@ namespace Neutronium.Core.Binding.Builder
         public IJavascriptObject ExecutableConstructor => _Factory.Value.ExecutableConstructor;
 
         private readonly IWebView _WebView;
-        private readonly IJavascriptSessionCache _Cache;
+        private readonly ISessionCache _Cache;
         private readonly Lazy<BulkJsHelper> _Factory;
         private readonly bool _Mapping;
         private IJavascriptObject BulkObjectsUpdater => _Factory.Value.BulkObjectsUpdater;
         private IJavascriptObject BulkArraysUpdater => _Factory.Value.BulkArraysUpdater;
 
-        public JavascriptObjectBulkBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        public JavascriptObjectBulkBuilderStrategy(IWebView webView, ISessionCache cache, bool mapping)
         {
             _Mapping = mapping;
             _WebView = webView;
@@ -158,9 +158,9 @@ namespace Neutronium.Core.Binding.Builder
             foreach (var father in updates.ObjectDescriptors)
             {
                 res[count++] = father.Father.JsValue;
-                foreach (var atribute in father.AttributeValues)
+                foreach (var attribute in father.AttributeValues)
                 {
-                    res[count++] = atribute.JsValue;
+                    res[count++] = attribute.JsValue;
                 }
             }
             return res;
@@ -175,9 +175,9 @@ namespace Neutronium.Core.Binding.Builder
             foreach (var father in updates)
             {
                 res[count++] = father.Father.JsValue;
-                foreach (var atribute in father.OrdenedChildren)
+                foreach (var attribute in father.OrdenedChildren)
                 {
-                    res[count++] = atribute.JsValue;
+                    res[count++] = attribute.JsValue;
                 }
             }
             return res;

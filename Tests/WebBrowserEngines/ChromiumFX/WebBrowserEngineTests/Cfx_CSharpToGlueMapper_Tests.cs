@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 namespace Tests.ChromiumFX.WebBrowserEngineTests 
 {
     [Collection("ChromiumFX Context")]
-    public class Cfx_CSharpToJavascriptConverter_Tests : CSharpToJavascriptConverter_Tests 
+    public class Cfx_CSharpToGlueMapper_Tests : CSharpToGlueMapper_Tests 
     {
-        public Cfx_CSharpToJavascriptConverter_Tests(ChromiumFXContext testEnvironment, ITestOutputHelper output)
+        public Cfx_CSharpToGlueMapper_Tests(ChromiumFXContext testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
         }

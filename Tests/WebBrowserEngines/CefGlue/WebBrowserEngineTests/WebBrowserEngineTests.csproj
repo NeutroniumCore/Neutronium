@@ -91,7 +91,7 @@
   <ItemGroup>
     <Compile Include="CefGlue_JavascriptFactoryBulk_Tests.cs" />
     <Compile Include="CefGlue_JavascriptObjectConverter_Tests.cs" />
-    <Compile Include="CefGlue_SharpToJavascriptConverter_Tests.cs" />
+    <Compile Include="CefGlue_CSharpToGlueMapper_Tests.cs" />
     <Compile Include="CefGlue_WebViewDispatcher_Tests.cs" />
     <Compile Include="Infra\CefGlueContext.cs" />
     <Compile Include="Infra\CefGlueContextFixture.cs" />

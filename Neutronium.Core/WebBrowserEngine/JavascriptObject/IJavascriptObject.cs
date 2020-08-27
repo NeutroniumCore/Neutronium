@@ -270,7 +270,6 @@ namespace Neutronium.Core.WebBrowserEngine.JavascriptObject
         /// </param>
         void ExecuteFunctionNoResult(IWebView webView, IJavascriptObject context, params IJavascriptObject[] parameters);
 
-
         /// <summary>
         /// Returns the value with the specified identifier on success. Returns NULL
         /// if this method is called incorrectly or an exception is thrown.

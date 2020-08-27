@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 namespace Tests.CefGlue.WebBrowserEngineTests
 {
     [Collection("CefGlue Context")]
-    public class CefGlue_SharpToJavascriptConverter_Tests : CSharpToJavascriptConverter_Tests 
+    public class CefGlue_CSharpToGlueMapper_Tests : CSharpToGlueMapper_Tests 
     {
-        public CefGlue_SharpToJavascriptConverter_Tests(CefGlueContext testEnvironment, ITestOutputHelper output)
+        public CefGlue_CSharpToGlueMapper_Tests(CefGlueContext testEnvironment, ITestOutputHelper output)
             : base(testEnvironment, output)
         {
         }

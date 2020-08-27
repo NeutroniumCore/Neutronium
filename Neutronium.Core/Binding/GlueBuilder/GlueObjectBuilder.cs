@@ -1,5 +1,6 @@
 ﻿using System;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Infra;
 using Neutronium.Core.Infra.Reflection;
 
@@ -9,9 +10,9 @@ namespace Neutronium.Core.Binding.GlueBuilder
     {
         private readonly IGenericPropertyAcessor _PropertyAccessor;
         private readonly IWebSessionLogger _Logger;
-        private readonly CSharpToJavascriptConverter _Converter;
+        private readonly ICSharpToGlueMapper _Converter;
 
-        public GlueObjectBuilder(CSharpToJavascriptConverter converter, IWebSessionLogger logger, Type type) 
+        public GlueObjectBuilder(ICSharpToGlueMapper converter, IWebSessionLogger logger, Type type) 
         {
             _Converter = converter;
             _Logger = logger;
@@ -33,17 +34,17 @@ namespace Neutronium.Core.Binding.GlueBuilder
 
             foreach (var propertyInfo in properties) 
             {
-                object childvalue = null;
+                object childValue = null;
                 try 
                 {
-                    childvalue = propertyInfo.Get(parentObject);
+                    childValue = propertyInfo.Get(parentObject);
                 }
                 catch (Exception exception)
                 {
                     LogIntrospectionError(propertyInfo.Name, parentObject, exception);
                 }
 
-                var child = _Converter.Map(childvalue).AddRef();
+                var child = _Converter.Map(childValue).AddRef();
                 attributes[index++] = child;
             }
             return attributes;

@@ -1,26 +1,27 @@
 ﻿using System;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    public class JsCommand<T> : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
+    internal class JsCommand<T> : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
         private readonly ICommand<T> _Command;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand<T> command) :
+        internal JsCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommand<T> command) :
             base(context, converter)
         {
             _Command = command;
             _CanExecute = true;
         }
 
-        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        public virtual void SetJsValue(IJavascriptObject value, ISessionCache sessionCache)
         {
             SetJsValue(value);
             sessionCache.Cache(this);
@@ -38,7 +39,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override void Execute(IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgument<T>(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgument<T>(e);
             if (!parameter.Success)
             {
                 Logger.Error($"Impossible to call Execute on command<{typeof(T)}>, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");
@@ -50,7 +51,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override async void CanExecuteCommand(params IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgument<T>(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgument<T>(e);
             if (!parameter.Success)
             {
                 Logger.Error($"Impossible to call CanExecuteCommand on command<{typeof(T)}>, no matching argument found, received:{parameter.TentativeValue} of type:{parameter.TentativeValue?.GetType()} expectedType: {typeof(T)}");

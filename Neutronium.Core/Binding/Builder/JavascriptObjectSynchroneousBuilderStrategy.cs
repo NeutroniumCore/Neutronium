@@ -6,10 +6,10 @@ namespace Neutronium.Core.Binding.Builder
     internal class JavascriptObjectSynchroneousBuilderStrategy : IJavascriptObjectBuilderStrategy
     {
         private readonly IWebView _WebView;
-        private readonly IJavascriptSessionCache _Cache;
+        private readonly ISessionCache _Cache;
         private readonly bool _Mapping;
 
-        public JavascriptObjectSynchroneousBuilderStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        public JavascriptObjectSynchroneousBuilderStrategy(IWebView webView, ISessionCache cache, bool mapping)
         {
             _WebView = webView;
             _Cache = cache;

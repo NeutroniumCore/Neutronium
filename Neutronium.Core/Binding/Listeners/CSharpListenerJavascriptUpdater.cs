@@ -1,15 +1,15 @@
 ﻿using System;
-using Neutronium.Core.Binding.Updaters;
 using Neutronium.Core.Infra;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
+using Neutronium.Core.Binding.Updater;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal class ListenerUpdater
+    internal class CSharpListenerJavascriptUpdater : ICSharpChangesListener
     {
         public ObjectChangesListener On { get; }
         public ObjectChangesListener Off { get; }
@@ -19,8 +19,8 @@ namespace Neutronium.Core.Binding.Listeners
         private readonly IEntityUpdater<INotifyPropertyChanged> _Property;
         private readonly IEntityUpdater<INotifyCollectionChanged> _Collection;
 
-        private Chained<IJavascriptUpdater> _First;
-        private Chained<IJavascriptUpdater> _Last;
+        private Chained<IJavascriptUIContextUpdater> _First;
+        private Chained<IJavascriptUIContextUpdater> _Last;
         private ReplayMode _ReplayMode = ReplayMode.NotReady;
 
         private bool QueueIsEmpty => _First == null;
@@ -33,7 +33,7 @@ namespace Neutronium.Core.Binding.Listeners
             Replaying
         };
 
-        public ListenerUpdater(IJsUpdaterFactory jsUpdaterFactory)
+        public CSharpListenerJavascriptUpdater(IJsUpdaterFactory jsUpdaterFactory)
         {
             _JsUpdaterFactory = jsUpdaterFactory;
 
@@ -41,15 +41,15 @@ namespace Neutronium.Core.Binding.Listeners
             _Property = new ListenerRegister<INotifyPropertyChanged>(n => n.PropertyChanged += OnCSharpPropertyChanged, n => n.PropertyChanged -= OnCSharpPropertyChanged);
             _Collection = new ListenerRegister<INotifyCollectionChanged>(n => n.CollectionChanged += OnCSharpCollectionChanged, n => n.CollectionChanged -= OnCSharpCollectionChanged);
             var command = new ListenerRegister<ICommand>(c => c.CanExecuteChanged += OnCommandCanExecuteChanged, c => c.CanExecuteChanged -= OnCommandCanExecuteChanged);
-            var updatableCommand = new ListenerRegister<IUpdatableCommand>(c => c.CanExecuteChanged += OnCommandCanExecuteChanged, c => c.CanExecuteChanged -= OnCommandCanExecuteChanged);
+            var updateableCommand = new ListenerRegister<IUpdatableCommand>(c => c.CanExecuteChanged += OnCommandCanExecuteChanged, c => c.CanExecuteChanged -= OnCommandCanExecuteChanged);
 
-            On = new ObjectChangesListener(_Property.OnEnter, _Collection.OnEnter, command.OnEnter, updatableCommand.OnEnter);
-            Off = new ObjectChangesListener(_Property.OnExit, _Collection.OnExit, command.OnExit, updatableCommand.OnExit);
+            On = new ObjectChangesListener(_Property.OnEnter, _Collection.OnEnter, command.OnEnter, updateableCommand.OnEnter);
+            Off = new ObjectChangesListener(_Property.OnExit, _Collection.OnExit, command.OnExit, updateableCommand.OnExit);
         }
 
         private void _JsUpdaterFactory_OnJavascriptSessionReady(object sender, System.EventArgs e)
         {
-            Debug.Assert(_JsUpdaterFactory.isInUiContext);
+            Debug.Assert(_JsUpdaterFactory.IsInUiContext);
             ReplayChanges();
         }
 
@@ -65,43 +65,27 @@ namespace Neutronium.Core.Binding.Listeners
             if (QueueIsEmpty)
                 return;
 
-            var from = _First;
             _JsUpdaterFactory.CheckUiContext();
 
-            bool Or(bool value, bool res) => res || value;
+            IJavascriptJsContextUpdater ExecuteOnUiContext(IJavascriptUIContextUpdater updater) => updater.ExecuteOnUiContext(Off);
 
-            bool UpdateNeedToRunOnJsContext(IJavascriptUpdater updater)
-            {
-                updater.OnUiContext(Off);
-                return updater.NeedToRunOnJsContext;
-            }
-
-            var needUpdateOnJsContext = from.Reduce(UpdateNeedToRunOnJsContext, Or);
+            var jsContextUpdated = _First.MapFilter(ExecuteOnUiContext, up => up !=null);
             ResetQueue();
-            if (!needUpdateOnJsContext)
+            if (jsContextUpdated == null)
                 return;
 
-            void PerformOnJsContext(IJavascriptUpdater updater)
-            {
-                if (!updater.NeedToRunOnJsContext) return;
-                updater.OnJsContext();
-            }
-
-            _JsUpdaterFactory.DispatchInJavascriptContext(() =>
-            {
-                @from.ForEach(PerformOnJsContext);
-            });
+            _JsUpdaterFactory.DispatchInJavascriptContext(() => jsContextUpdated.ForEach(updater => updater.ExecuteOnJsContext()));
         }
 
-        internal void OnCSharpPropertyChanged(object sender, string propertyName)
+        public void ReportPropertyChanged(object sender, string propertyName)
         {
-            OnCSharpPropertyChanged(sender, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            var updater = _JsUpdaterFactory.GetUpdaterForPropertyChanged(sender, e);
+            var updater = _JsUpdaterFactory.GetUpdaterForPropertyChanged(sender, propertyName);
             ScheduleChanges(updater);
+        }
+
+        private void OnCSharpPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            ReportPropertyChanged(sender, propertyChangedEventArgs.PropertyName);
         }
 
         private void OnCSharpCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -116,10 +100,10 @@ namespace Neutronium.Core.Binding.Listeners
             ScheduleChanges(updater);
         }
 
-        public void ScheduleChanges(IJavascriptUpdater updater)
+        private void ScheduleChanges(IJavascriptUIContextUpdater uiContextUpdater)
         {
             _JsUpdaterFactory.CheckUiContext();
-            Enqueue(updater);
+            Enqueue(uiContextUpdater);
 
             if (_ReplayMode != ReplayMode.NoReplayScheduled)
                 return;
@@ -128,9 +112,9 @@ namespace Neutronium.Core.Binding.Listeners
             _JsUpdaterFactory.DispatchInUiContextBindingPriority(ReplayChanges);         
         }
 
-        private void Enqueue(IJavascriptUpdater updater)
+        private void Enqueue(IJavascriptUIContextUpdater uiContextUpdater)
         {
-            _Last = new Chained<IJavascriptUpdater>(updater, _Last);
+            _Last = new Chained<IJavascriptUIContextUpdater>(uiContextUpdater, _Last);
             _First = _First ?? _Last;
         }
 
@@ -139,7 +123,7 @@ namespace Neutronium.Core.Binding.Listeners
             _First = _Last = null;
         }
 
-        public Silenter<INotifyCollectionChanged> GetColllectionSilenter(object target)
+        public Silenter<INotifyCollectionChanged> GetCollectionSilenter(object target)
         {
             return Silenter.GetSilenter(_Collection, target);
         }

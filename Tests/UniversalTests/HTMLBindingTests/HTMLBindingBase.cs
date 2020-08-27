@@ -8,6 +8,7 @@ using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Neutronium.Core.Binding.SessionManagement;
 using Tests.Infra.IntegratedContextTesterHelper.Windowless;
 using Xunit.Abstractions;
 
@@ -36,7 +37,7 @@ namespace Tests.Universal.HTMLBindingTests
         protected async Task<BindingInContext> BindInContext(HtmlViewEngine engine, object dataContext, JavascriptBindingMode mode = JavascriptBindingMode.TwoWay)
         {
             var cacher = new SessionCacher();
-            var mapper = new BidirectionalMapper(dataContext, engine, null, null, mode, engine.Logger, cacher);
+            var mapper = new BidirectionalMapper(dataContext, engine, null, null, mode, cacher);
             var builder = new BindingBuilder(mapper, engine.Logger) as IBindingBuilder;
             var binding = await builder.CreateBinding(false);
             return new BindingInContext(binding, cacher);

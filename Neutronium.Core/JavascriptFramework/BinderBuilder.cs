@@ -1,40 +1,41 @@
 ﻿using MoreCollection.Extensions;
+using Neutronium.Core.Binding.Listeners;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.JavascriptFramework
 {
-    public class BinderBuilder
+    internal class BinderBuilder
     {
         private readonly IWebView _WebView;
-        private readonly IJavascriptChangesObserver _Observer;
+        private readonly IJavascriptChangesListener _Listener;
 
-        public BinderBuilder(IWebView webView, IJavascriptChangesObserver javascriptObserver)
+        internal BinderBuilder(IWebView webView, IJavascriptChangesListener javascriptListener)
         {
             _WebView = webView;
-            _Observer = javascriptObserver;
+            _Listener = javascriptListener;
         }
 
-        public IJavascriptObject BuildListener()
+        internal IJavascriptObject BuildListener()
         {
             var listener = _WebView.Factory.CreateObject();
 
-            if (_Observer == null)
+            if (_Listener == null)
                 return listener;
 
-            listener.BindArguments("TrackChanges", _WebView, (first, second, third) => _Observer.OnJavaScriptObjectChanges(first, second.GetStringValue(), third));
-            listener.BindArguments("TrackCollectionChanges", _WebView, JavascriptColectionChanged);
+            listener.BindArguments("TrackChanges", _WebView, (first, second, third) => _Listener.OnJavaScriptObjectChanges(first, second.GetStringValue(), third));
+            listener.BindArguments("TrackCollectionChanges", _WebView, JavascriptCollectionChanged);
 
             return listener;
         }
 
-        private void JavascriptColectionChanged(IJavascriptObject collectionArg, IJavascriptObject valuesArg, IJavascriptObject typesArg, IJavascriptObject indexesArg)
+        private void JavascriptCollectionChanged(IJavascriptObject collectionArg, IJavascriptObject valuesArg, IJavascriptObject typesArg, IJavascriptObject indexesArg)
         {
             var values = valuesArg.GetArrayElements();
             var types = typesArg.GetArrayElements();
             var indexes = indexesArg.GetArrayElements();
             var collectionChange = new JavascriptCollectionChanges(collectionArg, values.Zip(types, indexes, (v, t, i) => new IndividualJavascriptCollectionChange(t.GetStringValue() == "added" ? CollectionChangeType.Add : CollectionChangeType.Remove, i.GetIntValue(), v)));
 
-            _Observer.OnJavaScriptCollectionChanges(collectionChange);
+            _Listener.OnJavaScriptCollectionChanges(collectionChange);
         }
     }
 }

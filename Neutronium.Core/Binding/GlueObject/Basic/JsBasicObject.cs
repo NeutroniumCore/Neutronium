@@ -22,12 +22,12 @@ namespace Neutronium.Core.Binding.GlueObject.Basic
             JsValue = jsValue;
         }
 
-        void IJsCsGlue.SetJsValue(IJavascriptObject value, IJavascriptSessionCache cache)
+        void IJsCsGlue.SetJsValue(IJavascriptObject value, ISessionCache cache)
         {
             JsValue = value;
         }
 
-        // Not need this class is only used when creating glueobject from
+        // Not needed. This class is only used when creating glueobject from
         // javascript session
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder) { }
 

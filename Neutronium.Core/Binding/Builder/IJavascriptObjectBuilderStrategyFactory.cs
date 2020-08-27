@@ -2,8 +2,8 @@
 
 namespace Neutronium.Core.Binding.Builder
 {
-    public interface IJavascriptObjectBuilderStrategyFactory
+    internal interface IJavascriptObjectBuilderStrategyFactory
     {
-        IJavascriptObjectBuilderStrategy GetStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping);
+        IJavascriptObjectBuilderStrategy GetStrategy(IWebView webView, ISessionCache cache, bool mapping);
     }
 }

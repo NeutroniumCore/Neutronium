@@ -100,7 +100,7 @@
     <Compile Include="Cfx_JJavascriptFactoryBulk_Tests.cs" />
     <Compile Include="Infra\ChromiumFXContextFixture.cs" />
     <Compile Include="Infra\ChromiumFXContext.cs" />
-    <Compile Include="Cfx_SharpToJavascriptConverter_Tests.cs" />
+    <Compile Include="Cfx_CSharpToGlueMapper_Tests.cs" />
     <Compile Include="Cfx_JavascriptObjectConverter_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cfx_WebViewDispatcher_Tests.cs" />

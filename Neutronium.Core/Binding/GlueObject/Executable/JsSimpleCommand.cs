@@ -1,4 +1,5 @@
 ﻿using System;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
@@ -9,7 +10,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         private readonly ISimpleCommand _JsSimpleCommand;
         public object CValue => _JsSimpleCommand;
 
-        public JsSimpleCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ISimpleCommand simpleCommand):
+        public JsSimpleCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ISimpleCommand simpleCommand):
             base(context, converter)
         {
             _JsSimpleCommand = simpleCommand;
@@ -22,7 +23,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             UiDispatcher.Dispatch(() => _JsSimpleCommand.Execute());
         }
 
-        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache) 
+        public virtual void SetJsValue(IJavascriptObject value, ISessionCache sessionCache) 
         {
             SetJsValue(value);
             sessionCache.Cache(this);

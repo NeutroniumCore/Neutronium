@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Neutronium.Core.Binding.GlueObject;
-using Neutronium.Core.JavascriptFramework;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
-namespace Neutronium.Core.Binding
+namespace Neutronium.Core.Binding.JavascriptFrameworkMapper
 {
     internal class JavascriptMapper : IJavascriptObjectInternalMapper
     {

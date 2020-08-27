@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Windows.Input;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Extension;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    public class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
+    internal class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
         private readonly ICommand _Command;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommand command): 
+        internal JsCommand(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommand command): 
             base(context, converter)
         {
             _Command = command;
@@ -24,7 +25,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             catch { }
         }
 
-        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        public virtual void SetJsValue(IJavascriptObject value, ISessionCache sessionCache)
         {
             SetJsValue(value);
             sessionCache.Cache(this);
@@ -42,13 +43,13 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         public override void Execute(IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgumentOrNull(e);
             UiDispatcher.Dispatch(() => _Command.Execute(parameter));
         }
 
         public override async void CanExecuteCommand(params IJavascriptObject[] e)
         {
-            var parameter = _JavascriptToCSharpConverter.GetFirstArgumentOrNull(e);
+            var parameter = JavascriptToGlueMapper.GetFirstArgumentOrNull(e);
             await UiDispatcher.RunAsync(() => _CanExecute = _Command.CanExecute(parameter));
             UpdateCanExecuteValue();
         }

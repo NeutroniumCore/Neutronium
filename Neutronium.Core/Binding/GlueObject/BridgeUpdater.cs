@@ -9,39 +9,27 @@ namespace Neutronium.Core.Binding.GlueObject
 {
     public class BridgeUpdater
     {
-        private readonly Action<IJavascriptViewModelUpdater> _UpdateJavascriptObject;
+        private readonly Action<IJavascriptViewModelUpdater> _UpdateOnJsContext;
         private HashSet<IJsCsGlue> _ExitingObjects;
 
-        internal IJavascriptSessionCache Cache { get; set; }
-        internal bool HasUpdatesOnJavascriptContext => (_UpdateJavascriptObject != null) || (_ExitingObjects?.Count > 0);
+        internal bool HasUpdatesOnJavascriptContext => (_UpdateOnJsContext != null) || (_ExitingObjects?.Count > 0);
 
-        public BridgeUpdater(Action<IJavascriptViewModelUpdater> update)
+        public BridgeUpdater(Action<IJavascriptViewModelUpdater> updateOnJsContext = null)
         {
-            _UpdateJavascriptObject = update;
+            _UpdateOnJsContext = updateOnJsContext;
         }
 
-        public BridgeUpdater(IJavascriptSessionCache cache)
+        internal void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater, ISessionCache cache)
         {
-            Cache = cache;
-        }
-
-        public void UpdateOnJavascriptContext(IJavascriptViewModelUpdater javascriptViewModelUpdater)
-        {
-            _UpdateJavascriptObject?.Invoke(javascriptViewModelUpdater);
+            _UpdateOnJsContext?.Invoke(javascriptViewModelUpdater);
             if (_ExitingObjects == null)
                 return;
 
-            _ExitingObjects.ForEach(Cache.RemoveFromJsToCSharp);
+            _ExitingObjects.ForEach(cache.RemoveFromJsToCSharp);
             javascriptViewModelUpdater.UnListen(_ExitingObjects.Where(exiting => (exiting as JsGenericObject)?.HasReadWriteProperties == true).Select(glue => glue.JsValue));
         }
 
-        internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener, IJavascriptSessionCache cache)
-        {
-            Cache = cache;
-            CleanAfterChangesOnUiThread(offListener);
-        }
-
-        internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener)
+        internal void CleanAfterChangesOnUiThread(ObjectChangesListener offListener, ISessionCache cache)
         {
             if (_ExitingObjects==null)
                 return;
@@ -49,18 +37,29 @@ namespace Neutronium.Core.Binding.GlueObject
             foreach (var exiting in _ExitingObjects)
             {
                 exiting.ApplyOnListenable(offListener);
-                Cache.RemoveFromCSharpToJs(exiting);
+                cache.RemoveFromCSharpToJs(exiting);
             }
         }
 
-        internal BridgeUpdater Remove(IJsCsGlue old)
+        internal BridgeUpdater CheckForRemove(IEnumerable<IJsCsGlue> glues)
         {
-            if (old == null)
-                return this;
+            glues.ForEach(CheckForRemoveNoReturn);
+            return this;
+        }
+
+        internal BridgeUpdater CheckForRemove(IJsCsGlue old)
+        {
+            CheckForRemoveNoReturn(old);
+            return this;
+        }
+
+        private void CheckForRemoveNoReturn(IJsCsGlue old)
+        {
+            if (old?.Release() != true)
+                return;
 
             _ExitingObjects = _ExitingObjects ?? new HashSet<IJsCsGlue>();
             CollectAllRemoved(old, _ExitingObjects);
-            return this;
         }
 
         private static void CollectAllRemoved(IJsCsGlue old, ISet<IJsCsGlue> toRemove)

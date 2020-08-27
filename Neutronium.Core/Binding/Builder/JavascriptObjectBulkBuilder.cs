@@ -10,7 +10,7 @@ namespace Neutronium.Core.Binding.Builder
     internal class JavascriptObjectBulkBuilder
     {
         private readonly IJavascriptObjectFactory _Factory;
-        private readonly IJavascriptSessionCache _Cache;
+        private readonly ISessionCache _Cache;
         private readonly IBulkUpdater _BulkUpdater;
         private readonly IJsCsGlue _Root;
         private readonly bool _Mapping;
@@ -25,7 +25,7 @@ namespace Neutronium.Core.Binding.Builder
         private List<ArrayDescriptor> _ArraysBuildingRequested;
         private List<ArrayDescriptor> ArraysBuildingRequested => _ArraysBuildingRequested ?? (_ArraysBuildingRequested = new List<ArrayDescriptor>());
 
-        public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, IJavascriptSessionCache cache, IBulkUpdater bulkPropertyUpdater,
+        public JavascriptObjectBulkBuilder(IJavascriptObjectFactory factory, ISessionCache cache, IBulkUpdater bulkPropertyUpdater,
             IJsCsGlue root, bool mapping)
         {
             _Mapping = mapping;

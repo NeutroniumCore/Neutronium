@@ -10,7 +10,7 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
 
         public override IJavascriptObject CachableJsValue => _MappedJsValue;
 
-        public override void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        public override void SetJsValue(IJavascriptObject value, ISessionCache sessionCache)
         {
             SetJsValue(value);
         }

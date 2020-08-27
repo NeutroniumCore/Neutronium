@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Neutronium.Core.Binding.GlueObject;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueBuilder 
@@ -9,9 +10,9 @@ namespace Neutronium.Core.Binding.GlueBuilder
     internal sealed class GlueCollectionsBuilder
     {
         private readonly Type _BasicType;
-        private readonly CSharpToJavascriptConverter _Converter;
+        private readonly ICSharpToGlueMapper _Converter;
 
-        internal GlueCollectionsBuilder(CSharpToJavascriptConverter converter, Type collectionType)
+        internal GlueCollectionsBuilder(ICSharpToGlueMapper converter, Type collectionType)
         {
             _Converter = converter;
 

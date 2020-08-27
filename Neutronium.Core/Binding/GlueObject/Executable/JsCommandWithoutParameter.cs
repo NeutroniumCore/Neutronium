@@ -1,25 +1,26 @@
 ﻿using System;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    public class JsCommandWithoutParameter : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
+    internal class JsCommandWithoutParameter : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
         private readonly ICommandWithoutParameter _Command;
 
         void IJsCsCachableGlue.SetJsId(uint jsId) => base.SetJsId(jsId);
 
-        public JsCommandWithoutParameter(HtmlViewContext context, IJavascriptToCSharpConverter converter, ICommandWithoutParameter command) :
+        internal JsCommandWithoutParameter(HtmlViewContext context, IJavascriptToGlueMapper converter, ICommandWithoutParameter command) :
             base(context, converter)
         {
             _Command = command;
             _CanExecute = _Command.CanExecute;
         }
 
-        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        public virtual void SetJsValue(IJavascriptObject value, ISessionCache sessionCache)
         {
             SetJsValue(value);
             sessionCache.Cache(this);

@@ -1,4 +1,6 @@
 ﻿using Neutronium.Core.Binding.GlueObject.Executable;
+using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.MVVMComponents;
 
@@ -10,7 +12,7 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
 
         public override IJavascriptObject CachableJsValue => _MappedJsValue;
 
-        public override void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        public override void SetJsValue(IJavascriptObject value, ISessionCache sessionCache)
         {
             SetJsValue(value);
         }
@@ -21,8 +23,8 @@ namespace Neutronium.Core.Binding.GlueObject.Mapped
             UpdateJsObject(_MappedJsValue);
         }
 
-        public JsMappableResultCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, IResultCommand<TArg, TResult> resultCommand)
-            :base(context, converter, resultCommand)
+        public JsMappableResultCommand(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToGlueMapper converter, IResultCommand<TArg, TResult> resultCommand)
+            :base(context, manager, converter, resultCommand)
         {
         }
     }

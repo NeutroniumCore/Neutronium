@@ -1,5 +1,7 @@
 ﻿using Neutronium.Core.Binding;
 using Neutronium.Core.Binding.GlueBuilder;
+using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Infra.VM;
 using Neutronium.Core.Log;
@@ -13,7 +15,7 @@ namespace Neutronium.Core.Utils
     /// </summary>
     public class CJsonConverter
     {
-        private readonly CSharpToJavascriptConverter _Converter;
+        private readonly CSharpToGlueMapper _Converter;
 
         /// <summary>
         /// Instanciate a new CJsonConverter
@@ -22,7 +24,7 @@ namespace Neutronium.Core.Utils
         {
             var cache = new SessionCacher();
             var factory = new GlueFactory(null, cache, null, null);
-            _Converter = new CSharpToJavascriptConverter(cache, factory, new NullLogger());
+            _Converter = new CSharpToGlueMapper(cache, factory, new NullLogger());
         }
 
         /// <summary>

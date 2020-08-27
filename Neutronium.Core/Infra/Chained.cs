@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Infra
 {
-    internal class Chained<T> where T : class
+    internal class Chained<T>
     {
         internal T Value { get; }
 
@@ -25,24 +25,26 @@ namespace Neutronium.Core.Infra
             }
         }
 
-        internal T Reduce(Func<T, T, T> aggregate, T from = default(T)) => Reduce<T, T>(Identity, aggregate, from);
-
-        private static T Identity(T value) => value;
-
-        internal TValue Reduce<TValue>(Func<T, TValue> compute, Func<TValue, TValue, TValue> aggregate, TValue from = default(TValue))
-            => Reduce<TValue, TValue>(compute, aggregate, from);
-
-        internal TResult Reduce<TValue, TResult>(Func<T, TValue> compute, Func<TResult, TValue, TResult> aggregate, TResult from = default(TResult))
+        internal Chained<TTarget> MapFilter<TTarget>(Func<T, TTarget> transform, Predicate<TTarget> filter = null)
         {
+            filter = filter ?? True<TTarget>;
             var current = this;
-            var result = from;
+            var result = default(Chained<TTarget>);
+            var currentTransform = default(Chained<TTarget>);
             while (current != null)
             {
-                var value = compute(current.Value);
-                result = aggregate(result, value);
+                var target = transform(current.Value);
+                if (filter(target))
+                {
+                    currentTransform = new Chained<TTarget>(target, currentTransform);
+                    result = result ?? currentTransform;
+                }
                 current = current.Next;
             }
+
             return result;
         }
+
+        private static bool True<TIn>(TIn value) => true;
     }
 }

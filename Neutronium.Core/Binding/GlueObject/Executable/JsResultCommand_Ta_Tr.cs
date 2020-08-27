@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
@@ -11,8 +13,8 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
         private readonly IResultCommand<TArg, TResult> _JsResultCommand;
         public object CValue => _JsResultCommand;
 
-        public JsResultCommand(HtmlViewContext context, IJavascriptToCSharpConverter converter, IResultCommand<TArg, TResult> resultCommand) :
-            base(context, converter)
+        public JsResultCommand(HtmlViewContext context, ICSharpUnrootedObjectManager manager, IJavascriptToGlueMapper converter, IResultCommand<TArg, TResult> resultCommand) :
+            base(context, manager, converter)
         {
             _JsResultCommand = resultCommand;
         }
@@ -22,9 +24,9 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             return (e.Length > 1) ? e[1] : null;
         }
 
-        protected override MayBe<TArg> ExecuteOnJsContextThread(IJavascriptObject[] e)
+        protected override MayBe<TArg> GetArgumentValueOnJsContext(IJavascriptObject[] e)
         {
-            var argument = JavascriptToCSharpConverter.GetFirstArgument<TArg>(e);
+            var argument = JavascriptToGlueMapper.GetFirstArgument<TArg>(e);
             if (!argument.Success)
             {
                 Logger.Error($"Impossible to call Execute on command<{typeof(TArg)}>, no matching argument found, received:{argument.TentativeValue} of type:{argument.TentativeValue?.GetType()} expectedType: {typeof(TArg)}");
@@ -32,10 +34,9 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
             return argument;
         }
 
-        protected override async Task<MayBe<TResult>> ExecuteOnUiThread(TArg argument)
+        protected override Task<TResult> ExecuteOnUiThread(TArg argument)
         {
-            var value = await _JsResultCommand.Execute(argument);
-            return new MayBe<TResult>(value);
+            return _JsResultCommand.Execute(argument);
         }
     }
 }

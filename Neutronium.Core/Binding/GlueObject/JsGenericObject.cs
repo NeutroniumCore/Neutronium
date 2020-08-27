@@ -29,7 +29,7 @@ namespace Neutronium.Core.Binding.GlueObject
             CValue = cValue;
         }
 
-        public virtual void SetJsValue(IJavascriptObject value, IJavascriptSessionCache sessionCache)
+        public virtual void SetJsValue(IJavascriptObject value, ISessionCache sessionCache)
         {
             SetJsValue(value);
             sessionCache.Cache(this);
@@ -40,10 +40,10 @@ namespace Neutronium.Core.Binding.GlueObject
             _Attributes = attributes;
         }
 
-        public AttibuteUpdater GetPropertyUpdater(string propertyName)
+        public AttributeUpdater GetPropertyUpdater(string propertyName)
         {
             var propertyAcessor = GetPropertyAccessor(propertyName);
-            return new AttibuteUpdater(this, propertyAcessor, GetGlueFromPropertyAccessor(propertyAcessor));
+            return new AttributeUpdater(this, propertyAcessor, GetGlueFromPropertyAccessor(propertyAcessor));
         }
 
         public IJsCsGlue GetAttribute(string propertyName)
@@ -106,26 +106,27 @@ namespace Neutronium.Core.Binding.GlueObject
             context.Append("}");
         }
 
-        internal IJsCsGlue UpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue)
+        internal BridgeUpdater GetUpdaterChangeOnJsContext(AttributeUpdater attributeDescription, IJsCsGlue glue)
         {
-            return PrivateUpdateGlueProperty(attributeDescription, glue).ToBeCleaned;
+            var context = PrivateUpdateGlueProperty(attributeDescription, glue);
+            return new BridgeUpdater().CheckForRemove(context.OldReference);
         }
 
-        private UpdateInformation PrivateUpdateGlueProperty(AttibuteUpdater attributeDescription, IJsCsGlue glue) 
+        private UpdateInformation PrivateUpdateGlueProperty(AttributeUpdater attributeDescription, IJsCsGlue glue) 
         {
             var oldGlue = attributeDescription.Child;
             var index = _TypePropertyAccessor.GetIndex(attributeDescription.PropertyAccessor);
             _Attributes.Apply(index, glue.AddRef());
-            return new UpdateInformation { AddedProperty = index.Insert, ToBeCleaned = (oldGlue?.Release() == true) ? oldGlue : null };
+            return new UpdateInformation {AddedProperty = index.Insert, OldReference = oldGlue};
         }
 
         private struct UpdateInformation 
         {
-            public IJsCsGlue ToBeCleaned { get; set; }
+            public IJsCsGlue OldReference { get; set; }
             public bool AddedProperty { get; set; }
         }
 
-        public BridgeUpdater GetUpdater(AttibuteUpdater propertyUpdater, IJsCsGlue glue)
+        public BridgeUpdater GetUpdaterChangeOnCSharpContext(AttributeUpdater propertyUpdater, IJsCsGlue glue)
         {
             var update = PrivateUpdateGlueProperty(propertyUpdater, glue);
 
@@ -141,7 +142,7 @@ namespace Neutronium.Core.Binding.GlueObject
                     propertyUpdater.PropertyName, glue.GetJsSessionValue()));
             }                        
 
-            return updater.Remove(update.ToBeCleaned);
+            return updater.CheckForRemove(update.OldReference);
         }
 
         public void ApplyOnListenable(IObjectChangesListener listener)

@@ -144,31 +144,31 @@ namespace VueFramework.Test.IntegratedInfra
             await RunAsync(test);
         }
 
-        private IJavascriptObjectBuilderStrategy GetSynchroneousStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        private IJavascriptObjectBuilderStrategy GetSynchroneousStrategy(IWebView webView, ISessionCache cache, bool mapping)
         {
             return new JavascriptObjectSynchroneousBuilderStrategy(webView, cache, mapping);
         }
 
-        private IJavascriptObjectBuilderStrategy GetBulkStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        private IJavascriptObjectBuilderStrategy GetBulkStrategy(IWebView webView, ISessionCache cache, bool mapping)
         {
             return new JavascriptObjectBulkBuilderStrategy(webView, cache, mapping);
         }
 
-        private IJavascriptObjectBuilderStrategy GetMixtStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+        private IJavascriptObjectBuilderStrategy GetMixtStrategy(IWebView webView, ISessionCache cache, bool mapping)
         {
             return new JavascriptObjectMixtBuilderStrategy(webView, cache, mapping);
         }
 
         private class ConstJavascriptObjectBuilderStrategyFactory : IJavascriptObjectBuilderStrategyFactory
         {
-            private readonly Func<IWebView, IJavascriptSessionCache, bool,IJavascriptObjectBuilderStrategy> _StrategyFactory;
+            private readonly Func<IWebView, ISessionCache, bool,IJavascriptObjectBuilderStrategy> _StrategyFactory;
 
-            public ConstJavascriptObjectBuilderStrategyFactory(Func<IWebView, IJavascriptSessionCache, bool, IJavascriptObjectBuilderStrategy> strategyFactory)
+            public ConstJavascriptObjectBuilderStrategyFactory(Func<IWebView, ISessionCache, bool, IJavascriptObjectBuilderStrategy> strategyFactory)
             {
                 _StrategyFactory = strategyFactory;
             }
 
-            public IJavascriptObjectBuilderStrategy GetStrategy(IWebView webView, IJavascriptSessionCache cache, bool mapping)
+            public IJavascriptObjectBuilderStrategy GetStrategy(IWebView webView, ISessionCache cache, bool mapping)
             {
                 return _StrategyFactory(webView, cache, mapping);
             }

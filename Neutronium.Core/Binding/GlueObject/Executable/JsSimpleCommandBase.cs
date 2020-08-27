@@ -1,6 +1,7 @@
 ﻿using System;
 using Neutronium.Core.Binding.Builder;
 using Neutronium.Core.Binding.Listeners;
+using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
 
@@ -9,7 +10,7 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
     internal class JsSimpleCommandBase : GlueBase
     {
         private readonly HtmlViewContext _HtmlViewContext;
-        protected readonly IJavascriptToCSharpConverter _JavascriptToCSharpConverter;
+        protected readonly IJavascriptToGlueMapper JavascriptToGlueMapper;
 
         public virtual IJavascriptObject CachableJsValue => JsValue;
 
@@ -22,10 +23,10 @@ namespace Neutronium.Core.Binding.GlueObject.Executable
 
         protected void SetJsId(uint jsId) => JsId = jsId;
 
-        public JsSimpleCommandBase(HtmlViewContext context, IJavascriptToCSharpConverter converter)
+        public JsSimpleCommandBase(HtmlViewContext context, IJavascriptToGlueMapper converter)
         {
             _HtmlViewContext = context;
-            _JavascriptToCSharpConverter = converter;
+            JavascriptToGlueMapper = converter;
         }
 
         public void RequestBuildInstruction(IJavascriptObjectBuilder builder)

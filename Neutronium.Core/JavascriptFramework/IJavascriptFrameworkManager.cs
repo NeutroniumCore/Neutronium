@@ -1,5 +1,4 @@
 ﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
-using System;
 
 namespace Neutronium.Core.JavascriptFramework
 {
@@ -9,12 +8,12 @@ namespace Neutronium.Core.JavascriptFramework
     public interface IJavascriptFrameworkManager
     {
         /// <summary>
-        /// Get the name of unferlying javascript framework
+        /// Get the name of underlying javascript framework
         /// </summary>
         string FrameworkName { get; }
 
         /// <summary>
-        /// Get the version of unferlying javascript framework
+        /// Get the version of underlying javascript framework
         /// </summary>
         string FrameworkVersion { get; }
 
@@ -25,7 +24,7 @@ namespace Neutronium.Core.JavascriptFramework
 
         /// <summary>
         /// True if javascript framework as to create new javascript object to map 
-        /// orginal ones. False if it use standard objects.
+        /// original ones. False if it use standard objects.
         /// </summary>
         bool IsMappingObject { get; }
 
@@ -36,7 +35,9 @@ namespace Neutronium.Core.JavascriptFramework
         /// IWebView
         /// </param>
         /// <param name="listener">
-        /// listener to call on changes 
+        /// listener to call on changes that implement two methods:
+        ///  - TrackChanges(root: object, propertyName: string, newValue: object)
+        ///  - TrackCollectionChanges(collection: array, values: object[], types: string[], indexes: int[])
         /// </param>
         /// <param name="logger">
         /// logger
@@ -48,7 +49,7 @@ namespace Neutronium.Core.JavascriptFramework
 
         /// <summary>
         /// Returns true if the javascript framework manager support
-        /// addintional Vm debug capability. If so beguVM command will be enabled.
+        /// additional Vm debug capability. If so debug VM command will be enabled.
         /// </summary>
         bool IsSupportingVmDebug { get; }
 

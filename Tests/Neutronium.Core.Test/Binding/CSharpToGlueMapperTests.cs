@@ -17,13 +17,15 @@ using Neutronium.MVVMComponents;
 using Xunit.Abstractions;
 using Newtonsoft.Json;
 using AutoFixture.Xunit2;
+using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.SessionManagement;
 
 namespace Neutronium.Core.Test.Binding
 {
-    public class CSharpToJavascriptConverterTests
+    public class CSharpToGlueMapperTests
     {
-        private readonly CSharpToJavascriptConverter _CSharpToJavascriptConverter;
-        private readonly IJavascriptSessionCache _Cacher;
+        private readonly CSharpToGlueMapper _CSharpToGlueMapper;
+        private readonly ISessionCache _Cacher;
         private readonly IGlueFactory _GlueFactory;
         private readonly IWebSessionLogger _Logger;
         private readonly Dictionary<object, IJsCsGlue> _Cache = new Dictionary<object, IJsCsGlue>();
@@ -32,24 +34,24 @@ namespace Neutronium.Core.Test.Binding
 
         private static int CurrentVersion => 3;
 
-        public CSharpToJavascriptConverterTests(ITestOutputHelper testOutputHelper)
+        public CSharpToGlueMapperTests(ITestOutputHelper testOutputHelper)
         {
             _TestOutputHelper = testOutputHelper;
-            _Cacher = Substitute.For<IJavascriptSessionCache>();
+            _Cacher = Substitute.For<ISessionCache>();
             _Cacher.When(c => c.CacheFromCSharpValue(Arg.Any<object>(), Arg.Any<IJsCsGlue>()))
                    .Do(callInfo => _Cache.Add(callInfo[0], (IJsCsGlue)callInfo[1]));
             _Cacher.GetCached(Arg.Any<object>()).Returns(callInfo => _Cache.GetOrDefault(callInfo[0]));
             _ObjectChangesListener = new ObjectChangesListener(_ => { }, _ => { }, _ => { }, _ => { });
             _GlueFactory = new GlueFactory(null, _Cacher, null, _ObjectChangesListener);
             _Logger = Substitute.For<IWebSessionLogger>();
-            _CSharpToJavascriptConverter = new CSharpToJavascriptConverter(_Cacher, _GlueFactory, _Logger);
+            _CSharpToGlueMapper = new CSharpToGlueMapper(_Cacher, _GlueFactory, _Logger);
         }
 
         [Fact]
         public void Map_Creates_JSGlueObject_None_Circular_With_Correct_ToString()
         {
             var testObject = new TestClass();
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
         }
@@ -61,7 +63,7 @@ namespace Neutronium.Core.Test.Binding
             {
                 Property1 = new TestClass()
             };
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property2\":null,\"Property3\":null}");
         }
@@ -71,7 +73,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var testObject = new TestClass();
             testObject.Property1 = testObject;
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":\"~\",\"Property2\":null,\"Property3\":null}");
         }
@@ -83,7 +85,7 @@ namespace Neutronium.Core.Test.Binding
             var testObject2 = new TestClass();
             testObject.Property1 = testObject2;
             testObject.Property2 = testObject2;
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property2\":\"~Property1\",\"Property3\":null}");
         }
@@ -98,7 +100,7 @@ namespace Neutronium.Core.Test.Binding
                 Property2 = testObject2
             };
             testObject.Property3 = testObject2;
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[],\"Property1\":{\"Children\":[],\"Property1\":null,\"Property2\":{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null},\"Property3\":null},\"Property2\":null,\"Property3\":\"~Property1~Property2\"}");
         }
@@ -111,7 +113,7 @@ namespace Neutronium.Core.Test.Binding
             var children = new List<TestClass> { tesObject2 };
             testObject.Children = children;
             tesObject2.Children = children;
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[{\"Children\":\"~Children\",\"Property1\":null,\"Property2\":null,\"Property3\":null}],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
         }
@@ -121,7 +123,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var testObject = new TestClass();
             testObject.Children.Add(testObject);
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[\"~\"],\"Property1\":null,\"Property2\":null,\"Property3\":null}");
         }
@@ -133,7 +135,7 @@ namespace Neutronium.Core.Test.Binding
             {
                 Value = @"a""quote"""
             };
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be(@"{""Value"":""a\""quote\""""}");
         }
@@ -145,7 +147,7 @@ namespace Neutronium.Core.Test.Binding
             {
                 Value = @"C:\Users\David\Documents\Source\DiscogsClient\DiscogsClient\bin\Debug\DiscogsClient.dll"
             };
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be(@"{""Value"":""C:\\Users\\David\\Documents\\Source\\DiscogsClient\\DiscogsClient\\bin\\Debug\\DiscogsClient.dll""}");
         }
@@ -157,7 +159,7 @@ namespace Neutronium.Core.Test.Binding
             {
                 Value = "Dady's girl"
             };
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be(@"{""Value"":""Dady's girl""}");
         }
@@ -172,7 +174,7 @@ namespace Neutronium.Core.Test.Binding
         public void Map_Creates_JSGlueObject_With_Char_With_Correct_ToString(char value, string expected)
         {
             var testObject = new { Value = value};
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be($@"{{""Value"":""{expected}""}}");
         }
@@ -187,7 +189,7 @@ namespace Neutronium.Core.Test.Binding
             {
                 Value = value
             };
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be($@"{{""Value"":{json}}}");
         }
@@ -199,7 +201,7 @@ namespace Neutronium.Core.Test.Binding
             var testObject2 = new TestClass();
             testObject.Property3 = testObject2;
             testObject.Children.Add(testObject2);
-            var res = _CSharpToJavascriptConverter.Map(testObject);
+            var res = _CSharpToGlueMapper.Map(testObject);
 
             res.ToString().Should().Be("{\"Children\":[{\"Children\":[],\"Property1\":null,\"Property2\":null,\"Property3\":null}],\"Property1\":null,\"Property2\":null,\"Property3\":\"~Children~0\"}");
         }
@@ -213,7 +215,7 @@ namespace Neutronium.Core.Test.Binding
         [InlineData(true)]
         public void Map_Maps_Clr_Number(object number)
         {
-            var res = _CSharpToJavascriptConverter.Map(number);
+            var res = _CSharpToGlueMapper.Map(number);
 
             var expectedType = typeof(JsBasicTyped<>).MakeGenericType(number.GetType());
 
@@ -225,7 +227,7 @@ namespace Neutronium.Core.Test.Binding
         [InlineData("abcd")]
         public void Map_Maps_String(string stringValue)
         {
-            var res = _CSharpToJavascriptConverter.Map(stringValue);
+            var res = _CSharpToGlueMapper.Map(stringValue);
 
             var expectedType = typeof(JsBasicGarbageCollectedTyped<string>);
 
@@ -243,7 +245,7 @@ namespace Neutronium.Core.Test.Binding
                 Int32 = 1
             };
 
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             res.ToString().Should().Be("{\"Bool\":true,\"Decimal\":0.01,\"Double\":0.9221,\"Int32\":1}");
         }
@@ -253,7 +255,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ISimpleCommand>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsSimpleCommand>();
         }
@@ -263,7 +265,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ISimpleCommand, ICommand>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsSimpleCommand>();
         }
@@ -273,7 +275,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ISimpleCommand<string>>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsSimpleCommand<string>>();
         }
@@ -283,7 +285,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ISimpleCommand<string>, ICommand>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsSimpleCommand<string>>();
         }
@@ -293,7 +295,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ICommand>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsCommand>();
         }
@@ -303,7 +305,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ICommand<string>>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsCommand<string>>();
         }
@@ -313,7 +315,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ICommand<string>, ICommand>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsCommand<string>>();
         }
@@ -323,7 +325,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ICommandWithoutParameter>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsCommandWithoutParameter>();
         }
@@ -333,7 +335,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ICommandWithoutParameter, ICommand>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsCommandWithoutParameter>();
         }
@@ -343,7 +345,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<IResultCommand<string>>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsResultCommand<string>>();
         }
@@ -353,7 +355,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<IResultCommand<string, int>>();
 
-            var res = _CSharpToJavascriptConverter.Map(command);
+            var res = _CSharpToGlueMapper.Map(command);
 
             res.Should().BeOfType<JsResultCommand<string,int>>();
         }
@@ -368,7 +370,7 @@ namespace Neutronium.Core.Test.Binding
                 ["bool"] = true
             }; 
 
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             res.ToString().Should().Be("{\"bool\":true,\"integer\":1,\"string\":\"blablabla\"}");
         }
@@ -381,7 +383,7 @@ namespace Neutronium.Core.Test.Binding
             vm.stringValue = "blablabla";
             vm.boolValue = true;
 
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             string stringValue = res.ToString();
             stringValue.Should().Be("{\"boolValue\":true,\"integer\":1,\"stringValue\":\"blablabla\"}");
@@ -402,7 +404,7 @@ namespace Neutronium.Core.Test.Binding
         public void Map_Maps_DynamicObject()
         {
             var vm = new MyDynamicObject();
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
             res.ToString().Should().Be("{\"nickelback\":\"nickelback\",\"toto\":\"toto\"}");
         }
 
@@ -427,7 +429,7 @@ namespace Neutronium.Core.Test.Binding
         public void AsCircularVersionedJson_Adds_Default_Version()
         {
             var vm = new object();
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularVersionedJson();
             cJson.Should().Be($@"{{""version"":{CurrentVersion}}}");
@@ -437,7 +439,7 @@ namespace Neutronium.Core.Test.Binding
         public void AsCircularVersionedJson_Adds_Version(int version)
         {
             var vm = new object();
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularVersionedJson(version);
             cJson.Should().Be($@"{{""version"":{version}}}");
@@ -448,7 +450,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ISimpleCommand>();
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularVersionedJson();
             cJson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
@@ -459,7 +461,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ISimpleCommand<string>>();
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularVersionedJson();
             cJson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
@@ -473,7 +475,7 @@ namespace Neutronium.Core.Test.Binding
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(canExecute);
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularVersionedJson();
             cJson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()}),""version"":{CurrentVersion}}}");
@@ -487,7 +489,7 @@ namespace Neutronium.Core.Test.Binding
             var command = Substitute.For<ICommand<int>>();
             command.CanExecute(Arg.Any<int>()).Returns(canExecute);
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularVersionedJson();
             cJson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
@@ -498,7 +500,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<IResultCommand<int>>();
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularVersionedJson();
             cJson.Should().Be($@"{{""Command"":cmd(true),""version"":{CurrentVersion}}}");
@@ -509,7 +511,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ISimpleCommand>();
             var vm = new { Command = command};
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularJson();
             cJson.Should().Be(@"{""Command"":cmd(true)}");
@@ -520,7 +522,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<ISimpleCommand<string>>();
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularJson();
             cJson.Should().Be(@"{""Command"":cmd(true)}");
@@ -534,7 +536,7 @@ namespace Neutronium.Core.Test.Binding
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(canExecute);
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularJson();
             cJson.Should().Be($@"{{""Command"":cmd({canExecute.ToString().ToLower()})}}");
@@ -548,7 +550,7 @@ namespace Neutronium.Core.Test.Binding
             var command = Substitute.For<ICommand<int>>();
             command.CanExecute(Arg.Any<int>()).Returns(canExecute);
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularJson();
             cJson.Should().Be($@"{{""Command"":cmd(true)}}");
@@ -559,7 +561,7 @@ namespace Neutronium.Core.Test.Binding
         {
             var command = Substitute.For<IResultCommand<int>>();
             var vm = new { Command = command };
-            var res = _CSharpToJavascriptConverter.Map(vm);
+            var res = _CSharpToGlueMapper.Map(vm);
 
             var cJson = res.AsCircularJson();
             cJson.Should().Be($@"{{""Command"":cmd(true)}}");
@@ -567,11 +569,11 @@ namespace Neutronium.Core.Test.Binding
 
         protected PerformanceHelper GetPerformanceCounter(string description) => new PerformanceHelper(_TestOutputHelper, description);
 
-        private CSharpToJavascriptConverter GetCSharpToJavascriptConverterForPerformance()
+        private CSharpToGlueMapper GetCSharpToJavascriptConverterForPerformance()
         {
             var cacher = new SessionCacher();
             var factory = new GlueFactory(null, cacher, null, _ObjectChangesListener);
-            return new CSharpToJavascriptConverter(cacher, factory, _Logger);
+            return new CSharpToGlueMapper(cacher, factory, _Logger);
         }
       
         private class StringClass
