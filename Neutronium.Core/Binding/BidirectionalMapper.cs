@@ -20,16 +20,17 @@ namespace Neutronium.Core.Binding
         private readonly ICSharpToGlueMapper _CSharpToGlueMapper;
         private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
 
-        private IJavascriptFrameworkMapper _JavascriptFrameworkManager;
-
         private readonly ICSharpChangesListener _CSharpChangesListener;
         private readonly IJavascriptChangesListener _JavascriptChangesListener;
        
         private readonly IInternalSessionCache _SessionCache;
         private readonly ICSharpUnrootedObjectManager _CSharpUnrootedObjectManager;
 
-        private readonly IJavascriptObjectBuilderStrategyFactory _BuilderStrategyFactory;
-        private IJavascriptObjectBuilderStrategy _BuilderStrategy;
+        private readonly Lazy<IJavascriptObjectBuilderStrategy> _BuilderStrategy;
+        private readonly Lazy<IJavascriptFrameworkMapper> _JavascriptFrameworkManager;
+
+        private IJavascriptObjectBuilderStrategy BuilderStrategy => _BuilderStrategy.Value;
+        private IJavascriptFrameworkMapper JavascriptFrameworkMapper => _JavascriptFrameworkManager.Value;
 
         public IJsCsGlue JsValueRoot { get; }
         public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
@@ -44,11 +45,17 @@ namespace Neutronium.Core.Binding
         internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, IGlueFactory glueFactory, IJavascriptObjectBuilderStrategyFactory strategyFactory, 
             JavascriptBindingMode mode, IInternalSessionCache sessionCacher)
         {
-            _BuilderStrategyFactory = strategyFactory ?? new StandardStrategyFactory();
             Mode = mode;
             Context = contextBuilder.GetMainContext();
             _SessionCache = sessionCacher ?? new SessionCacher();
-            var jsUpdateHelper = new JsUpdateHelper(this, Context, () => _JavascriptFrameworkManager, _SessionCache);
+
+            strategyFactory = strategyFactory ?? new StandardStrategyFactory();
+            _BuilderStrategy = new Lazy<IJavascriptObjectBuilderStrategy>(() =>
+                strategyFactory.GetStrategy(Context.WebView, _SessionCache, Context.JavascriptFrameworkIsMappingObject)
+            );
+            _JavascriptFrameworkManager = new Lazy<IJavascriptFrameworkMapper>(() => Context.GetMapper(_SessionCache, BuilderStrategy));
+
+            var jsUpdateHelper = new JsUpdateHelper(this, Context, _JavascriptFrameworkManager, _SessionCache);
             _JavascriptToGlueMapper = new JavascriptToGlueMapper(jsUpdateHelper, _SessionCache);
 
             _CSharpChangesListener = ListenToCSharp ? new CSharpListenerJavascriptUpdater(jsUpdateHelper) : null;
@@ -75,11 +82,8 @@ namespace Neutronium.Core.Binding
         {
             RegisterJavascriptHelper();
             Context.InitOnJsContext(_JavascriptChangesListener, debugMode);
-            _BuilderStrategy = _BuilderStrategyFactory.GetStrategy(Context.WebView, _SessionCache, Context.JavascriptFrameworkIsMappingObject);
-            _BuilderStrategy.UpdateJavascriptValue(JsValueRoot);
-
-            _JavascriptFrameworkManager = Context.GetMapper(_SessionCache, _BuilderStrategy);
-            var rootVm = await _JavascriptFrameworkManager.UpdateJavascriptObject(JsValueRoot);
+            BuilderStrategy.UpdateJavascriptValue(JsValueRoot);
+            var rootVm = await JavascriptFrameworkMapper.UpdateJavascriptObject(JsValueRoot);
             await RegisterMain(rootVm);
         }
 
@@ -114,7 +118,8 @@ namespace Neutronium.Core.Binding
             Context.Dispose();
             _CSharpUnrootedObjectManager.Dispose();
             Context.Logger.Debug("BidirectionalMapper disposed");
-            _BuilderStrategy?.Dispose();
+            if (_BuilderStrategy.IsValueCreated)
+                BuilderStrategy.Dispose();
         }
 
         private void UnlistenGlue(IJsCsGlue exiting) => exiting.ApplyOnListenable(_CSharpChangesListener.Off);

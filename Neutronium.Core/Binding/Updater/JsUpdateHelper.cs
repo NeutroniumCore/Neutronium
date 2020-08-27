@@ -12,22 +12,22 @@ namespace Neutronium.Core.Binding.Updater
 {
     internal class JsUpdateHelper : IJsUpdateHelper, IJsUpdaterFactory
     {
-        private readonly HtmlViewContext _Context;
-        private readonly Lazy<IJavascriptFrameworkMapper> _JavascriptFrameworkMapper;
-        private readonly ISessionCache _SessionCache;
+        public bool IsInUiContext => _Context.UiDispatcher.IsInContext();
+        public IWebSessionLogger Logger => _Context.Logger;
 
         public event EventHandler<EventArgs> OnJavascriptSessionReady;
 
         internal ICSharpToGlueMapper GlueMapper { get; set; }
 
-        public bool IsInUiContext => _Context.UiDispatcher.IsInContext();
-        public IWebSessionLogger Logger => _Context.Logger;
+        private readonly HtmlViewContext _Context;
+        private readonly Lazy<IJavascriptFrameworkMapper> _JavascriptFrameworkMapper;
+        private readonly ISessionCache _SessionCache;
         private IJavascriptFrameworkMapper JavascriptFrameworkMapper => _JavascriptFrameworkMapper.Value;
 
-        internal JsUpdateHelper(IBindingLifeCycle bindingLifeCycle, HtmlViewContext context, Func<IJavascriptFrameworkMapper> frameworkMapper, ISessionCache sessionCache)
+        internal JsUpdateHelper(IBindingLifeCycle bindingLifeCycle, HtmlViewContext context, Lazy<IJavascriptFrameworkMapper> frameworkMapper, ISessionCache sessionCache)
         {
             _Context = context;
-            _JavascriptFrameworkMapper = new Lazy<IJavascriptFrameworkMapper>(frameworkMapper);
+            _JavascriptFrameworkMapper = frameworkMapper;
             _SessionCache = sessionCache;
             bindingLifeCycle.OnJavascriptSessionReady += BindingLifeCycleOnJavascriptSessionReady;
         }
