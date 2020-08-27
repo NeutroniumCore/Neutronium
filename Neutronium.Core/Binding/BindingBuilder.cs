@@ -7,9 +7,9 @@ namespace Neutronium.Core.Binding
         private readonly HtmlBinding _Binding;
         private readonly BidirectionalMapper _Mapper;
 
-        public BindingBuilder(BidirectionalMapper mapper, IWebSessionLogger logger)
+        internal BindingBuilder(BidirectionalMapper mapper)
         {
-            _Binding = new HtmlBinding(mapper, logger);
+            _Binding = new HtmlBinding(mapper);
             _Mapper = mapper;
         }
 

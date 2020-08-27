@@ -24,11 +24,11 @@ namespace Neutronium.Core
         public object Root => _BidirectionalMapper.JsValueRoot.CValue;
         public IJsCsGlue JsBrideRootObject => _BidirectionalMapper.JsValueRoot;
 
-        internal HtmlBinding(BidirectionalMapper convertToJso, IWebSessionLogger logger)
+        internal HtmlBinding(BidirectionalMapper bidirectionalMapper)
         {
-            _Context = convertToJso.Context;
-            _BidirectionalMapper = convertToJso;
-            _Logger = logger;           
+            _Context = bidirectionalMapper.Context;
+            _BidirectionalMapper = bidirectionalMapper;
+            _Logger = _Context.Logger;           
             _Bindings.Add(this);
             _Logger.Debug(() => $"HTML_Binding {_Current} created");
         }
@@ -60,7 +60,7 @@ namespace Neutronium.Core
         internal static IBindingBuilder GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
         {
             var mapper = viewEngine.GetMapper(viewModel, mode, strategyFactory);
-            return new BindingBuilder(mapper, viewEngine.Logger);
+            return new BindingBuilder(mapper);
         }
     }
 }

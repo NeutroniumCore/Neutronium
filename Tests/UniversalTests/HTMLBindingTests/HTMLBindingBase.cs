@@ -38,7 +38,7 @@ namespace Tests.Universal.HTMLBindingTests
         {
             var cacher = new SessionCacher();
             var mapper = new BidirectionalMapper(dataContext, engine, null, null, mode, cacher);
-            var builder = new BindingBuilder(mapper, engine.Logger) as IBindingBuilder;
+            var builder = new BindingBuilder(mapper) as IBindingBuilder;
             var binding = await builder.CreateBinding(false);
             return new BindingInContext(binding, cacher);
         }

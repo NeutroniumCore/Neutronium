@@ -33,11 +33,12 @@ namespace Neutronium.Core.Binding
         private IJavascriptFrameworkMapper JavascriptFrameworkMapper => _JavascriptFrameworkManager.Value;
 
         public IJsCsGlue JsValueRoot { get; }
-        public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
         public JavascriptBindingMode Mode { get; }
         public HtmlViewContext Context { get; }
+        public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
+        public IWebSessionLogger Logger => Context.Logger;
 
-        internal BidirectionalMapper(object root, HtmlViewEngine engine, JavascriptBindingMode mode, IWebSessionLogger logger, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
+        internal BidirectionalMapper(object root, HtmlViewEngine engine, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
             this(root, engine, null, strategyFactory, mode, null)
         {
         }
@@ -117,9 +118,8 @@ namespace Neutronium.Core.Binding
 
             Context.Dispose();
             _CSharpUnrootedObjectManager.Dispose();
-            Context.Logger.Debug("BidirectionalMapper disposed");
-            if (_BuilderStrategy.IsValueCreated)
-                BuilderStrategy.Dispose();
+            Logger.Debug("BidirectionalMapper disposed");
+            _BuilderStrategy.LazyDo(builder => builder.Dispose());
         }
 
         private void UnlistenGlue(IJsCsGlue exiting) => exiting.ApplyOnListenable(_CSharpChangesListener.Off);

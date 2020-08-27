@@ -11,7 +11,7 @@ namespace Neutronium.Core.Binding
     {
         private readonly IWebBrowserWindowProvider _HtmlWindowProvider;
         private readonly IJavascriptFrameworkManager _FrameworkManager;
-        public IWebSessionLogger Logger { get; }
+        private readonly IWebSessionLogger _Logger;
 
         private IWebView MainView => HtmlWindow.MainFrame;
         public IWebBrowserWindow HtmlWindow => _HtmlWindowProvider.HtmlWindow;
@@ -20,17 +20,17 @@ namespace Neutronium.Core.Binding
         {
             _HtmlWindowProvider = htmlWindowProvider;
             _FrameworkManager = frameworkManager;
-            Logger = logger;
+            _Logger = logger;
         }
 
         public HtmlViewContext GetMainContext()
         {
-            return new HtmlViewContext(HtmlWindow, _HtmlWindowProvider.UiDispatcher, _FrameworkManager, Logger);
+            return new HtmlViewContext(HtmlWindow, _HtmlWindowProvider.UiDispatcher, _FrameworkManager, _Logger);
         }
 
         internal BidirectionalMapper GetMapper(object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
-            return new BidirectionalMapper(viewModel, this, mode, Logger, strategyFactory);
+            return new BidirectionalMapper(viewModel, this, mode, strategyFactory);
         }
 
         public T Evaluate<T>(Func<T> compute)
