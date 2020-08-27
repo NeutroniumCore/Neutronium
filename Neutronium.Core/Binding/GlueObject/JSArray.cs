@@ -93,7 +93,7 @@ namespace Neutronium.Core.Binding.GlueObject
             }
         }
 
-        public BridgeUpdater UpdateEventArgsFromJavascript(CollectionChanges.CollectionChanges collectionChanges)
+        public BridgeUpdater UpdateCollectionFromFromJavascriptChanges(CollectionChanges.CollectionChanges collectionChanges)
         {
             if (!(CValue is IList list))
                 return null;

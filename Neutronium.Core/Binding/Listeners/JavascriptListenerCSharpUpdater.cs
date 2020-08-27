@@ -9,15 +9,15 @@ namespace Neutronium.Core.Binding.Listeners
 {
     internal class JavascriptListenerCSharpUpdater: IJavascriptChangesListener
     {
-        private readonly ICSharpChangesListener _IcSharpChangesListener;
+        private readonly ICSharpChangesListener _CSharpChangesListener;
         private readonly IJsUpdateHelper _JsUpdateHelper;
         private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
 
         private IWebSessionLogger Logger => _JsUpdateHelper.Logger;
 
-        public JavascriptListenerCSharpUpdater(ICSharpChangesListener icSharpChangesListener, IJsUpdateHelper jsUpdateHelper, IJavascriptToGlueMapper javascriptToGlueMapper)
+        public JavascriptListenerCSharpUpdater(ICSharpChangesListener cSharpChangesListener, IJsUpdateHelper jsUpdateHelper, IJavascriptToGlueMapper javascriptToGlueMapper)
         {
-            _IcSharpChangesListener = icSharpChangesListener;
+            _CSharpChangesListener = cSharpChangesListener;
             _JsUpdateHelper = jsUpdateHelper;
             _JavascriptToGlueMapper = javascriptToGlueMapper;
         }
@@ -53,11 +53,11 @@ namespace Neutronium.Core.Binding.Listeners
             var updater = default(BridgeUpdater);
             try
             {
-                using (_IcSharpChangesListener.GetCollectionSilenter(collection))
+                using (_CSharpChangesListener.GetCollectionSilenter(collection))
                 {
-                    updater = array.UpdateEventArgsFromJavascript(change);
+                    updater = array.UpdateCollectionFromFromJavascriptChanges(change);
                 }
-                _JsUpdateHelper.UpdateOnUiContext(updater, _IcSharpChangesListener.Off);
+                _JsUpdateHelper.UpdateOnUiContext(updater, _CSharpChangesListener.Off);
             }
             catch (Exception exception)
             {
@@ -98,7 +98,7 @@ namespace Neutronium.Core.Binding.Listeners
         private BridgeUpdater UpdateOnUiContextChangeFromJs(AttributeUpdater propertyUpdater, IJsCsGlue glue)
         {
             var currentFather = propertyUpdater.Father;
-            using (_IcSharpChangesListener.GetPropertySilenter(currentFather.CValue, propertyUpdater.PropertyName))
+            using (_CSharpChangesListener.GetPropertySilenter(currentFather.CValue, propertyUpdater.PropertyName))
             {
                 var oldValue = propertyUpdater.GetCurrentChildValue();
 
@@ -116,13 +116,13 @@ namespace Neutronium.Core.Binding.Listeners
                 if (Equals(actualValue, glue.CValue))
                 {
                     var bridgeUpdater = currentFather.GetUpdaterChangeOnJsContext(propertyUpdater, glue);
-                    _JsUpdateHelper.UpdateOnUiContext(bridgeUpdater, _IcSharpChangesListener.Off);
+                    _JsUpdateHelper.UpdateOnUiContext(bridgeUpdater, _CSharpChangesListener.Off);
                     return bridgeUpdater;
                 }
 
                 if (!Equals(oldValue, actualValue))
                 {
-                    _IcSharpChangesListener.ReportPropertyChanged(currentFather.CValue, propertyUpdater.PropertyName);
+                    _CSharpChangesListener.ReportPropertyChanged(currentFather.CValue, propertyUpdater.PropertyName);
                 }
 
                 return null;
