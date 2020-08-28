@@ -55,11 +55,11 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(typeof(ReadOnlyTestViewModel), ObjectObservability.ReadOnlyObservable)]
         public async Task TwoWay_Creates_Listener_Only_For_Write_Property(Type type, ObjectObservability expected)
         {
-            var datacontext = Activator.CreateInstance(type);
+            var dataContext = Activator.CreateInstance(type);
 
             var test = new TestInContext() 
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = (mb) => 
                 {
                     var js = mb.JsRootObject;
@@ -75,16 +75,16 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(typeof(ReadWriteTestViewModel))]
         public async Task TwoWay_Updates_From_Csharp_Readonly_Property(Type type) 
         {
-            var datacontext = Activator.CreateInstance(type) as ReadOnlyTestViewModel;
+            var dataContext = Activator.CreateInstance(type) as ReadOnlyTestViewModel;
 
             var test = new TestInContextAsync() 
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
                     var newValue = 55;
-                    DoSafeUI(() => datacontext.SetReadOnly(newValue));
+                    DoSafeUI(() => dataContext.SetReadOnly(newValue));
 
                     await Task.Delay(150);
                     var readOnlyValue = GetIntAttribute(js, "ReadOnly");
@@ -99,16 +99,16 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Updates_From_Csharp_Readwrite_Property() 
         {
-            var datacontext = new ReadWriteTestViewModel();
+            var dataContext = new ReadWriteTestViewModel();
 
             var test = new TestInContextAsync() 
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
                     var newValue = 550;
-                    DoSafeUI(() => datacontext.ReadWrite = newValue);
+                    DoSafeUI(() => dataContext.ReadWrite = newValue);
 
                     await Task.Delay(150);
                     var readOnlyValue = GetIntAttribute(js, "ReadWrite");
@@ -123,11 +123,11 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Updates_From_Js_Readwrite_Property() 
         {
-            var datacontext = new ReadWriteTestViewModel();
+            var dataContext = new ReadWriteTestViewModel();
 
             var test = new TestInContextAsync() 
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
@@ -136,7 +136,7 @@ namespace Tests.Universal.HTMLBindingTests
                     SetAttribute(js, "ReadWrite", jsValue);
                     await Task.Delay(150);
 
-                    DoSafeUI(() => datacontext.ReadWrite.Should().Be(newValue));
+                    DoSafeUI(() => dataContext.ReadWrite.Should().Be(newValue));
                 }
             };
 
@@ -147,13 +147,13 @@ namespace Tests.Universal.HTMLBindingTests
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph(BasicTestViewModel remplacementChild) 
         {
-            var datacontext = new BasicFatherTestViewModel();
+            var dataContext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
-            datacontext.Child = child;
+            dataContext.Child = child;
 
             var test = new TestInContextAsync() 
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
@@ -161,7 +161,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CheckObjectObservability(childJs, ObjectObservability.Observable);
 
-                    DoSafeUI(() => datacontext.Child = remplacementChild);
+                    DoSafeUI(() => dataContext.Child = remplacementChild);
                     await Task.Delay(150);
 
                     CheckHasListener(childJs, false);
@@ -175,16 +175,16 @@ namespace Tests.Universal.HTMLBindingTests
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph_Multiple_Changes(BasicTestViewModel remplacementChild)
         {
-            var datacontext = new BasicFatherTestViewModel();
+            var dataContext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
-            datacontext.Child = child;
+            dataContext.Child = child;
 
             var tempChild1 = new BasicTestViewModel();
             var tempChild2 = new BasicTestViewModel();
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -194,9 +194,9 @@ namespace Tests.Universal.HTMLBindingTests
 
                     DoSafeUI(() =>
                     {
-                        datacontext.Child = tempChild1;
-                        datacontext.Child = tempChild2;
-                        datacontext.Child = remplacementChild;
+                        dataContext.Child = tempChild1;
+                        dataContext.Child = tempChild2;
+                        dataContext.Child = remplacementChild;
                     });
                     await Task.Delay(150);
 
@@ -210,13 +210,13 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph_Js() 
         {
-            var datacontext = new BasicFatherTestViewModel();
+            var dataContext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
-            datacontext.Child = child;
+            dataContext.Child = child;
 
             var test = new TestInContextAsync() 
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
@@ -229,7 +229,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(150);
 
-                    DoSafeUI(() => datacontext.Child.Should().BeNull());
+                    DoSafeUI(() => dataContext.Child.Should().BeNull());
 
                     child.ListenerCount.Should().Be(0);
 
@@ -246,13 +246,13 @@ namespace Tests.Universal.HTMLBindingTests
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph_Array_Context(BasicTestViewModel remplacementChild) 
         {
-            var datacontext = new BasicListTestViewModel();
+            var dataContext = new BasicListTestViewModel();
             var child = new BasicTestViewModel();
-            datacontext.Children.Add(child);
+            dataContext.Children.Add(child);
 
             var test = new TestInContextAsync() 
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
@@ -264,7 +264,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CheckObjectObservability(childJs, ObjectObservability.Observable);
 
-                    DoSafeUI(() => datacontext.Children[0] = remplacementChild);
+                    DoSafeUI(() => dataContext.Children[0] = remplacementChild);
                     await Task.Delay(150);
 
                     CheckHasListener(childJs, false);
@@ -277,13 +277,13 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Cleans_JavascriptObject_Listeners_When_Object_Is_Not_Part_Of_The_Graph_Array_Js_Context() 
         {
-            var datacontext = new BasicListTestViewModel();
+            var dataContext = new BasicListTestViewModel();
             var child = new BasicTestViewModel();
-            datacontext.Children.Add(child);
+            dataContext.Children.Add(child);
 
             var test = new TestInContextAsync() 
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;

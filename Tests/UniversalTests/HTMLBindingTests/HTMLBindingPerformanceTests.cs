@@ -77,8 +77,8 @@ namespace Tests.Universal.HTMLBindingTests
         private Task Test_HTMLBinding_Stress_Collection_CreateBinding(JavascriptBindingMode imode, TestPerformanceKind context, TestContext ipath = TestContext.Index)
         {
             var r = 100;
-            var datacontext = new TwoList();
-            datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
+            var dataContext = new TwoList();
+            dataContext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -86,7 +86,7 @@ namespace Tests.Universal.HTMLBindingTests
             var test = new TestInContext()
             {
                 Path = ipath,
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, imode),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, imode),
                 Test = (mb) =>
                 {
                     stopWatch.Stop();
@@ -124,13 +124,13 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task Stress_Collection_Update_From_Javascript()
         {
             var r = 100;
-            var datacontext = new TwoList();
-            datacontext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
+            var dataContext = new TwoList();
+            dataContext.L1.AddRange(Enumerable.Range(0, r).Select(i => new Skill()));
 
             var test = new TestInContextAsync()
             {
                 Path = TestContext.Simple,
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -156,7 +156,7 @@ namespace Tests.Universal.HTMLBindingTests
                     while (notok)
                     {
                         await Task.Delay(100);
-                        notok = datacontext.L2.Count != r;
+                        notok = dataContext.L2.Count != r;
                     }
                     stopWatch.Stop();
                     var ts = stopWatch.ElapsedMilliseconds;
