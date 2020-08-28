@@ -17,6 +17,13 @@ namespace Neutronium.Core.Binding
 {
     public class BidirectionalMapper : IDisposable, IBindingLifeCycle
     {
+
+        public IJsCsGlue JsValueRoot { get; }
+        public JavascriptBindingMode Mode { get; }
+        public HtmlViewContext Context { get; }
+        public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
+        public IWebSessionLogger Logger => Context.Logger;
+
         private readonly ICSharpToGlueMapper _CSharpToGlueMapper;
         private readonly IJavascriptToGlueMapper _JavascriptToGlueMapper;
 
@@ -31,12 +38,6 @@ namespace Neutronium.Core.Binding
 
         private IJavascriptObjectBuilderStrategy BuilderStrategy => _BuilderStrategy.Value;
         private IJavascriptFrameworkMapper JavascriptFrameworkMapper => _JavascriptFrameworkManager.Value;
-
-        public IJsCsGlue JsValueRoot { get; }
-        public JavascriptBindingMode Mode { get; }
-        public HtmlViewContext Context { get; }
-        public bool ListenToCSharp => (Mode != JavascriptBindingMode.OneTime);
-        public IWebSessionLogger Logger => Context.Logger;
 
         internal BidirectionalMapper(object root, HtmlViewEngine engine, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
             this(root, engine, null, strategyFactory, mode, null)
