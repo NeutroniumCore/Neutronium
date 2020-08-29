@@ -5,17 +5,21 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Extension
 {
-    public static class JavascriptToCSharpConverterExtension
+    public static class JavascriptToGlueMapperExtension
     {
         internal static MayBe<T> GetFirstArgument<T>(this IJavascriptToGlueMapper converter, IJavascriptObject[] javascriptObjects)
         {
             if (javascriptObjects.Length == 0)
                 return new MayBe<T>();
 
+            var argument = javascriptObjects[0];
+            if (argument == null)
+                return new MayBe<T>();
+
             try
             {
-                var found = converter.GetCachedOrCreateBasic(javascriptObjects[0], typeof(T));
-                return (found == null)?  new MayBe<T>(): new MayBe<T>(found.CValue);
+                var found = converter.GetGlueConvertible(argument, typeof(T));
+                return new MayBe<T>(found.Source);
             }
             catch (Exception)
             {
@@ -32,8 +36,7 @@ namespace Neutronium.Core.Extension
         {
             try
             {
-                var found = converter.GetCachedOrCreateBasic(javascriptObject, targetType);
-                return found?.CValue;
+                return converter.GetGlueConvertible(javascriptObject, targetType).Source;
             }
             catch (Exception)
             {

@@ -156,18 +156,18 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_Unlistens_When_Property_Is_Changed(BasicTestViewModel remplacementChild)
         {
             var child = new BasicTestViewModel();
-            var datacontext = new BasicTestViewModel { Child = child };
+            var dataContext = new BasicTestViewModel { Child = child };
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
 
                     child.ListenerCount.Should().Be(1);
 
-                    DoSafeUI(() => datacontext.Child = remplacementChild);
+                    DoSafeUI(() => dataContext.Child = remplacementChild);
                     await Task.Delay(300);
 
                     child.ListenerCount.Should().Be(0);
@@ -189,13 +189,13 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_Unlistens_When_Property_Has_Transients_Changes(BasicTestViewModel remplacementChild)
         {
             var child = new BasicTestViewModel();
-            var datacontext = new BasicTestViewModel { Child = child };
+            var dataContext = new BasicTestViewModel { Child = child };
             var tempChild1 = new BasicTestViewModel();
             var tempChild2 = new BasicTestViewModel();
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -204,9 +204,9 @@ namespace Tests.Universal.HTMLBindingTests
 
                     DoSafeUI(() =>
                     {
-                        datacontext.Child = tempChild1;
-                        datacontext.Child = tempChild2;
-                        datacontext.Child = remplacementChild;
+                        dataContext.Child = tempChild1;
+                        dataContext.Child = tempChild2;
+                        dataContext.Child = remplacementChild;
                     });
                     await Task.Delay(300);
 
@@ -243,12 +243,12 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(CircularData))]
-        public async Task OneTime_Does_Not_Listen_To_Any_Object(ViewModelTestBase datacontext,
+        public async Task OneTime_Does_Not_Listen_To_Any_Object(ViewModelTestBase dataContext,
             params ViewModelTestBase[] children)
         {
             var test = new TestInContext()
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.OneTime),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.OneTime),
                 Test = (mb) => { children.ForEach(child => child.ListenerCount.Should().Be(0)); }
             };
 
@@ -257,12 +257,12 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(CircularData))]
-        public async Task TwoWay_Listens_Only_Once_To_Each_Object(ViewModelTestBase datacontext,
+        public async Task TwoWay_Listens_Only_Once_To_Each_Object(ViewModelTestBase dataContext,
             params ViewModelTestBase[] children)
         {
             var test = new TestInContext()
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = (mb) => { children.ForEach(child => child.ListenerCount.Should().Be(1)); }
             };
 
@@ -271,12 +271,12 @@ namespace Tests.Universal.HTMLBindingTests
 
         [Theory]
         [MemberData(nameof(CircularData))]
-        public async Task TwoWay_Unlistens_After_Dispose(ViewModelTestBase datacontext,
+        public async Task TwoWay_Unlistens_After_Dispose(ViewModelTestBase dataContext,
             params ViewModelTestBase[] children)
         {
             var test = new TestInContextAsync()
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     await DoSafeAsyncUI(mb.Dispose);
@@ -292,27 +292,27 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_Cleans_Javascript_Objects_Cache_When_Object_Is_Not_Part_Of_The_Graph(
             BasicTestViewModel remplacementChild)
         {
-            var datacontext = new BasicFatherTestViewModel();
+            var dataContext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
-            datacontext.Child = child;
+            dataContext.Child = child;
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => HtmlBinding.Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => HtmlBinding.Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
 
-                    DoSafeUI(() => datacontext.Child = remplacementChild);
+                    DoSafeUI(() => dataContext.Child = remplacementChild);
                     await Task.Delay(300);
 
                     var mycommand = GetAttribute(js, "Command");
                     DoSafe(() => Call(mycommand, "Execute", childJs));
                     await Task.Delay(300);
 
-                    datacontext.CallCount.Should().Be(0);
-                    datacontext.LastCallElement.Should().BeNull();
+                    dataContext.CallCount.Should().Be(0);
+                    dataContext.LastCallElement.Should().BeNull();
                 }
             };
 
@@ -754,6 +754,84 @@ namespace Tests.Universal.HTMLBindingTests
                         vm.String2 = null;
                     });
                     await CacheShouldHaveNoString(cache);
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+        [Fact]
+        public async Task TwoWay_Is_Sharing_Glue_Coming_From_Javascript()
+        {
+            var stringValue = "batman";
+            var dataContext = new VmWithTwoStrings(stringValue, null);
+
+            var test = new TestInContextAsync<BindingInContext>()
+            {
+                Bind = (win) => BindInContext(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (context) =>
+                {
+                    var cache = context.Cache;
+                    var root = context.Binding.JsRootObject;
+
+                    await DoSafeAsyncUI(() =>
+                    {
+                        cache.GetCached(stringValue).Should().NotBeNull();
+                    });
+
+                    var stringFormJs = Factory.CreateString(stringValue);
+                    SetAttribute(root, nameof(dataContext.String2), stringFormJs);
+
+                    await Task.Delay(150);
+
+                    await DoSafeAsyncUI(() =>
+                    {
+                        cache.GetCached(stringValue).Should().NotBeNull();
+                        dataContext.String2.Should().Be(stringValue);
+                    });
+
+                    await DoSafeAsyncUI(() =>
+                    {
+                        dataContext.String1 = null;
+                    });
+
+                    await DoSafeAsyncUI(() =>
+                    {
+                        cache.GetCached(stringValue).Should().NotBeNull();
+                        dataContext.String2.Should().Be(stringValue);
+                    });
+                }
+            };
+
+            await RunAsync(test);
+        }
+
+
+        [Fact]
+        public async Task TwoWay_Cache_Value_From_Javascript()
+        {
+            var stringValue = "batman";
+            var dataContext = new VmWithTwoStrings(null, null);
+
+            var test = new TestInContextAsync<BindingInContext>()
+            {
+                Bind = (win) => BindInContext(win, dataContext, JavascriptBindingMode.TwoWay),
+                Test = async (context) =>
+                {
+                    
+                    var root = context.Binding.JsRootObject;
+                    var stringFormJs = Factory.CreateString(stringValue);
+                    SetAttribute(root, nameof(dataContext.String2), stringFormJs);
+
+                    await Task.Delay(150);
+
+                    var cache = context.Cache;
+
+                    await DoSafeAsyncUI(() =>
+                    {
+                        dataContext.String2.Should().Be(stringValue);
+                        cache.GetCached(stringValue).Should().NotBeNull();
+                    });
                 }
             };
 

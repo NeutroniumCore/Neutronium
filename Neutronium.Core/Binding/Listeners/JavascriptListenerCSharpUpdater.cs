@@ -32,8 +32,10 @@ namespace Neutronium.Core.Binding.Listeners
 
                 var collectionChanges = jsArray.GetChanger(changes, _JavascriptToGlueMapper);
                 var updater = await _JsUpdateHelper.EvaluateOnUiContextAsync(() =>
-                    UpdateCollectionAfterJavascriptChanges(jsArray, jsArray.CValue, collectionChanges)
-                );
+                {
+                    collectionChanges.ComputeGlues(_JsUpdateHelper);
+                    return UpdateCollectionAfterJavascriptChanges(jsArray, jsArray.CValue, collectionChanges);
+                });
 
                 if (updater?.HasUpdatesOnJavascriptContext != true)
                     return;
@@ -81,8 +83,12 @@ namespace Neutronium.Core.Binding.Listeners
                     return;
                 }
 
-                var glue = _JavascriptToGlueMapper.GetCachedOrCreateBasic(newValue, propertyUpdater.TargetType);
-                var bridgeUpdater = await _JsUpdateHelper.EvaluateOnUiContextAsync(() => UpdateOnUiContextChangeFromJs(propertyUpdater, glue));
+                var convertible = _JavascriptToGlueMapper.GetGlueConvertible(newValue, propertyUpdater.TargetType);
+                var bridgeUpdater = await _JsUpdateHelper.EvaluateOnUiContextAsync(() =>
+                {
+                    var glue = convertible.Convert(_JsUpdateHelper);
+                    return UpdateOnUiContextChangeFromJs(propertyUpdater, glue);
+                });
 
                 if (bridgeUpdater?.HasUpdatesOnJavascriptContext != true)
                     return;

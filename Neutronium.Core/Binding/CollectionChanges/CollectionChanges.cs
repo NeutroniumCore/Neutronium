@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreCollection.Extensions;
 using Neutronium.Core.Binding.GlueObject;
 using Neutronium.Core.Binding.Mapper;
+using Neutronium.Core.Binding.Updater;
 using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.CollectionChanges
@@ -18,6 +20,11 @@ namespace Neutronium.Core.Binding.CollectionChanges
                            .OrderBy(idc => idc, this).ToArray();
         }
 
+        internal void ComputeGlues(IJsUpdateHelper mapper)
+        {
+            IndividualChanges.ForEach(change => change.ComputeGlue(mapper));
+        }
+
         public int Compare(IndividualCollectionChange x, IndividualCollectionChange y)
         {
             if (x.CollectionChangeType != y.CollectionChangeType)
@@ -26,7 +33,6 @@ namespace Neutronium.Core.Binding.CollectionChanges
             return ((x.CollectionChangeType == CollectionChangeType.Add)? 1 : -1) * (x.Index - y.Index);
         }
 
-        public IEnumerable<IJsCsGlue> GetGlues(CollectionChangeType @type) => 
-            IndividualChanges.Where(ch => ch.CollectionChangeType == @type).Select(glue => glue.Object);
+        public IEnumerable<IJsCsGlue> GetGlues(CollectionChangeType @type) => IndividualChanges.Where(ch => ch.CollectionChangeType == @type).Select(change => change.Glue);
     }
 }
