@@ -4,6 +4,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
@@ -110,16 +111,16 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             _UIDispatcher.Run(act);
         }
 
-        protected Task WaitAnotherUiCycleAsync()
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            _UIDispatcher.DispatchWithBindingPriority(() => tcs.SetResult(true));
-            return tcs.Task;
-        }
-
         protected async Task DoSafeAsyncUI(Action act)
         {
             await _UIDispatcher.RunAsync(act);
+
+            await WaitTillNeutroniumUpdateExecuted();
+        }
+
+        private async Task WaitTillNeutroniumUpdateExecuted()
+        {
+            await _UIDispatcher.RunAsync(() => { });
         }
 
         protected T EvaluateSafeUI<T>(Func<T> compute)

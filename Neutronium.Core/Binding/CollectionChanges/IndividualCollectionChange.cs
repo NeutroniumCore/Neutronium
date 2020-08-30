@@ -10,21 +10,21 @@ namespace Neutronium.Core.Binding.CollectionChanges
     {
         internal CollectionChangeType CollectionChangeType { get; }
         internal int Index { get; }
-        internal IGlueConvertible Convertible { get; }
+        internal IGlueMapable Mapable { get; }
         internal IJsCsGlue Glue { get; private set; }
 
-        internal object Object => Convertible.Source;
+        internal object Object => Mapable.Source;
 
         internal IndividualCollectionChange(IndividualJavascriptCollectionChange change, IJavascriptToGlueMapper mapper, Type targetType)
         {
             CollectionChangeType = change.CollectionChangeType;
              Index = change.Index;
-             Convertible = mapper.GetGlueConvertible(change.Object, targetType);
+             Mapable = mapper.GetGlueConvertible(change.Object, targetType);
         }
 
         internal void ComputeGlue(IJsUpdateHelper mapper)
         {
-            Glue = Convertible.Convert(mapper);
+            Glue = Mapable.Map(mapper);
         }
     }
 }

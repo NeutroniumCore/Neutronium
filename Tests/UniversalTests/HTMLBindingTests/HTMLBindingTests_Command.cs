@@ -608,8 +608,6 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(100);
 
-                    await WaitAnotherUiCycleAsync();
-
                     await Task.Delay(100);
                 }
             };

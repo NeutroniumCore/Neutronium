@@ -379,8 +379,6 @@ namespace Tests.Universal.HTMLBindingTests
             {
                 await DoSafeAsyncUI(() => root.Other = bigVm);
 
-                await WaitAnotherUiCycleAsync();
-
                 await Task.Delay(DelayForTimeOut);
                 perf.DiscountTime = DelayForTimeOut;
 
@@ -494,8 +492,6 @@ namespace Tests.Universal.HTMLBindingTests
                     {
                         perf.DiscountTime = DelayForTimeOut;
                         await DoSafeAsyncUI(() => root.Commands = commands);
-
-                        await WaitAnotherUiCycleAsync();
 
                         await Task.Delay(DelayForTimeOut);
 

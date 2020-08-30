@@ -86,7 +86,7 @@ namespace Neutronium.Core.Binding.Listeners
                 var convertible = _JavascriptToGlueMapper.GetGlueConvertible(newValue, propertyUpdater.TargetType);
                 var bridgeUpdater = await _JsUpdateHelper.EvaluateOnUiContextAsync(() =>
                 {
-                    var glue = convertible.Convert(_JsUpdateHelper);
+                    var glue = convertible.Map(_JsUpdateHelper);
                     return UpdateOnUiContextChangeFromJs(propertyUpdater, glue);
                 });
 

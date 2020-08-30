@@ -5,6 +5,6 @@ namespace Neutronium.Core.Binding.Mapper
 {
     internal interface IJavascriptToGlueMapper
     {
-        IGlueConvertible GetGlueConvertible(IJavascriptObject javascriptObject, Type targetType);
+        IGlueMapable GetGlueConvertible(IJavascriptObject javascriptObject, Type targetType);
     }
 }

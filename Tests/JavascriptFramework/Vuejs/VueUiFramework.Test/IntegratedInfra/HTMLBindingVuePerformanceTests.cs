@@ -95,8 +95,6 @@ namespace VueFramework.Test.IntegratedInfra
 
                     await DoSafeAsyncUI(() => root.Other = bigVm);
 
-                    await WaitAnotherUiCycleAsync();
-
                     await Task.Delay(DelayForTimeOut);
 
                     var other = await _WebView.EvaluateAsync(() => GetAttribute(js, "Other"));
@@ -126,8 +124,6 @@ namespace VueFramework.Test.IntegratedInfra
                     stopWatch.Start();
 
                     await DoSafeAsyncUI(() => root.Value = value);
-
-                    await WaitAnotherUiCycleAsync();
 
                     await Task.Delay(DelayForTimeOut);
 

@@ -3,15 +3,15 @@ using Neutronium.Core.Binding.Updater;
 
 namespace Neutronium.Core.Binding.Mapper
 {
-    internal struct SolvedGlueConvertible : IGlueConvertible
+    internal struct SolvedGlueMapable : IGlueMapable
     {
         private readonly IJsCsGlue _Glue;
-        internal SolvedGlueConvertible(IJsCsGlue glue)
+        internal SolvedGlueMapable(IJsCsGlue glue)
         {
             _Glue = glue;
         }
 
         public object Source => _Glue.CValue;
-        public IJsCsGlue Convert(IJsUpdateHelper helper) => _Glue;
+        public IJsCsGlue Map(IJsUpdateHelper helper) => _Glue;
     }
 }

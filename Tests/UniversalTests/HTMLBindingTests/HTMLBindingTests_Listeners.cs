@@ -404,8 +404,6 @@ namespace Tests.Universal.HTMLBindingTests
                         breaker.Child = null;
                     });
 
-                    await Task.Delay(100);
-
                     survivors.ForEach(sur => sur.ListenerCount.Should().Be(1));
                     cleaned.ForEach(sur => sur.ListenerCount.Should().Be(0));
                     new[] { tempChild1, tempChild2 }.ForEach(sur => sur.ListenerCount.Should().Be(0));
@@ -440,8 +438,6 @@ namespace Tests.Universal.HTMLBindingTests
                         root.Child2.Should().Be(child);
                         root.Child1 = null;
                     });
-
-                    await Task.Delay(100);
 
                     child.ListenerCount.Should().Be(1);
                 }
@@ -509,8 +505,6 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     await DoSafeAsyncUI(() => root.Children.RemoveAt(0));
 
-                    await Task.Delay(100);
-
                     removed.ListenerCount.Should().Be(0);
                     list.Skip(1).ForEach(child => child.ListenerCount.Should().Be(1));
                 }
@@ -531,8 +525,6 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     await DoSafeAsyncUI(() => root.List.RemoveRange(1, 2));
-
-                    await Task.Delay(100);
 
                     removed.ForEach(child => child.ListenerCount.Should().Be(0));
                     remain.ForEach(child => child.ListenerCount.Should().Be(1));
@@ -561,8 +553,6 @@ namespace Tests.Universal.HTMLBindingTests
                     remain.AddRange(newOnes);
                     await DoSafeAsyncUI(() => root.List.ReplaceRange(1, 2, newOnes));
 
-                    await Task.Delay(100);
-
                     removed.ForEach(child => child.ListenerCount.Should().Be(0));
                     remain.ForEach(child => child.ListenerCount.Should().Be(1));
                 }
@@ -587,8 +577,6 @@ namespace Tests.Universal.HTMLBindingTests
                         root.List[1],
                     };
                     await DoSafeAsyncUI(() => root.List.ReplaceRange(1, 2, oldNewOnes));
-
-                    await Task.Delay(100);
 
                     remain.ForEach(child => child.ListenerCount.Should().Be(1));
                 }
@@ -624,8 +612,6 @@ namespace Tests.Universal.HTMLBindingTests
                     var newChild = new BasicTestViewModel();
                     await DoSafeAsyncUI(() => root.Children[0] = newChild);
 
-                    await Task.Delay(100);
-
                     removed.ListenerCount.Should().Be(0);
                     list.Skip(1).ForEach(child => child.ListenerCount.Should().Be(1));
                     newChild.ListenerCount.Should().Be(1);
@@ -657,11 +643,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => dataContext.Child = child);
 
-                    await Task.Delay(300);
-
                     await DoSafeAsyncUI(() => third.Value = 3);
-
-                    await Task.Delay(300);
 
                     var child1 = GetAttribute(js, "Child");
                     var child2 = GetAttribute(child1, "Child");
@@ -709,12 +691,7 @@ namespace Tests.Universal.HTMLBindingTests
                     cSharpToJsCache.GetCached(stringValue2).Should().NotBeNull();
                 });
 
-            async Task UpdateRoot(Action<VmWithTwoStrings> update)
-            {
-                await DoSafeAsyncUI(() => update(root));
-
-                await Task.Delay(100);
-            }
+            async Task UpdateRoot(Action<VmWithTwoStrings> update) => await DoSafeAsyncUI(() => update(root));
 
             var test = new TestInContextAsync<BindingInContext>()
             {
@@ -822,16 +799,20 @@ namespace Tests.Universal.HTMLBindingTests
                     var root = context.Binding.JsRootObject;
                     var stringFormJs = Factory.CreateString(stringValue);
                     SetAttribute(root, nameof(dataContext.String2), stringFormJs);
+                    var cache = context.Cache;
 
                     await Task.Delay(150);
-
-                    var cache = context.Cache;
 
                     await DoSafeAsyncUI(() =>
                     {
                         dataContext.String2.Should().Be(stringValue);
                         cache.GetCached(stringValue).Should().NotBeNull();
                     });
+
+                    await DoSafeAsyncUI(() => dataContext.String1 = stringValue);
+
+                    var string1Value = GetAttribute(root, nameof(dataContext.String1));
+                    string1Value.GetStringValue().Should().Be(stringValue);
                 }
             };
 

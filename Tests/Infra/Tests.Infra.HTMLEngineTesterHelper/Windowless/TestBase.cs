@@ -126,5 +126,10 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         {
             await await _WebView.EvaluateAsync(doact);
         }
+
+        protected Task DoSafeAsync(Action action)
+        {
+            return _WebView.RunAsync(action);
+        }
     }
 }

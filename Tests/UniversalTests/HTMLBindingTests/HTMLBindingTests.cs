@@ -649,11 +649,10 @@ namespace Tests.Universal.HTMLBindingTests
                     var dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                     dres.Should().Be("Married");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.PersonalState = PersonalState.Single;
                     });
-                    await Task.Delay(50);
 
                     res = GetAttribute(js, "PersonalState");
                     dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
