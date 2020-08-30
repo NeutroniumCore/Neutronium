@@ -97,15 +97,13 @@ namespace Tests.Universal.HTMLBindingTests
                         City = "JJC"
                     };
 
-                    DoSafeUI(() => { _DataContext.Local = local; });
+                    await DoSafeAsyncUI(() => { _DataContext.Local = local; });
 
-                    await Task.Delay(100);
-
-                    DoSafeUI(() => { local.City = "Floripa"; });
-
-                    await Task.Delay(100);
+                    await DoSafeAsyncUI(() => { local.City = "Floripa"; });
 
                     var js = mb.JsRootObject;
+
+                    await Task.Delay(150);
 
                     var jsLocal = GetAttribute(js, "Local");
                     var city = GetStringAttribute(jsLocal, "City");
@@ -634,9 +632,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() => dataContext.Child = null);
-
-                    await Task.Delay(300);
+                    await DoSafeAsyncUI(() => dataContext.Child = null);
 
                     var third = new BasicTestViewModel();
                     child.Child = third;
@@ -644,6 +640,8 @@ namespace Tests.Universal.HTMLBindingTests
                     await DoSafeAsyncUI(() => dataContext.Child = child);
 
                     await DoSafeAsyncUI(() => third.Value = 3);
+
+                    await Task.Delay(150);
 
                     var child1 = GetAttribute(js, "Child");
                     var child2 = GetAttribute(child1, "Child");

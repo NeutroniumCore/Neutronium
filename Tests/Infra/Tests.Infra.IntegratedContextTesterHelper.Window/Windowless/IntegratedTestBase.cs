@@ -115,10 +115,10 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         {
             await _UIDispatcher.RunAsync(act);
 
-            await WaitTillNeutroniumUpdateExecuted();
+            await WaitAnotherUiCycle();
         }
 
-        private async Task WaitTillNeutroniumUpdateExecuted()
+        protected async Task WaitAnotherUiCycle()
         {
             await _UIDispatcher.RunAsync(() => { });
         }
