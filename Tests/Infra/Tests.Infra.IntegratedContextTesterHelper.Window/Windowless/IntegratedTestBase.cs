@@ -118,7 +118,7 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             await _UIDispatcher.RunAsync(() => { });
         }
 
-        protected T EvaluateSafeUI<T>(Func<T> compute)
+        private T EvaluateSafeUI<T>(Func<T> compute)
         {
             return _UIDispatcher.Evaluate(compute);
         }
