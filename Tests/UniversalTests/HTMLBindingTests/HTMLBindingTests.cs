@@ -195,7 +195,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res2 = GetStringAttribute(js, "LastName");
                     res2.Should().Be("Desmaisons");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Name = "23";
                     });
@@ -207,7 +207,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res4 = GetLocalCity(js);
                     res4.Should().Be("Florianopolis");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Local.City = "Paris";
                     });
@@ -219,7 +219,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res5 = GetFirstSkillName(js);
                     res5.Should().Be("Langage");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills[0].Name = "Ling";
                     });
@@ -302,7 +302,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetAttribute(js, "MainSkill");
                     res.IsNull.Should().BeTrue();
 
-                    DoSafeUI(() => _DataContext.MainSkill = new Skill()
+                    await DoSafeAsyncUI(() => _DataContext.MainSkill = new Skill()
                     {
                         Name = "C++",
                         Type = "Info"
@@ -311,16 +311,16 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(200);
 
                     res = GetAttribute(js, "MainSkill");
-                    DoSafe(() =>
-                    {
+                    //DoSafe(() =>
+                    //{
                         res.IsNull.Should().BeFalse();
                         res.IsObject.Should().BeTrue();
-                    });
+                    //});
 
                     var inf = GetStringAttribute(res, "Type");
                     inf.Should().Be("Info");
 
-                    DoSafeUI(() => _DataContext.MainSkill = null);
+                    await DoSafeAsyncUI(() => _DataContext.MainSkill = null);
                     await Task.Delay(200);
 
                     res = GetAttribute(js, "MainSkill");
@@ -388,7 +388,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetStringAttribute(js, "Name");
                     res.Should().Be("O Monstro");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Name = "23";
                     });
@@ -468,7 +468,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(50);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.Decimal.Should().Be(0.5m);
                     });
@@ -483,7 +483,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(50);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.Bool.Should().NotHaveValue();
                     });
@@ -499,7 +499,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(50);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.Int32.Should().Be(54);
                     });
@@ -527,7 +527,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res2 = GetStringAttribute(js, "LastName");
                     res2.Should().Be("Desmaisons");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Name = "23";
                     });
@@ -540,7 +540,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res4 = GetLocalCity(js);
                     res4.Should().Be("Florianopolis");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Local.City = "Paris";
                     });
@@ -552,7 +552,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res5 = GetFirstSkillName(js);
                     res5.Should().Be("Langage");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills[0].Name = "Ling";
                     });
@@ -573,7 +573,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     _DataContext.Name.Should().Be("resName");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Name = "nnnnvvvvvvv";
                     });
@@ -609,7 +609,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var city = GetStringAttribute(local, "City");
                     city.Should().Be("Florianopolis");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Local.City = "Foz de Iguaçu";
                     });
@@ -618,7 +618,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var city3 = GetStringAttribute(local, "City");
                     city3.Should().Be("Foz de Iguaçu");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Local = new Local() { City = "Paris" };
                     });
@@ -680,7 +680,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                     dres.Should().Be("Married");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.PersonalState = PersonalState.Single;
                     });
@@ -730,7 +730,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var resBool = GetBoolAttribute(js, "ValueBool");
                     resBool.Should().BeTrue();
 
-                    DoSafeUI(() => { dynamicDataContext.ValueInt = 110; });
+                    await DoSafeAsyncUI(() => { dynamicDataContext.ValueInt = 110; });
 
                     await Task.Delay(50);
 
@@ -765,7 +765,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetAttribute(js, "NewValue");
                     res.IsUndefined.Should().BeTrue();
 
-                    DoSafeUI(() => 
+                    await DoSafeAsyncUI(() => 
                     {
                         dynamicDataContext.NewValue = expected;
                     });
@@ -825,7 +825,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var dres = GetSafe(() => res.GetValue("displayName").GetStringValue());
                     dres.Should().Be("Single");
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.PersonalState = PersonalState.Married;
                     });
@@ -1042,7 +1042,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var resf = GetSafe(() => js.HasValue("UselessName"));
                     resf.Should().BeFalse();
 
-                    Action safe = () => DoSafeUI(() => datacontexttest.InconsistentEventEmit());
+                    Func<Task> safe = async () => await DoSafeAsyncUI(() => datacontexttest.InconsistentEventEmit());
 
                     safe.Should().NotThrow("Inconsistent Name in property should not throw exception");
                 }
@@ -1347,14 +1347,14 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() => dataContext.Child = null);
+                    await DoSafeAsyncUI(() => dataContext.Child = null);
 
                     await Task.Delay(300);
 
                     var third = new BasicTestViewModel();
                     child.Child = third;
 
-                    DoSafeUI(() => dataContext.Child = child);
+                    await DoSafeAsyncUI(() => dataContext.Child = child);
 
                     await Task.Delay(300);
 
@@ -1423,7 +1423,7 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.Count = -1;
                         dataContext.Count = 1560;

@@ -67,7 +67,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res = GetStringAttribute(js, "Property2");
                     res.Should().Be("2");
 
-                    DoSafeUI(() => { dataContext.Property1 = "a"; });
+                    await DoSafeAsyncUI(() => { dataContext.Property1 = "a"; });
 
                     await Task.Delay(50);
 
@@ -129,7 +129,7 @@ namespace Tests.Universal.HTMLBindingTests
                         City = "JJC"
                     };
 
-                    DoSafeUI(() => { _DataContext.Local = local; });
+                    await DoSafeAsyncUI(() => { _DataContext.Local = local; });
 
                     await Task.Delay(100);
 
@@ -165,8 +165,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     child.ListenerCount.Should().Be(1);
 
-                    DoSafeUI(() => dataContext.Child = remplacementChild);
-                    await Task.Delay(300);
+                    await DoSafeAsyncUI(() => dataContext.Child = remplacementChild);
+                    //await Task.Delay(300);
 
                     child.ListenerCount.Should().Be(0);
 
@@ -200,13 +200,13 @@ namespace Tests.Universal.HTMLBindingTests
 
                     child.ListenerCount.Should().Be(1);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.Child = tempChild1;
                         dataContext.Child = tempChild2;
                         dataContext.Child = remplacementChild;
                     });
-                    await Task.Delay(300);
+                    //await Task.Delay(300);
 
                     tempChild1.ListenerCount.Should().Be(0);
                     tempChild2.ListenerCount.Should().Be(0);
@@ -302,7 +302,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
 
-                    DoSafeUI(() => dataContext.Child = remplacementChild);
+                    await DoSafeAsyncUI(() => dataContext.Child = remplacementChild);
                     await Task.Delay(300);
 
                     var mycommand = GetAttribute(js, "Command");

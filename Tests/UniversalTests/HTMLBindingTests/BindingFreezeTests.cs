@@ -126,7 +126,7 @@ namespace Tests.Universal.HTMLBindingTests
                     SetAttribute(childJs, "String", _WebView.Factory.CreateString("value2"));
 
                     await Task.Delay(100);
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         child.String.Should().Be("value2");
                     });

@@ -106,11 +106,6 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return _JavascriptFrameworkExtractor.GetRootViewModel();
         }
 
-        protected void DoSafeUI(Action act)
-        {
-            _UIDispatcher.Run(act);
-        }
-
         protected async Task DoSafeAsyncUI(Action act)
         {
             await _UIDispatcher.RunAsync(act);

@@ -54,7 +54,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CheckCollection(col, _DataContext.Skills);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Add(new Skill() { Name = "C++", Type = "Info" });
                     });
@@ -64,7 +64,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col.Should().NotBeNull();
                     CheckCollection(col, _DataContext.Skills);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Insert(0, new Skill() { Name = "C#", Type = "Info" });
                     });
@@ -73,7 +73,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col.Should().NotBeNull();
                     CheckCollection(col, _DataContext.Skills);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.RemoveAt(1);
                     });
@@ -82,7 +82,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col.Should().NotBeNull();
                     CheckCollection(col, _DataContext.Skills);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills[0] = new Skill() { Name = "HTML", Type = "Info" };
                     });
@@ -91,7 +91,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col.Should().NotBeNull();
                     CheckCollection(col, _DataContext.Skills);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills[0] = new Skill() { Name = "HTML5", Type = "Info" };
                         _DataContext.Skills.Insert(0, new Skill() { Name = "HTML5", Type = "Info" });
@@ -101,7 +101,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col.Should().NotBeNull();
                     CheckCollection(col, _DataContext.Skills);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Clear();
                     });
@@ -126,7 +126,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         var skills = _DataContext.Skills;
                         skills.Add(new Skill() { Name = "C++", Type = "Info" });
@@ -158,7 +158,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var addedItems = new[] { 1, 2, 3, 4 };
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.AddRange(addedItems);
                     });
@@ -185,7 +185,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.InsertRange(1, new[] { 2, 3 });
                     });
@@ -213,7 +213,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.RemoveRange(1, 3);
                     });
@@ -240,7 +240,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.ReplaceRange(1, 3, new[] { 2, 3, 4 });
                     });
@@ -267,7 +267,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.ReplaceRange(new[] { 1, 2, 3, 4, 5 });
                     });
@@ -304,7 +304,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(5000);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Should().HaveCount(3);
                         _DataContext.Skills[2].Should().Be(_DataContext.Skills[0]);
@@ -316,7 +316,7 @@ namespace Tests.Universal.HTMLBindingTests
                     Call(coll, "pop");
 
                     await Task.Delay(100);
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Should().HaveCount(2);
                     });
@@ -327,7 +327,7 @@ namespace Tests.Universal.HTMLBindingTests
                     Call(coll, "shift");
 
                     await Task.Delay(100);
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Should().HaveCount(1);
                     });
@@ -339,14 +339,14 @@ namespace Tests.Universal.HTMLBindingTests
                           (root.GetAttribute("Skills") as JsArray).Items[0].GetJsSessionValue());
 
                     await Task.Delay(150);
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Should().HaveCount(2);
                     });
                     col = GetSafe(() => GetCollectionAttribute(js, "Skills"));
                     CheckCollection(col, _DataContext.Skills);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Add(new Skill() { Type = "Langage", Name = "French" });
                     });
@@ -359,7 +359,7 @@ namespace Tests.Universal.HTMLBindingTests
                     Call(coll, "reverse");
 
                     await Task.Delay(150);
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _DataContext.Skills.Should().HaveCount(3);
                     });
@@ -388,7 +388,7 @@ namespace Tests.Universal.HTMLBindingTests
                     await Task.Delay(200);
                     CheckStringCollection(col, dataContext.List);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.Add("titi");
                     });
@@ -396,7 +396,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     CheckStringCollection(col, dataContext.List);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.Add("kiki");
                         dataContext.List.Add("toto");
@@ -405,7 +405,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     CheckStringCollection(col, dataContext.List);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.Move(0, 2);
                     });
@@ -413,7 +413,7 @@ namespace Tests.Universal.HTMLBindingTests
                     col = GetSafe(() => GetCollectionAttribute(js, "List"));
                     CheckStringCollection(col, dataContext.List);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.Move(2, 1);
                     });
@@ -434,7 +434,7 @@ namespace Tests.Universal.HTMLBindingTests
                     dataContext.List.Should().Equal(comp);
                     CheckStringCollection(col, dataContext.List);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.Clear();
                     });
@@ -463,7 +463,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var col = GetSafe(() => GetCollectionAttribute(js, "Items"));
                     col.GetArrayLength().Should().NotBe(0);
 
-                    DoSafeUI(() => datacontext.Replace.Execute(null));
+                    await DoSafeAsyncUI(() => datacontext.Replace.Execute(null));
 
                     datacontext.Items.Should().BeEmpty();
 
@@ -525,7 +525,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CheckDecimalCollection(col, dataContext.List);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.Add(3);
                     });
@@ -535,7 +535,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CheckDecimalCollection(col, dataContext.List);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.List.Add(10.5m);
                         dataContext.List.Add(126);

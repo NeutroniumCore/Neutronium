@@ -84,7 +84,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var newValue = 55;
-                    DoSafeUI(() => dataContext.SetReadOnly(newValue));
+                    await DoSafeAsyncUI(() => dataContext.SetReadOnly(newValue));
 
                     await Task.Delay(150);
                     var readOnlyValue = GetIntAttribute(js, "ReadOnly");
@@ -108,7 +108,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var newValue = 550;
-                    DoSafeUI(() => dataContext.ReadWrite = newValue);
+                    await DoSafeAsyncUI(() => dataContext.ReadWrite = newValue);
 
                     await Task.Delay(150);
                     var readOnlyValue = GetIntAttribute(js, "ReadWrite");
@@ -136,7 +136,7 @@ namespace Tests.Universal.HTMLBindingTests
                     SetAttribute(js, "ReadWrite", jsValue);
                     await Task.Delay(150);
 
-                    DoSafeUI(() => dataContext.ReadWrite.Should().Be(newValue));
+                    await DoSafeAsyncUI(() => dataContext.ReadWrite.Should().Be(newValue));
                 }
             };
 
@@ -161,7 +161,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CheckObjectObservability(childJs, ObjectObservability.Observable);
 
-                    DoSafeUI(() => dataContext.Child = remplacementChild);
+                    await DoSafeAsyncUI(() => dataContext.Child = remplacementChild);
                     await Task.Delay(150);
 
                     CheckHasListener(childJs, false);
@@ -192,7 +192,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CheckObjectObservability(childJs, ObjectObservability.Observable);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dataContext.Child = tempChild1;
                         dataContext.Child = tempChild2;
@@ -229,7 +229,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(150);
 
-                    DoSafeUI(() => dataContext.Child.Should().BeNull());
+                    await DoSafeAsyncUI(() => dataContext.Child.Should().BeNull());
 
                     child.ListenerCount.Should().Be(0);
 
@@ -264,7 +264,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CheckObjectObservability(childJs, ObjectObservability.Observable);
 
-                    DoSafeUI(() => dataContext.Children[0] = remplacementChild);
+                    await DoSafeAsyncUI(() => dataContext.Children[0] = remplacementChild);
                     await Task.Delay(150);
 
                     CheckHasListener(childJs, false);
@@ -323,7 +323,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetAttribute(js, "ValueDouble");
                     res.IsUndefined.Should().BeTrue();
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dynamicDataContext.ValueDouble = 0.5;
                     });
@@ -350,11 +350,9 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
-                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 0.5; });
+                    await DoSafeAsyncUI(() => { dynamicDataContext.ValueDouble = 0.5; });
 
-                    await Task.Delay(50);
-
-                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 23; });
+                    await DoSafeAsyncUI(() => { dynamicDataContext.ValueDouble = 23; });
 
                     await Task.Delay(50);
 
@@ -386,7 +384,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().BeTrue();
 
                     command.CanExecute(Arg.Any<string>()).Returns(false);
-                    DoSafeUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
+                    await DoSafeAsyncUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
 
                     await Task.Delay(100);
 
@@ -452,14 +450,14 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
-                    DoSafeUI(() => { dynamicDataContext.ValueDouble = 0.5; });
+                    await DoSafeAsyncUI(() => { dynamicDataContext.ValueDouble = 0.5; });
 
                     await Task.Delay(50);
 
                     SetAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
                     await Task.Delay(50);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         double value = dynamicDataContext.ValueDouble;
                         value.Should().Be(49);
@@ -512,7 +510,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     AddAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         dynamicDataContext.ValueDouble = 659;
                     });
@@ -547,7 +545,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(50);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         double value = dynamicDataContext.ValueDouble;
                         value.Should().Be(7);

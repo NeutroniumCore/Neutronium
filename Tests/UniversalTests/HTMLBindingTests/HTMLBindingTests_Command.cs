@@ -131,7 +131,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "Command");
                     jsCommand.IsNull.Should().BeTrue();
 
-                    DoSafeUI(() => fakeTestViewModel.Command = command);
+                    await DoSafeAsyncUI(() => fakeTestViewModel.Command = command);
                     await Task.Delay(200);
 
                     jsCommand = GetAttribute(js, "Command");
@@ -240,7 +240,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     command.CanExecute.Returns(false);
 
-                    DoSafeUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
+                    await DoSafeAsyncUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
 
                     await Task.Delay(150);
 
@@ -293,7 +293,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "Command");
                     jsCommand.IsNull.Should().BeTrue();
 
-                    DoSafeUI(() => fakeTestViewModel.CommandWithoutParameters = command);
+                    await DoSafeAsyncUI(() => fakeTestViewModel.CommandWithoutParameters = command);
                     await Task.Delay(200);
 
                     jsCommand = GetAttribute(js, "CommandWithoutParameters");
@@ -469,7 +469,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "Command");
                     jsCommand.IsNull.Should().BeTrue();
 
-                    DoSafeUI(() => fakeTestViewModel.CommandGeneric = command);
+                    await DoSafeAsyncUI(() => fakeTestViewModel.CommandGeneric = command);
                     await Task.Delay(200);
 
                     jsCommand = GetAttribute(js, "CommandGeneric");
@@ -499,7 +499,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetBoolAttribute(jsCommand, "CanExecuteValue");
                     res.Should().BeTrue();
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(false);
                         command.CanExecuteChanged += Raise.EventWith(command, new EventArgs());
@@ -533,7 +533,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().BeTrue();
 
                     canExecute = false;
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _Command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
                     });
@@ -573,7 +573,7 @@ namespace Tests.Universal.HTMLBindingTests
                     canExecute = false;
                     _Command.ClearReceivedCalls();
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _Command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
                     });
@@ -601,7 +601,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     await Task.Delay(100);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _Command.CanExecuteChanged += Raise.Event<EventHandler>(null, new EventArgs());
                     });
@@ -685,7 +685,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     _DataContext.Skills.Should().HaveCount(2);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _Command.Execute(null);
                     });
@@ -784,7 +784,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(100);
 
-                    DoSafeUI(() => function.Received(1).Invoke(25));
+                    await DoSafeAsyncUI(() => function.Received(1).Invoke(25));
 
                     await Task.Yield();
 
@@ -842,7 +842,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     originalValue.Should().Be(original);
 
-                    DoSafeUI(() => result.Name = stringExpected);
+                    await DoSafeAsyncUI(() => result.Name = stringExpected);
 
                     await Task.Delay(100);
 
@@ -939,7 +939,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(200);
 
-                    DoSafeUI(() => { });
+                    await WaitAnotherUiCycle();
 
                     var resValue = _WebView.GetGlobal().GetValue("res");
 
@@ -954,14 +954,14 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(200);
 
-                    DoSafeUI(() => dataContext.Child.Should().Be(child));
+                    await DoSafeAsyncUI(() => dataContext.Child.Should().Be(child));
 
                     var newInt = 45;
                     SetAttribute(resValue, nameof(BasicTestViewModel.Value), _WebView.Factory.CreateInt(newInt));
                     var updatedValue = GetAttribute(resValue, nameof(BasicTestViewModel.Value)).GetIntValue();
                     updatedValue.Should().Be(newInt);
                     await Task.Delay(200);
-                    DoSafeUI(() => dataContext.Child.Value.Should().Be(newInt));
+                    await DoSafeAsyncUI(() => dataContext.Child.Value.Should().Be(newInt));
                 }
             };
 
@@ -993,7 +993,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     CallWithRes(jsCommand, "Execute", _WebView.Factory.CreateInt(25), cb);
                     await Task.Delay(100);
-                    DoSafeUI(() => function.Received(1).Invoke(25));
+                    await DoSafeAsyncUI(() => function.Received(1).Invoke(25));
 
                     await Task.Yield();
 
