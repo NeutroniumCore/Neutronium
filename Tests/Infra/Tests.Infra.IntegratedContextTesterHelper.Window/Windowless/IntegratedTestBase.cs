@@ -4,7 +4,6 @@ using Neutronium.Core.WebBrowserEngine.Window;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 using Tests.Infra.JavascriptFrameworkTesterHelper;
 using Tests.Infra.WebBrowserEngineTesterHelper.HtmlContext;
 using Tests.Infra.WebBrowserEngineTesterHelper.Windowless;
@@ -66,6 +65,13 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             _JavascriptFrameworkExtractor.SetAttribute(father, attributeName, value);
         }
 
+        protected async Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value)
+        {
+            await _JavascriptFrameworkExtractor.SetAttributeAsync(father, attributeName, value);
+
+            await WaitAnotherWebContextCycle();
+        }
+
         protected void AddAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
         {
             _JavascriptFrameworkExtractor.AddAttribute(father, attributeName, value);
@@ -113,9 +119,21 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             await WaitAnotherUiCycle();
         }
 
+        protected async Task DoSafeAsync(Action action)
+        {
+            await _WebView.RunAsync(action);
+
+            await WaitAnotherWebContextCycle();
+        }
+
         protected async Task WaitAnotherUiCycle()
         {
             await _UIDispatcher.RunAsync(() => { });
+        }
+
+        protected async Task WaitAnotherWebContextCycle()
+        {
+            await Task.Delay(1);
         }
 
         private T EvaluateSafeUI<T>(Func<T> compute)

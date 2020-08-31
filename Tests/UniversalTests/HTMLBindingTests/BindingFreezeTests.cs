@@ -35,18 +35,18 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(typeof(None), false)]
         [InlineData(typeof(Observable), false)]
         [InlineData(typeof(ReadOnlyObservable), false)]
-        public async Task TwoWay_Freezes_Readonly_Objects(Type type, bool expectedIsFozen)
+        public async Task TwoWay_Freezes_Readonly_Objects(Type type, bool expectedIsFrozen)
         {
-            var datacontext = Activator.CreateInstance(type);
+            var dataContext = Activator.CreateInstance(type);
 
             var test = new TestInContext()
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
                     var js = mb.JsRootObject;
                     var isFrozen = IsFrozen(js);
-                    isFrozen.Should().Be(expectedIsFozen);
+                    isFrozen.Should().Be(expectedIsFrozen);
                 }
             };
 
@@ -61,11 +61,11 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_Freezes_Readonly_Objects_Deep_Property(Type type, bool expectedIsFozen)
         {
             var child = (Observability)Activator.CreateInstance(type);
-            var datacontext = new Composite(child);
+            var dataContext = new Composite(child);
 
             var test = new TestInContext()
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -83,21 +83,21 @@ namespace Tests.Universal.HTMLBindingTests
         [InlineData(typeof(None), false)]
         [InlineData(typeof(Observable), false)]
         [InlineData(typeof(ReadOnlyObservable), false)]
-        public async Task TwoWay_Freezes_Readonly_Objects_Deep_Array(Type type, bool expectedIsFozen)
+        public async Task TwoWay_Freezes_Readonly_Objects_Deep_Array(Type type, bool expectedIsFrozen)
         {
             var child = (Observability)Activator.CreateInstance(type);
-            var datacontext = new Composite(children: new[] { child });
+            var dataContext = new Composite(children: new[] { child });
 
             var test = new TestInContext()
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = (mb) =>
                 {
                     var js = mb.JsRootObject;
                     var array = GetCollectionAttribute(js, "Children");
                     var childJs = array.GetArrayElements()[0];
                     var isFrozen = IsFrozen(childJs);
-                    isFrozen.Should().Be(expectedIsFozen);
+                    isFrozen.Should().Be(expectedIsFrozen);
                 }
             };
 
@@ -105,17 +105,17 @@ namespace Tests.Universal.HTMLBindingTests
         }
 
         [Fact]
-        public async Task TwoWay_Objects_Inside_Froozen_Object_Are_Obervable()
+        public async Task TwoWay_Objects_Inside_Frozen_Object_Are_Observable()
         {
             var child = new Observable
             {
                 String = "value1"
             };
-            var datacontext = new Composite(child);
+            var dataContext = new Composite(child);
 
             var test = new TestInContextAsync()
             {
-                Bind = (win) => Bind(win, datacontext, JavascriptBindingMode.TwoWay),
+                Bind = (win) => Bind(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
                     var js = mb.JsRootObject;
@@ -123,9 +123,8 @@ namespace Tests.Universal.HTMLBindingTests
                     isFrozen.Should().BeTrue();
 
                     var childJs = GetAttribute(js, "Child");
-                    SetAttribute(childJs, "String", _WebView.Factory.CreateString("value2"));
+                    await SetAttributeAsync(childJs, "String", _WebView.Factory.CreateString("value2"));
 
-                    await Task.Delay(100);
                     await DoSafeAsyncUI(() =>
                     {
                         child.String.Should().Be("value2");

@@ -107,9 +107,9 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
             _WebView.Run(() => value.Invoke(functionname, _WebView, parameter));
         }
 
-        protected void Call(IJavascriptObject value, string functionname, Func<IJavascriptObject> parameter) 
+        protected void Call(IJavascriptObject value, string functionName, Func<IJavascriptObject> parameter) 
         {
-            _WebView.Run(() => value.Invoke(functionname, _WebView, parameter()));
+            _WebView.Run(() => value.Invoke(functionName, _WebView, parameter()));
         }
 
         protected IJavascriptObject Create(Func<IJavascriptObject> factory) 
@@ -125,11 +125,6 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
         protected async Task DoSafeAsync(Func<Task> doact)
         {
             await await _WebView.EvaluateAsync(doact);
-        }
-
-        protected Task DoSafeAsync(Action action)
-        {
-            return _WebView.RunAsync(action);
         }
     }
 }

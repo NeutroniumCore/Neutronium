@@ -138,9 +138,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsLocal = GetAttribute(js, "Local");
 
                     var stringName = Create(() => _WebView.Factory.CreateString("Floripa"));
-                    SetAttribute(jsLocal, "City", stringName);
-
-                    await Task.Delay(100);
+                    await SetAttributeAsync(jsLocal, "City", stringName);
 
                     _DataContext.Local.City.Should().Be("Floripa");
                 }
@@ -166,7 +164,6 @@ namespace Tests.Universal.HTMLBindingTests
                     child.ListenerCount.Should().Be(1);
 
                     await DoSafeAsyncUI(() => dataContext.Child = remplacementChild);
-                    //await Task.Delay(300);
 
                     child.ListenerCount.Should().Be(0);
 
@@ -206,7 +203,6 @@ namespace Tests.Universal.HTMLBindingTests
                         dataContext.Child = tempChild2;
                         dataContext.Child = remplacementChild;
                     });
-                    //await Task.Delay(300);
 
                     tempChild1.ListenerCount.Should().Be(0);
                     tempChild2.ListenerCount.Should().Be(0);
@@ -305,12 +301,14 @@ namespace Tests.Universal.HTMLBindingTests
                     await DoSafeAsyncUI(() => dataContext.Child = remplacementChild);
                     await Task.Delay(300);
 
-                    var mycommand = GetAttribute(js, "Command");
-                    DoSafe(() => Call(mycommand, "Execute", childJs));
-                    await Task.Delay(300);
+                    var myCommand = GetAttribute(js, "Command");
+                    await DoSafeAsync(() => Call(myCommand, "Execute", childJs));
 
-                    dataContext.CallCount.Should().Be(0);
-                    dataContext.LastCallElement.Should().BeNull();
+                    await DoSafeAsyncUI(() =>
+                    {
+                        dataContext.CallCount.Should().Be(0);
+                        dataContext.LastCallElement.Should().BeNull();
+                    });
                 }
             };
 
@@ -427,9 +425,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var rootJs = mb.JsRootObject;
                     var childJs = GetAttribute(rootJs, "Child1");
-                    SetAttribute(rootJs, "Child2", childJs);
-
-                    await Task.Delay(100);
+                    await SetAttributeAsync(rootJs, "Child2", childJs);
 
                     await DoSafeAsyncUI(() =>
                     {
@@ -635,10 +631,8 @@ namespace Tests.Universal.HTMLBindingTests
                     await DoSafeAsyncUI(() => dataContext.Child = null);
 
                     var third = new BasicTestViewModel();
-                    child.Child = third;
-
+                    await DoSafeAsyncUI(() => child.Child = third);
                     await DoSafeAsyncUI(() => dataContext.Child = child);
-
                     await DoSafeAsyncUI(() => third.Value = 3);
 
                     await Task.Delay(150);
@@ -651,9 +645,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var newValue = 44;
                     var intJS = _WebView.Factory.CreateInt(newValue);
-                    SetAttribute(child2, "Value", intJS);
-
-                    await Task.Delay(300);
+                    await SetAttributeAsync(child2, "Value", intJS);
 
                     await DoSafeAsyncUI(() => { third.Value.Should().Be(newValue); });
                 }
@@ -755,9 +747,7 @@ namespace Tests.Universal.HTMLBindingTests
                     });
 
                     var stringFormJs = Factory.CreateString(stringValue);
-                    SetAttribute(root, nameof(dataContext.String2), stringFormJs);
-
-                    await Task.Delay(150);
+                    await SetAttributeAsync(root, nameof(dataContext.String2), stringFormJs);
 
                     await DoSafeAsyncUI(() =>
                     {
@@ -796,10 +786,9 @@ namespace Tests.Universal.HTMLBindingTests
                     
                     var root = context.Binding.JsRootObject;
                     var stringFormJs = Factory.CreateString(stringValue);
-                    SetAttribute(root, nameof(dataContext.String2), stringFormJs);
-                    var cache = context.Cache;
+                    await SetAttributeAsync(root, nameof(dataContext.String2), stringFormJs);
 
-                    await Task.Delay(150);
+                    var cache = context.Cache;
 
                     await DoSafeAsyncUI(() =>
                     {

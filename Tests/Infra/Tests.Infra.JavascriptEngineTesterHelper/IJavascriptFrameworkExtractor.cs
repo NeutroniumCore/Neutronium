@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using System.Threading.Tasks;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Tests.Infra.JavascriptFrameworkTesterHelper
 {
@@ -8,20 +9,22 @@ namespace Tests.Infra.JavascriptFrameworkTesterHelper
 
         IJavascriptObject GetRootViewModel();
 
-        IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename);
+        IJavascriptObject GetAttribute(IJavascriptObject value, string attributeName);
 
-        IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename);
+        IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attributeName);
 
-        void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value);
+        void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value);
 
-        void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value);
+        Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value);
 
-        string GetStringAttribute(IJavascriptObject value, string attibutename);
+        void AddAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value);
 
-        int GetIntAttribute(IJavascriptObject value, string attibutename);
+        string GetStringAttribute(IJavascriptObject value, string attributeName);
 
-        double GetDoubleAttribute(IJavascriptObject value, string attibutename);
+        int GetIntAttribute(IJavascriptObject value, string attributeName);
 
-        bool GetBoolAttribute(IJavascriptObject value, string attibutename);
+        double GetDoubleAttribute(IJavascriptObject value, string attributeName);
+
+        bool GetBoolAttribute(IJavascriptObject value, string attributeName);
     }
 }

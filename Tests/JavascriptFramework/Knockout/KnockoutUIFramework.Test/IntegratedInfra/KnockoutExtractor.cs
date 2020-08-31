@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using System.Threading.Tasks;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.JavascriptFrameworkTesterHelper;
 
 namespace KnockoutFramework.Test.IntegratedInfra
@@ -14,45 +15,50 @@ namespace KnockoutFramework.Test.IntegratedInfra
             _WebView = webView;
         }
 
-        public IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
+        public IJavascriptObject GetAttribute(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView));
+            return _WebView.Evaluate(() => value.Invoke(attributeName, _WebView));
         }
 
-        public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename)
+        public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attributeName)
         {
-            var almost = GetAttribute(value, attibutename);
+            var almost = GetAttribute(value, attributeName);
             return almost.ExecuteFunction(_WebView);
         }
 
-        public void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        public void AddAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
         {
             throw new System.NotImplementedException();
         }
 
-        public string GetStringAttribute(IJavascriptObject value, string attibutename)
+        public string GetStringAttribute(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetStringValue());
+            return _WebView.Evaluate(() => value.Invoke(attributeName, _WebView).GetStringValue());
         }
 
-        public int GetIntAttribute(IJavascriptObject value, string attibutename)
+        public int GetIntAttribute(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetIntValue());
+            return _WebView.Evaluate(() => value.Invoke(attributeName, _WebView).GetIntValue());
         }
 
-        public double GetDoubleAttribute(IJavascriptObject value, string attibutename)
+        public double GetDoubleAttribute(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetDoubleValue());
+            return _WebView.Evaluate(() => value.Invoke(attributeName, _WebView).GetDoubleValue());
         }
 
-        public bool GetBoolAttribute(IJavascriptObject value, string attibutename)
+        public bool GetBoolAttribute(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.Invoke(attibutename, _WebView).GetBoolValue());
+            return _WebView.Evaluate(() => value.Invoke(attributeName, _WebView).GetBoolValue());
         }
 
-        public void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        public void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
         {
-            _WebView.Evaluate(() => father.Invoke(attibutename, _WebView, value));
+            _WebView.Evaluate(() => father.Invoke(attributeName, _WebView, value));
+        }
+
+        public Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value)
+        {
+            return _WebView.EvaluateAsync(() => father.Invoke(attributeName, _WebView, value));
         }
 
         public IJavascriptObject GetRootViewModel()

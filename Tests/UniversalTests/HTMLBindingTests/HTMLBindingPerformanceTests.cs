@@ -152,7 +152,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var stopWatch = new Stopwatch();
                     stopWatch.Start();
 
-                    DoSafe(() => Call(_WebView.GetGlobal(), "app", col1, l2c));
+                    await DoSafeAsync(() => Call(_WebView.GetGlobal(), "app", col1, l2c));
                     while (notok)
                     {
                         await Task.Delay(100);

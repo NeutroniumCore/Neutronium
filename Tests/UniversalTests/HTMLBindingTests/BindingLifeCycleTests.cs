@@ -86,7 +86,6 @@ namespace Tests.Universal.HTMLBindingTests
                     var newValue = 55;
                     await DoSafeAsyncUI(() => dataContext.SetReadOnly(newValue));
 
-                    await Task.Delay(150);
                     var readOnlyValue = GetIntAttribute(js, "ReadOnly");
 
                     readOnlyValue.Should().Be(newValue);
@@ -112,7 +111,6 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(150);
                     var readOnlyValue = GetIntAttribute(js, "ReadWrite");
-
                     readOnlyValue.Should().Be(newValue);
                 }
             };
@@ -131,10 +129,9 @@ namespace Tests.Universal.HTMLBindingTests
                 Test = async (mb) => 
                 {
                     var js = mb.JsRootObject;
-                    var newValue = 1200;
+                    const int newValue = 1200;
                     var jsValue = _WebView.Factory.CreateInt(newValue);
-                    SetAttribute(js, "ReadWrite", jsValue);
-                    await Task.Delay(150);
+                    await SetAttributeAsync(js, "ReadWrite", jsValue);
 
                     await DoSafeAsyncUI(() => dataContext.ReadWrite.Should().Be(newValue));
                 }
@@ -225,16 +222,13 @@ namespace Tests.Universal.HTMLBindingTests
                     CheckObjectObservability(childJs, ObjectObservability.Observable);
 
                     var nullJs = Factory.CreateNull();
-                    SetAttribute(js, "Child", nullJs);
-
-                    await Task.Delay(150);
+                    await SetAttributeAsync(js, "Child", nullJs);
 
                     await DoSafeAsyncUI(() => dataContext.Child.Should().BeNull());
 
                     child.ListenerCount.Should().Be(0);
 
-                    await Task.Delay(100);
-
+                    await WaitAnotherWebContextCycle();
                     CheckHasListener(childJs, false);
                 }
             };
@@ -452,10 +446,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     await DoSafeAsyncUI(() => { dynamicDataContext.ValueDouble = 0.5; });
 
-                    await Task.Delay(50);
-
-                    SetAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
-                    await Task.Delay(50);
+                    await SetAttributeAsync(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
 
                     await DoSafeAsyncUI(() =>
                     {
@@ -541,9 +532,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await Task.Delay(50);
 
-                    SetAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(7));
-
-                    await Task.Delay(50);
+                    await SetAttributeAsync(js, "ValueDouble", _WebView.Factory.CreateDouble(7));
 
                     await DoSafeAsyncUI(() =>
                     {

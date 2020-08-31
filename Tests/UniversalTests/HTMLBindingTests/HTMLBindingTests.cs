@@ -142,8 +142,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res2 = GetStringAttribute(js, "LastName");
                     res2.Should().Be("Desmaisons");
 
-                    _DataContext.Name = "23";
-                    await Task.Delay(200);
+                    await DoSafeAsyncUI(() => { _DataContext.Name = "23"; });
 
                     var res3 = GetStringAttribute(js, "Name");
                     res3.Should().Be("O Monstro");
@@ -151,9 +150,8 @@ namespace Tests.Universal.HTMLBindingTests
                     var res4 = GetLocalCity(js);
                     res4.Should().Be("Florianopolis");
 
-                    _DataContext.Local.City = "Paris";
-                    await Task.Delay(200);
-
+                    await DoSafeAsyncUI(() => { _DataContext.Local.City = "Paris"; });
+                    
                     //onetime does not update javascript from  C# 
                     res4 = GetLocalCity(js);
                     res4.Should().Be("Florianopolis");
@@ -161,8 +159,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var res5 = GetFirstSkillName(js);
                     res5.Should().Be("Langage");
 
-                    _DataContext.Skills[0].Name = "Ling";
-                    await Task.Delay(200);
+                    await DoSafeAsyncUI(() => { _DataContext.Skills[0].Name = "Ling"; });
 
                     //onetime does not update javascript from  C# 
                     res5 = GetFirstSkillName(js);
@@ -170,9 +167,9 @@ namespace Tests.Universal.HTMLBindingTests
 
                     //onetime does not update C# from javascript
                     var stringName = Create(() => _WebView.Factory.CreateString("resName"));
-                    SetAttribute(js, "Name", stringName);
-                    await Task.Delay(200);
-                    _DataContext.Name.Should().Be("23");
+                    await SetAttributeAsync(js, "Name", stringName);
+
+                    await DoSafeAsyncUI(() => { _DataContext.Name.Should().Be("23"); });
                 }
             };
 
@@ -421,9 +418,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var expected = "teste1";
                     var stringValue = Create(() => _WebView.Factory.CreateString(expected));
-                    SetAttribute(js, "Name", stringValue);
-
-                    await Task.Delay(50);
+                    await SetAttributeAsync(js, "Name", stringValue);
 
                     dataContext.Name.Should().Be(expected);
                     _Logger.Info("Test ended sucessfully");
@@ -460,9 +455,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     //Test Two Way Decimal: null => value
                     var newDecimal = Create(() => _WebView.Factory.CreateDouble(0.5));
-                    SetAttribute(js, nameof(dataContext.Decimal), newDecimal);
+                    await SetAttributeAsync(js, nameof(dataContext.Decimal), newDecimal);
 
-                    await Task.Delay(50);
                     var newValue = GetDoubleAttribute(js, nameof(dataContext.Decimal));
                     newValue.Should().Be(0.5);
 
@@ -475,9 +469,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     //Test Two Way bool value => null
                     var nullJs = Create(() => _WebView.Factory.CreateNull());
-                    SetAttribute(js, nameof(dataContext.Bool), nullJs);
+                    await SetAttributeAsync(js, nameof(dataContext.Bool), nullJs);
 
-                    await Task.Delay(50);
                     var boolValue = GetAttribute(js, nameof(dataContext.Bool));
                     boolValue.IsNull.Should().BeTrue();
 
@@ -487,7 +480,6 @@ namespace Tests.Universal.HTMLBindingTests
                     {
                         dataContext.Bool.Should().NotHaveValue();
                     });
-
 
                     //Test Two Way int value => value
                     var intValueJS = Create(() => _WebView.Factory.CreateInt(54));
@@ -563,9 +555,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     //Test Two Way
                     var stringName = Create(() => _WebView.Factory.CreateString("resName"));
-                    SetAttribute(js, "Name", stringName);
+                    await SetAttributeAsync(js, "Name", stringName);
 
-                    await Task.Delay(150);
                     var resName = GetStringAttribute(js, "Name");
                     resName.Should().Be("resName");
 
@@ -696,8 +687,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var name = di.GetValue("displayName").GetStringValue();
                     name.Should().Be("Divorced");
 
-                    SetAttribute(js, "PersonalState", di);
-                    await Task.Delay(100);
+                    await SetAttributeAsync(js, "PersonalState", di);
 
                     _DataContext.PersonalState.Should().Be(PersonalState.Divorced);
                 }
@@ -868,9 +858,7 @@ namespace Tests.Universal.HTMLBindingTests
                     n2.Should().Be("Claudia");
 
                     var jsValue = GetAttribute(js, "Two");
-                    SetAttribute(js, "One", jsValue);
-
-                    await Task.Delay(100);
+                    await SetAttributeAsync(js, "One", jsValue);
 
                     var res3 = GetAttribute(js, "One");
                     res3.Should().NotBeNull();
@@ -885,8 +873,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res4.IsNull.Should().BeTrue();
 
                     var five = Create(() => _WebView.Factory.CreateInt(5));
-                    SetAttribute(res3, "ChildrenNumber", five);
-                    await Task.Delay(100);
+                    await SetAttributeAsync(res3, "ChildrenNumber", five);
 
                     dataContext.One.ChildrenNumber.Should().Be(5);
                 }
@@ -922,9 +909,8 @@ namespace Tests.Universal.HTMLBindingTests
                     n2.Should().Be("Claudia");
 
                     var nullSO = Create(() => _WebView.Factory.CreateNull());
-                    SetAttribute(js, "One", nullSO);
+                    await SetAttributeAsync(js, "One", nullSO);
 
-                    await Task.Delay(150);
                     //var res3 = GetAttribute(js, "One");
                     //GetSafe(() => res3.IsNull).Should().BeTrue();
                     //Init case of awesomium an object is used on JS side
@@ -1169,49 +1155,38 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     js.Should().NotBeNull();
 
-                    SetAttribute(js, "Int64", _WebView.Factory.CreateInt(32));
-                    await Task.Delay(200);
-                    dataContext.Int64.Should().Be(32);
+                    await SetAttributeAsync(js, "Int64", _WebView.Factory.CreateInt(32));
+                    await DoSafeAsyncUI(() => dataContext.Int64.Should().Be(32));
 
-                    SetAttribute(js, "Uint64", _WebView.Factory.CreateInt(456));
-                    await Task.Delay(200);
-                    dataContext.Uint64.Should().Be(456);
+                    await SetAttributeAsync(js, "Uint64", _WebView.Factory.CreateInt(456));
+                    await DoSafeAsyncUI(() => dataContext.Uint64.Should().Be(456));
 
-                    SetAttribute(js, "Int32", _WebView.Factory.CreateInt(5));
-                    await Task.Delay(200);
-                    dataContext.Int32.Should().Be(5);
+                    await SetAttributeAsync(js, "Int32", _WebView.Factory.CreateInt(5));
+                    await DoSafeAsyncUI(() => dataContext.Int32.Should().Be(5));
 
-                    SetAttribute(js, "Uint32", _WebView.Factory.CreateInt(67));
-                    await Task.Delay(200);
-                    dataContext.Uint32.Should().Be(67);
+                    await SetAttributeAsync(js, "Uint32", _WebView.Factory.CreateInt(67));
+                    await DoSafeAsyncUI(() => dataContext.Uint32.Should().Be(67));
 
-                    SetAttribute(js, "Int16", _WebView.Factory.CreateInt(-23));
-                    await Task.Delay(200);
-                    dataContext.Int16.Should().Be(-23);
+                    await SetAttributeAsync(js, "Int16", _WebView.Factory.CreateInt(-23));
+                    await DoSafeAsyncUI(() => dataContext.Int16.Should().Be(-23));
 
-                    SetAttribute(js, "Uint16", _WebView.Factory.CreateInt(9));
-                    await Task.Delay(200);
-                    dataContext.Uint16.Should().Be(9);
+                    await SetAttributeAsync(js, "Uint16", _WebView.Factory.CreateInt(9));
+                    await DoSafeAsyncUI(() => dataContext.Uint16.Should().Be(9));
 
-                    SetAttribute(js, "Float", _WebView.Factory.CreateDouble(888.78));
-                    await Task.Delay(200);
-                    dataContext.Float.Should().Be(888.78f);
+                    await SetAttributeAsync(js, "Float", _WebView.Factory.CreateDouble(888.78));
+                    await DoSafeAsyncUI(() => dataContext.Float.Should().Be(888.78f));
 
-                    SetAttribute(js, "Double", _WebView.Factory.CreateDouble(866.76));
-                    await Task.Delay(200);
-                    dataContext.Double.Should().Be(866.76);
+                    await SetAttributeAsync(js, "Double", _WebView.Factory.CreateDouble(866.76));
+                    await DoSafeAsyncUI(() => dataContext.Double.Should().Be(866.76));
 
-                    SetAttribute(js, "Decimal", _WebView.Factory.CreateDouble(0.5));
-                    await Task.Delay(200);
-                    dataContext.Decimal.Should().Be(0.5m);
+                    await SetAttributeAsync(js, "Decimal", _WebView.Factory.CreateDouble(0.5));
+                    await DoSafeAsyncUI(() => dataContext.Decimal.Should().Be(0.5m));
 
-                    SetAttribute(js, "Byte", _WebView.Factory.CreateInt(10));
-                    await Task.Delay(200);
-                    dataContext.Byte.Should().Be(10);
+                    await SetAttributeAsync(js, "Byte", _WebView.Factory.CreateInt(10));
+                    await DoSafeAsyncUI(() => dataContext.Byte.Should().Be(10));
 
-                    SetAttribute(js, "Sbyte", _WebView.Factory.CreateInt(-12));
-                    await Task.Delay(200);
-                    dataContext.Sbyte.Should().Be(-12);
+                    await SetAttributeAsync(js, "Sbyte", _WebView.Factory.CreateInt(-12));
+                    await DoSafeAsyncUI(() => dataContext.Sbyte.Should().Be(-12));
                 }
             };
 
