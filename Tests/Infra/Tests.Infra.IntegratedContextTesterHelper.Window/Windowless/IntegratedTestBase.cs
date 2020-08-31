@@ -60,11 +60,6 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return RunAsync(test, mb => RunInContext(async () => await test.Test(mb)), memberName);
         }
 
-        protected void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
-        {
-            _JavascriptFrameworkExtractor.SetAttribute(father, attributeName, value);
-        }
-
         protected async Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value)
         {
             await _JavascriptFrameworkExtractor.SetAttributeAsync(father, attributeName, value);

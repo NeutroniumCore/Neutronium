@@ -34,9 +34,7 @@ namespace Tests.Universal.HTMLBindingTests
                     res = GetStringAttribute(js, "Property2");
                     res.Should().Be("2");
 
-                    SetAttribute(js, "Property1", _WebView.Factory.CreateString("a"));
-
-                    await Task.Delay(100);
+                    await SetAttributeAsync(js, "Property1", _WebView.Factory.CreateString("a"));
 
                     res = GetStringAttribute(js, "Property1");
                     res.Should().Be("a");

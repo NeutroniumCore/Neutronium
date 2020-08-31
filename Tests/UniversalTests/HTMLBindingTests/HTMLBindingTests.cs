@@ -226,9 +226,9 @@ namespace Tests.Universal.HTMLBindingTests
                     res5.Should().Be("Ling");
 
                     var stringName = Create(() => _WebView.Factory.CreateString("resName"));
-                    SetAttribute(js, "Name", stringName);
-                    await Task.Delay(200);
-                    _DataContext.Name.Should().Be("23");
+                    await SetAttributeAsync(js, "Name", stringName);
+
+                    await DoSafeAsyncUI(()=>  _DataContext.Name.Should().Be("23"));
                 }
             };
 
@@ -483,9 +483,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     //Test Two Way int value => value
                     var intValueJS = Create(() => _WebView.Factory.CreateInt(54));
-                    SetAttribute(js, nameof(dataContext.Int32), intValueJS);
+                    await SetAttributeAsync(js, nameof(dataContext.Int32), intValueJS);
 
-                    await Task.Delay(50);
                     var intValue = GetIntAttribute(js, nameof(dataContext.Int32));
                     intValue.Should().Be(54);
 
@@ -949,12 +948,10 @@ namespace Tests.Universal.HTMLBindingTests
                     n2.Should().Be("Claudia");
 
                     var stringJs = _WebView.Factory.CreateString("Dede");
-                    SetAttribute(js, "One", stringJs);
+                    await SetAttributeAsync(js, "One", stringJs);
 
                     var res3 = GetStringAttribute(js, "One");
                     res3.Should().Be("Dede");
-
-                    await Task.Delay(100);
 
                     dataContext.One.Should().Be(p1);
                 }
@@ -989,13 +986,12 @@ namespace Tests.Universal.HTMLBindingTests
                     n2.Should().Be("Claudia");
 
                     var trueJs = _WebView.Factory.CreateObject(ObjectObservability.None);
-                    SetAttribute(js, "One", trueJs);
+                    await SetAttributeAsync(js, "One", trueJs);
 
                     var res3 = GetAttribute(js, "One");
                     res3.IsObject.Should().BeTrue();
 
-                    await Task.Delay(100);
-                    dataContext.One.Should().Be(p1);
+                    await DoSafeAsyncUI(()=> dataContext.One.Should().Be(p1));
                 }
             };
             await RunAsync(test);
@@ -1018,19 +1014,17 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().Be("NameTest");
 
                     var stringJS = _WebView.Factory.CreateString("NewName");
-                    SetAttribute(js, "Name", stringJS);
+                    await SetAttributeAsync(js, "Name", stringJS);
                     res = GetStringAttribute(js, "Name");
                     res.Should().Be("NewName");
 
-                    await Task.Delay(100);
-                    datacontexttest.Name.Should().Be("NameTest");
+                    await DoSafeAsyncUI(()=> datacontexttest.Name.Should().Be("NameTest"));
 
-                    var resf = GetSafe(() => js.HasValue("UselessName"));
-                    resf.Should().BeFalse();
+                    var resFalse = GetSafe(() => js.HasValue("UselessName"));
+                    resFalse.Should().BeFalse();
 
-                    Func<Task> safe = async () => await DoSafeAsyncUI(() => datacontexttest.InconsistentEventEmit());
-
-                    safe.Should().NotThrow("Inconsistent Name in property should not throw exception");
+                    Action safe = () =>  datacontexttest.InconsistentEventEmit();
+                    await DoSafeAsyncUI(() => safe.Should().NotThrow("Inconsistent Name in property should not throw exception"));
                 }
             };
 
@@ -1209,10 +1203,9 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().Be(0);
 
                     var halfJavascript = Create(() => _WebView.Factory.CreateDouble(0.5));
-                    SetAttribute(js, "decimalValue", halfJavascript);
-                    await Task.Delay(200);
+                    await SetAttributeAsync(js, "decimalValue", halfJavascript);
 
-                    dataContext.decimalValue.Should().Be(0.5m);
+                    await DoSafeAsyncUI(() => dataContext.decimalValue.Should().Be(0.5m));
 
                     var doubleValue = GetDoubleAttribute(js, "decimalValue");
                     const double half = 0.5;
@@ -1239,10 +1232,9 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var intValue = 24524;
                     var jsInt = Create(() => _WebView.Factory.CreateInt(intValue));
-                    SetAttribute(js, "longValue", jsInt);
-                    await Task.Delay(100);
+                    await SetAttributeAsync(js, "longValue", jsInt);
 
-                    dataContext.longValue.Should().Be(24524);
+                    await DoSafeAsyncUI(() => dataContext.longValue.Should().Be(24524));
 
                     doublev = GetDoubleAttribute(js, "longValue");
                     long half = 24524;
@@ -1437,10 +1429,9 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var intValue = 9;
                     var jsInt = Create(() => _WebView.Factory.CreateInt(intValue));
-                    SetAttribute(js, "MagicNumber", jsInt);
-                    await Task.Delay(100);
+                    await SetAttributeAsync(js, "MagicNumber", jsInt);
 
-                    dataContext.MagicNumber.Should().Be(42);
+                    await DoSafeAsyncUI(()=>  dataContext.MagicNumber.Should().Be(42));
                     await Task.Delay(100);
 
                     res = GetIntAttribute(js, "MagicNumber");
