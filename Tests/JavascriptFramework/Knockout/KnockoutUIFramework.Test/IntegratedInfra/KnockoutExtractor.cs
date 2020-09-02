@@ -20,9 +20,20 @@ namespace KnockoutFramework.Test.IntegratedInfra
             return _WebView.Evaluate(() => value.Invoke(attributeName, _WebView));
         }
 
+        public Task<IJavascriptObject> GetAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            return _WebView.EvaluateAsync(() => value.Invoke(attributeName, _WebView));
+        }
+
         public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attributeName)
         {
             var almost = GetAttribute(value, attributeName);
+            return almost.ExecuteFunction(_WebView);
+        }
+
+        public async Task<IJavascriptObject> GetCollectionAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            var almost = await GetAttributeAsync(value, attributeName);
             return almost.ExecuteFunction(_WebView);
         }
 
@@ -49,11 +60,6 @@ namespace KnockoutFramework.Test.IntegratedInfra
         public bool GetBoolAttribute(IJavascriptObject value, string attributeName)
         {
             return _WebView.Evaluate(() => value.Invoke(attributeName, _WebView).GetBoolValue());
-        }
-
-        public void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
-        {
-            _WebView.Evaluate(() => father.Invoke(attributeName, _WebView, value));
         }
 
         public Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value)

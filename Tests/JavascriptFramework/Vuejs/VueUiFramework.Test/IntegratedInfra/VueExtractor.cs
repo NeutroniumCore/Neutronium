@@ -20,6 +20,11 @@ namespace VueFramework.Test.IntegratedInfra
             return _WebView.Evaluate(() => value.GetValue(attributeName));
         }
 
+        public Task<IJavascriptObject> GetAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            return _WebView.EvaluateAsync(() => value.GetValue(attributeName));
+        }
+
         public bool GetBoolAttribute(IJavascriptObject value, string attributeName)
         {
             return _WebView.Evaluate(() => value.GetValue(attributeName).GetBoolValue());
@@ -28,6 +33,11 @@ namespace VueFramework.Test.IntegratedInfra
         public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attributeName)
         {
             return GetAttribute(value, attributeName);
+        }
+
+        public Task<IJavascriptObject> GetCollectionAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            return GetAttributeAsync(value, attributeName);
         }
 
         public double GetDoubleAttribute(IJavascriptObject value, string attributeName)
@@ -49,11 +59,6 @@ namespace VueFramework.Test.IntegratedInfra
         public string GetStringAttribute(IJavascriptObject value, string attributeName)
         {
             return _WebView.Evaluate(() => value.GetValue(attributeName).GetStringValue());
-        }
-
-        public void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
-        {
-            _WebView.Run(() => father.SetValue(attributeName, value));
         }
 
         public Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value)

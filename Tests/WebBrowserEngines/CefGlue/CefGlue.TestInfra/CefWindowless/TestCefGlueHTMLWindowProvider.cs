@@ -1,7 +1,8 @@
 ﻿using System;
-using Neutronium.Core.Infra;
 using Neutronium.Core.WebBrowserEngine.Control;
 using Neutronium.Core.WebBrowserEngine.Window;
+using Neutronium.WPF.Internal;
+using Tests.Infra.WebBrowserEngineTesterHelper.Window;
 using Xilium.CefGlue;
 
 namespace CefGlue.TestInfra.CefWindowless
@@ -13,7 +14,7 @@ namespace CefGlue.TestInfra.CefWindowless
         event EventHandler<DebugEventArgs> IWebBrowserWindowProvider.DebugToolOpened { add { } remove { } }
         public event EventHandler OnDisposed;
         public IWebBrowserWindow HtmlWindow { get; }
-        public IUiDispatcher UiDispatcher => new NullUIDispatcher();
+        public IUiDispatcher UiDispatcher => new WPFUIDispatcher(WpfThread.GetWpfThread().Dispatcher);
 
         public TestCefGlueHTMLWindowProvider(CefFrame iFrame, TestCefClient cefClient)
         {

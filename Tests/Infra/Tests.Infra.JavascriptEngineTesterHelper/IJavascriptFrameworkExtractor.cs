@@ -11,9 +11,11 @@ namespace Tests.Infra.JavascriptFrameworkTesterHelper
 
         IJavascriptObject GetAttribute(IJavascriptObject value, string attributeName);
 
+        Task<IJavascriptObject> GetAttributeAsync(IJavascriptObject value, string attributeName);
+
         IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attributeName);
 
-        void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value);
+        Task<IJavascriptObject> GetCollectionAttributeAsync(IJavascriptObject value, string attributeName);
 
         Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value);
 

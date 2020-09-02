@@ -22,6 +22,11 @@ namespace Mobx.Test.IntegratedInfra
             return _WebView.Evaluate(() => value.GetValue(attributeName));
         }
 
+        public Task<IJavascriptObject> GetAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            return _WebView.EvaluateAsync(() => value.GetValue(attributeName));
+        }
+
         public bool GetBoolAttribute(IJavascriptObject value, string attributeName)
         {
             return _WebView.Evaluate(() => value.GetValue(attributeName).GetBoolValue());
@@ -31,6 +36,12 @@ namespace Mobx.Test.IntegratedInfra
         {
             var almost = GetAttribute(value, attributeName);
             return almost.Invoke("slice",_WebView);
+        }
+
+        public async Task<IJavascriptObject> GetCollectionAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            var almost = await GetAttributeAsync(value, attributeName);
+            return await almost.InvokeAsync("slice", _WebView);
         }
 
         public double GetDoubleAttribute(IJavascriptObject value, string attributeName)
@@ -57,11 +68,6 @@ namespace Mobx.Test.IntegratedInfra
         public string GetStringAttribute(IJavascriptObject value, string attributeName)
         {
             return _WebView.Evaluate(() => value.GetValue(attributeName).GetStringValue());
-        }
-
-        public void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
-        {
-            _WebView.Run(() => father.SetValue(attributeName, value));
         }
 
         public Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value)

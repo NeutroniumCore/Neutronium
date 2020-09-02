@@ -36,7 +36,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await SetAttributeAsync(js, "Property1", _WebView.Factory.CreateString("a"));
 
-                    res = GetStringAttribute(js, "Property1");
+                    res = await GetStringAttributeAsync(js, "Property1");
                     res.Should().Be("a");
 
                     res = GetStringAttribute(js, "Property2");
@@ -67,9 +67,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => { dataContext.Property1 = "a"; });
 
-                    await Task.Delay(50);
-
-                    res = GetStringAttribute(js, "Property1");
+                    res = await GetStringAttributeAsync(js, "Property1");
                     res.Should().Be("a");
 
                     res = GetStringAttribute(js, "Property2");
@@ -99,12 +97,12 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => { local.City = "Floripa"; });
 
+                    await WaitAnotherWebContextCycle();
+
                     var js = mb.JsRootObject;
-
-                    await Task.Delay(150);
-
-                    var jsLocal = GetAttribute(js, "Local");
+                    var jsLocal = await GetAttributeAsync(js, "Local");
                     var city = GetStringAttribute(jsLocal, "City");
+
                     city.Should().Be("Floripa");
                 }
             };
@@ -129,16 +127,16 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => { _DataContext.Local = local; });
 
-                    await Task.Delay(100);
-
                     var js = mb.JsRootObject;
 
-                    var jsLocal = GetAttribute(js, "Local");
+                    var jsLocal = await GetAttributeAsync(js, nameof(_DataContext.Local));
 
                     var stringName = Create(() => _WebView.Factory.CreateString("Floripa"));
                     await SetAttributeAsync(jsLocal, "City", stringName);
 
-                    _DataContext.Local.City.Should().Be("Floripa");
+                    await WaitOneCompleteCycle();
+
+                    await DoSafeAsyncUI(() => _DataContext.Local.City.Should().Be("Floripa"));
                 }
             };
 
@@ -163,13 +161,16 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => dataContext.Child = remplacementChild);
 
+                    await WaitAnotherWebContextCycle();
+
                     child.ListenerCount.Should().Be(0);
 
                     //If still listening to child, this will raise an exception
                     //for changing property on the wrong thread
                     var third = new BasicTestViewModel();
                     Action safe = () => child.Child = third;
-                    safe.Should().NotThrow();
+
+                    await DoSafeAsync(() => safe.Should().NotThrow());
                 }
             };
 
@@ -201,6 +202,8 @@ namespace Tests.Universal.HTMLBindingTests
                         dataContext.Child = tempChild2;
                         dataContext.Child = remplacementChild;
                     });
+
+                    await WaitAnotherWebContextCycle();
 
                     tempChild1.ListenerCount.Should().Be(0);
                     tempChild2.ListenerCount.Should().Be(0);
@@ -282,7 +285,7 @@ namespace Tests.Universal.HTMLBindingTests
         [Theory]
         [MemberData(nameof(BasicVmData))]
         public async Task TwoWay_Cleans_Javascript_Objects_Cache_When_Object_Is_Not_Part_Of_The_Graph(
-            BasicTestViewModel remplacementChild)
+            BasicTestViewModel replacementChild)
         {
             var dataContext = new BasicFatherTestViewModel();
             var child = new BasicTestViewModel();
@@ -296,10 +299,11 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     var childJs = GetAttribute(js, "Child");
 
-                    await DoSafeAsyncUI(() => dataContext.Child = remplacementChild);
-                    await Task.Delay(300);
+                    await DoSafeAsyncUI(() => dataContext.Child = replacementChild);
 
-                    var myCommand = GetAttribute(js, "Command");
+                    await WaitAnotherWebContextCycle();
+
+                    var myCommand = await GetAttributeAsync(js, "Command");
                     await DoSafeAsync(() => Call(myCommand, "Execute", childJs));
 
                     await DoSafeAsyncUI(() =>
@@ -633,12 +637,10 @@ namespace Tests.Universal.HTMLBindingTests
                     await DoSafeAsyncUI(() => dataContext.Child = child);
                     await DoSafeAsyncUI(() => third.Value = 3);
 
-                    await Task.Delay(150);
-
-                    var child1 = GetAttribute(js, "Child");
+                    var child1 = await GetAttributeAsync(js, "Child");
                     var child2 = GetAttribute(child1, "Child");
 
-                    var value = GetIntAttribute(child2, "Value");
+                    var value = await GetIntAttributeAsync(child2, "Value");
                     value.Should().Be(3);
 
                     var newValue = 44;

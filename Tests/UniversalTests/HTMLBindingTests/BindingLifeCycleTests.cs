@@ -28,7 +28,29 @@ namespace Tests.Universal.HTMLBindingTests
             CheckHasListener(javascriptObject, !objectObservability.HasFlag(ObjectObservability.ReadOnly));
         }
 
-        private void CheckHasListener(IJavascriptObject javascriptObject, bool hasListener) 
+        private async Task CheckObjectObservabilityAsync(IJavascriptObject javascriptObject, ObjectObservability objectObservability)
+        {
+            var readOnly = (ObjectObservability)GetIntAttribute(javascriptObject, NeutroniumConstants.ReadOnlyFlag);
+            readOnly.Should().Be(objectObservability);
+
+            await CheckHasListenerAsync(javascriptObject, !objectObservability.HasFlag(ObjectObservability.ReadOnly));
+        }
+
+        private async Task CheckHasListenerAsync(IJavascriptObject javascriptObject, bool hasListener) 
+        {
+            var silenterRoot = await GetAttributeAsync(javascriptObject, "__silenter");
+
+            if (hasListener)
+            {
+                silenterRoot.IsObject.Should().BeTrue();
+            }
+            else 
+            {
+                silenterRoot.IsUndefined.Should().BeTrue();
+            }
+        }
+
+        private void CheckHasListener(IJavascriptObject javascriptObject, bool hasListener)
         {
             var silenterRoot = GetAttribute(javascriptObject, "__silenter");
 
@@ -36,7 +58,7 @@ namespace Tests.Universal.HTMLBindingTests
             {
                 silenterRoot.IsObject.Should().BeTrue();
             }
-            else 
+            else
             {
                 silenterRoot.IsUndefined.Should().BeTrue();
             }
@@ -109,8 +131,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var newValue = 550;
                     await DoSafeAsyncUI(() => dataContext.ReadWrite = newValue);
 
-                    await Task.Delay(150);
-                    var readOnlyValue = GetIntAttribute(js, "ReadWrite");
+                    var readOnlyValue = await GetIntAttributeAsync(js, "ReadWrite");
                     readOnlyValue.Should().Be(newValue);
                 }
             };
@@ -159,9 +180,8 @@ namespace Tests.Universal.HTMLBindingTests
                     CheckObjectObservability(childJs, ObjectObservability.Observable);
 
                     await DoSafeAsyncUI(() => dataContext.Child = remplacementChild);
-                    await Task.Delay(150);
 
-                    CheckHasListener(childJs, false);
+                    await CheckHasListenerAsync(childJs, false);
                 }
             };
 
@@ -195,9 +215,8 @@ namespace Tests.Universal.HTMLBindingTests
                         dataContext.Child = tempChild2;
                         dataContext.Child = remplacementChild;
                     });
-                    await Task.Delay(150);
 
-                    CheckHasListener(childJs, false);
+                    await CheckHasListenerAsync(childJs, false);
                 }
             };
 
@@ -228,8 +247,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     child.ListenerCount.Should().Be(0);
 
-                    await WaitAnotherWebContextCycle();
-                    CheckHasListener(childJs, false);
+                    //await WaitAnotherWebContextCycle();
+                    await CheckHasListenerAsync(childJs, false);
                 }
             };
 
@@ -259,9 +278,8 @@ namespace Tests.Universal.HTMLBindingTests
                     CheckObjectObservability(childJs, ObjectObservability.Observable);
 
                     await DoSafeAsyncUI(() => dataContext.Children[0] = remplacementChild);
-                    await Task.Delay(150);
 
-                    CheckHasListener(childJs, false);
+                    await CheckHasListenerAsync(childJs, false);
                 }
             };
 
@@ -287,14 +305,13 @@ namespace Tests.Universal.HTMLBindingTests
                     var childrenJs = GetCollectionAttribute(js, "Children");
                     var childJs = childrenJs.GetValue(0);
 
-                    CheckObjectObservability(childJs, ObjectObservability.Observable);
+                    await CheckObjectObservabilityAsync(childJs, ObjectObservability.Observable);
 
                     var observableCollection = GetAttribute(js, "Children");
                     Call(observableCollection, "pop");
 
-                    await Task.Delay(150);
 
-                    CheckHasListener(childJs, false);
+                    await CheckHasListenerAsync(childJs, false);
                 }
             };
 
@@ -322,9 +339,7 @@ namespace Tests.Universal.HTMLBindingTests
                         dynamicDataContext.ValueDouble = 0.5;
                     });
 
-                    await Task.Delay(50);
-
-                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    var resDouble = await GetDoubleAttributeAsync(js, "ValueDouble");
                     resDouble.Should().Be(0.5);
                 }
             };
@@ -348,9 +363,7 @@ namespace Tests.Universal.HTMLBindingTests
 
                     await DoSafeAsyncUI(() => { dynamicDataContext.ValueDouble = 23; });
 
-                    await Task.Delay(50);
-
-                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    var resDouble = await GetDoubleAttributeAsync(js, "ValueDouble");
                     resDouble.Should().Be(23);
                 }
             };
@@ -380,9 +393,7 @@ namespace Tests.Universal.HTMLBindingTests
                     command.CanExecute(Arg.Any<string>()).Returns(false);
                     await DoSafeAsyncUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
 
-                    await Task.Delay(100);
-
-                    mycommand = GetAttribute(js, "CommandGeneric");
+                    mycommand = await GetAttributeAsync(js, "CommandGeneric");
                     res = GetBoolAttribute(mycommand, "CanExecuteValue");
                     res.Should().BeFalse();
                 }
@@ -473,10 +484,8 @@ namespace Tests.Universal.HTMLBindingTests
 
                     AddAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
 
-                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    var resDouble = await GetDoubleAttributeAsync(js, "ValueDouble");
                     resDouble.Should().Be(49);
-
-                    await Task.Delay(50);
 
                     double value = dynamicDataContext.ValueDouble;
                     value.Should().Be(49);
@@ -506,9 +515,7 @@ namespace Tests.Universal.HTMLBindingTests
                         dynamicDataContext.ValueDouble = 659;
                     });
 
-                    await Task.Delay(50);
-
-                    var resDouble = GetDoubleAttribute(js, "ValueDouble");
+                    var resDouble = await GetDoubleAttributeAsync(js, "ValueDouble");
                     resDouble.Should().Be(659);
                 }
             };
@@ -530,7 +537,7 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     AddAttribute(js, "ValueDouble", _WebView.Factory.CreateDouble(49));
 
-                    await Task.Delay(50);
+                    await WaitAnotherWebContextCycle();
 
                     await SetAttributeAsync(js, "ValueDouble", _WebView.Factory.CreateDouble(7));
 
