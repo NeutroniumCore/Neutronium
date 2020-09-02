@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.1.3",
-    "bootstrap-vue": "^2.0.0-rc.11",
+    "bootstrap-vue": "^2.0.0-rc.12",
     "neutronium-vue-command-mixin": "^1.4.1",
     "neutronium-vue-resultcommand-topromise": "^1.1.0",
     "neutronium-vue-simple-command-mixin": "^1.1.0",
