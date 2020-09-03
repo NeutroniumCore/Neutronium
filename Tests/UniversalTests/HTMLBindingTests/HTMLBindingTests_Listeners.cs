@@ -771,7 +771,6 @@ namespace Tests.Universal.HTMLBindingTests
             await RunAsync(test);
         }
 
-
         [Fact]
         public async Task TwoWay_Cache_Value_From_Javascript()
         {
@@ -783,7 +782,6 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => BindInContext(win, dataContext, JavascriptBindingMode.TwoWay),
                 Test = async (context) =>
                 {
-                    
                     var root = context.Binding.JsRootObject;
                     var stringFormJs = Factory.CreateString(stringValue);
                     await SetAttributeAsync(root, nameof(dataContext.String2), stringFormJs);
