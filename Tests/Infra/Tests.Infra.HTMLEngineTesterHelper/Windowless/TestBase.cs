@@ -97,19 +97,9 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Windowless
             await await taskFactory.StartNew(act);
         }
 
-        protected IJavascriptObject CallWithRes(IJavascriptObject value, string functionname, params IJavascriptObject[] parameter)
+        protected void Call(IJavascriptObject value, string functionName, Func<IJavascriptObject> parameter) 
         {
-            return _WebView.Evaluate(() => value.Invoke(functionname, _WebView, parameter));
-        }
-
-        protected void Call(IJavascriptObject value, string functionname, params IJavascriptObject[] parameter) 
-        {
-            _WebView.Run(() => value.Invoke(functionname, _WebView, parameter));
-        }
-
-        protected void Call(IJavascriptObject value, string functionname, Func<IJavascriptObject> parameter) 
-        {
-            _WebView.Run(() => value.Invoke(functionname, _WebView, parameter()));
+            _WebView.Run(() => value.Invoke(functionName, _WebView, parameter()));
         }
 
         protected IJavascriptObject Create(Func<IJavascriptObject> factory) 

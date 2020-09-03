@@ -1,4 +1,5 @@
-﻿using Neutronium.Core.WebBrowserEngine.JavascriptObject;
+﻿using System.Threading.Tasks;
+using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Tests.Infra.JavascriptFrameworkTesterHelper;
 
 namespace VueFramework.Test.IntegratedInfra
@@ -14,45 +15,55 @@ namespace VueFramework.Test.IntegratedInfra
             _WebView = webView;
         }
 
-        public IJavascriptObject GetAttribute(IJavascriptObject value, string attibutename)
+        public IJavascriptObject GetAttribute(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.GetValue(attibutename));
+            return _WebView.Evaluate(() => value.GetValue(attributeName));
         }
 
-        public bool GetBoolAttribute(IJavascriptObject value, string attibutename)
+        public Task<IJavascriptObject> GetAttributeAsync(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.GetValue(attibutename).GetBoolValue());
+            return _WebView.EvaluateAsync(() => value.GetValue(attributeName));
         }
 
-        public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attibutename)
+        public bool GetBoolAttribute(IJavascriptObject value, string attributeName)
         {
-            return GetAttribute(value, attibutename);
+            return _WebView.Evaluate(() => value.GetValue(attributeName).GetBoolValue());
         }
 
-        public double GetDoubleAttribute(IJavascriptObject value, string attibutename)
+        public IJavascriptObject GetCollectionAttribute(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.GetValue(attibutename).GetDoubleValue());
+            return GetAttribute(value, attributeName);
         }
 
-        public int GetIntAttribute(IJavascriptObject value, string attibutename)
+        public Task<IJavascriptObject> GetCollectionAttributeAsync(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.GetValue(attibutename).GetIntValue());
+            return GetAttributeAsync(value, attributeName);
         }
 
-        public void AddAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        public double GetDoubleAttribute(IJavascriptObject value, string attributeName)
         {
-            var Vue = _WebView.GetGlobal().GetValue("Vue");
-            Vue.InvokeNoResult("set", _WebView, father, _WebView.Factory.CreateString(attibutename), value);
+            return _WebView.Evaluate(() => value.GetValue(attributeName).GetDoubleValue());
         }
 
-        public string GetStringAttribute(IJavascriptObject value, string attibutename)
+        public int GetIntAttribute(IJavascriptObject value, string attributeName)
         {
-            return _WebView.Evaluate(() => value.GetValue(attibutename).GetStringValue());
+            return _WebView.Evaluate(() => value.GetValue(attributeName).GetIntValue());
         }
 
-        public void SetAttribute(IJavascriptObject father, string attibutename, IJavascriptObject value)
+        public void AddAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
         {
-            _WebView.Run(() => father.SetValue(attibutename, value));
+            var vue = _WebView.GetGlobal().GetValue("Vue");
+            vue.InvokeNoResult("set", _WebView, father, _WebView.Factory.CreateString(attributeName), value);
+        }
+
+        public string GetStringAttribute(IJavascriptObject value, string attributeName)
+        {
+            return _WebView.Evaluate(() => value.GetValue(attributeName).GetStringValue());
+        }
+
+        public Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value)
+        {
+            return _WebView.RunAsync(() => father.SetValue(attributeName, value));
         }
 
         public IJavascriptObject GetRootViewModel()

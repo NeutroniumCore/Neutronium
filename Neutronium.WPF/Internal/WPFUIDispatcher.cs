@@ -18,8 +18,15 @@ namespace Neutronium.WPF.Internal
             var tcs = new TaskCompletionSource<object>();
             void Act()
             {
-                act();
-                tcs.SetResult(null);
+                try
+                {
+                    act();
+                    tcs.SetResult(null);
+                }
+                catch (Exception exception)
+                {
+                    tcs.SetException(exception);
+                }
             }
             BeginInvoke(Act);
             return tcs.Task;
@@ -38,7 +45,18 @@ namespace Neutronium.WPF.Internal
         public Task<T> EvaluateAsync<T>(Func<T> compute)
         {
             var tcs = new TaskCompletionSource<T>();
-            void Action() => tcs.SetResult(compute());
+
+            void Action()
+            {
+                try
+                {
+                    tcs.SetResult(compute());
+                }
+                catch (Exception exception)
+                {
+                   tcs.SetException(exception);
+                }
+            }
             BeginInvoke(Action);
             return tcs.Task;
         }

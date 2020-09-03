@@ -84,6 +84,14 @@ namespace Neutronium.Core.Binding.Updater
             return _Context.WebView.Converter.GetSimpleValue(value, out targetValue, targetType);
         }
 
+        public IJsCsGlue MapJavascripObject(object csValue, IJavascriptObject jsValue)
+        {
+            var result = GlueMapper.Map(csValue);
+            if (result.JsValue == null)
+                result.SetJsValue(jsValue, _SessionCache);
+            return result;
+        }
+
         public void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off)
         {
             updater?.CleanAfterChangesOnUiThread(off, _SessionCache);

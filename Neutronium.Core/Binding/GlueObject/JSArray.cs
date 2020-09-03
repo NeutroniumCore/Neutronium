@@ -76,13 +76,13 @@ namespace Neutronium.Core.Binding.GlueObject
                 case CollectionChangeType.Add:
                     if (change.Index == list.Count)
                     {
-                        list.Add(change.Object.CValue);
-                        Items.Add(change.Object);
+                        list.Add(change.Object);
+                        Items.Add(change.Glue);
                     }
                     else
                     {
-                        list.Insert(change.Index, change.Object.CValue);
-                        Items.Insert(change.Index, change.Object);
+                        list.Insert(change.Index, change.Object);
+                        Items.Insert(change.Index, change.Glue);
                     }
                     break;
 

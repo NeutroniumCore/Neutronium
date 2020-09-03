@@ -13,6 +13,7 @@ namespace Neutronium.Core.Binding.Updater
         T GetCachedFromJsObject<T>(IJavascriptObject value) where T : class;
         IJsCsGlue Map(object value);
         bool GetSimpleValue(IJavascriptObject value, out object res, Type targetType = null);
+        IJsCsGlue MapJavascripObject(object csValue, IJavascriptObject jsValue);
         void UpdateOnUiContext(BridgeUpdater updater, ObjectChangesListener off);
         void UpdateOnJavascriptContext(BridgeUpdater updater, IJsCsGlue value);
         void UpdateOnJavascriptContext(BridgeUpdater updater, IList<IJsCsGlue> value);

@@ -58,9 +58,9 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var jsCommand = GetAttribute(js, "Command");
-                    DoSafe(() => Call(jsCommand, "Execute"));
-                    await Task.Delay(100);
-                    command.Received().Execute(Arg.Any<object>());
+                    await DoSafeAsync(() => Call(jsCommand, "Execute"));
+
+                    await DoSafeAsyncUI(() => command.Received().Execute(Arg.Any<object>()));
                 }
             };
 
@@ -80,9 +80,9 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var jsCommand = GetAttribute(js, "Command");
-                    DoSafe(() => Call(jsCommand, "Execute", js));
-                    await Task.Delay(100);
-                    command.Received().Execute(fakeTestViewModel);
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", js));
+
+                    await DoSafeAsyncUI(() => command.Received().Execute(fakeTestViewModel));
                 }
             };
 
@@ -117,8 +117,10 @@ namespace Tests.Universal.HTMLBindingTests
         [Fact]
         public async Task TwoWay_Updates_Command_From_Null()
         {
+            var completion = new TaskCompletionSource<object>();
             var command = Substitute.For<ICommand>();
             command.CanExecute(Arg.Any<object>()).Returns(true);
+            command.When(cmd => cmd.Execute(Arg.Any<object>())).Do(x => completion.SetResult(x[0]));
             var fakeTestViewModel = new FakeTestViewModel();
 
             var test = new TestInContextAsync()
@@ -131,13 +133,15 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "Command");
                     jsCommand.IsNull.Should().BeTrue();
 
-                    DoSafeUI(() => fakeTestViewModel.Command = command);
-                    await Task.Delay(200);
+                    await DoSafeAsyncUI(() => fakeTestViewModel.Command = command);
 
-                    jsCommand = GetAttribute(js, "Command");
-                    DoSafe(() => Call(jsCommand, "Execute", js));
-                    await Task.Delay(200);
-                    command.Received().Execute(fakeTestViewModel);
+                    await WaitAnotherWebContextCycle();
+
+                    jsCommand = await GetAttributeAsync(js, "Command");
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", js));
+
+                    var calledValue = await completion.Task;
+                    calledValue.Should().Be(fakeTestViewModel);
                 }
             };
             await RunAsync(test);
@@ -159,11 +163,13 @@ namespace Tests.Universal.HTMLBindingTests
                     var childJs = GetAttribute(js, "Child");
 
                     var jsCommand = GetAttribute(js, "Command");
-                    DoSafe(() => Call(jsCommand, "Execute", childJs));
-                    await Task.Delay(300);
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", childJs));
 
-                    fakeTestViewModel.CallCount.Should().Be(1);
-                    fakeTestViewModel.LastCallElement.Should().Be(child);
+                    await DoSafeAsyncUI(() =>
+                    {
+                        fakeTestViewModel.CallCount.Should().Be(1);
+                        fakeTestViewModel.LastCallElement.Should().Be(child);
+                    });
                 }
             };
 
@@ -240,11 +246,11 @@ namespace Tests.Universal.HTMLBindingTests
 
                     command.CanExecute.Returns(false);
 
-                    DoSafeUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
+                    await DoSafeAsyncUI(() => command.CanExecuteChanged += Raise.EventWith(command, new EventArgs()));
 
-                    await Task.Delay(150);
+                    await WaitAnotherUiCycle();
 
-                    jsCommand = GetAttribute(js, "CommandWithoutParameters");
+                    jsCommand = await GetAttributeAsync(js, "CommandWithoutParameters");
                     res = GetBoolAttribute(jsCommand, "CanExecuteValue");
                     res.Should().BeFalse();
                 }
@@ -268,9 +274,9 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var jsCommand = GetAttribute(js, "CommandWithoutParameters");
-                    DoSafe(() => Call(jsCommand, "Execute"));
-                    await Task.Delay(100);
-                    command.Received(1).Execute();
+                    await DoSafeAsync(() => Call(jsCommand, "Execute"));
+
+                    await DoSafeAsyncUI(() => command.Received(1).Execute());
                 }
             };
 
@@ -293,13 +299,14 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "Command");
                     jsCommand.IsNull.Should().BeTrue();
 
-                    DoSafeUI(() => fakeTestViewModel.CommandWithoutParameters = command);
-                    await Task.Delay(200);
+                    await DoSafeAsyncUI(() => fakeTestViewModel.CommandWithoutParameters = command);
 
-                    jsCommand = GetAttribute(js, "CommandWithoutParameters");
-                    DoSafe(() => Call(jsCommand, "Execute"));
-                    await Task.Delay(200);
-                    command.Received().Execute();
+                    await WaitAnotherWebContextCycle();
+
+                    jsCommand = await GetAttributeAsync(js, "CommandWithoutParameters");
+                    await DoSafeAsync(() => Call(jsCommand, "Execute"));
+
+                    await DoSafeAsyncUI(() => command.Received().Execute());
                 }
             };
             await RunAsync(test);
@@ -374,9 +381,9 @@ namespace Tests.Universal.HTMLBindingTests
 
                     var jsCommand = GetAttribute(js, "CommandGeneric");
                     var jsParameter = (parameter != null) ? _WebView.Factory.CreateString(parameter) : _WebView.Factory.CreateNull();
-                    DoSafe(() => Call(jsCommand, "Execute", jsParameter));
-                    await Task.Delay(150);
-                    command.Received(1).Execute(parameter);
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", jsParameter));
+
+                    await DoSafeAsyncUI(() => command.Received(1).Execute(parameter));
                 }
             };
 
@@ -397,9 +404,9 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var jsCommand = GetAttribute(js, "CommandGeneric");
-                    DoSafe(() => Call(jsCommand, "Execute", _WebView.Factory.CreateInt(10)));
-                    await Task.Delay(150);
-                    command.Received(1).Execute("10");
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", _WebView.Factory.CreateInt(10)));
+
+                    await DoSafeAsyncUI(() => command.Received(1).Execute("10"));
                 }
             };
 
@@ -420,9 +427,8 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var jsCommand = GetAttribute(js, "CommandGenericInt");
-                    DoSafe(() => Call(jsCommand, "Execute", _WebView.Factory.CreateString("taDa")));
-                    await Task.Delay(100);
-                    command.DidNotReceive().Execute(Arg.Any<int>());
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", _WebView.Factory.CreateString("taDa")));
+                    await DoSafeAsyncUI(()=> command.DidNotReceive().Execute(Arg.Any<int>()));
                 }
             };
 
@@ -443,9 +449,8 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var jsCommand = GetAttribute(js, "CommandGeneric");
-                    DoSafe(() => Call(jsCommand, "Execute"));
-                    await Task.Delay(100);
-                    command.DidNotReceive().Execute(Arg.Any<string>());
+                    await DoSafeAsync(() => Call(jsCommand, "Execute"));
+                    await DoSafeAsyncUI(() => command.DidNotReceive().Execute(Arg.Any<string>()));
                 }
             };
 
@@ -469,20 +474,18 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "Command");
                     jsCommand.IsNull.Should().BeTrue();
 
-                    DoSafeUI(() => fakeTestViewModel.CommandGeneric = command);
-                    await Task.Delay(200);
+                    await DoSafeAsyncUI(() => fakeTestViewModel.CommandGeneric = command);
 
-                    jsCommand = GetAttribute(js, "CommandGeneric");
-                    DoSafe(() => Call(jsCommand, "Execute", _WebView.Factory.CreateString(argument)));
-                    await Task.Delay(200);
-                    command.Received().Execute(argument);
+                    jsCommand = await GetAttributeAsync(js, "CommandGeneric");
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", _WebView.Factory.CreateString(argument)));
+                    await DoSafeAsyncUI(() => command.Received().Execute(argument));
                 }
             };
             await RunAsync(test);
         }
 
         [Fact]
-        public async Task TwoWay_Command_Generic_FakeTestViewModel_CanExecute_Refresh_Ok()
+        public async Task TwoWay_Command_Generic_CanExecute_Can_Be_Updated()
         {
             var command = Substitute.For<ICommand<FakeTestViewModel>>();
             command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(true);
@@ -499,15 +502,13 @@ namespace Tests.Universal.HTMLBindingTests
                     var res = GetBoolAttribute(jsCommand, "CanExecuteValue");
                     res.Should().BeTrue();
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         command.CanExecute(Arg.Any<FakeTestViewModel>()).Returns(false);
                         command.CanExecuteChanged += Raise.EventWith(command, new EventArgs());
                     });
 
-                    await Task.Delay(200);
-
-                    jsCommand = GetAttribute(js, "AutoCommand");
+                    jsCommand = await GetAttributeAsync(js, "AutoCommand");
                     res = GetBoolAttribute(jsCommand, "CanExecuteValue");
                     res.Should().BeFalse();
                 }
@@ -533,14 +534,12 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().BeTrue();
 
                     canExecute = false;
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _Command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
                     });
 
-                    await Task.Delay(100);
-
-                    jsCommand = GetAttribute(js, "TestCommand");
+                    jsCommand = await GetAttributeAsync(js, "TestCommand");
                     res = GetBoolAttribute(jsCommand, "CanExecuteValue");
                     ((bool)res).Should().BeFalse();
                 }
@@ -562,9 +561,7 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
 
-                    await Task.Delay(100);
-
-                    var jsCommand = GetAttribute(js, "TestCommand");
+                    var jsCommand = await GetAttributeAsync(js, "TestCommand");
                     var res = GetBoolAttribute(jsCommand, "CanExecuteValue");
                     res.Should().BeTrue();
 
@@ -573,14 +570,17 @@ namespace Tests.Universal.HTMLBindingTests
                     canExecute = false;
                     _Command.ClearReceivedCalls();
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _Command.CanExecuteChanged += Raise.EventWith(_Command, new EventArgs());
                     });
 
-                    await Task.Delay(100);
+                    await WaitAnotherWebContextCycle();
 
-                    _Command.Received().CanExecute(_DataContext);
+                    await DoSafeAsyncUI(() =>
+                    {
+                        _Command.Received().CanExecute(_DataContext);
+                    });
 
                     jsCommand = GetAttribute(js, "TestCommand");
                     res = GetBoolAttribute(jsCommand, "CanExecuteValue");
@@ -599,18 +599,14 @@ namespace Tests.Universal.HTMLBindingTests
                 Bind = (win) => HtmlBinding.Bind(win, _DataContext, JavascriptBindingMode.TwoWay),
                 Test = async (mb) =>
                 {
-                    await Task.Delay(100);
-
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUI(() =>
                     {
                         _Command.CanExecuteChanged += Raise.Event<EventHandler>(null, new EventArgs());
                     });
 
-                    await Task.Delay(100);
+                    await WaitAnotherWebContextCycle();
 
-                    await WaitAnotherUiCycleAsync();
-
-                    await Task.Delay(100);
+                    await WaitAnotherUiCycle();
                 }
             };
 
@@ -632,9 +628,7 @@ namespace Tests.Universal.HTMLBindingTests
                     _Command.Received().CanExecute(Arg.Any<object>());
                     var js = mb.JsRootObject;
 
-                    await Task.Delay(100);
-
-                    var jsCommand = GetAttribute(js, "TestCommand");
+                    var jsCommand = await GetAttributeAsync(js, "TestCommand");
                     bool res = GetBoolAttribute(jsCommand, "CanExecuteValue");
                     res.Should().BeFalse();
 
@@ -658,10 +652,9 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var jsCommand = GetAttribute(js, "TestCommand");
-                    Call(jsCommand, "Execute", _WebView.Factory.CreateString("titi"));
+                    await CallAsync(jsCommand, "Execute", _WebView.Factory.CreateString("titi"));
 
-                    await Task.Delay(150);
-                    _Command.Received().Execute("titi");
+                    await DoSafeAsyncUI(() => _Command.Received().Execute("titi"));
                 }
             };
 
@@ -687,14 +680,12 @@ namespace Tests.Universal.HTMLBindingTests
 
                     _DataContext.Skills.Should().HaveCount(2);
 
-                    DoSafeUI(() =>
+                    await DoSafeAsyncUIFullCycle(() =>
                     {
                         _Command.Execute(null);
                     });
 
-                    await Task.Delay(150);
-
-                    var res = GetCollectionAttribute(js, "Skills");
+                    var res = await GetCollectionAttributeAsync(js, "Skills");
 
                     res.Should().NotBeNull();
                     res.GetArrayLength().Should().Be(3);
@@ -718,10 +709,9 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
 
                     var jsCommand = GetAttribute(js, "Command");
-                    Call(jsCommand, "Execute", _WebView.Factory.CreateNull());
+                    await CallAsync(jsCommand, "Execute", _WebView.Factory.CreateNull());
 
-                    await Task.Delay(150);
-                    command.Received().Execute(null);
+                    await DoSafeAsyncUI(()=> command.Received().Execute(null));
                 }
             };
 
@@ -743,10 +733,9 @@ namespace Tests.Universal.HTMLBindingTests
                     var js = mb.JsRootObject;
                     var jsCommand = GetAttribute(js, "CreateObject");
                     var intValue = _WebView.Factory.CreateInt(25);
-                    Call(jsCommand, "Execute", intValue);
+                    await CallAsync(jsCommand, "Execute", intValue);
 
-                    await Task.Delay(700);
-                    function.Received(1).Invoke(25);
+                    await DoSafeAsyncUI(()=> function.Received(1).Invoke(25));
                 }
             };
 
@@ -757,7 +746,12 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_Calls_ResultCommand_With_Javascript_Variable()
         {
             var function = Substitute.For<Func<int, int>>();
-            function.Invoke(Arg.Any<int>()).Returns(255);
+            var completion = new TaskCompletionSource<int>();
+            function.Invoke(Arg.Any<int>()).Returns(x =>
+            {
+                completion.SetResult((int)x[0]);
+                return 255;
+            });
             var dc = new FakeFactory<int, int>(function);
 
             var test = new TestInContextAsync()
@@ -780,15 +774,14 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "CreateObject");
 
                     var cb = GetCallBackObject();
+                    const int calledValueExpected = 25;
+                    var intValue = _WebView.Factory.CreateInt(calledValueExpected);
+                    await CallWithResAsync(jsCommand, "Execute", intValue, cb);
 
-                    var intValue = _WebView.Factory.CreateInt(25);
-                    this.CallWithRes(jsCommand, "Execute", intValue, cb);
+                    var calledValue = await completion.Task;
+                    calledValue.Should().Be(calledValueExpected);
 
-                    await Task.Delay(100);
-
-                    DoSafeUI(() => function.Received(1).Invoke(25));
-
-                    await Task.Yield();
+                    await WaitOneCompleteCycle();
 
                     var error = _WebView.GetGlobal().GetValue("err");
                     error.IsUndefined.Should().BeTrue();
@@ -832,23 +825,18 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "CreateObject");
                     var cb = GetCallBackObject();
 
-                    this.CallWithRes(jsCommand, "Execute", _WebView.Factory.CreateInt(25), cb);
+                    await CallWithResAsync(jsCommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
-                    await Task.Delay(700);
+                    await WaitAnotherUiCycle();
 
                     var resValue = _WebView.GetGlobal().GetValue("res");
 
-                    await Task.Delay(100);
-
-                    var originalValue = GetAttribute(resValue, nameof(SimpleViewModel.Name)).GetStringValue();
-
+                    var originalValue = await GetStringAttributeAsync(resValue, nameof(SimpleViewModel.Name));
                     originalValue.Should().Be(original);
 
-                    DoSafeUI(() => result.Name = stringExpected);
+                    await DoSafeAsyncUI(() => result.Name = stringExpected);
 
-                    await Task.Delay(100);
-
-                    var newValue = GetAttribute(resValue, nameof(SimpleViewModel.Name)).GetStringValue();
+                    var newValue = await GetStringAttributeAsync(resValue, nameof(SimpleViewModel.Name));
                     newValue.Should().Be(stringExpected);
                 }
             };
@@ -899,16 +887,12 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(js, "CreateObject");
                     var cb = GetCallBackObject();
 
-                    this.CallWithRes(jsCommand, "Execute", cb);
+                    await CallWithResAsync(jsCommand, "Execute", cb);
 
-                    await Task.Delay(700);
+                    await WaitAnotherWebContextCycle();
 
                     var resValue = _WebView.GetGlobal().GetValue("res");
-
-                    await Task.Delay(100);
-
                     var originalValue = resValue.GetStringValue();
-
                     originalValue.Should().Be(result);
                 }
             };
@@ -937,11 +921,9 @@ namespace Tests.Universal.HTMLBindingTests
                     var jsCommand = GetAttribute(factory, "CreateObject");
                     var cb = GetCallBackObject();
 
-                    Call(jsCommand, "Execute", _WebView.Factory.CreateInt(25), cb);
+                    await CallAsync(jsCommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
-                    await Task.Delay(200);
-
-                    DoSafeUI(() => { });
+                    await WaitAnotherUiCycle();
 
                     var resValue = _WebView.GetGlobal().GetValue("res");
 
@@ -949,21 +931,19 @@ namespace Tests.Universal.HTMLBindingTests
 
                     originalValue.Should().Be(-1);
 
-                    SetAttribute(js, nameof(FactoryFatherTestViewModel.Child), resValue);
+                    await SetAttributeAsync(js, nameof(FactoryFatherTestViewModel.Child), resValue);
 
                     var res = GetAttribute(js, nameof(FactoryFatherTestViewModel.Child));
                     res.IsObject.Should().BeTrue();
 
-                    await Task.Delay(200);
-
-                    DoSafeUI(() => dataContext.Child.Should().Be(child));
+                    await DoSafeAsyncUI(() => dataContext.Child.Should().Be(child));
 
                     var newInt = 45;
-                    SetAttribute(resValue, nameof(BasicTestViewModel.Value), _WebView.Factory.CreateInt(newInt));
+                    await SetAttributeAsync(resValue, nameof(BasicTestViewModel.Value), _WebView.Factory.CreateInt(newInt));
                     var updatedValue = GetAttribute(resValue, nameof(BasicTestViewModel.Value)).GetIntValue();
                     updatedValue.Should().Be(newInt);
-                    await Task.Delay(200);
-                    DoSafeUI(() => dataContext.Child.Value.Should().Be(newInt));
+
+                    await DoSafeAsyncUI(() => dataContext.Child.Value.Should().Be(newInt));
                 }
             };
 
@@ -974,8 +954,13 @@ namespace Tests.Universal.HTMLBindingTests
         public async Task TwoWay_ResultCommand_Transforms_CSharp_Exception_In_Failed_Promise()
         {
             var errorMessage = "original error message";
+            var completion = new TaskCompletionSource<int>();
             var function = Substitute.For<Func<int, int>>();
-            function.When(f => f.Invoke(Arg.Any<int>())).Do(_ => throw new Exception(errorMessage));
+            function.When(f => f.Invoke(Arg.Any<int>())).Do(x =>
+            {
+                completion.SetResult((int)x[0]);
+                throw new Exception(errorMessage);
+            });
             var dc = new FakeFactory<int, int>(function);
 
             var test = new TestInContextAsync()
@@ -993,11 +978,12 @@ namespace Tests.Universal.HTMLBindingTests
                     cb.Should().NotBeNull();
                     cb.IsObject.Should().BeTrue();
 
-                    CallWithRes(jsCommand, "Execute", _WebView.Factory.CreateInt(25), cb);
-                    await Task.Delay(100);
-                    DoSafeUI(() => function.Received(1).Invoke(25));
+                    await CallWithResAsync(jsCommand, "Execute", _WebView.Factory.CreateInt(25), cb);
 
-                    await Task.Yield();
+                    var calledValue = await completion.Task;
+                    calledValue.Should().Be(25);
+
+                    await WaitOneCompleteCycle();
 
                     var error = _WebView.GetGlobal().GetValue("err").GetStringValue();
                     error.Should().Be(errorMessage);
@@ -1025,9 +1011,9 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var jsCommand = GetAttribute(js, "SimpleCommandNoArgument");
-                    DoSafe(() => Call(jsCommand, "Execute"));
-                    await Task.Delay(100);
-                    command.Received().Execute();
+                    await DoSafeAsync(() => Call(jsCommand, "Execute"));
+                    await WaitAnotherUiCycle();
+                    await DoSafeAsyncUI(() => command.Received().Execute());
                 }
             };
 
@@ -1047,9 +1033,8 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var jsCommand = GetAttribute(js, "SimpleCommandObjectArgument");
-                    DoSafe(() => Call(jsCommand, "Execute", js));
-                    await Task.Delay(100);
-                    command.Received().Execute(simpleCommandTestViewModel);
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", js));
+                    await DoSafeAsyncUI(() => command.Received().Execute(simpleCommandTestViewModel));
                 }
             };
 
@@ -1069,9 +1054,8 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var jsCommand = GetAttribute(js, "SimpleCommandDecimalArgument");
-                    DoSafe(() => Call(jsCommand, "Execute", _WebView.Factory.CreateDouble(0.55)));
-                    await Task.Delay(100);
-                    command.Received().Execute(0.55m);
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", _WebView.Factory.CreateDouble(0.55)));
+                    await DoSafeAsyncUI(() => command.Received().Execute(0.55m));
                 }
             };
 
@@ -1091,9 +1075,8 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var jsCommand = GetAttribute(js, "SimpleCommandDecimalArgument");
-                    DoSafe(() => Call(jsCommand, "Execute", _WebView.Factory.CreateString("u")));
-                    await Task.Delay(100);
-                    command.DidNotReceive().Execute(Arg.Any<decimal>());
+                    await DoSafeAsync(() => Call(jsCommand, "Execute", _WebView.Factory.CreateString("u")));
+                    await DoSafeAsyncUI(() => command.DidNotReceive().Execute(Arg.Any<decimal>()));
                 }
             };
 
@@ -1113,9 +1096,8 @@ namespace Tests.Universal.HTMLBindingTests
                 {
                     var js = mb.JsRootObject;
                     var jsCommand = GetAttribute(js, "SimpleCommandObjectArgument");
-                    DoSafe(() => Call(jsCommand, "Execute"));
-                    await Task.Delay(100);
-                    command.DidNotReceive().Execute(Arg.Any<SimpleCommandTestViewModel>());
+                    await DoSafeAsync(() => Call(jsCommand, "Execute"));
+                    await DoSafeAsyncUI(() => command.DidNotReceive().Execute(Arg.Any<SimpleCommandTestViewModel>()));
                 }
             };
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 using Neutronium.Core.WebBrowserEngine.Window;
-using Neutronium.WebBrowserEngine.Awesomium.Engine;
 
 namespace Tests.Awesomium.Infra
 {

@@ -60,9 +60,11 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return RunAsync(test, mb => RunInContext(async () => await test.Test(mb)), memberName);
         }
 
-        protected void SetAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
+        protected async Task SetAttributeAsync(IJavascriptObject father, string attributeName, IJavascriptObject value)
         {
-            _JavascriptFrameworkExtractor.SetAttribute(father, attributeName, value);
+            await _JavascriptFrameworkExtractor.SetAttributeAsync(father, attributeName, value);
+
+            await WaitAnotherWebContextCycle();
         }
 
         protected void AddAttribute(IJavascriptObject father, string attributeName, IJavascriptObject value)
@@ -80,9 +82,41 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return _JavascriptFrameworkExtractor.GetCollectionAttribute(value, attributeName);
         }
 
+        protected async Task<IJavascriptObject> GetCollectionAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            await WaitAnotherWebContextCycle();
+
+            return await _JavascriptFrameworkExtractor.GetCollectionAttributeAsync(value, attributeName);
+        }
+
         protected string GetStringAttribute(IJavascriptObject value, string attributeName)
         {
-            return _JavascriptFrameworkExtractor.GetStringAttribute(value, attributeName);
+            return _JavascriptFrameworkExtractor.GetAttribute(value, attributeName).GetStringValue();
+        }
+
+        protected async Task<IJavascriptObject> GetAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            await WaitAnotherWebContextCycle();
+
+            return await _JavascriptFrameworkExtractor.GetAttributeAsync(value, attributeName);
+        }
+
+        protected async Task<string> GetStringAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            var jsObject = await GetAttributeAsync(value, attributeName);
+            return jsObject.GetStringValue();
+        }
+
+        protected async Task<int> GetIntAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            var jsObject = await GetAttributeAsync(value, attributeName);
+            return jsObject.GetIntValue();
+        }
+
+        protected async Task<double> GetDoubleAttributeAsync(IJavascriptObject value, string attributeName)
+        {
+            var jsObject = await GetAttributeAsync(value, attributeName);
+            return jsObject.GetDoubleValue();
         }
 
         protected int GetIntAttribute(IJavascriptObject value, string attributeName)
@@ -105,24 +139,68 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
             return _JavascriptFrameworkExtractor.GetRootViewModel();
         }
 
-        protected void DoSafeUI(Action act)
-        {
-            _UIDispatcher.Run(act);
-        }
-
-        protected Task WaitAnotherUiCycleAsync()
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            _UIDispatcher.DispatchWithBindingPriority(() => tcs.SetResult(true));
-            return tcs.Task;
-        }
-
         protected async Task DoSafeAsyncUI(Action act)
         {
+            await WaitAnotherUiCycle();
+
             await _UIDispatcher.RunAsync(act);
+
+            await WaitAnotherUiCycle();
         }
 
-        protected T EvaluateSafeUI<T>(Func<T> compute)
+        protected async Task DoSafeAsyncUIFullCycle(Action act)
+        {
+            await _UIDispatcher.RunAsync(act);
+
+            await WaitAnotherUiCycle();
+
+            await WaitAnotherWebContextCycle();
+        }
+
+        protected async Task DoSafeAsync(Action action)
+        {
+            await _WebView.RunAsync(action);
+
+            await WaitAnotherWebContextCycle();
+        }
+
+        protected async Task<T> EvaluateAsync<T>(Func<T> unsafeGet)
+        {
+            var result = await _WebView.EvaluateAsync(unsafeGet);
+            await WaitAnotherWebContextCycle();
+            return result;
+        }
+
+        protected async Task WaitOneCompleteCycle()
+        {
+            await WaitAnotherWebContextCycle();
+            await WaitAnotherUiCycle();
+        }
+
+        protected Task WaitAnotherUiCycle()
+        {
+            var completion = new TaskCompletionSource<bool>();
+            _UIDispatcher.DispatchWithBindingPriority(() => completion.SetResult(true));
+            return completion.Task;
+        }
+
+        protected async Task WaitAnotherWebContextCycle()
+        {
+            await Task.Delay(1);
+        }
+
+        protected void Call(IJavascriptObject value, string functionName, params IJavascriptObject[] parameter)
+        {
+            _WebView.Run(() => value.Invoke(functionName, _WebView, parameter));
+        }
+
+        protected async Task CallAsync(IJavascriptObject value, string functionName, params IJavascriptObject[] parameter)
+        {
+            await _WebView.RunAsync(() => value.Invoke(functionName, _WebView, parameter));
+            await WaitAnotherWebContextCycle();
+        }
+
+        private T EvaluateSafeUI<T>(Func<T> compute)
         {
             return _UIDispatcher.Evaluate(compute);
         }
@@ -130,6 +208,18 @@ namespace Tests.Infra.IntegratedContextTesterHelper.Windowless
         protected Task<T> EvaluateSafeUIAsync<T>(Func<T> compute)
         {
             return _UIDispatcher.EvaluateAsync(compute);
+        }
+
+        protected IJavascriptObject CallWithRes(IJavascriptObject value, string functionName, params IJavascriptObject[] parameter)
+        {
+            return _WebView.Evaluate(() => value.Invoke(functionName, _WebView, parameter));
+        }
+
+        protected async Task<IJavascriptObject> CallWithResAsync(IJavascriptObject value, string functionName, params IJavascriptObject[] parameter)
+        {
+            await WaitAnotherWebContextCycle();
+
+            return await _WebView.EvaluateAsync(() => value.Invoke(functionName, _WebView, parameter));
         }
     }
 }
