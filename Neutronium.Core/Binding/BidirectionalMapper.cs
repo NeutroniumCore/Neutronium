@@ -75,9 +75,9 @@ namespace Neutronium.Core.Binding
             JsValueRoot.AddRef();
         }
 
-        internal Task UpdateJavascriptObjects(bool debugMode)
+        internal async Task UpdateJavascriptObjects(bool debugMode)
         {
-            return Context.WebView.Evaluate(() => InitOnJavascriptContext(debugMode));
+            await await Context.WebView.EvaluateAsync(() => InitOnJavascriptContext(debugMode));
         }
 
         private async Task InitOnJavascriptContext(bool debugMode)
