@@ -6,7 +6,7 @@
     <AssemblyName>Neutronium.Core</AssemblyName>
     <RootNamespace>Neutronium.Core</RootNamespace>
     <Authors>David Desmaisons</Authors>
-    <Version>1.5.2.0</Version>
+    <Version>1.7.0.0</Version>
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/NeutroniumCore/Neutronium</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/NeutroniumCore/Neutronium/blob/master/LICENSE</PackageLicenseUrl>
@@ -14,8 +14,8 @@
     <PackageId>Neutronium.Core</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags></PackageTags>
-    <AssemblyVersion>1.5.2.0</AssemblyVersion>
-    <FileVersion>1.5.2.0</FileVersion>
+    <AssemblyVersion>1.7.0.0</AssemblyVersion>
+    <FileVersion>1.7.0.0</FileVersion>
     <PackageReleaseNotes>-Improve Type provider extension
 -Support Range Collection update
 </PackageReleaseNotes>
