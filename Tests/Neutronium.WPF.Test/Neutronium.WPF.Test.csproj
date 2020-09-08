@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
 	  <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj" />
+	  <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
   </ItemGroup>
 
 </Project>
