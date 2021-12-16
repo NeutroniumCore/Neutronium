@@ -1,14 +1,16 @@
-﻿<UserControl x:Class="Neutronium.WebBrowserEngine.ChromiumFx.WPF.ChromiumFxControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:chromiumFxWebBrowser="clr-namespace:Chromium.WebBrowser;assembly=ChromiumWebBrowser"
-             mc:Ignorable="d" 
-              x:Name="Root"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-    </UserControl.Resources>
-    <WindowsFormsHost x:Name="Host" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-    </WindowsFormsHost>
+﻿<UserControl
+    x:Class="Neutronium.WebBrowserEngine.ChromiumFx.WPF.ChromiumFxControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+    x:Name="Root"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <WindowsFormsHost
+        x:Name="Host"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch" />
 </UserControl>

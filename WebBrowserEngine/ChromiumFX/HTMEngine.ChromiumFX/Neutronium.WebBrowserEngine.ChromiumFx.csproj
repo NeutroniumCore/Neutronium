@@ -1,193 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.props" Condition="Exists('..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E619F232-D964-4CDB-9A9C-DFB44E32C36F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Neutronium.WebBrowserEngine.ChromiumFx</RootNamespace>
-    <AssemblyName>Neutronium.WebBrowserEngine.ChromiumFx</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="MoreCollection, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\MoreCollection.2.0.0\lib\net45\MoreCollection.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationProvider" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ChromiumFxWebBrowserApp.cs" />
-    <Compile Include="ChromiumFXWPFWebWindowFactory.cs" />
-    <Compile Include="Convertion\CfrV8HandlerHelper.cs" />
-    <Compile Include="Convertion\ChromiumFxWebViewExtension.cs" />
-    <Compile Include="EngineBinding\ChromiumFxCRemoteContext.cs" />
-    <Compile Include="EngineBinding\ChromiumFxFactory.cs" />
-    <Compile Include="EngineBinding\ChromiumFxConverter.cs" />
-    <Compile Include="EngineBinding\ChromiumFxDispatcher.cs" />
-    <Compile Include="EngineBinding\ChromiumFxControlWebBrowserWindow.cs" />
-    <Compile Include="EngineBinding\ChromiumFxWebView.cs" />
-    <Compile Include="EngineBinding\ChromiumFxWpfWindow.cs" />
-    <Compile Include="EngineBinding\ChromiumFxObjectCreationCallBack.cs" />
-    <Compile Include="EngineBinding\ContextMenu.cs" />
-    <Compile Include="EngineBinding\ContextMenuId.cs" />
-    <Compile Include="GlobalMouseEvent\Hook.cs" />
-    <Compile Include="GlobalMouseEvent\IDisposableMouseEvents.cs" />
-    <Compile Include="GlobalMouseEvent\IMouseEvents.cs" />
-    <Compile Include="GlobalMouseEvent\Implementation\Callback.cs" />
-    <Compile Include="GlobalMouseEvent\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="GlobalMouseEvent\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="GlobalMouseEvent\Implementation\Subscribe.cs" />
-    <Compile Include="GlobalMouseEvent\MouseEventExtArgs.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\AppMouseStruct.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\CallbackData.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\HookHelper.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\HookIds.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\HookNativeMethods.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\HookProcedure.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\HookResult.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\Messages.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\MouseStruct.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\Point.cs" />
-    <Compile Include="GlobalMouseEvent\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="Helper\NativeWindowHelper.cs" />
-    <Compile Include="IWPFCfxWebWindow.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Session\ChromiumFxSession.cs" />
-    <Compile Include="Util\NeutroniumSettings.cs" />
-    <Compile Include="Util\Resilient.cs" />
-    <Compile Include="V8Object\ChromiumFXJavascriptObjectBase.cs" />
-    <Compile Include="V8Object\ChromiumFXJavascriptObjectWithId.cs" />
-    <Compile Include="V8Object\ChromiumFXJavascriptObject.cs" />
-    <Compile Include="V8Object\ChromiumFXJavascriptRoot.cs" />
-    <Compile Include="V8Object\ChromiumFXJavascriptSimpleWithId.cs" />
-    <Compile Include="V8Object\ChromiumFXJavascriptSimple.cs" />
-    <Compile Include="V8Object\ChromiumFXJavascriptSimpleBase.cs" />
-    <Compile Include="Convertion\ChromiumFxJavascriptObjectExtension.cs" />
-    <Compile Include="V8Object\ICfxJavascriptObject.cs" />
-    <Compile Include="WPF\ChromeWidgetHandleFinder.cs" />
-    <Compile Include="WPF\BrowserWidgetMessageInterceptor.cs" />
-    <Compile Include="WPF\ChromiumFxControl.xaml.cs">
-      <DependentUpon>ChromiumFxControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WPF\NativeMethods.cs" />
-    <Compile Include="WPF\NeutroniumResourceHandler.cs" />
-    <Compile Include="WPF\NeutroniumSchemeHandlerFactory.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj">
-      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>Neutronium.WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Neutronium.Core\Neutronium.Core.csproj">
-      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>Neutronium.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
-      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
-      <Name>ChromiumFXRenderProcess</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="WPF\ChromiumFxControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.props'))" />
-    <Error Condition="!Exists('..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.targets'))" />
-  </Target>
-  <Import Project="..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
+		<UseWPF>true</UseWPF>
+		<Platforms>AnyCPU;x86</Platforms>
+		<UseWindowsForms>true</UseWindowsForms>
+		<Version>1.7.0</Version>
+		<Copyright>Neutronium.WPF Copyright ©  2015</Copyright>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <PlatformTarget>AnyCPU</PlatformTarget>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Neutronium.Core\Neutronium.Core.csproj" />
+	  <ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
+	  <ProjectReference Include="..\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="ChromiumFX">
+	    <HintPath>..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\ChromiumFX\AnyCPU\ChromiumFX.dll</HintPath>
+	  </Reference>
+	  <Reference Include="ChromiumWebBrowser">
+	    <HintPath>..\..\..\packages\Unofficial.Chromiumfx.77.1.18.0\ChromiumFX\AnyCPU\ChromiumWebBrowser.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 </Project>

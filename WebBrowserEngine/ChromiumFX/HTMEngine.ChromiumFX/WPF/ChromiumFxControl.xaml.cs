@@ -12,9 +12,9 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using Neutronium.Core.Exceptions;
+using System.Windows.Forms.Integration;
 
-namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
-{
+namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF {
     public partial class ChromiumFxControl
     {
         private Window _Window;
@@ -86,7 +86,7 @@ namespace Neutronium.WebBrowserEngine.ChromiumFx.WPF
             _Window = Window.GetWindow(this);
             if (_Window == null)
                 throw ExceptionHelper.Get("Neutronium UserControls should be inserted in Window before being loaded");
-
+            
             _WindowHandle = new WindowInteropHelper(_Window).Handle;
             _Window.Closed += Window_Closed;
             _Window.LocationChanged += _Window_LocationChanged;

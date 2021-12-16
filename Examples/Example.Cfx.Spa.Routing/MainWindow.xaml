@@ -1,29 +1,37 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Example.Cfx.Spa.Routing"
-        xmlns:WPF="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF" x:Class="Example.Cfx.Spa.Routing.MainWindow"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        mc:Ignorable="d"
-        Icon="Content\logo.png"
-        MinWidth="1000"
-        Width ="1500"
-        Height="940"
-        Name="Root"
-        BorderThickness="1"
-        Title="MainWindow">
+    x:Class="Example.Cfx.Spa.Routing.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:WPF="clr-namespace:Neutronium.WPF;assembly=Neutronium.WPF"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:Example.Cfx.Spa.Routing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="Root"
+    Title="MainWindow"
+    Width="1500"
+    Height="940"
+    MinWidth="1000"
+    BorderThickness="1"
+    Icon="Content\logo.png"
+    mc:Ignorable="d">
     <i:Interaction.Behaviors>
         <WPF:Chromeless />
     </i:Interaction.Behaviors>
     <Window.Resources>
-        <WPF:BoolToHiddenConverter x:Key="BoolToHidden"/>
+        <WPF:BoolToHiddenConverter x:Key="BoolToHidden" />
     </Window.Resources>
     <Grid Background="Black">
-        <WPF:HTMLViewControl x:Name="HtmlView" DebugCommands="{Binding ElementName=Root, Path=SetUp.DebugCommands}"  IsDebug="{Binding ElementName=Root, Path=SetUp.Debug}" Uri="{Binding ElementName=Root, Path=SetUp.Uri}"  />
+        <WPF:HTMLViewControl
+            x:Name="HtmlView"
+            DebugCommands="{Binding ElementName=Root, Path=SetUp.DebugCommands}"
+            IsDebug="{Binding ElementName=Root, Path=SetUp.Debug}"
+            Uri="{Binding ElementName=Root, Path=SetUp.Uri}" />
     </Grid>
     <Window.Visibility>
-        <Binding ElementName="HtmlView" Path="IsHTMLLoaded" Converter="{StaticResource BoolToHidden}"/>
+        <Binding
+            Converter="{StaticResource BoolToHidden}"
+            ElementName="HtmlView"
+            Path="IsHTMLLoaded" />
     </Window.Visibility>
 </Window>

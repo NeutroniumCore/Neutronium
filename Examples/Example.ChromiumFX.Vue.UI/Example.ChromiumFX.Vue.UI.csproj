@@ -1,220 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.props" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3BB8BB87-A904-45CC-83BD-178D34200E81}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Example.ChromiumFX.Vue.UI</RootNamespace>
-    <AssemblyName>Example.ChromiumFX.Vue.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup />
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Resource Include="View\Main\dist\css\app.css" />
-    <Resource Include="View\Main\dist\css\chunk-vendors.css" />
-    <Resource Include="View\Main\dist\favicon.ico" />
-    <Resource Include="View\Main\dist\img\fontawesome-webfont.svg" />
-    <Resource Include="View\Main\dist\js\app.js" />
-    <Resource Include="View\Main\dist\js\chunk-vendors.js" />
-    <Content Include="View\Main\tests\unit\.eslintrc.js" />
-    <Content Include="View\Main\tests\unit\example.spec.js" />
-    <Content Include="View\Main\vue.config.js" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
-    <None Include="View\Main\.browserslistrc" />
-    <None Include="View\Main\.env.integrated" />
-    <None Include="View\Main\.env.production" />
-    <None Include="View\Main\.gitignore" />
-    <None Include="View\Main\data\vm.cjson" />
-    <Content Include="View\Main\.eslintrc.js" />
-    <Content Include="View\Main\babel.config.js" />
-    <Resource Include="View\Main\dist\js\app.js.map" />
-    <Resource Include="View\Main\dist\js\chunk-vendors.js.map" />
-    <None Include="View\Main\package-lock.json" />
-    <None Include="View\Main\package.json" />
-    <None Include="View\Main\src\App.vue" />
-    <None Include="View\Main\src\components\command-button.vue" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Main\dist\index.html" />
-    <Resource Include="View\Main\src\assets\logo.png" />
-    <Resource Include="View\Main\public\favicon.ico" />
-    <Content Include="View\Main\jest.config.js" />
-    <Content Include="View\Main\postcss.config.js" />
-    <Content Include="View\Main\public\index.html" />
-    <Content Include="View\Main\src\entry.js" />
-    <Content Include="View\Main\src\install.js" />
-    <Content Include="View\Main\src\main.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj">
-      <Project>{dcfc58e7-4d5b-43c5-827e-5d6f975f4995}</Project>
-      <Name>Neutronium.WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj">
-      <Project>{5a202154-9f9a-47cf-a7a5-4df6da026076}</Project>
-      <Name>ChromiumFXRenderProcess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj">
-      <Project>{e619f232-d964-4cdb-9a9c-dfb44e32c36f}</Project>
-      <Name>Neutronium.WebBrowserEngine.ChromiumFx</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj">
-      <Project>{9e31de95-4fbe-4d91-93cd-5ca14f6fd0fb}</Project>
-      <Name>Neutronium.JavascriptFramework.Vue</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj">
-      <Project>{9b18b122-a2fc-4537-ab68-5e1ec9959db8}</Project>
-      <Name>Neutronium.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Examples\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj">
-      <Project>{e35b9010-5429-4ffe-a788-e9c40e743e9c}</Project>
-      <Name>Neutronium.Example.ViewModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj">
-      <Project>{c769e3ad-e82e-4e2f-bc4c-c92ca572c2ed}</Project>
-      <Name>Example.ChromiumFX.Vue.Infra</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.props'))" />
-    <Error Condition="!Exists('..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.targets'))" />
-  </Target>
-  <Import Project="..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.targets" Condition="Exists('..\..\packages\Unofficial.Chromiumfx.77.1.18.0\build\Unofficial.Chromiumfx.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
+		<UseWPF>true</UseWPF>
+		<Platforms>AnyCPU;x86</Platforms>
+	</PropertyGroup>
+	<ItemGroup>
+		<Resource Include="View\Main\dist\css\app.css" />
+		<Resource Include="View\Main\dist\css\chunk-vendors.css" />
+		<Resource Include="View\Main\dist\favicon.ico" />
+		<Resource Include="View\Main\dist\img\fontawesome-webfont.svg" />
+		<Resource Include="View\Main\dist\js\app.js" />
+		<Resource Include="View\Main\dist\js\chunk-vendors.js" />
+		<Content Include="View\Main\tests\unit\.eslintrc.js" />
+		<Content Include="View\Main\tests\unit\example.spec.js" />
+		<Content Include="View\Main\vue.config.js" />
+		<None Include="app.config" />
+		<None Include="packages.config" />
+		<None Include="View\Main\.browserslistrc" />
+		<None Include="View\Main\.env.integrated" />
+		<None Include="View\Main\.env.production" />
+		<None Include="View\Main\.gitignore" />
+		<None Include="View\Main\data\vm.cjson" />
+		<Content Include="View\Main\.eslintrc.js" />
+		<Content Include="View\Main\babel.config.js" />
+		<Resource Include="View\Main\dist\js\app.js.map" />
+		<Resource Include="View\Main\dist\js\chunk-vendors.js.map" />
+		<None Include="View\Main\package-lock.json" />
+		<None Include="View\Main\package.json" />
+		<None Include="View\Main\src\App.vue" />
+		<None Include="View\Main\src\components\command-button.vue" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="View\Main\dist\index.html" />
+		<Resource Include="View\Main\src\assets\logo.png" />
+		<Resource Include="View\Main\public\favicon.ico" />
+		<Content Include="View\Main\jest.config.js" />
+		<Content Include="View\Main\postcss.config.js" />
+		<Content Include="View\Main\public\index.html" />
+		<Content Include="View\Main\src\entry.js" />
+		<Content Include="View\Main\src\install.js" />
+		<Content Include="View\Main\src\main.js" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj" />
+	  <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj" />
+	  <ProjectReference Include="..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
+	  <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\ChromiumFXRenderProcess\ChromiumFXRenderProcess.csproj" />
+	  <ProjectReference Include="..\..\WebBrowserEngine\ChromiumFX\HTMEngine.ChromiumFX\Neutronium.WebBrowserEngine.ChromiumFx.csproj" />
+	  <ProjectReference Include="..\Example.ChromiumFX.Vue.Infra\Example.ChromiumFX.Vue.Infra.csproj" />
+	  <ProjectReference Include="..\Neutronium.Example.ViewModel\Neutronium.Example.ViewModel.csproj" />
+	</ItemGroup>
 </Project>

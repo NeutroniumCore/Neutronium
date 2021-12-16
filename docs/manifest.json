@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/Users/David/Documents/Source/Neutronium/Documentation/Neutronium.Documentation",
+  "source_base_path": "E:/github/Neutronium/Documentation/Neutronium.Documentation",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/builds.html",
-          "hash": "G9MlWbPPPsszwSPkv/fzRA=="
+          "hash": "h8GbdkWKKiXutv3EILnipQ=="
         }
       },
       "is_incremental": false,
@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/chromium-api.html",
-          "hash": "5X223JmsiUM/23AFCJJOvQ=="
+          "hash": "pbaDScM7KzG9/TNQqmV1hw=="
         }
       },
       "is_incremental": false,
@@ -36,7 +36,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/component-overview.html",
-          "hash": "NaGnqiB4onJySp6dDHIMRg=="
+          "hash": "VRV4prFUxlPsSqL+96KiWw=="
         }
       },
       "is_incremental": false,
@@ -51,7 +51,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/debug.html",
-          "hash": "ptPwNNCIuRYKfiQTkRr0hA=="
+          "hash": "0Lx2f4ApKCteuF0BpwLXHw=="
         }
       },
       "is_incremental": false,
@@ -66,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/getting-started.html",
-          "hash": "cOVxWJCfTghfbWvqbUxdwg=="
+          "hash": "OxRpXItjGIAWteVYFE4atw=="
         }
       },
       "is_incremental": false,
@@ -81,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/installing.html",
-          "hash": "89YGaGgh+H/0rFBs4pgOsw=="
+          "hash": "xoMANrpUxKpeW/TBRuoWKA=="
         }
       },
       "is_incremental": false,
@@ -96,7 +96,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/navigation.html",
-          "hash": "wmIjWF3KfZiVfgoFeRovcA=="
+          "hash": "pslt64D/3KLiVQElOxGwDA=="
         }
       },
       "is_incremental": false,
@@ -108,7 +108,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/reference.html",
-          "hash": "i8rex/KujD7wBjP2WAu1xA=="
+          "hash": "Z9ebbtQNDpW7DmCvwHvlkw=="
         }
       },
       "is_incremental": false,
@@ -138,7 +138,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/binding.html",
-          "hash": "co7qryGfYgq5NvIzzLHCsA=="
+          "hash": "7xwqX4aE0wKo+9HVJnVmXA=="
         }
       },
       "is_incremental": false,
@@ -150,7 +150,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/how.html",
-          "hash": "6Re9EZ6DOv1YYddhXKYpIQ=="
+          "hash": "jbD8XEH14sOVI8Lq5iERSw=="
         }
       },
       "is_incremental": false,
@@ -162,7 +162,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/knockout.html",
-          "hash": "3tLu16voBzfA+feIJ1RNwg=="
+          "hash": "aJ7MJN1XrRxbvGSZkGs6tw=="
         }
       },
       "is_incremental": false,
@@ -174,7 +174,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/mvvm-components.html",
-          "hash": "EWOgph0PLuku44TjiAu7ZA=="
+          "hash": "23dZv9R3NAHMj7JB3iTXCw=="
         }
       },
       "is_incremental": false,
@@ -204,7 +204,7 @@
       "output": {
         ".html": {
           "relative_path": "binding/vue.html",
-          "hash": "+9m9IHfgZnkF48TlWK0Wbw=="
+          "hash": "Q6GyJbPwaaYSf9bznabC1A=="
         }
       },
       "is_incremental": false,
@@ -854,7 +854,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "UFXMiTR3CXzutSy395crkg=="
+          "hash": "zGC0N2YIv7GFcqbQ6oHPSw=="
         }
       },
       "is_incremental": false,
@@ -869,7 +869,7 @@
       "output": {
         ".html": {
           "relative_path": "overview/architecture.html",
-          "hash": "egoNXLfkSM30zu/j3bNmVA=="
+          "hash": "wBr9IVjSl959SXlZiXmomA=="
         }
       },
       "is_incremental": false,
@@ -884,7 +884,7 @@
       "output": {
         ".html": {
           "relative_path": "overview/faq.html",
-          "hash": "VUBw99LT8w97lDQi1MYrxA=="
+          "hash": "sR75hwyhxYcVm68DhYrFVQ=="
         }
       },
       "is_incremental": false,
@@ -896,7 +896,7 @@
       "output": {
         ".html": {
           "relative_path": "overview/made.html",
-          "hash": "rEjcCUqyD/R0tna8dykXow=="
+          "hash": "lKDXoGZ1oQBYZQdnfNnoAw=="
         }
       },
       "is_incremental": false,
@@ -908,7 +908,7 @@
       "output": {
         ".html": {
           "relative_path": "overview/neutronium.html",
-          "hash": "N2jLLEQa5joMrk77RCpLgA=="
+          "hash": "OFPDVwQsQeFDsvZ+j4oIZw=="
         }
       },
       "is_incremental": false,
@@ -950,7 +950,7 @@
       "output": {
         ".html": {
           "relative_path": "tools/building-block.html",
-          "hash": "NEdQ6KOsA6KGnGi8KvtdKQ=="
+          "hash": "ADXpBFa3HwU62MU0gAQWXQ=="
         }
       },
       "is_incremental": false,
@@ -965,7 +965,7 @@
       "output": {
         ".html": {
           "relative_path": "tools/npm.html",
-          "hash": "8WXAWj03tZ+Jbcjm2FMy1g=="
+          "hash": "fnlliReTRw2/mxQB0LgktQ=="
         }
       },
       "is_incremental": false,
@@ -995,7 +995,7 @@
       "output": {
         ".html": {
           "relative_path": "tools/vue-cli-plugin.html",
-          "hash": "VbcGr/w2S/7gmpT5sKFiYA=="
+          "hash": "kNVYjY1kavK8jtpF0/pULA=="
         }
       },
       "is_incremental": false,
@@ -1010,7 +1010,7 @@
       "output": {
         ".html": {
           "relative_path": "versions/migrate1.0.html",
-          "hash": "RQZhaZGiqljUxEY423WeUA=="
+          "hash": "igIKxUs1Cngbf4oPTUAyvA=="
         }
       },
       "is_incremental": false,
@@ -1022,7 +1022,7 @@
       "output": {
         ".html": {
           "relative_path": "versions/migrate1.2.html",
-          "hash": "rCZBrnizrb36NVTqPE1aHA=="
+          "hash": "kU3Jywd5BqqzHPuMnX8B8Q=="
         }
       },
       "is_incremental": false,
@@ -1052,7 +1052,7 @@
       "output": {
         ".html": {
           "relative_path": "versions/version1.0.html",
-          "hash": "YqWb/d0JUkjw5RDQ/Vty6w=="
+          "hash": "n9/x1y/QIb7e84+lZWxdkg=="
         }
       },
       "is_incremental": false,
@@ -1067,6 +1067,11 @@
         "incrementalPhase": "build"
       },
       "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
@@ -1074,11 +1079,6 @@
         },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
-          "incrementalPhase": "build"
-        },
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         }
       }
