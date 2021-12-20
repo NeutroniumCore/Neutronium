@@ -2,18 +2,18 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1;net472;net461</TargetFrameworks>
 		<UseWPF>true</UseWPF>
 		<Platforms>x86;AnyCPU</Platforms>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<Prefer32Bit>true</Prefer32Bit>
+		<Prefer32Bit>false</Prefer32Bit>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
-	  <PlatformTarget>x86</PlatformTarget>
-	  <DefineConstants>DEBUG;TRACE</DefineConstants>
+	  <PlatformTarget>AnyCPU</PlatformTarget>
+	  <DefineConstants>TRACE</DefineConstants>
 	</PropertyGroup>
 
 	<ItemGroup>

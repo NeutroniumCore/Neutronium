@@ -9,10 +9,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/builds.html",
-          "hash": "h8GbdkWKKiXutv3EILnipQ=="
+          "hash": "M6KCmP4RbpAGaRN+3I1nFA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -21,10 +21,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/chromium-api.html",
-          "hash": "pbaDScM7KzG9/TNQqmV1hw=="
+          "hash": "lCCdGI7rBCFzwMxmhQinGA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -36,10 +36,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/component-overview.html",
-          "hash": "VRV4prFUxlPsSqL+96KiWw=="
+          "hash": "u6iuxKBGCovICkvjJALxAg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -51,10 +51,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/debug.html",
-          "hash": "0Lx2f4ApKCteuF0BpwLXHw=="
+          "hash": "tUZvC0/a9M4KciQkFg+Dcw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -66,10 +66,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/getting-started.html",
-          "hash": "OxRpXItjGIAWteVYFE4atw=="
+          "hash": "nqFh4L+lFfyngTMggqWZ/w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -81,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/installing.html",
-          "hash": "xoMANrpUxKpeW/TBRuoWKA=="
+          "hash": "QacIqyzxXo3XdwVql3PnXw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -96,10 +96,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/navigation.html",
-          "hash": "pslt64D/3KLiVQElOxGwDA=="
+          "hash": "yxdq60PgGj2Xkg0wYGvwGA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -108,10 +108,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/reference.html",
-          "hash": "Z9ebbtQNDpW7DmCvwHvlkw=="
+          "hash": "7Ik1Whcc3YwStcMO7qU0tA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -138,10 +138,10 @@
       "output": {
         ".html": {
           "relative_path": "binding/binding.html",
-          "hash": "7xwqX4aE0wKo+9HVJnVmXA=="
+          "hash": "7pxEdWHvV+3ALzQNt7g76w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -150,10 +150,10 @@
       "output": {
         ".html": {
           "relative_path": "binding/how.html",
-          "hash": "jbD8XEH14sOVI8Lq5iERSw=="
+          "hash": "YeLd8oMvPuCL/zIFUDZMzw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -162,10 +162,10 @@
       "output": {
         ".html": {
           "relative_path": "binding/knockout.html",
-          "hash": "aJ7MJN1XrRxbvGSZkGs6tw=="
+          "hash": "ojI0EWhRLcjbRzWjFTwvZQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -174,10 +174,10 @@
       "output": {
         ".html": {
           "relative_path": "binding/mvvm-components.html",
-          "hash": "23dZv9R3NAHMj7JB3iTXCw=="
+          "hash": "ebX8/G7xxtzFR1UiztqBXw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -204,10 +204,10 @@
       "output": {
         ".html": {
           "relative_path": "binding/vue.html",
-          "hash": "Q6GyJbPwaaYSf9bznabC1A=="
+          "hash": "R0BZLhSkhoEYa0jelXrxXw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -854,10 +854,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "zGC0N2YIv7GFcqbQ6oHPSw=="
+          "hash": "+X0wQt03p49NLdQ4X/6AeA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -869,10 +869,10 @@
       "output": {
         ".html": {
           "relative_path": "overview/architecture.html",
-          "hash": "wBr9IVjSl959SXlZiXmomA=="
+          "hash": "T/Nt4MYUmkjHPR2BVyum3w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -884,10 +884,10 @@
       "output": {
         ".html": {
           "relative_path": "overview/faq.html",
-          "hash": "sR75hwyhxYcVm68DhYrFVQ=="
+          "hash": "qN4U6ouegfLpQKhBu4L2WQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -896,10 +896,10 @@
       "output": {
         ".html": {
           "relative_path": "overview/made.html",
-          "hash": "lKDXoGZ1oQBYZQdnfNnoAw=="
+          "hash": "n26c9fOlzPddynzCD2LHzQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -908,10 +908,10 @@
       "output": {
         ".html": {
           "relative_path": "overview/neutronium.html",
-          "hash": "OFPDVwQsQeFDsvZ+j4oIZw=="
+          "hash": "9IzyLg/qbMagtekErR/b1Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -950,10 +950,10 @@
       "output": {
         ".html": {
           "relative_path": "tools/building-block.html",
-          "hash": "ADXpBFa3HwU62MU0gAQWXQ=="
+          "hash": "JHyG9MEeuy6/nHTvqlCdkg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -965,10 +965,10 @@
       "output": {
         ".html": {
           "relative_path": "tools/npm.html",
-          "hash": "fnlliReTRw2/mxQB0LgktQ=="
+          "hash": "x18YidAPXyM3pWey2XaswA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -995,10 +995,10 @@
       "output": {
         ".html": {
           "relative_path": "tools/vue-cli-plugin.html",
-          "hash": "kNVYjY1kavK8jtpF0/pULA=="
+          "hash": "w5rL78CRo/ATDq8CgFpvTA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1010,10 +1010,10 @@
       "output": {
         ".html": {
           "relative_path": "versions/migrate1.0.html",
-          "hash": "igIKxUs1Cngbf4oPTUAyvA=="
+          "hash": "/s3JClbVSNGNegOD5hf1XA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1022,10 +1022,10 @@
       "output": {
         ".html": {
           "relative_path": "versions/migrate1.2.html",
-          "hash": "kU3Jywd5BqqzHPuMnX8B8Q=="
+          "hash": "jCz9PgjfMFkWStuAJCRYjg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1052,41 +1052,40 @@
       "output": {
         ".html": {
           "relative_path": "versions/version1.0.html",
-          "hash": "n9/x1y/QIb7e84+lZWxdkg=="
+          "hash": "rQzKGz/ScWO04ERNEQaqNg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     }
   ],
   "incremental_info": [
     {
       "status": {
-        "can_incremental": false,
-        "details": "Disable incremental build by force rebuild option.",
+        "can_incremental": true,
         "incrementalPhase": "build"
       },
       "processors": {
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
         "TocDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
-        "ConceptualDocumentProcessor": {
+        "ResourceDocumentProcessor": {
           "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
           "incrementalPhase": "build"
         }
       }
     },
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot support incremental post processing, the reason is: it's disabled.",
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
         "incrementalPhase": "postProcessing"
       },
       "processors": {}
