@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core 
 {
-    internal interface IBindingBuilder 
+    public interface IBindingBuilder 
     {
         Task<IHtmlBinding> CreateBinding(bool debugMode);
     }

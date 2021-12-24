@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal class ListenerRegister<T>: IEntityUpdater<T> where T:class
+    public class ListenerRegister<T>: IEntityUpdater<T> where T:class
     {
         private readonly Action<T> _On;
         private readonly Action<T> _Off;

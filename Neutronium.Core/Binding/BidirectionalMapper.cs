@@ -39,12 +39,12 @@ namespace Neutronium.Core.Binding
         private IJavascriptObjectBuilderStrategy BuilderStrategy => _BuilderStrategy.Value;
         private IJavascriptFrameworkMapper JavascriptFrameworkMapper => _JavascriptFrameworkManager.Value;
 
-        internal BidirectionalMapper(object root, HtmlViewEngine engine, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
+        public BidirectionalMapper(object root, HtmlViewEngine engine, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory) :
             this(root, engine, null, strategyFactory, mode, null)
         {
         }
 
-        internal BidirectionalMapper(object root, HtmlViewEngine contextBuilder, IGlueFactory glueFactory, IJavascriptObjectBuilderStrategyFactory strategyFactory, 
+        public BidirectionalMapper(object root, HtmlViewEngine contextBuilder, IGlueFactory glueFactory, IJavascriptObjectBuilderStrategyFactory strategyFactory, 
             JavascriptBindingMode mode, IInternalSessionCache sessionCacher)
         {
             Mode = mode;

@@ -5,7 +5,7 @@ using System;
 
 namespace Neutronium.Core.Binding.GlueBuilder
 {
-    internal abstract class GlueFactoryBase
+    public abstract class GlueFactoryBase
     {
         public event EventHandler<IJsCsGlue> ElementCreated;
         private readonly ICSharpToJsCache _Cacher;

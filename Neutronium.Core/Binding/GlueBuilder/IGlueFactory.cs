@@ -10,7 +10,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueBuilder
 {
-    internal interface IGlueFactory
+    public interface IGlueFactory
     {
         ICSharpUnrootedObjectManager UnrootedObjectManager { set; }
 

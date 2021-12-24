@@ -1,39 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-
-    <Platforms>AnyCPU;x86</Platforms>
-
-    <RootNamespace>Tests.Awesomium.Infra</RootNamespace>
-
-    <AssemblyName>Tests.Awesomium.Infra</AssemblyName>
-    
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Unofficial.Awesomium.Complete" Version="1.7.4.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
-    <ProjectReference Include="..\..\..\..\WebBrowserEngine\Awesomium\HTMLEngine.Awesomium\Neutronium.WebBrowserEngine.Awesomium.csproj" />
-    <ProjectReference Include="..\..\..\..\JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj" />
-    <ProjectReference Include="..\..\..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj" />
-    <ProjectReference Include="..\..\..\..\Neutronium.Core\Neutronium.Core.csproj" />
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj" />
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj" />
-    <ProjectReference Include="..\..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFrameworks>netcoreapp3.1;net461;net472</TargetFrameworks>
+		<Platforms>x86;AnyCPU</Platforms>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+		<PackageReference Include="Unofficial.Awesomium.Complete" Version="1.7.4.2" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="coverlet.collector" Version="3.0.2">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
+		<ProjectReference Include="..\..\..\..\WebBrowserEngine\Awesomium\HTMLEngine.Awesomium\Neutronium.WebBrowserEngine.Awesomium.csproj" />
+		<ProjectReference Include="..\..\..\..\JavascriptFramework\Knockout\Neutronium.JavascriptFramework.Knockout.csproj" />
+		<ProjectReference Include="..\..\..\..\Neutronium.MVVMComponents\Neutronium.MVVMComponents.csproj" />
+		<ProjectReference Include="..\..\..\..\Neutronium.Core\Neutronium.Core.csproj" />
+		<ProjectReference Include="..\..\..\Infra\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj" />
+		<ProjectReference Include="..\..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj" />
+		<ProjectReference Include="..\..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj" />
+	</ItemGroup>
 </Project>

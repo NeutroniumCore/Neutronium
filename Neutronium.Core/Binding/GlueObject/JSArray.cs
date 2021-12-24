@@ -13,7 +13,7 @@ using Neutronium.Core.Binding.Mapper;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class JsArray : GlueBase, IJsCsCachableGlue
+    public class JsArray : GlueBase, IJsCsCachableGlue
     {
         private readonly Type _IndividualType;
 

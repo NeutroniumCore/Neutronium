@@ -10,7 +10,7 @@ using Neutronium.Core.Infra;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal class JsGenericObject : GlueBase, IJsCsCachableGlue
+    public class JsGenericObject : GlueBase, IJsCsCachableGlue
     {
         private readonly IGenericPropertyAcessor _TypePropertyAccessor;
         private IList<IJsCsGlue> _Attributes;

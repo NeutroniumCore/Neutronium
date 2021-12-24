@@ -45,19 +45,19 @@ namespace Neutronium.Core
             _Logger.Debug(() => $"HTML_Binding {_Current} disposed");
         }
 
-        internal static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode)
+        public static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode)
         {
             var builder = GetBindingBuilder(viewEngine, viewModel, mode);
             return await builder.CreateBinding(false);
         }
 
-        internal static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
+        public static async Task<IHtmlBinding> Bind(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory)
         {
             var builder = GetBindingBuilder(viewEngine, viewModel, mode, strategyFactory);
             return await builder.CreateBinding(false);
         }
 
-        internal static IBindingBuilder GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
+        public static IBindingBuilder GetBindingBuilder(HtmlViewEngine viewEngine, object viewModel, JavascriptBindingMode mode, IJavascriptObjectBuilderStrategyFactory strategyFactory= null) 
         {
             var mapper = viewEngine.GetMapper(viewModel, mode, strategyFactory);
             return new BindingBuilder(mapper);

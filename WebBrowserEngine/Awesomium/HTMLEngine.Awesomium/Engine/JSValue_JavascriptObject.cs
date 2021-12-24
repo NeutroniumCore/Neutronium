@@ -111,22 +111,29 @@ namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 
         public string GetStringValue()
         {
-            return (string)_JSValue;
+            return _JSValue;
         }
 
-        public double GetDoubleValue()
-        {
-            return (double)_JSValue;
+        public double GetDoubleValue() {
+            if (double.TryParse(_JSValue, out var res)) {
+                return res;
+            }
+            return 0d;
         }
 
-        public bool GetBoolValue()
-        {
-            return (bool)_JSValue;
+        public bool GetBoolValue() {
+            if (bool.TryParse(_JSValue, out var res)) {
+                return res;
+            }
+            return false;
         }
 
         public int GetIntValue()
         {
-            return (int)_JSValue;
+            if(Int32.TryParse(_JSValue, out var res)) {
+                return res;
+            }
+            return 0;
         }
 
         public IJavascriptObject ExecuteFunction(IWebView context)

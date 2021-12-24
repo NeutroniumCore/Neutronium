@@ -6,7 +6,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    internal class JsCommandWithoutParameter : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
+    public class JsCommandWithoutParameter : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
         private readonly ICommandWithoutParameter _Command;

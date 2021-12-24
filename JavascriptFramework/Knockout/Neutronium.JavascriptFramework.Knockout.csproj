@@ -20,11 +20,6 @@
     <Platforms>AnyCPU;x86</Platforms>
     <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="scripts\knockout-delegatedEvents.min.js" />
   </ItemGroup>

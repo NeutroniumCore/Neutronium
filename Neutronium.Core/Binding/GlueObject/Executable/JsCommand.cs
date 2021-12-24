@@ -7,7 +7,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    internal class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
+    public class JsCommand : JsCommandBase, IJsCsCachableGlue, IExecutableGlue
     {
         public object CValue => _Command;
         private readonly ICommand _Command;

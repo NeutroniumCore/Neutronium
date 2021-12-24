@@ -1,13 +1,11 @@
-﻿using Neutronium.Core.Binding;
-using Neutronium.Core.Binding.GlueBuilder;
+﻿using Neutronium.Core.Binding.GlueBuilder;
 using Neutronium.Core.Binding.Mapper;
 using Neutronium.Core.Binding.SessionManagement;
 using Neutronium.Core.Extension;
 using Neutronium.Core.Infra.VM;
 using Neutronium.Core.Log;
 
-namespace Neutronium.Core.Utils
-{
+namespace Neutronium.Core.Utils {
     /// <summary>
     /// Helper class to export C# object into cjson format (circular json).
     /// This format is compatible with neutronium-vue client: https://github.com/NeutroniumCore/neutronium-vue

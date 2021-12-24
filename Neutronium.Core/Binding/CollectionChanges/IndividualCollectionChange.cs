@@ -6,7 +6,7 @@ using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.CollectionChanges
 {
-    internal class IndividualCollectionChange
+    public class IndividualCollectionChange
     {
         internal CollectionChangeType CollectionChangeType { get; }
         internal int Index { get; }

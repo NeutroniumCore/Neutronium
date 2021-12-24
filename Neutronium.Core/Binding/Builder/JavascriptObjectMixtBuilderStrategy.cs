@@ -3,7 +3,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JavascriptObjectMixtBuilderStrategy : IJavascriptObjectBuilderStrategy
+    public class JavascriptObjectMixtBuilderStrategy : IJavascriptObjectBuilderStrategy
     {
         private readonly IJavascriptObjectBuilderStrategy _SynchroneousStrategy;
         private readonly IJavascriptObjectBuilderStrategy _BulkStrategy;

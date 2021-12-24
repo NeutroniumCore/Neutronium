@@ -1,16 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk"> 
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-
+	  <TargetFrameworks>netcoreapp3.1;net461;net472</TargetFrameworks>
     <IsPackable>false</IsPackable>
-
-    <Platforms>AnyCPU;x86</Platforms>
-
     <RootNamespace>Tests.Universal.WebBrowserEngineTests</RootNamespace>
-
     <AssemblyName>Tests.Universal.WebBrowserEngineTests</AssemblyName>
-    
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

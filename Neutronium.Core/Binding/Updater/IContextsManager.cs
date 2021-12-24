@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Neutronium.Core.Binding.Updater
 {
-    internal interface IContextsManager
+    public interface IContextsManager
     {
         bool IsInUiContext { get; }
         void CheckUiContext();     

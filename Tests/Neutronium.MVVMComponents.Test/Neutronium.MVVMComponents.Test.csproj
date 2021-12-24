@@ -1,15 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-
+    <TargetFrameworks>netcoreapp3.1;netcoreapp2.0;net472;net461</TargetFrameworks>
     <IsPackable>false</IsPackable>
-
-    <Platforms>AnyCPU;x86</Platforms>
-
     <RootNamespace>Neutronium.MVVMComponents.Test</RootNamespace>
-
     <AssemblyName>Neutronium.MVVMComponents.Test</AssemblyName>
+    <Platforms>AnyCPU;x86</Platforms>
     
   </PropertyGroup>
 

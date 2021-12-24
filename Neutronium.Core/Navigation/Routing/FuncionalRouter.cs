@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Navigation.Routing
 {
-    internal class FuncionalRouter : Router
+    public class FuncionalRouter : Router
     {
         private readonly Func<Type, string, string> _PathBuilder;
 

@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal sealed class JsFloat : JsBasicTyped<float>, IBasicJsCsGlue
+    public sealed class JsFloat : JsBasicTyped<float>, IBasicJsCsGlue
     {
         public JsFloat(float value) : base(value) { }
 

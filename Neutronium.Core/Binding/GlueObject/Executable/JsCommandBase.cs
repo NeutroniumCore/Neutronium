@@ -7,7 +7,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    internal abstract class JsCommandBase : GlueBase
+    public abstract class JsCommandBase : GlueBase
     {
         private readonly HtmlViewContext _HtmlViewContext;
         private byte _Count = 1;

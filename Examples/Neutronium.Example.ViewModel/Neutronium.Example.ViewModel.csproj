@@ -6,6 +6,7 @@
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon />
 		<StartupObject />
+		<Platforms>AnyCPU;x86</Platforms>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Neutronium.Core\Neutronium.Core.csproj" />

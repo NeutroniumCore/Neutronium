@@ -15,7 +15,7 @@ namespace Neutronium.Core.Infra.Reflection
         private readonly List<PropertyAccessor> _ReadProperties;
         private readonly List<string> _AttributeNames;
 
-        internal DictionaryPropertyAccessor(IDictionary<string, T> dictionary)
+        public DictionaryPropertyAccessor(IDictionary<string, T> dictionary)
         {
             var readProperties = dictionary.Keys.OrderBy(p => p).Select(PropertyAccessor.FromDictionary<T>).ToList();
             _ReadProperties = readProperties;

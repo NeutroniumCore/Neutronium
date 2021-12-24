@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Navigation.Routing
 {
-    internal sealed class ConventionRouter : Router
+    public sealed class ConventionRouter : Router
     {
         private readonly string _Pattern;
         private const string ViewModel = "ViewModel";

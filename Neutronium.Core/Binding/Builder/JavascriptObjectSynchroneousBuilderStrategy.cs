@@ -3,7 +3,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Builder
 {
-    internal class JavascriptObjectSynchroneousBuilderStrategy : IJavascriptObjectBuilderStrategy
+    public class JavascriptObjectSynchroneousBuilderStrategy : IJavascriptObjectBuilderStrategy
     {
         private readonly IWebView _WebView;
         private readonly ISessionCache _Cache;

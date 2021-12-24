@@ -19,12 +19,16 @@
     <PackageReleaseNotes>- Update to .NET framework
 -Add IWindowViewModel
 -Add new ToogleCommand constructor</PackageReleaseNotes>
-    <Platforms>AnyCPU;x86</Platforms>
     <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
     <Copyright>Neutronium.WPF Copyright ©  2015</Copyright>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net472|x86'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
 </Project>

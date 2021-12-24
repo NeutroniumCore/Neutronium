@@ -9,7 +9,7 @@ using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.CollectionChanges
 {
-    internal class CollectionChanges :  IComparer<IndividualCollectionChange>
+    public class CollectionChanges :  IComparer<IndividualCollectionChange>
     {
         internal IEnumerable<IndividualCollectionChange> IndividualChanges { get; }
 

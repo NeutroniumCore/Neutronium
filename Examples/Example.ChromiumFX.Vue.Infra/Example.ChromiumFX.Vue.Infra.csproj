@@ -5,6 +5,7 @@
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon />
 		<StartupObject />
+		<Platforms>AnyCPU;x86</Platforms>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\JavascriptFramework\Vue\Neutronium.JavascriptFramework.Vue.csproj" />

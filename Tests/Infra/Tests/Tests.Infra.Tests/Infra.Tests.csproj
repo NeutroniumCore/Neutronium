@@ -1,15 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-
+    <TargetFrameworks>netcoreapp3.1;net472;net461</TargetFrameworks>
     <IsPackable>false</IsPackable>
-
-    <Platforms>AnyCPU;x86</Platforms>
-
     <RootNamespace>Tests.Infra.Tests</RootNamespace>
-
     <AssemblyName>Tests.Infra.Tests</AssemblyName>
+	  <UseWPF>true</UseWPF>
+	  <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,11 +29,6 @@
     <ProjectReference Include="..\..\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj" />
     <ProjectReference Include="..\..\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj" />
     <ProjectReference Include="..\..\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <Reference Include="WindowsBase" />
   </ItemGroup>
 
 </Project>

@@ -14,7 +14,7 @@ namespace Neutronium.Core.Binding.Builder
     {
         public int MaxCount { get; set; }
 
-        internal IEnumerable<Parameters> SplitParameters(IEnumerable<ObjectDescriptor> data)
+        public IEnumerable<Parameters> SplitParameters(IEnumerable<ObjectDescriptor> data)
         {
             var parametersCount = 0;
 

@@ -6,6 +6,7 @@
 		<Platforms>AnyCPU;x86</Platforms>
 		<Version>1.7.0</Version>
 		<Copyright>Neutronium.WPF Copyright ©  2015</Copyright>
+		<PlatformTarget>x86</PlatformTarget>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|x86'">

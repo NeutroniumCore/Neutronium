@@ -3,18 +3,18 @@ using Awesomium.Core;
 
 namespace Neutronium.WebBrowserEngine.Awesomium.Internal
 {
-    internal class ViewReadyExecuter
+    public class ViewReadyExecuter
     {
         private readonly IWebView _WebView;
         private readonly Action _Do;
         private int _DoneCount = 0;
-        internal ViewReadyExecuter(IWebView view, Action Do)
+        public ViewReadyExecuter(IWebView view, Action Do)
         {
             _WebView = view;
             _Do = Do;
         }
 
-        internal void Do()
+        public void Do()
         {
             WebCore.QueueWork(() =>
             {

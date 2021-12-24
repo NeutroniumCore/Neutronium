@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal interface IExecutableGlue
+    public interface IExecutableGlue
     {
         void UpdateJsObject(IJavascriptObject javascriptObject);
 

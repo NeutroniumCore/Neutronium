@@ -6,7 +6,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.Updater
 {
-    internal interface IJsUpdateHelper : IContextsManager
+    public interface IJsUpdateHelper : IContextsManager
     {
         IWebSessionLogger Logger { get; }
         T GetCached<T>(object value) where T : class;

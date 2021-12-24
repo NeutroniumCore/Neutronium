@@ -10,7 +10,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    internal abstract class JsResultCommandBase<TResult, TJsContext> : GlueBase
+    public abstract class JsResultCommandBase<TResult, TJsContext> : GlueBase
     {
         private readonly HtmlViewContext _HtmlViewContext;
         private readonly ICSharpUnrootedObjectManager _CSharpUnrootedObjectManager;

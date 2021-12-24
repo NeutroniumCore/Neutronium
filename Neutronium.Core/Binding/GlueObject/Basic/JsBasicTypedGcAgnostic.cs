@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal abstract class JsBasicTypedGcAgnostic<T>
+    public abstract class JsBasicTypedGcAgnostic<T>
     {
         public IJavascriptObject JsValue { get; private set; }
         public T TypedValue { get; }

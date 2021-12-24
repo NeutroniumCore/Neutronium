@@ -2,12 +2,12 @@
 
 namespace Neutronium.Core.Binding
 {
-    internal class BindingBuilder : IBindingBuilder
+    public class BindingBuilder : IBindingBuilder
     {
         private readonly HtmlBinding _Binding;
         private readonly BidirectionalMapper _Mapper;
 
-        internal BindingBuilder(BidirectionalMapper mapper)
+        public BindingBuilder(BidirectionalMapper mapper)
         {
             _Binding = new HtmlBinding(mapper);
             _Mapper = mapper;
