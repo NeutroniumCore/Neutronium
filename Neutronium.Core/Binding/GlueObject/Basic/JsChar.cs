@@ -3,7 +3,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal sealed class JsChar : JsBasicTyped<char>, IBasicJsCsGlue
+    public sealed class JsChar : JsBasicTyped<char>, IBasicJsCsGlue
     {
         public JsChar(char value) : base(value) { }
 

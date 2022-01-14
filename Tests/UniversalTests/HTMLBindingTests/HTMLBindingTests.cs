@@ -1094,13 +1094,15 @@ namespace Tests.Universal.HTMLBindingTests
                     res.Should().Be(dataContext.Uint16);
 
                     var res2 = GetDoubleAttribute(js, "Float");
-                    res2.Should().Be(dataContext.Float);
+                    Math.Round(res2,2).Should().Be(Math.Round(dataContext.Float, 2));
 
                     res2 = GetDoubleAttribute(js, "Double");
-                    res2.Should().Be(dataContext.Double);
+                    //res2.Should().Be(dataContext.Double);
+                    Math.Round(res2, 2).Should().Be(Math.Round(dataContext.Double, 2));
 
                     res2 = GetDoubleAttribute(js, "Decimal");
-                    res2.Should().Be((double)dataContext.Decimal);
+                    //res2.Should().Be((double)dataContext.Decimal);
+                    Math.Round(res2, 2).Should().Be(Math.Round((double)dataContext.Decimal, 2));
 
                     res = GetIntAttribute(js, "Byte");
                     res.Should().Be(dataContext.Byte);

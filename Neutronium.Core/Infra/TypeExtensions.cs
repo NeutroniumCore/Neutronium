@@ -54,7 +54,7 @@ namespace Neutronium.Core.Infra
         }
 
 
-        internal static IEnumerable<PropertyInfoDescription> GetPropertyInfoDescriptions(this Type @type)
+        public static IEnumerable<PropertyInfoDescription> GetPropertyInfoDescriptions(this Type @type)
         {
             var defaultAttribute = @type.GetAttribute<BindableAttribute>();
             return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)

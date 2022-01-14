@@ -4,7 +4,7 @@ using Neutronium.Core.Binding.JavascriptFrameworkMapper;
 
 namespace Neutronium.Core.Binding.SessionManagement
 {
-    internal interface IInternalSessionCache: ISessionCache
+    public interface IInternalSessionCache: ISessionCache
     {
         IJavascriptObjectInternalMapper GetMapper(IJsCsMappedBridge root);
 

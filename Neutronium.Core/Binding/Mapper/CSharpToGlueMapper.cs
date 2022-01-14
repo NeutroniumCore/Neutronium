@@ -13,7 +13,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.Mapper
 {
-    internal class CSharpToGlueMapper : ICSharpToGlueMapper
+    public class CSharpToGlueMapper : ICSharpToGlueMapper
     {
         private readonly ICSharpToJsCache _Cacher;
         private readonly IGlueFactory _GlueFactory;

@@ -7,7 +7,7 @@ using Neutronium.WebBrowserEngine.ChromiumFx.Convertion;
 
 namespace Neutronium.WebBrowserEngine.ChromiumFx.EngineBinding
 {
-    internal class ChromiumFxWebView : IWebView
+    public class ChromiumFxWebView : IWebView
     {
         private readonly CfrFrame _CfrFrame;
         private readonly ChromiumFxDispatcher _Dispatcher;

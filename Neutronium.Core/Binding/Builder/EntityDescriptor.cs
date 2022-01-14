@@ -11,7 +11,7 @@ namespace Neutronium.Core.Binding.Builder
         public IEnumerable<string> AttributeNames { get; }
         public IReadOnlyList<IJsCsGlue> AttributeValues { get; }
 
-        internal ObjectDescriptor(IJsCsGlue father, IEnumerable<string> attributes, IReadOnlyList<IJsCsGlue> attributeValues)
+        public ObjectDescriptor(IJsCsGlue father, IEnumerable<string> attributes, IReadOnlyList<IJsCsGlue> attributeValues)
         {
             Father = father;
             AttributeNames = attributes;

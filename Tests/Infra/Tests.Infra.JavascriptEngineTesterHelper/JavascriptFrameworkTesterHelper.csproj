@@ -1,21 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk"> 
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+	<PropertyGroup>
+		<TargetFrameworks>net472;net461;netcoreapp3.1</TargetFrameworks>
+		<UseWPF>true</UseWPF>
+		<IsPackable>false</IsPackable>
+		<RootNamespace>Tests.Infra.JavascriptFrameworkTesterHelper</RootNamespace>
+		<AssemblyName>Tests.Infra.JavascriptFrameworkTesterHelper</AssemblyName>
+		<Platforms>AnyCPU;x86</Platforms>
+	</PropertyGroup>
 
-    <IsPackable>false</IsPackable>
-
-    <Platforms>AnyCPU;x86</Platforms>
-
-    <RootNamespace>Tests.Infra.JavascriptFrameworkTesterHelper</RootNamespace>
-
-    <AssemblyName>Tests.Infra.JavascriptFrameworkTesterHelper</AssemblyName>
-    
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
-	<ProjectReference Include="..\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Neutronium.WPF\Neutronium.WPF.csproj" />
+	  <ProjectReference Include="..\Tests.Infra.HTMLEngineTesterHelper\WebBrowserEngineTesterHelper.csproj" />
+	</ItemGroup>
 
 </Project>

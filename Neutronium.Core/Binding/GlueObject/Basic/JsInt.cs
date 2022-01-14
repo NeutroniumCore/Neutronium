@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal sealed class JsInt : JsBasicTyped<int>, IBasicJsCsGlue
+    public sealed class JsInt : JsBasicTyped<int>, IBasicJsCsGlue
     {
         public JsInt(int value) : base(value) { }
 

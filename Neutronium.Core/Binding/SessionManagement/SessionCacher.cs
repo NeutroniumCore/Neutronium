@@ -7,7 +7,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.SessionManagement
 {
-    internal class SessionCacher : IInternalSessionCache
+    public class SessionCacher : IInternalSessionCache
     {
         private readonly IDictionary<object, IJsCsGlue> _FromCSharp = new Dictionary<object, IJsCsGlue>();
         private readonly IDictionary<uint, IJsCsGlue> _FromJavascriptGlobal = new Dictionary<uint, IJsCsGlue>();

@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal sealed class JsDecimal : JsBasicTyped<decimal>, IBasicJsCsGlue
+    public sealed class JsDecimal : JsBasicTyped<decimal>, IBasicJsCsGlue
     {
         public JsDecimal(decimal value) : base(value) { }
 

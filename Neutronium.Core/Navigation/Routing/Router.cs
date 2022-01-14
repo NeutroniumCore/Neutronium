@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Neutronium.Core.Navigation.Routing
 {
-    internal abstract class Router : IConventionRouter
+    public abstract class Router : IConventionRouter
     {
         private readonly INavigationBuilder _Builder;
 

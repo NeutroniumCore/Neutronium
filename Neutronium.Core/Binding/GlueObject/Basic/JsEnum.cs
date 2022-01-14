@@ -5,7 +5,7 @@ using System;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal sealed class JsEnum : JsBasicTyped<Enum>, IBasicJsCsGlue
+    public sealed class JsEnum : JsBasicTyped<Enum>, IBasicJsCsGlue
     {
         internal JsEnum(Enum value) : base(value) { }
 

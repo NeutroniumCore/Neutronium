@@ -3,7 +3,7 @@ using Neutronium.Core.JavascriptFramework;
 
 namespace Neutronium.Core.Binding.JavascriptFrameworkMapper
 {
-    internal interface  IJavascriptObjectInternalMapper : IJavascriptObjectMapper
+    public interface  IJavascriptObjectInternalMapper : IJavascriptObjectMapper
     {
         /// <summary>
         /// Task that complete when mapping is done (after EndMapping is called).

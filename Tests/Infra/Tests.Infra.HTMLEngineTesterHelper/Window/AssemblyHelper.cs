@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Tests.Infra.WebBrowserEngineTesterHelper.Window
-{
-   
+namespace Tests.Infra.WebBrowserEngineTesterHelper.Window {
+
     /// <summary>
     /// Helper class for Testdriven.NET, copyright Jamie Cansdale. 
     /// Use AssemblyUtilities.SetEntryAssembly() 
     /// to prepare ad hoc tests' working directory. (needed before XNA content specifically)
     /// </summary>
-    public class AssemblyHelper
-    {
+    public class AssemblyHelper {
         /// <summary>
         /// Use as first line in ad hoc tests (needed by XNA specifically)
         /// </summary>
-        public static void SetEntryAssembly()
-        {
+        public static void SetEntryAssembly() {
             SetEntryAssembly(Assembly.GetCallingAssembly());
         }
 
@@ -24,8 +21,11 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Window
         /// Use AssemblyUtilities.SetEntryAssembly() as first line in XNA ad hoc tests
         /// </summary>
         /// <param name="assembly">Assembly to set as entry assembly</param>
-        public static void SetEntryAssembly(Assembly assembly)
-        {
+        public static void SetEntryAssembly(Assembly assembly) {
+            // TODO: AppDomainManager
+#if NETCOREAPP3_1_OR_GREATER
+
+#else
             var manager = new AppDomainManager();
             var entryAssemblyfield = manager.GetType().GetField("m_entryAssembly", BindingFlags.Instance | BindingFlags.NonPublic);
             entryAssemblyfield.SetValue(manager, assembly);
@@ -33,6 +33,7 @@ namespace Tests.Infra.WebBrowserEngineTesterHelper.Window
             var domain = AppDomain.CurrentDomain;
             var domainManagerField = domain.GetType().GetField("_domainManager", BindingFlags.Instance | BindingFlags.NonPublic);
             domainManagerField.SetValue(domain, manager);
+#endif
         }
     }
 }

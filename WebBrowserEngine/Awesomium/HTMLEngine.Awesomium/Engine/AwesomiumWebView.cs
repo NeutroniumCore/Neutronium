@@ -8,7 +8,7 @@ using AwesomiumIWebView = Awesomium.Core.IWebView;
 
 namespace Neutronium.WebBrowserEngine.Awesomium.Engine
 {
-    internal class AwesomiumWebView : Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView
+    public class AwesomiumWebView : Neutronium.Core.WebBrowserEngine.JavascriptObject.IWebView
     {
         private readonly AwesomiumIWebView _IWebView;
         private readonly IDispatcher _Dispatcher;

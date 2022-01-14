@@ -7,7 +7,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable
 {
-    internal class JsResultCommand<TResult> : JsResultCommandBase<TResult, bool>, IJsCsCachableGlue, IExecutableGlue
+    public class JsResultCommand<TResult> : JsResultCommandBase<TResult, bool>, IJsCsCachableGlue, IExecutableGlue
     {
         private readonly IResultCommand<TResult> _JsResultCommand;
         public object CValue => _JsResultCommand;

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;netstandard2.0;</TargetFrameworks>
+    <TargetFrameworks>net472;netstandard2.0;netstandard2.1;net461</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Neutronium.JavascriptFramework.Knockout</AssemblyName>
     <RootNamespace>Neutronium.JavascriptFramework.Knockout</RootNamespace>
@@ -20,11 +20,6 @@
     <Platforms>AnyCPU;x86</Platforms>
     <PackageIconUrl>https://raw.githubusercontent.com/NeutroniumCore/Neutronium/master/Deploy/logo.png</PackageIconUrl>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="scripts\knockout-delegatedEvents.min.js" />
   </ItemGroup>

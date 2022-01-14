@@ -89,9 +89,10 @@ namespace Example.Cfx.Spa.Routing.SetUp
 
         private static bool TryGetValue(IDictionary<string, string> argumentsDictionary, Option option, out string explicitMode)
         {
-            var (fullName, shortName) = _Options[option];
-            return (argumentsDictionary.TryGetValue(fullName, out explicitMode) ||
-                argumentsDictionary.TryGetValue(shortName, out explicitMode));
+            //var (fullName, shortName) = _Options[option];
+            var name = _Options[option];
+            return (argumentsDictionary.TryGetValue(name.Item1, out explicitMode) ||
+                argumentsDictionary.TryGetValue(name.Item2, out explicitMode));
         }
 
         private async Task<Uri> BuildDevUri(ApplicationMode mode, IDictionary<string, string> argumentsDictionary)

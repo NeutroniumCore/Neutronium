@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Neutronium.Core.Infra.Reflection 
 {
-    internal class GenericAccessor<TResult> 
+    public class GenericAccessor<TResult> 
     {
         private readonly MethodInfo _MethodInfo;
 
@@ -12,13 +12,13 @@ namespace Neutronium.Core.Infra.Reflection
             _MethodInfo = methodInfo;
         }
 
-        internal TResult Invoke(params object[] @params) 
+        public TResult Invoke(params object[] @params) 
         {
             return (TResult)_MethodInfo.Invoke(null, @params);
         }
     }
 
-    internal class GenericMethodAccessor
+    public class GenericMethodAccessor
     {
         private readonly MethodInfo _MethodInfo;
 

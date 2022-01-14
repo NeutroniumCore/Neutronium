@@ -4,7 +4,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal sealed class JsDateTime : JsBasicTyped<DateTime>, IBasicJsCsGlue
+    public sealed class JsDateTime : JsBasicTyped<DateTime>, IBasicJsCsGlue
     {
         public JsDateTime(DateTime value) : base(value) { }
 

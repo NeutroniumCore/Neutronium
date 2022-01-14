@@ -3,7 +3,7 @@ using Neutronium.Core.Binding.Updater;
 
 namespace Neutronium.Core.Binding.Mapper
 {
-    internal interface IGlueMapable
+    public interface IGlueMapable
     {
         object Source { get; }
         IJsCsGlue Map(IJsUpdateHelper helper);

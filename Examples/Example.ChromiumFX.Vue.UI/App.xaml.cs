@@ -13,5 +13,6 @@ namespace Example.ChromiumFX.Vue.UI
             factory.RegisterJavaScriptFramework(new VueSessionInjectorV2());
             base.OnStartUp(factory);
         }
+
     }
 }

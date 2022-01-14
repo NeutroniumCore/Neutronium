@@ -7,7 +7,7 @@ using Neutronium.Core.WebBrowserEngine.Window;
 
 namespace Neutronium.Core.Binding.GlueObject.Executable 
 {
-    internal class JsSimpleCommandBase : GlueBase
+    public class JsSimpleCommandBase : GlueBase
     {
         private readonly HtmlViewContext _HtmlViewContext;
         protected readonly IJavascriptToGlueMapper JavascriptToGlueMapper;

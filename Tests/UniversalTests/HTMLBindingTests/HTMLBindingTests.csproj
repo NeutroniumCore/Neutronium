@@ -1,15 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk"> 
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-
+	  <TargetFrameworks>netcoreapp3.1;net461;net472</TargetFrameworks>
     <IsPackable>false</IsPackable>
-
-    <Platforms>AnyCPU;x86</Platforms>
-
     <RootNamespace>Tests.Universal.HTMLBindingTests</RootNamespace>
-
     <AssemblyName>Tests.Universal.HTMLBindingTests</AssemblyName>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,11 +38,6 @@
     <ProjectReference Include="..\..\Infra\Tests.Infra.IntegratedContextTesterHelper.Window\IntegratedContextTesterHelper.csproj" />
     <ProjectReference Include="..\..\Infra\Tests.Infra.JavascriptEngineTesterHelper\JavascriptFrameworkTesterHelper.csproj" />
     <ProjectReference Include="..\..\Neutronium.Core.Test\Neutronium.Core.Test.csproj" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <Reference Include="WindowsBase" />
   </ItemGroup>
 
 </Project>

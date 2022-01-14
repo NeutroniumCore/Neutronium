@@ -16,7 +16,7 @@ namespace Neutronium.Core.Infra.Reflection
         private readonly List<string> _AttributeNames;
         private readonly Dictionary<string, PropertyAccessor> _PropertyAccessoresDictionary;
 
-        internal DynamicObjectPropertyAccessor(DynamicObject @dynamicObject)
+        public DynamicObjectPropertyAccessor(DynamicObject @dynamicObject)
         {
             var type = @dynamicObject.GetType();
 

@@ -10,7 +10,7 @@ namespace Neutronium.WebBrowserEngine.Awesomium
     {
         private static WebConfig _WebConfig = new WebConfig() { RemoteDebuggingPort = 8001, RemoteDebuggingHost = "127.0.0.1" };
         private static WebSession _Session = null;
-        public static Thread WebCoreThread { get; internal set; }
+        public static Thread WebCoreThread { get; set; }
 
         public string EngineName  => "Chromium 19";
         public string EngineVersion => "19";

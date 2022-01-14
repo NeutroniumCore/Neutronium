@@ -3,7 +3,7 @@ using Neutronium.Core.WebBrowserEngine.JavascriptObject;
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal sealed class JsUshort: JsBasicTyped<ushort>, IBasicJsCsGlue
+    public sealed class JsUshort: JsBasicTyped<ushort>, IBasicJsCsGlue
     {
         public JsUshort(ushort value) : base(value) { }
 

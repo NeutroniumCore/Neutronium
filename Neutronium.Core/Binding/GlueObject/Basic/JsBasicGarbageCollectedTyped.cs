@@ -2,7 +2,7 @@
 
 namespace Neutronium.Core.Binding.GlueObject.Basic
 {
-    internal abstract class JsBasicGarbageCollectedTyped<T> : JsBasicTypedGcAgnostic<T>
+    public abstract class JsBasicGarbageCollectedTyped<T> : JsBasicTypedGcAgnostic<T>
     {
         private int _Count = 0;
 

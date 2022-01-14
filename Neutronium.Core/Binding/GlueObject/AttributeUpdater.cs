@@ -3,7 +3,7 @@ using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.GlueObject
 {
-    internal struct AttributeUpdater
+    public struct AttributeUpdater
     {
         public bool IsValid => PropertyAccessor != null;
         public bool IsSettable => IsValid && PropertyAccessor.IsSettable;

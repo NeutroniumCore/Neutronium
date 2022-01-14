@@ -11,7 +11,7 @@ namespace Example.ChromiumFX.Vue.Infra
     {
         protected override IJavascriptFrameworkManager GetJavascriptUIFrameworkManager() 
         {
-            return new VueSessionInjector();
+            return new VueSessionInjector(); 
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System.Windows;
+﻿using Microsoft.Xaml.Behaviors;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
 using System.Windows.Media;
 using System.Windows.Shell;
 
-namespace Neutronium.WPF 
+namespace Neutronium.WPF
 {
     public class Chromeless : Behavior<Window>
     {

@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Neutronium.Core.Binding.Listeners
 {
-    internal struct Silenter<T> : IDisposable where T: class
+    public struct Silenter<T> : IDisposable where T: class
     {
         private readonly IEntityUpdater<T> _ListenerRegister;
         private readonly T _Target;
@@ -22,7 +22,7 @@ namespace Neutronium.Core.Binding.Listeners
         }
     }
 
-    internal class PropertyChangedSilenter : IDisposable, INotifyPropertyChanged
+    public class PropertyChangedSilenter : IDisposable, INotifyPropertyChanged
     {
         private readonly IEntityUpdater<INotifyPropertyChanged> _ListenerRegister;
         private readonly string _PropertyName;
@@ -63,7 +63,7 @@ namespace Neutronium.Core.Binding.Listeners
         }
     }
 
-    internal static class Silenter
+    public static class Silenter
     {
         public static Silenter<T> GetSilenter<T>(IEntityUpdater<T> listenerRegister, object target) where T : class
         {

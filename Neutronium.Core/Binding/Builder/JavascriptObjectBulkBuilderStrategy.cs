@@ -9,7 +9,7 @@ using Neutronium.Core.Infra.Reflection;
 
 namespace Neutronium.Core.Binding.Builder 
 {
-    internal class JavascriptObjectBulkBuilderStrategy : IJavascriptObjectBuilderStrategy, IBulkUpdater
+    public class JavascriptObjectBulkBuilderStrategy : IJavascriptObjectBuilderStrategy, IBulkUpdater
     {
         public IJavascriptObject CommandConstructor => _Factory.Value.CommandConstructor;
         public IJavascriptObject ExecutableConstructor => _Factory.Value.ExecutableConstructor;

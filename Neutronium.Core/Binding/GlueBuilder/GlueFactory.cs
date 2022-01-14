@@ -11,7 +11,7 @@ using Neutronium.MVVMComponents;
 
 namespace Neutronium.Core.Binding.GlueBuilder
 {
-    internal sealed class GlueFactory : GlueFactoryBase, IGlueFactory 
+    public sealed class GlueFactory : GlueFactoryBase, IGlueFactory 
     {
         public ICSharpUnrootedObjectManager UnrootedObjectManager { set; private get; }
 
