@@ -25,7 +25,7 @@
       <Version>5.5.3</Version>
     </PackageReference>
     <PackageReference Include="FsCheck.Xunit" Version="2.13.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NSubstitute">
       <Version>3.1.0</Version>
     </PackageReference>
